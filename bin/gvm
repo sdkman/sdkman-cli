@@ -10,7 +10,10 @@ if [ ! -d "$GVM_DIR" ]; then
 fi
 
 if [ -z "$1" -o -z "$2" ]; then
-	echo "Usage: gvm [install|list|use|delete] [candidate]"
+	echo "Usage: gvm <command> <candidate> [version]"
+	echo "   commands: install, uninstall, list or use"
+	echo "   candidate: groovy, grails, griffon or gradle"
+	echo "   version: defaults to latest stable if not provided"
 	exit 0
 fi
 

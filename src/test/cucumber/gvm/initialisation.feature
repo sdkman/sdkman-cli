@@ -10,5 +10,4 @@ Feature: Initialisation
 	Scenario: Run gvm after initialisation
 		Given an initialised system
 		When I enter "gvm"
-		Then I see "Usage: gvm [install|list|use|delete] [candidate]"
-		And the exit value is "0"
+		Then I see "Usage: gvm <command> <candidate> [version]"
