@@ -1,0 +1,25 @@
+#!/bin/bash
+
+GVM_DIR="$HOME/.gvm"
+
+if [ ! -d "$GVM_DIR" ]; then
+	mkdir "$GVM_DIR"
+	echo "Initialising gvm..."
+	echo "All resources to be placed under the ~/.gvm folder."
+	echo ""
+fi
+
+if [ -z "$1" -o -z "$2" ]; then
+	echo "Usage: gvm [install|list|use|delete] [candidate]"
+	exit 0
+fi
+
+function gvm-install {
+	echo Installing: "$1"
+}
+
+function gvm-use {
+	echo Using: "$1"
+}
+
+gvm-"$1" "$2"
