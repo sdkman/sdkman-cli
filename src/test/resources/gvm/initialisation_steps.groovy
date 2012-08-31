@@ -15,6 +15,10 @@ Then(~'^the "([^"]*)" folder is created in user home$') { String folder ->
     assert gvmDir.isDirectory(), "The .gvm directory does not exist."
 }
 
+Then(~'^the "([^"]*)" folder exists in user home$') { String arg1 ->
+    assert gvmDir.isDirectory(), "The .gvm directory does not exist."
+}
+
 Given(~'^an initialised system$') { ->
     gvmDir.mkdirs()
 }
