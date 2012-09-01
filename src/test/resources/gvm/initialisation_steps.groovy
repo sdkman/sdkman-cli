@@ -4,13 +4,6 @@ import cucumber.runtime.PendingException
 home = System.getProperty('user.home')
 gvmDir = new File("${home}/.gvm")    
 
-Given(~'^an unitialised system$') { ->
-	if(gvmDir.isDirectory()){
-    	assert gvmDir.deleteDir()
-    	println "Delete .gvm folder."
-    }
-}
-
 Then(~'^the "([^"]*)" folder is created in user home$') { String folder ->
     assert gvmDir.isDirectory(), "The .gvm directory does not exist."
 }

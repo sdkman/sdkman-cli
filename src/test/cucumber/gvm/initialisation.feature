@@ -1,7 +1,6 @@
 Feature: Initialisation
 
 	Scenario: Run gvm for the first time
-		Given an unitialised system
 		When I enter "gvm"
 		Then I see "Initialising gvm..."
 		And the ".gvm" folder is created in user home
