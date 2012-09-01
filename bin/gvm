@@ -1,6 +1,7 @@
 #!/bin/bash
 
 GVM_DIR="$HOME/.gvm"
+GVM_SERVICE="http://localhost:8080/gvm-service"
 
 if [ ! -d "$GVM_DIR" ]; then
 	mkdir "$GVM_DIR"
@@ -9,20 +10,58 @@ if [ ! -d "$GVM_DIR" ]; then
 	echo ""
 fi
 
-if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
-	echo "Usage: gvm <command> <candidate> [version]"
-	echo "   commands: install, uninstall, list, use or help"
-	echo "   candidate: groovy, grails, griffon or gradle"
-	echo "   version: defaults to latest stable if not provided"
+if [ ! $(which curl) ]; then
+	echo "Please install curl through your package manager before using this tool."
 	exit 0
 fi
 
+if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
+	echo "Usage: gvm <command> <candidate> [version]"
+	echo ""
+	echo "   commands  :  install, uninstall, list, use or help"
+	echo "   candidate :  groovy, grails, griffon or gradle"
+	echo "   version   :  defaults to latest stable if not provided"
+	echo ""
+	echo "eg: gvm install grails 2.1.0"
+	exit 0
+fi
+
+function download {
+	CANDIDATE="$1"
+	VERSION="$2"
+	echo "Downloading $CANDIDATE $VERSION"
+	curl -L "$GVM_SERVICE/$CANDIDATE/download/$VERSION" >> "/tmp/$CANDIDATE-$VERSION.zip"
+}
+
 function gvm-install {
-	echo Installing: "$1"
+	CANDIDATE="$1"
+	if [ -z "$2" ]; then
+		VERSION=$(curl "$GVM_SERVICE/$CANDIDATE/version")
+	else
+		VERSION=$(curl "$GVM_SERVICE/$CANDIDATE/version/$2")
+	fi
+
+	if [ -z "$VERSION" ]; then
+		echo ""
+		echo "Stop! $2 is not a valid grails version."
+		exit 0
+	fi
+
+	echo "Downloading: $CANDIDATE $VERSION"
+	download "$CANDIDATE" "$VERSION"
+	echo "Installing: $CANDIDATE $VERSION"
+	mkdir -p "$GVM_DIR/$CANDIDATE"
+	unzip -q "/tmp/$CANDIDATE-$VERSION.zip" -d "/tmp/"
+	mv -v "/tmp/$CANDIDATE-$VERSION" "$GVM_DIR/$CANDIDATE/$VERSION"
+	rm "/tmp/$CANDIDATE-$VERSION.zip"
+	echo "Done installing!"
+	echo ""
+	echo "Start using $CANDIDATE $VERSION by issuing the following command:"
+	echo "   gvm use $CANDIDATE $VERSION"
 }
 
 function gvm-use {
 	echo Using: "$1"
 }
 
-gvm-"$1" "$2"
+gvm-"$1" "$2" "$3"

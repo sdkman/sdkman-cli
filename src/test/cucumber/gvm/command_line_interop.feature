@@ -15,10 +15,6 @@ Feature: Command Line Interop
 		When I enter "gvm install"
 		Then I see "Usage: gvm <command> <candidate> [version]"
 
-	Scenario: Install a Candidate
-		When I enter "gvm install grails"
-		Then I see "Installing: grails"
-
 	Scenario: Use without providing a Candidate
 		When I enter "gvm use"
 		Then I see "Usage: gvm <command> <candidate> [version]"
