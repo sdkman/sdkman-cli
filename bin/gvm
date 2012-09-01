@@ -3,6 +3,10 @@
 GVM_DIR="$HOME/.gvm"
 GVM_SERVICE="http://localhost:8080/gvm-service"
 
+if [ -f "$HOME/.gvmtest" ]; then
+	GVM_SERVICE="http://localhost:8080/gvm-service"
+fi
+
 if [ ! -d "$GVM_DIR" ]; then
 	mkdir "$GVM_DIR"
 	echo "Initialising gvm..."
@@ -29,7 +33,6 @@ fi
 function download {
 	CANDIDATE="$1"
 	VERSION="$2"
-	echo "Downloading $CANDIDATE $VERSION"
 	curl -L "$GVM_SERVICE/$CANDIDATE/download/$VERSION" >> "/tmp/$CANDIDATE-$VERSION.zip"
 }
 
