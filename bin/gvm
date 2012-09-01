@@ -1,7 +1,17 @@
 #!/bin/bash
 
 GVM_DIR="$HOME/.gvm"
-GVM_SERVICE="http://localhost:8080/gvm-service"
+GVM_SERVICE="http://somedomain:8081/gvm-service"
+
+function help {
+	echo "Usage: gvm <command> <candidate> [version]"
+	echo ""
+	echo "   commands  :  install, uninstall, list, use or help"
+	echo "   candidate :  groovy, grails, griffon or gradle"
+	echo "   version   :  defaults to latest stable if not provided"
+	echo ""
+	echo "eg: gvm install grails 2.1.0"
+}
 
 if [ -f "$HOME/.gvmtest" ]; then
 	GVM_SERVICE="http://localhost:8080/gvm-service"
@@ -20,28 +30,37 @@ if [ ! $(which curl) ]; then
 fi
 
 if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
-	echo "Usage: gvm <command> <candidate> [version]"
-	echo ""
-	echo "   commands  :  install, uninstall, list, use or help"
-	echo "   candidate :  groovy, grails, griffon or gradle"
-	echo "   version   :  defaults to latest stable if not provided"
-	echo ""
-	echo "eg: gvm install grails 2.1.0"
+	help
+	exit 0
+fi
+
+if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list" -a "$1" != "help" ]; then
+	echo "Invalid command: $1"
+	help
+	exit 0
+fi
+
+CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidate/validate/$2")
+if [ "$CANDIDATE_VALID" != 'true' ]; then
+	echo "Invalid candidate: $2"
+	help
 	exit 0
 fi
 
 function download {
 	CANDIDATE="$1"
 	VERSION="$2"
+	echo ""
 	curl -L "$GVM_SERVICE/$CANDIDATE/download/$VERSION" >> "/tmp/$CANDIDATE-$VERSION.zip"
+	echo ""
 }
 
 function gvm-install {
 	CANDIDATE="$1"
 	if [ -z "$2" ]; then
-		VERSION=$(curl "$GVM_SERVICE/$CANDIDATE/version")
+		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version")
 	else
-		VERSION=$(curl "$GVM_SERVICE/$CANDIDATE/version/$2")
+		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/$2")
 	fi
 
 	if [ -z "$VERSION" ]; then
@@ -50,12 +69,18 @@ function gvm-install {
 		exit 0
 	fi
 
+	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE $VERSION is already installed."
+		exit 0
+	fi
+
 	echo "Downloading: $CANDIDATE $VERSION"
 	download "$CANDIDATE" "$VERSION"
 	echo "Installing: $CANDIDATE $VERSION"
 	mkdir -p "$GVM_DIR/$CANDIDATE"
 	unzip -q "/tmp/$CANDIDATE-$VERSION.zip" -d "/tmp/"
-	mv -v "/tmp/$CANDIDATE-$VERSION" "$GVM_DIR/$CANDIDATE/$VERSION"
+	mv "/tmp/$CANDIDATE-$VERSION" "$GVM_DIR/$CANDIDATE/$VERSION"
 	rm "/tmp/$CANDIDATE-$VERSION.zip"
 	echo "Done installing!"
 	echo ""

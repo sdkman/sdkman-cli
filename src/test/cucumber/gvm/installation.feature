@@ -14,3 +14,8 @@ Feature: Installation
 	Scenario: Install a Candidate version that does not exist
 		When I enter "gvm install grails 1.4.4"
 		Then I see "Stop! 1.4.4 is not a valid grails version."
+
+	Scenario: Install a Candidate version that is already installed
+		Given the candidate "grails" version "1.3.9" is already installed
+		When I enter "gvm install grails 1.3.9"
+		Then I see "Stop! grails 1.3.9 is already installed."
