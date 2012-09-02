@@ -5,6 +5,8 @@ import org.vertx.groovy.core.Vertx
 class VertxUtils {
 
 	public static startServer(){
+		println "Starting stub webservice..."
+
 		def vertx = Vertx.newVertx()
 		def server = vertx.createHttpServer()
 		server.requestHandler { req ->

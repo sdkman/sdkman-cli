@@ -8,6 +8,7 @@ testMarker = new File("${home}/.gvmtest")
 server = null
 
 Before(){
+	if(!server) server = startServer()
 	cleanUp()
 	testMarker.write('')
 }
@@ -21,6 +22,3 @@ private cleanUp(){
 	if(gvmDir.directory) assert gvmDir.deleteDir()
 }
 
-Before("@webservice"){
-	def server = startServer()
-}
