@@ -14,7 +14,7 @@ function help {
 }
 
 if [ -f "$HOME/.gvmtest" ]; then
-	GVM_SERVICE="http://localhost:8080/gvm-service"
+	GVM_SERVICE="http://localhost:8080"
 fi
 
 if [ ! -d "$GVM_DIR" ]; then

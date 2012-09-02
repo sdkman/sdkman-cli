@@ -6,7 +6,7 @@ home = System.getProperty('user.home')
 gvmDir = new File("${home}/.gvm")    
 
 Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
-	def candidateVersion = new URL("http://localhost:8080/gvm-service/${candidate}/version").text
+	def candidateVersion = new URL("http://localhost:8080/${candidate}/version").text
 	assert candidateVersion == version
 }
 

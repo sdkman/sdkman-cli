@@ -3,6 +3,7 @@ Feature: Command Line Interop
 	Background:
 		Given an initialised system
 
+	@webservice
 	Scenario: Enter gvm
 		When I enter "gvm"
 		Then I see "Usage: gvm <command> <candidate> [version]"

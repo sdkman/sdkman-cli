@@ -24,7 +24,3 @@ private cleanUp(){
 Before("@webservice"){
 	def server = startServer()
 }
-
-//After("@webservice"){
-//	stopServer(server)
-//}
