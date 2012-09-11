@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GVM_DIR="$HOME/.gvm"
-GVM_SERVICE="http://somedomain:8081/gvm-service"
+GVM_SERVICE="http://localhost:8080/gvm-service"
 
 function help {
 	echo "Usage: gvm <command> <candidate> [version]"
