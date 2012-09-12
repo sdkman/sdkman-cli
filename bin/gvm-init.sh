@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PATH="$HOME/.gvm/bin:$PATH"
+
 # add groovy to path
 GROOVY_HOME="$HOME/.gvm/groovy/current"
 if [ -L "$GROOVY_HOME" ]; then
