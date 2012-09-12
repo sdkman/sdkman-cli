@@ -24,8 +24,3 @@ Feature: Command Line Interop
 	Scenario: Use without providing a Candidate
 		When I enter "gvm use"
 		Then I see "Usage: gvm <command> <candidate> [version]"
-
-	Scenario: Use a Candidate
-		When I enter "gvm use grails"
-		Then I see "Using: grails"
-

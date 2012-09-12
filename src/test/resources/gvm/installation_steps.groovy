@@ -16,11 +16,10 @@ Then(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candi
 }
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed$') { String candidate, String version ->
-	def success = "Done installing!"
 	def command = "gvm install $candidate $version"
 	command = "$scriptPath/$command"
     def proc = command.execute()
     proc.waitFor()
     def result = "${proc.in.text}"
-    assert result.contains(success)
+    assert result.contains("Done installing!")
 }

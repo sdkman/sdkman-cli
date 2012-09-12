@@ -63,7 +63,7 @@ function gvm-install {
 		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/$2")
 	fi
 
-	if [ -z "$VERSION" ]; then
+	if [ "$VERSION" == "invalid" ]; then
 		echo ""
 		echo "Stop! $2 is not a valid grails version."
 		exit 0
@@ -89,7 +89,33 @@ function gvm-install {
 }
 
 function gvm-use {
-	echo Using: "$1"
+	CANDIDATE="$1"
+	if [ -z "$2" ]; then
+		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version")
+	else
+		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/$2")
+	fi
+
+	if [ "$VERSION" == "invalid" ]; then
+		echo ""
+		echo "Stop! $2 is not a valid $CANDIDATE version."
+		exit 0
+	fi
+
+
+	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE $VERSION is not installed."
+		echo ""
+		exit 0
+	fi
+
+	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
+		unlink "$GVM_DIR/$CANDIDATE/current"
+	fi
+	ln -s "$GVM_DIR/$CANDIDATE/$VERSION" "$GVM_DIR/$CANDIDATE/current"
+	echo ""
+	echo Using "$CANDIDATE" version "$VERSION"
 }
 
 gvm-"$1" "$2" "$3"

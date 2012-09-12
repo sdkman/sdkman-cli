@@ -26,12 +26,16 @@ class VertxUtils {
 			      req.response.write "2.1.0"
 			      req.response.end()
 			      break
+			  case('/grails/version/2.1.0'):
+			      req.response.write "2.1.0"
+			      req.response.end()
+			      break
 			  case('/grails/version/1.3.9'):
 			      req.response.write "1.3.9"
 			      req.response.end()
 			      break
 			  case('/grails/version/1.4.4'):
-			      req.response.write ""
+			      req.response.write "invalid"
 			      req.response.end()
 			      break
 			  case('/grails/download/1.3.9'):
