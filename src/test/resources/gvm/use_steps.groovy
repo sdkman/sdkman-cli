@@ -2,8 +2,7 @@ import static cucumber.runtime.groovy.EN.*
 import java.nio.file.*
 
 scriptPath = 'bin'
-home = System.getProperty('user.home')
-gvmDir = new File("${home}/.gvm")    
+gvmDir = new File(System.getenv('GVM_DIR'))
 
 Then(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidate, String version ->
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")

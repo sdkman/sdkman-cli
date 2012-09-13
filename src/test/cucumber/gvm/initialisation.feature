@@ -2,11 +2,10 @@ Feature: Initialisation
 
 	Scenario: Run gvm for the first time
 		When I enter "gvm"
-		Then I see "Initialising gvm..."
-		And the ".gvm" folder is created in user home
+		Then the gvm work folder is created
 
 	Scenario: Run gvm after initialisation
 		Given an initialised system
 		When I enter "gvm"
 		Then I see "Usage: gvm <command> <candidate> [version]"
-		And the ".gvm" folder exists in user home
+		Then the gvm work folder is created

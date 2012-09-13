@@ -14,15 +14,19 @@ class VertxUtils {
 
 			//mocked responses
 			switch(req.path){
-			  case('/candidate/validate/grails'):
+			  case('/candidate/all'):
+			      req.response.write 'groovy, grails, griffon, gradle'
+			      req.response.end()
+				  break
+			  case('/candidate/all/grails'):
 			      req.response.write 'true'
 			      req.response.end()
 			      break
-			  case('/candidate/validate/groffle'):
+			  case('/candidate/all/groffle'):
 			      req.response.write 'false'
 			      req.response.end()
 			      break
-			  case('/grails/version'):
+			  case('/grails/version/current'):
 			      req.response.write "2.1.0"
 			      req.response.end()
 			      break
@@ -39,10 +43,18 @@ class VertxUtils {
 			      req.response.end()
 			      break
 			  case('/grails/download/1.3.9'):
+			      req.response.write "http://localhost:8080/someurl/downloadz/1.3.9"
+			      req.response.end()
+			      break
+			  case('/someurl/downloadz/1.3.9'):
 			      req.response.putHeader("Content-disposition", "attachment; filename=grails-1.3.9.zip") 
 			      req.response.sendFile 'src/test/resources/grails-1.3.9.zip'
 			      break
 			  case('/grails/download/2.1.0'):
+			      req.response.write "http://localhost:8080/someurl/downloadz/2.1.0"
+			      req.response.end()
+			      break
+			  case('/someurl/downloadz/2.1.0'):
 			      req.response.putHeader("Content-disposition", "attachment; filename=grails-2.1.0.zip") 
 			      req.response.sendFile 'src/test/resources/grails-2.1.0.zip'
 			      break
