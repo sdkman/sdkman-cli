@@ -66,25 +66,41 @@ function download {
 	echo ""
 }
 
-function gvm-install {
-	CANDIDATE="$1"
-	if [ -z "$2" ]; then
+function determine-version {
+	if [ -z "$1" ]; then
 		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/current")
 	else
-		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/$2")
+		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/$1")
 	fi
 
 	if [ "$VERSION" == "invalid" ]; then
 		echo ""
-		echo "Stop! $2 is not a valid grails version."
+		echo "Stop! $1 is not a valid grails version."
 		exit 0
 	fi
+}
 
+function check-installed {
 	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
 		echo ""
 		echo "Stop! $CANDIDATE $VERSION is already installed."
 		exit 0
 	fi
+}
+
+function check-not-installed {
+	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE $VERSION is not installed."
+		echo ""
+		exit 0
+	fi
+}
+
+function gvm-install {
+	CANDIDATE="$1"
+	determine-version "$2"
+	check-installed
 
 	echo "Downloading: $CANDIDATE $VERSION"
 	download "$CANDIDATE" "$VERSION"
@@ -101,25 +117,8 @@ function gvm-install {
 
 function gvm-use {
 	CANDIDATE="$1"
-	if [ -z "$2" ]; then
-		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version")
-	else
-		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/$2")
-	fi
-
-	if [ "$VERSION" == "invalid" ]; then
-		echo ""
-		echo "Stop! $2 is not a valid $CANDIDATE version."
-		exit 0
-	fi
-
-
-	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
-		echo ""
-		echo "Stop! $CANDIDATE $VERSION is not installed."
-		echo ""
-		exit 0
-	fi
+	determine-version "$2"
+	check-not-installed
 
 	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
 		unlink "$GVM_DIR/$CANDIDATE/current"
