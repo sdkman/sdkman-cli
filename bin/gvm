@@ -1,33 +1,43 @@
 #!/bin/bash
-
-GVM_DIR="$HOME/.gvm"
-GVM_SERVICE="http://localhost:8080/gvm-service"
-
-function help {
-	echo "Usage: gvm <command> <candidate> [version]"
-	echo ""
-	echo "   commands  :  install, uninstall, list, use or help"
-	echo "   candidate :  groovy, grails, griffon or gradle"
-	echo "   version   :  defaults to latest stable if not provided"
-	echo ""
-	echo "eg: gvm install grails 2.1.0"
-}
-
-if [ -f "$HOME/.gvmtest" ]; then
-	GVM_SERVICE="http://localhost:8080"
-fi
-
-if [ ! -d "$GVM_DIR" ]; then
-	mkdir "$GVM_DIR"
-	echo "Initialising gvm..."
-	echo "All resources to be placed under the ~/.gvm folder."
-	echo ""
-fi
+GVM_VERSION="v0.1"
+echo "Groovy enVironment Manager $GVM_VERSION"
 
 if [ ! $(which curl) ]; then
 	echo "Please install curl through your package manager before using this tool."
 	exit 0
 fi
+
+if [ ! "$GVM_SERVICE" ]; then
+	GVM_SERVICE="http://localhost:8080/gvm-service"
+fi
+
+if [ ! "$GVM_DIR" ]; then
+	GVM_DIR="$HOME/.gvm"
+fi
+
+if [ ! -d "$GVM_DIR" ]; then
+	mkdir "$GVM_DIR"
+fi
+
+CANDIDATES=$(curl -s "$GVM_SERVICE/candidate/all")
+
+if [ ! "$CANDIDATES" ]; then
+	echo "------------------------------------------"
+	echo "   This is serious! Service is down!      "
+	echo " Please notify: @freshgroovy immediately! "
+	echo "------------------------------------------"
+	exit 0
+fi
+
+function help {
+	echo "Usage: gvm <command> <candidate> [version]"
+	echo ""
+	echo "   command    :  install, uninstall, list, use or help"
+	echo "   candidate  :  $CANDIDATES"
+	echo "   version    :  optional, defaults to latest stable if not provided"
+	echo ""
+	echo "eg: gvm install grails 2.1.0"
+}
 
 if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
 	help
@@ -40,7 +50,7 @@ if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list"
 	exit 0
 fi
 
-CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidate/validate/$2")
+CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidate/all/$2")
 if [ "$CANDIDATE_VALID" != 'true' ]; then
 	echo "Invalid candidate: $2"
 	help
@@ -51,14 +61,15 @@ function download {
 	CANDIDATE="$1"
 	VERSION="$2"
 	echo ""
-	curl -L "$GVM_SERVICE/$CANDIDATE/download/$VERSION" >> "/tmp/$CANDIDATE-$VERSION.zip"
+	DOWNLOAD_URL=$(curl -s "$GVM_SERVICE/$CANDIDATE/download/$VERSION")
+	curl -L "$DOWNLOAD_URL" >> "/tmp/$CANDIDATE-$VERSION.zip"
 	echo ""
 }
 
 function gvm-install {
 	CANDIDATE="$1"
 	if [ -z "$2" ]; then
-		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version")
+		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/current")
 	else
 		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/$2")
 	fi
