@@ -7,6 +7,7 @@ echo "Groovy enVironment Manager $GVM_VERSION"
 #
 
 function help {
+	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
 	echo "   command    :  install, uninstall, list, use or help"
@@ -81,6 +82,14 @@ function download {
 	echo ""
 }
 
+function server_down {
+	echo "------------------------------------------"
+	echo "   This is serious! Service is down!      "
+	echo " Please notify: @freshgroovy immediately! "
+	echo "------------------------------------------"
+	exit 0
+}
+
 #
 # Various sanity checks and default settings
 #
@@ -102,15 +111,14 @@ if [ ! -d "$GVM_DIR" ]; then
 	mkdir "$GVM_DIR"
 fi
 
-CANDIDATES=$(curl -s "$GVM_SERVICE/candidate/all")
-if [ ! "$CANDIDATES" ]; then
-	echo "------------------------------------------"
-	echo "   This is serious! Service is down!      "
-	echo " Please notify: @freshgroovy immediately! "
-	echo "------------------------------------------"
-	exit 0
+BROADCAST=$(curl -s "$GVM_SERVICE/alive")
+if [ "$BROADCAST" ]; then
+	echo "$BROADCAST"	
+else
+	server_down
 fi
 
+CANDIDATES=$(curl -s "$GVM_SERVICE/candidate/all")
 if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
 	help
 	exit 0
