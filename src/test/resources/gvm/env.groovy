@@ -1,21 +1,17 @@
 import static cucumber.runtime.groovy.Hooks.*
 import static gvm.VertxUtils.*
 
-home = System.getProperty('user.home')
-gvmDir = new File("${home}/.gvm")    
-testMarker = new File("${home}/.gvmtest")
+gvmDir = new File(System.getenv('GVM_DIR'))
 
 server = null
 
 Before(){
 	if(!server) server = startServer()
 	cleanUp()
-	testMarker.write('')
 }
 
 After(){
 	cleanUp()
-	assert testMarker.delete()
 }
 
 private cleanUp(){
