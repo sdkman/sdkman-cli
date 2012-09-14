@@ -66,7 +66,7 @@ function download {
 	echo ""
 }
 
-function determine-version {
+function determine_candidate_version {
 	if [ -z "$1" ]; then
 		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/current")
 	else
@@ -80,7 +80,7 @@ function determine-version {
 	fi
 }
 
-function check-installed {
+function check_installed {
 	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
 		echo ""
 		echo "Stop! $CANDIDATE $VERSION is already installed."
@@ -88,19 +88,44 @@ function check-installed {
 	fi
 }
 
-function check-not-installed {
+function check_not_installed {
 	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
 		echo ""
 		echo "Stop! $CANDIDATE $VERSION is not installed."
-		echo ""
 		exit 0
 	fi
 }
 
+function check_candidate_present {
+	if [ ! -d "$GVM_DIR/$CANDIDATE" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE has never been installed."
+		exit 0
+	fi
+}
+
+function build_version_csv {
+	CANDIDATE="$1"
+	check_candidate_present "$CANDIDATE"
+
+	CSV=""
+	for version in $(ls -1 $GVM_DIR/$CANDIDATE); do
+		if [ $version != 'current' ]; then
+			CSV="$version,$CSV"
+		fi
+	done
+	CSV=${CSV%?}
+}
+
+function determine_current_version {
+	CANDIDATE="$1"
+	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
+}
+
 function gvm-install {
 	CANDIDATE="$1"
-	determine-version "$2"
-	check-installed
+	determine_candidate_version "$2"
+	check_installed
 
 	echo "Downloading: $CANDIDATE $VERSION"
 	download "$CANDIDATE" "$VERSION"
@@ -117,8 +142,8 @@ function gvm-install {
 
 function gvm-use {
 	CANDIDATE="$1"
-	determine-version "$2"
-	check-not-installed
+	determine_candidate_version "$2"
+	check_not_installed
 
 	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
 		unlink "$GVM_DIR/$CANDIDATE/current"
@@ -126,6 +151,14 @@ function gvm-use {
 	ln -s "$GVM_DIR/$CANDIDATE/$VERSION" "$GVM_DIR/$CANDIDATE/current"
 	echo ""
 	echo Using "$CANDIDATE" version "$VERSION"
+}
+
+function gvm-list {
+	CANDIDATE="$1"
+	build_version_csv "$CANDIDATE"
+	determine_current_version "$CANDIDATE"
+	FRAGMENT=$(curl -s "$GVM_SERVICE/$CANDIDATE/list?current=$CURRENT&installed=$CSV")
+	echo "$FRAGMENT"
 }
 
 gvm-"$1" "$2" "$3"

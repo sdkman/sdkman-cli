@@ -18,7 +18,15 @@ class VertxUtils {
 			      req.response.write 'groovy, grails, griffon, gradle'
 			      req.response.end()
 				  break
+			  case('/candidate/all/2.1.0'):
+			      req.response.write 'true'
+			      req.response.end()
+				  break
 			  case('/candidate/all/grails'):
+			      req.response.write 'true'
+			      req.response.end()
+			      break
+			  case('/candidate/all/groovy'):
 			      req.response.write 'true'
 			      req.response.end()
 			      break
@@ -59,11 +67,19 @@ class VertxUtils {
 			      req.response.sendFile 'src/test/resources/grails-2.1.0.zip'
 			      break
 			  case('/grails/download'):
-			      req.response.putHeader("Content-disposition", "attachment; filename=grails-2.1.0.zip") 
-			      req.response.sendFile 'src/test/resources/grails-2.1.0.zip'
+			      req.response.write "http://localhost:8080/someurl/downloadz/2.1.0"
+			      req.response.end()
+			      break
+			  case('/grails/list'):
+			      assert req.params.current == '2.1.0'
+			      assert req.params.installed.contains('2.1.0')
+			      assert req.params.installed.contains('1.3.9')
+			      req.response.write "Available Grails Versions"
+			      req.response.end()
 			      break
 			  default:
 			      req.response.write "Invalid path: ${req.path}"
+			      req.response.end()
 			}         
 		    
 		}.listen(8080)
