@@ -2,32 +2,9 @@
 GVM_VERSION="v0.1"
 echo "Groovy enVironment Manager $GVM_VERSION"
 
-if [ ! $(which curl) ]; then
-	echo "Please install curl through your package manager before using this tool."
-	exit 0
-fi
-
-if [ ! "$GVM_SERVICE" ]; then
-	GVM_SERVICE="http://localhost:8080/gvm-service"
-fi
-
-if [ ! "$GVM_DIR" ]; then
-	GVM_DIR="$HOME/.gvm"
-fi
-
-if [ ! -d "$GVM_DIR" ]; then
-	mkdir "$GVM_DIR"
-fi
-
-CANDIDATES=$(curl -s "$GVM_SERVICE/candidate/all")
-
-if [ ! "$CANDIDATES" ]; then
-	echo "------------------------------------------"
-	echo "   This is serious! Service is down!      "
-	echo " Please notify: @freshgroovy immediately! "
-	echo "------------------------------------------"
-	exit 0
-fi
+#
+# function definitions
+#
 
 function help {
 	echo "Usage: gvm <command> <candidate> [version]"
@@ -37,33 +14,6 @@ function help {
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
 	echo "eg: gvm install grails 2.1.0"
-}
-
-if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
-	help
-	exit 0
-fi
-
-if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list" -a "$1" != "help" ]; then
-	echo "Invalid command: $1"
-	help
-	exit 0
-fi
-
-CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidate/all/$2")
-if [ "$CANDIDATE_VALID" != 'true' ]; then
-	echo "Invalid candidate: $2"
-	help
-	exit 0
-fi
-
-function download {
-	CANDIDATE="$1"
-	VERSION="$2"
-	echo ""
-	DOWNLOAD_URL=$(curl -s "$GVM_SERVICE/$CANDIDATE/download/$VERSION")
-	curl -L "$DOWNLOAD_URL" >> "/tmp/$CANDIDATE-$VERSION.zip"
-	echo ""
 }
 
 function determine_candidate_version {
@@ -122,6 +72,67 @@ function determine_current_version {
 	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
 }
 
+function download {
+	CANDIDATE="$1"
+	VERSION="$2"
+	echo ""
+	DOWNLOAD_URL=$(curl -s "$GVM_SERVICE/$CANDIDATE/download/$VERSION")
+	curl -L "$DOWNLOAD_URL" >> "/tmp/$CANDIDATE-$VERSION.zip"
+	echo ""
+}
+
+#
+# Various sanity checks and default settings
+#
+
+if [ ! $(which curl) ]; then
+	echo "Please install curl through your package manager before using this tool."
+	exit 0
+fi
+
+if [ ! "$GVM_SERVICE" ]; then
+	GVM_SERVICE="http://localhost:8080/gvm-service"
+fi
+
+if [ ! "$GVM_DIR" ]; then
+	GVM_DIR="$HOME/.gvm"
+fi
+
+if [ ! -d "$GVM_DIR" ]; then
+	mkdir "$GVM_DIR"
+fi
+
+CANDIDATES=$(curl -s "$GVM_SERVICE/candidate/all")
+if [ ! "$CANDIDATES" ]; then
+	echo "------------------------------------------"
+	echo "   This is serious! Service is down!      "
+	echo " Please notify: @freshgroovy immediately! "
+	echo "------------------------------------------"
+	exit 0
+fi
+
+if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
+	help
+	exit 0
+fi
+
+if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list" -a "$1" != "help" ]; then
+	echo "Invalid command: $1"
+	help
+	exit 0
+fi
+
+CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidate/all/$2")
+if [ "$CANDIDATE_VALID" != 'true' ]; then
+	echo "Invalid candidate: $2"
+	help
+	exit 0
+fi
+
+#
+# Command functions
+#
+
 function gvm-install {
 	CANDIDATE="$1"
 	determine_candidate_version "$2"
@@ -160,5 +171,7 @@ function gvm-list {
 	FRAGMENT=$(curl -s "$GVM_SERVICE/$CANDIDATE/list?current=$CURRENT&installed=$CSV")
 	echo "$FRAGMENT"
 }
+
+# Main command
 
 gvm-"$1" "$2" "$3"
