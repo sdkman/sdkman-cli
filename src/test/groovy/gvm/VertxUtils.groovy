@@ -18,19 +18,19 @@ class VertxUtils {
 			      req.response.write 'groovy, grails, griffon, gradle'
 			      req.response.end()
 				  break
-			  case('/candidate/all/2.1.0'):
+			  case('/candidate/index/2.1.0'):
 			      req.response.write 'true'
 			      req.response.end()
 				  break
-			  case('/candidate/all/grails'):
+			  case('/candidate/index/grails'):
 			      req.response.write 'true'
 			      req.response.end()
 			      break
-			  case('/candidate/all/groovy'):
+			  case('/candidate/index/groovy'):
 			      req.response.write 'true'
 			      req.response.end()
 			      break
-			  case('/candidate/all/groffle'):
+			  case('/candidate/index/groffle'):
 			      req.response.write 'false'
 			      req.response.end()
 			      break

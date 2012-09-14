@@ -122,7 +122,7 @@ if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list"
 	exit 0
 fi
 
-CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidate/all/$2")
+CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidate/index/$2")
 if [ "$CANDIDATE_VALID" != 'true' ]; then
 	echo "Invalid candidate: $2"
 	help
