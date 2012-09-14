@@ -34,7 +34,7 @@ class VertxUtils {
 			      req.response.write 'false'
 			      req.response.end()
 			      break
-			  case('/grails/version/current'):
+			  case('/grails/version'):
 			      req.response.write "2.1.0"
 			      req.response.end()
 			      break

@@ -6,7 +6,7 @@ gvmDir = new File(System.getenv('GVM_DIR'))
 serviceUrl = System.getenv('GVM_SERVICE')
 
 Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
-	def candidateVersion = new URL("${serviceUrl}/${candidate}/version/current").text
+	def candidateVersion = new URL("${serviceUrl}/${candidate}/version").text
 	assert candidateVersion == version
 }
 
