@@ -15,71 +15,57 @@ class VertxUtils {
 			//mocked responses
 			switch(req.path){
 			  case('/candidate/all'):
-			      req.response.write 'groovy, grails, griffon, gradle'
-			      req.response.end()
+			      req.response.end 'groovy, grails, griffon, gradle'
 				  break
 			  case('/candidate/index/2.1.0'):
-			      req.response.write 'true'
-			      req.response.end()
+			      req.response.end 'true'
 				  break
 			  case('/candidate/index/grails'):
-			      req.response.write 'true'
-			      req.response.end()
+			      req.response.end 'true'
 			      break
 			  case('/candidate/index/groovy'):
-			      req.response.write 'true'
-			      req.response.end()
+			      req.response.end 'true'
 			      break
 			  case('/candidate/index/groffle'):
-			      req.response.write 'false'
-			      req.response.end()
+			      req.response.end 'false'
 			      break
 			  case('/grails/version'):
-			      req.response.write "2.1.0"
-			      req.response.end()
+			      req.response.end "2.1.0"
 			      break
 			  case('/grails/version/2.1.0'):
-			      req.response.write "2.1.0"
-			      req.response.end()
+			      req.response.end "2.1.0"
 			      break
 			  case('/grails/version/1.3.9'):
-			      req.response.write "1.3.9"
-			      req.response.end()
+			      req.response.end "1.3.9"
 			      break
 			  case('/grails/version/1.4.4'):
-			      req.response.write "invalid"
-			      req.response.end()
+			      req.response.end "invalid"
 			      break
 			  case('/grails/download/1.3.9'):
-			      req.response.write "http://localhost:8080/someurl/downloadz/1.3.9"
-			      req.response.end()
+			      req.response.end "http://localhost:8080/someurl/downloadz/1.3.9"
 			      break
 			  case('/someurl/downloadz/1.3.9'):
 			      req.response.putHeader("Content-disposition", "attachment; filename=grails-1.3.9.zip") 
 			      req.response.sendFile 'src/test/resources/grails-1.3.9.zip'
 			      break
 			  case('/grails/download/2.1.0'):
-			      req.response.write "http://localhost:8080/someurl/downloadz/2.1.0"
-			      req.response.end()
+			      req.response.end "http://localhost:8080/someurl/downloadz/2.1.0"
 			      break
 			  case('/someurl/downloadz/2.1.0'):
 			      req.response.putHeader("Content-disposition", "attachment; filename=grails-2.1.0.zip") 
 			      req.response.sendFile 'src/test/resources/grails-2.1.0.zip'
 			      break
 			  case('/grails/download'):
-			      req.response.write "http://localhost:8080/someurl/downloadz/2.1.0"
-			      req.response.end()
+			      req.response.end "http://localhost:8080/someurl/downloadz/2.1.0"
 			      break
 			  case('/grails/list'):
 			      assert req.params.current == '2.1.0'
 			      assert req.params.installed.contains('2.1.0')
 			      assert req.params.installed.contains('1.3.9')
-			      req.response.write "Available Grails Versions"
-			      req.response.end()
+			      req.response.end "Available Grails Versions"
 			      break
 			  default:
-			      req.response.write "Invalid path: ${req.path}"
-			      req.response.end()
+			      req.response.end "Invalid path: ${req.path}"
 			}         
 		    
 		}.listen(8080)
