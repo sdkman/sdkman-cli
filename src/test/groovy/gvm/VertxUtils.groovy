@@ -14,6 +14,9 @@ class VertxUtils {
 
 			//mocked responses
 			switch(req.path){
+			  case('/alive'):
+			      req.response.end 'hello world'
+			      break
 			  case('/candidate/all'):
 			      req.response.end 'groovy, grails, griffon, gradle'
 				  break

@@ -187,6 +187,24 @@ function gvm-list {
 	echo "$FRAGMENT"
 }
 
+function gvm-uninstall {
+	CANDIDATE="$1"
+	VERSION="$2"
+	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
+	if [ "$VERSION" == "$CURRENT" ]; then
+		echo ""
+		echo "Unselecting $CANDIDATE $VERSION ..."
+		unlink "$GVM_DIR/$CANDIDATE/current"
+	fi
+	echo ""
+	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo "Uninstalling $CANDIDATE $VERSION ..."
+		rm -rf "$GVM_DIR/$CANDIDATE/$VERSION"
+	else
+		echo "$CANDIDATE $VERSION is not installed."
+	fi
+}
+
 # Main command
 
 gvm-"$1" "$2" "$3"
