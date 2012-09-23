@@ -1,6 +1,6 @@
 #!/bin/bash
-GVM_VERSION="v0.1"
-echo "Groovy enVironment Manager $GVM_VERSION"
+GVM_VERSION="0.1"
+echo "Groovy enVironment Manager v$GVM_VERSION"
 
 #
 # function definitions
@@ -118,7 +118,7 @@ if [ ! -d "$GVM_DIR" ]; then
 	mkdir "$GVM_DIR"
 fi
 
-BROADCAST=$(curl -s "$GVM_SERVICE/alive")
+BROADCAST=$(curl -s "$GVM_SERVICE/alive/index?version=$GVM_VERSION")
 if [ "$BROADCAST" ]; then
 	echo "$BROADCAST"	
 else
