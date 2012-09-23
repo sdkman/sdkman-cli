@@ -19,9 +19,9 @@ function help {
 
 function determine_candidate_version {
 	if [ -z "$1" ]; then
-		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version")
+		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/default")
 	else
-		VERSION=$(curl -s "$GVM_SERVICE/$CANDIDATE/version/$1")
+		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/$1")
 	fi
 
 	if [ "$VERSION" == "invalid" ]; then
@@ -78,9 +78,9 @@ function download {
 	VERSION="$2"
 	mkdir -p "$GVM_DIR/archives"
 	if [ ! -f "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" ]; then
-		echo "Downloading: $CANDIDATE $VERSION"
+		DOWNLOAD_URL=$(curl -s "$GVM_SERVICE/download/$CANDIDATE/$VERSION")
+		echo "Downloading: $CANDIDATE $VERSION from: $DOWNLOAD_URL"
 		echo ""
-		DOWNLOAD_URL=$(curl -s "$GVM_SERVICE/$CANDIDATE/download/$VERSION")
 		curl -L "$DOWNLOAD_URL" >> "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
 	else
 		echo "Found older version of $CANDIDATE $VERSION archive."
@@ -107,7 +107,7 @@ if [ ! $(which curl) ]; then
 fi
 
 if [ ! "$GVM_SERVICE" ]; then
-	GVM_SERVICE="http://localhost:8080/gvm-service"
+	GVM_SERVICE="http://localhost:8080"
 fi
 
 if [ ! "$GVM_DIR" ]; then
@@ -118,14 +118,14 @@ if [ ! -d "$GVM_DIR" ]; then
 	mkdir "$GVM_DIR"
 fi
 
-BROADCAST=$(curl -s "$GVM_SERVICE/alive/index?version=$GVM_VERSION")
+BROADCAST=$(curl -s "$GVM_SERVICE/app/alive/$GVM_VERSION")
 if [ "$BROADCAST" ]; then
 	echo "$BROADCAST"	
 else
 	server_down
 fi
 
-CANDIDATES=$(curl -s "$GVM_SERVICE/candidate/all")
+CANDIDATES=$(curl -s "$GVM_SERVICE/candidates")
 if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
 	help
 	exit 0
@@ -137,8 +137,8 @@ if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list"
 	exit 0
 fi
 
-CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidate/index/$2")
-if [ "$CANDIDATE_VALID" != 'true' ]; then
+CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidates/$2")
+if [ "$CANDIDATE_VALID" == 'invalid' ]; then
 	echo "Invalid candidate: $2"
 	help
 	exit 0
