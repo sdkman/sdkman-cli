@@ -1,0 +1,223 @@
+#!/bin/bash
+GVM_VERSION="0.1"
+echo "Groovy Version Manager $GVM_VERSION"
+
+#
+# function definitions
+#
+
+function help {
+	echo ""
+	echo "Usage: gvm <command> <candidate> [version]"
+	echo ""
+	echo "   command    :  install, uninstall, list, use or help"
+	echo "   candidate  :  $CANDIDATES"
+	echo "   version    :  optional, defaults to latest stable if not provided"
+	echo ""
+	echo "eg: gvm install grails 2.1.0"
+}
+
+function determine_candidate_version {
+	if [ -z "$1" ]; then
+		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/default")
+	else
+		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/$1")
+	fi
+
+	if [ "$VERSION" == "invalid" ]; then
+		echo ""
+		echo "Stop! $1 is not a valid grails version."
+		exit 0
+	fi
+}
+
+function check_installed {
+	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE $VERSION is already installed."
+		exit 0
+	fi
+}
+
+function check_not_installed {
+	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE $VERSION is not installed."
+		exit 0
+	fi
+}
+
+function check_candidate_present {
+	if [ ! -d "$GVM_DIR/$CANDIDATE" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE has never been installed."
+		exit 0
+	fi
+}
+
+function build_version_csv {
+	CANDIDATE="$1"
+	check_candidate_present "$CANDIDATE"
+
+	CSV=""
+	for version in $(ls -1 $GVM_DIR/$CANDIDATE); do
+		if [ $version != 'current' ]; then
+			CSV="$version,$CSV"
+		fi
+	done
+	CSV=${CSV%?}
+}
+
+function determine_current_version {
+	CANDIDATE="$1"
+	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
+}
+
+function download {
+	CANDIDATE="$1"
+	VERSION="$2"
+	mkdir -p "$GVM_DIR/archives"
+	if [ ! -f "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" ]; then
+		DOWNLOAD_URL=$(curl -s "$GVM_SERVICE/download/$CANDIDATE/$VERSION")
+		echo ""
+		echo "Downloading: $CANDIDATE $VERSION from: $DOWNLOAD_URL"
+		echo ""
+		curl -L "$DOWNLOAD_URL" >> "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
+	else
+		echo ""
+		echo "Found a previously downloaded $CANDIDATE $VERSION archive."
+		echo "Not downloading it again..."
+	fi
+	echo ""
+}
+
+function server_down {
+	echo "------------------------------------------"
+	echo "   This is serious! Service is down!      "
+	echo " Please notify: @freshgroovy immediately! "
+	echo "------------------------------------------"
+	exit 0
+}
+
+#
+# Various sanity checks and default settings
+#
+
+if [ ! $(which curl) ]; then
+	echo "Please install curl through your package manager before using this tool."
+	exit 0
+fi
+
+if [ ! "$GVM_SERVICE" ]; then
+	GVM_SERVICE="http://localhost:8080"
+fi
+
+if [ ! "$GVM_DIR" ]; then
+	GVM_DIR="$HOME/.gvm"
+fi
+
+if [ ! -d "$GVM_DIR" ]; then
+	mkdir "$GVM_DIR"
+fi
+
+BROADCAST=$(curl -s "$GVM_SERVICE/app/alive/$GVM_VERSION")
+if [ "$BROADCAST" ]; then
+	echo "$BROADCAST"	
+else
+	server_down
+fi
+
+CANDIDATES=$(curl -s "$GVM_SERVICE/candidates")
+if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
+	help
+	exit 0
+fi
+
+if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list" -a "$1" != "help" -a "$1" != "selfupdate" ]; then
+	echo "Invalid command: $1"
+	help
+	exit 0
+fi
+
+CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidates/$2")
+if [ "$CANDIDATE_VALID" == 'invalid' ]; then
+	echo "Invalid candidate: $2"
+	help
+	exit 0
+fi
+
+#
+# Command functions
+#
+
+function gvm-install {
+	CANDIDATE="$1"
+	determine_candidate_version "$2"
+	check_installed
+
+	download "$CANDIDATE" "$VERSION"
+	echo "Installing: $CANDIDATE $VERSION"
+	
+	mkdir -p "$GVM_DIR/$CANDIDATE"
+
+	unzip -q "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" -d "/tmp/"
+	mv "/tmp/$CANDIDATE-$VERSION" "$GVM_DIR/$CANDIDATE/$VERSION"
+	echo "Done installing!"
+	echo ""
+	echo "Start using $CANDIDATE $VERSION by issuing the following command:"
+	echo "   gvm use $CANDIDATE $VERSION"
+}
+
+function gvm-use {
+	CANDIDATE="$1"
+	determine_candidate_version "$2"
+	check_not_installed
+
+	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
+		unlink "$GVM_DIR/$CANDIDATE/current"
+	fi
+	ln -s "$GVM_DIR/$CANDIDATE/$VERSION" "$GVM_DIR/$CANDIDATE/current"
+	echo ""
+	echo Using "$CANDIDATE" version "$VERSION"
+}
+
+function gvm-list {
+	CANDIDATE="$1"
+	build_version_csv "$CANDIDATE"
+	determine_current_version "$CANDIDATE"
+	FRAGMENT=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/list?current=$CURRENT&installed=$CSV")
+	echo "$FRAGMENT"
+}
+
+function gvm-uninstall {
+	CANDIDATE="$1"
+	VERSION="$2"
+	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
+	if [ -h "$GVM_DIR/$CANDIDATE/current" -a "$VERSION" == "$CURRENT" ]; then
+		echo ""
+		echo "Unselecting $CANDIDATE $VERSION..."
+		unlink "$GVM_DIR/$CANDIDATE/current"
+	fi
+	echo ""
+	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo "Uninstalling $CANDIDATE $VERSION..."
+		rm -rf "$GVM_DIR/$CANDIDATE/$VERSION"
+	else
+		echo "$CANDIDATE $VERSION is not installed."
+	fi
+}
+
+function gvm-selfupdate {
+	curl -s "$GVM_SERVICE/res/init" > "$HOME/.gvm/bin/gvm-init.sh"
+	curl -s "$GVM_SERVICE/res/gvm" > "$HOME/.gvm/bin/gvm"
+
+	chmod +x "$HOME/.gvm/bin/gvm-init.sh"
+	chmod +x "$HOME/.gvm/bin/gvm"
+
+	echo "Successfully upgraded GVM."
+	echo ""
+}
+
+# Main command
+
+gvm-"$1" "$2" "$3"
