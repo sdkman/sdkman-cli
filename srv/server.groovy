@@ -19,17 +19,17 @@ def rm = new RouteMatcher()
 
 rm.get("/") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('scripts/install.sh')
+	req.response.sendFile('srv/scripts/install.sh')
 }
 
 rm.get("/res/init") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('scripts/gvm-init.sh')
+	req.response.sendFile('srv/scripts/gvm-init.sh')
 }
 
 rm.get("/res/gvm") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('scripts/gvm.sh')
+	req.response.sendFile('srv/scripts/gvm.sh')
 }
 
 rm.get("/candidates") { req ->
@@ -54,7 +54,7 @@ rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current']
 	def installed = req.params['installed']
-	def gtplFile = new File('templates/list.gtpl')
+	def gtplFile = new File('srv/templates/list.gtpl')
 	def binding = [candidate:candidate, available:grails, current:current, installed:installed]
 	def template = templateEngine.createTemplate(gtplFile).make(binding)
 	addPlainTextHeader req
@@ -87,10 +87,10 @@ rm.get("/app/alive/:version") { req ->
 	def version = req.params['version']
 	def gtpFile, binding
 	if(gvmVersion == version){
-		gtplFile = new File('templates/broadcast.gtpl')
+		gtplFile = new File('srv/templates/broadcast.gtpl')
 		binding = [server:serverVersion, vertx:vertxVersion]
 	} else {
-		gtplFile = new File('templates/upgrade.gtpl')
+		gtplFile = new File('srv/templates/upgrade.gtpl')
 		binding = [version:gvmVersion]
 	}
 	def template = templateEngine.createTemplate(gtplFile).make(binding)
