@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export GVM_SERVICE="http://get.freshgroovy.org"
+export GVM_SERVICE="http://beta.freshgroovy.org"
 
 PATH="$HOME/.gvm/bin:$PATH"
 
