@@ -72,8 +72,9 @@ rm.get("/candidates/:candidate/:version") { req ->
 rm.get("/download/:candidate/:version") { req ->
 	def candidate = req.params['candidate']
 	def version = req.params['version']
-	addPlainTextHeader req
-	req.response.end "http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/${candidate}-${version}.zip"
+	req.response.headers['Location'] = "http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/${candidate}-${version}.zip"
+	req.response.statusCode = 302
+	req.response.end()
 }
 
 rm.get("/app/version") { req ->
