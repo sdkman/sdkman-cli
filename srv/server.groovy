@@ -29,7 +29,7 @@ rm.get("/res/init") { req ->
 
 rm.get("/res/gvm") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('srv/scripts/gvm.sh')
+	req.response.sendFile('srv/scripts/gvm')
 }
 
 rm.get("/candidates") { req ->
