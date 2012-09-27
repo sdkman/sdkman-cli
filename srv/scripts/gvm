@@ -78,11 +78,10 @@ function download {
 	VERSION="$2"
 	mkdir -p "$GVM_DIR/archives"
 	if [ ! -f "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" ]; then
-		DOWNLOAD_URL=$(curl -s "$GVM_SERVICE/download/$CANDIDATE/$VERSION")
 		echo ""
 		echo "Downloading: $CANDIDATE $VERSION from: $DOWNLOAD_URL"
 		echo ""
-		curl -L "$DOWNLOAD_URL" >> "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
+		curl -L "$GVM_SERVICE/download/$CANDIDATE/$VERSION" > "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
 	else
 		echo ""
 		echo "Found a previously downloaded $CANDIDATE $VERSION archive."
@@ -128,7 +127,7 @@ else
 fi
 
 CANDIDATES=$(curl -s "$GVM_SERVICE/candidates")
-if [ "$1" == "help" -o -z "$1" -o -z "$2" ]; then
+if [ "$1" == "help" -o -z "$1" ]; then
 	help
 	exit 0
 fi
@@ -170,6 +169,12 @@ function gvm-install {
 
 function gvm-use {
 	CANDIDATE="$1"
+
+	if [ -z "$2" ]; then
+		help
+		exit 0
+	fi
+
 	determine_candidate_version "$2"
 	check_not_installed
 
@@ -208,12 +213,15 @@ function gvm-uninstall {
 }
 
 function gvm-selfupdate {
-	curl -s "$GVM_SERVICE/res/init" > "$HOME/.gvm/bin/gvm-init.sh"
-	curl -s "$GVM_SERVICE/res/gvm" > "$HOME/.gvm/bin/gvm"
+	mkdir -p "$GVM_DIR/bin"
 
-	chmod +x "$HOME/.gvm/bin/gvm-init.sh"
-	chmod +x "$HOME/.gvm/bin/gvm"
+	curl -s "$GVM_SERVICE/res/init" > "$GVM_DIR/bin/gvm-init.sh"
+	curl -s "$GVM_SERVICE/res/gvm" > "$GVM_DIR/bin/gvm"
 
+	chmod +x "$GVM_DIR/bin/gvm-init.sh"
+	chmod +x "$GVM_DIR/bin/gvm"
+
+	echo ""
 	echo "Successfully upgraded GVM."
 	echo ""
 }
