@@ -16,7 +16,7 @@ Feature: Uninstall
 
 	Scenario: Attempt uninstalling a Candidate Version that is not installed
 		Given the candidate "grails" version "2.1.0" is already installed
-		When I enter "gvm uninstall grails 2.1.0"
-		Then I see "grails 2.1.0 is not installed."
-		And the candidate "grails" version "2.1.0" is not installed
+		When I enter "gvm uninstall grails 1.3.9"
+		Then I see "grails 1.3.9 is not installed."
+		And the candidate "grails" version "1.3.9" is not installed
 		

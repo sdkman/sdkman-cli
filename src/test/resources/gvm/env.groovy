@@ -6,7 +6,7 @@ gvmDir = new File(System.getenv('GVM_DIR'))
 server = null
 
 Before(){
-	if(!server) server = startServer()
+	server = startServer()
 	cleanUp()
 }
 

@@ -8,8 +8,8 @@ Feature: List Candidates
 		Then I see "Available Grails Versions"
 
 	Scenario: List all available Versions without a Candidate installed
-		Given I do not have a "groovy" candidate installed
-		When I enter "gvm list groovy"
-		Then I see "Stop! groovy has never been installed."
+		Given I do not have a "grails" candidate installed
+		When I enter "gvm list grails"
+		Then I see "Stop! grails has never been installed."
 
 

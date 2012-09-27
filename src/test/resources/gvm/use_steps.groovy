@@ -1,7 +1,7 @@
 import static cucumber.runtime.groovy.EN.*
 import java.nio.file.*
 
-scriptPath = 'bin'
+scriptPath = 'srv/scripts'
 gvmDir = new File(System.getenv('GVM_DIR'))
 
 Then(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidate, String version ->
