@@ -83,6 +83,18 @@ if [ ! -z $(which grails) ]; then
 	exit 0
 fi
 
+echo "Looking for unzip..."
+if [ -z $(which unzip) ]; then
+	echo "Not found."
+	echo "======================================================================================================"
+	echo " Please install unzip on your system using your favourite package manager."
+	echo ""
+	echo " Restart after installing unzip."
+	echo "======================================================================================================"
+	echo ""
+	exit 0
+fi
+
 echo "Looking for curl..."
 if [ -z $(which curl) ]; then
 	echo "Not found."
@@ -101,7 +113,7 @@ if [ -z $(which curl) ]; then
 	echo ""
 	echo " GVM uses curl for crucial interactions with it's backend server."
 	echo ""
-	echo " Please install curl and restart."
+	echo " Please restart after installing curl."
 	echo "======================================================================================================"
 	echo ""
 	exit 0
