@@ -128,19 +128,34 @@ chmod +x "$HOME/.gvm/bin/gvm"
 
 SNIPPET='[[ -s "$HOME/.gvm/bin/gvm-init.sh" ]] && . "$HOME/.gvm/bin/gvm-init.sh"'
 echo "Attempting to update bash profile..."
-if [ ! -f "$HOME/.profile" -a ! -f "$HOME/.bashrc" ]; then
-	echo "#!/bin/bash" > "$HOME/.profile"
-	echo "$SNIPPET" >> "$HOME/.profile"
-	echo "Created and updated .profile"
+BASHRC="$HOME/.bashrc"
+PROFILE="$HOME/.profile"
+BASH_PROFILE="$HOME/.bash_profile"
+if [ ! -f "$PROFILE" -a ! -f "$BASHRC" ]; then
+	echo "#!/bin/bash" > "$PROFILE"
+	echo "$SNIPPET" >> "$PROFILE"
+	
+	echo "#!/bin/bash" > "$BASHRC"
+	echo "$SNIPPET" >> "$BASHRC"
+
+	echo "Created and updated .profile and .bashrc"
 else
-	if [ -f "$HOME/.profile" ]; then
-		echo "" >> "$HOME/.profile"
-		echo "$SNIPPET" >> "$HOME/.profile"
-		echo "Updated existing .profile"
-	else
-		echo "" >> "$HOME/.bashrc"
-		echo "$SNIPPET" >> "$HOME/.bashrc"
+	if [ -f "$BASHRC" ]; then
+		echo "" >> "$BASHRC"
+		echo "$SNIPPET" >> "$BASHRC"
 		echo "Updated existing .bashrc"
+	fi
+
+	if [ -f "$BASH_PROFILE" ]; then
+		echo "" >> "$BASH_PROFILE"
+		echo "$SNIPPET" >> "$BASH_PROFILE"
+		echo "Updated existing .bash_profile"
+	fi
+
+	if [ -f "$PROFILE" ]; then
+		echo "" >> "$PROFILE"
+		echo "$SNIPPET" >> "$PROFILE"
+		echo "Updated existing .profile"
 	fi
 fi
 
