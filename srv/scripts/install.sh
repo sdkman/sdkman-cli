@@ -141,21 +141,27 @@ if [ ! -f "$PROFILE" -a ! -f "$BASHRC" ]; then
 	echo "Created and updated .profile and .bashrc"
 else
 	if [ -f "$BASHRC" ]; then
-		echo "" >> "$BASHRC"
-		echo "$SNIPPET" >> "$BASHRC"
-		echo "Updated existing .bashrc"
+		if [ -z "$(grep 'gvm-init.sh' $BASHRC)" ]; then
+			echo "" >> "$BASHRC"
+			echo "$SNIPPET" >> "$BASHRC"
+			echo "Updated existing .bashrc"
+		fi
 	fi
 
 	if [ -f "$BASH_PROFILE" ]; then
-		echo "" >> "$BASH_PROFILE"
-		echo "$SNIPPET" >> "$BASH_PROFILE"
-		echo "Updated existing .bash_profile"
+		if [ -z "$(grep 'gvm-init.sh' $BASH_PROFILE)" ]; then
+			echo "" >> "$BASH_PROFILE"
+			echo "$SNIPPET" >> "$BASH_PROFILE"
+			echo "Updated existing .bash_profile"
+		fi
 	fi
 
 	if [ -f "$PROFILE" ]; then
-		echo "" >> "$PROFILE"
-		echo "$SNIPPET" >> "$PROFILE"
-		echo "Updated existing .profile"
+		if [ -z "$(grep 'gvm-init.sh' $PROFILE)" ]; then
+			echo "" >> "$PROFILE"
+			echo "$SNIPPET" >> "$PROFILE"
+			echo "Updated existing .profile"
+		fi
 	fi
 fi
 
