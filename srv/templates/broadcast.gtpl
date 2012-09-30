@@ -1,7 +1,7 @@
 GVM server ${server} on vertx ${vertx}
 
 === BROADCAST ==========================================
-This application is currently in beta. If you experience
+This application is currently in beta.
 Report issues: https://github.com/freshgroovy/gvm/issues
 
 Latest updates:
