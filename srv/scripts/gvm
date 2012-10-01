@@ -1,6 +1,6 @@
 #!/bin/bash
 GVM_VERSION="0.1"
-echo "Groovy Version Manager $GVM_VERSION"
+echo "Groovy enVironment Manager $GVM_VERSION"
 
 #
 # function definitions

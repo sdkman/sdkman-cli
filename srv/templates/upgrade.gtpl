@@ -1,5 +1,5 @@
 
 ===============================================
-     Your version of gvm is out of date!
+     Your version of GVM is out of date!
   Please upgrade to the latest version: ${version}
 ===============================================
