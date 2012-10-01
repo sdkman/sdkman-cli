@@ -10,7 +10,7 @@ function help {
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
-	echo "   command    :  install, uninstall, list, use or help"
+	echo "   command    :  install, uninstall, list, use, selfupdate or help"
 	echo "   candidate  :  $CANDIDATES"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
@@ -121,7 +121,7 @@ fi
 
 BROADCAST=$(curl -s "$GVM_SERVICE/app/alive/$GVM_VERSION")
 if [ "$BROADCAST" ]; then
-	echo "$BROADCAST"	
+	echo "$BROADCAST"
 else
 	server_down
 fi
@@ -156,7 +156,7 @@ function gvm-install {
 
 	download "$CANDIDATE" "$VERSION"
 	echo "Installing: $CANDIDATE $VERSION"
-	
+
 	mkdir -p "$GVM_DIR/$CANDIDATE"
 
 	unzip -q "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" -d "/tmp/"
