@@ -1,4 +1,4 @@
-Feature: Use
+Feature: Use Candidate
 
 	Scenario: Use a version of an installed candidate that exists
 		Given the candidate "grails" version "2.1.0" is already installed

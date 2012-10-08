@@ -1,4 +1,4 @@
-Feature: Installation
+Feature: Install Candidate
 
 	Scenario: Install a default Candidate
 		Given the default "grails" candidate is "2.1.0"

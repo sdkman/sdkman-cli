@@ -1,4 +1,4 @@
-Feature: Uninstall
+Feature: Uninstall Candidate
 	Scenario: Uninstall an installed Candidate Version
 		Given the candidate "grails" version "2.1.0" is already installed
 		When I enter "gvm uninstall grails 2.1.0"
