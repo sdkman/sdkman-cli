@@ -126,42 +126,41 @@ curl -s "$GVM_SERVICE/res/gvm" > "$HOME/.gvm/bin/gvm"
 chmod +x "$HOME/.gvm/bin/gvm-init.sh"
 chmod +x "$HOME/.gvm/bin/gvm"
 
-SNIPPET='[[ -s "$HOME/.gvm/bin/gvm-init.sh" ]] && . "$HOME/.gvm/bin/gvm-init.sh"'
 echo "Attempting to update bash profile..."
-BASHRC="$HOME/.bashrc"
-PROFILE="$HOME/.profile"
+
+SNIPPET='[[ -s "$HOME/.gvm/bin/gvm-init.sh" ]] && source "$HOME/.gvm/bin/gvm-init.sh"'
 BASH_PROFILE="$HOME/.bash_profile"
-if [ ! -f "$PROFILE" -a ! -f "$BASHRC" ]; then
-	echo "#!/bin/bash" > "$PROFILE"
-	echo "$SNIPPET" >> "$PROFILE"
-	
-	echo "#!/bin/bash" > "$BASHRC"
-	echo "$SNIPPET" >> "$BASHRC"
+PROFILE="$HOME/.profile"
+BASHRC="$HOME/.bashrc"
 
-	echo "Created and updated .profile and .bashrc"
+if [ ! -f "$BASH_PROFILE" -a ! -f "$PROFILE" ]; then
+	echo "#!/bin/bash" > "$BASH_PROFILE"
+	echo "$SNIPPET" >> "$BASH_PROFILE"
+	echo "Created and initialised $BASH_PROFILE"
 else
-	if [ -f "$BASHRC" ]; then
-		if [ -z "$(grep 'gvm-init.sh' $BASHRC)" ]; then
-			echo "" >> "$BASHRC"
-			echo "$SNIPPET" >> "$BASHRC"
-			echo "Updated existing .bashrc"
-		fi
-	fi
-
 	if [ -f "$BASH_PROFILE" ]; then
 		if [ -z "$(grep 'gvm-init.sh' $BASH_PROFILE)" ]; then
-			echo "" >> "$BASH_PROFILE"
-			echo "$SNIPPET" >> "$BASH_PROFILE"
-			echo "Updated existing .bash_profile"
+			echo -e "\n$SNIPPET" >> "$BASH_PROFILE"
+			echo "Updated existing $BASH_PROFILE"
 		fi
 	fi
 
 	if [ -f "$PROFILE" ]; then
 		if [ -z "$(grep 'gvm-init.sh' $PROFILE)" ]; then
-			echo "" >> "$PROFILE"
-			echo "$SNIPPET" >> "$PROFILE"
-			echo "Updated existing .profile"
+			echo -e "\n$SNIPPET" >> "$PROFILE"
+			echo "Updated existing $PROFILE"
 		fi
+	fi
+fi
+
+if [ ! -f "$BASHRC" ]; then
+	echo "#!/bin/bash" > "$BASHRC"
+	echo "$SNIPPET" >> "$BASHRC"
+	echo "Created and initialised $BASHRC"
+else
+	if [ -z "$(grep 'gvm-init.sh' $BASHRC)" ]; then
+		echo -e "\n$SNIPPET" >> "$BASHRC"
+		echo "Updated existing $BASHRC"
 	fi
 fi
 
