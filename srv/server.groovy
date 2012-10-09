@@ -9,7 +9,7 @@ def candidates = [grails:grails]
 //def defaults = [grails:'2.1.1', groovy:'2.0.2', griffon:'1.0.2']
 def defaults = [grails:'2.1.1']
 
-def gvmVersion = '0.2'
+def gvmVersion = '0.3'
 def serverVersion = '0.1'
 def vertxVersion = '1.2.3.final'
 
@@ -91,7 +91,7 @@ rm.get("/app/alive/:version") { req ->
 		binding = [server:serverVersion, vertx:vertxVersion]
 	} else {
 		gtplFile = new File('srv/templates/upgrade.gtpl')
-		binding = [version:gvmVersion]
+		binding = [gvmVersion:gvmVersion, version:version]
 	}
 	def template = templateEngine.createTemplate(gtplFile).make(binding)
 	req.response.end template.toString()
