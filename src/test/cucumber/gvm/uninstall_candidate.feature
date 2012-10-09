@@ -19,4 +19,16 @@ Feature: Uninstall Candidate
 		When I enter "gvm uninstall grails 1.3.9"
 		Then I see "grails 1.3.9 is not installed."
 		And the candidate "grails" version "1.3.9" is not installed
+
+	Scenario: Attempt uninstalling with no Candidate specified
+		When I enter "gvm uninstall"
+		Then I see "No candidate provided."
+
+	Scenario: Attempt uninstalling with an invalid Candidate specified
+		When I enter "gvm uninstall groffle"
+		Then I see "Stop! groffle is not a valid candidate."
+
+	Scenario: Attempt uninstalling without a version provided
+		When I enter "gvm uninstall grails"
+		Then I see "No candidate version provided."
 		

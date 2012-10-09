@@ -10,7 +10,7 @@ class VertxUtils {
 	final static candidates = [grails:grails]
 	final static defaults = [grails:'2.1.0']
 
-	static final gvmVersion = '0.1'
+	static final gvmVersion = '0.3'
 	static final serverVersion = '0.1'
 	static final vertxVersion = '1.2.3.final'
 
@@ -93,7 +93,7 @@ class VertxUtils {
 				binding = [server:serverVersion, vertx:vertxVersion]
 			} else {
 				gtplFile = new File('srv/templates/upgrade.gtpl')
-				binding = [version:gvmVersion]
+				binding = [version:version, gvmVersion:gvmVersion]
 			}
 			def template = templateEngine.createTemplate(gtplFile).make(binding)
 			req.response.end template.toString()

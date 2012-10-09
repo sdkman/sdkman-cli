@@ -26,6 +26,14 @@ function check_candidate_present {
 	fi
 }
 
+function check_version_present {
+	if [ -z "$1" ]; then
+		echo -e "\nNo candidate version provided."
+		help
+		exit 0
+	fi
+}
+
 function determine_candidate_version {
 	if [ -z "$1" ]; then
 		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/default")
@@ -168,11 +176,7 @@ function gvm-install {
 
 function gvm-use {
 	CANDIDATE="$1"
-
-	if [ -z "$2" ]; then
-		help
-		exit 0
-	fi
+	check_candidate_present "$CANDIDATE"
 
 	determine_candidate_version "$2"
 	check_not_installed
@@ -187,6 +191,7 @@ function gvm-use {
 
 function gvm-list {
 	CANDIDATE="$1"
+	check_candidate_present "$CANDIDATE"
 	build_version_csv "$CANDIDATE"
 	determine_current_version "$CANDIDATE"
 	FRAGMENT=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/list?current=$CURRENT&installed=$CSV")
@@ -196,6 +201,8 @@ function gvm-list {
 function gvm-uninstall {
 	CANDIDATE="$1"
 	VERSION="$2"
+	check_candidate_present "$CANDIDATE"
+	check_version_present "$VERSION"
 	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
 	if [ -h "$GVM_DIR/$CANDIDATE/current" -a "$VERSION" == "$CURRENT" ]; then
 		echo ""
