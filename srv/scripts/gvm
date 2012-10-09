@@ -78,10 +78,11 @@ function download {
 	VERSION="$2"
 	mkdir -p "$GVM_DIR/archives"
 	if [ ! -f "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" ]; then
+		DOWNLOAD_URL="$GVM_SERVICE/download/$CANDIDATE/$VERSION"
 		echo ""
 		echo "Downloading: $CANDIDATE $VERSION from: $DOWNLOAD_URL"
 		echo ""
-		curl -L "$GVM_SERVICE/download/$CANDIDATE/$VERSION" > "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
+		curl -L "$DOWNLOAD_URL" > "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
 	else
 		echo ""
 		echo "Found a previously downloaded $CANDIDATE $VERSION archive."
