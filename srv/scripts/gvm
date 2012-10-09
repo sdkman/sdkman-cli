@@ -35,7 +35,7 @@ function determine_candidate_version {
 
 	if [ "$VERSION" == "invalid" ]; then
 		echo ""
-		echo "Stop! $1 is not a valid grails version."
+		echo "Stop! $1 is not a valid $CANDIDATE version."
 		exit 0
 	fi
 }

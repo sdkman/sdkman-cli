@@ -41,13 +41,13 @@ rm.get("/candidates/:candidate") { req ->
 	def candidate = req.params['candidate']
 	def versions = buildCsv(candidates[candidate])?.toString()
 	addPlainTextHeader req
-    req.response.end (versions ?: "")
+    req.response.end (versions ?: "invalid")
 }
 
 rm.get("/candidates/:candidate/default") { req ->
 	def candidate = req.params['candidate']
 	addPlainTextHeader req
-	req.response.end defaults[candidate]
+	req.response.end (defaults[candidate] ?: "")
 }
 
 rm.get("/candidates/:candidate/list") { req ->
