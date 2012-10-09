@@ -18,6 +18,14 @@ function help {
 	echo "eg: gvm install grails 2.1.0"
 }
 
+function check_candidate_present {
+	if [ -z "$1" ]; then
+		echo -e "\nNo candidate provided."
+		help
+		exit 0
+	fi
+}
+
 function determine_candidate_version {
 	if [ -z "$1" ]; then
 		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/default")
@@ -141,6 +149,7 @@ fi
 
 function gvm-install {
 	CANDIDATE="$1"
+	check_candidate_present "$CANDIDATE"
 	determine_candidate_version "$2"
 	check_installed
 
