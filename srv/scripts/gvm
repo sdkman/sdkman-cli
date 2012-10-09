@@ -47,18 +47,8 @@ function check_not_installed {
 	fi
 }
 
-function check_candidate_present {
-	if [ ! -d "$GVM_DIR/$CANDIDATE" ]; then
-		echo ""
-		echo "Stop! $CANDIDATE has never been installed."
-		exit 0
-	fi
-}
-
 function build_version_csv {
 	CANDIDATE="$1"
-	check_candidate_present "$CANDIDATE"
-
 	CSV=""
 	for version in $(ls -1 $GVM_DIR/$CANDIDATE); do
 		if [ $version != 'current' ]; then

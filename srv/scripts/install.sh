@@ -126,6 +126,12 @@ curl -s "$GVM_SERVICE/res/gvm" > "$HOME/.gvm/bin/gvm"
 chmod +x "$HOME/.gvm/bin/gvm-init.sh"
 chmod +x "$HOME/.gvm/bin/gvm"
 
+echo "Creating candidate directories..."
+mkdir -p "$HOME/.gvm/groovy"
+mkdir -p "$HOME/.gvm/grails"
+mkdir -p "$HOME/.gvm/griffon"
+mkdir -p "$HOME/.gvm/gradle"
+
 echo "Attempting to update bash profile..."
 
 SNIPPET='[[ -s "$HOME/.gvm/bin/gvm-init.sh" ]] && source "$HOME/.gvm/bin/gvm-init.sh"'
