@@ -15,8 +15,9 @@ Supported platforms are:
 
 *   Linux
 *   Mac OSX
-*   FreeBSD
 *   Cygwin
+*   Solaris
+*   FreeBSD
 
 GVM only depends on bash, curl and unzip to be present on your system. The installer will check for these before completing the installation process.
 
@@ -39,11 +40,11 @@ All GVM's tests are written in Cucumber and can be found under *src/test/cucumbe
 
     ./build.sh
 
-Do not run Gradle directly! Doing so will delete your local GVM installation (with all installed candidates) on teardown of the tests.
+__Do not run Gradle directly! Doing so will delete your local GVM installation (with all installed candidates) on teardown of the tests.__
 
 ## Running the Server locally
 
-Ensure that you have verx installed and set up on your path. To start up the server locally, simply enter:
+Ensure that you have vertx installed and set up on your path. To start up the server locally, simply enter:
 
     ./run.sh
 
