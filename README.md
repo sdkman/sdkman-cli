@@ -29,7 +29,7 @@ The server will use MongoDB for persistence and gathering of usage statistics.
 
 Open your favourite terminal and enter the following:
 
-    curl -s beta.freshgroovy.org | bash
+    curl -s beta.gvmtool.net | bash
 
 If the environment needs tweaking for GVM to be installed, the installer will prompt you accordingly and ask you to restart.
 

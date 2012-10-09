@@ -94,7 +94,7 @@ function download {
 function server_down {
 	echo "------------------------------------------"
 	echo "   This is serious! Service is down!      "
-	echo " Please notify: @freshgroovy immediately! "
+	echo " Please notify: @gvmtool immediately! "
 	echo "------------------------------------------"
 	exit 0
 }

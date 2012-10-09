@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GVM_SERVICE="http://beta.freshgroovy.org"
+GVM_SERVICE="http://beta.gvmtool.net"
 
 echo '                                                                     '
 echo 'Thanks for using                                                     '
