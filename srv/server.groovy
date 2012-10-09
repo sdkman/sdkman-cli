@@ -9,8 +9,8 @@ def candidates = [grails:grails]
 //def defaults = [grails:'2.1.1', groovy:'2.0.2', griffon:'1.0.2']
 def defaults = [grails:'2.1.1']
 
-def gvmVersion = '0.3'
-def serverVersion = '0.1'
+def gvmVersion = '0.4'
+def serverVersion = '0.2'
 def vertxVersion = '1.2.3.final'
 
 def templateEngine = new SimpleTemplateEngine()

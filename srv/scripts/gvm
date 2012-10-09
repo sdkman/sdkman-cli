@@ -1,5 +1,5 @@
 #!/bin/bash
-GVM_VERSION="0.3"
+GVM_VERSION="0.4"
 echo "Groovy enVironment Manager $GVM_VERSION"
 
 #
