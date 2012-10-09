@@ -7,6 +7,7 @@ echo "Groovy enVironment Manager $GVM_VERSION"
 #
 
 function help {
+	CANDIDATES=$(curl -s "$GVM_SERVICE/candidates")
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
@@ -117,22 +118,20 @@ else
 	server_down
 fi
 
-CANDIDATES=$(curl -s "$GVM_SERVICE/candidates")
 if [ "$1" == "help" -o -z "$1" ]; then
 	help
 	exit 0
 fi
 
 if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list" -a "$1" != "help" -a "$1" != "selfupdate" ]; then
-	echo "Invalid command: $1"
+	echo -e "\nInvalid command: $1"
 	help
 	exit 0
 fi
 
 CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidates/$2")
 if [ "$CANDIDATE_VALID" == 'invalid' ]; then
-	echo "Invalid candidate: $2"
-	help
+	echo -e "\nStop! $2 is not a valid candidate."
 	exit 0
 fi
 
