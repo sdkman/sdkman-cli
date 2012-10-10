@@ -2,11 +2,7 @@ import groovy.text.SimpleTemplateEngine
 import org.vertx.groovy.core.http.RouteMatcher
 
 def grails = ['1.3.7','1.3.8','1.3.9','2.0.0','2.0.1','2.0.2','2.0.3','2.0.4','2.1.0','2.1.1']
-def groovy = ['1.8.8','2.0.0','2.0.1','2.0.2']
-def griffon = ['1.0.0','1.0.1','1.0.2']
-//def candidates = [grails:grails, groovy:groovy, griffon:griffon]
 def candidates = [grails:grails]
-//def defaults = [grails:'2.1.1', groovy:'2.0.2', griffon:'1.0.2']
 def defaults = [grails:'2.1.1']
 
 def gvmVersion = '0.4'
