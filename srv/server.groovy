@@ -93,14 +93,14 @@ rm.get("/app/alive/:version") { req ->
 	req.response.end template.toString()
 }
 
-private addPlainTextHeader(req){
-	req.response.putHeader("Content-Type", "text/plain")
-}
-
 def port = System.getenv('PORT') ?: 8080
 def host = System.getenv('PORT') ? '0.0.0.0' : 'localhost'
 println "Starting vertx on $host:$port"
 vertx.createHttpServer().requestHandler(rm.asClosure()).listen(port as int, host)
+
+private addPlainTextHeader(req){
+	req.response.putHeader("Content-Type", "text/plain")
+}
 
 private buildCsv(list){
 	if(!list) return ""
