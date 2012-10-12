@@ -126,7 +126,7 @@ private buildCsv(list){
 	csv[0..-2]	
 }
 
-private log(command, candidate="", version="", req){
+private log(command, candidate, version, req){
 	def date = new Date().toString()
 	def host = req.headers['x-forwarded-for']
 	def agent = req.headers['user-agent']
