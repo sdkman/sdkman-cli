@@ -9,6 +9,10 @@ def gvmVersion = '0.4'
 def serverVersion = '0.2'
 def vertxVersion = '1.2.3.final'
 
+final MONGO = "mongo-persistor"
+def config = [address: MONGO, db_name: 'gvm']
+container.deployModule("vertx.mongo-persistor-v1.1", config)
+
 def templateEngine = new SimpleTemplateEngine()
 
 def rm = new RouteMatcher()
