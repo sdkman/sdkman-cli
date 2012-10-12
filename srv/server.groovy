@@ -1,5 +1,6 @@
 import groovy.text.SimpleTemplateEngine
 import org.vertx.groovy.core.http.RouteMatcher
+import org.vertx.java.core.json.JsonObject
 
 def grails = ['1.3.7','1.3.8','1.3.9','2.0.0','2.0.1','2.0.2','2.0.3','2.0.4','2.1.0','2.1.1']
 def candidates = [grails:grails]
@@ -9,9 +10,14 @@ def gvmVersion = '0.4'
 def serverVersion = '0.2'
 def vertxVersion = '1.2.3.final'
 
-final MONGO = "mongo-persistor"
-def config = [address: MONGO, db_name: 'gvm']
-container.deployModule("vertx.mongo-persistor-v1.1", config)
+def config
+def mongoJson = new File('srv/mongo.json')
+if(mongoJson.exists()){
+	config = new JsonObject(mongoJson.text).toMap()
+} else {
+	config = [address: 'mongo-persistor', db_name: 'gvm']
+}
+container.deployModule('vertx.mongo-persistor-v1.1', config)
 
 def templateEngine = new SimpleTemplateEngine()
 
