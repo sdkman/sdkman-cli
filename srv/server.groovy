@@ -128,7 +128,8 @@ private buildCsv(list){
 
 private log(command, candidate="", version="", req){
 	def date = new Date().toString()
-	def host = req.headers.host
+	def host = req.headers['x-forwarded-for']
+	def agent = req.headers['user-agent']
 	def platform = req.params['platform']
 
 	def document = [
@@ -136,6 +137,7 @@ private log(command, candidate="", version="", req){
 		candidate:candidate,
 		version:version,
 		host:host,
+		agent:agent,
 		platform:platform,
 		date:date
 	]
