@@ -1,6 +1,7 @@
 #!/bin/bash
 GVM_VERSION="0.4"
 echo "Groovy enVironment Manager $GVM_VERSION"
+PLATFORM=$(uname)
 
 #
 # function definitions
@@ -88,7 +89,7 @@ function download {
 		echo ""
 		echo "Downloading: $CANDIDATE $VERSION" 
 		echo ""
-		DOWNLOAD_URL="$GVM_SERVICE/download/$CANDIDATE/$VERSION"
+		DOWNLOAD_URL="$GVM_SERVICE/download/$CANDIDATE/$VERSION?platform=$PLATFORM"
 		curl -L "$DOWNLOAD_URL" > "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
 	else
 		echo ""
@@ -194,7 +195,7 @@ function gvm-list {
 	check_candidate_present "$CANDIDATE"
 	build_version_csv "$CANDIDATE"
 	determine_current_version "$CANDIDATE"
-	FRAGMENT=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/list?current=$CURRENT&installed=$CSV")
+	FRAGMENT=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/list?platform=$PLATFORM&current=$CURRENT&installed=$CSV")
 	echo "$FRAGMENT"
 }
 
@@ -221,7 +222,7 @@ function gvm-uninstall {
 function gvm-selfupdate {
 	mkdir -p "$GVM_DIR/bin"
 
-	curl -s "$GVM_SERVICE/res/init" > "$GVM_DIR/bin/gvm-init.sh"
+	curl -s "$GVM_SERVICE/res/init?platform=$PLATFORM" > "$GVM_DIR/bin/gvm-init.sh"
 	curl -s "$GVM_SERVICE/res/gvm" > "$GVM_DIR/bin/gvm"
 
 	chmod +x "$GVM_DIR/bin/gvm-init.sh"

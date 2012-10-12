@@ -23,8 +23,9 @@ rm.get("/") { req ->
 }
 
 rm.get("/res/init") { req ->
+	log 'init', 'n/a', 'n/a', req
 	addPlainTextHeader req
-	req.response.sendFile('srv/scripts/gvm-init.sh')
+	req.response.sendFile 'srv/scripts/gvm-init.sh'
 }
 
 rm.get("/res/gvm") { req ->
@@ -54,9 +55,12 @@ rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current']
 	def installed = req.params['installed']
+
 	def gtplFile = new File('srv/templates/list.gtpl')
 	def binding = [candidate:candidate, available:grails, current:current, installed:installed]
 	def template = templateEngine.createTemplate(gtplFile).make(binding)
+
+	log 'list', candidate, installed, req
 	addPlainTextHeader req
 	req.response.end template.toString()
 }
@@ -72,6 +76,9 @@ rm.get("/candidates/:candidate/:version") { req ->
 rm.get("/download/:candidate/:version") { req ->
 	def candidate = req.params['candidate']
 	def version = req.params['version']
+
+	log 'install', candidate, version, req
+
 	req.response.headers['Location'] = "http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/${candidate}-${version}.zip"
 	req.response.statusCode = 302
 	req.response.end()
@@ -111,4 +118,23 @@ private buildCsv(list){
 	def csv = ''
 	list.each { csv += "$it," }
 	csv[0..-2]	
+}
+
+private log(command, candidate="", version="", req){
+	def date = new Date().toString()
+	def host = req.headers.host
+	def platform = req.params['platform']
+
+	def document = [
+		command:command,
+		candidate:candidate,
+		version:version,
+		host:host,
+		platform:platform,
+		date:date
+	]
+
+	def cmd = [action:'save', collection:'audit', document:document] 
+
+	vertx.eventBus.send 'mongo-persistor', cmd
 }

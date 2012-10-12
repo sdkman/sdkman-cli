@@ -1,6 +1,7 @@
 #!/bin/bash
 
-GVM_SERVICE="http://beta.gvmtool.net"
+GVM_SERVICE="http://localhost:8080"
+PLATFORM=$(uname)
 
 echo '                                                                     '
 echo 'Thanks for using                                                     '
@@ -121,7 +122,7 @@ fi
 
 echo "Installing gvm scripts..."
 mkdir -p "$HOME/.gvm/bin"
-curl -s "$GVM_SERVICE/res/init" > "$HOME/.gvm/bin/gvm-init.sh"
+curl -s "$GVM_SERVICE/res/init?platform=$PLATFORM" > "$HOME/.gvm/bin/gvm-init.sh"
 curl -s "$GVM_SERVICE/res/gvm" > "$HOME/.gvm/bin/gvm"
 chmod +x "$HOME/.gvm/bin/gvm-init.sh"
 chmod +x "$HOME/.gvm/bin/gvm"
