@@ -52,14 +52,18 @@ rm.get("/candidates/:candidate") { req ->
 	def candidate = req.params['candidate']
 	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate], keys:["versions":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		addPlainTextHeader req
+		def response
 		if(msg.body.results.versions){
 			def versions = msg.body.results.versions.collect { it.version }
 			def versionsCsv = buildCsv(versions[0])?.toString()
-			req.response.end (versionsCsv)
+			response = versionsCsv
+
 		} else {
-			req.response.end ("invalid")
+			response = "invalid"
 		}
+
+		addPlainTextHeader req
+		req.response.end response
 	}
 }
 
