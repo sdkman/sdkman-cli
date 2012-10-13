@@ -65,8 +65,12 @@ rm.get("/candidates/:candidate") { req ->
 
 rm.get("/candidates/:candidate/default") { req ->
 	def candidate = req.params['candidate']
-	addPlainTextHeader req
-	req.response.end (defaults[candidate] ?: "")
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate], keys:["default":1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		addPlainTextHeader req
+		def defaultVersion = msg.body.results.default
+		req.response.end (defaultVersion ?: "")
+	}
 }
 
 rm.get("/candidates/:candidate/list") { req ->
