@@ -40,7 +40,7 @@ rm.get("/res/gvm") { req ->
 }
 
 rm.get("/candidates") { req ->
-	def cmd = [action:"find", collection:"candidates", matcher:[:], keys:[candidate:1, "_id":0]]
+	def cmd = [action:"find", collection:"candidates", matcher:[:], keys:[candidate:1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def cand = msg.body.results.collect { it.candidate }
 		addPlainTextHeader req
@@ -50,9 +50,17 @@ rm.get("/candidates") { req ->
 
 rm.get("/candidates/:candidate") { req ->
 	def candidate = req.params['candidate']
-	def versions = buildCsv(candidates[candidate])?.toString()
-	addPlainTextHeader req
-    req.response.end (versions ?: "invalid")
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate], keys:["versions":1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		addPlainTextHeader req
+		if(msg.body.results.versions){
+			def versions = msg.body.results.versions.collect { it.version }
+			def versionsCsv = buildCsv(versions[0])?.toString()
+			req.response.end (versionsCsv)
+		} else {
+			req.response.end ("invalid")
+		}
+	}
 }
 
 rm.get("/candidates/:candidate/default") { req ->
