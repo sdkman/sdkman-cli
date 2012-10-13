@@ -40,8 +40,12 @@ rm.get("/res/gvm") { req ->
 }
 
 rm.get("/candidates") { req ->
-	addPlainTextHeader req
-	req.response.end buildCsv(candidates.keySet())
+	def cmd = [action:"find", collection:"candidates", matcher:[:], keys:[candidate:1, "_id":0]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		def cand = msg.body.results.collect { it.candidate }
+		addPlainTextHeader req
+		req.response.end buildCsv(cand)
+	}
 }
 
 rm.get("/candidates/:candidate") { req ->
