@@ -193,6 +193,7 @@ function gvm-use {
 
 function gvm-current {
 	CANDIDATE="$1"
+	check_candidate_present "$CANDIDATE"
 	determine_current_version "$CANDIDATE"
 	if [ -n "$CURRENT" ]; then
 		echo Using "$CANDIDATE" version "$CURRENT"
