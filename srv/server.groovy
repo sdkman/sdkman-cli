@@ -50,12 +50,12 @@ rm.get("/candidates") { req ->
 
 rm.get("/candidates/:candidate") { req ->
 	def candidate = req.params['candidate']
-	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate], keys:["versions":1]]
+	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def response
-		if(msg.body.results.versions){
-			def versions = msg.body.results.versions.collect { it.version }
-			def versionsCsv = buildCsv(versions[0])?.toString()
+		if(msg.body.results){
+			def versions = msg.body.results.collect { it.version }
+			def versionsCsv = buildCsv(versions)?.toString()
 			response = versionsCsv
 
 		} else {
@@ -94,11 +94,10 @@ rm.get("/candidates/:candidate/list") { req ->
 rm.get("/candidates/:candidate/:version") { req ->
 	def candidate = req.params['candidate']
 	def version = req.params['version']
-	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version], keys:["_id":1]]
+	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate, version:version]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		addPlainTextHeader req
-		def found = msg.body.results['_id']
-		if(found) {
+		if(msg.body.results) {
 			req.response.end 'valid'
 		} else {
 			req.response.end 'invalid'
@@ -112,9 +111,12 @@ rm.get("/download/:candidate/:version") { req ->
 
 	log 'install', candidate, version, req
 
-	req.response.headers['Location'] = "http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/${candidate}-${version}.zip"
-	req.response.statusCode = 302
-	req.response.end()
+	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate, version:version], keys:["url":1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		req.response.headers['Location'] = msg.body.results.url.first()
+		req.response.statusCode = 302
+		req.response.end()
+	}
 }
 
 rm.get("/app/version") { req ->
