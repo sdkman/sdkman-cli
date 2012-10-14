@@ -119,7 +119,7 @@ rm.get("/download/:candidate/:version") { req ->
 
 rm.get("/app/version") { req ->
 	addPlainTextHeader req
-	req.response.end '0.1'
+	req.response.end gvmVersion
 }
 
 rm.get("/app/alive/:version") { req ->
