@@ -70,8 +70,8 @@ class VertxUtils {
 		rm.get("/candidates/:candidate/:version") { req ->
 			def candidate = req.params['candidate']
 			def version = req.params['version']
-			def found = (candidates[candidate].find { it == version}) ? version : 'invalid'
-			req.response.end found
+			def versionValid = (candidates[candidate].find { it == version}) ? 'valid' : 'invalid'
+			req.response.end versionValid
 		}
 
 		rm.get("/download/:candidate/:version") { req ->

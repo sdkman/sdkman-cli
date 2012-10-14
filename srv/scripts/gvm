@@ -39,13 +39,14 @@ function determine_candidate_version {
 	if [ -z "$1" ]; then
 		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/default")
 	else
-		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/$1")
-	fi
-
-	if [ "$VERSION" == "invalid" ]; then
-		echo ""
-		echo "Stop! $1 is not a valid $CANDIDATE version."
-		exit 0
+		VERSION_VALID=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/$1")
+		if [ $VERSION_VALID == 'valid' ]; then
+			VERSION="$1"
+		else
+			echo ""
+			echo "Stop! $1 is not a valid $CANDIDATE version."
+			exit 0
+		fi
 	fi
 }
 

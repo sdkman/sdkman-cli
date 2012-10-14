@@ -94,9 +94,16 @@ rm.get("/candidates/:candidate/list") { req ->
 rm.get("/candidates/:candidate/:version") { req ->
 	def candidate = req.params['candidate']
 	def version = req.params['version']
-	def found = (candidates[candidate].find { it == version}) ? version : 'invalid'
-	addPlainTextHeader req
-    req.response.end found
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version], keys:["_id":1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		addPlainTextHeader req
+		def found = msg.body.results['_id']
+		if(found) {
+			req.response.end 'valid'
+		} else {
+			req.response.end 'invalid'
+		}
+	}
 }
 
 rm.get("/download/:candidate/:version") { req ->
