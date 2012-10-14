@@ -12,7 +12,7 @@ function help {
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
-	echo "   command    :  install, uninstall, list, use, selfupdate or help"
+	echo "   command    :  install, uninstall, list, use, current, selfupdate or help"
 	echo "   candidate  :  $CANDIDATES"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
@@ -141,7 +141,7 @@ if [ "$1" == "help" -o -z "$1" ]; then
 	exit 0
 fi
 
-if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list" -a "$1" != "help" -a "$1" != "selfupdate" ]; then
+if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list" -a "$1" != "current" -a "$1" != "help" -a "$1" != "selfupdate" ]; then
 	echo -e "\nInvalid command: $1"
 	help
 	exit 0
@@ -189,6 +189,16 @@ function gvm-use {
 	ln -s "$GVM_DIR/$CANDIDATE/$VERSION" "$GVM_DIR/$CANDIDATE/current"
 	echo ""
 	echo Using "$CANDIDATE" version "$VERSION"
+}
+
+function gvm-current {
+	CANDIDATE="$1"
+	determine_current_version "$CANDIDATE"
+	if [ -n "$CURRENT" ]; then
+		echo Using "$CANDIDATE" version "$CURRENT"
+	else
+		echo Not using any version of "$CANDIDATE"
+	fi
 }
 
 function gvm-list {
