@@ -132,7 +132,7 @@ rm.get("/app/alive/:version") { req ->
 	def gtpFile, binding
 	if(gvmVersion == version){
 		gtplFile = new File('srv/templates/broadcast.gtpl')
-		binding = [server:serverVersion, vertx:vertxVersion]
+		binding = [gvmVersion:gvmVersion, vertx:vertxVersion]
 	} else {
 		gtplFile = new File('srv/templates/upgrade.gtpl')
 		binding = [gvmVersion:gvmVersion, version:version]

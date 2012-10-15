@@ -1,4 +1,4 @@
-GVM server ${server} on vertx ${vertx}
+GVM server ${gvmVersion} on vertx ${vertx}
 
 === BROADCAST ==========================================
 This application is currently in beta.
