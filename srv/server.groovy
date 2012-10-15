@@ -81,14 +81,16 @@ rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current']
 	def installed = req.params['installed']
-
 	def gtplFile = new File('srv/templates/list.gtpl')
-	def binding = [candidate:candidate, available:grails, current:current, installed:installed]
-	def template = templateEngine.createTemplate(gtplFile).make(binding)
 
-	log 'list', candidate, installed, req
-	addPlainTextHeader req
-	req.response.end template.toString()
+	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		def available = msg.body.results.collect { it.version }
+		def binding = [candidate:candidate, available:available, current:current, installed:installed]
+		def template = templateEngine.createTemplate(gtplFile).make(binding)
+		addPlainTextHeader req
+		req.response.end template.toString()
+	}
 }
 
 rm.get("/candidates/:candidate/:version") { req ->
@@ -156,7 +158,7 @@ private buildCsv(list){
 }
 
 private log(command, candidate, version, req){
-	def date = new Date().toString()
+	def date = new Date()
 	def host = req.headers['x-forwarded-for']
 	def agent = req.headers['user-agent']
 	def platform = req.params['platform']
