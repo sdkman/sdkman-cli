@@ -2,7 +2,7 @@ Feature: Use Candidate
 
 	Scenario: Use a version of an installed candidate that exists
 		Given the candidate "grails" version "2.1.0" is already installed
-		Given the candidate "grails" version "1.3.9" is already installed
+		And the candidate "grails" version "1.3.9" is already installed
 		And the candidate "grails" version "1.3.9" is in use
 		When I enter "gvm use grails 2.1.0"
 		Then the candidate "grails" version "2.1.0" should be in use
