@@ -1,5 +1,5 @@
 #!/bin/bash
-GVM_VERSION="0.5"
+GVM_VERSION="0.6"
 echo "Groovy enVironment Manager $GVM_VERSION"
 PLATFORM=$(uname)
 
@@ -168,7 +168,7 @@ function gvm-install {
 
 	mkdir -p "$GVM_DIR/$CANDIDATE"
 
-	unzip -q "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" -d "/tmp/"
+	unzip -oq "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" -d "/tmp/"
 	mv "/tmp/$CANDIDATE-$VERSION" "$GVM_DIR/$CANDIDATE/$VERSION"
 	echo "Done installing!"
 	echo ""
