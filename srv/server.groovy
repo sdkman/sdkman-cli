@@ -149,8 +149,8 @@ private addPlainTextHeader(req){
 private buildCsv(list){
 	if(!list) return ""
 	def csv = ''
-	list.each { csv += "$it," }
-	csv[0..-2]	
+	list.each { csv += "$it, " }
+	csv[0..-3]	
 }
 
 private log(command, candidate, version, req){
