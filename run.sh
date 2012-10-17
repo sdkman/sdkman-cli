@@ -9,4 +9,5 @@ if [ -z $(which vertx) ]; then
 	exit 0
 fi
 
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.7.0.jdk/Contents/Home"
 vertx run srv/server.groovy
