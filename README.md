@@ -2,6 +2,8 @@
 
 GVM is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
 
+See documentation on http://gvmtool.net/
+
 Candidates that will initially be supported are:
 
 *   Groovy
