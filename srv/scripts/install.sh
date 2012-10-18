@@ -173,7 +173,6 @@ else
 fi
 
 if [ ! -f "$ZSHRC" ]; then
-	echo "#!/bin/bash" > "$ZSHRC"
 	echo "$SNIPPET" >> "$ZSHRC"
 	echo "Created and initialised $ZSHRC"
 else
