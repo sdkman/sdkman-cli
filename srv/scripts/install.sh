@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GVM_SERVICE="http://beta.gvmtool.net"
+GVM_SERVICE="http://get.gvmtool.net"
 PLATFORM=$(uname)
 
 echo '                                                                     '
