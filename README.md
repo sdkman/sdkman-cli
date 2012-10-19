@@ -2,37 +2,17 @@
 
 GVM is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
 
-See documentation on http://gvmtool.net/
+See documentation on the [GVM Project Page](http://gvmtool.net).
 
-Candidates that will initially be supported are:
+Please report any bugs and feature request on the [GitHub Issue Tracker](https://github.com/gvmtool/gvm/issues).
 
-*   Groovy
-*   Grails
-*   Griffon
-*   Gradle
-
-The beta version will only be providing Grails for the sake of simplicity.
-
-Supported platforms are:
-
-*   Linux
-*   Mac OSX
-*   Cygwin
-*   Solaris
-*   FreeBSD
-
-GVM only depends on bash, curl and unzip to be present on your system. The installer will check for these before completing the installation process.
-
-GVM also has a server-side component written with vertx enabling it's dynamic behavior. New available candidates and versions can be added to GVM without the need for re-installation. It also facilitates easy installation and upgrade of the client-side components. As well as a facility for live notifications. 
-
-The server will use MongoDB for persistence and gathering of usage statistics.
-
+Questions and disccusion at the [Nabble Forum](http://forum.gvmtool.net).
 
 ## Installation
 
 Open your favourite terminal and enter the following:
 
-    curl -s beta.gvmtool.net | bash
+    curl -s get.gvmtool.net | sh
 
 If the environment needs tweaking for GVM to be installed, the installer will prompt you accordingly and ask you to restart.
 
@@ -51,4 +31,9 @@ Ensure that you have vertx installed and set up on your path. To start up the se
     ./run.sh
 
 This will start the server on localhost:8080
+
+To make your GVM installation work with your local server, edit the GVM_SERVICE variable in the `~/.gvm/bin/gvm-init.sh` file as follows:
+
+    export GVM_SERVICE="http://localhost:8080"
+
 
