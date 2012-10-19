@@ -18,7 +18,7 @@ If the environment needs tweaking for GVM to be installed, the installer will pr
 
 ## Running the Cucumber Features
 
-All GVM's tests are written in Cucumber and can be found under *src/test/cucumber/gvm*. These can be run with Gradle by running the following command:
+All GVM's tests are written in Cucumber and can be found under `src/test/cucumber/gvm`. These can be run with Gradle by running the following command:
 
     ./build.sh
 
