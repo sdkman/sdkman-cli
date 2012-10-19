@@ -2,7 +2,7 @@ import groovy.text.SimpleTemplateEngine
 import org.vertx.groovy.core.http.RouteMatcher
 import org.vertx.java.core.json.JsonObject
 
-def gvmVersion = '0.6'
+def gvmVersion = '0.7'
 def vertxVersion = '1.2.3.final'
 
 def config
