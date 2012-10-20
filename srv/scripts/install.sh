@@ -157,7 +157,13 @@ mkdir -p "$HOME/.gvm/gradle"
 
 echo "Attempting to update bash profile..."
 
-SNIPPET='[[ -s "$HOME/.gvm/bin/gvm-init.sh" ]] && source "$HOME/.gvm/bin/gvm-init.sh"'
+
+SNIPPET=$( cat << EOF
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "$HOME/.gvm/bin/gvm-init.sh" ]] && source "$HOME/.gvm/bin/gvm-init.sh"
+EOF
+)
+
 BASH_PROFILE="$HOME/.bash_profile"
 PROFILE="$HOME/.profile"
 BASHRC="$HOME/.bashrc"
