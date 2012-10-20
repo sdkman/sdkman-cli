@@ -12,7 +12,7 @@ Questions and disccusion at the [Nabble Forum](http://forum.gvmtool.net).
 
 Open your favourite terminal and enter the following:
 
-    curl -s get.gvmtool.net | sh
+    curl -s get.gvmtool.net | bash
 
 If the environment needs tweaking for GVM to be installed, the installer will prompt you accordingly and ask you to restart.
 
