@@ -72,37 +72,6 @@ if [ ! -f "$JAVA_HOME/bin/java" ]; then
 	exit 0	
 fi
 
-echo "Checking for previous versions of Grails..."
-if [ ! -z "$GRAILS_HOME" ]; then
-	echo "GRAILS_HOME found."
-	echo ""
-	echo "======================================================================================================"
-	echo " You already have a GRAILS_HOME defined. This will cause problems with GVM."
-	echo " GRAILS_HOME is currently pointing to:"
-	echo ""
-	echo "  $GRAILS_HOME"
-	echo ""
-	echo " Please remove it from your PATH and restart."
-	echo "======================================================================================================"
-	echo ""
-	exit 0
-fi
-
-if [ ! -z $(which grails) ]; then
-	echo "Grails found."
-	echo ""
-	echo "======================================================================================================"
-	echo " You already have Grails installed. This will cause problems with GVM."
-	echo " Grails was found at:"
-	echo ""
-	echo " $(which grails)"
-	echo ""
-	echo " Please remove it from your PATH and restart."
-	echo "======================================================================================================"
-	echo ""
-	exit 0
-fi
-
 echo "Looking for zip..."
 if [ -z $(which zip) ]; then
 	echo "Not found."
