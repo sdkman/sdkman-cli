@@ -19,6 +19,25 @@ echo '                                                                     '
 echo '                                       Will now attempt installing...'
 echo '                                                                     '
 
+echo "Looking for a previous installation of GVM..."
+if [ -d "$HOME/.gvm" ]; then
+	echo "GVM found."
+	echo ""
+	echo "======================================================================================================"
+	echo " You already have GVM installed."
+	echo " GVM was found at:"
+	echo ""
+	echo "    $HOME/.gvm"
+	echo ""
+	echo " Please consider running the following if you need to upgrade."
+	echo ""
+	echo "    $ gvm selfupdate"
+	echo ""
+	echo "======================================================================================================"
+	echo ""
+	exit 0
+fi
+
 echo "Looking for JAVA_HOME..."
 if [ -z "$JAVA_HOME" ]; then
 	echo "Not found."
