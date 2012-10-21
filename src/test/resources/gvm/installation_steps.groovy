@@ -1,5 +1,6 @@
 import static cucumber.runtime.groovy.EN.*
 import cucumber.runtime.PendingException
+import java.util.zip.*
 
 scriptPath = 'srv/scripts'
 gvmDir = new File(System.getenv('GVM_DIR'))
@@ -22,4 +23,19 @@ When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed$') { Stri
     proc.waitFor()
     def result = "${proc.in.text}"
     assert result.contains("Done installing!")
+}
+
+When(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { String candidate, String version ->
+	try {
+		new ZipFile(new File("src/test/resources/${candidate}-${version}.zip"))
+		assert false, "Archive was not corrupt!"
+
+	} catch (ZipException ze){
+		//expected behaviour
+	}
+}
+
+Then(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { String candidate, String version ->
+	def archive = new File("${gvmDir}/archives/${candidate}-${version}.zip")
+	assert ! archive.exists()
 }

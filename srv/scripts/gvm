@@ -91,13 +91,26 @@ function download {
 		echo "Downloading: $CANDIDATE $VERSION" 
 		echo ""
 		DOWNLOAD_URL="$GVM_SERVICE/download/$CANDIDATE/$VERSION?platform=$PLATFORM"
-		curl -L "$DOWNLOAD_URL" > "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
+		ZIP_ARCHIVE="$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
+		curl -L "$DOWNLOAD_URL" > "$ZIP_ARCHIVE"
+		validate_zip "$ZIP_ARCHIVE"
 	else
 		echo ""
-		echo "Found a previously downloaded $CANDIDATE $VERSION archive."
-		echo "Not downloading it again..."
+		echo "Found a previously downloaded $CANDIDATE $VERSION archive. Not downloading it again..."
+		validate_zip "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
 	fi
 	echo ""
+}
+
+function validate_zip {
+	ZIP_ARCHIVE="$1"
+	ZIP_OK=$(zip -T "$ZIP_ARCHIVE" | grep 'OK')
+	if [ -z "$ZIP_OK" ]; then
+		rm "$ZIP_ARCHIVE"
+		echo ""
+		echo "Stop! The archive was corrupt and has been removed! Please try installing again."
+		exit 0
+	fi
 }
 
 function server_down {

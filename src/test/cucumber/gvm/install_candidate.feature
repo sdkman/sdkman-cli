@@ -19,3 +19,11 @@ Feature: Install Candidate
 		Given the candidate "grails" version "1.3.9" is already installed
 		When I enter "gvm install grails 1.3.9"
 		Then I see "Stop! grails 1.3.9 is already installed."
+
+	Scenario: Abort installation on download of a corrupt Candidate archive
+		Given the archive for candidate "grails" version "1.3.6" is corrupt
+		When I enter "gvm install grails 1.3.6"
+		Then I see "Stop! The download failed! Please try again."
+		And the candidate "grails" version "1.3.6" is not installed
+		And the archive for candidate "grails" version "1.3.6" is removed
+		
