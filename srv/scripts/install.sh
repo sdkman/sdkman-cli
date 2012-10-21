@@ -144,14 +144,14 @@ if [ ! -f "$BASH_PROFILE" -a ! -f "$PROFILE" ]; then
 	echo "Created and initialised $BASH_PROFILE"
 else
 	if [ -f "$BASH_PROFILE" ]; then
-		if [ -z "$(grep 'gvm-init.sh' $BASH_PROFILE)" ]; then
+		if [[ -z `grep 'gvm-init.sh' "$BASH_PROFILE"` ]]; then
 			echo -e "\n$SNIPPET" >> "$BASH_PROFILE"
 			echo "Updated existing $BASH_PROFILE"
 		fi
 	fi
 
 	if [ -f "$PROFILE" ]; then
-		if [ -z "$(grep 'gvm-init.sh' $PROFILE)" ]; then
+		if [[ -z `grep 'gvm-init.sh' "$PROFILE"` ]]; then
 			echo -e "\n$SNIPPET" >> "$PROFILE"
 			echo "Updated existing $PROFILE"
 		fi
@@ -163,7 +163,7 @@ if [ ! -f "$BASHRC" ]; then
 	echo "$SNIPPET" >> "$BASHRC"
 	echo "Created and initialised $BASHRC"
 else
-	if [ -z "$(grep 'gvm-init.sh' $BASHRC)" ]; then
+	if [[ -z `grep 'gvm-init.sh' "$BASHRC"` ]]; then
 		echo -e "\n$SNIPPET" >> "$BASHRC"
 		echo "Updated existing $BASHRC"
 	fi
@@ -173,7 +173,7 @@ if [ ! -f "$ZSHRC" ]; then
 	echo "$SNIPPET" >> "$ZSHRC"
 	echo "Created and initialised $ZSHRC"
 else
-	if [ -z "$(grep 'gvm-init.sh' $ZSHRC)" ]; then
+	if [[ -z `grep 'gvm-init.sh' "$ZSHRC"` ]]; then
 		echo -e "\n$SNIPPET" >> "$ZSHRC"
 		echo "Updated existing $ZSHRC"
 	fi
