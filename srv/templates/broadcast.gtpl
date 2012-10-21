@@ -1,1 +1,1 @@
-GVM server ${gvmVersion} on vertx ${vertx}
+GVM server ${gvmVersion} on vertx ${vertxVersion}

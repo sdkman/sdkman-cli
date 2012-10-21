@@ -90,7 +90,7 @@ class VertxUtils {
 			def gtplFile, binding
 			if(gvmVersion == version){
 				gtplFile = new File('srv/templates/broadcast.gtpl')
-				binding = [server:serverVersion, vertx:vertxVersion]
+				binding = [gvmVersion:gvmVersion, vertxVersion:vertxVersion]
 			} else {
 				gtplFile = new File('srv/templates/upgrade.gtpl')
 				binding = [version:version, gvmVersion:gvmVersion]
