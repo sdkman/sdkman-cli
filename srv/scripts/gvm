@@ -69,7 +69,7 @@ function check_not_installed {
 function build_version_csv {
 	CANDIDATE="$1"
 	CSV=""
-	for version in $(ls -1 $GVM_DIR/$CANDIDATE); do
+	for version in $(ls -1 "$GVM_DIR/$CANDIDATE"); do
 		if [ $version != 'current' ]; then
 			CSV="$version,$CSV"
 		fi
