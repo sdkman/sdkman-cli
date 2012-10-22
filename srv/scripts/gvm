@@ -1,6 +1,5 @@
 #!/bin/bash
 GVM_VERSION="0.8"
-echo "Groovy enVironment Manager $GVM_VERSION"
 PLATFORM=$(uname)
 
 #
@@ -12,7 +11,7 @@ function help {
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
-	echo "   command    :  install, uninstall, list, use, current, selfupdate or help"
+	echo "   command    :  install, uninstall, list, use, current, version, selfupdate or help"
 	echo "   candidate  :  $CANDIDATES"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
@@ -154,18 +153,6 @@ if [ "$1" == "help" -o -z "$1" ]; then
 	exit 0
 fi
 
-if [ "$1" != "install" -a "$1" != "use" -a "$1" != "uninstall" -a "$1" != "list" -a "$1" != "current" -a "$1" != "help" -a "$1" != "selfupdate" ]; then
-	echo -e "\nInvalid command: $1"
-	help
-	exit 0
-fi
-
-CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidates/$2")
-if [ "$CANDIDATE_VALID" == 'invalid' ]; then
-	echo -e "\nStop! $2 is not a valid candidate."
-	exit 0
-fi
-
 #
 # Command functions
 #
@@ -244,6 +231,10 @@ function gvm-uninstall {
 	fi
 }
 
+function gvm-version {
+	echo "Groovy enVironment Manager $GVM_VERSION"
+}
+
 function gvm-selfupdate {
 	mkdir -p "$GVM_DIR/bin"
 
@@ -257,6 +248,26 @@ function gvm-selfupdate {
 	echo "Successfully upgraded GVM."
 	echo ""
 }
+
+# INSERT NEW COMMANDS BEFORE HERE
+
+# Check whether the command exists
+
+CMD_TYPE=`type -t gvm-"$1"`
+
+if [ -z $CMD_TYPE ]; then
+	echo -e "\nInvalid command: $1"
+	help
+	exit 0
+fi
+
+# Check whether the candidate exists
+
+CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidates/$2")
+if [ "$CANDIDATE_VALID" == 'invalid' ]; then
+	echo -e "\nStop! $2 is not a valid candidate."
+	exit 0
+fi
 
 # Main command
 
