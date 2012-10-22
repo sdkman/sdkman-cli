@@ -23,7 +23,7 @@ Feature: Install Candidate
 	Scenario: Abort installation on download of a corrupt Candidate archive
 		Given the archive for candidate "grails" version "1.3.6" is corrupt
 		When I enter "gvm install grails 1.3.6"
-		Then I see "Stop! The download failed! Please try again."
+		Then I see "Stop! The archive was corrupt and has been removed! Please try installing again."
 		And the candidate "grails" version "1.3.6" is not installed
 		And the archive for candidate "grails" version "1.3.6" is removed
 		
