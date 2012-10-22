@@ -37,9 +37,9 @@ rm.get("/res/gvm") { req ->
 rm.get("/candidates") { req ->
 	def cmd = [action:"find", collection:"candidates", matcher:[:], keys:[candidate:1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		def cand = msg.body.results.collect { it.candidate }
+		def candidates = msg.body.results.collect(new TreeSet()) { it.candidate }
 		addPlainTextHeader req
-		req.response.end buildCsv(cand)
+		req.response.end candidates.join(',')
 	}
 }
 
@@ -49,9 +49,8 @@ rm.get("/candidates/:candidate") { req ->
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def response
 		if(msg.body.results){
-			def versions = msg.body.results.collect { it.version }
-			def versionsCsv = buildCsv(versions)?.toString()
-			response = versionsCsv
+			def versions = msg.body.results.collect(new TreeSet()) { it.version }
+			response = versions.join(',')
 
 		} else {
 			response = "invalid"
@@ -144,13 +143,6 @@ vertx.createHttpServer().requestHandler(rm.asClosure()).listen(port as int, host
 
 private addPlainTextHeader(req){
 	req.response.putHeader("Content-Type", "text/plain")
-}
-
-private buildCsv(list){
-	if(!list) return ""
-	def csv = ''
-	list.each { csv += "$it, " }
-	csv[0..-3]	
 }
 
 private log(command, candidate, version, req){

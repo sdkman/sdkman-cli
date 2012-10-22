@@ -47,7 +47,7 @@ class VertxUtils {
 
 		rm.get("/candidates/:candidate") { req ->
 			def candidate = req.params['candidate']
-			def versions = buildCsv(candidates[candidate])?.toString()
+			def versions = candidates[candidate]?.join(',')
 		    req.response.end (versions ?: "invalid")
 		}
 
@@ -103,13 +103,6 @@ class VertxUtils {
 		server.requestHandler(rm.asClosure())
 		server.listen(port, host)
 		server
-	}
-
-	private static buildCsv(list){
-		if(!list) return ""
-		def csv = ''
-		list.each { csv += "$it," }
-		csv[0..-2]	
 	}
 
 	public static stopServer(server){
