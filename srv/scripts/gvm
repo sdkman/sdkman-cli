@@ -141,11 +141,16 @@ if [ ! -d "$GVM_DIR" ]; then
 	mkdir "$GVM_DIR"
 fi
 
-BROADCAST=$(curl -s "$GVM_SERVICE/app/alive/$GVM_VERSION")
-if [ "$BROADCAST" ]; then
-	echo "$BROADCAST"
-else
-	server_down
+BROADCAST_FILE="$GVM_DIR/var/broadcast"
+if [ -f "$BROADCAST_FILE" ]; then
+	BROADCAST_HIST=$(cat "$BROADCAST_FILE")
+fi
+
+BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/app/alive/$GVM_VERSION")
+if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" && "$1" != "broadcast" ]]; then
+	echo "$BROADCAST_LIVE"
+	mkdir -p "$GVM_DIR/var"
+	echo "$BROADCAST_LIVE" > "$BROADCAST_FILE"
 fi
 
 if [ "$1" == "help" -o -z "$1" ]; then
@@ -247,6 +252,14 @@ function gvm-selfupdate {
 	echo ""
 	echo "Successfully upgraded GVM."
 	echo ""
+}
+
+function gvm-broadcast {
+	if [ "$BROADCAST_HIST" ]; then
+		echo "$BROADCAST_HIST"
+	else
+		echo "$BROADCAST_LIVE"
+	fi
 }
 
 # INSERT NEW COMMANDS BEFORE HERE

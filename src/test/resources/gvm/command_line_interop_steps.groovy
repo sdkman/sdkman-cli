@@ -12,6 +12,14 @@ Then(~'^I see \"([^\"]*)\"$') { String output ->
     assert result.contains(output)
 }
 
+Then(~'^I do not see "([^"]*)"$') { String output ->
+	assert ! result.contains(output)
+}
+
+Then(~'^I see only \"([^\"]*)\"$') { String output ->
+    assert result?.replaceAll("\\n", "") == output
+}
+
 Then(~'^the exit value is \"([^\"]*)\"$') { int exitValue ->
     assert proc.exitValue() == exitValue
 }
