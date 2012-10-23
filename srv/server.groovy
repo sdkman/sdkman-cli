@@ -122,18 +122,24 @@ rm.get("/app/version") { req ->
 }
 
 rm.get("/app/alive/:version") { req ->
-	addPlainTextHeader req
-	def version = req.params['version']
-	def gtpFile, binding
-	if(gvmVersion == version){
-		gtplFile = new File('srv/templates/broadcast.gtpl')
-		binding = [gvmVersion:gvmVersion, vertxVersion:vertxVersion]
-	} else {
-		gtplFile = new File('srv/templates/upgrade.gtpl')
-		binding = [gvmVersion:gvmVersion, version:version]
+	def cmd = [action:"find", collection:"broadcast", matcher:[_id:"1"]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		def broadcast = msg.body.results.text
+		def version = req.params['version']
+		def gtpFile, binding
+		if(gvmVersion == version){
+			gtplFile = new File('srv/templates/broadcast.gtpl')
+			binding = [gvmVersion:gvmVersion, vertxVersion:vertxVersion, broadcast:broadcast]
+		} else {
+			gtplFile = new File('srv/templates/upgrade.gtpl')
+			binding = [version:version, gvmVersion:gvmVersion]
+		}
+		def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
+
+		addPlainTextHeader req
+		req.response.end templateText
 	}
-	def template = templateEngine.createTemplate(gtplFile).make(binding)
-	req.response.end template.toString()
+
 }
 
 def port = System.getenv('PORT') ?: 8080
