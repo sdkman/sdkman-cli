@@ -77,7 +77,6 @@ rm.get("/candidates/:candidate/list") { req ->
 	def installed = req.params['installed']
 	def gtplFile = new File('srv/templates/list.gtpl')
 
-	log 'list', candidate, installed, req
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def available = msg.body.results.collect { it.version }
