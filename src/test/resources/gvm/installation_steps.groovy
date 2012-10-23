@@ -3,7 +3,7 @@ import cucumber.runtime.PendingException
 import java.util.zip.*
 
 Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
-	def candidateVersion = new URL("${serviceUrl}/candidates/${candidate}/default").text
+	def candidateVersion = new URL("${serviceUrlEnv}/candidates/${candidate}/default").text
 	assert candidateVersion == version
 }
 

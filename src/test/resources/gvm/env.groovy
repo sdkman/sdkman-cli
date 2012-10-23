@@ -1,19 +1,29 @@
 import static cucumber.runtime.groovy.Hooks.*
 import static gvm.VertxUtils.*
 
-if (! System.getenv('GVM_DIR')) {
+gvmDirEnv = System.getenv('GVM_DIR')
+if (! gvmDirEnv) {
 	throw new RuntimeException("You must have the GVM_DIR environment variable set to run the tests!")
 }
 
-gvmDir = new File(System.getenv('GVM_DIR'))
+serviceUrlEnv = System.getenv('GVM_SERVICE')
+if (! serviceUrlEnv) {
+	throw new RuntimeException("You must have the GVM_SERVICE environment variable set to run the tests!")
+}
+
+gvmDir = new File("${gvmDirEnv}")
+varDir = new File("${gvmDirEnv}/var")
+broadcastFile = new File("${gvmDirEnv}/var/broadcast")
+
 scriptPath = 'srv/scripts'
-serviceUrl = System.getenv('GVM_SERVICE')
 
 server = null
 
 Before(){
-	server = startServer()
 	cleanUp()
+	server = startServer()
+	gvmDir.mkdirs()
+	varDir.mkdirs()
 }
 
 After(){
