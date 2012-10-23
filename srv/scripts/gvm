@@ -11,7 +11,7 @@ function help {
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
-	echo "   command    :  install, uninstall, list, use, current, version, selfupdate or help"
+	echo "   command    :  install, uninstall, list, use, current, version, selfupdate, broadcast or help"
 	echo "   candidate  :  $CANDIDATES"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
