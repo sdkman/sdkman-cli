@@ -121,14 +121,14 @@ rm.get("/app/version") { req ->
 }
 
 rm.get("/app/alive/:version") { req ->
-	def cmd = [action:"find", collection:"broadcast", matcher:[_id:"1"]]
+	def cmd = [action:"find", collection:"broadcast", matcher:[:]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		def broadcast = msg.body.results.text
+		def broadcasts = msg.body.results
 		def version = req.params['version']
 		def gtpFile, binding
 		if(gvmVersion == version){
 			gtplFile = new File('srv/templates/broadcast.gtpl')
-			binding = [gvmVersion:gvmVersion, vertxVersion:vertxVersion, broadcast:broadcast]
+			binding = [gvmVersion:gvmVersion, vertxVersion:vertxVersion, broadcasts:broadcasts]
 		} else {
 			gtplFile = new File('srv/templates/upgrade.gtpl')
 			binding = [version:version, gvmVersion:gvmVersion]
