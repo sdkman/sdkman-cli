@@ -112,51 +112,72 @@ function validate_zip {
 	fi
 }
 
-function server_down {
-	echo "------------------------------------------"
-	echo "   This is serious! Service is down!      "
-	echo " Please notify: @gvmtool immediately! "
-	echo "------------------------------------------"
+function no_connection {
+	echo "                                                         "
+	echo "---------------------------------------------------------"
+	echo "                                                         "
+	echo "The GVM service is down or the internet is not reachable!"
+	echo "     If the problem persists please notify: @gvmtool     "
+	echo "                                                         "
+	echo "---------------------------------------------------------"
 	exit 0
 }
+
+function default_environment_variables {
+	if [ ! "$GVM_SERVICE" ]; then
+		GVM_SERVICE="http://localhost:8080"
+	fi
+
+	if [ ! "$GVM_DIR" ]; then
+		GVM_DIR="$HOME/.gvm"
+	fi
+}
+
+function prepare_gvm_dir {
+	if [ ! -d "$GVM_DIR" ]; then
+		mkdir "$GVM_DIR"
+	fi
+}
+
+function server_alive {
+	BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/app/alive/$GVM_VERSION")
+	if [ ! "$BROADCAST_LIVE" ]; then
+		no_connection
+		exit 0
+	fi
+}
+
+function display_broadcast {
+	COMMAND="$1"
+	BROADCAST_FILE="$GVM_DIR/var/broadcast"
+	if [ -f "$BROADCAST_FILE" ]; then
+		BROADCAST_HIST=$(cat "$BROADCAST_FILE")
+	fi
+
+	if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" && "$COMMAND" != "broadcast" ]]; then
+		mkdir -p "$GVM_DIR/var"
+		echo "$BROADCAST_LIVE" > "$BROADCAST_FILE"
+		echo "$BROADCAST_LIVE"
+	fi
+
+	if [ "$1" == "help" -o -z "$1" ]; then
+		help
+		exit 0
+	fi
+}
+
 
 #
 # Various sanity checks and default settings
 #
 
-if [ ! $(which curl) ]; then
-	echo "Please install curl through your package manager before using this tool."
-	exit 0
-fi
+default_environment_variables
 
-if [ ! "$GVM_SERVICE" ]; then
-	GVM_SERVICE="http://localhost:8080"
-fi
+prepare_gvm_dir
 
-if [ ! "$GVM_DIR" ]; then
-	GVM_DIR="$HOME/.gvm"
-fi
+server_alive
 
-if [ ! -d "$GVM_DIR" ]; then
-	mkdir "$GVM_DIR"
-fi
-
-BROADCAST_FILE="$GVM_DIR/var/broadcast"
-if [ -f "$BROADCAST_FILE" ]; then
-	BROADCAST_HIST=$(cat "$BROADCAST_FILE")
-fi
-
-BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/app/alive/$GVM_VERSION")
-if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" && "$1" != "broadcast" ]]; then
-	echo "$BROADCAST_LIVE"
-	mkdir -p "$GVM_DIR/var"
-	echo "$BROADCAST_LIVE" > "$BROADCAST_FILE"
-fi
-
-if [ "$1" == "help" -o -z "$1" ]; then
-	help
-	exit 0
-fi
+display_broadcast "$1"
 
 #
 # Command functions
