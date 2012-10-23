@@ -2,10 +2,6 @@ import static cucumber.runtime.groovy.EN.*
 import cucumber.runtime.PendingException
 import java.util.zip.*
 
-scriptPath = 'srv/scripts'
-gvmDir = new File(System.getenv('GVM_DIR'))
-serviceUrl = System.getenv('GVM_SERVICE')
-
 Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
 	def candidateVersion = new URL("${serviceUrl}/candidates/${candidate}/default").text
 	assert candidateVersion == version

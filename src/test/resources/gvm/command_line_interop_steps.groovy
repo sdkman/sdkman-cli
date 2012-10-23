@@ -1,8 +1,6 @@
 import static cucumber.runtime.groovy.EN.*
 import cucumber.runtime.PendingException
 
-scriptPath = 'srv/scripts'
-
 When(~'^I enter \"([^\"]*)\"$') { String command ->
 	command = "$scriptPath/$command"
     proc = command.execute()

@@ -1,8 +1,6 @@
 import static cucumber.runtime.groovy.EN.*
 import cucumber.runtime.PendingException
 
-gvmDir = new File(System.getenv('GVM_DIR'))
-
 Then(~'^the gvm work folder is created$') { ->
     assert gvmDir.isDirectory(), "The gvm directory does not exist."
 }
