@@ -2,9 +2,6 @@ import groovy.text.SimpleTemplateEngine
 import org.vertx.groovy.core.http.RouteMatcher
 import org.vertx.java.core.json.JsonObject
 
-def gvmVersion = '0.8'
-def vertxVersion = '1.2.3.final'
-
 def config
 def mongoJson = new File('srv/mongo.json')
 if(mongoJson.exists()){
@@ -116,13 +113,25 @@ rm.get("/download/:candidate/:version") { req ->
 }
 
 rm.get("/app/version") { req ->
-	addPlainTextHeader req
-	req.response.end gvmVersion
+	def cmd = [action:"find", collection:"application", matcher:[_id:1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		addPlainTextHeader req
+		def gvmVersion = "${msg.body.results[0].gvmVersion}"
+		req.response.end gvmVersion
+	}
 }
 
 rm.get("/app/alive/:version") { req ->
-	def cmd = [action:"find", collection:"broadcast", matcher:[:]]
-	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+	def gvmVersion, vertxVersion
+	def cmd1 = [action:"find", collection:"application", matcher:[_id:1]]
+	vertx.eventBus.send("mongo-persistor", cmd1){ msg ->
+		addPlainTextHeader req
+		gvmVersion = "${msg.body.results[0].gvmVersion}"
+		vertxVersion = "${msg.body.results[0].vertxVersion}"
+	}
+
+	def cmd2 = [action:"find", collection:"broadcast", matcher:[:]]
+	vertx.eventBus.send("mongo-persistor", cmd2){ msg ->
 		def broadcasts = msg.body.results
 		def version = req.params['version']
 		def gtpFile, binding
