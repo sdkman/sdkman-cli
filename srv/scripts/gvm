@@ -1,5 +1,5 @@
 #!/bin/bash
-GVM_VERSION="0.7"
+GVM_VERSION="0.85"
 PLATFORM=$(uname)
 
 #
