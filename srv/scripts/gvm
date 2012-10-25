@@ -1,5 +1,5 @@
 #!/bin/bash
-GVM_VERSION="0.8"
+GVM_VERSION="0.7"
 PLATFORM=$(uname)
 
 #
@@ -155,12 +155,12 @@ function display_broadcast {
 	fi
 
 	UPGRADE_NOTICE=$(echo "$BROADCAST_LIVE" | grep 'Your version of GVM is out of date!')
-	if [ "$UPGRADE_NOTICE" ]; then
+	if [[ "$UPGRADE_NOTICE" && "$COMMAND" != 'selfupdate' ]]; then
 		echo "$BROADCAST_LIVE"
 		exit 0
 	fi
 
-	if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" && "$COMMAND" != "broadcast" ]]; then
+	if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" && "$COMMAND" != 'broadcast' ]]; then
 		mkdir -p "$GVM_DIR/var"
 		echo "$BROADCAST_LIVE" > "$BROADCAST_FILE"
 		echo "$BROADCAST_LIVE"
