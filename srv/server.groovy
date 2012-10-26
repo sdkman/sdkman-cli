@@ -20,6 +20,11 @@ rm.get("/") { req ->
 	req.response.sendFile('srv/scripts/install.sh')
 }
 
+rm.get("/alive") { req ->
+	addPlainTextHeader req
+	req.response.end "OK"
+}
+
 rm.get("/res/init") { req ->
 	log 'init', 'n/a', 'n/a', req
 	addPlainTextHeader req
