@@ -9,7 +9,7 @@ if(mongoJson.exists()){
 } else {
 	config = [address: 'mongo-persistor', db_name: 'gvm']
 }
-container.deployModule('vertx.mongo-persistor-v1.1', config)
+container.deployModule('vertx.mongo-persistor-v1.2', config)
 
 def templateEngine = new SimpleTemplateEngine()
 
