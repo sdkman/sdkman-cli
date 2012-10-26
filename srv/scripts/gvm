@@ -139,8 +139,8 @@ function prepare_gvm_dir {
 	fi
 }
 
-function server_alive {
-	BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/app/alive/$GVM_VERSION")
+function server_broadcast {
+	BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/broadcast/$GVM_VERSION")
 	if [ ! "$BROADCAST_LIVE" ]; then
 		no_connection
 		exit 0
@@ -181,7 +181,7 @@ default_environment_variables
 
 prepare_gvm_dir
 
-server_alive
+server_broadcast
 
 display_broadcast "$1"
 

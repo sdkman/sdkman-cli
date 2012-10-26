@@ -121,7 +121,7 @@ rm.get("/app/version") { req ->
 	}
 }
 
-rm.get("/app/alive/:version") { req ->
+rm.get("/broadcast/:version") { req ->
 	def gvmVersion, vertxVersion
 	def cmd1 = [action:"find", collection:"application", matcher:[_id:1]]
 	vertx.eventBus.send("mongo-persistor", cmd1){ msg ->
