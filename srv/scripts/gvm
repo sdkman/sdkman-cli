@@ -34,7 +34,7 @@ function check_version_present {
 	fi
 }
 
-function determine_candidate_version {
+function determine_default_version {
 	if [ -z "$1" ]; then
 		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/default")
 	else
@@ -133,12 +133,6 @@ function default_environment_variables {
 	fi
 }
 
-function prepare_gvm_dir {
-	if [ ! -d "$GVM_DIR" ]; then
-		mkdir "$GVM_DIR"
-	fi
-}
-
 function server_broadcast {
 	BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/broadcast/$GVM_VERSION")
 	if [ ! "$BROADCAST_LIVE" ]; then
@@ -178,11 +172,8 @@ function display_broadcast {
 #
 
 default_environment_variables
-
-prepare_gvm_dir
-
+mkdir -p "$GVM_DIR"
 server_broadcast
-
 display_broadcast "$1"
 
 #
@@ -192,7 +183,7 @@ display_broadcast "$1"
 function gvm-install {
 	CANDIDATE="$1"
 	check_candidate_present "$CANDIDATE"
-	determine_candidate_version "$2"
+	determine_default_version "$2"
 	check_installed
 
 	download "$CANDIDATE" "$VERSION"
@@ -212,7 +203,7 @@ function gvm-use {
 	CANDIDATE="$1"
 	check_candidate_present "$CANDIDATE"
 
-	determine_candidate_version "$2"
+	determine_default_version "$2"
 	check_not_installed
 
 	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
