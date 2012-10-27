@@ -1,4 +1,5 @@
 import groovy.text.SimpleTemplateEngine
+import java.util.zip.*
 import org.vertx.groovy.core.http.RouteMatcher
 import org.vertx.java.core.json.JsonObject
 
@@ -31,9 +32,30 @@ rm.get("/res/init") { req ->
 	req.response.sendFile 'srv/scripts/gvm-init.sh'
 }
 
+rm.get("/res") { req ->
+	log 'init', 'n/a', 'n/a', req
+
+	def zipFile = File.createTempFile('dist-', '.zip')
+	def zos = new ZipOutputStream(new FileOutputStream(zipFile)) 
+	def scriptsDir = new File('srv/scripts')
+	scriptsDir.eachFile { file ->
+		def zipEntry = new ZipEntry(file.name)
+		zipEntry.time = file.lastModified()
+		zos.putNextEntry zipEntry
+		zos << new FileInputStream(file)
+	}
+	zos.close()
+	println zipFile.absolutePath
+
+	req.response.putHeader("Content-Type", "application/zip")
+	req.response.sendFile zipFile.absolutePath
+
+	zipFile.delete()
+}
+
 rm.get("/res/gvm") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('srv/scripts/gvm')
+	req.response.sendFile 'srv/scripts/gvm'
 }
 
 rm.get("/candidates") { req ->
