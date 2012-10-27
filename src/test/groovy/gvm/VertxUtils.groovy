@@ -84,7 +84,7 @@ class VertxUtils {
 			req.response.end '0.1'
 		}
 
-		rm.get("/app/alive/:version") { req ->
+		rm.get("/broadcast/:version") { req ->
 			def version = req.params['version']
 			def gtplFile, binding
 			def output
