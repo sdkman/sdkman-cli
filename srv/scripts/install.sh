@@ -112,14 +112,15 @@ if [ -z $(which curl) ]; then
 fi
 
 echo "Installing gvm scripts..."
+BIN_FOLDER="$HOME/.gvm/bin"
 TMP_ZIP="/tmp/res.zip"
-mkdir -p "$HOME/.gvm/bin"
+
+mkdir -p "$BIN_FOLDER"
 curl -s "$GVM_SERVICE/res?platform=$PLATFORM" > "$TMP_ZIP"
-unzip -q -o "$TMP_ZIP" -d "$HOME/.gvm/bin"
+unzip -qo "$TMP_ZIP" -d "$BIN_FOLDER"
 rm "$TMP_ZIP"
 
-chmod +x "$HOME/.gvm/bin/gvm-init.sh"
-chmod +x "$HOME/.gvm/bin/gvm"
+chmod +x "$BIN_FOLDER"/*
 
 echo "Creating candidate directories..."
 mkdir -p "$HOME/.gvm/groovy"
