@@ -33,12 +33,12 @@ class VertxUtils {
 			req.response.sendFile('srv/scripts/install.sh')
 		}
 
-		rm.get("/res/init") { req ->
-			req.response.sendFile('srv/scripts/gvm-init.sh')
+		rm.get("/selfupdate") { req ->
+			req.response.sendFile('src/test/resources/selfupdate.sh')
 		}
 
-		rm.get("/res/gvm") { req ->
-			req.response.sendFile('srv/scripts/gvm')
+		rm.get("/res") { req ->
+			req.response.sendFile('src/test/resources/res.zip')
 		}
 
 		rm.get("/candidates") { req ->
