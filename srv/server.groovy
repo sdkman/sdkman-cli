@@ -189,9 +189,14 @@ rm.get("/app/alive/:version") { req ->
 	addPlainTextHeader req
 	def broadcast = '''
 
-	*************************************
-	 Please upgrade with: gvm selfupdate
-	*************************************
+
+*************************************
+Please upgrade right now using:
+
+	$ gvm selfupdate
+
+*************************************
+
 
 	'''
 	req.response.end broadcast
