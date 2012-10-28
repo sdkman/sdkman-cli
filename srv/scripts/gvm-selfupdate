@@ -1,8 +1,0 @@
-#!/bin/bash
-
-curl -s "$GVM_SERVICE/selfupdate" | bash
-
-echo ""
-echo "Successfully upgraded GVM."
-echo ""
-

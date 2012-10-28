@@ -268,10 +268,6 @@ function gvm-broadcast {
 
 function gvm-selfupdate {
 	curl -s "$GVM_SERVICE/selfupdate" | bash
-
-	echo ""
-	echo "Successfully upgraded GVM."
-	echo ""
 }
 
 # INSERT NEW COMMANDS BEFORE HERE

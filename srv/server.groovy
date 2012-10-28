@@ -52,7 +52,6 @@ rm.get("/res") { req ->
 	def files = []
 	files << new File('srv/scripts/gvm')
 	files << new File('srv/scripts/gvm-init.sh')
-	files << new File('srv/scripts/gvm-selfupdate')
 	def zipFile = buildZip(files)
 
 	req.response.putHeader("Content-Type", "application/zip")
