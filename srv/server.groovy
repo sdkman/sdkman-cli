@@ -21,6 +21,11 @@ rm.get("/") { req ->
 	req.response.sendFile('srv/scripts/install.sh')
 }
 
+rm.get("/selfupdate") { req ->
+	addPlainTextHeader req
+	req.response.sendFile('srv/scripts/selfupdate.sh')
+}
+
 rm.get("/alive") { req ->
 	addPlainTextHeader req
 	req.response.end "OK"
@@ -43,6 +48,7 @@ rm.get("/res") { req ->
 	def files = []
 	files << new File('srv/scripts/gvm')
 	files << new File('srv/scripts/gvm-init.sh')
+	files << new File('srv/scripts/gvm-selfupdate')
 	def zipFile = buildZip(files)
 
 	req.response.putHeader("Content-Type", "application/zip")

@@ -258,20 +258,6 @@ function gvm-version {
 	echo "Groovy enVironment Manager $GVM_VERSION"
 }
 
-function gvm-selfupdate {
-	mkdir -p "$GVM_DIR/bin"
-
-	curl -s "$GVM_SERVICE/res/init?platform=$PLATFORM" > "$GVM_DIR/bin/gvm-init.sh"
-	curl -s "$GVM_SERVICE/res/gvm" > "$GVM_DIR/bin/gvm"
-
-	chmod +x "$GVM_DIR/bin/gvm-init.sh"
-	chmod +x "$GVM_DIR/bin/gvm"
-
-	echo ""
-	echo "Successfully upgraded GVM."
-	echo ""
-}
-
 function gvm-broadcast {
 	if [ "$BROADCAST_HIST" ]; then
 		echo "$BROADCAST_HIST"
