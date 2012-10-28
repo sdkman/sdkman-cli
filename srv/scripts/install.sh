@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GVM_SERVICE="http://get.gvmtool.net"
+GVM_SERVICE="http://localhost:8080"
 PLATFORM=$(uname)
 
 echo '                                                                     '
@@ -112,9 +112,12 @@ if [ -z $(which curl) ]; then
 fi
 
 echo "Installing gvm scripts..."
+TMP_ZIP="/tmp/res.zip"
 mkdir -p "$HOME/.gvm/bin"
-curl -s "$GVM_SERVICE/res/init?platform=$PLATFORM" > "$HOME/.gvm/bin/gvm-init.sh"
-curl -s "$GVM_SERVICE/res/gvm" > "$HOME/.gvm/bin/gvm"
+curl -s "$GVM_SERVICE/res?platform=$PLATFORM" > "$TMP_ZIP"
+unzip -q -o "$TMP_ZIP" -d "$HOME/.gvm/bin"
+rm "$TMP_ZIP"
+
 chmod +x "$HOME/.gvm/bin/gvm-init.sh"
 chmod +x "$HOME/.gvm/bin/gvm"
 
