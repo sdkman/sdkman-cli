@@ -188,14 +188,18 @@ rm.get("/app/alive/:version") { req ->
 	addPlainTextHeader req
 	def broadcast = '''
 
+******************************************************************
 
-*************************************
-Please upgrade right now using:
+Please upgrade right away using:
 
 	$ gvm selfupdate
 
-*************************************
 
+Warning! You might see some jumbled text on the console.
+
+This has been rectified in the subsequent release.
+
+******************************************************************
 
 	'''
 	req.response.end broadcast
