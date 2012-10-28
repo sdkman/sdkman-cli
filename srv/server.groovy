@@ -3,6 +3,11 @@ import java.util.zip.*
 import org.vertx.groovy.core.http.RouteMatcher
 import org.vertx.java.core.json.JsonObject
 
+
+//
+// datasource configuration
+//
+
 def config
 def mongoJson = new File('srv/mongo.json')
 if(mongoJson.exists()){
@@ -13,6 +18,11 @@ if(mongoJson.exists()){
 container.deployModule('vertx.mongo-persistor-v1.2', config)
 
 def templateEngine = new SimpleTemplateEngine()
+
+
+//
+// route matcher implementations
+//
 
 def rm = new RouteMatcher()
 
@@ -29,12 +39,6 @@ rm.get("/selfupdate") { req ->
 rm.get("/alive") { req ->
 	addPlainTextHeader req
 	req.response.end "OK"
-}
-
-rm.get("/res/init") { req ->
-	log 'init', 'n/a', 'n/a', req
-	addPlainTextHeader req
-	req.response.sendFile 'srv/scripts/gvm-init.sh'
 }
 
 rm.get("/res") { req ->
@@ -55,11 +59,6 @@ rm.get("/res") { req ->
 	req.response.sendFile zipFile.absolutePath
 
 	zipFile.delete()
-}
-
-rm.get("/res/gvm") { req ->
-	addPlainTextHeader req
-	req.response.sendFile 'srv/scripts/gvm'
 }
 
 rm.get("/candidates") { req ->
@@ -181,10 +180,31 @@ rm.get("/broadcast/:version") { req ->
 
 }
 
-def port = System.getenv('PORT') ?: 8080
-def host = System.getenv('PORT') ? '0.0.0.0' : 'localhost'
-println "Starting vertx on $host:$port"
-vertx.createHttpServer().requestHandler(rm.asClosure()).listen(port as int, host)
+
+//
+// leave here for legacy purposes
+//
+
+rm.get("/app/alive/:version") { req ->
+	addPlainTextHeader req
+	req.response.end "Please upgrade with: gvm selfupdate"
+}
+
+rm.get("/res/init") { req ->
+	log 'init', 'n/a', 'n/a', req
+	addPlainTextHeader req
+	req.response.sendFile 'srv/scripts/gvm-init.sh'
+}
+
+rm.get("/res/gvm") { req ->
+	addPlainTextHeader req
+	req.response.sendFile 'srv/scripts/gvm'
+}
+
+
+//
+// private methods
+//
 
 private addPlainTextHeader(req){
 	req.response.putHeader("Content-Type", "text/plain")
@@ -223,3 +243,15 @@ private buildZip(files){
 
 	zipFile
 }
+
+
+//
+// startup server
+//
+def port = System.getenv('PORT') ?: 8080
+def host = System.getenv('PORT') ? '0.0.0.0' : 'localhost'
+println "Starting vertx on $host:$port"
+vertx.createHttpServer().requestHandler(rm.asClosure()).listen(port as int, host)
+
+
+
