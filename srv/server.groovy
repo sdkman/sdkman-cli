@@ -33,19 +33,17 @@ rm.get("/res/init") { req ->
 }
 
 rm.get("/res") { req ->
-	log 'init', 'n/a', 'n/a', req
-
-	def zipFile = File.createTempFile('dist-', '.zip')
-	def zos = new ZipOutputStream(new FileOutputStream(zipFile)) 
-	def scriptsDir = new File('srv/scripts')
-	scriptsDir.eachFile { file ->
-		def zipEntry = new ZipEntry(file.name)
-		zipEntry.time = file.lastModified()
-		zos.putNextEntry zipEntry
-		zos << new FileInputStream(file)
+	def cmd = [action:"find", collection:"application", matcher:[_id:1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		addPlainTextHeader req
+		def gvmVersion = msg.body.results[0].gvmVersion
+		log 'initialise', 'gvm', gvmVersion, req
 	}
-	zos.close()
-	println zipFile.absolutePath
+
+	def files = []
+	files << new File('srv/scripts/gvm')
+	files << new File('srv/scripts/gvm-init.sh')
+	def zipFile = buildZip(files)
 
 	req.response.putHeader("Content-Type", "application/zip")
 	req.response.sendFile zipFile.absolutePath
@@ -205,4 +203,17 @@ private log(command, candidate, version, req){
 	def cmd = [action:'save', collection:'audit', document:document] 
 
 	vertx.eventBus.send 'mongo-persistor', cmd
+}
+
+private buildZip(files){
+	def zipFile = File.createTempFile('gvm-', '.zip')
+	def zos = new ZipOutputStream(new FileOutputStream(zipFile)) 
+	files.each { file ->
+		def zipEntry = new ZipEntry(file.name)
+		zos.putNextEntry zipEntry
+		zos << new FileInputStream(file)
+	}
+	zos.close()
+
+	zipFile
 }
