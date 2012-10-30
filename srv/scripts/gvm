@@ -34,7 +34,7 @@ function check_version_present {
 	fi
 }
 
-function determine_default_version {
+function determine_version {
 	if [ -z "$1" ]; then
 		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/default")
 	else
@@ -183,7 +183,7 @@ display_broadcast "$1"
 function gvm-install {
 	CANDIDATE="$1"
 	check_candidate_present "$CANDIDATE"
-	determine_default_version "$2"
+	determine_version "$2"
 	check_installed
 
 	download "$CANDIDATE" "$VERSION"
@@ -203,7 +203,7 @@ function gvm-use {
 	CANDIDATE="$1"
 	check_candidate_present "$CANDIDATE"
 
-	determine_default_version "$2"
+	determine_version "$2"
 	check_not_installed
 
 	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
