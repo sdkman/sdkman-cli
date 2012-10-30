@@ -185,23 +185,9 @@ rm.get("/broadcast/:version") { req ->
 //
 
 rm.get("/app/alive/:version") { req ->
+	def legacyBroadcast = new File('srv/templates/legacy.gtpl')
+	def broadcast = legacyBroadcast.text
 	addPlainTextHeader req
-	def broadcast = '''
-
-******************************************************************
-
-Please upgrade right away using:
-
-	$ gvm selfupdate
-
-
-Warning! You might see some jumbled text on the console.
-
-This has been rectified in the subsequent release.
-
-******************************************************************
-
-	'''
 	req.response.end broadcast
 }
 
