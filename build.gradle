@@ -25,6 +25,9 @@ task cleanInstall(type: Delete) {
 }
 
 task install(type: Copy, dependsOn: cleanInstall) {
-    from "srv/scripts"
+    from "srv/scripts", {
+        include "gvm"
+        include "**/*.sh"
+    }
     into installDir
 }
