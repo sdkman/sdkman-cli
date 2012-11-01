@@ -4,7 +4,19 @@ import java.nio.file.*
 Then(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidate, String version ->
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
 	def current = FileSystems.default.getPath("$gvmDir/$candidate/current")
-	assert Files.createSymbolicLink(current, directory)
+	def symlinkFile = current.toFile()
+	if(!symlinkFile.exists()){
+		assert Files.createSymbolicLink(current, directory)
+	}
+}
+
+Then(~'^the candidate "([^"]*)" version "([^"]*)" is not in use$') { String candidate, String version ->
+	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
+	def current = FileSystems.default.getPath("$gvmDir/$candidate/current")
+	def symlinkFile = current.toFile()
+	if(symlinkFile.exists()){ 
+		assert ! Files.isSameFile(current, directory)
+	}
 }
 
 Then(~'^the candidate "([^"]*)" version "([^"]*)" should be in use$') { String candidate, String version ->
@@ -13,7 +25,7 @@ Then(~'^the candidate "([^"]*)" version "([^"]*)" should be in use$') { String c
 	assert Files.isSameFile(current, directory)
 }
 
-Given(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String candidate, String version ->
-	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
-	assert ! Files.exists(directory)
+Then(~'^the candidate "([^"]*)" is no longer selected$') { String candidate ->
+	def symlink = new File("$gvmDir/$candidate/current")
+	assert ! symlink.exists()
 }

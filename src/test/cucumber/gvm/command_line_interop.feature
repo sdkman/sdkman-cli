@@ -20,6 +20,3 @@ Feature: Command Line Interop
 		When I enter "gvm install groffle"
 		Then I see "Stop! groffle is not a valid candidate."
 
-	Scenario: Use without providing a Candidate
-		When I enter "gvm use"
-		Then I see "Usage: gvm <command> <candidate> [version]"

@@ -1,5 +1,6 @@
 import static cucumber.runtime.groovy.EN.*
 import cucumber.runtime.PendingException
+import java.nio.file.*
 import java.util.zip.*
 
 Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
@@ -12,26 +13,35 @@ Then(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candi
 	assert file.exists()
 }
 
-When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed$') { String candidate, String version ->
+Given(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String candidate, String version ->
+	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
+	assert ! Files.exists(directory)
+}
+
+When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and in use$') { String candidate, String version ->
 	def command = "gvm install $candidate $version"
 	command = "$scriptPath/$command"
     def proc = command.execute()
+	proc.out.close()
     proc.waitFor()
-    def result = "${proc.in.text}"
+    def result = proc.text
     assert result.contains("Done installing!")
 }
 
-When(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { String candidate, String version ->
-	try {
-		new ZipFile(new File("src/test/resources/${candidate}-${version}.zip"))
-		assert false, "Archive was not corrupt!"
-
-	} catch (ZipException ze){
-		//expected behaviour
-	}
+When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not in use$') { String candidate, String version ->
+	def command = "gvm install $candidate $version"
+	command = "$scriptPath/$command"
+    def proc = command.execute()
+	def writer = new PrintWriter(proc.out)
+	writer.println "n"
+	writer.close()
+    proc.waitFor()
+    def result = proc.text
+    assert result.contains("Done installing!")
 }
 
-Then(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { String candidate, String version ->
-	def archive = new File("${gvmDir}/archives/${candidate}-${version}.zip")
-	assert ! archive.exists()
+Given(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
+	def file = new File("${gvmDir}/${candidate}")
+	file.delete()
+	assert ! file.exists()
 }

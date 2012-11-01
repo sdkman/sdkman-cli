@@ -4,8 +4,19 @@ import cucumber.runtime.PendingException
 When(~'^I enter \"([^\"]*)\"$') { String command ->
 	command = "$scriptPath/$command"
     proc = command.execute()
+	proc.out.close()
     proc.waitFor()
-    result = "${proc.in.text}"
+    result = proc.text
+}
+
+When(~'^I enter "([^"]*)" and answer "([^"]*)"$') { String command, String answer ->
+	command = "$scriptPath/$command"
+    proc = command.execute()
+	def writer = new PrintWriter(proc.out)
+	writer.println answer
+	writer.close()
+    proc.waitFor()
+    result = proc.text
 }
 
 Then(~'^I see \"([^\"]*)\"$') { String output ->
