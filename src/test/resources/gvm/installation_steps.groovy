@@ -19,9 +19,8 @@ Given(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String 
 }
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and in use$') { String candidate, String version ->
-	def command = "gvm install $candidate $version"
-	command = "$scriptPath/$command"
-    def proc = command.execute()
+	def command = "./gvm install $candidate $version"
+	def proc = command.execute(["GVM_DIR=${gvmDirEnv}", "GVM_SERVICE=${serviceUrlEnv}"], baseDir)
 	proc.out.close()
     proc.waitFor()
     def result = proc.text
@@ -29,9 +28,8 @@ When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and in us
 }
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not in use$') { String candidate, String version ->
-	def command = "gvm install $candidate $version"
-	command = "$scriptPath/$command"
-    def proc = command.execute()
+	def command = "./gvm install $candidate $version"
+	def proc = command.execute(["GVM_DIR=${gvmDirEnv}", "GVM_SERVICE=${serviceUrlEnv}"], baseDir)
 	def writer = new PrintWriter(proc.out)
 	writer.println "n"
 	writer.close()
