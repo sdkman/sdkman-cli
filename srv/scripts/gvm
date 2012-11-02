@@ -49,22 +49,6 @@ function determine_version {
 	fi
 }
 
-function check_installed {
-	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
-		echo ""
-		echo "Stop! $CANDIDATE $VERSION is already installed."
-		exit 0
-	fi
-}
-
-function check_not_installed {
-	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
-		echo ""
-		echo "Stop! $CANDIDATE $VERSION is not installed."
-		exit 0
-	fi
-}
-
 function build_version_csv {
 	CANDIDATE="$1"
 	CSV=""
@@ -166,6 +150,30 @@ function display_broadcast {
 	fi
 }
 
+function link_candidate_version {
+	CANDIDATE="$1"
+	VERSION="$2"
+	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
+		unlink "$GVM_DIR/$CANDIDATE/current"
+	fi
+	ln -s "$GVM_DIR/$CANDIDATE/$VERSION" "$GVM_DIR/$CANDIDATE/current"
+	echo ""
+	echo Using "$CANDIDATE" version "$VERSION"
+}
+
+function install_candidate_version {
+	CANDIDATE="$1"
+	VERSION="$2"
+	download "$CANDIDATE" "$VERSION"
+	echo "Installing: $CANDIDATE $VERSION"
+
+	mkdir -p "$GVM_DIR/$CANDIDATE"
+
+	unzip -oq "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" -d "/tmp/"
+	mv "/tmp/$CANDIDATE-$VERSION" "$GVM_DIR/$CANDIDATE/$VERSION"
+	echo "Done installing!"
+	echo ""
+}
 
 #
 # Various sanity checks and default settings
@@ -184,37 +192,37 @@ function gvm-install {
 	CANDIDATE="$1"
 	check_candidate_present "$CANDIDATE"
 	determine_version "$2"
-	check_installed
 
-	download "$CANDIDATE" "$VERSION"
-	echo "Installing: $CANDIDATE $VERSION"
+	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE $VERSION is already installed."
+	fi
 
-	mkdir -p "$GVM_DIR/$CANDIDATE"
+	install_candidate_version "$CANDIDATE" "$VERSION"
 
-	unzip -oq "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" -d "/tmp/"
-	mv "/tmp/$CANDIDATE-$VERSION" "$GVM_DIR/$CANDIDATE/$VERSION"
-	echo "Done installing!"
-	echo ""
 	echo -n "Do you want to use $CANDIDATE $VERSION now? (Y/n): "
 	read USE
 	if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
-		gvm use "$CANDIDATE" "$VERSION"
+		link_candidate_version "$CANDIDATE" "$VERSION"
 	fi
 }
 
 function gvm-use {
 	CANDIDATE="$1"
 	check_candidate_present "$CANDIDATE"
-
 	determine_version "$2"
-	check_not_installed
 
-	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
-		unlink "$GVM_DIR/$CANDIDATE/current"
+	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+		echo ""
+		echo "Stop! $CANDIDATE $VERSION is not installed."
+		echo -n "Do you want to install it now? (Y/n): "
+		read INSTALL 
+		if [[ -z "$INSTALL" || "$INSTALL" == "y" || "$INSTALL" == "Y" ]]; then
+			install_candidate_version "$CANDIDATE" "$VERSION"
+		fi
 	fi
-	ln -s "$GVM_DIR/$CANDIDATE/$VERSION" "$GVM_DIR/$CANDIDATE/current"
-	echo ""
-	echo Using "$CANDIDATE" version "$VERSION"
+
+	link_candidate_version "$CANDIDATE" "$VERSION"
 }
 
 function gvm-current {

@@ -11,8 +11,11 @@ Feature: Use Candidate
 
 	Scenario: Use a version of an uninstalled candidate that exists
 		Given the candidate "grails" version "2.1.0" is not installed
-		When I enter "gvm use grails 2.1.0"
+		When I enter "gvm use grails 2.1.0" and answer "Y"
 		Then I see "Stop! grails 2.1.0 is not installed."
+		And I see "Do you want to install it now? (Y/n)"
+		And the candidate "grails" version "2.1.0" is installed
+		Then the candidate "grails" version "2.1.0" should be in use
 
 	Scenario: Use a version of a candidate that doesn't exist
 		When I enter "gvm use grails 1.4.4"
