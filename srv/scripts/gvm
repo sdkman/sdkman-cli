@@ -125,17 +125,19 @@ function server_broadcast {
 	fi
 }
 
+function check_upgrade_available {
+	UPGRADE_AVAILABLE=""
+	UPGRADE_NOTICE=$(echo "$BROADCAST_LIVE" | grep 'Your version of GVM is out of date!')
+	if [[ "$UPGRADE_NOTICE" && "$COMMAND" != 'selfupdate' ]]; then
+		UPGRADE_AVAILABLE="true"
+	fi
+}
+
 function display_broadcast {
 	COMMAND="$1"
 	BROADCAST_FILE="$GVM_DIR/var/broadcast"
 	if [ -f "$BROADCAST_FILE" ]; then
 		BROADCAST_HIST=$(cat "$BROADCAST_FILE")
-	fi
-
-	UPGRADE_NOTICE=$(echo "$BROADCAST_LIVE" | grep 'Your version of GVM is out of date!')
-	if [[ "$UPGRADE_NOTICE" && "$COMMAND" != 'selfupdate' ]]; then
-		echo "$BROADCAST_LIVE"
-		exit 0
 	fi
 
 	if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" && "$COMMAND" != 'broadcast' ]]; then
@@ -181,8 +183,15 @@ function install_candidate_version {
 
 default_environment_variables
 mkdir -p "$GVM_DIR"
+
 server_broadcast
-display_broadcast "$1"
+check_upgrade_available
+if [[ "$UPGRADE_AVAILABLE" && "$1" != "broadcast" ]]; then
+	echo "$BROADCAST_LIVE"
+	echo ""
+else
+	display_broadcast "$1"
+fi
 
 #
 # Command functions
