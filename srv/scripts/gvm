@@ -205,6 +205,7 @@ function gvm-install {
 	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
 		echo ""
 		echo "Stop! $CANDIDATE $VERSION is already installed."
+		exit 0
 	fi
 
 	install_candidate_version "$CANDIDATE" "$VERSION"
