@@ -229,6 +229,8 @@ function gvm-use {
 		read INSTALL 
 		if [[ -z "$INSTALL" || "$INSTALL" == "y" || "$INSTALL" == "Y" ]]; then
 			install_candidate_version "$CANDIDATE" "$VERSION"
+		else
+			exit 0
 		fi
 	fi
 
