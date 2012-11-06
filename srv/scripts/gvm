@@ -87,7 +87,11 @@ function download {
 
 function validate_zip {
 	ZIP_ARCHIVE="$1"
-	ZIP_OK=$(zip -T "$ZIP_ARCHIVE" | grep 'OK')
+	if [ "$TERM" == 'cygwin' ]; then
+		ZIP_OK=$(zip -T `cygpath -aw "$ZIP_ARCHIVE"` | grep 'OK')
+	else
+		ZIP_OK=$(zip -T "$ZIP_ARCHIVE" | grep 'OK')
+	fi
 	if [ -z "$ZIP_OK" ]; then
 		rm "$ZIP_ARCHIVE"
 		echo ""
