@@ -1,5 +1,5 @@
 #!/bin/bash
-GVM_VERSION="0.8.2"
+GVM_VERSION="0.8.1"
 PLATFORM=$(uname)
 
 #
@@ -15,7 +15,7 @@ function help {
 	echo "   candidate  :  $CANDIDATES"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
-	echo "eg: gvm install grails 2.1.0"
+	echo "eg: gvm install groovy"
 }
 
 function check_candidate_present {
