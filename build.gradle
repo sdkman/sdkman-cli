@@ -1,5 +1,7 @@
 apply plugin: 'groovy'
 
+ext.installDir = "${System.getProperty('user.home')}/.gvm/bin"
+
 task wrapper(type: Wrapper) {
     gradleVersion = '1.2'
 }
@@ -18,7 +20,14 @@ dependencies {
     testCompile group: 'org.vert-x', name: 'vertx-lang-groovy', version: '1.2.3.final'
 }
 
-task copyTask(type: Copy) {
-	from "scripts/gvm"
-	into 'bin'
+task cleanInstall(type: Delete) {
+    delete installDir
+}
+
+task install(type: Copy, dependsOn: cleanInstall) {
+    from "srv/scripts", {
+        include "gvm"
+        include "**/*.sh"
+    }
+    into installDir
 }
