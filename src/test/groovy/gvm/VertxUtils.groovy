@@ -10,9 +10,8 @@ class VertxUtils {
 	final static candidates = [grails:grails]
 	final static defaults = [grails:'2.1.0']
 
-	static final gvmVersion = '0.8.2'
+	static gvmVersion = '0.8.2'
 	static final vertxVersion = '1.2.3.final'
-
 
 	static templateEngine = new SimpleTemplateEngine()
 
@@ -97,6 +96,7 @@ class VertxUtils {
 				def template = templateEngine.createTemplate(gtplFile).make(binding)
 				output = template.toString()
 			}
+			gvmVersion = tmpGvmVersion
 			req.response.end output
 		}
 
@@ -105,6 +105,13 @@ class VertxUtils {
 		server.requestHandler(rm.asClosure())
 		server.listen(port, host)
 		server
+	}
+
+	static tmpGvmVersion = gvmVersion
+
+	public static simulateGvmVersionOnNextBroadcastVersionRequest(version) {
+		tmpGvmVersion = gvmVersion
+		gvmVersion = version
 	}
 
 	public static stopServer(server){

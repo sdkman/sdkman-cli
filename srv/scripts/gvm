@@ -117,7 +117,7 @@ function default_environment_variables {
 	fi
 }
 
-function server_broadcast {
+function fetch_server_broadcast {
 	BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/broadcast/$GVM_VERSION")
 	if [ ! "$BROADCAST_LIVE" ]; then
 		no_connection
@@ -125,30 +125,40 @@ function server_broadcast {
 	fi
 }
 
-function check_upgrade_available {
-	UPGRADE_AVAILABLE=""
-	UPGRADE_NOTICE=$(echo "$BROADCAST_LIVE" | grep 'Your version of GVM is out of date!')
-	if [[ "$UPGRADE_NOTICE" && "$COMMAND" != 'selfupdate' ]]; then
-		UPGRADE_AVAILABLE="true"
-	fi
-}
-
-function display_broadcast {
-	COMMAND="$1"
+function store_broadcast {
 	BROADCAST_FILE="$GVM_DIR/var/broadcast"
 	if [ -f "$BROADCAST_FILE" ]; then
 		BROADCAST_HIST=$(cat "$BROADCAST_FILE")
 	fi
 
-	if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" && "$COMMAND" != 'broadcast' ]]; then
+	if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" ]]; then
 		mkdir -p "$GVM_DIR/var"
 		echo "$BROADCAST_LIVE" > "$BROADCAST_FILE"
+	fi
+}
+
+
+function should_display_broadcast_for_command {
+	COMMAND="$1"
+	if [[ "$COMMAND" != "broadcast" && "$COMMAND" != "selfupdate" ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+function display_broadcast_if_new_or_update_available {
+	check_upgrade_available
+	if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" || "$UPGRADE_AVAILABLE" ]]; then
 		echo "$BROADCAST_LIVE"
 	fi
+}
 
-	if [ "$1" == "help" -o -z "$1" ]; then
-		help
-		exit 0
+function check_upgrade_available {
+	UPGRADE_AVAILABLE=""
+	UPGRADE_NOTICE=$(echo "$BROADCAST_LIVE" | grep 'Your version of GVM is out of date!')
+	if [[ "$UPGRADE_NOTICE" ]]; then
+		UPGRADE_AVAILABLE="true"
 	fi
 }
 
@@ -184,13 +194,16 @@ function install_candidate_version {
 default_environment_variables
 mkdir -p "$GVM_DIR"
 
-server_broadcast
-check_upgrade_available
-if [[ "$UPGRADE_AVAILABLE" && "$1" != "broadcast" ]]; then
-	echo "$BROADCAST_LIVE"
-	echo ""
-else
-	display_broadcast "$1"
+fetch_server_broadcast
+store_broadcast
+
+if [ "$1" == "help" -o -z "$1" ]; then
+	help
+	exit 0
+fi
+
+if should_display_broadcast_for_command $1; then
+	display_broadcast_if_new_or_update_available "$1"
 fi
 
 #
