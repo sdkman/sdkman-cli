@@ -2,31 +2,19 @@ package gvm
 
 import groovy.text.SimpleTemplateEngine
 import org.vertx.groovy.core.http.RouteMatcher
-import org.vertx.groovy.core.Vertx
 
-class VertxUtils {
+class ServerResponses {
+
+	def gvmVersion
+	def vertxVersion
+
+	def templateEngine = new SimpleTemplateEngine()
 
 	final static grails = ['1.3.6','1.3.9','2.1.0']
 	final static candidates = [grails:grails]
 	final static defaults = [grails:'2.1.0']
 
-	static final gvmVersion = '0.8.2'
-	static final vertxVersion = '1.2.3.final'
-
-
-	static templateEngine = new SimpleTemplateEngine()
-
-	static server
-
-	public static startServer(){
-		if(!server){
-			println "Starting stub webservice..."
-			server = createServer("localhost", 8080)
-		}
-		server
-	}
-
-	private static createServer(String host, int port){
+	def createRouteMatcherFor(server) {
 		def rm = new RouteMatcher()
 
 		rm.get("/") { req ->
@@ -100,17 +88,6 @@ class VertxUtils {
 			req.response.end output
 		}
 
-		def vertx = Vertx.newVertx()
-		server = vertx.createHttpServer()
 		server.requestHandler(rm.asClosure())
-		server.listen(port, host)
-		server
 	}
-
-	public static stopServer(server){
-		println "Stopping web service..."
-		server.close()
-		println "Stopped web service..."
-	}
-
 }
