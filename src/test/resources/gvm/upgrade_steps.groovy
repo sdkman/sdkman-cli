@@ -3,7 +3,7 @@ import cucumber.runtime.PendingException
 import static gvm.VertxUtils.*
 
 Given(~'^an updated gvm available$') { ->
-	simulateGvmVersionOnNextBroadcastVersionRequest "99.99.99"
+	serverResponses.gvmVersion = "99.99.99"
 }
 
 Then(~'^the gvm scripts are up to date$') { ->
