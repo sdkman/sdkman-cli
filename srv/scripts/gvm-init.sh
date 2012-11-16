@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export GVM_SERVICE="http://get.gvmtool.net"
+export GVM_SERVICE="@GVM_SERVICE@"
 
 PATH="$HOME/.gvm/bin:$PATH"
 

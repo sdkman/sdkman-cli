@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GVM_SERVICE="http://localhost:8080"
+GVM_SERVICE="@GVM_SERVICE@"
 PLATFORM=$(uname)
 
 echo '                                                                     '
