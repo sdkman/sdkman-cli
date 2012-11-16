@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.*
+
 apply plugin: 'groovy'
 
 task wrapper(type: Wrapper) {
@@ -18,7 +20,16 @@ dependencies {
     testCompile group: 'org.vert-x', name: 'vertx-lang-groovy', version: '1.2.3.final'
 }
 
-task copyTask(type: Copy) {
-	from "scripts/gvm"
-	into 'bin'
+task prepareScripts(type: Copy) {
+	from "srv/scripts"
+	into 'build/scripts'
+	include '**/*'
+	filter(ReplaceTokens, tokens: [GVM_VERSION:gvmVersion, GVM_SERVICE:gvmService])
 }
+
+task assembleArchive(type: Zip) {
+	classifier = 'scripts'
+	from "build/scripts"
+	include "gvm*"
+}
+
