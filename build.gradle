@@ -4,6 +4,8 @@ apply plugin: 'groovy'
 
 defaultTasks 'clean', 'prepareScripts', 'assembleArchive', 'test'
 
+loadConfiguration()
+
 repositories {
     mavenCentral()
 }
@@ -22,11 +24,21 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.2'
 }
 
+def loadConfiguration() {
+    def environment = hasProperty('env') ? env : 'dev'
+    ext.environment = environment
+    println "Environment is set to: $environment"
+    
+    def configFile = file('config.groovy')
+    def config = new ConfigSlurper(environment).parse(configFile.toURL())
+    ext.config = config
+}
+
 task prepareScripts(type: Copy) {
 	from "srv/scripts"
 	into 'build/scripts'
 	include '**/*'
-	filter(ReplaceTokens, tokens: [GVM_VERSION:gvmVersion, GVM_SERVICE:gvmService])
+	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion, GVM_SERVICE:config.gvmService])
 }
 
 task assembleArchive(type: Zip) {
