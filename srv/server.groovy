@@ -28,12 +28,12 @@ def rm = new RouteMatcher()
 
 rm.get("/") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('srv/scripts/install.sh')
+	req.response.sendFile('build/scripts/install.sh')
 }
 
 rm.get("/selfupdate") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('srv/scripts/selfupdate.sh')
+	req.response.sendFile('build/scripts/selfupdate.sh')
 }
 
 rm.get("/alive") { req ->
@@ -49,15 +49,9 @@ rm.get("/res") { req ->
 		log 'initialise', 'gvm', gvmVersion, req
 	}
 
-	def files = []
-	files << new File('srv/scripts/gvm')
-	files << new File('srv/scripts/gvm-init.sh')
-	def zipFile = buildZip(files)
-
+	def zipFile = new File('build/distributions/gvm-scripts.zip')
 	req.response.putHeader("Content-Type", "application/zip")
 	req.response.sendFile zipFile.absolutePath
-
-	zipFile.delete()
 }
 
 rm.get("/candidates") { req ->
@@ -231,20 +225,6 @@ private log(command, candidate, version, req){
 
 	vertx.eventBus.send 'mongo-persistor', cmd
 }
-
-private buildZip(files){
-	def zipFile = File.createTempFile('gvm-', '.zip')
-	def zos = new ZipOutputStream(new FileOutputStream(zipFile)) 
-	files.each { file ->
-		def zipEntry = new ZipEntry(file.name)
-		zos.putNextEntry zipEntry
-		zos << new FileInputStream(file)
-	}
-	zos.close()
-
-	zipFile
-}
-
 
 //
 // startup server
