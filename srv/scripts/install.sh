@@ -127,6 +127,7 @@ mkdir -p "$HOME/.gvm/groovy"
 mkdir -p "$HOME/.gvm/grails"
 mkdir -p "$HOME/.gvm/griffon"
 mkdir -p "$HOME/.gvm/gradle"
+mkdir -p "$HOME/.gvm/vert.x"
 
 echo "Attempting to update bash profile..."
 
