@@ -1,7 +1,7 @@
 import static cucumber.runtime.groovy.Hooks.*
 import static gvm.VertxUtils.*
 
-baseDir = new File("srv/scripts")
+baseDir = new File("build/scripts")
 
 gvmDirEnv = System.getenv('GVM_DIR')
 if (! gvmDirEnv) {
@@ -16,8 +16,6 @@ if (! serviceUrlEnv) {
 gvmDir = new File("${gvmDirEnv}")
 varDir = new File("${gvmDirEnv}/var")
 broadcastFile = new File("${gvmDirEnv}/var/broadcast")
-
-scriptPath = 'srv/scripts'
 
 server = null
 

@@ -2,7 +2,7 @@ import org.apache.tools.ant.filters.*
 
 apply plugin: 'groovy'
 
-defaultTasks 'clean', 'prepareScripts', 'assembleArchive'
+defaultTasks 'clean', 'prepareScripts', 'assembleArchive', 'test'
 
 repositories {
     mavenCentral()
