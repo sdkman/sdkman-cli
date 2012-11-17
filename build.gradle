@@ -4,6 +4,8 @@ apply plugin: 'groovy'
 
 defaultTasks 'clean', 'prepareScripts', 'assembleArchive', 'test'
 
+ext.installDir = "${System.getProperty('user.home')}/.gvm/bin"
+
 loadConfiguration()
 
 repositories {
@@ -47,3 +49,12 @@ task assembleArchive(type: Zip) {
 	include "gvm*"
 }
 
+task cleanInstall(type: Delete) {
+	delete installDir
+}
+
+task install(type: Copy, dependsOn: [clean, cleanInstall, prepareScripts]) {
+	from "build/scripts"
+	into installDir
+	include "gvm*"
+}
