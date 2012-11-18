@@ -35,7 +35,7 @@
 
 		  <p>GVM is a tool for managing parallel Versions of multiple Software Development Kits on most Unix based systems. It provides a convenient command line interface for installing, switching, removing and listing Candidates.</p>
 		  
-		  <p>GVM was inspired by the highly useful <a href="https://rvm.io/">RVM</a>, used at large by the Ruby community.</p>
+		  <p>GVM was inspired by the highly useful <a href="https://rvm.io/">RVM</a> and <a href="https://github.com/sstephenson/rbenv">rbenv</a> tools, used at large by the Ruby community.</p>
 
 <p>Candidates that will initially be supported are:</p>
 
@@ -56,7 +56,7 @@
 <li>  FreeBSD (with bash installed)</li>
 </ul><p>GVM is written in <a href="http://www.gnu.org/software/bash/">bash</a> and only depends on bash, curl, zip and unzip to be available on your system. The installer will check for these before completing the installation process. It will then create a <code>.gvm/</code> folder in your home directory, and neatly install all candidates beneath it.</p>
 
-<p>GVM also has a server-side component written with <a href="http://vertx.io">vert.x</a> for dynamic behaviour. Further it uses <a href="http://www.mongodb.org/">MongoDB</a> for keeping track of Candidates and persisting some usage statistics. Newly available candidates and versions can be added to GVM without the need for local re-installation.</p>
+<p>GVM also has a server-side component written with <a href="http://vertx.io">vert.x</a> for dynamic behaviour. Further it uses <a href="http://www.mongodb.org/">MongoDB</a> for keeping track of Candidates and persisting some usage statistics. Newly available candidate versions can be added to GVM without the need for local re-installation.</p>
 
 <p>It also facilitates easy installation and a selfupdate feature to upgrade client-side components. It even sports a facility for live broadcast notifications.</p>
 
