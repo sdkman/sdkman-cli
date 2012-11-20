@@ -94,7 +94,7 @@ rm.get("/candidates/:candidate/default") { req ->
 rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current']
-	def installed = req.params['installed']
+	def installed = req.params['installed']?.tokenize(',')
 	def gtplFile = new File('srv/templates/list.gtpl')
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":1]]
