@@ -30,15 +30,15 @@ class VertxUtils {
 		def rm = new RouteMatcher()
 
 		rm.get("/") { req ->
-			req.response.sendFile('srv/scripts/install.sh')
+			req.response.sendFile('build/scripts/install.sh')
 		}
 
 		rm.get("/selfupdate") { req ->
-			req.response.sendFile('src/test/resources/selfupdate.sh')
+			req.response.sendFile('build/scripts/selfupdate.sh')
 		}
 
 		rm.get("/res") { req ->
-			req.response.sendFile('src/test/resources/res.zip')
+			req.response.sendFile('build/distributions/gvm-scripts.zip')
 		}
 
 		rm.get("/candidates") { req ->
