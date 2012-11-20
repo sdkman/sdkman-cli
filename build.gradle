@@ -50,7 +50,7 @@ task prepareServer(type: Copy){
 }
 
 task prepareScripts(type: Copy) {
-	from 'srv/scripts'
+	from 'src/main/resources/scripts'
 	into 'build/scripts'
 	include '**/*'
 	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion, GVM_SERVICE:config.gvmService])
