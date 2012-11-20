@@ -2,7 +2,7 @@ import org.apache.tools.ant.filters.*
 
 apply plugin: 'groovy'
 
-defaultTasks 'clean', 'prepareScripts', 'assembleArchive', 'test'
+defaultTasks 'clean', 'prepareScripts', 'prepareTemplates', 'assembleArchive', 'test'
 
 ext.installDir = "${System.getProperty('user.home')}/.gvm/bin"
 
@@ -34,6 +34,12 @@ def loadConfiguration() {
     def configFile = file('config.groovy')
     def config = new ConfigSlurper(environment).parse(configFile.toURL())
     ext.config = config
+}
+
+task prepareTemplates(type: Copy) {
+	from "src/main/resources"
+	into "build/templates"
+	include "*.gtpl"
 }
 
 task prepareScripts(type: Copy) {

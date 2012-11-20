@@ -95,7 +95,7 @@ rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current']
 	def installed = req.params['installed']?.tokenize(',')
-	def gtplFile = new File('srv/templates/list.gtpl')
+	def gtplFile = new File('build/templates/list.gtpl')
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
@@ -159,10 +159,10 @@ rm.get("/broadcast/:version") { req ->
 		def version = req.params['version']
 		def gtpFile, binding
 		if(gvmVersion == version){
-			gtplFile = new File('srv/templates/broadcast.gtpl')
+			gtplFile = new File('build/templates/broadcast.gtpl')
 			binding = [gvmVersion:gvmVersion, vertxVersion:vertxVersion, broadcasts:broadcasts]
 		} else {
-			gtplFile = new File('srv/templates/upgrade.gtpl')
+			gtplFile = new File('build/templates/upgrade.gtpl')
 			binding = [version:version, gvmVersion:gvmVersion]
 		}
 		def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
@@ -179,7 +179,7 @@ rm.get("/broadcast/:version") { req ->
 //
 
 rm.get("/app/alive/:version") { req ->
-	def legacyBroadcast = new File('srv/templates/legacy.gtpl')
+	def legacyBroadcast = new File('build/templates/legacy.gtpl')
 	def broadcast = legacyBroadcast.text
 	addPlainTextHeader req
 	req.response.end broadcast

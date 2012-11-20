@@ -60,7 +60,7 @@ class VertxUtils {
 			def candidate = req.params['candidate']
 			def current = req.params['current']
 			def installed = req.params['installed']
-			def gtplFile = new File('srv/templates/list.gtpl')
+			def gtplFile = new File('build/templates/list.gtpl')
 			def binding = [candidate:candidate, available:grails, current:current, installed:installed]
 			def template = templateEngine.createTemplate(gtplFile).make(binding)
 			req.response.end template.toString()
@@ -92,7 +92,7 @@ class VertxUtils {
 				output = "This is a LIVE Broadcast!"
 
 			} else {
-				gtplFile = new File('srv/templates/upgrade.gtpl')
+				gtplFile = new File('build/templates/upgrade.gtpl')
 				binding = [version:version, gvmVersion:gvmVersion]
 				def template = templateEngine.createTemplate(gtplFile).make(binding)
 				output = template.toString()
