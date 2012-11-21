@@ -20,15 +20,23 @@ If the environment needs tweaking for GVM to be installed, the installer will pr
 
 All GVM's tests are written in Cucumber and can be found under `src/test/cucumber/gvm`. These can be run with Gradle by running the following command:
 
-    ./build.sh
+    ./gradlew -i
 
-__Do not run Gradle directly! Doing so will delete your local GVM installation (with all installed candidates) on teardown of the tests.__
+__Please enusre that the JAVA_HOME environment variable set to JDK 1.7 on you system!__
+
+Mac users can add the following line to their `~/.bash_profile` file to set this variable:
+
+	export JAVA_HOME=$(/usr/libexec/java_home -v1.7)
 
 ## Running the Server locally
 
-Ensure that you have vertx installed and set up on your path. To start up the server locally, simply enter:
+Ensure that you have vertx installed on your machine.
 
-    ./run.sh
+	gvm install vert.x
+
+To start up the server locally, simply enter:
+
+    vertx run build/server/server.groovy
 
 This will start the server on localhost:8080
 
