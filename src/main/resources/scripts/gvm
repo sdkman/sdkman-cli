@@ -87,7 +87,7 @@ function download {
 
 function validate_zip {
 	ZIP_ARCHIVE="$1"
-	ZIP_OK=$(zip -T "$ZIP_ARCHIVE" | grep 'OK')
+	ZIP_OK=$(unzip -t "$ZIP_ARCHIVE" | grep 'No errors detected in compressed data')
 	if [ -z "$ZIP_OK" ]; then
 		rm "$ZIP_ARCHIVE"
 		echo ""

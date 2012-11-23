@@ -72,18 +72,6 @@ if [ ! -f "$JAVA_HOME/bin/java" ]; then
 	exit 0	
 fi
 
-echo "Looking for zip..."
-if [ -z $(which zip) ]; then
-	echo "Not found."
-	echo "======================================================================================================"
-	echo " Please install zip on your system using your favourite package manager."
-	echo ""
-	echo " Restart after installing zip."
-	echo "======================================================================================================"
-	echo ""
-	exit 0
-fi
-
 echo "Looking for unzip..."
 if [ -z $(which unzip) ]; then
 	echo "Not found."
