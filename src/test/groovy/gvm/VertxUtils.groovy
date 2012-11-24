@@ -11,8 +11,8 @@ class VertxUtils {
 	final static candidates = [groovy:groovy,grails:grails]
 	final static defaults = [groovy:'2.0.5',grails:'2.1.0']
 
-	static final gvmVersion = '0.8.2'
-	static final vertxVersion = '1.2.3.final'
+	static final gvmVersion = '0.8.3'
+	static final vertxVersion = '1.3.0.final'
 
 
 	static templateEngine = new SimpleTemplateEngine()
@@ -31,15 +31,15 @@ class VertxUtils {
 		def rm = new RouteMatcher()
 
 		rm.get("/") { req ->
-			req.response.sendFile('srv/scripts/install.sh')
+			req.response.sendFile('build/scripts/install.sh')
 		}
 
 		rm.get("/selfupdate") { req ->
-			req.response.sendFile('src/test/resources/selfupdate.sh')
+			req.response.sendFile('build/scripts/selfupdate.sh')
 		}
 
 		rm.get("/res") { req ->
-			req.response.sendFile('src/test/resources/res.zip')
+			req.response.sendFile('build/distributions/gvm-scripts.zip')
 		}
 
 		rm.get("/candidates") { req ->
@@ -61,7 +61,7 @@ class VertxUtils {
 			def candidate = req.params['candidate']
 			def current = req.params['current']
 			def installed = req.params['installed']
-			def gtplFile = new File('srv/templates/list.gtpl')
+			def gtplFile = new File('build/templates/list.gtpl')
 			def binding = [candidate:candidate, available:candidates[candidate], current:current, installed:installed]
 			def template = templateEngine.createTemplate(gtplFile).make(binding)
 			req.response.end template.toString()
@@ -93,7 +93,7 @@ class VertxUtils {
 				output = "This is a LIVE Broadcast!"
 
 			} else {
-				gtplFile = new File('srv/templates/upgrade.gtpl')
+				gtplFile = new File('build/templates/upgrade.gtpl')
 				binding = [version:version, gvmVersion:gvmVersion]
 				def template = templateEngine.createTemplate(gtplFile).make(binding)
 				output = template.toString()

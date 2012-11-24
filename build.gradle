@@ -1,8 +1,12 @@
+import org.apache.tools.ant.filters.*
+
 apply plugin: 'groovy'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.2'
-}
+defaultTasks 'clean', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
+
+ext.installDir = "${System.getProperty('user.home')}/.gvm/bin"
+
+loadConfiguration()
 
 repositories {
     mavenCentral()
@@ -18,7 +22,52 @@ dependencies {
     testCompile group: 'org.vert-x', name: 'vertx-lang-groovy', version: '1.2.3.final'
 }
 
-task copyTask(type: Copy) {
-	from "scripts/gvm"
-	into 'bin'
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.3'
+}
+
+def loadConfiguration() {
+    def environment = hasProperty('env') ? env : 'dev'
+    ext.environment = environment
+    println "Environment is set to: $environment"
+    
+    def configFile = file('config.groovy')
+    def config = new ConfigSlurper(environment).parse(configFile.toURL())
+    ext.config = config
+}
+
+task prepareTemplates(type: Copy) {
+	from "src/main/resources/templates"
+	into "build/templates"
+	include "*.gtpl"
+}
+
+task prepareServer(type: Copy){
+	from 'src/main/resources'
+	into 'build/server'
+	include 'server.groovy'
+	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion])
+}
+
+task prepareScripts(type: Copy) {
+	from 'src/main/resources/scripts'
+	into 'build/scripts'
+	include '**/*'
+	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion, GVM_SERVICE:config.gvmService])
+}
+
+task assembleArchive(type: Zip) {
+	classifier = 'scripts'
+	from "build/scripts"
+	include "gvm*"
+}
+
+task cleanInstall(type: Delete) {
+	delete installDir
+}
+
+task install(type: Copy, dependsOn: [clean, cleanInstall, prepareScripts]) {
+	from "build/scripts"
+	into installDir
+	include "gvm*"
 }

@@ -1,5 +1,6 @@
 Feature: Upgrade
 
+	@manual
 	Scenario: Upgrade an outdated installation
 		Given an initialised system
 		When I enter "gvm selfupdate"

@@ -28,12 +28,12 @@ def rm = new RouteMatcher()
 
 rm.get("/") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('srv/scripts/install.sh')
+	req.response.sendFile('build/scripts/install.sh')
 }
 
 rm.get("/selfupdate") { req ->
 	addPlainTextHeader req
-	req.response.sendFile('srv/scripts/selfupdate.sh')
+	req.response.sendFile('build/scripts/selfupdate.sh')
 }
 
 rm.get("/alive") { req ->
@@ -49,15 +49,9 @@ rm.get("/res") { req ->
 		log 'initialise', 'gvm', gvmVersion, req
 	}
 
-	def files = []
-	files << new File('srv/scripts/gvm')
-	files << new File('srv/scripts/gvm-init.sh')
-	def zipFile = buildZip(files)
-
+	def zipFile = new File('build/distributions/gvm-scripts.zip')
 	req.response.putHeader("Content-Type", "application/zip")
 	req.response.sendFile zipFile.absolutePath
-
-	zipFile.delete()
 }
 
 rm.get("/candidates") { req ->
@@ -100,8 +94,8 @@ rm.get("/candidates/:candidate/default") { req ->
 rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current']
-	def installed = req.params['installed']
-	def gtplFile = new File('srv/templates/list.gtpl')
+	def installed = req.params['installed']?.tokenize(',')
+	def gtplFile = new File('build/templates/list.gtpl')
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
@@ -165,10 +159,10 @@ rm.get("/broadcast/:version") { req ->
 		def version = req.params['version']
 		def gtpFile, binding
 		if(gvmVersion == version){
-			gtplFile = new File('srv/templates/broadcast.gtpl')
+			gtplFile = new File('build/templates/broadcast.gtpl')
 			binding = [gvmVersion:gvmVersion, vertxVersion:vertxVersion, broadcasts:broadcasts]
 		} else {
-			gtplFile = new File('srv/templates/upgrade.gtpl')
+			gtplFile = new File('build/templates/upgrade.gtpl')
 			binding = [version:version, gvmVersion:gvmVersion]
 		}
 		def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
@@ -185,7 +179,7 @@ rm.get("/broadcast/:version") { req ->
 //
 
 rm.get("/app/alive/:version") { req ->
-	def legacyBroadcast = new File('srv/templates/legacy.gtpl')
+	def legacyBroadcast = new File('build/templates/legacy.gtpl')
 	def broadcast = legacyBroadcast.text
 	addPlainTextHeader req
 	req.response.end broadcast
@@ -231,20 +225,6 @@ private log(command, candidate, version, req){
 
 	vertx.eventBus.send 'mongo-persistor', cmd
 }
-
-private buildZip(files){
-	def zipFile = File.createTempFile('gvm-', '.zip')
-	def zos = new ZipOutputStream(new FileOutputStream(zipFile)) 
-	files.each { file ->
-		def zipEntry = new ZipEntry(file.name)
-		zos.putNextEntry zipEntry
-		zos << new FileInputStream(file)
-	}
-	zos.close()
-
-	zipFile
-}
-
 
 //
 // startup server
