@@ -1,0 +1,17 @@
+#!/bin/bash
+GRAILS_CMD=$1
+shift
+#TODO this might not work for the default case
+while [ ! -f 'application.properties' -a ! "`pwd`" == '/' ]; do
+    cd ..
+done
+
+if [ -f application.properties ]; then
+    export GRAILS_VERSION=`grep app.grails.version application.properties | sed -E 's/.*=(.*)/\1/'`
+    echo "application.properties found, grails $GRAILS_VERSION"
+    gvm use grails $GRAILS_VERSION
+else 
+    echo "application.properties NOT found, using current version of grails"
+fi
+
+$HOME/.gvm/grails/current/bin/$GRAILS_CMD $*
