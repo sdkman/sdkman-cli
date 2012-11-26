@@ -49,3 +49,17 @@ Feature: Install GVM
 		Given the user home contains a ".bashrc" file
 		When I run the installation script
 		Then the ".bashrc" contains an Initialisation Snippet
+
+	Scenario: Source the Initialisation Script on first invokation of the Init Snippet
+		Given the user home contains a ".bash_profile" file
+		And the ".bash_profile" contains an Initialisation Snippet
+		When I open a new Login Shell
+		Then the "gvm-init.sh" script is sourced once only
+
+	Scenario: Do not Source the Initialisation Script on subsequent invokation of the Init Snippet
+		Given the user home contains a ".bash_profile" file
+		And the ".bash_profile" contains an Initialisation Snippet
+		And the user home contains a ".bashrc" file
+		And the ".bashrc" contains an Initialisation Snippet
+		When I open a new Login Shell
+		Then the "gvm-init.sh" script is sourced once only
