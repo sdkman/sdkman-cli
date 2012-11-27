@@ -1,0 +1,21 @@
+#!/bin/bash
+GRAILS_CMD=$1
+if [ ! "$GVM_DIR" ]; then
+    GVM_DIR="$HOME/.gvm"
+fi
+shift
+#TODO this might not work for the default case
+while [ ! -f 'application.properties' -a ! "`pwd`" == '/' ]; do
+    cd ..
+done
+
+if [ -f application.properties ]; then
+    GRAILS_VERSION=`grep app.grails.version application.properties | sed -E 's/.*=(.*)/\1/'`
+    echo "application.properties found, grails $GRAILS_VERSION"
+    gvm use grails $GRAILS_VERSION
+else 
+	CURRENT=$(readlink "$GVM_DIR/grails/current" | sed -e "s_$GVM_DIR/grails/__g")
+    echo "application.properties NOT found, using grails $CURRENT"
+fi
+
+$HOME/.gvm/grails/current/bin/$GRAILS_CMD $*

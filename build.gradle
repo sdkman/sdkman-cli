@@ -60,7 +60,7 @@ task assembleArchive(type: Zip) {
 	classifier = 'scripts'
 	from "build/scripts"
 	include "gvm*"
-	include "grails*"
+	include "grails/*"
 }
 
 task cleanInstall(type: Delete) {
@@ -71,5 +71,5 @@ task install(type: Copy, dependsOn: [clean, cleanInstall, prepareScripts]) {
 	from "build/scripts"
 	into installDir
 	include "gvm*"
-	include "grails*"
+	include "grails/*"
 }
