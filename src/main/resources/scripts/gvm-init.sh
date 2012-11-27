@@ -2,12 +2,29 @@
 
 export GVM_SERVICE="@GVM_SERVICE@"
 
-PATH="$HOME/.gvm/bin:$PATH"
+if [ -z "$GVM_DIR" ]; then
+	export GVM_DIR="$HOME/.gvm"
+fi
 
-GROOVY_HOME="$HOME/.gvm/groovy/current"
-GRAILS_HOME="$HOME/.gvm/grails/current"
-GRIFFON_HOME="$HOME/.gvm/griffon/current"
-GRADLE_HOME="$HOME/.gvm/gradle/current"
-VERTX_HOME="$HOME/.gvm/vert.x/current"
+PATH="$GVM_DIR/bin:$PATH"
+
+GROOVY_HOME="$GVM_DIR/groovy/current"
+GRAILS_HOME="$GVM_DIR/grails/current"
+GRIFFON_HOME="$GVM_DIR/griffon/current"
+GRADLE_HOME="$GVM_DIR/gradle/current"
+VERTX_HOME="$GVM_DIR/vert.x/current"
 
 export PATH="$GROOVY_HOME/bin:$GRAILS_HOME/bin:$GRIFFON_HOME/bin:$GRADLE_HOME/bin:$VERTX_HOME/bin:$PATH"
+
+# Source the main `gvm` script.
+source "$GVM_DIR/bin/gvm"
+
+# Source any plugin files whose names begin with 'sourced-'
+if [ -d "$GVM_DIR/plugins" ]; then
+    for f in $GVM_DIR/plugins/sourced-*.sh; do
+        if [ -r $f ]; then
+            source $f
+        fi
+    done
+    unset f
+fi
