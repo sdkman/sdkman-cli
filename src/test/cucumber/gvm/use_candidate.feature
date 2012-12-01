@@ -53,8 +53,15 @@ Feature: Use Candidate
 		When I enter "gvm current grails"
 		Then I see "Not using any version of grails"
 
-	Scenario: Display current candidate version in use when no candidate is provided
+	Scenario: Display current candidate versions in use when no candidate is provided and a single candidate is installed
 		Given the candidate "grails" version "2.1.0" is already installed and in use
 		When I enter "gvm current"
-		Then I see "No candidate provided"
+		Then I see "Using grails version 2.1.0"
+
+	Scenario: Display current candidate versions in use when no candidate is provided and multiple candidates are installed
+		Given the candidate "groovy" version "2.0.5" is already installed and in use
+		And the candidate "grails" version "2.1.0" is already installed and in use
+		When I enter "gvm current"
+		Then I see "Using grails version 2.1.0"
+		And I see "Using groovy version 2.0.5"
 

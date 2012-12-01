@@ -60,6 +60,13 @@ function build_version_csv {
 	CSV=${CSV%?}
 }
 
+function is_candidate_installed {
+	if [ "$(ls -A "$GVM_DIR/$1")" ]; then
+		return 0
+	fi
+	return 1
+}
+
 function determine_current_version {
 	CANDIDATE="$1"
 	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
@@ -238,14 +245,22 @@ function gvm-use {
 }
 
 function gvm-current {
-	CANDIDATE="$1"
-	check_candidate_present "$CANDIDATE"
-	determine_current_version "$CANDIDATE"
-	if [ -n "$CURRENT" ]; then
-		echo Using "$CANDIDATE" version "$CURRENT"
+	if [ -n "$1" ]; then
+		CANDIDATES="$1"
 	else
-		echo Not using any version of "$CANDIDATE"
+		CANDIDATES=$(curl -s "$GVM_SERVICE/candidates" | tr -d ",")
 	fi
+
+	for CANDIDATE in $CANDIDATES; do
+		if [ "$CANDIDATE" == "$1" ] || is_candidate_installed "$CANDIDATE"; then
+			determine_current_version "$CANDIDATE"
+			if [ -n "$CURRENT" ]; then
+				echo Using "$CANDIDATE" version "$CURRENT"
+			else
+				echo Not using any version of "$CANDIDATE"
+			fi
+		fi
+	done
 }
 
 function gvm-list {
