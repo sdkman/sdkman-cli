@@ -7,12 +7,11 @@ PLATFORM=$(uname)
 #
 
 function help {
-	CANDIDATES=$(curl -s "$GVM_SERVICE/candidates")
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
 	echo "   command    :  install, uninstall, list, use, current, version, selfupdate, broadcast or help"
-	echo "   candidate  :  $CANDIDATES"
+	echo "   candidate  :  groovy, grails, griffon, gradle, vert.x"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
 	echo "eg: gvm install groovy"
