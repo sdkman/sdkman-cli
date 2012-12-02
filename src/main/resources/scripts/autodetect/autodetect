@@ -6,20 +6,16 @@ if [ ! "$GVM_DIR" ]; then
 fi
 shift
 shift
-#Look for the root directory
-while [ ! -f 'application.properties' -a ! "`pwd`" == '/' ]; do
-    cd ..
-done
 
 #If application properties is found, use the specified version
-if [ -f application.properties ]; then
+if [[ -f application.properties && -d "$CANDIDATE_CMD-app"  ]]; then
     CANDIDATE_VERSION=`grep app.$CANDIDATE.version application.properties | sed -E 's/.*=(.*)/\1/'`
-    echo "application.properties found, $CANDIDATE $CANDIDATE_VERSION"
+    echo "$CANDIDATE_CMD application found, $CANDIDATE $CANDIDATE_VERSION"
     gvm use $CANDIDATE $CANDIDATE_VERSION
 else 
     #If no applicaiton.properties is found, use the current version from GVM
 	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
-    echo "application.properties NOT found, using $CANDIDATE $CURRENT"
+    echo "$CANDIDATE_CMD application NOT found, using $CANDIDATE $CURRENT"
 fi
 
 $HOME/.gvm/$CANDIDATE/current/bin/$CANDIDATE_CMD $*

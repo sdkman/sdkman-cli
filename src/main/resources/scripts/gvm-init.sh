@@ -10,7 +10,7 @@ VERTX_HOME="$HOME/.gvm/vert.x/current"
 
 export PATH="$HOME/.gvm/bin:$GROOVY_HOME/bin:$GRAILS_HOME/bin:$GRIFFON_HOME/bin:$GRADLE_HOME/bin:$VERTX_HOME/bin:$PATH"
 if [ "$GVM_AUTODETECT" -eq "1" ]; then
-    export PATH="$HOME/.gvm/bin/autodetect:$PATH"
+    export PATH="$HOME/.gvm/autodetect:$PATH"
 fi
 
 

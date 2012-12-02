@@ -5,6 +5,7 @@ apply plugin: 'groovy'
 defaultTasks 'clean', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
 
 ext.installDir = "${System.getProperty('user.home')}/.gvm/bin"
+ext.autodetectDir= "${System.getProperty('user.home')}/.gvm/autodetect"
 
 loadConfiguration()
 
@@ -67,9 +68,22 @@ task cleanInstall(type: Delete) {
 	delete installDir
 }
 
-task install(type: Copy, dependsOn: [clean, cleanInstall, prepareScripts]) {
+task cleanAutodetect(type: Delete) {
+    delete autodetectDir
+}
+
+task installBaseScripts(type:Copy, dependsOn: [clean, cleanInstall, prepareScripts]) {
 	from "build/scripts"
 	into installDir
 	include "gvm*"
-	include "autodetect/*"
 }
+
+task installAutodetect(type: Copy, dependsOn: [clean, cleanAutodetect, prepareScripts]) {
+	from "build/scripts/autodetect"
+	into autodetectDir
+	include "*"
+}
+
+task install(dependsOn: [installBaseScripts, installAutodetect]) {
+}
+
