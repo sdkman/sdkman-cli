@@ -238,13 +238,30 @@ function gvm-use {
 }
 
 function gvm-current {
-	CANDIDATE="$1"
-	check_candidate_present "$CANDIDATE"
-	determine_current_version "$CANDIDATE"
-	if [ -n "$CURRENT" ]; then
-		echo Using "$CANDIDATE" version "$CURRENT"
+	if [ -n "$1" ]; then
+		CANDIDATE="$1"
+		determine_current_version "$CANDIDATE"
+		if [ -n "$CURRENT" ]; then
+			echo "Using $CANDIDATE version $CURRENT"
+		else
+			echo "Not using any version of $CANDIDATE"
+		fi
 	else
-		echo Not using any version of "$CANDIDATE"
+		CANDIDATES=$(curl -s "$GVM_SERVICE/candidates" | tr -d ",")
+		INSTALLED_COUNT=0
+		for CANDIDATE in $CANDIDATES; do
+			determine_current_version "$CANDIDATE"
+			if [ -n "$CURRENT" ]; then
+				if [ $INSTALLED_COUNT -eq 0 ]; then
+					echo 'Using:'
+				fi
+				echo "$CANDIDATE $CURRENT"
+				(( INSTALLED_COUNT += 1 ))
+			fi
+		done
+		if [ $INSTALLED_COUNT -eq 0 ]; then
+			echo 'No candidates are in use'
+		fi
 	fi
 }
 
