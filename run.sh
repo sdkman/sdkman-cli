@@ -9,5 +9,9 @@ if [ -z $(which vertx) ]; then
 	exit 0
 fi
 
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.7.0.jdk/Contents/Home"
+if [ -z "$JAVA_HOME" ]; then
+	echo "Please point JAVA_HOME and a valid JDK 7.0"
+	exit 0
+fi
+
 vertx run build/server/server.groovy
