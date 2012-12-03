@@ -3,6 +3,8 @@ import java.util.zip.*
 import org.vertx.groovy.core.http.RouteMatcher
 import org.vertx.java.core.json.JsonObject
 
+final GVM_VERSION = '@GVM_VERSION@'
+final VERTX_VERSION = '@VERTX_VERSION@'
 
 //
 // datasource configuration
@@ -42,12 +44,7 @@ rm.get("/alive") { req ->
 }
 
 rm.get("/res") { req ->
-	def cmd = [action:"find", collection:"application", matcher:[_id:1]]
-	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		addPlainTextHeader req
-		def gvmVersion = msg.body.results[0].gvmVersion
-		log 'initialise', 'gvm', gvmVersion, req
-	}
+	log 'initialise', 'gvm', GVM_VERSION, req
 
 	def zipFile = new File('build/distributions/gvm-scripts.zip')
 	req.response.putHeader("Content-Type", "application/zip")
@@ -136,34 +133,21 @@ rm.get("/download/:candidate/:version") { req ->
 }
 
 rm.get("/app/version") { req ->
-	def cmd = [action:"find", collection:"application", matcher:[_id:1]]
-	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		addPlainTextHeader req
-		def gvmVersion = "${msg.body.results[0].gvmVersion}"
-		req.response.end gvmVersion
-	}
+	req.response.end GVM_VERSION
 }
 
 rm.get("/broadcast/:version") { req ->
-	def gvmVersion, vertxVersion
-	def cmd1 = [action:"find", collection:"application", matcher:[_id:1]]
-	vertx.eventBus.send("mongo-persistor", cmd1){ msg ->
-		addPlainTextHeader req
-		gvmVersion = "${msg.body.results[0].gvmVersion}"
-		vertxVersion = "${msg.body.results[0].vertxVersion}"
-	}
-
 	def cmd2 = [action:"find", collection:"broadcast", matcher:[:]]
 	vertx.eventBus.send("mongo-persistor", cmd2){ msg ->
 		def broadcasts = msg.body.results
 		def version = req.params['version']
 		def gtpFile, binding
-		if(gvmVersion == version){
+		if(GVM_VERSION == version){
 			gtplFile = new File('build/templates/broadcast.gtpl')
-			binding = [gvmVersion:gvmVersion, vertxVersion:vertxVersion, broadcasts:broadcasts]
+			binding = [gvmVersion:GVM_VERSION, vertxVersion:VERTX_VERSION, broadcasts:broadcasts]
 		} else {
 			gtplFile = new File('build/templates/upgrade.gtpl')
-			binding = [version:version, gvmVersion:gvmVersion]
+			binding = [version:version, gvmVersion:GVM_VERSION]
 		}
 		def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
 
