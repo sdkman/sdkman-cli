@@ -2,6 +2,7 @@
 
 GVM_SERVICE="@GVM_SERVICE@"
 PLATFORM=$(uname)
+GVM_BASE="$HOME/.gvm"
 
 echo '                                                                     '
 echo 'Thanks for using                                                     '
@@ -20,14 +21,14 @@ echo '                                       Will now attempt installing...'
 echo '                                                                     '
 
 echo "Looking for a previous installation of GVM..."
-if [ -d "$HOME/.gvm" ]; then
+if [ -d "$GVM_BASE" ]; then
 	echo "GVM found."
 	echo ""
 	echo "======================================================================================================"
 	echo " You already have GVM installed."
 	echo " GVM was found at:"
 	echo ""
-	echo "    $HOME/.gvm"
+	echo "    $GVM_BASE"
 	echo ""
 	echo " Please consider running the following if you need to upgrade."
 	echo ""
@@ -100,29 +101,27 @@ if [ -z $(which curl) ]; then
 fi
 
 echo "Installing gvm scripts..."
-BIN_FOLDER="$HOME/.gvm/bin"
+BIN_FOLDER="$GVM_BASE/bin"
 TMP_ZIP="/tmp/res.zip"
-
 mkdir -p "$BIN_FOLDER"
 curl -s "$GVM_SERVICE/res?platform=$PLATFORM" > "$TMP_ZIP"
 unzip -qo "$TMP_ZIP" -d "$BIN_FOLDER"
 rm "$TMP_ZIP"
-
 chmod +x "$BIN_FOLDER"/*
 
+mkdir -p "$GVM_BASE/ext"
+
 echo "Creating candidate directories..."
-mkdir -p "$HOME/.gvm/groovy"
-mkdir -p "$HOME/.gvm/grails"
-mkdir -p "$HOME/.gvm/griffon"
-mkdir -p "$HOME/.gvm/gradle"
-mkdir -p "$HOME/.gvm/vert.x"
+mkdir -p "$GVM_BASE/groovy"
+mkdir -p "$GVM_BASE/grails"
+mkdir -p "$GVM_BASE/griffon"
+mkdir -p "$GVM_BASE/gradle"
+mkdir -p "$GVM_BASE/vert.x"
 
 echo "Attempting to update bash profile..."
-
-
 SNIPPET=$( cat << EOF
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "$HOME/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "$HOME/.gvm/bin/gvm-init.sh"
+[[ -s "$GVM_BASE/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "$GVM_BASE/bin/gvm-init.sh"
 EOF
 )
 
@@ -178,7 +177,7 @@ echo ""
 echo ""
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""
-echo "    source \"$HOME/.gvm/bin/gvm-init.sh\""
+echo "    source \"$GVM_BASE/bin/gvm-init.sh\""
 echo ""
 echo "Then issue the following command:"
 echo ""
