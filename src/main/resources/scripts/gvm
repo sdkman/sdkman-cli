@@ -254,7 +254,7 @@ function gvm-current {
 				if [ $INSTALLED_COUNT -eq 0 ]; then
 					echo 'Using:'
 				fi
-				echo "$CANDIDATE $CURRENT"
+				echo "$CANDIDATE: $CURRENT"
 				(( INSTALLED_COUNT += 1 ))
 			fi
 		done
