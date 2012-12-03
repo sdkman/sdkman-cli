@@ -1,0 +1,21 @@
+#!/bin/bash
+CANDIDATE=$1
+CANDIDATE_CMD=$2
+if [ ! "$GVM_DIR" ]; then
+    GVM_DIR="$HOME/.gvm"
+fi
+shift
+shift
+
+#If application properties is found, use the specified version
+if [[ -f application.properties && -d "$CANDIDATE_CMD-app"  ]]; then
+    CANDIDATE_VERSION=`grep app.$CANDIDATE.version application.properties | sed -E 's/.*=(.*)/\1/'`
+    echo "$CANDIDATE_CMD application found, $CANDIDATE $CANDIDATE_VERSION"
+    gvm use $CANDIDATE $CANDIDATE_VERSION
+else 
+    #If no applicaiton.properties is found, use the current version from GVM
+	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
+    echo "$CANDIDATE_CMD application NOT found, using $CANDIDATE $CURRENT"
+fi
+
+$HOME/.gvm/$CANDIDATE/current/bin/$CANDIDATE_CMD $*

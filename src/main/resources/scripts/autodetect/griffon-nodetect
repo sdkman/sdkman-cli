@@ -1,0 +1,2 @@
+#!/bin/bash
+$HOME/.gvm/griffon/current/bin/griffon $*

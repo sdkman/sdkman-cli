@@ -1,0 +1,2 @@
+#!/bin/bash
+$HOME/.gvm/grails/current/bin/grails $*
