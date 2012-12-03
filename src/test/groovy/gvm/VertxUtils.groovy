@@ -6,9 +6,10 @@ import org.vertx.groovy.core.Vertx
 
 class VertxUtils {
 
+	final static groovy = ['2.0.5']
 	final static grails = ['1.3.6','1.3.9','2.1.0']
-	final static candidates = [grails:grails]
-	final static defaults = [grails:'2.1.0']
+	final static candidates = [groovy:groovy,grails:grails]
+	final static defaults = [groovy:'2.0.5',grails:'2.1.0']
 
 	static final gvmVersion = '0.8.3'
 	static final vertxVersion = '1.3.0.final'
@@ -42,7 +43,7 @@ class VertxUtils {
 		}
 
 		rm.get("/candidates") { req ->
-			req.response.end "grails"
+			req.response.end "groovy, grails"
 		}
 
 		rm.get("/candidates/:candidate") { req ->
@@ -53,7 +54,7 @@ class VertxUtils {
 
 		rm.get("/candidates/:candidate/default") { req ->
 			def candidate = req.params['candidate']
-			req.response.end "2.1.0"
+			req.response.end (defaults[candidate])
 		}
 
 		rm.get("/candidates/:candidate/list") { req ->
@@ -61,7 +62,7 @@ class VertxUtils {
 			def current = req.params['current']
 			def installed = req.params['installed']
 			def gtplFile = new File('build/templates/list.gtpl')
-			def binding = [candidate:candidate, available:grails, current:current, installed:installed]
+			def binding = [candidate:candidate, available:candidates[candidate], current:current, installed:installed]
 			def template = templateEngine.createTemplate(gtplFile).make(binding)
 			req.response.end template.toString()
 		}
