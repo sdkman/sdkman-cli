@@ -11,7 +11,7 @@ final VERTX_VERSION = '@VERTX_VERSION@'
 //
 
 def config
-def mongoJson = new File('srv/mongo.json')
+def mongoJson = new File('mongo.json')
 if(mongoJson.exists()){
 	config = new JsonObject(mongoJson.text).toMap()
 } else {
