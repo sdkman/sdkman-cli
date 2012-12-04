@@ -1,6 +1,7 @@
 import org.apache.tools.ant.filters.*
 
 apply plugin: 'groovy'
+apply plugin: 'idea'
 
 defaultTasks 'clean', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
 
