@@ -152,6 +152,12 @@ a.button span {
   height: 23px;
 }
 
+#follow-twitter span {
+  background: transparent url(../images/twitter-icon.png) 12px 50% no-repeat;
+} 
+#google-plus span {
+  background: transparent url(../images/google-icon.png) 12px 50% no-repeat;
+}
 #download-zip span {
   background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
 }
