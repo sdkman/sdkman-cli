@@ -23,8 +23,8 @@
         </header>
 
         <section id="downloads" class="clearfix">
-          <a href="https://twitter.com/gvmtool" id="follow-twitter" class="button"><span>Follow @gvmtool</span></a>
-          <a href="https://plus.google.com/u/0/110870000286657737858/posts" id="google-plus" class="button"><span>On Google+</span></a>
+          <a href="https://github.com/gvmtool/gvm/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/gvmtool/gvm/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
           <a href="https://github.com/gvmtool/gvm" id="view-on-github" class="button"><span>View on GitHub</span></a>
         </section>
 
@@ -33,11 +33,11 @@
         <section id="main_content">
           <h1>GVM the Groovy enVironment Manager</h1>
 
-		  <p>GVM is a tool for managing parallel Versions of multiple Software Development Kits on most Unix based systems. It provides a convenient command line interface for installing, switching, removing and listing Candidates.</p>
-		  
-		  <p>GVM was inspired by the highly useful <a href="https://rvm.io/">RVM</a> and <a href="https://github.com/sstephenson/rbenv">rbenv</a> tools, used at large by the Ruby community.</p>
+<p>GVM is a tool for managing parallel Versions of multiple Software Development Kits on most Unix based systems. It provides a convenient command line interface for installing, switching, removing and listing Candidates.</p>
 
-<p>Candidates that will initially be supported are:</p>
+<p>GVM was inspired by the highly useful <a href="https://rvm.io">RVM</a> and <a href="https://github.com/sstephenson/rbenv">rbenv</a> tools, used at large by the Ruby community.</p>
+
+<p>Candidates that are currently supported are:</p>
 
 <ul>
 <li>  Groovy</li>
@@ -45,9 +45,9 @@
 <li>  Griffon</li>
 <li>  Gradle</li>
 <li>  vert.x</li>
-</ul><p>This list will grow beyond Groovy based candidates.</p>
+</ul><p>This list will grow beyond Groovy candidates.</p>
 
-<p>Supported platforms are:</p>
+<p>It runs on the following platforms:</p>
 
 <ul>
 <li>  Linux</li>
@@ -55,9 +55,10 @@
 <li>  Cygwin</li>
 <li>  Solaris</li>
 <li>  FreeBSD (with bash installed)</li>
-</ul><p>GVM is written in <a href="http://www.gnu.org/software/bash/">bash</a> and only depends on bash, curl, zip and unzip to be available on your system. The installer will check for these before completing the installation process. It will then create a <code>.gvm/</code> folder in your home directory, and neatly install all candidates beneath it.</p>
+</ul><p>GVM is written in <a href="http://www.gnu.org/software/bash">bash</a> and only depends on <a href="http://curl.haxx.se/">curl</a> and <a href="http://www.info-zip.org/">unzip</a> to be available on your system. The installer will check for these before completing the installation process. It will then create a <code>.gvm/</code> folder in your home directory, and neatly install all candidates beneath it.
+tes beneath it.</p>
 
-<p>GVM also has a server-side component written with <a href="http://vertx.io">vert.x</a> for dynamic behaviour. Further it uses <a href="http://www.mongodb.org/">MongoDB</a> for keeping track of Candidates and persisting some usage statistics. Newly available candidate versions can be added to GVM without the need for local re-installation.</p>
+<p>GVM also has a server-side component written with <a href="http://vertx.io">vertx</a> for dynamic behaviour. Further it uses <a href="http://www.mongodb.org/">MongoDB</a> for keeping track of Candidates and persisting some usage statistics. Newly released candidate versions can be added to GVM without the need for local re-installation.</p>
 
 <p>It also facilitates easy installation and a selfupdate feature to upgrade client-side components. It even sports a facility for live broadcast notifications.</p>
 
@@ -65,7 +66,8 @@
 
 <p>Open your favourite bash terminal and enter the following:</p>
 
-<pre><code>$ curl -s get.gvmtool.net | bash</code></pre>
+<pre><code>curl -s get.gvmtool.net | bash
+</code></pre>
 
 <p>If the environment needs tweaking for GVM to be installed, the installer will prompt you accordingly and ask you to restart.</p>
 
@@ -73,42 +75,62 @@
 
 <p>After installation, you will need to run the code snippet that the installer prompts you to. Alternatively you could open a new terminal. Next, run the following:</p>
 
-<pre><code>$ gvm help</code></pre>
+<pre><code>gvm help
+</code></pre>
 
 <p>If GVM was installed correctly, you should see some basic help information:</p>
 
-<pre><code>
-...
-Usage: gvm &lt;command&gt; &lt;candidate&gt; [version]
+<pre><code>Usage: gvm &lt;command&gt; &lt;candidate&gt; [version]
 
-   command   : install, uninstall, list, use, current, selfupdate or help
-   candidate : grails,groovy
-   version   : optional, defaults to latest stable if not provided
+   command    :  install, uninstall, list, use, current, version, selfupdate, broadcast or help
+   candidate  :  groovy, grails, griffon, gradle, vert.x
+   version    :  optional, defaults to latest stable if not provided
 
-eg: gvm install grails 2.1.0
+eg: gvm install groovy
 </code></pre>
 
 <p>Install the current default grails version by simply typing:</p>
 
-<pre><code>$ gvm install grails</code></pre>
+<pre><code>$ gvm install grails
+</code></pre>
 
 <p>and after installation completes, install another version:</p>
 
-<pre><code>$ gvm install grails 1.3.9</code></pre>
+<pre><code>$ gvm install grails 1.3.9
+</code></pre>
 
 <p>choose to use one of these:</p>
 
-<pre><code>$ gvm use grails 2.1.1</code></pre>
+<pre><code>$ gvm use grails 2.1.1
+</code></pre>
+
+<p>see what is currently in use:</p>
+
+<pre><code>$gvm current grails
+</code></pre>
 
 <p>then get a listing of what is available, installed and selected:</p>
 
-<pre><code>$ gvm list grails</code></pre>
+<pre><code>$ gvm list grails
+</code></pre>
 
 <p>and finally, remove the ones you aren't using anymore:</p>
 
-<pre><code>$ gvm uninstall grails 1.3.9</code></pre>
+<pre><code>$ gvm uninstall grails 1.3.9
+</code></pre>
+
+<p>You can also view the latest broadcast message:</p>
+
+<pre><code>$gvm broadcast
+</code></pre>
+
+<p>If you are being warned of an outdated version:</p>
+
+<pre><code>$gvm selfupdate
+</code></pre>
 
 <p>That's all there is to it!</p>
+
 <p>Easy peasy pie!</p>
         </section>
 
