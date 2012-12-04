@@ -1,3 +1,6 @@
 .gradle/
+.idea/
 build/
+gvm.ipr
+gvm.iws
 mongo.json
