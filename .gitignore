@@ -1,6 +1,9 @@
 .gradle/
 .idea/
 build/
+gvm.iml
 gvm.ipr
 gvm.iws
+lib/
 mongo.json
+out/
