@@ -1,5 +1,4 @@
 import groovy.text.SimpleTemplateEngine
-import java.util.zip.*
 import org.vertx.groovy.core.http.RouteMatcher
 import org.vertx.java.core.json.JsonObject
 
@@ -17,7 +16,7 @@ if(mongoJson.exists()){
 } else {
 	config = [address: 'mongo-persistor', db_name: 'gvm']
 }
-container.deployModule('vertx.mongo-persistor-v1.2', config)
+container.deployModule 'vertx.mongo-persistor-v1.2', config
 
 def templateEngine = new SimpleTemplateEngine()
 
@@ -141,7 +140,7 @@ rm.get("/broadcast/:version") { req ->
 	vertx.eventBus.send("mongo-persistor", cmd2){ msg ->
 		def broadcasts = msg.body.results
 		def version = req.params['version']
-		def gtpFile, binding
+		def gtplFile, binding
 		if(GVM_VERSION == version){
 			gtplFile = new File('build/templates/broadcast.gtpl')
 			binding = [gvmVersion:GVM_VERSION, vertxVersion:VERTX_VERSION, broadcasts:broadcasts]
