@@ -35,14 +35,14 @@ function check_version_present {
 
 function determine_version {
 	if [ -z "$1" ]; then
-		VERSION=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/default")
+		VERSION=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/default")
 	else
-		VERSION_VALID=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/$1")
-		if [ $VERSION_VALID == 'valid' ]; then
+		VERSION_VALID=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/$1")
+		if [ ${VERSION_VALID} == 'valid' ]; then
 			VERSION="$1"
 		else
 			echo ""
-			echo "Stop! $1 is not a valid $CANDIDATE version."
+			echo "Stop! $1 is not a valid ${CANDIDATE} version."
 			exit 0
 		fi
 	fi
@@ -51,9 +51,9 @@ function determine_version {
 function build_version_csv {
 	CANDIDATE="$1"
 	CSV=""
-	for version in $(ls -1 "$GVM_DIR/$CANDIDATE"); do
-		if [ $version != 'current' ]; then
-			CSV="$version,$CSV"
+	for version in $(ls -1 "${GVM_DIR}/${CANDIDATE}"); do
+		if [ ${version} != 'current' ]; then
+			CSV="${version},${CSV}"
 		fi
 	done
 	CSV=${CSV%?}
@@ -61,34 +61,34 @@ function build_version_csv {
 
 function determine_current_version {
 	CANDIDATE="$1"
-	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
+	CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s_${GVM_DIR}/${CANDIDATE}/__g")
 }
 
 function download {
 	CANDIDATE="$1"
 	VERSION="$2"
-	mkdir -p "$GVM_DIR/archives"
-	if [ ! -f "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" ]; then
+	mkdir -p "${GVM_DIR}/archives"
+	if [ ! -f "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" ]; then
 		echo ""
-		echo "Downloading: $CANDIDATE $VERSION" 
+		echo "Downloading: ${CANDIDATE} ${VERSION}"
 		echo ""
-		DOWNLOAD_URL="$GVM_SERVICE/download/$CANDIDATE/$VERSION?platform=$PLATFORM"
-		ZIP_ARCHIVE="$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
-		curl -L "$DOWNLOAD_URL" > "$ZIP_ARCHIVE"
-		validate_zip "$ZIP_ARCHIVE"
+		DOWNLOAD_URL="${GVM_SERVICE}/download/${CANDIDATE}/${VERSION}?platform=${PLATFORM}"
+		ZIP_ARCHIVE="${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
+		curl -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
+		validate_zip "${ZIP_ARCHIVE}"
 	else
 		echo ""
-		echo "Found a previously downloaded $CANDIDATE $VERSION archive. Not downloading it again..."
-		validate_zip "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
+		echo "Found a previously downloaded ${CANDIDATE} ${VERSION} archive. Not downloading it again..."
+		validate_zip "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
 	fi
 	echo ""
 }
 
 function validate_zip {
 	ZIP_ARCHIVE="$1"
-	ZIP_OK=$(unzip -t "$ZIP_ARCHIVE" | grep 'No errors detected in compressed data')
-	if [ -z "$ZIP_OK" ]; then
-		rm "$ZIP_ARCHIVE"
+	ZIP_OK=$(unzip -t "${ZIP_ARCHIVE}" | grep 'No errors detected in compressed data')
+	if [ -z "${ZIP_OK}" ]; then
+		rm "${ZIP_ARCHIVE}"
 		echo ""
 		echo "Stop! The archive was corrupt and has been removed! Please try installing again."
 		exit 0
@@ -107,18 +107,18 @@ function no_connection {
 }
 
 function default_environment_variables {
-	if [ ! "$GVM_SERVICE" ]; then
+	if [ ! "${GVM_SERVICE}" ]; then
 		GVM_SERVICE="http://localhost:8080"
 	fi
 
-	if [ ! "$GVM_DIR" ]; then
+	if [ ! "${GVM_DIR}" ]; then
 		GVM_DIR="$HOME/.gvm"
 	fi
 }
 
 function server_broadcast {
-	BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/broadcast/$GVM_VERSION")
-	if [ ! "$BROADCAST_LIVE" ]; then
+	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
+	if [ ! "${BROADCAST_LIVE}" ]; then
 		no_connection
 		exit 0
 	fi
@@ -126,23 +126,23 @@ function server_broadcast {
 
 function check_upgrade_available {
 	UPGRADE_AVAILABLE=""
-	UPGRADE_NOTICE=$(echo "$BROADCAST_LIVE" | grep 'Your version of GVM is out of date!')
-	if [[ "$UPGRADE_NOTICE" && "$COMMAND" != 'selfupdate' ]]; then
+	UPGRADE_NOTICE=$(echo "${BROADCAST_LIVE}" | grep 'Your version of GVM is out of date!')
+	if [[ "${UPGRADE_NOTICE}" && "${COMMAND}" != 'selfupdate' ]]; then
 		UPGRADE_AVAILABLE="true"
 	fi
 }
 
 function display_broadcast {
 	COMMAND="$1"
-	BROADCAST_FILE="$GVM_DIR/var/broadcast"
-	if [ -f "$BROADCAST_FILE" ]; then
-		BROADCAST_HIST=$(cat "$BROADCAST_FILE")
+	BROADCAST_FILE="${GVM_DIR}/var/broadcast"
+	if [ -f "${BROADCAST_FILE}" ]; then
+		BROADCAST_HIST=$(cat "${BROADCAST_FILE}")
 	fi
 
-	if [[ "$BROADCAST_LIVE" != "$BROADCAST_HIST" && "$COMMAND" != 'broadcast' ]]; then
-		mkdir -p "$GVM_DIR/var"
-		echo "$BROADCAST_LIVE" > "$BROADCAST_FILE"
-		echo "$BROADCAST_LIVE"
+	if [[ "${BROADCAST_LIVE}" != "${BROADCAST_HIST}" && "${COMMAND}" != 'broadcast' ]]; then
+		mkdir -p "${GVM_DIR}/var"
+		echo "${BROADCAST_LIVE}" > "${BROADCAST_FILE}"
+		echo "${BROADCAST_LIVE}"
 	fi
 
 	if [ "$1" == "help" -o -z "$1" ]; then
@@ -154,24 +154,24 @@ function display_broadcast {
 function link_candidate_version {
 	CANDIDATE="$1"
 	VERSION="$2"
-	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
-		unlink "$GVM_DIR/$CANDIDATE/current"
+	if [ -L "${GVM_DIR}/${CANDIDATE}/current" ]; then
+		unlink "${GVM_DIR}/${CANDIDATE}/current"
 	fi
-	ln -s "$GVM_DIR/$CANDIDATE/$VERSION" "$GVM_DIR/$CANDIDATE/current"
+	ln -s "${GVM_DIR}/${CANDIDATE}/${VERSION}" "${GVM_DIR}/${CANDIDATE}/current"
 	echo ""
-	echo Using "$CANDIDATE" version "$VERSION"
+	echo Using "${CANDIDATE}" version "${VERSION}"
 }
 
 function install_candidate_version {
 	CANDIDATE="$1"
 	VERSION="$2"
-	download "$CANDIDATE" "$VERSION"
-	echo "Installing: $CANDIDATE $VERSION"
+	download "${CANDIDATE}" "${VERSION}"
+	echo "Installing: ${CANDIDATE} ${VERSION}"
 
-	mkdir -p "$GVM_DIR/$CANDIDATE"
+	mkdir -p "${GVM_DIR}/${CANDIDATE}"
 
-	unzip -oq "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" -d "/tmp/"
-	mv "/tmp/$CANDIDATE-$VERSION" "$GVM_DIR/$CANDIDATE/$VERSION"
+	unzip -oq "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "/tmp/"
+	mv "/tmp/${CANDIDATE}-${VERSION}" "${GVM_DIR}/${CANDIDATE}/${VERSION}"
 	echo "Done installing!"
 	echo ""
 }
@@ -181,12 +181,12 @@ function install_candidate_version {
 #
 
 default_environment_variables
-mkdir -p "$GVM_DIR"
+mkdir -p "${GVM_DIR}"
 
 server_broadcast
 check_upgrade_available
-if [[ "$UPGRADE_AVAILABLE" && "$1" != "broadcast" ]]; then
-	echo "$BROADCAST_LIVE"
+if [[ "${UPGRADE_AVAILABLE}" && "$1" != "broadcast" ]]; then
+	echo "${BROADCAST_LIVE}"
 	echo ""
 else
 	display_broadcast "$1"
@@ -198,67 +198,67 @@ fi
 
 function gvm-install {
 	CANDIDATE="$1"
-	check_candidate_present "$CANDIDATE"
+	check_candidate_present "${CANDIDATE}"
 	determine_version "$2"
 
-	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+	if [ -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
 		echo ""
-		echo "Stop! $CANDIDATE $VERSION is already installed."
+		echo "Stop! ${CANDIDATE} ${VERSION} is already installed."
 		exit 0
 	fi
 
-	install_candidate_version "$CANDIDATE" "$VERSION"
+	install_candidate_version "${CANDIDATE}" "${VERSION}"
 
-	echo -n "Do you want to use $CANDIDATE $VERSION now? (Y/n): "
+	echo -n "Do you want to use ${CANDIDATE} ${VERSION} now? (Y/n): "
 	read USE
-	if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
-		link_candidate_version "$CANDIDATE" "$VERSION"
+	if [[ -z "${USE}" || "${USE}" == "y" || "${USE}" == "Y" ]]; then
+		link_candidate_version "${CANDIDATE}" "${VERSION}"
 	fi
 }
 
 function gvm-use {
 	CANDIDATE="$1"
-	check_candidate_present "$CANDIDATE"
+	check_candidate_present "${CANDIDATE}"
 	determine_version "$2"
 
-	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+	if [ ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
 		echo ""
-		echo "Stop! $CANDIDATE $VERSION is not installed."
+		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
 		echo -n "Do you want to install it now? (Y/n): "
 		read INSTALL 
-		if [[ -z "$INSTALL" || "$INSTALL" == "y" || "$INSTALL" == "Y" ]]; then
-			install_candidate_version "$CANDIDATE" "$VERSION"
+		if [[ -z "${INSTALL}" || "${INSTALL}" == "y" || "${INSTALL}" == "Y" ]]; then
+			install_candidate_version "${CANDIDATE}" "${VERSION}"
 		else
 			exit 0
 		fi
 	fi
 
-	link_candidate_version "$CANDIDATE" "$VERSION"
+	link_candidate_version "${CANDIDATE}" "${VERSION}"
 }
 
 function gvm-current {
 	if [ -n "$1" ]; then
 		CANDIDATE="$1"
-		determine_current_version "$CANDIDATE"
-		if [ -n "$CURRENT" ]; then
-			echo "Using $CANDIDATE version $CURRENT"
+		determine_current_version "${CANDIDATE}"
+		if [ -n "${CURRENT}" ]; then
+			echo "Using ${CANDIDATE} version ${CURRENT}"
 		else
-			echo "Not using any version of $CANDIDATE"
+			echo "Not using any version of ${CANDIDATE}"
 		fi
 	else
-		CANDIDATES=$(curl -s "$GVM_SERVICE/candidates" | tr -d ",")
+		CANDIDATES=$(curl -s "${GVM_SERVICE}/candidates" | tr -d ",")
 		INSTALLED_COUNT=0
-		for CANDIDATE in $CANDIDATES; do
-			determine_current_version "$CANDIDATE"
-			if [ -n "$CURRENT" ]; then
-				if [ $INSTALLED_COUNT -eq 0 ]; then
+		for CANDIDATE in ${CANDIDATES}; do
+			determine_current_version "${CANDIDATE}"
+			if [ -n "${CURRENT}" ]; then
+				if [ ${INSTALLED_COUNT} -eq 0 ]; then
 					echo 'Using:'
 				fi
-				echo "$CANDIDATE: $CURRENT"
+				echo "${CANDIDATE}: ${CURRENT}"
 				(( INSTALLED_COUNT += 1 ))
 			fi
 		done
-		if [ $INSTALLED_COUNT -eq 0 ]; then
+		if [ ${INSTALLED_COUNT} -eq 0 ]; then
 			echo 'No candidates are in use'
 		fi
 	fi
@@ -266,47 +266,47 @@ function gvm-current {
 
 function gvm-list {
 	CANDIDATE="$1"
-	check_candidate_present "$CANDIDATE"
-	build_version_csv "$CANDIDATE"
-	determine_current_version "$CANDIDATE"
-	FRAGMENT=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/list?platform=$PLATFORM&current=$CURRENT&installed=$CSV")
-	echo "$FRAGMENT"
+	check_candidate_present "${CANDIDATE}"
+	build_version_csv "${CANDIDATE}"
+	determine_current_version "${CANDIDATE}"
+	FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${PLATFORM}&current=${CURRENT}&installed=${CSV}")
+	echo "${FRAGMENT}"
 }
 
 function gvm-uninstall {
 	CANDIDATE="$1"
 	VERSION="$2"
-	check_candidate_present "$CANDIDATE"
-	check_version_present "$VERSION"
-	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
-	if [ -h "$GVM_DIR/$CANDIDATE/current" -a "$VERSION" == "$CURRENT" ]; then
+	check_candidate_present "${CANDIDATE}"
+	check_version_present "${VERSION}"
+	CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s_${GVM_DIR}/${CANDIDATE}/__g")
+	if [ -h "${GVM_DIR}/${CANDIDATE}/current" -a "${VERSION}" == "${CURRENT}" ]; then
 		echo ""
-		echo "Unselecting $CANDIDATE $VERSION..."
-		unlink "$GVM_DIR/$CANDIDATE/current"
+		echo "Unselecting ${CANDIDATE} ${VERSION}..."
+		unlink "${GVM_DIR}/${CANDIDATE}/current"
 	fi
 	echo ""
-	if [ -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
-		echo "Uninstalling $CANDIDATE $VERSION..."
-		rm -rf "$GVM_DIR/$CANDIDATE/$VERSION"
+	if [ -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
+		echo "Uninstalling ${CANDIDATE} ${VERSION}..."
+		rm -rf "${GVM_DIR}/${CANDIDATE}/${VERSION}"
 	else
-		echo "$CANDIDATE $VERSION is not installed."
+		echo "${CANDIDATE} ${VERSION} is not installed."
 	fi
 }
 
 function gvm-version {
-	echo "Groovy enVironment Manager $GVM_VERSION"
+	echo "Groovy enVironment Manager ${GVM_VERSION}"
 }
 
 function gvm-broadcast {
-	if [ "$BROADCAST_HIST" ]; then
-		echo "$BROADCAST_HIST"
+	if [ "${BROADCAST_HIST}" ]; then
+		echo "${BROADCAST_HIST}"
 	else
-		echo "$BROADCAST_LIVE"
+		echo "${BROADCAST_LIVE}"
 	fi
 }
 
 function gvm-selfupdate {
-	curl -s "$GVM_SERVICE/selfupdate" | bash
+	curl -s "${GVM_SERVICE}/selfupdate" | bash
 }
 
 # INSERT NEW COMMANDS BEFORE HERE
@@ -315,7 +315,7 @@ function gvm-selfupdate {
 
 CMD_TYPE=`type -t gvm-"$1"`
 
-if [ -z $CMD_TYPE ]; then
+if [ -z ${CMD_TYPE} ]; then
 	echo -e "\nInvalid command: $1"
 	help
 	exit 0
@@ -323,8 +323,8 @@ fi
 
 # Check whether the candidate exists
 
-CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidates/$2")
-if [ "$CANDIDATE_VALID" == 'invalid' ]; then
+CANDIDATE_VALID=$(curl -s "${GVM_SERVICE}/candidates/$2")
+if [ "${CANDIDATE_VALID}" == 'invalid' ]; then
 	echo -e "\nStop! $2 is not a valid candidate."
 	exit 0
 fi
