@@ -1,5 +1,6 @@
+package gvm
+
 import static cucumber.runtime.groovy.EN.*
-import cucumber.runtime.PendingException
 
 Given(~'^no prior Broadcast was received$') { ->
 	broadcastFile.delete()

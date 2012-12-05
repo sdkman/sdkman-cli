@@ -1,5 +1,6 @@
-import static cucumber.runtime.groovy.EN.*
-import cucumber.runtime.PendingException
+package gvm
+
+import static cucumber.runtime.groovy.EN.Then
 
 Then(~'^the gvm scripts are up to date$') { ->
 	def gvm = new File("$gvmDir/bin/gvm")

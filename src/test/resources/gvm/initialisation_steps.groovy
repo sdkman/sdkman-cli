@@ -1,7 +1,9 @@
+package gvm
+
+import java.util.zip.ZipException
+import java.util.zip.ZipFile
+
 import static cucumber.runtime.groovy.EN.*
-import cucumber.runtime.PendingException
-import java.nio.file.*
-import java.util.zip.*
 
 Then(~'^the gvm work folder is created$') { ->
     assert gvmDir.isDirectory(), "The gvm directory does not exist."

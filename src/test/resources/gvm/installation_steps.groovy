@@ -1,7 +1,9 @@
+package gvm
+
+import java.nio.file.FileSystems
+import java.nio.file.Files
+
 import static cucumber.runtime.groovy.EN.*
-import cucumber.runtime.PendingException
-import java.nio.file.*
-import java.util.zip.*
 
 Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
 	def candidateVersion = new URL("${serviceUrlEnv}/candidates/${candidate}/default").text
@@ -20,21 +22,21 @@ Given(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String 
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and in use$') { String candidate, String version ->
 	def command = "./gvm install $candidate $version"
-	def proc = command.execute(["GVM_DIR=${gvmDirEnv}", "GVM_SERVICE=${serviceUrlEnv}"], baseDir)
-	proc.out.close()
-    proc.waitFor()
-    def result = proc.text
+	def process = command.execute(["GVM_DIR=$gvmDirEnv", "GVM_SERVICE=$serviceUrlEnv"], baseDir)
+	process.out.close()
+    process.waitFor()
+    def result = process.text
     assert result.contains("Done installing!")
 }
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not in use$') { String candidate, String version ->
 	def command = "./gvm install $candidate $version"
-	def proc = command.execute(["GVM_DIR=${gvmDirEnv}", "GVM_SERVICE=${serviceUrlEnv}"], baseDir)
-	def writer = new PrintWriter(proc.out)
+	def process = command.execute(["GVM_DIR=${gvmDirEnv}", "GVM_SERVICE=${serviceUrlEnv}"], baseDir)
+	def writer = new PrintWriter(process.out)
 	writer.println "n"
 	writer.close()
-    proc.waitFor()
-    def result = proc.text
+    process.waitFor()
+    def result = process.text
     assert result.contains("Done installing!")
 }
 
