@@ -368,8 +368,8 @@ function gvm {
 	fi
 
 	# Load the gvm config if it exists.
-	if [ -f "$GVM_DIR/gvmconfig" ]; then
-		source "$GVM_DIR/gvmconfig"
+	if [ -f "$GVM_DIR/etc/config" ]; then
+		source "$GVM_DIR/etc/config"
 	fi
 
 	# Check whether the command exists as an internal function...

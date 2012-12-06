@@ -50,6 +50,8 @@ Feature: Use Candidate
 
 	Scenario: Use a version of an installed candidate that exists in isolated mode
 		Given isolated mode is active
-		And the candidate "grails" version "2.1.0" is already installed but not in use
-		When I enter "gvm use grails 2.1.0"
-		Then the candidate "grails" version "2.1.0" should be in use
+		And the candidate "groovy" version "2.0.5" is already installed and in use
+		And the candidate "groovy" version "1.8.8" is already installed but not in use
+		When I enter "gvm use groovy 1.8.8"
+		Then the candidate "groovy" version "1.8.8" should be in use in just the current shell
+		And the candidate "groovy" version "2.0.5" should be the default

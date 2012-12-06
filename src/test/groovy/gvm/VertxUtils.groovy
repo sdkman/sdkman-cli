@@ -6,7 +6,7 @@ import org.vertx.groovy.core.Vertx
 
 class VertxUtils {
 
-	final static groovy = ['2.0.5']
+	final static groovy = ['2.0.5', '1.8.8']
 	final static grails = ['1.3.6','1.3.9','2.1.0']
 	final static candidates = [groovy:groovy,grails:grails]
 	final static defaults = [groovy:'2.0.5',grails:'2.1.0']
