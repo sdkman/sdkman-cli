@@ -2,7 +2,7 @@ package gvm
 
 class BashEnv {
 
-    static final PROMPT = ">"
+    static final PROMPT = ""
     static final EXIT_CODE_CMD = 'echo "Exit code is: $?"'
     static final EXIT_CODE_PATTERN = ~/Exit code is: (\d+)\s*${PROMPT}?$/
 
@@ -11,6 +11,7 @@ class BashEnv {
     def exitCode
     def process
     def processOutput = new StringBuilder()
+    def commandOutput
 
     // Command timeout in milliseconds
     def timeout = 5000
@@ -56,6 +57,7 @@ class BashEnv {
         
         def start = System.currentTimeMillis()
         while (cmdline != "exit") {
+            Thread.sleep 100
             
             synchronized (outputLock) {
                 // Remove all the extraneous text that's not related to the
@@ -71,20 +73,17 @@ class BashEnv {
                     exitCode = m[0][1]
 
                     // Remove this exit code line from the output.
-                    processOutput = new StringBuilder(m.replaceAll(''))
+                    commandOutput = m.replaceAll('')
                     break
                 }
 
                 // If the command times out, we should break out of the loop and
                 // display whatever output has already been produced.
                 if (System.currentTimeMillis() - start > timeout) {
-                    processOutput = new StringBuilder("ALERT! Command timed out. " +
-                            "Last output was:\n\n${processOutput}")
+                    commandOutput = "ALERT! Command timed out. Last output was:\n\n${processOutput}"
                     break
                 }
             }
-
-            Thread.sleep 500
         }
     }
     
@@ -94,9 +93,7 @@ class BashEnv {
     }
     
     String getOutput() {
-        synchronized (outputLock) {
-            return processOutput.toString()
-        }
+        return commandOutput
     }
     
     void resetOutput() {
