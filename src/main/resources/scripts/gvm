@@ -245,8 +245,8 @@ function __gvmtool_use {
 		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
 		echo -n "Do you want to install it now? (Y/n): "
 		read INSTALL 
-		if [[ -z "${INSTALL}" || "${INSTALL}" == "y" || "${INSTALL}" == "Y" ]]; then
-			install_candidate_version "${CANDIDATE}" "${VERSION}"
+		if [[ -z "$INSTALL" || "$INSTALL" == "y" || "$INSTALL" == "Y" ]]; then
+			__gvmtool_install_candidate_version "$CANDIDATE" "$VERSION"
 		else
 			return 1
 		fi
