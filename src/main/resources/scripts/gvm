@@ -10,7 +10,7 @@ function __gvmtool_help {
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
-	echo "   command    :  install, uninstall, list, use, current, version, set-default, selfupdate, broadcast or help"
+	echo "   command    :  install, uninstall, list, use, current, version, default, selfupdate, broadcast or help"
 	echo "   candidate  :  groovy, grails, griffon, gradle, vert.x"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
@@ -258,7 +258,7 @@ function __gvmtool_use {
 	echo Using "$CANDIDATE" version "$VERSION"
 }
 
-function __gvmtool_set_default {
+function __gvmtool_default {
 	CANDIDATE="$1"
 	__gvmtool_check_candidate_present "$CANDIDATE" || return 1
 	__gvmtool_determine_version "$2" || return 1
