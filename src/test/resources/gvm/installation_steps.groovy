@@ -10,31 +10,25 @@ Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, Str
 
 Then(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candidate, String version ->
 	def file = new File("${gvmDir}/${candidate}/${version}")		
+	if (!file.exists()) println bash.output
 	assert file.exists()
 }
 
 Given(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String candidate, String version ->
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
+	if (Files.exists(directory)) println bash.output
 	assert ! Files.exists(directory)
 }
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and in use$') { String candidate, String version ->
-	def command = "./gvm install $candidate $version"
-	def proc = command.execute(["GVM_DIR=${gvmDirEnv}", "GVM_SERVICE=${serviceUrlEnv}"], baseDir)
-	proc.out.close()
-    proc.waitFor()
-    def result = proc.text
+	bash.execute("gvm install $candidate $version", ["y"])
+    def result = bash.output
     assert result.contains("Done installing!")
 }
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not in use$') { String candidate, String version ->
-	def command = "./gvm install $candidate $version"
-	def proc = command.execute(["GVM_DIR=${gvmDirEnv}", "GVM_SERVICE=${serviceUrlEnv}"], baseDir)
-	def writer = new PrintWriter(proc.out)
-	writer.println "n"
-	writer.close()
-    proc.waitFor()
-    def result = proc.text
+	bash.execute("gvm install $candidate $version", ["n"])
+    def result = bash.output
     assert result.contains("Done installing!")
 }
 

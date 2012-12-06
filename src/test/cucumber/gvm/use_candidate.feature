@@ -43,3 +43,13 @@ Feature: Use Candidate
 		Then the candidate "grails" version "2.1.0" is not installed
 		And the candidate "grails" version "1.3.9" should be in use
 
+	Scenario: Use without providing a Candidate in isolated mode
+		Given isolated mode is active
+		When I enter "gvm use"
+		Then I see "Usage: gvm <command> <candidate> [version]"
+
+	Scenario: Use a version of an installed candidate that exists in isolated mode
+		Given isolated mode is active
+		And the candidate "grails" version "2.1.0" is already installed but not in use
+		When I enter "gvm use grails 2.1.0"
+		Then the candidate "grails" version "2.1.0" should be in use
