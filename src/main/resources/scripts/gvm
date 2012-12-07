@@ -80,18 +80,8 @@ function __gvmtool_determine_current_version {
 	CANDIDATE="$1"
 
 	if [[ -n ${isolated_mode} && ${isolated_mode} == 1 ]]; then
-		# Work out the current version of the candidate from the PATH.
-		#
-		# As 'sed' is bad at extracting pattern matches, as opposed to
-		# substituting them, we have to do some extra work. This involves
-		# substituting the first pattern match with its group surrounded
-		# by double exclamation marks. Then the whole string is replaced
-		# by the string between those pairs of !s. Awkward.
 		CURRENT=$(echo $PATH | sed -E "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
 
-		# Before 'gvm use' is executed for the first time for a particular
-		# candidate, the version string will be 'current'. If that's the
-		# case, we need to work out the current version from the symlink.
 		if [[ "${CURRENT}" == "current" ]]; then
 		    unset CURRENT
 		fi
