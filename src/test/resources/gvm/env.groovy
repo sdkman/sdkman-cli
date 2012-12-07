@@ -2,7 +2,6 @@ package gvm
 
 import static cucumber.runtime.groovy.Hooks.*
 import static gvm.VertxUtils.*
-import gvm.BashEnv
 
 baseDir = new File("build/scripts")
 
@@ -12,6 +11,7 @@ serviceUrlEnv = "http://localhost:8080"
 gvmDir = new File("${gvmDirEnv}")
 binDir = new File("${gvmDirEnv}/bin")
 varDir = new File("${gvmDirEnv}/var")
+envDir = new File("${gvmDirEnv}/etc")
 broadcastFile = new File("${gvmDirEnv}/var/broadcast")
 
 server = null
@@ -22,6 +22,7 @@ Before(){
 	server = startServer()
 	binDir.mkdirs()
 	varDir.mkdirs()
+    envDir.mkdirs()
 
 	// Copy the scripts into the gvm bin directory.
 	for (f in baseDir.listFiles()) {

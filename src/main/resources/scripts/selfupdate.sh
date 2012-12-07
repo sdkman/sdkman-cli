@@ -20,13 +20,19 @@ echo "Updating gvm scripts..."
 TMP_ZIP="/tmp/res.zip"
 PLATFORM=$(uname)
 
-GVM_DIR="$HOME/.gvm"
 mkdir -p "${GVM_DIR}/ext"
+mkdir -p "${GVM_DIR}/etc"
 mkdir -p "${GVM_DIR}/groovy"
 mkdir -p "${GVM_DIR}/groovy"
 mkdir -p "${GVM_DIR}/grails"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/vert.x"
+
+
+CONFIG_FILE="${GVM_DIR}/etc/config"
+if [[ ! -f "${CONFIG_FILE}" ]]; then
+	echo "isolated_mode=0" > "${CONFIG_FILE}"
+fi
 
 BIN_FOLDER="${GVM_DIR}/bin"
 mkdir -p "${BIN_FOLDER}"
