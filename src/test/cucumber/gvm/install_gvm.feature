@@ -11,7 +11,7 @@ Feature: Install GVM
 	* FreeBSD: .profile with NO .bashrc or bash pre-installed
 
 	Order of precedence:
-	Login shells (all new terminals) are intialised with the first file found in this order:
+	Login shells (all new terminals) are initialised with the first file found in this order:
 	* .bash_profile
 	* .bash_login
 	* .profile
