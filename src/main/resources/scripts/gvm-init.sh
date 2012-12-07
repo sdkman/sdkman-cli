@@ -17,7 +17,7 @@
 
 export GVM_SERVICE="@GVM_SERVICE@"
 export GVM_VERSION="@GVM_VERSION@"
-export PLATFORM=$(uname)
+export GVM_PLATFORM=$(uname)
 
 
 if [ -z "${GVM_DIR}" ]; then
