@@ -1,5 +1,14 @@
 package gvm
 
+/**
+ * <p>As part of the gvm test suite we need to launch a bash shell and execute
+ * multiple commands in it. This is tricky to do using Java's support for
+ * working with external processes as the API can't tell you when a command
+ * has finished executing.</p>
+ * <p>This class provides some hacks that allow you to serially execute commands
+ * in an externa bash process in a fairly reliable manner and to retrieve the
+ * output of those commands.</p>
+ */
 class BashEnv {
 
     static final PROMPT = ""
@@ -25,6 +34,9 @@ class BashEnv {
         this.env = env.collect { k, v -> k + '=' + v }
     }
     
+    /**
+     * Starts the external bash process.
+     */
     void start() {
         process = ["bash", "--noprofile", "--norc", "-i"].execute(env, workDir)
 
@@ -32,11 +44,20 @@ class BashEnv {
         consumeProcessStream(process.errorStream)
     }
     
+    /**
+     * Stops the external bash process and waits for it to finish.
+     */
     void stop() {
         execute("exit")
         process.waitFor()
     }
     
+    /**
+     * Sends a command line to the external bash process and returns once the
+     * command has finished executing. If the command is interactive and requires
+     * input during it's execution (for example a y/n answer to a question) you
+     * can provide that input as a list of strings.
+     */
     void execute(String cmdline, List inputs = []) {
         resetOutput()
 
@@ -87,15 +108,25 @@ class BashEnv {
         }
     }
     
+    /**
+     * Returns the exit code of the last command that was executed.
+     */
     int getStatus() {
         if (!exitCode) throw new IllegalStateException("Did you run execute() before getting the status?")
         return exitCode.toInteger()
     }
     
+    /**
+     * Returns the text output (both stdout and stderr) of the last command
+     * that was executed.
+     */
     String getOutput() {
         return commandOutput
     }
     
+    /**
+     * Clears the saved command output.
+     */
     void resetOutput() {
         synchronized (outputLock) {
             processOutput = new StringBuilder()
@@ -119,9 +150,11 @@ class BashEnv {
     }
 
     private void removeFromOutput(String line) {
-        def pos = processOutput.indexOf(line)
-        if (pos != -1) {
-            processOutput.delete(pos, pos + line.size() - 1)
+        synchronized (outputLock) {
+            def pos = processOutput.indexOf(line)
+            if (pos != -1) {
+                processOutput.delete(pos, pos + line.size() - 1)
+            }
         }
     }
 }
