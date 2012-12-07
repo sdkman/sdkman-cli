@@ -1,4 +1,4 @@
-@manual
+
 #noinspection CucumberUndefinedStep
 Feature: Install GVM
 
@@ -23,6 +23,7 @@ Feature: Install GVM
 	Background: 
 		Given a user home exists
 
+    @manual
 	Scenario: Creates and initialises .bash_profile on absence of login shell dot files
 		Given the user home directory contains no ".bash_profile" file
 		And the user home directory contains no ".profile" file
@@ -30,33 +31,39 @@ Feature: Install GVM
 		Then the user home contains a ".bash_profile" file
 		And the ".bash_profile" contains an Initialisation Snippet
 
+    @manual
 	Scenario: Add Init Snippet to the .bash_profile if present
 		Given the user home contains a ".bash_profile" file
 		When I run the installation script
 		Then the ".bash_profile" contains an Initialisation Snippet
 
+    @manual
 	Scenario: Add Init Snippet to the .profile if present
 		Given the user home contains a ".profile" file
 		When I run the installation script
 		Then the ".profile" contains an Initialisation Snippet
 
+    @manual
 	Scenario: Creates and initialises .bashrc on absence of non-login dot files
 		Given the user home directory contains no ".bashrc" file
 		When I run the installation script
 		Then the user home contains a ".bashrc" file
 		And the ".bashrc" contains an Initialisation Snippet
 
+    @manual
 	Scenario: Always adds Init Snippet to the .bashrc
 		Given the user home contains a ".bashrc" file
 		When I run the installation script
 		Then the ".bashrc" contains an Initialisation Snippet
 
+    @manual
 	Scenario: Source the Initialisation Script on first invokation of the Init Snippet
 		Given the user home contains a ".bash_profile" file
 		And the ".bash_profile" contains an Initialisation Snippet
 		When I open a new Login Shell
 		Then the "gvm-init.sh" script is sourced once only
 
+    @manual
 	Scenario: Do not Source the Initialisation Script on subsequent invokation of the Init Snippet
 		Given the user home contains a ".bash_profile" file
 		And the ".bash_profile" contains an Initialisation Snippet
