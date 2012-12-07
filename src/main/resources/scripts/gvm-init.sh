@@ -16,6 +16,9 @@
 #
 
 export GVM_SERVICE="@GVM_SERVICE@"
+export GVM_VERSION="@GVM_VERSION@"
+export PLATFORM=$(uname)
+
 
 if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
