@@ -53,12 +53,12 @@ function __gvmtool_determine_version {
 	if [ -z "$1" ]; then
 		VERSION=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/default")
 	else
-		VERSION_VALID=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/$1")
-		if [[ $VERSION_VALID == 'valid' ]]; then
+		VERSION_VALID=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/$1")
+		if [[ ${VERSION_VALID} == 'valid' ]]; then
 			VERSION="$1"
 		else
 			echo ""
-			echo "Stop! $1 is not a valid $CANDIDATE version."
+			echo "Stop! $1 is not a valid ${CANDIDATE} version."
 			return 1
 		fi
 	fi
@@ -79,7 +79,7 @@ function __gvmtool_determine_current_version {
 	unset CURRENT
 	CANDIDATE="$1"
 
-	if [[ -n $isolated_mode && $isolated_mode == 1 ]]; then
+	if [[ -n ${isolated_mode} && ${isolated_mode} == 1 ]]; then
 		# Work out the current version of the candidate from the PATH.
 		#
 		# As 'sed' is bad at extracting pattern matches, as opposed to
@@ -87,18 +87,18 @@ function __gvmtool_determine_current_version {
 		# substituting the first pattern match with its group surrounded
 		# by double exclamation marks. Then the whole string is replaced
 		# by the string between those pairs of !s. Awkward.
-		CURRENT=$(echo $PATH | sed -E "s|.gvm/$CANDIDATE/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
+		CURRENT=$(echo $PATH | sed -E "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
 
 		# Before 'gvm use' is executed for the first time for a particular
 		# candidate, the version string will be 'current'. If that's the
 		# case, we need to work out the current version from the symlink.
-		if [[ "$CURRENT" == "current" ]]; then
+		if [[ "${CURRENT}" == "current" ]]; then
 		    unset CURRENT
 		fi
 	fi
 
-	if [[ -z $CURRENT ]]; then
-		CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s!$GVM_DIR/$CANDIDATE/!!g")
+	if [[ -z ${CURRENT} ]]; then
+		CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s!${GVM_DIR}/${CANDIDATE}/!!g")
 	fi
 }
 
@@ -110,14 +110,14 @@ function __gvmtool_download {
 		echo ""
 		echo "Downloading: ${CANDIDATE} ${VERSION}"
 		echo ""
-		DOWNLOAD_URL="$GVM_SERVICE/download/$CANDIDATE/$VERSION?platform=$PLATFORM"
-		ZIP_ARCHIVE="$GVM_DIR/archives/$CANDIDATE-$VERSION.zip"
-		curl -L "$DOWNLOAD_URL" > "$ZIP_ARCHIVE"
-		__gvmtool_validate_zip "$ZIP_ARCHIVE" || return 1
+		DOWNLOAD_URL="${GVM_SERVICE}/download/${CANDIDATE}/${VERSION}?platform=${PLATFORM}"
+		ZIP_ARCHIVE="${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
+		curl -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
+		__gvmtool_validate_zip "${ZIP_ARCHIVE}" || return 1
 	else
 		echo ""
-		echo "Found a previously downloaded $CANDIDATE $VERSION archive. Not downloading it again..."
-		__gvmtool_validate_zip "$GVM_DIR/archives/$CANDIDATE-$VERSION.zip" || return 1
+		echo "Found a previously downloaded ${CANDIDATE} ${VERSION} archive. Not downloading it again..."
+		__gvmtool_validate_zip "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
 	fi
 	echo ""
 }
@@ -144,7 +144,7 @@ function __gvmtool_no_connection {
 }
 
 function __gvmtool_default_environment_variables {
-	if [ ! "$GVM_SERVICE" ]; then
+	if [ ! "${GVM_SERVICE}" ]; then
 		GVM_SERVICE="http://localhost:8080"
 	fi
 
@@ -154,8 +154,8 @@ function __gvmtool_default_environment_variables {
 }
 
 function __gvmtool_server_broadcast {
-	BROADCAST_LIVE=$(curl -s "$GVM_SERVICE/broadcast/$GVM_VERSION")
-	if [ ! "$BROADCAST_LIVE" ]; then
+	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
+	if [ ! "${BROADCAST_LIVE}" ]; then
 		__gvmtool_no_connection
 		return 1
 	fi
@@ -188,17 +188,17 @@ function __gvmtool_link_candidate_version {
 	VERSION="$2"
 
 	# Change the 'current' symlink for the candidate, hence affecting all shells.
-	if [ -L "$GVM_DIR/$CANDIDATE/current" ]; then
-		unlink "$GVM_DIR/$CANDIDATE/current"
+	if [ -L "${GVM_DIR}/${CANDIDATE}/current" ]; then
+		unlink "${GVM_DIR}/${CANDIDATE}/current"
 	fi
-	ln -s "$GVM_DIR/$CANDIDATE/$VERSION" "$GVM_DIR/$CANDIDATE/current"
+	ln -s "${GVM_DIR}/${CANDIDATE}/${VERSION}" "${GVM_DIR}/${CANDIDATE}/current"
 }
 
 function __gvmtool_install_candidate_version {
 	CANDIDATE="$1"
 	VERSION="$2"
-	__gvmtool_download "$CANDIDATE" "$VERSION" || return 1
-	echo "Installing: $CANDIDATE $VERSION"
+	__gvmtool_download "${CANDIDATE}" "${VERSION}" || return 1
+	echo "Installing: ${CANDIDATE} ${VERSION}"
 
 	mkdir -p "${GVM_DIR}/${CANDIDATE}"
 
@@ -214,30 +214,30 @@ function __gvmtool_install_candidate_version {
 
 function __gvmtool_install {
 	CANDIDATE="$1"
-	__gvmtool_check_candidate_present "$CANDIDATE" || return 1
+	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_determine_version "$2" || return 1
 
 	if [ -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
 		echo ""
-		echo "Stop! $CANDIDATE $VERSION is already installed."
+		echo "Stop! ${CANDIDATE} ${VERSION} is already installed."
 		return 1
 	fi
 
-	__gvmtool_install_candidate_version "$CANDIDATE" "$VERSION" || return 1
+	__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}" || return 1
 
 	echo -n "Do you want to use ${CANDIDATE} ${VERSION} now? (Y/n): "
 	read USE
-	if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
-		__gvmtool_link_candidate_version "$CANDIDATE" "$VERSION"
+	if [[ -z "${USE}" || "${USE}" == "y" || "${USE}" == "Y" ]]; then
+		__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
 
 		echo ""
-		echo Using "$CANDIDATE" version "$VERSION"
+		echo Using "${CANDIDATE}" version "${VERSION}"
 	fi
 }
 
 function __gvmtool_use {
 	CANDIDATE="$1"
-	__gvmtool_check_candidate_present "$CANDIDATE" || return 1
+	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_determine_version "$2" || return 1
 
 	if [ ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
@@ -245,69 +245,69 @@ function __gvmtool_use {
 		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
 		echo -n "Do you want to install it now? (Y/n): "
 		read INSTALL 
-		if [[ -z "$INSTALL" || "$INSTALL" == "y" || "$INSTALL" == "Y" ]]; then
-			__gvmtool_install_candidate_version "$CANDIDATE" "$VERSION"
+		if [[ -z "${INSTALL}" || "${INSTALL}" == "y" || "${INSTALL}" == "Y" ]]; then
+			__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}"
 		else
 			return 1
 		fi
 	fi
 
-	if [[ -n $isolated_mode && $isolated_mode == 1 ]]; then
+	if [[ -n ${isolated_mode} && ${isolated_mode} == 1 ]]; then
 		# Just update the *_HOME and PATH for this shell.
-		case "$CANDIDATE" in
+		case "${CANDIDATE}" in
 			vert.x )
-			export VERTX_HOME="$GVM_DIR/vert.x/$VERSION"
+			export VERTX_HOME="${GVM_DIR}/vert.x/${VERSION}"
 			;;
 
 			* )
-			UPPER_CANDIDATE=`echo "$CANDIDATE" | tr '[:lower:]' '[:upper:]'`
-			export "${UPPER_CANDIDATE}_HOME"="$GVM_DIR/$CANDIDATE/$VERSION"
+			UPPER_CANDIDATE=`echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]'`
+			export "${UPPER_CANDIDATE}_HOME"="${GVM_DIR}/${CANDIDATE}/${VERSION}"
 			;;
 		esac
 
 		# Replace the current path for the candidate with the selected version.
-		export PATH=`echo $PATH | sed -E "s!$GVM_DIR/$CANDIDATE/([0-9][^/]+|current)!$GVM_DIR/$CANDIDATE/$VERSION!g"`
+		export PATH=`echo $PATH | sed -E "s!${GVM_DIR}/${CANDIDATE}/([0-9][^/]+|current)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
 	else
-		__gvmtool_link_candidate_version "$CANDIDATE" "$VERSION"
+		__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
 	fi
 
 	echo ""
-	echo Using "$CANDIDATE" version "$VERSION"
+	echo Using "${CANDIDATE}" version "${VERSION}"
 }
 
 function __gvmtool_default {
 	CANDIDATE="$1"
-	__gvmtool_check_candidate_present "$CANDIDATE" || return 1
+	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_determine_version "$2" || return 1
 
-	if [ ! -d "$GVM_DIR/$CANDIDATE/$VERSION" ]; then
+	if [ ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
 		echo ""
-		echo "Stop! $CANDIDATE $VERSION is not installed."
+		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
 		return 1
 	fi
 
-	__gvmtool_link_candidate_version "$CANDIDATE" "$VERSION"
+	__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
 
 	echo ""
-	echo "Default $CANDIDATE version set to $VERSION"
+	echo "Default ${CANDIDATE} version set to ${VERSION}"
 }
 
 function __gvmtool_current {
 	if [ -n "$1" ]; then
 		CANDIDATE="$1"
-		__gvmtool_determine_current_version "$CANDIDATE"
-		if [ -n "$CURRENT" ]; then
-			echo "Using $CANDIDATE version $CURRENT"
+		__gvmtool_determine_current_version "${CANDIDATE}"
+		if [ -n "${CURRENT}" ]; then
+			echo "Using ${CANDIDATE} version ${CURRENT}"
 		else
 			echo "Not using any version of ${CANDIDATE}"
 		fi
 	else
 		CANDIDATES=$(curl -s "${GVM_SERVICE}/candidates" | tr -d ",")
 		INSTALLED_COUNT=0
-		for CANDIDATE in $CANDIDATES; do
-			__gvmtool_determine_current_version "$CANDIDATE"
-			if [ -n "$CURRENT" ]; then
-				if [ $INSTALLED_COUNT -eq 0 ]; then
+		for CANDIDATE in ${CANDIDATES}; do
+			__gvmtool_determine_current_version "${CANDIDATE}"
+			if [ -n "${CURRENT}" ]; then
+				if [ ${INSTALLED_COUNT} -eq 0 ]; then
 					echo 'Using:'
 				fi
 				echo "${CANDIDATE}: ${CURRENT}"
@@ -322,20 +322,20 @@ function __gvmtool_current {
 
 function __gvmtool_list {
 	CANDIDATE="$1"
-	__gvmtool_check_candidate_present "$CANDIDATE" || return 1
-	__gvmtool_build_version_csv "$CANDIDATE"
-	__gvmtool_determine_current_version "$CANDIDATE"
-	FRAGMENT=$(curl -s "$GVM_SERVICE/candidates/$CANDIDATE/list?platform=$PLATFORM&current=$CURRENT&installed=$CSV")
-	echo "$FRAGMENT"
+	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
+	__gvmtool_build_version_csv "${CANDIDATE}"
+	__gvmtool_determine_current_version "${CANDIDATE}"
+	FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${PLATFORM}&current=${CURRENT}&installed=${CSV}")
+	echo "${FRAGMENT}"
 }
 
 function __gvmtool_uninstall {
 	CANDIDATE="$1"
 	VERSION="$2"
-	__gvmtool_check_candidate_present "$CANDIDATE" || return 1
-	__gvmtool_check_version_present "$VERSION" || return 1
-	CURRENT=$(readlink "$GVM_DIR/$CANDIDATE/current" | sed -e "s_$GVM_DIR/$CANDIDATE/__g")
-	if [ -h "$GVM_DIR/$CANDIDATE/current" -a "$VERSION" == "$CURRENT" ]; then
+	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
+	__gvmtool_check_version_present "${VERSION}" || return 1
+	CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s_${GVM_DIR}/${CANDIDATE}/__g")
+	if [ -h "${GVM_DIR}/${CANDIDATE}/current" -a "${VERSION}" == "${CURRENT}" ]; then
 		echo ""
 		echo "Unselecting ${CANDIDATE} ${VERSION}..."
 		unlink "${GVM_DIR}/${CANDIDATE}/current"
@@ -350,19 +350,19 @@ function __gvmtool_uninstall {
 }
 
 function __gvmtool_version {
-	echo "Groovy enVironment Manager $GVM_VERSION"
+	echo "Groovy enVironment Manager ${GVM_VERSION}"
 }
 
 function __gvmtool_broadcast {
-	if [ "$BROADCAST_HIST" ]; then
-		echo "$BROADCAST_HIST"
+	if [ "${BROADCAST_HIST}" ]; then
+		echo "${BROADCAST_HIST}"
 	else
 		echo "${BROADCAST_LIVE}"
 	fi
 }
 
 function __gvmtool_selfupdate {
-	curl -s "$GVM_SERVICE/selfupdate" | bash
+	curl -s "${GVM_SERVICE}/selfupdate" | bash
 }
 
 # INSERT NEW COMMANDS BEFORE HERE
@@ -373,20 +373,20 @@ function gvm {
 	# Various sanity checks and default settings
 	#
 	__gvmtool_default_environment_variables
-	mkdir -p "$GVM_DIR"
+	mkdir -p "${GVM_DIR}"
 
 	__gvmtool_server_broadcast || return 1
 	__gvmtool_check_upgrade_available
-	if [[ "$UPGRADE_AVAILABLE" && "$1" != "broadcast" ]]; then
-		echo "$BROADCAST_LIVE"
+	if [[ "${UPGRADE_AVAILABLE}" && "$1" != "broadcast" ]]; then
+		echo "${BROADCAST_LIVE}"
 		echo ""
 	else
 		__gvmtool_display_broadcast "$1"
 	fi
 
 	# Load the gvm config if it exists.
-	if [ -f "$GVM_DIR/etc/config" ]; then
-		source "$GVM_DIR/etc/config"
+	if [ -f "${GVM_DIR}/etc/config" ]; then
+		source "${GVM_DIR}/etc/config"
 	fi
 
 	# Check whether the command exists as an internal function...
@@ -394,31 +394,31 @@ function gvm {
 	# NOTE Internal commands use underscores rather than hyphens,
 	# hence the name conversion as the first step here.
 	CONVERTED_CMD_NAME=`echo "$1" | tr '-' '_'`
-	CMD_TYPE=`type -t __gvmtool_"$CONVERTED_CMD_NAME"`
+	CMD_TYPE=`type -t __gvmtool_"${CONVERTED_CMD_NAME}"`
 
 	# ...or as a script on the path.
-	SCRIPT_PATH="$GVM_DIR/ext/gvm-$1.sh"
+	SCRIPT_PATH="${GVM_DIR}/ext/gvm-$1.sh"
 
-	if [[ -z $CMD_TYPE && ! -f $SCRIPT_PATH ]]; then
+	if [[ -z ${CMD_TYPE} && ! -f ${SCRIPT_PATH} ]]; then
 		echo -e "\nInvalid command: $1"
 		__gvmtool_help
 		return 1
 	fi
 
 	# Check whether the candidate exists
-	CANDIDATE_VALID=$(curl -s "$GVM_SERVICE/candidates/$2")
-	if [ "$CANDIDATE_VALID" == 'invalid' ]; then
+	CANDIDATE_VALID=$(curl -s "${GVM_SERVICE}/candidates/$2")
+	if [ "${CANDIDATE_VALID}" == 'invalid' ]; then
 		echo -e "\nStop! $2 is not a valid candidate."
 		return 1
 	fi
 
 	# Execute the requested command
-	if [ $CMD_TYPE ]; then
+	if [ ${CMD_TYPE} ]; then
 		# It's available as a shell function
-		__gvmtool_"$CONVERTED_CMD_NAME" "$2" "$3"
+		__gvmtool_"${CONVERTED_CMD_NAME}" "$2" "$3"
 	else
 		# It's a shell script in the extensions directory
-		$SCRIPT_PATH "$1" "$2" "$3"
+		${SCRIPT_PATH} "$1" "$2" "$3"
 	fi
 }
 
