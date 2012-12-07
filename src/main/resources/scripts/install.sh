@@ -126,6 +126,12 @@ chmod +x "${BIN_FOLDER}"/*
 
 mkdir -p "${GVM_DIR}/ext"
 
+mkdir -p "${GVM_DIR}/etc"
+CONFIG_FILE="${GVM_DIR}/etc/config"
+if [[ ! -f "${CONFIG_FILE}" ]]; then
+	echo "isolated_mode=0" > "${CONFIG_FILE}"
+fi
+
 echo "Creating candidate directories..."
 mkdir -p "${GVM_DIR}/groovy"
 mkdir -p "${GVM_DIR}/grails"
