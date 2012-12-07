@@ -1,4 +1,5 @@
 @manual
+#noinspection CucumberUndefinedStep
 Feature: Install GVM
 
 	Platform defaults as follows:
