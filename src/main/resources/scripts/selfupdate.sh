@@ -17,7 +17,8 @@
 
 echo ""
 echo "Updating gvm scripts..."
-TMP_ZIP="/tmp/res.zip"
+TMP_ZIP="/tmp/res-$(printf %05d $RANDOM).zip"
+
 PLATFORM=$(uname)
 
 mkdir -p "${GVM_DIR}/ext"
@@ -36,21 +37,20 @@ fi
 
 BIN_FOLDER="${GVM_DIR}/bin"
 mkdir -p "${BIN_FOLDER}"
+echo "Download new scripts to: ${TMP_ZIP}"
 curl -s "${GVM_SERVICE}/res?platform=${PLATFORM}" > "${TMP_ZIP}"
+
+echo "Unziping scripts to: ${BIN_FOLDER}"
 unzip -qo "${TMP_ZIP}" -d "${BIN_FOLDER}"
+
+echo "Cleaning up ${TMP_ZIP}"
 rm "${TMP_ZIP}"
 
+echo "Changing file permissions in: ${BIN_FOLDER}"
 chmod +x "${BIN_FOLDER}"/*
 
-echo ""
-echo "Successfully upgraded GVM."
-echo ""
-
-echo ""
-echo "VERY IMPORTANT!"
-echo ""
-echo "When upgrading from 0.8.x to 0.9.x, it is required to"
+echo "\n\n\nSuccessfully upgraded GVM."
+echo "\nVERY IMPORTANT!"
+echo "\nWhen upgrading from 0.8.x to 0.9.x, it is required to"
 echo "close the current terminal and open a new one."
-echo ""
-echo "GVM will now stop working in this shell."
-echo ""
+echo "\nGVM will now stop working in this shell.\n"
