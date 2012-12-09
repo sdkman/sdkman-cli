@@ -45,3 +45,12 @@ chmod +x "${BIN_FOLDER}"/*
 echo ""
 echo "Successfully upgraded GVM."
 echo ""
+
+echo ""
+echo "VERY IMPORTANT!"
+echo ""
+echo "When upgrading from 0.8.x to 0.9.x, it is required to"
+echo "close the current terminal and open a new one."
+echo ""
+echo "GVM will now stop working in this shell."
+echo ""
