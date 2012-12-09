@@ -11,7 +11,7 @@ class VertxUtils {
 	final static candidates = [groovy:groovy,grails:grails]
 	final static defaults = [groovy:'2.0.5',grails:'2.1.0']
 
-	static final gvmVersion = '0.8.3'
+	static final gvmVersion = '0.8.5'
 	static final vertxVersion = '1.3.0.final'
 
 
