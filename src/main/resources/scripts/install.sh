@@ -121,7 +121,7 @@ mkdir -p "${GVM_DIR}/vert.x"
 echo "Attempting to update bash profile..."
 SNIPPET=$( cat << EOF
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "${GVM_DIR}/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "${GVM_DIR}/bin/gvm-init.sh"
+[[ -s "${GVM_DIR}/bin/gvm-init.sh" && ! \$(which gvm-init.sh) ]] && source "${GVM_DIR}/bin/gvm-init.sh"
 EOF
 )
 
