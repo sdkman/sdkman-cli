@@ -21,7 +21,9 @@ TMP_ZIP="/tmp/res-$(printf %05d $RANDOM).zip"
 
 PLATFORM=$(uname)
 
-GVM_DIR="$HOME/.gvm"
+if [ -z "${GVM_DIR}" ]; then
+	GVM_DIR="$HOME/.gvm"
+fi
 
 mkdir -p "${GVM_DIR}/ext"
 mkdir -p "${GVM_DIR}/etc"
