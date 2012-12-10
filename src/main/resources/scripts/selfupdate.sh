@@ -21,6 +21,8 @@ TMP_ZIP="/tmp/res-$(printf %05d $RANDOM).zip"
 
 PLATFORM=$(uname)
 
+GVM_DIR="$HOME/.gvm"
+
 mkdir -p "${GVM_DIR}/ext"
 mkdir -p "${GVM_DIR}/etc"
 mkdir -p "${GVM_DIR}/groovy"
