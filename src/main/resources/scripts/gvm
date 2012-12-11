@@ -151,7 +151,7 @@ function __gvmtool_server_broadcast {
 function __gvmtool_check_upgrade_available {
 	UPGRADE_AVAILABLE=""
 	UPGRADE_NOTICE=$(echo "${BROADCAST_LIVE}" | grep 'Your version of GVM is out of date!')
-	if [[ "${UPGRADE_NOTICE}" && "${COMMAND}" != 'selfupdate' ]]; then
+	if [[ -n "${UPGRADE_NOTICE}" && ( "${COMMAND}" != 'selfupdate' ) ]]; then
 		UPGRADE_AVAILABLE="true"
 	fi
 }
@@ -289,16 +289,18 @@ function __gvmtool_current {
 			echo "Not using any version of ${CANDIDATE}"
 		fi
 	else
-		CANDIDATES=$(curl -s "${GVM_SERVICE}/candidates" | tr -d ",")
+		CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | tr -d ","))
 		INSTALLED_COUNT=0
-		for CANDIDATE in ${CANDIDATES}; do
-			__gvmtool_determine_current_version "${CANDIDATE}"
-			if [ -n "${CURRENT}" ]; then
-				if [ ${INSTALLED_COUNT} -eq 0 ]; then
-					echo 'Using:'
+		for (( i=0; i <= ${#CANDIDATES}; i++ )); do
+			if [[ -n ${CANDIDATES[$i]} ]]; then
+				__gvmtool_determine_current_version "${CANDIDATES[$i]}"
+				if [ -n "${CURRENT}" ]; then
+					if [ ${INSTALLED_COUNT} -eq 0 ]; then
+						echo 'Using:'
+					fi
+					echo "${CANDIDATES[$i]}: ${CURRENT}"
+					(( INSTALLED_COUNT += 1 ))
 				fi
-				echo "${CANDIDATE}: ${CURRENT}"
-				(( INSTALLED_COUNT += 1 ))
 			fi
 		done
 		if [ ${INSTALLED_COUNT} -eq 0 ]; then
@@ -322,7 +324,7 @@ function __gvmtool_uninstall {
 	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_check_version_present "${VERSION}" || return 1
 	CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s_${GVM_DIR}/${CANDIDATE}/__g")
-	if [ -h "${GVM_DIR}/${CANDIDATE}/current" -a "${VERSION}" == "${CURRENT}" ]; then
+	if [[ -h "${GVM_DIR}/${CANDIDATE}/current" && ( "${VERSION}" == "${CURRENT}" ) ]]; then
 		echo ""
 		echo "Unselecting ${CANDIDATE} ${VERSION}..."
 		unlink "${GVM_DIR}/${CANDIDATE}/current"
@@ -364,7 +366,7 @@ function gvm {
 
 	__gvmtool_server_broadcast || return 1
 	__gvmtool_check_upgrade_available
-	if [[ "${UPGRADE_AVAILABLE}" && "$1" != "broadcast" ]]; then
+	if [[ -n "${UPGRADE_AVAILABLE}" && ( "$1" != "broadcast" ) ]]; then
 		echo "${BROADCAST_LIVE}"
 		echo ""
 	else
@@ -381,7 +383,7 @@ function gvm {
 	# NOTE Internal commands use underscores rather than hyphens,
 	# hence the name conversion as the first step here.
 	CONVERTED_CMD_NAME=`echo "$1" | tr '-' '_'`
-	CMD_TYPE=`type -t __gvmtool_"${CONVERTED_CMD_NAME}"`
+	CMD_TYPE=`type __gvmtool_"${CONVERTED_CMD_NAME}"`
 
 	# ...or as a script on the path.
 	SCRIPT_PATH="${GVM_DIR}/ext/gvm-$1.sh"
@@ -394,13 +396,13 @@ function gvm {
 
 	# Check whether the candidate exists
 	CANDIDATE_VALID=$(curl -s "${GVM_SERVICE}/candidates/$2")
-	if [ "${CANDIDATE_VALID}" == 'invalid' ]; then
+	if [[ "${CANDIDATE_VALID}" == 'invalid' ]]; then
 		echo -e "\nStop! $2 is not a valid candidate."
 		return 1
 	fi
 
 	# Execute the requested command
-	if [ ${CMD_TYPE} ]; then
+	if [ "${CMD_TYPE}" ]; then
 		# It's available as a shell function
 		__gvmtool_"${CONVERTED_CMD_NAME}" "$2" "$3"
 	else
