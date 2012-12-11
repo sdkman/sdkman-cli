@@ -22,13 +22,13 @@ Given(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String 
 	assert ! Files.exists(directory)
 }
 
-When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and in use$') { String candidate, String version ->
+When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and default$') { String candidate, String version ->
 	bash.execute("gvm install $candidate $version", ["y"])
     def result = bash.output
     assert result.contains("Done installing!")
 }
 
-When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not in use$') { String candidate, String version ->
+When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not default$') { String candidate, String version ->
 	bash.execute("gvm install $candidate $version", ["n"])
     def result = bash.output
     assert result.contains("Done installing!")
