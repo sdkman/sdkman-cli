@@ -383,12 +383,20 @@ function gvm {
 	# NOTE Internal commands use underscores rather than hyphens,
 	# hence the name conversion as the first step here.
 	CONVERTED_CMD_NAME=`echo "$1" | tr '-' '_'`
-	CMD_TYPE=`type __gvmtool_"${CONVERTED_CMD_NAME}"`
+	CMD_FOUND=""
+	if [[ -f "${GVM_DIR}/bin/gvm" ]]; then
+		CMD_FOUND=$(grep __gvmtool_"${CONVERTED_CMD_NAME}" "${GVM_DIR}/bin/gvm")
+	fi
+
+	# ...no command provided
+	if [[ -z "$1" ]]; then
+		__gvmtool_help
+		return 1
+	fi
 
 	# ...or as a script on the path.
 	SCRIPT_PATH="${GVM_DIR}/ext/gvm-$1.sh"
-
-	if [[ -z ${CMD_TYPE} && ! -f ${SCRIPT_PATH} ]]; then
+	if [[ -z "${CMD_FOUND}" && ! -f "${SCRIPT_PATH}" ]]; then
 		echo -e "\nInvalid command: $1"
 		__gvmtool_help
 		return 1
@@ -402,7 +410,7 @@ function gvm {
 	fi
 
 	# Execute the requested command
-	if [ "${CMD_TYPE}" ]; then
+	if [ -n "${CMD_FOUND}" ]; then
 		# It's available as a shell function
 		__gvmtool_"${CONVERTED_CMD_NAME}" "$2" "$3"
 	else
