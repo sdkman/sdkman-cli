@@ -10,9 +10,9 @@ Then(~'^the gvm scripts are up to date$') { ->
 	assert gvmInit.exists()
 }
 
-And(~'^the configuration file has been primed$') { ->
+And(~'^the configuration file has been primed with "([^"]*)"$') { String content ->
     def configFile = "$gvmDir/etc/config" as File
-    configFile << "isolated_mode=1"
+    configFile << content
 }
 
 And(~'^the configuration file has not been primed$') { ->

@@ -35,9 +35,7 @@ mkdir -p "${GVM_DIR}/vert.x"
 
 
 CONFIG_FILE="${GVM_DIR}/etc/config"
-if [[ ! -f "${CONFIG_FILE}" ]]; then
-	echo "isolated_mode=0" > "${CONFIG_FILE}"
-fi
+echo "isolated_mode=1" > "${CONFIG_FILE}"
 
 BIN_FOLDER="${GVM_DIR}/bin"
 mkdir -p "${BIN_FOLDER}"
