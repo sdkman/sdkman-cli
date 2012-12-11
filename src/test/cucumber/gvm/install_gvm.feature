@@ -50,6 +50,17 @@ Feature: Install GVM
 		When I run the installation script
 		Then the ".bashrc" contains an Initialisation Snippet
 
+    Scenario: Creates and initialises .zshrc on absence of the file
+        Given the user home directory contains no ".zshrc" file
+        When I run the installation script
+        Then the user home contains a ".zshrc" file
+        And the ".zshrc" contains an Initialisation Snippet
+
+    Scenario: Always adds Init Snippet to the .zshrc
+        Given the user home contains a ".zshrc" file
+        When I run the installation script
+        Then the ".zshrc" contains an Initialisation Snippet
+
 	Scenario: Source the Initialisation Script on first invokation of the Init Snippet
 		Given the user home contains a ".bash_profile" file
 		And the ".bash_profile" contains an Initialisation Snippet
