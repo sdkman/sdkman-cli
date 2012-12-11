@@ -40,11 +40,12 @@ export PATH="${GROOVY_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_
 # Source the main `gvm` script.
 source "${GVM_DIR}/bin/gvm"
 
-# Source any extension files whose names begin with 'sourced-'
-if [ -d "${GVM_DIR}/ext" ]; then
-    for f in ${GVM_DIR}/ext/sourced-*; do
-        if [ -r ${f} ]; then
-            source ${f}
+# Source any extension files found in the ext folder
+
+if [ $(find "$GVM_DIR/ext" -type f) ]; then
+    for f in ${GVM_DIR}/ext/*; do
+        if [ -r "${f}" ]; then
+            source "${f}"
         fi
     done
     unset f
