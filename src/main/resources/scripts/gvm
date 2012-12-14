@@ -177,6 +177,30 @@ function __gvmtool_install_candidate_version {
 	echo ""
 }
 
+function __gvmtool_offline_list_versions {
+	echo "============================================================"
+	echo "Aeroplane mode: only showing installed versions!            "
+	echo "------------------------------------------------------------"
+	echo "Currently installed ${CANDIDATE} versions:                  "
+	echo "------------------------------------------------------------"
+	echo "                                                            "
+	CSV="${CSV//,/ }"
+	for VERSION in ${CSV}; do
+		if [[ "${VERSION}" == "${CURRENT}" ]]; then
+			echo -e " > ${VERSION}"
+		else
+			echo -e " * ${VERSION}"
+		fi
+	done
+	if [[ -z "${CSV}" ]]; then
+		echo "   None installed!"
+	fi
+
+	echo "------------------------------------------------------------"
+	echo "* - installed                                               "
+	echo "> - currently in use                                        "
+	echo "------------------------------------------------------------"
+}
 #
 # Command functions
 #
@@ -302,7 +326,11 @@ function __gvmtool_list {
 	__gvmtool_build_version_csv "${CANDIDATE}"
 	__gvmtool_determine_current_version "${CANDIDATE}"
 	FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
-	echo "${FRAGMENT}"
+	if [[ -n "${FRAGMENT}" ]]; then
+		echo "${FRAGMENT}"
+	else
+		__gvmtool_offline_list_versions
+	fi
 }
 
 function __gvmtool_uninstall {
