@@ -120,16 +120,6 @@ function __gvmtool_validate_zip {
 	fi
 }
 
-function __gvmtool_no_connection {
-	echo "                                                         "
-	echo "---------------------------------------------------------"
-	echo "                                                         "
-	echo "The GVM service is down or the internet is not reachable!"
-	echo "     If the problem persists please notify: @gvmtool     "
-	echo "                                                         "
-	echo "---------------------------------------------------------"
-}
-
 function __gvmtool_default_environment_variables {
 	if [ ! "${GVM_SERVICE}" ]; then
 		GVM_SERVICE="http://localhost:8080"
@@ -137,14 +127,6 @@ function __gvmtool_default_environment_variables {
 
 	if [ ! "${GVM_DIR}" ]; then
 		GVM_DIR="$HOME/.gvm"
-	fi
-}
-
-function __gvmtool_server_broadcast {
-	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
-	if [ ! "${BROADCAST_LIVE}" ]; then
-		__gvmtool_no_connection
-		return 1
 	fi
 }
 
@@ -369,7 +351,12 @@ function gvm {
 	__gvmtool_default_environment_variables
 	mkdir -p "${GVM_DIR}"
 
-	__gvmtool_server_broadcast || return 1
+	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
+
+	if [[ -z "${BROADCAST_LIVE}" ]]; then
+		BROADCAST_LIVE="Aeroplane mode enabled, some functionality disabled."
+	fi
+
 	__gvmtool_check_upgrade_available
 	if [[ -n "${UPGRADE_AVAILABLE}" && ( "$1" != "broadcast" ) ]]; then
 		echo "${BROADCAST_LIVE}"
