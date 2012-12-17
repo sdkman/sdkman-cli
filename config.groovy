@@ -1,5 +1,5 @@
 vertxVersion = '1.3.0.final'
-gvmVersion = '0.9.1'
+gvmVersion = '0.9.2'
 environments {
 	dev {
 		gvmService = 'http://localhost:8080'
