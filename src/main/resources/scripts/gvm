@@ -1,6 +1,4 @@
-#!/bin/bash
-#
-#   Copyright 2012 Marco Vermeulen
+#!/bin/bash  Copyright 2012 Marco Vermeulen
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -47,8 +45,23 @@ function __gvmtool_check_version_present {
 }
 
 function __gvmtool_determine_version {
-	if [ -z "$1" ]; then
+	if [[ "${GVM_OFFLINE}" == "true" && -n "$1" && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
+		VERSION="$1"
+
+	elif [[ "${GVM_OFFLINE}" == "true" && -z "$1" && -L "${GVM_DIR}/${CANDIDATE}/current" ]]; then
+		VERSION=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s!${GVM_DIR}/${CANDIDATE}/!!g")
+
+	elif [[ "${GVM_OFFLINE}" == "true" && -n "$1" ]]; then
+		echo "Stop! ${CANDIDATE} ${1} is not available in aeroplane mode."
+		return 1
+
+	elif [[ "${GVM_OFFLINE}" == "true" && -z "$1" ]]; then
+        echo "${GVM_OFFLINE_MESSAGE}"
+        return 1
+
+	elif [[ "${GVM_OFFLINE}" == "false" && -z "$1" ]]; then
 		VERSION=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/default")
+
 	else
 		VERSION_VALID=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/$1")
 		if [[ ${VERSION_VALID} == 'valid' ]]; then
@@ -177,9 +190,9 @@ function __gvmtool_install_candidate_version {
 	echo ""
 }
 
-function __gvmtool_offline_list_versions {
+function __gvmtool_offline_list {
 	echo "============================================================"
-	echo "Aeroplane mode: only showing installed versions!            "
+	echo "Aeroplane Mode: only showing installed versions!            "
 	echo "------------------------------------------------------------"
 	echo "Currently installed ${CANDIDATE} versions:                  "
 	echo "------------------------------------------------------------"
@@ -201,6 +214,7 @@ function __gvmtool_offline_list_versions {
 	echo "> - currently in use                                        "
 	echo "------------------------------------------------------------"
 }
+
 #
 # Command functions
 #
@@ -233,7 +247,7 @@ function __gvmtool_use {
 	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_determine_version "$2" || return 1
 
-	if [ ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
+	if [[ "${GVM_OFFLINE}" == "false" && ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
 		echo -n "Do you want to install it now? (Y/n): "
@@ -294,6 +308,9 @@ function __gvmtool_current {
 		else
 			echo "Not using any version of ${CANDIDATE}"
 		fi
+	elif [[ -z "$1" && "${GVM_OFFLINE}" == "true" ]]; then
+		echo "${GVM_OFFLINE_MESSAGE}"
+
 	else
 		# The candidates are assigned to an array for zsh compliance, a list of words is not iterable
 		# Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
@@ -326,10 +343,10 @@ function __gvmtool_list {
 	__gvmtool_build_version_csv "${CANDIDATE}"
 	__gvmtool_determine_current_version "${CANDIDATE}"
 	FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
-	if [[ -n "${FRAGMENT}" ]]; then
-		echo "${FRAGMENT}"
+	if [[ "${GVM_OFFLINE}" == "true" ]]; then
+		__gvmtool_offline_list
 	else
-		__gvmtool_offline_list_versions
+		echo "${FRAGMENT}"
 	fi
 }
 
@@ -366,7 +383,11 @@ function __gvmtool_broadcast {
 }
 
 function __gvmtool_selfupdate {
-	curl -s "${GVM_SERVICE}/selfupdate" | bash
+	if [[ "${GVM_OFFLINE}" == "true" ]]; then
+		echo "${GVM_OFFLINE_MESSAGE}"
+	else
+		curl -s "${GVM_SERVICE}/selfupdate" | bash
+	fi
 }
 
 # INSERT NEW COMMANDS BEFORE HERE
@@ -381,8 +402,13 @@ function gvm {
 
 	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
 
+	GVM_OFFLINE_MESSAGE="This command is not available in aeroplane mode."
+
 	if [[ -z "${BROADCAST_LIVE}" ]]; then
-		BROADCAST_LIVE="Aeroplane mode enabled, some functionality disabled."
+		GVM_OFFLINE="true"
+		BROADCAST_LIVE="AEROPLANE MODE ENABLED! Some functionality is now disabled."
+	else
+		GVM_OFFLINE="false"
 	fi
 
 	__gvmtool_check_upgrade_available

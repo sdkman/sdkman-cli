@@ -1,0 +1,123 @@
+Feature: Aeroplane Mode
+
+  Background:
+    Given the internet is not reachable
+
+  # list command
+
+  Scenario: List candidate versions while Offline
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "grails" version "1.3.9" is already installed but not default
+    When I enter "gvm list grails"
+    Then I see "Aeroplane Mode: only showing installed versions!"
+    And I see "Currently installed grails versions:"
+    And I see "> 2.1.0"
+    And I see "* 1.3.9"
+
+  # use command
+
+  Scenario: Use the default candidate version while Offline
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "grails" version "1.3.9" is already installed but not default
+    When I enter "gvm use grails"
+    Then I see "Using grails version 2.1.0 in this shell."
+
+  Scenario: Use the default candidate version when non selected while Offline
+    Given the candidate "grails" version "1.3.9" is already installed but not default
+    Given the candidate "grails" version "2.1.0" is already installed but not default
+    When I enter "gvm use grails"
+    Then I see "This command is not available in aeroplane mode."
+
+  Scenario: Use an uninstalled candidate version while Offline
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the candidate "grails" version "2.1.0" is not installed
+    When I enter "gvm use grails 2.1.0"
+    Then I see "Stop! grails 2.1.0 is not available in aeroplane mode."
+
+  Scenario: Use an invalid candidate version while Offline
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    When I enter "gvm use grails 9.9.9"
+    Then I see "Stop! grails 9.9.9 is not available in aeroplane mode."
+
+  Scenario: Use an installed candidate version while Offline
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "grails" version "1.3.9" is already installed but not default
+    When I enter "gvm use grails 1.3.9"
+    Then I see "Using grails version 1.3.9 in this shell."
+
+  # default command
+
+  Scenario: Set the default to an uninstalled candidate version while Offline
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    When I enter "gvm default grails 2.1.0"
+    Then I see "Stop! grails 2.1.0 is not available in aeroplane mode."
+
+  Scenario: Set the default to an invalid candidate version while Offline
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    When I enter "gvm default grails 999"
+    Then I see "Stop! grails 999 is not available in aeroplane mode."
+
+  Scenario: Set the default to an installed candidate version while Offline
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "grails" version "1.3.9" is already installed but not default
+    When I enter "gvm default grails 1.3.9"
+    Then I see "Default grails version set to 1.3.9"
+
+  # install command
+  Scenario: Install a candidate version that is not installed while Offline
+    Given the candidate "grails" version "2.1.0" is not installed
+    When I enter "gvm install grails 2.1.0"
+    Then I see "Stop! grails 2.1.0 is not available in aeroplane mode."
+
+  Scenario: Install a candidate version that is already installed while Offline
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    When I enter "gvm install grails 2.1.0"
+    Then I see "Stop! grails 2.1.0 is already installed."
+
+# uninstall command
+  Scenario: Uninstall a candidate version while Offline
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    When I enter "gvm uninstall grails 2.1.0"
+    Then I see "Unselecting grails 2.1.0..."
+    And I see "Uninstalling grails 2.1.0..."
+    And the candidate "grails" version "2.1.0" is not in use
+    And the candidate "grails" version "2.1.0" is not installed
+
+  Scenario: Uninstall a candidate version that is not installed while Offline
+    Given the candidate "grails" version "2.1.0" is not installed
+    When I enter "gvm uninstall grails 2.1.0"
+    Then I see "grails 2.1.0 is not installed."
+
+  # current command
+  Scenario: Display the current version of a candidate while Offline
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    When I enter "gvm current grails"
+    Then I see "Using grails version 2.1.0"
+
+  Scenario: Display the current version of all candidates while Offline
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "groovy" version "2.0.5" is already installed and default
+    When I enter "gvm current"
+    Then I see "This command is not available in aeroplane mode."
+
+  # version command
+  Scenario: Determine the GVM version when Offline
+    When I enter "gvm version"
+    Then I see the current gvm version
+
+  # broadcast command
+  Scenario: Recall a broadcast while Offline
+    Given I enter "gvm list grails"
+    When I enter "gvm broadcast"
+    Then I see "AEROPLANE MODE ENABLED! Some functionality is now disabled."
+
+  # help command
+  Scenario: Request help while Offline
+    When I enter "gvm help"
+    Then I see "Usage: gvm <command> <candidate> [version]"
+
+  # selfupdate command
+  Scenario: Attempt self-update while Offline
+    When I enter "gvm selfupdate"
+    Then I see "This command is not available in aeroplane mode."
+

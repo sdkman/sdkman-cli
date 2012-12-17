@@ -27,3 +27,7 @@ Then(~'^I see only \"([^\"]*)\"$') { String output ->
 Then(~'^the exit value is \"([^\"]*)\"$') { int exitValue ->
     assert bash.status == exitValue
 }
+
+Then(~'^I see the current gvm version$') {->
+    assert result.contains("Groovy enVironment Manager")
+}
