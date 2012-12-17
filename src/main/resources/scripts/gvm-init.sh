@@ -27,6 +27,17 @@ if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
 
+OFFLINE_BROADCAST=$( cat << EOF
+==== BROADCAST =============================================
+
+AEROPLANE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+EOF
+)
+
+OFFLINE_MESSAGE="This command is not available in aeroplane mode."
+
 PATH="${GVM_DIR}/bin:${GVM_DIR}/ext:$PATH"
 
 GROOVY_HOME="${GVM_DIR}/groovy/current"

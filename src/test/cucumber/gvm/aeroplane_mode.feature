@@ -9,8 +9,7 @@ Feature: Aeroplane Mode
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the candidate "grails" version "1.3.9" is already installed but not default
     When I enter "gvm list grails"
-    Then I see "Aeroplane Mode: only showing installed versions!"
-    And I see "Currently installed grails versions:"
+    Then I see "Aeroplane Mode: only showing installed grails versions"
     And I see "> 2.1.0"
     And I see "* 1.3.9"
 

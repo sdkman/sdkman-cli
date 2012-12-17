@@ -56,7 +56,7 @@ function __gvmtool_determine_version {
 		return 1
 
 	elif [[ "${GVM_OFFLINE}" == "true" && -z "$1" ]]; then
-        echo "${GVM_OFFLINE_MESSAGE}"
+        echo "${OFFLINE_MESSAGE}"
         return 1
 
 	elif [[ "${GVM_OFFLINE}" == "false" && -z "$1" ]]; then
@@ -192,9 +192,7 @@ function __gvmtool_install_candidate_version {
 
 function __gvmtool_offline_list {
 	echo "============================================================"
-	echo "Aeroplane Mode: only showing installed versions!            "
-	echo "------------------------------------------------------------"
-	echo "Currently installed ${CANDIDATE} versions:                  "
+	echo "Aeroplane Mode: only showing installed ${CANDIDATE} versions"
 	echo "------------------------------------------------------------"
 	echo "                                                            "
 	CSV="${CSV//,/ }"
@@ -309,7 +307,7 @@ function __gvmtool_current {
 			echo "Not using any version of ${CANDIDATE}"
 		fi
 	elif [[ -z "$1" && "${GVM_OFFLINE}" == "true" ]]; then
-		echo "${GVM_OFFLINE_MESSAGE}"
+		echo "${OFFLINE_MESSAGE}"
 
 	else
 		# The candidates are assigned to an array for zsh compliance, a list of words is not iterable
@@ -384,7 +382,7 @@ function __gvmtool_broadcast {
 
 function __gvmtool_selfupdate {
 	if [[ "${GVM_OFFLINE}" == "true" ]]; then
-		echo "${GVM_OFFLINE_MESSAGE}"
+		echo "${OFFLINE_MESSAGE}"
 	else
 		curl -s "${GVM_SERVICE}/selfupdate" | bash
 	fi
@@ -402,11 +400,9 @@ function gvm {
 
 	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
 
-	GVM_OFFLINE_MESSAGE="This command is not available in aeroplane mode."
-
 	if [[ -z "${BROADCAST_LIVE}" ]]; then
 		GVM_OFFLINE="true"
-		BROADCAST_LIVE="AEROPLANE MODE ENABLED! Some functionality is now disabled."
+		BROADCAST_LIVE="${OFFLINE_BROADCAST}"
 	else
 		GVM_OFFLINE="false"
 	fi
