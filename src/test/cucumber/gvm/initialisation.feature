@@ -1,6 +1,9 @@
 Feature: Initialisation
 
-	Scenario: Run gvm for the first time
+  Background:
+    Given the internet is reachable
+
+  Scenario: Run gvm for the first time
 		When I enter "gvm"
 		Then the gvm work folder is created
 

@@ -1,6 +1,9 @@
 Feature: Upgrade
 
-	Scenario: Upgrade an outdated installation
+  Background:
+    Given the internet is reachable
+
+  Scenario: Upgrade an outdated installation
 		Given an initialised system
 		When I enter "gvm selfupdate"
 		Then I see "Updating gvm scripts..."

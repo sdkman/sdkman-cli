@@ -1,5 +1,9 @@
 Feature: Uninstall Candidate
-	Scenario: Uninstall an installed Candidate Version not in use
+
+  Background:
+    Given the internet is reachable
+
+  Scenario: Uninstall an installed Candidate Version not in use
 		Given the candidate "grails" version "2.1.0" is already installed but not default
 		When I enter "gvm uninstall grails 2.1.0"
 		Then I do not see "Unselecting grails 2.1.0"

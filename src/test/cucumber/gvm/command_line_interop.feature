@@ -2,6 +2,7 @@ Feature: Command Line Interop
 
 	Background:
 		Given an initialised system
+        And the internet is reachable
 
 	Scenario: Enter gvm
 		When I enter "gvm"

@@ -2,6 +2,7 @@ Feature: Use Candidate without Isolated Shells
 
     Background:
         Given isolated mode is not active
+        And the internet is reachable
 
 	Scenario: Use without providing a Candidate
 		When I enter "gvm use"

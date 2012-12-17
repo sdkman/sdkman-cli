@@ -2,6 +2,7 @@ Feature: Current Candidate
 
   Background:
     Given isolated mode is active
+    And the internet is reachable
 
   Scenario: Display current candidate version in use
 		Given the candidate "grails" version "1.3.9" is already installed and default

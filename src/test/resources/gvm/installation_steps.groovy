@@ -23,16 +23,32 @@ Given(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String 
 }
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and default$') { String candidate, String version ->
-	bash.execute("gvm install $candidate $version", ["y"])
-    def result = bash.output
-    assert result.contains("Done installing!")
+    def candidateVersion = setupCandidateVersion(candidate, version)
+
+    def currentLink = FileSystems.default.getPath("$gvmDir/$candidate/current")
+    Files.createSymbolicLink currentLink, candidateVersion
 }
 
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not default$') { String candidate, String version ->
-	bash.execute("gvm install $candidate $version", ["n"])
-    def result = bash.output
-    assert result.contains("Done installing!")
+    setupCandidateVersion candidate, version
 }
+
+private setupCandidateVersion(String candidate, String version) {
+    def fileSystem = FileSystems.default
+
+    def versionLocation = "$gvmDir/$candidate/$version"
+    def versionFolder = fileSystem.getPath(versionLocation)
+    Files.createDirectories versionFolder
+
+    def binFolder = fileSystem.getPath("$versionLocation/bin")
+    Files.createDirectories binFolder
+
+    def candidateFile = new File("$versionLocation/bin/$candidate")
+    candidateFile.write "echo ${candidate.capitalize()} Version: ${version}"
+    candidateFile.executable = true
+    versionFolder
+}
+
 
 Given(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
 	def file = new File("${gvmDir}/${candidate}")

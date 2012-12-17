@@ -1,5 +1,8 @@
 Feature: List Candidates
 
+    Background:
+      Given the internet is reachable
+
 	Scenario: List all available Versions for an installed Candidate
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the candidate "grails" version "1.3.9" is already installed but not default

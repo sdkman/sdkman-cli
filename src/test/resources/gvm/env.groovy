@@ -30,10 +30,6 @@ Before(){
 			new File(binDir, f.name) << f.text
 		}
 	}
-
-	bash = new BashEnv(baseDir, [GVM_DIR: gvmDirEnv, GVM_SERVICE: serviceUrlEnv])
-	bash.start()
-	bash.execute("source $binDir/gvm-init.sh")
 }
 
 After(){

@@ -1,5 +1,8 @@
 Feature: Broadcast
 
+    Background:
+        Given the internet is reachable
+
 	Scenario: A command is issued with no prior Broadcast received
 		Given no prior Broadcast was received
 		And a new Broadcast "This is a LIVE Broadcast!" is available

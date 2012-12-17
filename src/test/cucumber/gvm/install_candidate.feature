@@ -1,6 +1,9 @@
 Feature: Install Candidate
 
-	Scenario: Install a default Candidate
+  Background:
+    Given the internet is reachable
+
+  Scenario: Install a default Candidate
 		Given the default "grails" candidate is "2.1.0"
 		When I enter "gvm install grails" and answer "Y"
 		Then I see "Done installing!"
