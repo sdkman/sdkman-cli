@@ -37,6 +37,7 @@ EOF
 )
 
 OFFLINE_MESSAGE="This command is not available in aeroplane mode."
+GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "vert.x")
 
 PATH="${GVM_DIR}/bin:${GVM_DIR}/ext:$PATH"
 
