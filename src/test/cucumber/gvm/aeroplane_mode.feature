@@ -5,7 +5,7 @@ Feature: Aeroplane Mode
 
   # list command
 
-  Scenario: List candidate versions while Offline
+  Scenario: List candidate versions found while Offline
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the candidate "grails" version "1.3.9" is already installed but not default
     When I enter "gvm list grails"
@@ -13,7 +13,12 @@ Feature: Aeroplane Mode
     And I see "> 2.1.0"
     And I see "* 1.3.9"
 
-  # use command
+  Scenario: List candidate versions not found while Offline
+    When I enter "gvm list grails"
+    Then I see "Aeroplane Mode: only showing installed grails versions"
+    And I see "None installed!"
+
+# use command
 
   Scenario: Use the default candidate version while Offline
     Given the candidate "grails" version "2.1.0" is already installed and default
@@ -73,7 +78,7 @@ Feature: Aeroplane Mode
     When I enter "gvm install grails 2.1.0"
     Then I see "Stop! grails 2.1.0 is already installed."
 
-# uninstall command
+  # uninstall command
   Scenario: Uninstall a candidate version while Offline
     Given the candidate "grails" version "2.1.0" is already installed and default
     When I enter "gvm uninstall grails 2.1.0"
@@ -97,7 +102,9 @@ Feature: Aeroplane Mode
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the candidate "groovy" version "2.0.5" is already installed and default
     When I enter "gvm current"
-    Then I see "This command is not available in aeroplane mode."
+	Then I see "Using:"
+	And I see "grails: 2.1.0"
+	And I see "groovy: 2.0.5"
 
   # version command
   Scenario: Determine the GVM version when Offline
