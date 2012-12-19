@@ -48,21 +48,21 @@ function __gvmtool_check_version_present {
 }
 
 function __gvmtool_determine_version {
-	if [[ "${GVM_OFFLINE}" == "true" && -n "$1" && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
+	if [[ "${GVM_ONLINE}" == "false" && -n "$1" && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
 		VERSION="$1"
 
-	elif [[ "${GVM_OFFLINE}" == "true" && -z "$1" && -L "${GVM_DIR}/${CANDIDATE}/current" ]]; then
+	elif [[ "${GVM_ONLINE}" == "false" && -z "$1" && -L "${GVM_DIR}/${CANDIDATE}/current" ]]; then
 		VERSION=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s!${GVM_DIR}/${CANDIDATE}/!!g")
 
-	elif [[ "${GVM_OFFLINE}" == "true" && -n "$1" ]]; then
+	elif [[ "${GVM_ONLINE}" == "false" && -n "$1" ]]; then
 		echo "Stop! ${CANDIDATE} ${1} is not available in aeroplane mode."
 		return 1
 
-	elif [[ "${GVM_OFFLINE}" == "true" && -z "$1" ]]; then
+	elif [[ "${GVM_ONLINE}" == "false" && -z "$1" ]]; then
         echo "${OFFLINE_MESSAGE}"
         return 1
 
-	elif [[ "${GVM_OFFLINE}" == "false" && -z "$1" ]]; then
+	elif [[ "${GVM_ONLINE}" == "true" && -z "$1" ]]; then
 		VERSION=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/default")
 
 	else
@@ -154,14 +154,14 @@ function __gvmtool_check_upgrade_available {
 	fi
 }
 
-function __gvmtool_display_broadcast {
+function __gvmtool_update_broadcast {
 	COMMAND="$1"
 	BROADCAST_FILE="${GVM_DIR}/var/broadcast"
 	if [ -f "${BROADCAST_FILE}" ]; then
 		BROADCAST_HIST=$(cat "${BROADCAST_FILE}")
 	fi
 
-	if [[ "${BROADCAST_LIVE}" != "${BROADCAST_HIST}" && "${COMMAND}" != 'broadcast' ]]; then
+	if [[ "${GVM_ONLINE}" == "true" && ( "${BROADCAST_LIVE}" != "${BROADCAST_HIST}" ) && ( "${COMMAND}" != 'broadcast' ) ]]; then
 		mkdir -p "${GVM_DIR}/var"
 		echo "${BROADCAST_LIVE}" > "${BROADCAST_FILE}"
 		echo "${BROADCAST_LIVE}"
@@ -194,7 +194,7 @@ function __gvmtool_install_candidate_version {
 }
 
 function __gvmtool_offline_list {
-	echo "============================================================"
+	echo "------------------------------------------------------------"
 	echo "Aeroplane Mode: only showing installed ${CANDIDATE} versions"
 	echo "------------------------------------------------------------"
 	echo "                                                            "
@@ -254,11 +254,11 @@ function __gvmtool_use {
 	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_determine_version "$2" || return 1
 
-	if [[ "${GVM_OFFLINE}" == "false" && ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
+	if [[ "${GVM_ONLINE}" == "true" && ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
 		echo -n "Do you want to install it now? (Y/n): "
-		read INSTALL 
+		read INSTALL
 		if [[ -z "${INSTALL}" || "${INSTALL}" == "y" || "${INSTALL}" == "Y" ]]; then
 			__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}"
 		else
@@ -345,11 +345,12 @@ function __gvmtool_list {
 	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_build_version_csv "${CANDIDATE}"
 	__gvmtool_determine_current_version "${CANDIDATE}"
-	FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
-	if [[ "${GVM_OFFLINE}" == "true" ]]; then
+	if [[ "${GVM_ONLINE}" == "false" ]]; then
 		__gvmtool_offline_list
 	else
+		FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
 		echo "${FRAGMENT}"
+		unset FRAGMENT
 	fi
 }
 
@@ -386,7 +387,7 @@ function __gvmtool_broadcast {
 }
 
 function __gvmtool_selfupdate {
-	if [[ "${GVM_OFFLINE}" == "true" ]]; then
+	if [[ "${GVM_ONLINE}" == "false" ]]; then
 		echo "${OFFLINE_MESSAGE}"
 	else
 		curl -s "${GVM_SERVICE}/selfupdate" | bash
@@ -404,20 +405,28 @@ function gvm {
 	mkdir -p "${GVM_DIR}"
 
 	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
+	if [[ -z "${BROADCAST_LIVE}" && "${GVM_ONLINE}" == "true" ]]; then
+		echo "${OFFLINE_BROADCAST}"
+	fi
+
+	if [[ -n "${BROADCAST_LIVE}" && "${GVM_ONLINE}" == "false" ]]; then
+		echo "${ONLINE_BROADCAST}"
+	fi
+
 
 	if [[ -z "${BROADCAST_LIVE}" ]]; then
-		GVM_OFFLINE="true"
-		BROADCAST_LIVE="${OFFLINE_BROADCAST}"
+		GVM_ONLINE="false"
 	else
-		GVM_OFFLINE="false"
+		GVM_ONLINE="true"
 	fi
+
 
 	__gvmtool_check_upgrade_available
 	if [[ -n "${UPGRADE_AVAILABLE}" && ( "$1" != "broadcast" ) ]]; then
 		echo "${BROADCAST_LIVE}"
 		echo ""
 	else
-		__gvmtool_display_broadcast "$1"
+		__gvmtool_update_broadcast "$1"
 	fi
 
 	# Load the gvm config if it exists.

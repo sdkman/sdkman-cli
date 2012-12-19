@@ -36,6 +36,15 @@ AEROPLANE MODE ENABLED! Some functionality is now disabled.
 EOF
 )
 
+ONLINE_BROADCAST=$( cat << EOF
+==== BROADCAST =============================================
+
+ONLINE MODE RE-ENABLED! All functionality now restored.
+
+============================================================
+EOF
+)
+
 OFFLINE_MESSAGE="This command is not available in aeroplane mode."
 GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "vert.x")
 

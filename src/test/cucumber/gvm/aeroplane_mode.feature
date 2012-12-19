@@ -113,9 +113,9 @@ Feature: Aeroplane Mode
 
   # broadcast command
   Scenario: Recall a broadcast while Offline
-    Given I enter "gvm list grails"
+    Given a prior Broadcast "This is an OLD Broadcast!" was issued
     When I enter "gvm broadcast"
-    Then I see "AEROPLANE MODE ENABLED! Some functionality is now disabled."
+    Then I see "This is an OLD Broadcast!"
 
   # help command
   Scenario: Request help while Offline
