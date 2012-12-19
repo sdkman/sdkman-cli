@@ -201,11 +201,11 @@ function __gvmtool_offline_list {
 
 	gvm_versions=($(echo ${CSV//,/ }))
 	for (( i=0 ; i <= ${#gvm_versions} ; i++ )); do
-		if [[ -n "${gvm_versions[$i]}" ]]; then
-			if [[ "${gvm_versions[$i]}" == "${CURRENT}" ]]; then
-				echo -e " > ${gvm_versions[$i]}"
+		if [[ -n "${gvm_versions[${i}]}" ]]; then
+			if [[ "${gvm_versions[${i}]}" == "${CURRENT}" ]]; then
+				echo -e " > ${gvm_versions[${i}]}"
 			else
-				echo -e " * ${gvm_versions[$i]}"
+				echo -e " * ${gvm_versions[${i}]}"
 			fi
 		fi
 	done
@@ -323,13 +323,13 @@ function __gvmtool_current {
 		# Starts at 0 for bash, ends at the candidate array size for zsh
 		for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
 			# Eliminate empty entries due to incompatibility
-			if [[ -n ${GVM_CANDIDATES[$i]} ]]; then
-				__gvmtool_determine_current_version "${GVM_CANDIDATES[$i]}"
+			if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
+				__gvmtool_determine_current_version "${GVM_CANDIDATES[${i}]}"
 				if [ -n "${CURRENT}" ]; then
 					if [ ${INSTALLED_COUNT} -eq 0 ]; then
 						echo 'Using:'
 					fi
-					echo "${GVM_CANDIDATES[$i]}: ${CURRENT}"
+					echo "${GVM_CANDIDATES[${i}]}: ${CURRENT}"
 					(( INSTALLED_COUNT += 1 ))
 				fi
 			fi
