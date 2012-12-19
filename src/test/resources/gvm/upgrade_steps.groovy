@@ -3,11 +3,18 @@ package gvm
 import static cucumber.runtime.groovy.EN.*
 
 Then(~'^the gvm scripts are up to date$') { ->
-	def gvm = new File("$gvmDir/bin/gvm")
-	assert gvm.exists()
-
-	def gvmInit = new File("$gvmDir/bin/gvm-init.sh")
-	assert gvmInit.exists()
+    assert new File("$gvmDir/bin/gvm-init.sh").exists()
+    assert new File("$gvmDir/bin/gvm-common.sh").exists()
+    assert new File("$gvmDir/bin/gvm-main.sh").exists()
+    assert new File("$gvmDir/bin/gvm-broadcast.sh").exists()
+    assert new File("$gvmDir/bin/gvm-current.sh").exists()
+    assert new File("$gvmDir/bin/gvm-default.sh").exists()
+    assert new File("$gvmDir/bin/gvm-install.sh").exists()
+    assert new File("$gvmDir/bin/gvm-list.sh").exists()
+    assert new File("$gvmDir/bin/gvm-selfupdate.sh").exists()
+    assert new File("$gvmDir/bin/gvm-uninstall.sh").exists()
+    assert new File("$gvmDir/bin/gvm-use.sh").exists()
+    assert new File("$gvmDir/bin/gvm-version.sh").exists()
 }
 
 And(~'^the configuration file has been primed with "([^"]*)"$') { String content ->
