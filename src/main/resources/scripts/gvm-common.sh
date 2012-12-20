@@ -21,17 +21,6 @@
 # common internal function definitions
 #
 
-function __gvmtool_help {
-	echo ""
-	echo "Usage: gvm <command> <candidate> [version]"
-	echo ""
-	echo "   command    :  install, uninstall, list, use, current, version, default, selfupdate, broadcast or help"
-	echo "   candidate  :  groovy, grails, griffon, gradle, vert.x"
-	echo "   version    :  optional, defaults to latest stable if not provided"
-	echo ""
-	echo "eg: gvm install groovy"
-}
-
 function __gvmtool_check_candidate_present {
 	if [ -z "$1" ]; then
 		echo -e "\nNo candidate provided."

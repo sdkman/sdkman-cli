@@ -42,6 +42,7 @@ And(~'^the gvm module scripts are placed in the src folder$') {->
     assert new File("$gvmDir/src", "gvm-uninstall.sh").exists()
     assert new File("$gvmDir/src", "gvm-use.sh").exists()
     assert new File("$gvmDir/src", "gvm-version.sh").exists()
+    assert new File("$gvmDir/src", "gvm-help.sh").exists()
 }
 
 And(~'^the staging folder is cleaned up$') {->
