@@ -59,17 +59,9 @@ VERTX_HOME="${GVM_DIR}/vert.x/current"
 export PATH="${GROOVY_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_HOME}/bin:${VERTX_HOME}/bin:$PATH"
 
 # Source gvm module scripts.
-source "${GVM_DIR}/bin/gvm-common.sh"
-source "${GVM_DIR}/bin/gvm-broadcast.sh"
-source "${GVM_DIR}/bin/gvm-current.sh"
-source "${GVM_DIR}/bin/gvm-default.sh"
-source "${GVM_DIR}/bin/gvm-install.sh"
-source "${GVM_DIR}/bin/gvm-list.sh"
-source "${GVM_DIR}/bin/gvm-selfupdate.sh"
-source "${GVM_DIR}/bin/gvm-uninstall.sh"
-source "${GVM_DIR}/bin/gvm-use.sh"
-source "${GVM_DIR}/bin/gvm-version.sh"
-source "${GVM_DIR}/bin/gvm-main.sh"
+for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
+	source "${f}"
+done
 
 # Source extension files prefixed with 'sourced-' and found in the ext/ folder
 # Use this if extensions are written with the functional approach and want

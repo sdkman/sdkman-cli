@@ -58,9 +58,11 @@ function gvm {
 	# NOTE Internal commands use underscores rather than hyphens,
 	# hence the name conversion as the first step here.
 	CONVERTED_CMD_NAME=`echo "$1" | tr '-' '_'`
+
 	CMD_FOUND=""
-	if [[ -f "${GVM_DIR}/bin/gvm-$1.sh" ]]; then
-		CMD_FOUND="${GVM_DIR}/bin/gvm-$1.sh"
+	CMD_TARGET="${GVM_DIR}/src/gvm-$1.sh"
+	if [[ -f "${CMD_TARGET}" ]]; then
+		CMD_FOUND="${CMD_TARGET}"
 	fi
 
 	# ...no command provided

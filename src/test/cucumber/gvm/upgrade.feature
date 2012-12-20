@@ -6,9 +6,11 @@ Feature: Upgrade
   Scenario: Upgrade an outdated installation
     Given an initialised system
     When I enter "gvm selfupdate"
-    Then I see "Updating gvm scripts..."
-    Then I see "Successfully upgraded GVM."
-    Then the gvm scripts are up to date
+    Then I see "Updating gvm..."
+    And the gvm init script is placed in the bin folder
+    And the gvm module scripts are placed in the src folder
+    And the staging folder is cleaned up
+    And I see "Successfully upgraded GVM."
 
   Scenario: Upgrade an installation without configuration
     Given an initialised system

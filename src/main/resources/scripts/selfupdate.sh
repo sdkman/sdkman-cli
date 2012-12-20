@@ -16,40 +16,57 @@
 #
 
 echo ""
-echo "Updating gvm scripts..."
-TMP_ZIP="/tmp/res-$(printf %05d $RANDOM).zip"
+echo "Updating gvm..."
 
-PLATFORM=$(uname)
-
+GVM_VERSION="@GVM_VERSION@"
 if [ -z "${GVM_DIR}" ]; then
 	GVM_DIR="$HOME/.gvm"
 fi
 
+gvm_platform=$(uname)
+gvm_bin_folder="${GVM_DIR}/bin"
+gvm_tmp_zip="${GVM_DIR}/tmp/res-${GVM_VERSION}.zip"
+gvm_stage_folder="${GVM_DIR}/tmp/stage"
+gvm_src_folder="${GVM_DIR}/src"
+
+echo "Refresh directory structure..."
+mkdir -p "${GVM_DIR}/bin"
 mkdir -p "${GVM_DIR}/ext"
 mkdir -p "${GVM_DIR}/etc"
+mkdir -p "${GVM_DIR}/src"
+mkdir -p "${GVM_DIR}/var"
+mkdir -p "${GVM_DIR}/tmp"
+
 mkdir -p "${GVM_DIR}/groovy"
-mkdir -p "${GVM_DIR}/groovy"
-mkdir -p "${GVM_DIR}/grails"
+mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/griffon"
+mkdir -p "${GVM_DIR}/grails"
 mkdir -p "${GVM_DIR}/vert.x"
 
+echo "Prime the config file..."
+gvm_config_file="${GVM_DIR}/etc/config"
+echo "isolated_mode=1" > "${gvm_config_file}"
 
-CONFIG_FILE="${GVM_DIR}/etc/config"
-echo "isolated_mode=1" > "${CONFIG_FILE}"
+echo "Download new scripts to: ${gvm_tmp_zip}"
+curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}" > "${gvm_tmp_zip}"
 
-BIN_FOLDER="${GVM_DIR}/bin"
-mkdir -p "${BIN_FOLDER}"
-echo "Download new scripts to: ${TMP_ZIP}"
-curl -s "${GVM_SERVICE}/res?platform=${PLATFORM}" > "${TMP_ZIP}"
+echo "Unziping scripts to: ${gvm_stage_folder}"
+unzip -qo "${gvm_tmp_zip}" -d "${gvm_stage_folder}"
 
-echo "Unziping scripts to: ${BIN_FOLDER}"
-unzip -qo "${TMP_ZIP}" -d "${BIN_FOLDER}"
+echo "Moving gvm-init file to bin folder..."
+mv -v "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
 
-echo "Cleaning up ${TMP_ZIP}"
-rm "${TMP_ZIP}"
+echo "Changing file permissions for init script..."
+chmod +x "${gvm_bin_folder}/gvm-init.sh"
 
-echo "Changing file permissions in: ${BIN_FOLDER}"
-chmod +x "${BIN_FOLDER}"/*
+echo "Move remaining module scripts to src folder: ${gvm_src_folder}"
+mv -v "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
+
+echo "Clean up staging folder..."
+rm -rf "${gvm_stage_folder}"
+
+echo "Clean up local variables..."
+unset gvm_platform gvm_bin_folder gvm_tmp_zip gvm_stage_folder gvm_src_folder
 
 echo ""
 echo ""

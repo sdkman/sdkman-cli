@@ -1,21 +1,8 @@
 package gvm
 
-import static cucumber.runtime.groovy.EN.*
+import cucumber.runtime.PendingException
 
-Then(~'^the gvm scripts are up to date$') { ->
-    assert new File("$gvmDir/bin/gvm-init.sh").exists()
-    assert new File("$gvmDir/bin/gvm-common.sh").exists()
-    assert new File("$gvmDir/bin/gvm-main.sh").exists()
-    assert new File("$gvmDir/bin/gvm-broadcast.sh").exists()
-    assert new File("$gvmDir/bin/gvm-current.sh").exists()
-    assert new File("$gvmDir/bin/gvm-default.sh").exists()
-    assert new File("$gvmDir/bin/gvm-install.sh").exists()
-    assert new File("$gvmDir/bin/gvm-list.sh").exists()
-    assert new File("$gvmDir/bin/gvm-selfupdate.sh").exists()
-    assert new File("$gvmDir/bin/gvm-uninstall.sh").exists()
-    assert new File("$gvmDir/bin/gvm-use.sh").exists()
-    assert new File("$gvmDir/bin/gvm-version.sh").exists()
-}
+import static cucumber.runtime.groovy.EN.*
 
 And(~'^the configuration file has been primed with "([^"]*)"$') { String content ->
     def configFile = "$gvmDir/etc/config" as File
@@ -37,4 +24,26 @@ Then(~'^the configuration file is present$') { ->
 And(~'^the configuration file contains "([^"]*)"$') { String content ->
     def configFile = "$gvmDir/etc/config" as File
     assert configFile.text.contains(content)
+}
+
+And(~'^the gvm init script is placed in the bin folder$') {->
+    assert new File("$gvmDir/bin", "gvm-init.sh").exists()
+}
+
+And(~'^the gvm module scripts are placed in the src folder$') {->
+    assert new File("$gvmDir/src", "gvm-common.sh").exists()
+    assert new File("$gvmDir/src", "gvm-main.sh").exists()
+    assert new File("$gvmDir/src", "gvm-broadcast.sh").exists()
+    assert new File("$gvmDir/src", "gvm-current.sh").exists()
+    assert new File("$gvmDir/src", "gvm-default.sh").exists()
+    assert new File("$gvmDir/src", "gvm-install.sh").exists()
+    assert new File("$gvmDir/src", "gvm-list.sh").exists()
+    assert new File("$gvmDir/src", "gvm-selfupdate.sh").exists()
+    assert new File("$gvmDir/src", "gvm-uninstall.sh").exists()
+    assert new File("$gvmDir/src", "gvm-use.sh").exists()
+    assert new File("$gvmDir/src", "gvm-version.sh").exists()
+}
+
+And(~'^the staging folder is cleaned up$') {->
+    assert ! new File("$gvmDir/tmp/stage").exists()
 }

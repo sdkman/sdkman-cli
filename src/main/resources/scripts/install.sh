@@ -15,9 +15,32 @@
 #   limitations under the License.
 #
 
+# Global variables
 GVM_SERVICE="@GVM_SERVICE@"
-PLATFORM=$(uname)
+GVM_VERSION="@GVM_VERSION@"
+GVM_PLATFORM=$(uname)
 GVM_DIR="$HOME/.gvm"
+
+# Local variables
+gvm_bin_folder="${GVM_DIR}/bin"
+gvm_src_folder="${GVM_DIR}/src"
+gvm_tmp_folder="${GVM_DIR}/tmp"
+gvm_stage_folder="${gvm_tmp_folder}/stage"
+gvm_zip_file="${gvm_tmp_folder}/res-${GVM_VERSION}.zip"
+gvm_ext_folder="${GVM_DIR}/ext"
+gvm_etc_folder="${GVM_DIR}/ext"
+gvm_config_file="${gvm_ext_folder}/config"
+gvm_bash_profile="${HOME}/.bash_profile"
+gvm_profile="${HOME}/.profile"
+gvm_bashrc="${HOME}/.bashrc"
+gvm_zshrc="${HOME}/.zshrc"
+gvm_init_snippet=$( cat << EOF
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "${GVM_DIR}/bin/gvm-init.sh" && ! \$(which gvm-init.sh) ]] && source "${GVM_DIR}/bin/gvm-init.sh"
+EOF
+)
+
+
 
 echo '                                                                     '
 echo 'Thanks for using                                                     '
@@ -34,6 +57,9 @@ echo '        __\////////////__________\///________\///______________\///__'
 echo '                                                                     '
 echo '                                       Will now attempt installing...'
 echo '                                                                     '
+
+
+# Sanity checks
 
 echo "Looking for a previous installation of GVM..."
 if [ -d "${GVM_DIR}" ]; then
@@ -116,86 +142,103 @@ if [ -z $(which curl) ]; then
 fi
 
 echo "Installing gvm scripts..."
-BIN_FOLDER="${GVM_DIR}/bin"
-TMP_ZIP="/tmp/res.zip"
-mkdir -p "${BIN_FOLDER}"
-curl -s "${GVM_SERVICE}/res?platform=${PLATFORM}" > "${TMP_ZIP}"
-unzip -qo "${TMP_ZIP}" -d "${BIN_FOLDER}"
-rm "${TMP_ZIP}"
-chmod +x "${BIN_FOLDER}"/*
 
-mkdir -p "${GVM_DIR}/ext"
 
-mkdir -p "${GVM_DIR}/etc"
-CONFIG_FILE="${GVM_DIR}/etc/config"
-if [[ ! -f "${CONFIG_FILE}" ]]; then
-	echo "isolated_mode=0" > "${CONFIG_FILE}"
-fi
+# Create directory structure
 
-echo "Creating candidate directories..."
+echo "Create distribution directories..."
+mkdir -p "${gvm_bin_folder}"
+mkdir -p "${gvm_src_folder}"
+mkdir -p "${gvm_tmp_folder}"
+mkdir -p "${gvm_stage_folder}"
+mkdir -p "${gvm_ext_folder}"
+
+echo "Create candidate directories..."
 mkdir -p "${GVM_DIR}/groovy"
 mkdir -p "${GVM_DIR}/grails"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/vert.x"
 
-echo "Attempting to update bash profile..."
-SNIPPET=$( cat << EOF
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "${GVM_DIR}/bin/gvm-init.sh" && ! \$(which gvm-init.sh) ]] && source "${GVM_DIR}/bin/gvm-init.sh"
-EOF
-)
+echo "Download script archive..."
+curl -s "${GVM_SERVICE}/res?platform=${GVM_PLATFORM}" > "${gvm_zip_file}"
 
-BASH_PROFILE="$HOME/.bash_profile"
-PROFILE="$HOME/.profile"
-BASHRC="$HOME/.bashrc"
-ZSHRC="$HOME/.zshrc"
+echo "Extract script archive..."
+unzip -qo "${gvm_zip_file}" -d "${gvm_stage_folder}"
 
-if [ ! -f "${BASH_PROFILE}" -a ! -f "${PROFILE}" ]; then
-	echo "#!/bin/bash" > "${BASH_PROFILE}"
-	echo "${SNIPPET}" >> "${BASH_PROFILE}"
-	echo "Created and initialised ${BASH_PROFILE}"
+echo "Install scripts..."
+mv "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
+mv "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
+
+echo "Make init script executable..."
+chmod +x "${gvm_bin_folder}/gvm-init.sh"
+
+echo "Prime config file..."
+if [[ ! -f "${gvm_config_file}" ]]; then
+	echo "isolated_mode=1" > "${gvm_config_file}"
+fi
+
+echo "Attempt update of bash profiles..."
+if [ ! -f "${gvm_bash_profile}" -a ! -f "${gvm_profile}" ]; then
+	echo "#!/bin/bash" > "${gvm_bash_profile}"
+	echo "${gvm_init_snippet}" >> "${gvm_bash_profile}"
+	echo "Created and initialised ${gvm_bash_profile}"
 else
-	if [ -f "${BASH_PROFILE}" ]; then
-		if [[ -z `grep 'gvm-init.sh' "${BASH_PROFILE}"` ]]; then
-			echo -e "\n${SNIPPET}" >> "${BASH_PROFILE}"
-			echo "Updated existing ${BASH_PROFILE}"
+	if [ -f "${gvm_bash_profile}" ]; then
+		if [[ -z `grep 'gvm-init.sh' "${gvm_bash_profile}"` ]]; then
+			echo -e "\n${gvm_init_snippet}" >> "${gvm_bash_profile}"
+			echo "Updated existing ${gvm_bash_profile}"
 		fi
 	fi
 
-	if [ -f "${PROFILE}" ]; then
-		if [[ -z `grep 'gvm-init.sh' "${PROFILE}"` ]]; then
-			echo -e "\n${SNIPPET}" >> "${PROFILE}"
-			echo "Updated existing ${PROFILE}"
+	if [ -f "${gvm_profile}" ]; then
+		if [[ -z `grep 'gvm-init.sh' "${gvm_profile}"` ]]; then
+			echo -e "\n${gvm_init_snippet}" >> "${gvm_profile}"
+			echo "Updated existing ${gvm_profile}"
 		fi
 	fi
 fi
 
-if [ ! -f "${BASHRC}" ]; then
-	echo "#!/bin/bash" > "${BASHRC}"
-	echo "${SNIPPET}" >> "${BASHRC}"
-	echo "Created and initialised ${BASHRC}"
+if [ ! -f "${gvm_bashrc}" ]; then
+	echo "#!/bin/bash" > "${gvm_bashrc}"
+	echo "${gvm_init_snippet}" >> "${gvm_bashrc}"
+	echo "Created and initialised ${gvm_bashrc}"
 else
-	if [[ -z `grep 'gvm-init.sh' "${BASHRC}"` ]]; then
-		echo -e "\n${SNIPPET}" >> "${BASHRC}"
-		echo "Updated existing ${BASHRC}"
+	if [[ -z `grep 'gvm-init.sh' "${gvm_bashrc}"` ]]; then
+		echo -e "\n${gvm_init_snippet}" >> "${gvm_bashrc}"
+		echo "Updated existing ${gvm_bashrc}"
 	fi
 fi
 
-if [ ! -f "${ZSHRC}" ]; then
-	echo "${SNIPPET}" >> "${ZSHRC}"
-	echo "Created and initialised ${ZSHRC}"
+echo "Attempt update of zsh profiles..."
+if [ ! -f "${gvm_zshrc}" ]; then
+	echo "${gvm_init_snippet}" >> "${gvm_zshrc}"
+	echo "Created and initialised ${gvm_zshrc}"
 else
-	if [[ -z `grep 'gvm-init.sh' "${ZSHRC}"` ]]; then
-		echo -e "\n${SNIPPET}" >> "${ZSHRC}"
-		echo "Updated existing ${ZSHRC}"
+	if [[ -z `grep 'gvm-init.sh' "${gvm_zshrc}"` ]]; then
+		echo -e "\n${gvm_init_snippet}" >> "${gvm_zshrc}"
+		echo "Updated existing ${gvm_zshrc}"
 	fi
 fi
 
-echo "All done!"
+echo "Clean up local variables..."
+unset gvm_bin_folder
+unset gvm_src_folder
+unset gvm_tmp_folder
+unset gvm_stage_folder
+unset gvm_zip_file
+unset gvm_ext_folder
+unset gvm_etc_folder
+unset gvm_config_file
+unset gvm_bash_profile
+unset gvm_profile
+unset gvm_bashrc
+unset gvm_zshrc
+unset gvm_init_snippet
 
-echo ""
-echo ""
+
+echo -e "\n\n\nAll done!\n\n"
+
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""
 echo "    source \"${GVM_DIR}/bin/gvm-init.sh\""
