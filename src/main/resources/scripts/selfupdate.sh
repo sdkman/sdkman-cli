@@ -29,6 +29,10 @@ gvm_tmp_zip="${GVM_DIR}/tmp/res-${GVM_VERSION}.zip"
 gvm_stage_folder="${GVM_DIR}/tmp/stage"
 gvm_src_folder="${GVM_DIR}/src"
 
+echo "Purge existing scripts..."
+rm -rf "$gvm_bin_folder"
+rm -rf "$gvm_src_folder"
+
 echo "Refresh directory structure..."
 mkdir -p "${GVM_DIR}/bin"
 mkdir -p "${GVM_DIR}/ext"
