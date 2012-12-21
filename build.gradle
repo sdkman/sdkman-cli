@@ -5,7 +5,8 @@ apply plugin: 'idea'
 
 defaultTasks 'clean', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
 
-ext.installDir = "${System.getProperty('user.home')}/.gvm/bin"
+ext.installBinDir = "${System.getProperty('user.home')}/.gvm/bin"
+ext.installSrcDir = "${System.getProperty('user.home')}/.gvm/src"
 
 loadConfiguration()
 
@@ -63,12 +64,25 @@ task assembleArchive(type: Zip) {
 	include "gvm*"
 }
 
-task cleanInstall(type: Delete) {
-	delete installDir
+task cleanInstallInit(type: Delete) {
+	delete installBinDir
 }
 
-task install(type: Copy, dependsOn: [clean, cleanInstall, prepareScripts]) {
-	from "build/scripts"
-	into installDir
-	include "gvm*"
+task cleanInstallModules(type: Delete) {
+    delete installSrcDir
 }
+
+task installInit(type: Copy, dependsOn: [cleanInstallInit, prepareScripts]) {
+	from "build/scripts"
+	into installBinDir
+	include "gvm-init.sh"
+}
+
+task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]) {
+    from "build/scripts"
+    into installSrcDir
+    include "gvm-*.sh"
+    exclude "gvm-init.sh"
+}
+
+task install(dependsOn: [installInit, installModules])
