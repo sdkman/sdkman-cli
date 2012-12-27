@@ -177,8 +177,8 @@ function __gvmtool_install_candidate_version {
 
 	mkdir -p "${GVM_DIR}/${CANDIDATE}"
 
-	unzip -oq "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "/tmp/"
-	mv "/tmp/${CANDIDATE}-${VERSION}" "${GVM_DIR}/${CANDIDATE}/${VERSION}"
+	unzip -oq "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${GVM_DIR}/tmp/"
+	mv ${GVM_DIR}/tmp/*-${VERSION} "${GVM_DIR}/${CANDIDATE}/${VERSION}"
 	echo "Done installing!"
 	echo ""
 }
