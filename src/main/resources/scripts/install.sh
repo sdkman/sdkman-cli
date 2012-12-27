@@ -158,7 +158,7 @@ mkdir -p "${GVM_DIR}/groovy"
 mkdir -p "${GVM_DIR}/grails"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/gradle"
-mkdir -p "${GVM_DIR}/vert.x"
+mkdir -p "${GVM_DIR}/vertx"
 
 echo "Download script archive..."
 curl -s "${GVM_SERVICE}/res?platform=${GVM_PLATFORM}" > "${gvm_zip_file}"

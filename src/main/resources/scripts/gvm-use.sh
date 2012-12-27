@@ -35,16 +35,8 @@ function __gvmtool_use {
 
 	if [[ -n ${isolated_mode} && ${isolated_mode} == 1 ]]; then
 		# Just update the *_HOME and PATH for this shell.
-		case "${CANDIDATE}" in
-			vert.x )
-			export VERTX_HOME="${GVM_DIR}/vert.x/${VERSION}"
-			;;
-
-			* )
-			UPPER_CANDIDATE=`echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]'`
-			export "${UPPER_CANDIDATE}_HOME"="${GVM_DIR}/${CANDIDATE}/${VERSION}"
-			;;
-		esac
+		UPPER_CANDIDATE=`echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]'`
+		export "${UPPER_CANDIDATE}_HOME"="${GVM_DIR}/${CANDIDATE}/${VERSION}"
 
 		# Replace the current path for the candidate with the selected version.
 		export PATH=`echo $PATH | sed -E "s!${GVM_DIR}/${CANDIDATE}/([0-9][^/]+|current)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`

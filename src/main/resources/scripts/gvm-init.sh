@@ -46,7 +46,7 @@ EOF
 )
 
 OFFLINE_MESSAGE="This command is not available in aeroplane mode."
-GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "vert.x")
+GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "vertx")
 
 PATH="${GVM_DIR}/bin:${GVM_DIR}/ext:$PATH"
 
@@ -54,7 +54,7 @@ GROOVY_HOME="${GVM_DIR}/groovy/current"
 GRAILS_HOME="${GVM_DIR}/grails/current"
 GRIFFON_HOME="${GVM_DIR}/griffon/current"
 GRADLE_HOME="${GVM_DIR}/gradle/current"
-VERTX_HOME="${GVM_DIR}/vert.x/current"
+VERTX_HOME="${GVM_DIR}/vertx/current"
 
 export PATH="${GROOVY_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_HOME}/bin:${VERTX_HOME}/bin:$PATH"
 

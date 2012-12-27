@@ -45,7 +45,7 @@ mkdir -p "${GVM_DIR}/groovy"
 mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/grails"
-mkdir -p "${GVM_DIR}/vert.x"
+mkdir -p "${GVM_DIR}/vertx"
 
 echo "Prime the config file..."
 gvm_config_file="${GVM_DIR}/etc/config"
