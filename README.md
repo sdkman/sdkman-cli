@@ -10,6 +10,8 @@ Questions and disccusion at the [Nabble Forum](http://forum.gvmtool.net).
 
 ## Installation
 
+> You may optionally set the GVM_DIR variable if you would like to install it to a custom location
+
 Open your favourite terminal and enter the following:
 
     curl -s get.gvmtool.net | bash
