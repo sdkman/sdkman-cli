@@ -19,7 +19,10 @@
 GVM_SERVICE="@GVM_SERVICE@"
 GVM_VERSION="@GVM_VERSION@"
 GVM_PLATFORM=$(uname)
-GVM_DIR="$HOME/.gvm"
+# Check for GVM_DIR if it already exists ignore otherwise set it to $HOME/.gvm
+if [ -z $GVM_DIR ]; then
+	GVM_DIR="$HOME/.gvm"
+fi
 
 # Local variables
 gvm_bin_folder="${GVM_DIR}/bin"
