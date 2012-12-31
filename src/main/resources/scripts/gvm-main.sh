@@ -65,16 +65,14 @@ function gvm {
 		CMD_FOUND="${CMD_TARGET}"
 	fi
 
-	# ...no command provided
-	if [[ -z "$1" ]]; then
-		__gvmtool_help
-		return 1
+	#Check if it is a sourced function
+	CMD_TARGET="${GVM_DIR}/ext/sourced-gvm-$1.sh"
+	if [[ -f "${CMD_TARGET}" ]]; then
+		CMD_FOUND="${CMD_TARGET}"
 	fi
 
-	# ...or as a script on the path.
-	SCRIPT_PATH="${GVM_DIR}/ext/gvm-$1.sh"
-	if [[ -z "${CMD_FOUND}" && ! -f "${SCRIPT_PATH}" ]]; then
-		echo -e "\nInvalid command: $1"
+ 	# ...no command provided or couldn't find the command
+	if [[ (-z "$1") || (-z "${CMD_FOUND}")]]; then
 		__gvmtool_help
 		return 1
 	fi
@@ -89,8 +87,5 @@ function gvm {
 	if [ -n "${CMD_FOUND}" ]; then
 		# It's available as a shell function
 		__gvmtool_"${CONVERTED_CMD_NAME}" "$2" "$3"
-	else
-		# It's a shell script in the extensions directory
-		${SCRIPT_PATH} "$1" "$2" "$3"
 	fi
 }
