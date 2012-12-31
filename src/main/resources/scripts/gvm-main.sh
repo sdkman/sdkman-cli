@@ -71,9 +71,8 @@ function gvm {
 		CMD_FOUND="${CMD_TARGET}"
 	fi
 
-
-	# ...no command provided
-	if [[ -z "$1" ]]; then
+ 	# ...no command provided or couldn't find the command
+	if [[ (-z "$1") || (-z "${CMD_FOUND}")]]; then
 		__gvmtool_help
 		return 1
 	fi
