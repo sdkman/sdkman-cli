@@ -30,8 +30,8 @@ gvm_stage_folder="${GVM_DIR}/tmp/stage"
 gvm_src_folder="${GVM_DIR}/src"
 
 echo "Purge existing scripts..."
-rm -rf "$gvm_bin_folder"
-rm -rf "$gvm_src_folder"
+rm -rf "${gvm_bin_folder}"
+rm -rf "${gvm_src_folder}"
 
 echo "Refresh directory structure..."
 mkdir -p "${GVM_DIR}/bin"
@@ -46,7 +46,7 @@ mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/grails"
 
-if [[ -d "${GVM_DIR}/vert.x" && ! -d "${GVM_DIR}/vertx" ]]; then
+if [[ -d "${GVM_DIR}/vert.x" ]]; then
 	mv "${GVM_DIR}/vert.x" "${GVM_DIR}/vertx"
 else
 	mkdir -p "${GVM_DIR}/vertx"
