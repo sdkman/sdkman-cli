@@ -78,14 +78,6 @@ function gvm {
 		return 1
 	fi
 
-	# ...or as a script on the path.
-	SCRIPT_PATH="${GVM_DIR}/ext/gvm-$1.sh"
-	if [[ -z "${CMD_FOUND}" && ! -f "${SCRIPT_PATH}" ]]; then
-		echo -e "\nInvalid command: $1"
-		__gvmtool_help
-		return 1
-	fi
-
 	# Check whether the candidate exists
 	if [[ -n "$2" && -z $(echo ${GVM_CANDIDATES[@]} | grep -w "$2") ]]; then
 		echo -e "\nStop! $2 is not a valid candidate."
@@ -96,8 +88,5 @@ function gvm {
 	if [ -n "${CMD_FOUND}" ]; then
 		# It's available as a shell function
 		__gvmtool_"${CONVERTED_CMD_NAME}" "$2" "$3"
-	else
-		# It's a shell script in the extensions directory
-		${SCRIPT_PATH} "$1" "$2" "$3"
 	fi
 }
