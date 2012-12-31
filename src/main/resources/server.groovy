@@ -54,6 +54,11 @@ rm.get("/selfupdate") { req ->
 	req.response.sendFile('build/scripts/selfupdate.sh')
 }
 
+rm.get("/robots.txt") { req ->
+    addPlainTextHeader req
+    req.response.sendFile('build/resources/main/templates/robots.txt')
+}
+
 rm.get("/alive") { req ->
 	addPlainTextHeader req
 	req.response.end "OK"
@@ -171,29 +176,6 @@ rm.get("/broadcast/:version") { req ->
 		req.response.end templateText
 	}
 
-}
-
-
-//
-// leave here for legacy purposes
-//
-
-rm.get("/app/alive/:version") { req ->
-	def legacyBroadcast = new File('build/templates/legacy.gtpl')
-	def broadcast = legacyBroadcast.text
-	addPlainTextHeader req
-	req.response.end broadcast
-}
-
-rm.get("/res/init") { req ->
-	log 'init', 'n/a', 'n/a', req
-	addPlainTextHeader req
-	req.response.sendFile 'srv/scripts/gvm-init.sh'
-}
-
-rm.get("/res/gvm") { req ->
-	addPlainTextHeader req
-	req.response.sendFile 'srv/scripts/gvm'
 }
 
 
