@@ -59,22 +59,29 @@ function gvm {
 	# hence the name conversion as the first step here.
 	CONVERTED_CMD_NAME=`echo "$1" | tr '-' '_'`
 
+ 	# no command provided
+	if [[ -z "$1" ]]; then
+		__gvmtool_help
+		return 1
+	fi
+
+	# Check if it is a valid command
 	CMD_FOUND=""
 	CMD_TARGET="${GVM_DIR}/src/gvm-$1.sh"
 	if [[ -f "${CMD_TARGET}" ]]; then
 		CMD_FOUND="${CMD_TARGET}"
 	fi
 
-	#Check if it is a sourced function
+	# Check if it is a sourced function
 	CMD_TARGET="${GVM_DIR}/ext/sourced-gvm-$1.sh"
 	if [[ -f "${CMD_TARGET}" ]]; then
 		CMD_FOUND="${CMD_TARGET}"
 	fi
 
- 	# ...no command provided or couldn't find the command
-	if [[ (-z "$1") || (-z "${CMD_FOUND}")]]; then
+	# couldn't find the command
+	if [[ -z "${CMD_FOUND}" ]]; then
+		echo "Invalid command: $1"
 		__gvmtool_help
-		return 1
 	fi
 
 	# Check whether the candidate exists
