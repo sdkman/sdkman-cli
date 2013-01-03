@@ -29,3 +29,9 @@ Feature: Upgrade
     When I enter "gvm selfupdate"
     Then the candidate "vertx" version "1.3.0.final" is installed
     And the candidate "vert.x" version "1.3.0.final" is not installed
+
+  Scenario: Ignore an already converted vertx Candidate on Upgrade
+    Given the candidate "vertx" version "1.3.0.final" is already installed and default
+    When I enter "gvm selfupdate"
+    Then the candidate "vertx" version "1.3.0.final" is installed
+    And the candidate "vert.x" version "1.3.0.final" is not installed
