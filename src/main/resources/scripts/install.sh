@@ -36,7 +36,7 @@ gvm_bashrc="${HOME}/.bashrc"
 gvm_zshrc="${HOME}/.zshrc"
 gvm_init_snippet=$( cat << EOF
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "${GVM_DIR}/bin/gvm-init.sh" && ! \$(which gvm-init.sh) ]] && source "${GVM_DIR}/bin/gvm-init.sh"
+[ -s "${GVM_DIR}/bin/gvm-init.sh" ] && which gvm-init.sh >/dev/null 2>&1 || source "${GVM_DIR}/bin/gvm-init.sh"
 EOF
 )
 
