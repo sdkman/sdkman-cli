@@ -27,10 +27,6 @@ Before(){
 	varDir.mkdirs()
     envDir.mkdirs()
 
-    ['groovy', 'gradle', 'grails', 'griffon', 'vertx'].each {
-        new File("$gvmDir/$it").mkdirs()
-    }
-
     // Copy the init script into the gvm bin folder
     def initScript = new File(binDir, 'gvm-init.sh') << new File(baseDir, 'gvm-init.sh').text
     initScript.executable = true
