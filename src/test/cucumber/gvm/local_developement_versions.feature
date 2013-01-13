@@ -18,8 +18,15 @@ Feature: Local Development Versions
     And the candidate "groovy" version "2.1-SNAPSHOT" is linked to "/tmp/groovy-core"
 
   Scenario: Uninstall a local development version
+    Given the candidate "groovy" version "2.1-SNAPSHOT" is already linked to "/tmp/groovy-core"
+    When I enter "gvm uninstall groovy 2.1-SNAPSHOT"
+    Then I see "Uninstalling groovy 2.1-SNAPSHOT"
+    And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
 
   Scenario: Attempt uninstalling a local development version that is not installed
+    Given the candidate "groovy" version "2.1-SNAPSHOT" is not installed
+    When I enter "gvm uninstall groovy 2.1-SNAPSHOT"
+    Then I see "groovy 2.1-SNAPSHOT is not installed."
 
   Scenario: Make the local development version the default for the candidate
 
