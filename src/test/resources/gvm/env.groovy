@@ -3,16 +3,22 @@ package gvm
 import static cucumber.runtime.groovy.Hooks.*
 import static gvm.VertxUtils.*
 
+serviceUrlEnv = "http://localhost:8080"
 baseDir = new File("build/scripts")
 
-gvmDirEnv = "/tmp/gvm"
-serviceUrlEnv = "http://localhost:8080"
+counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
 
-gvmDir = new File("${gvmDirEnv}")
-binDir = new File("${gvmDirEnv}/bin")
-srcDir = new File("${gvmDirEnv}/src")
-varDir = new File("${gvmDirEnv}/var")
-envDir = new File("${gvmDirEnv}/etc")
+localGroovyCandidate = "/tmp/groovy-core" as File
+
+gvmBaseEnv = "/tmp/gvm-$counter"
+gvmBaseDir = gvmBaseEnv as File
+
+gvmDirEnv = "$gvmBaseEnv/.gvm"
+gvmDir = gvmDirEnv as File
+binDir = "${gvmDirEnv}/bin" as File
+srcDir = "${gvmDirEnv}/src" as File
+varDir = "${gvmDirEnv}/var" as File
+envDir = "${gvmDirEnv}/etc" as File
 
 broadcastFile = new File("${gvmDirEnv}/var/broadcast")
 
@@ -22,6 +28,7 @@ bash = null
 Before(){
 	cleanUp()
 	server = startServer()
+
 	binDir.mkdirs()
     srcDir.mkdirs()
 	varDir.mkdirs()
@@ -41,10 +48,10 @@ Before(){
 
 After(){
 	bash?.stop()
-	cleanUp()
+    cleanUp()
 }
 
 private cleanUp(){
-	if(gvmDir.directory) assert gvmDir.deleteDir()
+    gvmBaseDir.deleteDir()
+    localGroovyCandidate.deleteDir()
 }
-
