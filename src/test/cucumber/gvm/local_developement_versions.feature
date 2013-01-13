@@ -11,6 +11,11 @@ Feature: Local Development Versions
     And the candidate "groovy" version "2.1-SNAPSHOT" is linked to "/tmp/groovy-core"
 
   Scenario: Attempt installing a local development version that already exists
+    Given the candidate "groovy" version "2.1-SNAPSHOT" does not exist
+    And the candidate "groovy" version "2.1-SNAPSHOT" is already linked to "/tmp/groovy-core"
+    When I enter "gvm install groovy 2.1-SNAPSHOT /tmp/groovy-core"
+    Then I see "Stop! groovy 2.1-SNAPSHOT is already installed."
+    And the candidate "groovy" version "2.1-SNAPSHOT" is linked to "/tmp/groovy-core"
 
   Scenario: Uninstall a local development version
 

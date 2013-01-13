@@ -22,7 +22,7 @@ function __gvmtool_install {
 	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_determine_version "$2" "$3" || return 1
 
-	if [ -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
+	if [[ -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" || -h "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is already installed."
 		return 1

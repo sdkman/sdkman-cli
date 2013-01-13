@@ -55,7 +55,21 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is linked to "([^"]*)"$') { Str
     def versionFolder = fileSystem.getPath(versionLocation)
 
     assert Files.isSymbolicLink(versionFolder)
-    assert Files.readSymbolicLink(versionFolder).toString() == directory
+
+    def link = Files.readSymbolicLink(versionFolder).toString()
+    assert link == directory
+}
+
+And(~'^the candidate "([^"]*)" version "([^"]*)" is already linked to "([^"]*)"$') { String candidate, String version, String folder ->
+    def fileSystem = FileSystems.default
+
+    def candidateFolder = "$gvmDir/$candidate" as File
+    candidateFolder.mkdirs()
+
+    def link = fileSystem.getPath("$gvmDir/$candidate/$version")
+    def target = prepareLocalCandidateFolder(folder, candidate, version)
+
+    Files.createSymbolicLink(link, target)
 }
 
 private prepareCandidateFolder(String baseDir, String candidate, String version) {
@@ -69,13 +83,12 @@ private prepareLocalCandidateFolder(String baseDir, String candidate, String ver
 
 private prepareCandidateBinFolder(String folder, String candidate, String version) {
     def fileSystem = FileSystems.default
-    def folderPath = fileSystem.getPath("$folder")
 
-    def binFolder = fileSystem.getPath("$folder/bin")
-    Files.createDirectories binFolder
-    prepareCandidateExecutable binFolder, candidate, version
+    def binFolderPath = fileSystem.getPath("$folder/bin")
+    Files.createDirectories binFolderPath
+    prepareCandidateExecutable binFolderPath, candidate, version
 
-    folderPath
+    return fileSystem.getPath("$folder")
 }
 
 private prepareCandidateExecutable(Path binFolder, String candidate, String version) {
