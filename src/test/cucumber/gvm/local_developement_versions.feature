@@ -7,7 +7,7 @@ Feature: Local Development Versions
     Given the candidate "groovy" version "2.1-SNAPSHOT" does not exist
     And I have a local candidate "groovy" version "2.1-SNAPSHOT" at "/tmp/groovy-core"
     When I enter "gvm install groovy 2.1-SNAPSHOT /tmp/groovy-core"
-    And I see "Linking groovy 2.1-SNAPSHOT to /tmp/groovy-core"
+    Then I see "Linking groovy 2.1-SNAPSHOT to /tmp/groovy-core"
     And the candidate "groovy" version "2.1-SNAPSHOT" is linked to "/tmp/groovy-core"
 
   Scenario: Attempt installing a local development version that already exists
