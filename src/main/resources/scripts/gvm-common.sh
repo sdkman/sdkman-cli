@@ -53,12 +53,14 @@ function __gvmtool_determine_version {
         return 1
 
 	elif [[ "${GVM_ONLINE}" == "true" && -z "$1" ]]; then
+		VERSION_VALID='valid'
 		VERSION=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/default")
 
 	else
 		VERSION_VALID=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/$1")
-		if [[ ${VERSION_VALID} == 'valid' ]]; then
+		if [[ "${VERSION_VALID}" == 'valid' || ( "${VERSION_VALID}" == 'invalid' && -n "$2" ) ]]; then
 			VERSION="$1"
+
 		else
 			echo ""
 			echo "Stop! $1 is not a valid ${CANDIDATE} version."
@@ -167,20 +169,6 @@ function __gvmtool_link_candidate_version {
 		unlink "${GVM_DIR}/${CANDIDATE}/current"
 	fi
 	ln -s "${GVM_DIR}/${CANDIDATE}/${VERSION}" "${GVM_DIR}/${CANDIDATE}/current"
-}
-
-function __gvmtool_install_candidate_version {
-	CANDIDATE="$1"
-	VERSION="$2"
-	__gvmtool_download "${CANDIDATE}" "${VERSION}" || return 1
-	echo "Installing: ${CANDIDATE} ${VERSION}"
-
-	mkdir -p "${GVM_DIR}/${CANDIDATE}"
-
-	unzip -oq "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${GVM_DIR}/tmp/"
-	mv ${GVM_DIR}/tmp/*-${VERSION} "${GVM_DIR}/${CANDIDATE}/${VERSION}"
-	echo "Done installing!"
-	echo ""
 }
 
 function __gvmtool_offline_list {

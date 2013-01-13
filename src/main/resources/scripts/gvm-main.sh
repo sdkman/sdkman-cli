@@ -93,6 +93,6 @@ function gvm {
 	# Execute the requested command
 	if [ -n "${CMD_FOUND}" ]; then
 		# It's available as a shell function
-		__gvmtool_"${CONVERTED_CMD_NAME}" "$2" "$3"
+		__gvmtool_"${CONVERTED_CMD_NAME}" "$2" "$3" "$4"
 	fi
 }
