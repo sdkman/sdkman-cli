@@ -60,8 +60,14 @@ echo "isolated_mode=1" > "${gvm_config_file}"
 echo "Download new scripts to: ${gvm_tmp_zip}"
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}" > "${gvm_tmp_zip}"
 
+echo "Extract script archive..."
 echo "Unziping scripts to: ${gvm_stage_folder}"
-unzip -qo "${gvm_tmp_zip}" -d "${gvm_stage_folder}"
+if [ `uname -o` == "Cygwin" ]; then
+	echo "Cygwin detected - normalizing paths for unzip..."
+	unzip -qo $(cygpath -w "${gvm_tmp_zip}") -d $(cygpath -w "${gvm_stage_folder}")
+else
+	unzip -qo "${gvm_tmp_zip}" -d "${gvm_stage_folder}"
+fi
 
 echo "Moving gvm-init file to bin folder..."
 mv -v "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
