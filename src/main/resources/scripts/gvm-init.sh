@@ -17,7 +17,7 @@
 #
 
 export GVM_VERSION="@GVM_VERSION@"
-export GVM_PLATFORM=$(uname)
+export GVM_PLATFORM=$(uname -o)
 
 if [ -z "${GVM_SERVICE}" ]; then
     export GVM_SERVICE="@GVM_SERVICE@"
