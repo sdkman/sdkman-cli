@@ -153,6 +153,7 @@ mkdir -p "${gvm_src_folder}"
 mkdir -p "${gvm_tmp_folder}"
 mkdir -p "${gvm_stage_folder}"
 mkdir -p "${gvm_ext_folder}"
+mkdir -p "${gvm_etc_folder}"
 
 echo "Create candidate directories..."
 mkdir -p "${GVM_DIR}/groovy"
@@ -160,6 +161,10 @@ mkdir -p "${GVM_DIR}/grails"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/vertx"
+
+echo "Prime the config file..."
+gvm_config_file="${GVM_DIR}/etc/config"
+echo "isolated_mode=1" > "${gvm_config_file}"
 
 echo "Download script archive..."
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_zip_file}"
