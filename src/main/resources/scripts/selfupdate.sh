@@ -62,7 +62,7 @@ curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}" > "${gvm_tmp_zip}"
 
 echo "Extract script archive..."
 echo "Unziping scripts to: ${gvm_stage_folder}"
-if [ `uname -o` == "Cygwin" ]; then
+if [[ $(uname -o) == "Cygwin" ]]; then
 	echo "Cygwin detected - normalizing paths for unzip..."
 	unzip -qo $(cygpath -w "${gvm_tmp_zip}") -d $(cygpath -w "${gvm_stage_folder}")
 else

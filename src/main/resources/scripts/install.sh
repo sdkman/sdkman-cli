@@ -164,7 +164,7 @@ echo "Download script archive..."
 curl -s "${GVM_SERVICE}/res?platform=${GVM_PLATFORM}" > "${gvm_zip_file}"
 
 echo "Extract script archive..."
-if [ `uname -o` == "Cygwin" ]; then
+if [[ $(uname -o) == "Cygwin" ]]; then
 	echo "Cygwin detected - normalizing paths for unzip..."
 	unzip -qo $(cygpath -w "${gvm_zip_file}") -d $(cygpath -w "${gvm_stage_folder}")	
 else
