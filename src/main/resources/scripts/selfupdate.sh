@@ -52,6 +52,10 @@ else
 	mkdir -p "${GVM_DIR}/vertx"
 fi
 
+if [[ -f "${GVM_DIR}/ext/config" ]]; then
+	echo "Removing config from ext folder..."
+	rm -v "${GVM_DIR}/ext/config"
+fi
 
 echo "Prime the config file..."
 gvm_config_file="${GVM_DIR}/etc/config"

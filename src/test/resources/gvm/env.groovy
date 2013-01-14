@@ -18,7 +18,8 @@ gvmDir = gvmDirEnv as File
 binDir = "${gvmDirEnv}/bin" as File
 srcDir = "${gvmDirEnv}/src" as File
 varDir = "${gvmDirEnv}/var" as File
-envDir = "${gvmDirEnv}/etc" as File
+etcDir = "${gvmDirEnv}/etc" as File
+extDir = "${gvmDirEnv}/ext" as File
 
 broadcastFile = new File("${gvmDirEnv}/var/broadcast")
 
@@ -32,7 +33,8 @@ Before(){
 	binDir.mkdirs()
     srcDir.mkdirs()
 	varDir.mkdirs()
-    envDir.mkdirs()
+    etcDir.mkdirs()
+    extDir.mkdirs()
 
     // Copy the init script into the gvm bin folder
     def initScript = new File(binDir, 'gvm-init.sh') << new File(baseDir, 'gvm-init.sh').text

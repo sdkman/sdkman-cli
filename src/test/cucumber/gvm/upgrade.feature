@@ -24,6 +24,13 @@ Feature: Upgrade
     Then the configuration file is present
     And the configuration file contains "isolated_mode=1"
 
+  Scenario: Upgrade an installation with dodgy configuration
+    Given a configuration file in the extensions folder
+    When I enter "gvm selfupdate"
+    Then I see "Removing config from ext folder."
+    And the configuration is not present in the extensions folder
+    And the configuration file is present in the etc folder
+
   Scenario: Rename the vertx Candidate on Upgrade
     Given the candidate "vert.x" version "1.3.0.final" is already installed and default
     When I enter "gvm selfupdate"

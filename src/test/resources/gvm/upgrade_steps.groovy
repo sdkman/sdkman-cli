@@ -26,6 +26,21 @@ And(~'^the configuration file contains "([^"]*)"$') { String content ->
     assert configFile.text.contains(content)
 }
 
+Given(~'^a configuration file in the extensions folder$') {->
+    def configFile = "$gvmDir/ext/config" as File
+    configFile << "isolated_mode=1"
+}
+
+And(~'^the configuration is not present in the extensions folder$') {->
+    def configFile = "$gvmDir/ext/config" as File
+    assert ! configFile.exists()
+}
+
+And(~'^the configuration file is present in the etc folder$') {->
+    def configFile = "$gvmDir/etc/config" as File
+    assert configFile.exists()
+}
+
 And(~'^the gvm init script is placed in the bin folder$') {->
     assert new File("$gvmDir/bin", "gvm-init.sh").exists()
 }
