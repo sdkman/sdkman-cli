@@ -65,7 +65,8 @@ rm.get("/alive") { req ->
 }
 
 rm.get("/res") { req ->
-	log 'initialise', 'gvm', GVM_VERSION, req
+    def purpose = req.params['purpose']
+	log purpose, 'gvm', GVM_VERSION, req
 
 	def zipFile = new File('build/distributions/gvm-scripts.zip')
 	req.response.putHeader("Content-Type", "application/zip")

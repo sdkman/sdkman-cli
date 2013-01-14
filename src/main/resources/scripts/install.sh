@@ -162,7 +162,7 @@ mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/vertx"
 
 echo "Download script archive..."
-curl -s "${GVM_SERVICE}/res?platform=${GVM_PLATFORM}" > "${gvm_zip_file}"
+curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_zip_file}"
 
 echo "Extract script archive..."
 if [[ $(uname -o) == "Cygwin" ]]; then
