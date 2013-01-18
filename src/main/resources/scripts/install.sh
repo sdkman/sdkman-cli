@@ -41,6 +41,18 @@ gvm_init_snippet=$( cat << EOF
 EOF
 )
 
+# OS specific support (must be 'true' or 'false').
+cygwin=false;
+darwin=false;
+case "`uname`" in
+    CYGWIN*)
+        cygwin=true
+        ;;
+        
+    Darwin*)
+        darwin=true
+        ;;
+esac
 
 
 echo '                                                                     '
@@ -170,7 +182,7 @@ echo "Download script archive..."
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_zip_file}"
 
 echo "Extract script archive..."
-if [[ $(uname -o) == "Cygwin" ]]; then
+if [[ "${cygwin}" == 'true' ]]; then
 	echo "Cygwin detected - normalizing paths for unzip..."
 	unzip -qo $(cygpath -w "${gvm_zip_file}") -d $(cygpath -w "${gvm_stage_folder}")	
 else

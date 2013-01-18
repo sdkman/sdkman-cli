@@ -17,7 +17,21 @@
 #
 
 export GVM_VERSION="@GVM_VERSION@"
-export GVM_PLATFORM=$(uname -o)
+export GVM_PLATFORM=$(uname)
+
+# OS specific support (must be 'true' or 'false').
+cygwin=false;
+darwin=false;
+case "`uname`" in
+    CYGWIN*)
+        cygwin=true
+        ;;
+        
+    Darwin*)
+        darwin=true
+        ;;
+esac
+
 
 if [ -z "${GVM_SERVICE}" ]; then
     export GVM_SERVICE="@GVM_SERVICE@"

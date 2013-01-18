@@ -23,6 +23,19 @@ if [ -z "${GVM_DIR}" ]; then
 	GVM_DIR="$HOME/.gvm"
 fi
 
+# OS specific support (must be 'true' or 'false').
+cygwin=false;
+darwin=false;
+case "`uname`" in
+    CYGWIN*)
+        cygwin=true
+        ;;
+
+    Darwin*)
+        darwin=true
+        ;;
+esac
+
 gvm_platform=$(uname -o)
 gvm_bin_folder="${GVM_DIR}/bin"
 gvm_tmp_zip="${GVM_DIR}/tmp/res-${GVM_VERSION}.zip"
@@ -66,7 +79,7 @@ curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gv
 
 echo "Extract script archive..."
 echo "Unziping scripts to: ${gvm_stage_folder}"
-if [[ $(uname -o) == "Cygwin" ]]; then
+if [[ "${cygwin}" == 'true' ]]; then
 	echo "Cygwin detected - normalizing paths for unzip..."
 	unzip -qo $(cygpath -w "${gvm_tmp_zip}") -d $(cygpath -w "${gvm_stage_folder}")
 else
