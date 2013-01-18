@@ -232,22 +232,6 @@ else
 	fi
 fi
 
-echo "Clean up local variables..."
-unset gvm_bin_folder
-unset gvm_src_folder
-unset gvm_tmp_folder
-unset gvm_stage_folder
-unset gvm_zip_file
-unset gvm_ext_folder
-unset gvm_etc_folder
-unset gvm_config_file
-unset gvm_bash_profile
-unset gvm_profile
-unset gvm_bashrc
-unset gvm_zshrc
-unset gvm_init_snippet
-
-
 echo -e "\n\n\nAll done!\n\n"
 
 echo "Please open a new terminal, or run the following in the existing one:"

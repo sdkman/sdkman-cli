@@ -85,9 +85,6 @@ mv -v "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 echo "Clean up staging folder..."
 rm -rf "${gvm_stage_folder}"
 
-echo "Clean up local variables..."
-unset gvm_platform gvm_bin_folder gvm_tmp_zip gvm_stage_folder gvm_src_folder
-
 echo ""
 echo ""
 echo "Successfully upgraded GVM."
