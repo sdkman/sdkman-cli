@@ -1,21 +1,30 @@
 
-------------------------------------------------------------
+============================================================
 Available ${candidate.capitalize()} Versions
-------------------------------------------------------------
+============================================================
 <%
+	if(local){
+		local.each { version ->
+			if(current == version) {
+                println " > + ${version}"
+            } else {
+                println "   + ${version}"
+            }
+	    }
+		println '------------------------------------------------------------'
+	}
 	available.each { version ->
-		print "\n"
-		if(current == version) { 
-			print ' > '
+		if(current == version) {
+			println " > * ${version}"
 		} else if(installed.contains(version)){
-			print ' * '
+			println "   * ${version}"
 		} else {
-			print '   '
+			println "     ${version}"
 		}
-		print version
 	}
 %>
-------------------------------------------------------------
+============================================================
++ - local version
 * - installed
 > - currently in use
-------------------------------------------------------------
+============================================================

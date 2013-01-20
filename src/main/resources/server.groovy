@@ -119,7 +119,8 @@ rm.get("/candidates/:candidate/list") { req ->
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def available = msg.body.results.collect { it.version }
-		def binding = [candidate:candidate, available:available, current:current, installed:installed]
+		def local = installed.findAll { ! available.contains(it) }
+		def binding = [candidate:candidate, available:available, current:current, installed:installed, local:local]
 		def template = templateEngine.createTemplate(gtplFile).make(binding)
 		addPlainTextHeader req
 		req.response.end template.toString()

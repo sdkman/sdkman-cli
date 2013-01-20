@@ -1,5 +1,7 @@
 package gvm
 
+import cucumber.runtime.PendingException
+
 import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Path
@@ -29,14 +31,20 @@ When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and defau
     Files.createSymbolicLink currentLink, candidateVersion
 }
 
+And(~'^the candidate "([^"]*)" version "([^"]*)" is the default$') { String candidate, String version ->
+    def localVersion = FileSystems.default.getPath("$gvmDir/$candidate/$version")
+    def currentLink = FileSystems.default.getPath("$gvmDir/$candidate/current")
+    Files.createSymbolicLink currentLink, localVersion
+}
+
 When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not default$') { String candidate, String version ->
     prepareCandidateFolder "$gvmDir", candidate, version
 }
 
 Given(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
-	def file = new File("${gvmDir}/${candidate}")
-	file.delete()
-	assert ! file.exists()
+    def candidateDir = FileSystems.default.getPath("${gvmDir}/${candidate}")
+    Files.createDirectory(candidateDir)
+    assert ! candidateDir.toFile().listFiles()
 }
 
 Given(~'^the candidate "([^"]*)" version "([^"]*)" does not exist$') { String candidate, String version ->

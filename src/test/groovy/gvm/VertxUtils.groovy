@@ -59,10 +59,12 @@ class VertxUtils {
 
 		rm.get("/candidates/:candidate/list") { req ->
 			def candidate = req.params['candidate']
+			def available = candidates[candidate]
 			def current = req.params['current']
-			def installed = req.params['installed']
-			def gtplFile = new File('build/templates/list.gtpl')
-			def binding = [candidate:candidate, available:candidates[candidate], current:current, installed:installed]
+			def installed = req.params['installed'].tokenize(',')
+			def local = installed.findAll { ! available.contains(it) }
+			def gtplFile = 'build/templates/list.gtpl' as File
+			def binding = [candidate:candidate, available:available, current:current, installed:installed, local:local]
 			def template = templateEngine.createTemplate(gtplFile).make(binding)
 			req.response.end template.toString()
 		}
