@@ -11,7 +11,6 @@ Available ${candidate.capitalize()} Versions
                 println "   + ${version}"
             }
 	    }
-		println '------------------------------------------------------------'
 	}
 	available.each { version ->
 		if(current == version) {
