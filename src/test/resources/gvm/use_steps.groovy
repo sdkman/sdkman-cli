@@ -1,9 +1,8 @@
 package gvm
 
-import java.nio.file.FileSystems
-import java.nio.file.Files
+import java.nio.file.*
 
-import static cucumber.runtime.groovy.EN.Then
+import static cucumber.runtime.groovy.EN.*
 
 Then(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidate, String version ->
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
@@ -32,6 +31,12 @@ Then(~'^the candidate "([^"]*)" version "([^"]*)" should be the default$') { Str
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
 	def current = FileSystems.default.getPath("$gvmDir/$candidate/current")
 	assert Files.isSameFile(current, directory)
+}
+
+Then(~'^the candidate "([^"]*)" version "([^"]*)" should not be the default$') { String candidate, String version ->
+    def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
+    def current = FileSystems.default.getPath("$gvmDir/$candidate/current")
+    assert (!Files.isSymbolicLink(current) || (Files.isSymbolicLink(current) && !Files.isSameFile(current, directory)))
 }
 
 Then(~'^the candidate "([^"]*)" is no longer selected$') { String candidate ->

@@ -27,17 +27,17 @@ Feature: Install Candidate
     When I enter "gvm install grails 2.1.0" and answer "Y"
     Then the candidate "grails" version "2.1.0" is installed
     And I see "Done installing!"
-    And I see "Do you want to use grails 2.1.0 now? (Y/n)"
-    And I see "Using grails version 2.1.0"
-    Then the candidate "grails" version "2.1.0" should be in use
+    And I see "Do you want grails 2.1.0 to be set as default? (Y/n)"
+    And I see "Setting grails 2.1.0 as default."
+    Then the candidate "grails" version "2.1.0" should be the default
 
   Scenario: Install a candidate and do not select to use it
     When I enter "gvm install grails 2.1.0" and answer "n"
     Then the candidate "grails" version "2.1.0" is installed
     And I see "Done installing!"
-    And I see "Do you want to use grails 2.1.0 now? (Y/n)"
-    And I do not see "Using grails version 2.1.0"
-    Then the candidate "grails" version "2.1.0" is not in use
+    And I see "Do you want grails 2.1.0 to be set as default? (Y/n)"
+    And I do not see "Setting grails 2.1.0 as default."
+    Then the candidate "grails" version "2.1.0" should not be the default
 
   #revisit to redownload automatically
   Scenario: Abort installation on download of a corrupt Candidate archive

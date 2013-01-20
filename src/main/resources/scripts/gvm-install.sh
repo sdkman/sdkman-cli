@@ -31,13 +31,12 @@ function __gvmtool_install {
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
 		__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}" || return 1
 
-		echo -n "Do you want to use ${CANDIDATE} ${VERSION} now? (Y/n): "
+		echo -n "Do you want ${CANDIDATE} ${VERSION} to be set as default? (Y/n): "
 		read USE
 		if [[ -z "${USE}" || "${USE}" == "y" || "${USE}" == "Y" ]]; then
-			__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
-
 			echo ""
-			echo Using "${CANDIDATE}" version "${VERSION}"
+			echo "Setting ${CANDIDATE} ${VERSION} as default."
+			__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
 		fi
 		return 1
 
