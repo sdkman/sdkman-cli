@@ -23,6 +23,7 @@ All GVM's tests are written in Cucumber and can be found under `src/test/cucumbe
     ./gradlew
 
 or to see the output
+
 	./gradlew -i
 
 __Please enusre that the JAVA_HOME environment variable set to JDK 1.7 on you system!__
