@@ -40,7 +40,7 @@ function __gvmtool_install {
 		fi
 		return 1
 
-	elif [[ "${VERSION_VALID}" == 'invalid' && "${LOCAL_FOLDER}" ]]; then
+	elif [[ "${VERSION_VALID}" == 'invalid' && -n "${LOCAL_FOLDER}" ]]; then
 		__gvmtool_install_local_version "${CANDIDATE}" "${VERSION}" "${LOCAL_FOLDER}" || return 1
 
     else
