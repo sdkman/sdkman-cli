@@ -40,18 +40,28 @@ It is useful to run the server locally for development purposes. Working install
 
 Next, install MongoDB as described [here](http://www.mongodb.org/downloads). After installing, the database needs to be primed with some data. The following lines may be run with `mongod` running as a separate process.
 
-	$ mongo gvm
+	$ mongo default_db
 	> db.candidates.insert({candidate:"groovy", default:"2.0.6"})
 	> db.versions.insert({candidate:"groovy", version:"2.0.5", url:"http://dist.groovy.codehaus.org/distributions/groovy-binary-2.0.5.zip"})
 	> db.versions.insert({candidate:"groovy", version:"2.0.6", url:"http://dist.groovy.codehaus.org/distributions/groovy-binary-2.0.6.zip"})
 
 This will:
 
-*   create a new `gvm` database
+*   create a new `default_db` database
 *   the Groovy candidate in the `candidates` collection defaulting to version 2.0.6
 *   new versions in the `versions` collection.
 
 Add any other candidates that you might require.
+
+Next, prepare the local GVM environment by stepping into the cloned `gvm` folder, then building and starting the server.
+
+	cd /path/to/gvm
+	./gradlew
+	./run.sh
+
+This will start the server on localhost:8080
+
+### Customizing the Database Location
 
 The database may be configured in the `mongo.json` file in the root folder of the project. If no file is found, it will assume sensible defaults for a local mongodb installation. The file should be structured as follows:
 
@@ -64,13 +74,7 @@ The database may be configured in the `mongo.json` file in the root folder of th
 		"db_name":"dbname"
 	}
 
-Next, prepare the local GVM environment by stepping into the cloned `gvm` folder, then building and starting the server.
-
-	cd /path/to/gvm
-	./gradlew
-	./run.sh
-
-This will start the server on localhost:8080
+### Making the Local Installation the Default
 
 To make your local GVM installation work with your local server, run the following commands:
 
