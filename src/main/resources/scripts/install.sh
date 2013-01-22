@@ -37,7 +37,7 @@ gvm_platform=$(uname -o)
 
 gvm_init_snippet=$( cat << EOF
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "${GVM_DIR}/bin/gvm-init.sh" && ! \$(which gvm-init.sh) ]] && source "${GVM_DIR}/bin/gvm-init.sh"
+[[ -s "${GVM_DIR}/bin/gvm-init.sh" && -z \$(which gvm-init.sh | grep '/gvm-init.sh') ]] && source "${GVM_DIR}/bin/gvm-init.sh"
 EOF
 )
 
