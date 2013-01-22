@@ -1,9 +1,14 @@
 .gradle/
 .idea/
 build/
+bin/
+target/
 gvm.iml
 gvm.ipr
 gvm.iws
+.classpath
+.project
+.settings/
 lib/
 mongo.json
 out/
