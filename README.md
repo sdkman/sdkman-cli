@@ -49,7 +49,8 @@ Next, install MongoDB as described [here](http://www.mongodb.org/downloads). Aft
 This will:
 
 *   create a new `gvm` database
-*   add some candidate and version data to the database
+*   the Groovy candidate in the `candidates` collection (defaulting to version 2.0.6)
+*   new versions 2.0.5 and 2.0.6 in the `versions` collection.
 
 Add any other candidates that you might require.
 
@@ -68,7 +69,7 @@ The database may be configured in the `mongo.json` file in the root folder of th
 		"address":"mongo-persistor",
 		"host":"host",
 		"port":port,
-		"username":"myuser",
+		"username":"username",
 		"password":"password",
 		"db_name":"dbname"
 	}
