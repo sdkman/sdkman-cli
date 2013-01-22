@@ -1,7 +1,5 @@
 package gvm
 
-import cucumber.runtime.PendingException
-
 import static cucumber.runtime.groovy.EN.*
 
 And(~'^the configuration file has been primed with "([^"]*)"$') { String content ->
@@ -28,7 +26,7 @@ And(~'^the configuration file contains "([^"]*)"$') { String content ->
 
 Given(~'^a configuration file in the extensions folder$') {->
     def configFile = "$gvmDir/ext/config" as File
-    configFile << "isolated_mode=1"
+    configFile.text = ""
 }
 
 And(~'^the configuration is not present in the extensions folder$') {->

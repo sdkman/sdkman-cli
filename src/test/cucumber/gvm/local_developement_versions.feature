@@ -48,25 +48,3 @@ Feature: Local Development Versions
     When I enter "gvm use groovy 2.1-SNAPSHOT"
     Then I see "Using groovy version 2.1-SNAPSHOT in this shell"
     And the candidate "groovy" version "2.1-SNAPSHOT" should be in use
-
-  Scenario: Switch from a local version to a standard one in isolated mode
-    Given isolated mode is active
-    Given the candidate "groovy" version "2.0.5" is already installed and default
-    And the candidate "groovy" version "dev" is already linked to "/tmp/groovy-core"
-    When I enter "gvm use groovy dev"
-    Then I see "Using groovy version dev in this shell"
-    When I enter "gvm use groovy 2.0.5"
-    Then I see "Using groovy version 2.0.5 in this shell"
-    When I enter "gvm current groovy"
-    Then I see "Using groovy version 2.0.5"
-
-  Scenario: Switch from a local version to a standard one
-    Given isolated mode is not active
-    Given the candidate "groovy" version "2.0.5" is already installed and default
-    And the candidate "groovy" version "dev" is already linked to "/tmp/groovy-core"
-    When I enter "gvm use groovy dev"
-    Then I see "Using groovy version dev in this shell"
-    When I enter "gvm use groovy 2.0.5"
-    Then I see "Using groovy version 2.0.5 in this shell"
-    When I enter "gvm current groovy"
-    Then I see "Using groovy version 2.0.5"

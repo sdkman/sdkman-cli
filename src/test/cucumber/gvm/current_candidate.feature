@@ -1,7 +1,6 @@
 Feature: Current Candidate
 
   Background:
-    Given isolated mode is active
     And the internet is reachable
 
   Scenario: Display current candidate version in use

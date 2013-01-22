@@ -175,8 +175,7 @@ mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/vertx"
 
 echo "Prime the config file..."
-gvm_config_file="${GVM_DIR}/etc/config"
-echo "isolated_mode=1" > "${gvm_config_file}"
+touch "${gvm_config_file}"
 
 echo "Download script archive..."
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_zip_file}"
@@ -195,11 +194,6 @@ mv "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 
 echo "Make init script executable..."
 chmod +x "${gvm_bin_folder}/gvm-init.sh"
-
-echo "Prime config file..."
-if [[ ! -f "${gvm_config_file}" ]]; then
-	echo "isolated_mode=1" > "${gvm_config_file}"
-fi
 
 echo "Attempt update of bash profiles..."
 if [ ! -f "${gvm_bash_profile}" -a ! -f "${gvm_profile}" ]; then

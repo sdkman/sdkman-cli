@@ -67,7 +67,7 @@ Feature: Install GVM
     When I open a new Login Shell
     Then the "gvm-init.sh" script is sourced once only
 
-  Scenario: Do not Source the Initialisation Script on subsequent invokation of the Init Snippet
+  Scenario: Do not Source the Initialisation Script on subsequent invocation of the Init Snippet
     Given the user home contains a ".bash_profile" file
     And the ".bash_profile" contains an Initialisation Snippet
     And the user home contains a ".bashrc" file
@@ -80,5 +80,3 @@ Feature: Install GVM
     And the configuration file has not been primed
     When I run the installation script
     Then the configuration file is present
-    And the configuration file contains "isolated_mode=0"
-

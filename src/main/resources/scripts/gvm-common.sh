@@ -84,15 +84,10 @@ function __gvmtool_build_version_csv {
 }
 
 function __gvmtool_determine_current_version {
-	unset CURRENT
 	CANDIDATE="$1"
-
-	if [[ -n ${isolated_mode} && ${isolated_mode} == 1 ]]; then
-		CURRENT=$(echo $PATH | sed -E "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
-
-		if [[ "${CURRENT}" == "current" ]]; then
-		    unset CURRENT
-		fi
+	CURRENT=$(echo $PATH | sed -E "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
+	if [[ "${CURRENT}" == "current" ]]; then
+	    unset CURRENT
 	fi
 
 	if [[ -z ${CURRENT} ]]; then

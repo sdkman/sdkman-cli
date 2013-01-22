@@ -33,16 +33,12 @@ function __gvmtool_use {
 		fi
 	fi
 
-	if [[ -n ${isolated_mode} && ${isolated_mode} == 1 ]]; then
-		# Just update the *_HOME and PATH for this shell.
-		UPPER_CANDIDATE=`echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]'`
-		export "${UPPER_CANDIDATE}_HOME"="${GVM_DIR}/${CANDIDATE}/${VERSION}"
+	# Just update the *_HOME and PATH for this shell.
+	UPPER_CANDIDATE=`echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]'`
+	export "${UPPER_CANDIDATE}_HOME"="${GVM_DIR}/${CANDIDATE}/${VERSION}"
 
-		# Replace the current path for the candidate with the selected version.
-		export PATH=`echo $PATH | sed -E "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
-	else
-		__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
-	fi
+	# Replace the current path for the candidate with the selected version.
+	export PATH=`echo $PATH | sed -E "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
 
 	echo ""
 	echo Using "${CANDIDATE}" version "${VERSION} in this shell."

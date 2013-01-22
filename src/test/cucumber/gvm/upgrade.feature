@@ -12,18 +12,6 @@ Feature: Upgrade
     And the staging folder is cleaned up
     And I see "Successfully upgraded GVM."
 
-  Scenario: Upgrade an installation without configuration
-    Given the configuration file has not been primed
-    When I enter "gvm selfupdate"
-    Then the configuration file is present
-    And the configuration file contains "isolated_mode=1"
-
-  Scenario: Upgrade an installation with configuration
-    Given the configuration file has been primed with "isolated_mode=0"
-    When I enter "gvm selfupdate"
-    Then the configuration file is present
-    And the configuration file contains "isolated_mode=1"
-
   Scenario: Upgrade an installation with dodgy configuration
     Given a configuration file in the extensions folder
     When I enter "gvm selfupdate"

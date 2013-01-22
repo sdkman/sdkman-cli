@@ -72,7 +72,8 @@ fi
 
 echo "Prime the config file..."
 gvm_config_file="${GVM_DIR}/etc/config"
-echo "isolated_mode=1" > "${gvm_config_file}"
+rm "${gvm_config_file}"
+touch "${gvm_config_file}"
 
 echo "Download new scripts to: ${gvm_tmp_zip}"
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}"

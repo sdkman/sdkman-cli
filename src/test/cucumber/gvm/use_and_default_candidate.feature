@@ -1,8 +1,7 @@
-Feature: Isolated Shells
+Feature: Use and Default Candidate
 
   Background:
-    Given isolated mode is active
-    And the internet is reachable
+    Given the internet is reachable
 
   Scenario: Use without providing a Candidate
     When I enter "gvm use"
