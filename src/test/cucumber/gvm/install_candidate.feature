@@ -31,6 +31,14 @@ Feature: Install Candidate
     And I see "Setting grails 2.1.0 as default."
     Then the candidate "grails" version "2.1.0" should be the default
 
+  Scenario: Install a candidate and select to use it automatically
+    And I have configured autoinstall="Y" and autouse="Y"
+    When I enter "gvm install grails 2.1.0"
+    Then the candidate "grails" version "2.1.0" is installed
+    And I see "Done installing!"
+    And I see "Setting grails 2.1.0 as default."
+    Then the candidate "grails" version "2.1.0" should be the default
+
   Scenario: Install a candidate and do not select to use it
     When I enter "gvm install grails 2.1.0" and answer "n"
     Then the candidate "grails" version "2.1.0" is installed

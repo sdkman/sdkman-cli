@@ -43,3 +43,8 @@ Then(~'^the candidate "([^"]*)" is no longer selected$') { String candidate ->
 	def symlink = new File("$gvmDir/$candidate/current")
 	assert ! symlink.exists()
 }
+
+And(~'^I have configured autoinstall="([^"]*)" and autouse="([^"]*)"$') { String install,use ->
+    def configFile = new File("$gvmDir/etc/config")
+    configFile.write "gvm_auto_install=${install}\ngvm_auto_use=${use}"
+}
