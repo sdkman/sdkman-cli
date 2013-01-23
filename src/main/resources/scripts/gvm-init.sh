@@ -41,6 +41,11 @@ if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
 
+GVM_CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | sed -e 's/,//g'))
+if [[ "${#GVM_CANDIDATES[@]}" == "0" ]]; then
+	GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "vertx")
+fi
+
 OFFLINE_BROADCAST=$( cat << EOF
 ==== BROADCAST =============================================
 

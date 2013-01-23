@@ -134,11 +134,6 @@ function __gvmtool_default_environment_variables {
 	if [ ! "${GVM_DIR}" ]; then
 		GVM_DIR="$HOME/.gvm"
 	fi
-
-	GVM_CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | sed -e 's/,//g'))
-	if [[ "${#GVM_CANDIDATES[@]}" == "0" ]]; then
-		GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "vertx")
-	fi
 }
 
 function __gvmtool_check_upgrade_available {
