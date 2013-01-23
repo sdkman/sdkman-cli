@@ -1,5 +1,8 @@
 .gradle/
 .idea/
+\#*
+.#*
+*~
 build/
 bin/
 target/
