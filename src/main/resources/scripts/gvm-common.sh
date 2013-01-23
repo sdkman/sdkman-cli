@@ -75,7 +75,7 @@ function __gvmtool_determine_version {
 function __gvmtool_build_version_csv {
 	CANDIDATE="$1"
 	CSV=""
-	for version in $(ls -1 "${GVM_DIR}/${CANDIDATE}"); do
+	for version in $(ls -1 "${GVM_DIR}/${CANDIDATE}" 2> /dev/null); do
 		if [ ${version} != 'current' ]; then
 			CSV="${version},${CSV}"
 		fi
@@ -133,6 +133,11 @@ function __gvmtool_default_environment_variables {
 
 	if [ ! "${GVM_DIR}" ]; then
 		GVM_DIR="$HOME/.gvm"
+	fi
+
+	GVM_CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | sed -e 's/,//g'))
+	if [[ "${#GVM_CANDIDATES[@]}" == "0" ]]; then
+		GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "vertx")
 	fi
 }
 
