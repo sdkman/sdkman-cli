@@ -24,7 +24,7 @@ function __gvmtool_use {
 	if [[ "${GVM_ONLINE}" == "true" && ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
-		if [[ -z "${gvm_auto_install}" ]]; then
+		if [[ -z "${gvm_auto}" ]]; then
 			echo -n "Do you want to install it now? (Y/n): "
 			read INSTALL
 		fi
