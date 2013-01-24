@@ -31,7 +31,7 @@ function __gvmtool_install {
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
 		__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}" || return 1
 
-		if [[ -z "${gvm_auto}" ]]; then
+		if [[ -z "${gvm_auto_answer}" ]]; then
 			echo -n "Do you want ${CANDIDATE} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi

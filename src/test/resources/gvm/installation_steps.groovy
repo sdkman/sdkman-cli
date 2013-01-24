@@ -82,7 +82,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is already linked to "([^"]*)"$
 
 And(~'^I have configured autoinstall="([^"]*)"$') { String flag ->
     def configFile = new File("$gvmDir/etc/config")
-    configFile.write "gvm_auto=${flag}"
+    configFile.write "gvm_auto_answer=${flag}"
 }
 
 private prepareCandidateFolder(String baseDir, String candidate, String version) {
