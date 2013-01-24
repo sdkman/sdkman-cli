@@ -80,6 +80,11 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is already linked to "([^"]*)"$
     Files.createSymbolicLink(link, target)
 }
 
+And(~'^I have configured autoinstall="([^"]*)"$') { String flag ->
+    def configFile = new File("$gvmDir/etc/config")
+    configFile.write "gvm_auto_answer=${flag}"
+}
+
 private prepareCandidateFolder(String baseDir, String candidate, String version) {
     def directory = "$baseDir/$candidate/$version"
     prepareCandidateBinFolder directory, candidate, version

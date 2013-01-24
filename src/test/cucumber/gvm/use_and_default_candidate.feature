@@ -20,6 +20,13 @@ Feature: Use and Default Candidate
     Then I see "Using groovy version 1.8.8 in this shell."
     And the candidate "groovy" version "1.8.8" should be in use
 
+  Scenario: Use a candidate version that is automatically installed
+    And I have configured autoinstall="Y"
+    When I enter "gvm use groovy 1.8.8"
+    Then I see "Stop! groovy 1.8.8 is not installed."
+    Then I see "Using groovy version 1.8.8 in this shell."
+    And the candidate "groovy" version "1.8.8" should be in use
+
   Scenario: Use a candidate version that does not exist
     When I enter "gvm use groovy 1.9.9"
     Then I see "Stop! 1.9.9 is not a valid groovy version."
