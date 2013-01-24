@@ -32,19 +32,38 @@ case "`uname`" in
         ;;
 esac
 
-
-if [ -z "${GVM_SERVICE}" ]; then
-    export GVM_SERVICE="@GVM_SERVICE@"
-fi
+GVM_SERVICE_DEFAULT="@GVM_SERVICE@"
+GVM_CANDIDATES_DEFAULT=("groovy" "grails" "griffon" "gradle" "vertx")
 
 if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
+mkdir -p $GVM_DIR/var/candidates
 
-GVM_CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | sed -e 's/,//g'))
-if [[ "${#GVM_CANDIDATES[@]}" == "0" ]]; then
-	GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "vertx")
+if [ -z "${GVM_SERVICE}" ]; then
+	if [ -f "${GVM_DIR}/var/service" ]; then
+		GVM_SERVICE=$(cat "${GVM_DIR}/var/service")
+	else
+		GVM_SERVICE=${GVM_SERVICE_DEFAULT}
+	fi
 fi
+export GVM_SERVICE
+echo -n ${GVM_SERVICE} > "${GVM_DIR}/var/service"
+
+# check cached candidates first
+candidate_cache="${GVM_DIR}/var/candidates/$(echo ${GVM_SERVICE} | tr ':/' '_')"
+if [ -f "${candidate_cache}" -a "${*/--flush/}" == "${*}" ]; then
+	GVM_CANDIDATES=($(cat "${candidate_cache}"))
+else
+	GVM_CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | sed -e 's/,//g'))
+	if [[ "${#GVM_CANDIDATES[@]}" == "0" ]]; then
+		GVM_CANDIDATES=(${GVM_CANDIDATES_DEFAULT[@]})
+	else
+		# only cache the candidates if derived from online service
+		echo -n ${GVM_CANDIDATES[@]} > "${candidate_cache}"
+	fi
+fi
+export GVM_CANDIDATES
 
 OFFLINE_BROADCAST=$( cat << EOF
 ==== BROADCAST =============================================
