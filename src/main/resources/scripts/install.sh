@@ -176,6 +176,7 @@ mkdir -p "${GVM_DIR}/vertx"
 
 echo "Prime the config file..."
 touch "${gvm_config_file}"
+echo "gvm_auto_answer=false" >> "${gvm_config_file}"
 
 echo "Download script archive..."
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_zip_file}"

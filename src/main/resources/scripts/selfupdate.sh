@@ -72,8 +72,10 @@ fi
 
 echo "Prime the config file..."
 gvm_config_file="${GVM_DIR}/etc/config"
-rm "${gvm_config_file}"
 touch "${gvm_config_file}"
+if [[ -z $(cat ${gvm_config_file} | grep 'gvm_auto_answer') ]]; then
+	echo "gvm_auto_answer=false" >> "${gvm_config_file}"
+fi
 
 echo "Download new scripts to: ${gvm_tmp_zip}"
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}"

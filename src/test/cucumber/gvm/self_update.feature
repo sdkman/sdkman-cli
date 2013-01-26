@@ -19,6 +19,17 @@ Feature: Self Update
     And the configuration is not present in the extensions folder
     And the configuration file is present in the etc folder
 
+  Scenario: Update an installation without an Auto Answer config
+    Given an empty configuration file
+    When I enter "gvm selfupdate"
+    Then the configuration file contains "gvm_auto_answer=false"
+
+  Scenario: Update an installation already containing an Auto Answer config
+    Given the configuration file has been primed with "gvm_auto_answer=true"
+    When I enter "gvm selfupdate"
+    Then the configuration file contains "gvm_auto_answer=true"
+    And the configuration file does not contain "gvm_auto_answer=false"
+
   Scenario: Rename the vertx Candidate on Upgrade
     Given the candidate "vert.x" version "1.3.0.final" is already installed and default
     When I enter "gvm selfupdate"

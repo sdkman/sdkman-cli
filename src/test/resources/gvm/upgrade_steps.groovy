@@ -24,6 +24,11 @@ And(~'^the configuration file contains "([^"]*)"$') { String content ->
     assert configFile.text.contains(content)
 }
 
+And(~'^the configuration file does not contain "([^"]*)"$') { String content ->
+    def configFile = "$gvmDir/etc/config" as File
+    assert ! configFile.text.contains(content)
+}
+
 Given(~'^a configuration file in the extensions folder$') {->
     def configFile = "$gvmDir/ext/config" as File
     configFile.text = ""
@@ -60,4 +65,8 @@ And(~'^the gvm module scripts are placed in the src folder$') {->
 
 And(~'^the staging folder is cleaned up$') {->
     assert ! new File("$gvmDir/tmp/stage").exists()
+}
+Given(~'^an empty configuration file$') {->
+    def configFile = "$gvmDir/ext/config" as File
+    configFile.text = ""
 }
