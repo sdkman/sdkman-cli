@@ -1,4 +1,4 @@
-Feature: Upgrade
+Feature: Self Update
 
   Background:
     Given the internet is reachable
