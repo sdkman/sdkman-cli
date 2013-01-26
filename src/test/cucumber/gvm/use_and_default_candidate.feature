@@ -21,7 +21,7 @@ Feature: Use and Default Candidate
     And the candidate "groovy" version "1.8.8" should be in use
 
   Scenario: Use a candidate version that is automatically installed
-    And I have configured autoinstall="Y"
+    And I have configured "gvm_auto_answer" to "true"
     When I enter "gvm use groovy 1.8.8"
     Then I see "Stop! groovy 1.8.8 is not installed."
     Then I see "Using groovy version 1.8.8 in this shell."
