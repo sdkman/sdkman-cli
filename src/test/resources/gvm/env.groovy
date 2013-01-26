@@ -1,6 +1,6 @@
 package gvm
 
-import static cucumber.runtime.groovy.Hooks.*
+import static cucumber.api.groovy.Hooks.*
 import static gvm.VertxUtils.*
 
 serviceUrlEnv = "http://localhost:8080"

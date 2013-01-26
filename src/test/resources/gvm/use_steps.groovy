@@ -2,7 +2,7 @@ package gvm
 
 import java.nio.file.*
 
-import static cucumber.runtime.groovy.EN.*
+import static cucumber.api.groovy.EN.*
 
 Then(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidate, String version ->
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")

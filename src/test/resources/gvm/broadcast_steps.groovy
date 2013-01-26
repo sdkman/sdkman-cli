@@ -1,6 +1,6 @@
 package gvm
 
-import static cucumber.runtime.groovy.EN.*
+import static cucumber.api.groovy.EN.*
 
 Given(~'^no prior Broadcast was received$') { ->
 	broadcastFile.delete()

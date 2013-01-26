@@ -1,12 +1,10 @@
 package gvm
 
-import cucumber.runtime.PendingException
-
 import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Path
 
-import static cucumber.runtime.groovy.EN.*
+import static cucumber.api.groovy.EN.*
 
 Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
 	def candidateVersion = new URL("${serviceUrlEnv}/candidates/${candidate}/default").text

@@ -1,6 +1,6 @@
 package gvm
 
-import static cucumber.runtime.groovy.EN.*
+import static cucumber.api.groovy.EN.*
 
 When(~'^I enter \"([^\"]*)\"$') { String command ->
 	bash.execute(command)
