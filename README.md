@@ -36,7 +36,7 @@ Mac users can add the following line to their `~/.bash_profile` file to set this
 
 It is useful to run the server locally for development purposes. Working installations of MongoDB and vert.x are required to get going. GVM can be used to install vert.x, otherwise install it manually as described on the [install page](http://vertx.io/install.html).
 
-	$ gvm install vert.x
+	$ gvm install vertx
 
 Next, install MongoDB as described [here](http://www.mongodb.org/downloads). After installing, the database needs to be primed with some data. The following lines may be run with `mongod` running as a separate process.
 
