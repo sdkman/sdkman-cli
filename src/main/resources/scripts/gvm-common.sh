@@ -75,7 +75,7 @@ function __gvmtool_determine_version {
 function __gvmtool_build_version_csv {
 	CANDIDATE="$1"
 	CSV=""
-	for version in $(ls -1 "${GVM_DIR}/${CANDIDATE}"); do
+	for version in $(ls -1 "${GVM_DIR}/${CANDIDATE}" 2> /dev/null); do
 		if [ ${version} != 'current' ]; then
 			CSV="${version},${CSV}"
 		fi
