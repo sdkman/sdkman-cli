@@ -43,16 +43,16 @@ function __gvmtool_init {
     GVM_CANDIDATES_DEFAULT=("groovy" "grails" "griffon" "gradle" "vertx")
 
     if [ -z "${GVM_DIR}" ]; then
-	    export GVM_DIR="$HOME/.gvm"
+        export GVM_DIR="$HOME/.gvm"
     fi
     mkdir -p $GVM_DIR/var/candidates
 
     if [ -z "${GVM_SERVICE}" ]; then
-	    if [ -f "${GVM_DIR}/var/service" ]; then
-		    GVM_SERVICE=$(cat "${GVM_DIR}/var/service")
-	    else
-		    GVM_SERVICE=${GVM_SERVICE_DEFAULT}
-	    fi
+        if [ -f "${GVM_DIR}/var/service" ]; then
+            GVM_SERVICE=$(cat "${GVM_DIR}/var/service")
+        else
+            GVM_SERVICE=${GVM_SERVICE_DEFAULT}
+        fi
     fi
     export GVM_SERVICE
     echo -n ${GVM_SERVICE} > "${GVM_DIR}/var/service"
@@ -60,17 +60,22 @@ function __gvmtool_init {
     # check cached candidates first
     candidate_cache="${GVM_DIR}/var/candidates/$(echo ${GVM_SERVICE} | tr ':/' '_')"
     if [ -f "${candidate_cache}" -a "${*/--flush/}" == "${*}" ]; then
-	    GVM_CANDIDATES=($(cat "${candidate_cache}"))
+        GVM_CANDIDATES=($(cat "${candidate_cache}"))
     else
-	    GVM_CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | sed -e 's/,//g'))
-	    if [[ "${#GVM_CANDIDATES[@]}" == "0" ]]; then
-		    GVM_CANDIDATES=(${GVM_CANDIDATES_DEFAULT[@]})
-	    else
-		    # only cache the candidates if derived from online service
-		    echo -n ${GVM_CANDIDATES[@]} > "${candidate_cache}"
-	    fi
+        GVM_CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | sed -e 's/,//g'))
+        if [[ "${#GVM_CANDIDATES[@]}" == "0" ]]; then
+            GVM_CANDIDATES=(${GVM_CANDIDATES_DEFAULT[@]})
+        else
+            # only cache the candidates if derived from online service
+            echo -n ${GVM_CANDIDATES[@]} > "${candidate_cache}"
+        fi
     fi
     export GVM_CANDIDATES
+    for CANDIDATE in $GVM_CANDIDATES; do
+        if ! __gvmtool_contains "$PATH" "$CANDIDATE"; then
+            PATH="${GVM_DIR}/${CANDIDATE}/current/bin:$PATH"
+        fi
+    done
 
     OFFLINE_BROADCAST=$( cat << EOF
 ==== BROADCAST =============================================
@@ -97,15 +102,15 @@ EOF
 
     # Source gvm module scripts (except this one).
     for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
-	    if [ "${f##*/}" != "gvm-init.sh" ]; then source "${f}"; fi
+        if [ "${f##*/}" != "gvm-init.sh" ]; then source "${f}"; fi
     done
 
     # Source extension files prefixed with 'gvm-' and found in the ext/ folder
     # Use this if extensions are written with the functional approach and want
     # to use functions in the main gvm script.
     for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*'); do
-	    if [ -r "${f}" ]; then
-		    source "${f}"
+        if [ -r "${f}" ]; then
+            source "${f}"
         fi
     done
     unset f
