@@ -72,7 +72,7 @@ function __gvmtool_init {
     fi
     export GVM_CANDIDATES
     for CANDIDATE in $GVM_CANDIDATES; do
-        if ! __gvmtool_contains "$PATH" "$CANDIDATE"; then
+        if ! __gvmtool_contains "$PATH" "$CANDIDATE/current" && [ -e ${GVM_DIR}/${CANDIDATE}/current ]; then
             PATH="${GVM_DIR}/${CANDIDATE}/current/bin:$PATH"
         fi
     done
