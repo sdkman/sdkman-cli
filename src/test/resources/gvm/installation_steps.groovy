@@ -83,6 +83,24 @@ And(~'^I have configured "([^"]*)" to "([^"]*)"$') { String configName, String f
     configFile.write "${configName}=${flag}"
 }
 
+Given(~'^there is a post install hook for "([^"]*)"$') { String candidate ->
+    def hookFile = new File("$gvmDir/hooks/$candidate/default/post-install.sh")
+    hookFile.parentFile.mkdirs()
+    hookFile.write "echo Running post install!"    
+}
+
+Given(~'^there is a post install hook for "([^"]*)" version "([^"]*)"$') { String candidate, String version ->
+    def hookFile = new File("$gvmDir/hooks/$candidate/$version/post-install.sh")
+    hookFile.parentFile.mkdirs()
+    hookFile.write "echo Running specific post install!"    
+}
+
+Given(~'^there is a global post install hook$') { ->
+    def hookFile = new File("$gvmDir/hooks/post-install.sh")
+    hookFile.parentFile.mkdirs()
+    hookFile.write "echo Running system post install!"    
+}
+
 private prepareCandidateFolder(String baseDir, String candidate, String version) {
     def directory = "$baseDir/$candidate/$version"
     prepareCandidateBinFolder directory, candidate, version
