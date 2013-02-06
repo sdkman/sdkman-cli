@@ -94,20 +94,23 @@ fi
 
 echo "Looking for JAVA_HOME..."
 if [ -z "${JAVA_HOME}" ]; then
-	echo "Not found."
-	echo ""
-	echo "======================================================================================================"
-	echo " Please ensure that you have a Java SDK installed and that JAVA_HOME environment variable is set."
-	echo " accordingly."
-	echo ""
-	echo " Java can be found here:"
-	echo "     http://www.oracle.com/technetwork/java/javase/downloads/index.html"
-	echo ""
-	echo " Set JAVA_HOME by editing your ~/.profile file and adding:"
-	echo "     export JAVA_HOME=\"/path/to/my/jdk\""
-	echo "======================================================================================================"
-	echo ""
-	exit 0
+    if $darwin ; then 
+        [ -z "$JAVA_HOME" -a -f "/usr/libexec/java_home" ] && export JAVA_HOME=`/usr/libexec/java_home`
+        [ -z "$JAVA_HOME" -a -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
+        [ -z "$JAVA_HOME" -a -d "/System/Library/Frameworks/JavaVM.framework/Home" ] && export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
+    else
+        javaExecutable="`which javac`"
+        [ -z "$javaExecutable" -o "`expr \"$javaExecutable\" : '\([^ ]*\)'`" = "no" ] && die "JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME."
+        # readlink(1) is not available as standard on Solaris 10.
+        readLink=`which readlink`
+        [ `expr "$readLink" : '\([^ ]*\)'` = "no" ] && die "JAVA_HOME not set and readlink not available, please set JAVA_HOME."
+        javaExecutable="`readlink -f \"$javaExecutable\"`"
+        javaHome="`dirname \"$javaExecutable\"`"
+        javaHome=`expr "$javaHome" : '\(.*\)/bin'`
+        JAVA_HOME="$javaHome"
+        export JAVA_HOME
+
+    fi
 fi
 
 echo "Validating JAVA_HOME..."
