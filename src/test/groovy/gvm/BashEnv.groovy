@@ -6,7 +6,7 @@ package gvm
  * working with external processes as the API can't tell you when a command
  * has finished executing.</p>
  * <p>This class provides some hacks that allow you to serially execute commands
- * in an externa bash process in a fairly reliable manner and to retrieve the
+ * in an external bash process in a fairly reliable manner and to retrieve the
  * output of those commands.</p>
  */
 class BashEnv {
