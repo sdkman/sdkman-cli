@@ -64,6 +64,35 @@ function __gvmtool_install_local_version {
 	echo ""
 }
 
+function __gvmtool_post_install_hook {
+	CANDIDATE="$1"
+	VERSION="$2"
+    [ -d "${GVM_DIR}/hooks/" ] || return 0
+    hookdir="${GVM_DIR}/hooks/${CANDIDATE}"
+    part="${VERSION}"
+    # loop through minor to major versions looking for hook
+    while true; do
+        if [ -f "${hookdir}/${part}/post-install.sh" ]; then
+            cat "${hookdir}/${part}/post-install.sh"
+            . "${hookdir}/${part}/post-install.sh" "${CANDIDATE}" "${VERSION}"
+            # found a hook, so need to look for a more generic one
+            return 0
+        fi
+        if [ "${part}" == "${part%.*}" ]; then break; fi
+        part="${part%.*}"
+    done
+    # fallback to per-candidate default
+    if [ -f "${hookdir}/default/post-install.sh" ]; then
+        . "${hookdir}/default/post-install.sh" "${CANDIDATE}" "${VERSION}"
+        return 0
+    fi
+    # fallback to systemwide default
+    if [ -f "${GVM_DIR}/hooks/post-install.sh" ]; then
+        . "${GVM_DIR}/hooks/post-install.sh" "${CANDIDATE}" "${VERSION}"
+        return 0
+    fi
+}
+
 function __gvmtool_install_candidate_version {
 	CANDIDATE="$1"
 	VERSION="$2"
@@ -74,6 +103,7 @@ function __gvmtool_install_candidate_version {
 
 	unzip -oq "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${GVM_DIR}/tmp/"
 	mv ${GVM_DIR}/tmp/*-${VERSION} "${GVM_DIR}/${CANDIDATE}/${VERSION}"
+    __gvmtool_post_install_hook "${CANDIDATE}" "${VERSION}"
 	echo "Done installing!"
 	echo ""
 }
