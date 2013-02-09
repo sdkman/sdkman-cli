@@ -37,7 +37,6 @@ case "`uname`" in
 esac
 
 gvm_platform=$(uname -o)
-gvm_bin_folder="${GVM_DIR}/bin"
 gvm_tmp_zip="${GVM_DIR}/tmp/res-${GVM_VERSION}.zip"
 gvm_stage_folder="${GVM_DIR}/tmp/stage"
 gvm_src_folder="${GVM_DIR}/src"
@@ -47,7 +46,6 @@ rm -rf "${gvm_bin_folder}"
 rm -rf "${gvm_src_folder}"
 
 echo "Refresh directory structure..."
-mkdir -p "${GVM_DIR}/bin"
 mkdir -p "${GVM_DIR}/ext"
 mkdir -p "${GVM_DIR}/etc"
 mkdir -p "${GVM_DIR}/src"
@@ -89,13 +87,7 @@ else
 	unzip -qo "${gvm_tmp_zip}" -d "${gvm_stage_folder}"
 fi
 
-echo "Moving gvm-init file to bin folder..."
-mv -v "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
-
-echo "Changing file permissions for init script..."
-chmod +x "${gvm_bin_folder}/gvm-init.sh"
-
-echo "Move remaining module scripts to src folder: ${gvm_src_folder}"
+echo "Move module scripts to src folder: ${gvm_src_folder}"
 mv -v "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 
 echo "Clean up staging folder..."
@@ -111,6 +103,6 @@ echo "GVM will stop working in the current shell when upgrading from 0.8.x to 0.
 echo ""
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""
-echo "    source \"${GVM_DIR}/bin/gvm-init.sh\""
+echo "    source \"${GVM_DIR}/src/gvm-init.sh\""
 echo ""
 echo ""

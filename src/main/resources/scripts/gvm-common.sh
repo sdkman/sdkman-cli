@@ -167,6 +167,9 @@ function __gvmtool_link_candidate_version {
 		unlink "${GVM_DIR}/${CANDIDATE}/current"
 	fi
 	ln -s "${GVM_DIR}/${CANDIDATE}/${VERSION}" "${GVM_DIR}/${CANDIDATE}/current"
+    if ! __gvmtool_contains "$PATH" "$CANDIDATE/current"; then
+        PATH="${GVM_DIR}/${CANDIDATE}/current/bin:$PATH"
+    fi
 }
 
 function __gvmtool_offline_list {

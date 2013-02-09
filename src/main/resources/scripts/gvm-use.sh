@@ -40,10 +40,8 @@ function __gvmtool_use {
 	export "${UPPER_CANDIDATE}_HOME"="${GVM_DIR}/${CANDIDATE}/${VERSION}"
 
 	# if PATH already has this candidate
-	if [ $PATH != "${PATH/${GVM_DIR}\/${CANDIDATE}/}" ]; then
-		# Replace the current path for the candidate with the selected version.
-		export PATH=`echo $PATH | sed -E "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
-	else
+	export PATH=`echo $PATH | sed -E "s!/current/bin!@gvmtmp@!g" | sed -E "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g" | sed -E "s!@gvmtmp@!/current/bin!g"`
+	if ! __gvmtool_contains "$PATH" "${GVM_DIR}/${CANDIDATE}/${VERSION}"; then
 		export PATH=${GVM_DIR}/${CANDIDATE}/${VERSION}/bin:$PATH
 	fi
 
