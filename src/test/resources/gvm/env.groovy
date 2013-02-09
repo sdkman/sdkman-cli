@@ -48,7 +48,11 @@ Before(){
     }
 }
 
-After(){
+After(){ scenario ->
+    def output = bash?.output
+    if (output) {
+        scenario.write("\nOutput: \n${output}")
+    }
 	bash?.stop()
     cleanUp()
 }
