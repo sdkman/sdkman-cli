@@ -59,8 +59,9 @@ function __gvmtool_init {
 
     # check cached candidates first
     candidate_cache="${GVM_DIR}/var/candidates/$(echo ${GVM_SERVICE} | tr ':/' '_')"
-    if [ -f "${candidate_cache}" -a "${*/--flush/}" == "${*}" ]; then
+    if [[ -f "${candidate_cache}" && "${*/--flush/}" == "${*}" ]]; then
         GVM_CANDIDATES=($(cat "${candidate_cache}"))
+
     else
         GVM_CANDIDATES=($(curl -s "${GVM_SERVICE}/candidates" | sed -e 's/,//g'))
         if [[ "${#GVM_CANDIDATES[@]}" == "0" ]]; then
