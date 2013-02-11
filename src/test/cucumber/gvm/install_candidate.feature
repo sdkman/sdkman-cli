@@ -54,4 +54,24 @@ Feature: Install Candidate
     Then I see "Stop! The archive was corrupt and has been removed! Please try installing again."
     And the candidate "grails" version "1.3.6" is not installed
     And the archive for candidate "grails" version "1.3.6" is removed
+
+  Scenario: Default post install hooks are executed if present
+    Given there is a post install hook for "grails"
+    When I enter "gvm install grails 2.1.0" and answer "y"
+    Then I see "Running post install!"
+	
+  Scenario: Version specific post install hooks are executed if present
+    Given there is a post install hook for "grails" version "2.1.0"
+    When I enter "gvm install grails 2.1.0" and answer "y"
+    Then I see "Running specific post install!"
+	
+  Scenario: Version parent post install hooks are executed if present
+    Given there is a post install hook for "grails" version "2"
+    When I enter "gvm install grails 2.1.0" and answer "y"
+    Then I see "Running specific post install!"
+	
+  Scenario: Post install hooks fallback to global default
+    Given there is a global post install hook
+    When I enter "gvm install grails 2.1.0" and answer "y"
+    Then I see "Running system post install!"
 	
