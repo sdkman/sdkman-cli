@@ -21,6 +21,7 @@ GVM_VERSION="@GVM_VERSION@"
 GVM_DIR="$HOME/.gvm"
 
 # Local variables
+gvm_bin_folder="${GVM_DIR}/bin"
 gvm_src_folder="${GVM_DIR}/src"
 gvm_tmp_folder="${GVM_DIR}/tmp"
 gvm_stage_folder="${gvm_tmp_folder}/stage"
@@ -36,7 +37,7 @@ gvm_platform=$(uname -o)
 
 gvm_init_snippet=$( cat << EOF
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "${GVM_DIR}/src/gvm-init.sh" && -z \$(which gvm-init.sh 2>/dev/null | grep '/gvm-init.sh') ]] && source "${GVM_DIR}/src/gvm-init.sh"
+[[ -s "${GVM_DIR}/bin/gvm-init.sh" && -z \$(which gvm-init.sh 2>/dev/null | grep '/gvm-init.sh') ]] && source "${GVM_DIR}/bin/gvm-init.sh"
 EOF
 )
 
@@ -159,6 +160,7 @@ echo "Installing gvm scripts..."
 # Create directory structure
 
 echo "Create distribution directories..."
+mkdir -p "${gvm_bin_folder}"
 mkdir -p "${gvm_src_folder}"
 mkdir -p "${gvm_tmp_folder}"
 mkdir -p "${gvm_stage_folder}"
@@ -188,7 +190,11 @@ else
 fi
 
 echo "Install scripts..."
+mv "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
 mv "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
+
+echo "Make init script executable..."
+chmod +x "${gvm_bin_folder}/gvm-init.sh"
 
 echo "Attempt update of bash profiles..."
 if [ ! -f "${gvm_bash_profile}" -a ! -f "${gvm_profile}" ]; then
@@ -237,7 +243,7 @@ echo -e "\n\n\nAll done!\n\n"
 
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""
-echo "    source \"${GVM_DIR}/src/gvm-init.sh\""
+echo "    source \"${GVM_DIR}/bin/gvm-init.sh\""
 echo ""
 echo "Then issue the following command:"
 echo ""
