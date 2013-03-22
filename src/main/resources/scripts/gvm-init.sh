@@ -22,7 +22,7 @@ export GVM_PLATFORM=$(uname)
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
-case "`uname`" in
+case "$(uname)" in
     CYGWIN*)
         cygwin=true
         ;;
