@@ -33,7 +33,7 @@ gvm_bash_profile="${HOME}/.bash_profile"
 gvm_profile="${HOME}/.profile"
 gvm_bashrc="${HOME}/.bashrc"
 gvm_zshrc="${HOME}/.zshrc"
-gvm_platform=$(uname -o)
+gvm_platform=$(uname)
 
 gvm_init_snippet=$( cat << EOF
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!

@@ -36,7 +36,7 @@ case "`uname`" in
         ;;
 esac
 
-gvm_platform=$(uname -o)
+gvm_platform=$(uname)
 gvm_bin_folder="${GVM_DIR}/bin"
 gvm_tmp_zip="${GVM_DIR}/tmp/res-${GVM_VERSION}.zip"
 gvm_stage_folder="${GVM_DIR}/tmp/stage"
