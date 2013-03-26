@@ -68,7 +68,7 @@ rm.get("/res") { req ->
     def purpose = req.params['purpose']
 	log purpose, 'gvm', GVM_VERSION, req
 
-	def zipFile = new File('build/distributions/gvm-scripts.zip')
+	def zipFile = 'build/distributions/gvm-scripts.zip' as File
 	req.response.putHeader("Content-Type", "application/zip")
 	req.response.sendFile zipFile.absolutePath
 }
@@ -114,7 +114,7 @@ rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current']
 	def installed = req.params['installed']?.tokenize(',')
-	def gtplFile = new File('build/templates/list.gtpl')
+	def gtplFile = 'build/templates/list.gtpl' as File
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
@@ -166,10 +166,10 @@ rm.get("/broadcast/:version") { req ->
 		def version = req.params['version']
 		def gtplFile, binding
 		if(GVM_VERSION == version){
-			gtplFile = new File('build/templates/broadcast.gtpl')
+			gtplFile = 'build/templates/broadcast.gtpl' as File
 			binding = [gvmVersion:GVM_VERSION, vertxVersion:VERTX_VERSION, broadcasts:broadcasts]
 		} else {
-			gtplFile = new File('build/templates/upgrade.gtpl')
+			gtplFile = 'build/templates/upgrade.gtpl' as File
 			binding = [version:version, gvmVersion:GVM_VERSION]
 		}
 		def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
