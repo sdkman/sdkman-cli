@@ -8,24 +8,24 @@ Feature: Use and Default Candidate
     Then I see "Usage: gvm <command> <candidate> [version]"
 
   Scenario: Use a candidate version that is installed
-    Given the candidate "groovy" version "2.0.5" is already installed and default
-    And the candidate "groovy" version "1.8.8" is already installed but not default
-    When I enter "gvm use groovy 1.8.8"
-    Then I see "Using groovy version 1.8.8 in this shell."
-    Then the candidate "groovy" version "1.8.8" should be in use
-    And the candidate "groovy" version "2.0.5" should be the default
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "grails" version "1.3.9" is already installed but not default
+    When I enter "gvm use grails 1.3.9"
+    Then I see "Using grails version 1.3.9 in this shell."
+    Then the candidate "grails" version "1.3.9" should be in use
+    And the candidate "grails" version "2.1.0" should be the default
 
   Scenario: Use a candidate version that is not installed
-    When I enter "gvm use groovy 1.8.8" and answer "Y"
-    Then I see "Using groovy version 1.8.8 in this shell."
-    And the candidate "groovy" version "1.8.8" should be in use
+    When I enter "gvm use grails 1.3.9" and answer "Y"
+    Then I see "Using grails version 1.3.9 in this shell."
+    And the candidate "grails" version "1.3.9" should be in use
 
   Scenario: Use a candidate version that is automatically installed
     And I have configured "gvm_auto_answer" to "true"
-    When I enter "gvm use groovy 1.8.8"
-    Then I see "Stop! groovy 1.8.8 is not installed."
-    Then I see "Using groovy version 1.8.8 in this shell."
-    And the candidate "groovy" version "1.8.8" should be in use
+    When I enter "gvm use grails 1.3.9"
+    Then I see "Stop! grails 1.3.9 is not installed."
+    Then I see "Using grails version 1.3.9 in this shell."
+    And the candidate "grails" version "1.3.9" should be in use
 
   Scenario: Use a candidate version that does not exist
     When I enter "gvm use groovy 1.9.9"
