@@ -4,7 +4,7 @@ import static cucumber.api.groovy.Hooks.*
 import static gvm.VertxUtils.*
 
 serviceUrlEnv = "http://localhost:8080"
-baseDir = new File("build/scripts")
+buildScriptDir = new File("build/scripts")
 
 counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
 
@@ -37,11 +37,11 @@ Before(){
     extDir.mkdirs()
 
     // Copy the init script into the gvm bin folder
-    def initScript = new File(binDir, 'gvm-init.sh') << new File(baseDir, 'gvm-init.sh').text
+    def initScript = new File(binDir, 'gvm-init.sh') << new File(buildScriptDir, 'gvm-init.sh').text
     initScript.executable = true
 
-	// Copy all modular scripts into the gvm bin folder
-    for (f in baseDir.listFiles()){
+	// Copy all modular scripts into the gvm src folder
+    for (f in buildScriptDir.listFiles()){
         if(!(f.name in ['selfupdate.sh', 'install.sh', 'gvm-init.sh'])){
             new File(srcDir, f.name) << f.text
         }
