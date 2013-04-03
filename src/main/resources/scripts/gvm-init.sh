@@ -22,16 +22,21 @@ export GVM_PLATFORM=$(uname)
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
+solaris=false;
+freebsd=false;
 case "$(uname)" in
     CYGWIN*)
         cygwin=true
         ;;
-        
     Darwin*)
         darwin=true
         ;;
+    SunOS*)
+        solaris=true
+        ;;
+    FreeBSD*)
+        freebsd=true
 esac
-
 
 if [ -z "${GVM_SERVICE}" ]; then
     export GVM_SERVICE="@GVM_SERVICE@"

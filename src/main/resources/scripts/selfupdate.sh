@@ -26,14 +26,20 @@ fi
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
-case "`uname`" in
+solaris=false;
+freebsd=false;
+case "$(uname)" in
     CYGWIN*)
         cygwin=true
         ;;
-
     Darwin*)
         darwin=true
         ;;
+    SunOS*)
+        solaris=true
+        ;;
+    FreeBSD*)
+        freebsd=true
 esac
 
 gvm_platform=$(uname)
