@@ -42,7 +42,8 @@ function __gvmtool_determine_version {
 		VERSION="$1"
 
 	elif [[ "${GVM_ONLINE}" == "false" && -z "$1" && -L "${GVM_DIR}/${CANDIDATE}/current" ]]; then
-		VERSION=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s!${GVM_DIR}/${CANDIDATE}/!!g")
+
+		VERSION=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed "s!${GVM_DIR}/${CANDIDATE}/!!g")
 
 	elif [[ "${GVM_ONLINE}" == "false" && -n "$1" ]]; then
 		echo "Stop! ${CANDIDATE} ${1} is not available in aeroplane mode."
@@ -85,7 +86,12 @@ function __gvmtool_build_version_csv {
 
 function __gvmtool_determine_current_version {
 	CANDIDATE="$1"
-	CURRENT=$(echo $PATH | sed -r "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
+	if [[ "${solaris}" == true ]]; then
+		CURRENT=$(echo $PATH | gsed -r "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
+	else
+		CURRENT=$(echo $PATH | sed -r "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
+	fi
+
 	if [[ "${CURRENT}" == "current" ]]; then
 	    unset CURRENT
 	fi

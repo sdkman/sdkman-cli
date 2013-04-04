@@ -21,7 +21,7 @@ function __gvmtool_uninstall {
 	VERSION="$2"
 	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
 	__gvmtool_check_version_present "${VERSION}" || return 1
-	CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed -e "s_${GVM_DIR}/${CANDIDATE}/__g")
+	CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed "s_${GVM_DIR}/${CANDIDATE}/__g")
 	if [[ -h "${GVM_DIR}/${CANDIDATE}/current" && ( "${VERSION}" == "${CURRENT}" ) ]]; then
 		echo ""
 		echo "Unselecting ${CANDIDATE} ${VERSION}..."

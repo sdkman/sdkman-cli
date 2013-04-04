@@ -44,16 +44,21 @@ EOF
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
+solaris=false;
+freebsd=false;
 case "$(uname)" in
     CYGWIN*)
         cygwin=true
         ;;
-        
     Darwin*)
         darwin=true
         ;;
+    SunOS*)
+        solaris=true
+        ;;
+    FreeBSD*)
+        freebsd=true
 esac
-
 
 echo '                                                                     '
 echo 'Thanks for using                                                     '
@@ -153,6 +158,39 @@ if [ -z $(which curl) ]; then
 	echo ""
 	exit 0
 fi
+
+echo "Looking for sed..."
+if [ -z $(which sed) ]; then
+	echo "Not found."
+	echo ""
+	echo "======================================================================================================"
+	echo " Please install sed on your system using your favourite package manager."
+	echo ""
+	echo " GVM uses sed extensively."
+	echo ""
+	echo " Restart after installing sed."
+	echo "======================================================================================================"
+	echo ""
+	exit 0
+fi
+
+if [[ "${solaris}" == true ]]; then
+	echo "Looking for gsed..."
+	if [ -z $(which gsed) ]; then
+		echo "Not found."
+		echo ""
+		echo "======================================================================================================"
+		echo " Please install gsed on your solaris system."
+		echo ""
+		echo " GVM uses gsed extensively."
+		echo ""
+		echo " Restart after installing gsed."
+		echo "======================================================================================================"
+		echo ""
+		exit 0
+	fi
+fi
+
 
 echo "Installing gvm scripts..."
 

@@ -40,7 +40,11 @@ function __gvmtool_use {
 	export "${UPPER_CANDIDATE}_HOME"="${GVM_DIR}/${CANDIDATE}/${VERSION}"
 
 	# Replace the current path for the candidate with the selected version.
-	export PATH=`echo $PATH | sed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
+	if [[ "${solaris}" == true ]]; then
+		export PATH=`echo $PATH | gsed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
+	else
+		export PATH=`echo $PATH | sed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
+	fi
 
 	echo ""
 	echo Using "${CANDIDATE}" version "${VERSION} in this shell."
