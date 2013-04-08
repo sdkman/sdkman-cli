@@ -40,7 +40,7 @@ def loadConfiguration() {
 }
 
 task prepareTemplates(type: Copy) {
-	from "src/main/resources/templates"
+	from "src/main/templates"
 	into "build/templates"
 	include "*.gtpl"
 }
