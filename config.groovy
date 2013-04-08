@@ -8,6 +8,6 @@ environments {
 		gvmService = 'http://test.gvmtool.net'
 	}
 	prod {
-		gvmService = 'http://get.gvmtool.net'
+		gvmService = 'http://api.gvmtool.net'
 	}
 }
