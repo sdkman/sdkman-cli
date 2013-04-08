@@ -18,11 +18,11 @@ repositories {
 dependencies {
     groovy group: 'org.codehaus.groovy', name: 'groovy', version: '2.0.5'
     groovy group: 'org.codehaus.groovy', name: 'groovy-templates', version: '2.0.5'
+    compile group: 'org.vert-x', name: 'vertx-core', version: '1.3.0.final'
+    compile group: 'org.vert-x', name: 'vertx-lang-groovy', version: '1.3.0.final'
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'info.cukes', name: 'cucumber-groovy', version: '1.1.1'
     testCompile group: 'info.cukes', name: 'cucumber-junit', version: '1.1.1'
-    testCompile group: 'org.vert-x', name: 'vertx-core', version: '1.3.0.final'
-    testCompile group: 'org.vert-x', name: 'vertx-lang-groovy', version: '1.3.0.final'
 }
 
 task wrapper(type: Wrapper) {
@@ -46,7 +46,7 @@ task prepareTemplates(type: Copy) {
 }
 
 task prepareServer(type: Copy){
-	from 'src/main/resources'
+	from 'src/main/groovy'
 	into 'build/server'
 	include 'server.groovy'
 	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion, VERTX_VERSION:config.vertxVersion])
