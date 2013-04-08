@@ -31,3 +31,7 @@ Then(~'^the exit value is \"([^\"]*)\"$') { int exitValue ->
 Then(~'^I see the current gvm version$') {->
     assert result.contains("Groovy enVironment Manager")
 }
+
+Then(~'^I see a single occurrence of \"([^\"]*)\"$') { String occurrence ->
+    assert result.count(occurrence) == 1
+}

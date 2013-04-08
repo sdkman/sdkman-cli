@@ -31,3 +31,13 @@ Then(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { St
 	def archive = new File("${gvmDir}/archives/${candidate}-${version}.zip")
 	assert ! archive.exists()
 }
+
+Given(~'^an initialised shell$') { ->
+    def initScript = "$gvmDir/bin/gvm-init.sh" as File
+    assert initScript.exists()
+}
+
+When(~'^I reinitialise the shell$') { ->
+    def initScript = "$gvmDir/bin/gvm-init.sh" as File
+    assert initScript.exists()
+}
