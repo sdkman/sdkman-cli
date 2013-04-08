@@ -19,6 +19,10 @@
 export GVM_VERSION="@GVM_VERSION@"
 export GVM_PLATFORM=$(uname)
 
+if [[ "${GVM_INIT}" == "true" ]]; then
+	return
+fi
+
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
@@ -91,3 +95,5 @@ for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*'); do
     fi
 done
 unset f
+
+export GVM_INIT="true"
