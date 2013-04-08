@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 	format=["pretty", "html:build/reports/cucumber"],
 	strict=true,
 	features=["src/test/cucumber"],
-	glue=["src/test/resources"],
+	glue=["src/test/steps"],
 	tags="~@manual"
 )
 public class RunCukesTest {
