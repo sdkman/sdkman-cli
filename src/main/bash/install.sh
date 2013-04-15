@@ -98,40 +98,6 @@ if [ -d "${GVM_DIR}" ]; then
 	exit 0
 fi
 
-echo "Looking for JAVA_HOME..."
-if [ -z "${JAVA_HOME}" ]; then
-	echo "Not found."
-	echo ""
-	echo "======================================================================================================"
-	echo " Please ensure that you have a Java SDK installed and that JAVA_HOME environment variable is set."
-	echo " accordingly."
-	echo ""
-	echo " Java can be found here:"
-	echo "     http://www.oracle.com/technetwork/java/javase/downloads/index.html"
-	echo ""
-	echo " Set JAVA_HOME by editing your ~/.profile file and adding:"
-	echo "     export JAVA_HOME=\"/path/to/my/jdk\""
-	echo "======================================================================================================"
-	echo ""
-	exit 0
-fi
-
-echo "Validating JAVA_HOME..."
-if [ ! -f "${JAVA_HOME}/bin/java" ]; then
-	echo "Invalid."
-	echo ""
-	echo "======================================================================================================"
-	echo " Please ensure that your JAVA_HOME points to a valid Java SDK."
-	echo " You are currently pointing to:"
-	echo ""
-	echo "  ${JAVA_HOME}"
-	echo ""
-	echo " This does not seem to be valid. Please rectify and restart."
-	echo "======================================================================================================"
-	echo ""
-	exit 0	
-fi
-
 echo "Looking for unzip..."
 if [ -z $(which unzip) ]; then
 	echo "Not found."
