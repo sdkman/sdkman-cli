@@ -112,8 +112,8 @@ rm.get("/candidates/:candidate/default") { req ->
 
 rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
-	def current = req.params['current']
-	def installed = req.params['installed']?.tokenize(',')
+	def current = req.params['current'] ?: ''
+	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
 	def gtplFile = 'build/templates/list.gtpl' as File
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
@@ -127,7 +127,7 @@ rm.get("/candidates/:candidate/list") { req ->
 	}
 }
 
-rm.get("/candidates/:candidate/:version") { req ->
+def validationHandler = { req ->
 	def candidate = req.params['candidate']
 	def version = req.params['version']
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate, version:version]]
@@ -141,7 +141,10 @@ rm.get("/candidates/:candidate/:version") { req ->
 	}
 }
 
-rm.get("/download/:candidate/:version") { req ->
+rm.get("/candidates/:candidate/:version/validate", validationHandler)
+rm.get("/candidates/:candidate/:version", validationHandler)
+
+def downloadHandler = { req ->
 	def candidate = req.params['candidate']
 	def version = req.params['version']
 
@@ -155,15 +158,21 @@ rm.get("/download/:candidate/:version") { req ->
 	}
 }
 
-rm.get("/app/version") { req ->
+rm.get("/candidates/:candidate/:version/download", downloadHandler)
+rm.get("/download/:candidate/:version", downloadHandler)
+
+def versionHandler = { req ->
 	req.response.end GVM_VERSION
 }
 
-rm.get("/broadcast/:version") { req ->
+rm.get("/app/version", versionHandler)
+rm.get("/api/version", versionHandler)
+
+def broadcastHandler = { req ->
 	def cmd2 = [action:"find", collection:"broadcast", matcher:[:]]
 	vertx.eventBus.send("mongo-persistor", cmd2){ msg ->
 		def broadcasts = msg.body.results
-		def version = req.params['version']
+		def version = req.params['version'] ?: GVM_VERSION
 		def gtplFile, binding
 		if(GVM_VERSION == version){
 			gtplFile = 'build/templates/broadcast.gtpl' as File
@@ -177,8 +186,12 @@ rm.get("/broadcast/:version") { req ->
 		addPlainTextHeader req
 		req.response.end templateText
 	}
-
 }
+
+rm.get("/broadcast", broadcastHandler)
+rm.get("/broadcast/:version", broadcastHandler)
+rm.get("/api/broadcast", broadcastHandler)
+rm.get("/api/broadcast/:version", broadcastHandler)
 
 
 //
