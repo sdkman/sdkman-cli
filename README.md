@@ -1,5 +1,7 @@
 # GVM the Groovy enVironment Manager
 
+[![Build Status](https://drone.io/github.com/gvmtool/gvm/status.png)](https://drone.io/github.com/gvmtool/gvm/latest)
+
 GVM is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
 
 See documentation on the [GVM Project Page](http://gvmtool.net).
