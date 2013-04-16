@@ -49,16 +49,17 @@ if [ -z "${JAVA_HOME}" ] ; then
         [ -z "${JAVA_HOME}" -a -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
         [ -z "${JAVA_HOME}" -a -d "/System/Library/Frameworks/JavaVM.framework/Home" ] && export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
     else
-        javaExecutable="$(which javac)"
-        [ -z "${javaExecutable}" -o "$(expr \"${javaExecutable}\" : '\([^ ]*\)')" = "no" ] && die "GVM: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME."
+        javaExecutable="$(which javac 2> /dev/null)"
+        [[ -z "${javaExecutable}" ]] && echo "GVM: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME." && return
 
-        # readlink(1) is not available as standard on Solaris 10.
-        readLink=$(which readlink)
-        [ $(expr "${readLink}" : '\([^ ]*\)') = "no" ] && die "GVM: JAVA_HOME not set and readlink not available, please set JAVA_HOME."
-        javaExecutable="$(readlink -f \"${javaExecutable}\")"
-        javaHome="$(dirname \"${javaExecutable}\")"
+        readLink="$(which readlink 2> /dev/null)"
+        [[ -z "${readLink}" ]] && echo "GVM: JAVA_HOME not set and readlink not available, please set JAVA_HOME." && return
+
+        javaExecutable="$(readlink -f "${javaExecutable}")"
+        javaHome="$(dirname "${javaExecutable}")"
         javaHome=$(expr "${javaHome}" : '\(.*\)/bin')
         JAVA_HOME="${javaHome}"
+        [[ -z "${JAVA_HOME}" ]] && echo "GVM: could not find java, please set JAVA_HOME" && return
         export JAVA_HOME
     fi
 fi
