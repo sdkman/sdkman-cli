@@ -65,7 +65,7 @@ mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/grails"
 
-if [[ -d "${GVM_DIR}/vert.x" ]]; then
+if [[ -d "${GVM_DIR}/vert.x" && ! -d "${GVM_DIR}/vertx" ]]; then
 	mv "${GVM_DIR}/vert.x" "${GVM_DIR}/vertx"
 else
 	mkdir -p "${GVM_DIR}/vertx"

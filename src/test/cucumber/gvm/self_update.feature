@@ -32,6 +32,7 @@ Feature: Self Update
 
   Scenario: Rename the vertx Candidate on Upgrade
     Given the candidate "vert.x" version "1.3.0.final" is already installed and default
+    And the candidate "vertx" does not exist
     When I enter "gvm selfupdate"
     Then the candidate "vertx" version "1.3.0.final" is installed
     And the candidate "vert.x" version "1.3.0.final" is not installed

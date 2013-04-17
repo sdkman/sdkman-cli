@@ -50,6 +50,12 @@ Given(~'^the candidate "([^"]*)" version "([^"]*)" does not exist$') { String ca
     assert ! versions.contains(version)
 }
 
+And(~'^the candidate "([^"]*)" does not exist$') { String candidate ->
+    def candidateDir = "${gvmDir}/${candidate}" as File
+    candidateDir.deleteDir()
+    assert ! candidateDir.exists()
+}
+
 And(~'^I have a local candidate "([^"]*)" version "([^"]*)" at "([^"]*)"$') { String candidate, String version, String directory ->
     prepareLocalCandidateFolder directory, candidate, version
 }
