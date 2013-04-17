@@ -41,7 +41,6 @@ When(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not d
 
 Given(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
     def candidateDir = FileSystems.default.getPath("${gvmDir}/${candidate}")
-    Files.createDirectory(candidateDir)
     assert ! candidateDir.toFile().listFiles()
 }
 
