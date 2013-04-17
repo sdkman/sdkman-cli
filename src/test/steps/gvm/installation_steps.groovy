@@ -12,7 +12,7 @@ Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, Str
 }
 
 Then(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candidate, String version ->
-	def file = new File("${gvmDir}/${candidate}/${version}")		
+	def file = "${gvmDir}/${candidate}/${version}" as File
 	if (!file.exists()) println bash.output
 	assert file.exists()
 }
