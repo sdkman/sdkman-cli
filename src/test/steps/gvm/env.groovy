@@ -36,6 +36,13 @@ Before(){
     etcDir.mkdirs()
     extDir.mkdirs()
 
+    // Initialise candidate directories
+    ['groovy', 'grails', 'griffon', 'gradle', 'vertx'].each { candidate ->
+        def candidateDir = "${gvmDirEnv}/${candidate}" as File
+        candidateDir.mkdirs()
+    }
+
+
     // Copy the init script into the gvm bin folder
     def initScript = new File(binDir, 'gvm-init.sh') << new File(buildScriptDir, 'gvm-init.sh').text
     initScript.executable = true
