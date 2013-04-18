@@ -30,7 +30,7 @@ task wrapper(type: Wrapper) {
 }
 
 def loadConfiguration() {
-    def environment = hasProperty('env') ? env : 'dev'
+    def environment = hasProperty('env') ? env : 'local'
     ext.environment = environment
     println "Environment is set to: $environment"
     
