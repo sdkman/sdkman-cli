@@ -42,6 +42,10 @@ function __gvmtool_use {
 	# Replace the current path for the candidate with the selected version.
 	if [[ "${solaris}" == true ]]; then
 		export PATH=`echo $PATH | gsed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
+
+	elif [[ "${darwin}" == true ]]; then
+		export PATH=`echo $PATH | sed -E "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
+
 	else
 		export PATH=`echo $PATH | sed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
 	fi
