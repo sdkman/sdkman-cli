@@ -28,7 +28,7 @@ or to see the output
 
 	$ ./gradlew -i
 
-__Please enusre that the JAVA_HOME environment variable set to JDK 1.7 on you system!__
+__Please ensure that the JAVA_HOME environment variable set to JDK 1.7 on you system!__
 
 Mac users can add the following line to their `~/.bash_profile` file to set this variable:
 
