@@ -28,13 +28,13 @@ or to see the output
 
 	$ ./gradlew -i
 
-__Please ensure that the JAVA_HOME environment variable set to JDK 1.7 on you system!__
+__Please ensure that the JAVA_HOME environment variable set to JDK 1.7 on your system!__
 
 Mac users can add the following line to their `~/.bash_profile` file to set this variable:
 
 	export JAVA_HOME=$(/usr/libexec/java_home -v1.7)
 
-## Running the Server locally
+## Running the Server Locally
 
 It is useful to run the server locally for development purposes. Working installations of MongoDB and vert.x are required to get going. GVM can be used to install vert.x, otherwise install it manually as described on the [install page](http://vertx.io/install.html).
 
