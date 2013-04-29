@@ -37,7 +37,7 @@ Before(){
     extDir.mkdirs()
 
     // Initialise candidate directories
-    ['groovy', 'grails', 'griffon', 'gradle', 'vertx'].each { candidate ->
+    ['groovy', 'grails', 'griffon', 'gradle', 'lazybones', 'vertx'].each { candidate ->
         def candidateDir = "${gvmDirEnv}/${candidate}" as File
         candidateDir.mkdirs()
     }
