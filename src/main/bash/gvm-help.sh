@@ -21,7 +21,7 @@ function __gvmtool_help {
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo ""
 	echo "   command    :  install, uninstall, list, use, current, version, default, selfupdate, broadcast or help"
-	echo "   candidate  :  groovy, grails, griffon, gradle, vertx"
+	echo "   candidate  :  groovy, grails, griffon, gradle, lazybones, vertx"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
 	echo "eg: gvm install groovy"
