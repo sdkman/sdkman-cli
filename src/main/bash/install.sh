@@ -176,6 +176,7 @@ mkdir -p "${GVM_DIR}/groovy"
 mkdir -p "${GVM_DIR}/grails"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/gradle"
+mkdir -p "${GVM_DIR}/lazybones"
 mkdir -p "${GVM_DIR}/vertx"
 
 echo "Prime the config file..."
