@@ -5,7 +5,7 @@ Feature: Version
 
   Scenario: Show the current version of gvm
     When I enter "gvm version"
-      Then I see "Groovy enVironment Manager 1.0.3"
+      Then I see "Groovy enVironment Manager 1.0.4"
 
   Scenario: The local gvm is out of date
     Given no prior Broadcast was received
