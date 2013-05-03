@@ -20,8 +20,8 @@ export GVM_VERSION="@GVM_VERSION@"
 export GVM_PLATFORM=$(uname)
 
 if [[ "${GVM_INIT}" == "true" ]]; then
-  source $GVM_DIR/bin/gvm-include.sh
-	return
+  source "${GVM_DIR}/bin/gvm-include.sh"
+  return
 fi
 
 # OS specific support (must be 'true' or 'false').
@@ -91,6 +91,6 @@ VERTX_HOME="${GVM_DIR}/vertx/current"
 
 export PATH="${GROOVY_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_HOME}/bin:${LAZYBONES_HOME}/bin:${VERTX_HOME}/bin:$PATH"
 
-source $GVM_DIR/bin/gvm-include.sh
+source "${GVM_DIR}/bin/gvm-include.sh"
 
 export GVM_INIT="true"
