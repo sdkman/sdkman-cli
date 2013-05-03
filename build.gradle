@@ -77,6 +77,7 @@ task installInit(type: Copy, dependsOn: [cleanInstallInit, prepareScripts]) {
 	from "build/scripts"
 	into installBinDir
 	include "gvm-init.sh"
+	include "gvm-include.sh"
 }
 
 task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]) {
@@ -84,6 +85,7 @@ task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]
     into installSrcDir
     include "gvm-*.sh"
     exclude "gvm-init.sh"
+    exclude "gvm-include.sh"
 }
 
 task install(dependsOn: [installInit, installModules])
