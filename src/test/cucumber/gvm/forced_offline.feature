@@ -1,3 +1,4 @@
+@manual
 Feature: Forced Offline Mode
 
   Background:
@@ -5,6 +6,7 @@ Feature: Forced Offline Mode
 
 # use command
 
+  
   Scenario: Use an installed candidate version in aeroplane mode while Online
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the candidate "grails" version "1.3.9" is already installed but not default
