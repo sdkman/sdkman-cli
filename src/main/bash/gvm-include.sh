@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "include submodules"
-
 # Source gvm module scripts.
 for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
 	source "${f}"
