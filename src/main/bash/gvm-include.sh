@@ -1,29 +1,10 @@
 #!/bin/bash
 
-OFFLINE_BROADCAST=$( cat << EOF
-==== BROADCAST =============================================
-
-AEROPLANE MODE ENABLED! Some functionality is now disabled.
-
-============================================================
-EOF
-)
-
-ONLINE_BROADCAST=$( cat << EOF
-==== BROADCAST =============================================
-
-ONLINE MODE RE-ENABLED! All functionality now restored.
-
-============================================================
-EOF
-)
-
-OFFLINE_MESSAGE="This command is not available in aeroplane mode."
-GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "lazybones" "vertx")
-
 # Source gvm module scripts.
 for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
-	source "${f}"
+  if [ $(basename "${f}") != "gvm-include.sh" ]; then
+    source "${f}"
+  fi
 done
 
 # Source extension files prefixed with 'gvm-' and found in the ext/ folder
