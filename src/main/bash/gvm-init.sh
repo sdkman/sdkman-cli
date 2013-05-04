@@ -19,7 +19,25 @@
 export GVM_VERSION="@GVM_VERSION@"
 export GVM_PLATFORM=$(uname)
 
+function gvm_source_modules {
+	# Source gvm module scripts.
+	for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
+		source "${f}"
+	done
+
+	# Source extension files prefixed with 'gvm-' and found in the ext/ folder
+	# Use this if extensions are written with the functional approach and want
+	# to use functions in the main gvm script.
+	for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*'); do
+		if [ -r "${f}" ]; then
+			source "${f}"
+		fi
+	done
+	unset f
+}
+
 if [[ "${GVM_INIT}" == "true" ]]; then
+	gvm_source_modules
 	return
 fi
 
@@ -111,19 +129,5 @@ VERTX_HOME="${GVM_DIR}/vertx/current"
 
 export PATH="${GROOVY_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_HOME}/bin:${LAZYBONES_HOME}/bin:${VERTX_HOME}/bin:$PATH"
 
-# Source gvm module scripts.
-for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
-	source "${f}"
-done
-
-# Source extension files prefixed with 'gvm-' and found in the ext/ folder
-# Use this if extensions are written with the functional approach and want
-# to use functions in the main gvm script.
-for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*'); do
-	if [ -r "${f}" ]; then
-		source "${f}"
-    fi
-done
-unset f
-
+gvm_source_modules
 export GVM_INIT="true"
