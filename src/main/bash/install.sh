@@ -196,7 +196,6 @@ fi
 
 echo "Install scripts..."
 mv "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
-mv "${gvm_stage_folder}/gvm-include.sh" "${gvm_bin_folder}"
 mv "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 
 echo "Make init script executable..."

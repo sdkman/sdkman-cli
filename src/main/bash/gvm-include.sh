@@ -2,7 +2,9 @@
 
 # Source gvm module scripts.
 for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
-	source "${f}"
+  if [ $(basename "${f}") != "gvm-include.sh" ]; then
+    source "${f}"
+  fi
 done
 
 # Source extension files prefixed with 'gvm-' and found in the ext/ folder
