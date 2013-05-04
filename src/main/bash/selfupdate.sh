@@ -98,11 +98,9 @@ fi
 
 echo "Moving gvm-init file to bin folder..."
 mv -v "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
-mv -v "${gvm_stage_folder}/gvm-include.sh" "${gvm_bin_folder}"
 
 echo "Changing file permissions for init script..."
 chmod +x "${gvm_bin_folder}/gvm-init.sh"
-chmod +x "${gvm_bin_folder}/gvm-include.sh"
 
 echo "Move remaining module scripts to src folder: ${gvm_src_folder}"
 mv -v "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
@@ -113,6 +111,10 @@ rm -rf "${gvm_stage_folder}"
 echo ""
 echo ""
 echo "Successfully upgraded GVM."
+echo ""
+echo "VERY IMPORTANT!!!"
+echo ""
+echo "GVM will stop working in the current shell when upgrading from 0.8.x to 0.9.x"
 echo ""
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""

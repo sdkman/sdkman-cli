@@ -20,8 +20,7 @@ export GVM_VERSION="@GVM_VERSION@"
 export GVM_PLATFORM=$(uname)
 
 if [[ "${GVM_INIT}" == "true" ]]; then
-  source "${GVM_DIR}/bin/gvm-include.sh"
-  return
+	return
 fi
 
 # OS specific support (must be 'true' or 'false').
@@ -80,6 +79,27 @@ if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
 
+OFFLINE_BROADCAST=$( cat << EOF
+==== BROADCAST =============================================
+
+AEROPLANE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+EOF
+)
+
+ONLINE_BROADCAST=$( cat << EOF
+==== BROADCAST =============================================
+
+ONLINE MODE RE-ENABLED! All functionality now restored.
+
+============================================================
+EOF
+)
+
+OFFLINE_MESSAGE="This command is not available in aeroplane mode."
+GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "lazybones" "vertx")
+
 PATH="${GVM_DIR}/bin:${GVM_DIR}/ext:$PATH"
 
 GROOVY_HOME="${GVM_DIR}/groovy/current"
@@ -91,6 +111,19 @@ VERTX_HOME="${GVM_DIR}/vertx/current"
 
 export PATH="${GROOVY_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_HOME}/bin:${LAZYBONES_HOME}/bin:${VERTX_HOME}/bin:$PATH"
 
-source "${GVM_DIR}/bin/gvm-include.sh"
+# Source gvm module scripts.
+for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
+	source "${f}"
+done
+
+# Source extension files prefixed with 'gvm-' and found in the ext/ folder
+# Use this if extensions are written with the functional approach and want
+# to use functions in the main gvm script.
+for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*'); do
+	if [ -r "${f}" ]; then
+		source "${f}"
+    fi
+done
+unset f
 
 export GVM_INIT="true"

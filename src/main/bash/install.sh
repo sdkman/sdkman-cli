@@ -196,11 +196,10 @@ fi
 
 echo "Install scripts..."
 mv "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
-mv "${gvm_stage_folder}/gvm-include.sh" "${gvm_bin_folder}"
 mv "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 
 echo "Make init script executable..."
-chmod -R +x "${gvm_bin_folder}"
+chmod +x "${gvm_bin_folder}/gvm-init.sh"
 
 echo "Attempt update of bash profiles..."
 if [ ! -f "${gvm_bash_profile}" -a ! -f "${gvm_profile}" ]; then
