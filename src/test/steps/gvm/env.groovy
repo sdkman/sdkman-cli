@@ -47,12 +47,9 @@ Before(){
     def initScript = new File(binDir, 'gvm-init.sh') << new File(buildScriptDir, 'gvm-init.sh').text
     initScript.executable = true
 
-    def includeScript = new File(binDir, 'gvm-include.sh') << new File(buildScriptDir, 'gvm-include.sh').text
-    includeScript.executable = true
-
 	// Copy all modular scripts into the gvm src folder
     for (f in buildScriptDir.listFiles()){
-        if(!(f.name in ['selfupdate.sh', 'install.sh', 'gvm-init.sh', 'gvm-include.sh'])){
+        if(!(f.name in ['selfupdate.sh', 'install.sh', 'gvm-init.sh'])){
             new File(srcDir, f.name) << f.text
         }
     }
