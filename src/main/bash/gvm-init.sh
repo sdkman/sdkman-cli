@@ -36,11 +36,6 @@ function gvm_source_modules {
 	unset f
 }
 
-if [[ "${GVM_INIT}" == "true" ]]; then
-	gvm_source_modules
-	return
-fi
-
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
@@ -59,6 +54,32 @@ case "$(uname)" in
     FreeBSD*)
         freebsd=true
 esac
+
+OFFLINE_BROADCAST=$( cat << EOF
+==== BROADCAST =============================================
+
+AEROPLANE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+EOF
+)
+
+ONLINE_BROADCAST=$( cat << EOF
+==== BROADCAST =============================================
+
+ONLINE MODE RE-ENABLED! All functionality now restored.
+
+============================================================
+EOF
+)
+
+OFFLINE_MESSAGE="This command is not available in aeroplane mode."
+GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "lazybones" "vertx")
+
+if [[ "${GVM_INIT}" == "true" ]]; then
+	gvm_source_modules
+	return
+fi
 
 # Attempt to set JAVA_HOME if it's not already set.
 if [ -z "${JAVA_HOME}" ] ; then
@@ -96,27 +117,6 @@ fi
 if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
-
-OFFLINE_BROADCAST=$( cat << EOF
-==== BROADCAST =============================================
-
-AEROPLANE MODE ENABLED! Some functionality is now disabled.
-
-============================================================
-EOF
-)
-
-ONLINE_BROADCAST=$( cat << EOF
-==== BROADCAST =============================================
-
-ONLINE MODE RE-ENABLED! All functionality now restored.
-
-============================================================
-EOF
-)
-
-OFFLINE_MESSAGE="This command is not available in aeroplane mode."
-GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "lazybones" "vertx")
 
 PATH="${GVM_DIR}/bin:${GVM_DIR}/ext:$PATH"
 
