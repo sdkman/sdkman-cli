@@ -78,7 +78,7 @@ GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "lazybones" "vertx")
 
 if [[ "${GVM_INIT}" == "true" ]]; then
 	gvm_source_modules
-	return
+	exit
 fi
 
 # Attempt to set JAVA_HOME if it's not already set.
