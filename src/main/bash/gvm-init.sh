@@ -78,7 +78,7 @@ GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "lazybones" "vertx")
 
 if [[ "${GVM_INIT}" == "true" ]]; then
 	gvm_source_modules
-	return
+	exit
 fi
 
 # Attempt to set JAVA_HOME if it's not already set.
@@ -89,16 +89,16 @@ if [ -z "${JAVA_HOME}" ] ; then
         [ -z "${JAVA_HOME}" -a -d "/System/Library/Frameworks/JavaVM.framework/Home" ] && export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
     else
         javaExecutable="$(which javac 2> /dev/null)"
-        [[ -z "${javaExecutable}" ]] && echo "GVM: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME." && return
+        [[ -z "${javaExecutable}" ]] && echo "GVM: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME." && exit
 
         readLink="$(which readlink 2> /dev/null)"
-        [[ -z "${readLink}" ]] && echo "GVM: JAVA_HOME not set and readlink not available, please set JAVA_HOME." && return
+        [[ -z "${readLink}" ]] && echo "GVM: JAVA_HOME not set and readlink not available, please set JAVA_HOME." && exit
 
         javaExecutable="$(readlink -f "${javaExecutable}")"
         javaHome="$(dirname "${javaExecutable}")"
         javaHome=$(expr "${javaHome}" : '\(.*\)/bin')
         JAVA_HOME="${javaHome}"
-        [[ -z "${JAVA_HOME}" ]] && echo "GVM: could not find java, please set JAVA_HOME" && return
+        [[ -z "${JAVA_HOME}" ]] && echo "GVM: could not find java, please set JAVA_HOME" && exit
         export JAVA_HOME
     fi
 fi
