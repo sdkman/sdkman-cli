@@ -1,21 +1,27 @@
-@manual
+@review
 Feature: Forced Offline Mode
 
-  Background:
+  Scenario: Enable Offline Mode with internet reachable
     Given the internet is reachable
-
-# use command
-
-  
-  Scenario: Use an installed candidate version in aeroplane mode while Online
-    Given the candidate "grails" version "2.1.0" is already installed and default
-    And the candidate "grails" version "1.3.9" is already installed but not default
-    When I enter "gvm use grails 1.3.9 --offline"
+    And offline mode is disabled
+    When I enter "gvm offline enable"
     Then I see "AEROPLANE MODE ENABLED!"
-    And I see "Using grails version 1.3.9 in this shell."
+    When I enter "gvm install grails 2.1.0"
+    Then I see "Stop! grails 2.1.0 is not available in aeroplane mode."
 
-  Scenario: Use an uninstalled candidate version in aeroplane mode while Online
-    Given the candidate "grails" version "1.3.9" is already installed and default
-    And the candidate "grails" version "2.1.0" is not installed
-    When I enter "gvm use grails 2.1.0 --offline"
+  Scenario: Disable Offline Mode with internet reachable
+    Given the internet is reachable
+    And offline mode is enabled
+    When I enter "gvm offline disable"
+    Then I see "ONLINE MODE RE-ENABLED!"
+    When I enter "gvm install grails 2.1.0" and answer "Y"
+    Then I see "Done installing!"
+    And the candidate "grails" version "2.1.0" is installed
+
+  Scenario: Disable Offline Mode with internet unreachable
+    Given the internet is not reachable
+    And offline mode is enabled
+    When I enter "gvm offline disable"
+    Then I see "AEROPLANE MODE ENABLED!"
+    When I enter "gvm install grails 2.1.0"
     Then I see "Stop! grails 2.1.0 is not available in aeroplane mode."
