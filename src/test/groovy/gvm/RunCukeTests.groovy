@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 	strict=true,
 	features=["src/test/cucumber"],
 	glue=["src/test/steps"],
-	tags="~@manual"
+	tags=["~@manual", "~@review"]
 )
 public class RunCukesTest {
 }
