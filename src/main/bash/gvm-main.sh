@@ -57,7 +57,7 @@ function gvm {
 	#
 	# NOTE Internal commands use underscores rather than hyphens,
 	# hence the name conversion as the first step here.
-	CONVERTED_CMD_NAME=`echo "$1" | tr '-' '_'`
+	CONVERTED_CMD_NAME=$(echo "$1" | tr '-' '_')
 
  	# no command provided
 	if [[ -z "$1" ]]; then
