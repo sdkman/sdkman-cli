@@ -1,6 +1,7 @@
 package gvm
 
 import static cucumber.api.groovy.EN.*
+import static gvm.VertxUtils.getLIVE_BROADCAST
 
 Given(~'^no prior Broadcast was received$') { ->
 	broadcastFile.delete()
@@ -8,7 +9,8 @@ Given(~'^no prior Broadcast was received$') { ->
 }
 
 Given(~'^a new Broadcast "([^"]*)" is available$') { String broadcast ->
-	assert true
+    println "A new broadcast is available: $broadcast"
+    assert LIVE_BROADCAST == broadcast
 }
 
 Given(~'^a prior Broadcast "([^"]*)" was issued$') { String broadcast ->
