@@ -23,6 +23,12 @@ function gvm {
 	__gvmtool_default_environment_variables
 	mkdir -p "${GVM_DIR}"
 
+	if [[ "${GVM_ONLINE}" == "false" || "${GVM_FORCE_OFFLINE}" == true ]]; then
+		GVM_AVAILABLE="false"
+	else
+	  	GVM_AVAILABLE="true"
+	fi
+
 	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
 	if [[ -z "${BROADCAST_LIVE}" && "${GVM_ONLINE}" == "true" ]]; then
 		echo "${OFFLINE_BROADCAST}"
@@ -85,9 +91,13 @@ function gvm {
 	fi
 
 	# Check whether the candidate exists
-	if [[ -n "$2" && -z $(echo ${GVM_CANDIDATES[@]} | grep -w "$2") ]]; then
+	if [[ -n "$2" && "$1" != "offline" && -z $(echo ${GVM_CANDIDATES[@]} | grep -w "$2") ]]; then
 		echo -e "\nStop! $2 is not a valid candidate."
 		return 1
+	fi
+
+	if [[ "$1" == "offline" && -z $(echo "enable disable" | grep -w "$2") ]]; then
+		echo -e "\nStop! $2 is not a valid offline mode."
 	fi
 
 	# Execute the requested command
