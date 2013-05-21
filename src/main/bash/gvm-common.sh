@@ -152,20 +152,6 @@ function __gvmtool_check_upgrade_available {
 	fi
 }
 
-function __gvmtool_update_broadcast {
-	COMMAND="$1"
-	BROADCAST_FILE="${GVM_DIR}/var/broadcast"
-	if [ -f "${BROADCAST_FILE}" ]; then
-		BROADCAST_HIST=$(cat "${BROADCAST_FILE}")
-	fi
-
-	if [[ "${GVM_ONLINE}" == "true" && ( "${BROADCAST_LIVE}" != "${BROADCAST_HIST}" ) && ( "${COMMAND}" != 'broadcast' ) ]]; then
-		mkdir -p "${GVM_DIR}/var"
-		echo "${BROADCAST_LIVE}" > "${BROADCAST_FILE}"
-		echo "${BROADCAST_LIVE}"
-	fi
-}
-
 function __gvmtool_link_candidate_version {
 	CANDIDATE="$1"
 	VERSION="$2"

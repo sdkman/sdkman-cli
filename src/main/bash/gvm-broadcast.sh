@@ -23,3 +23,17 @@ function __gvmtool_broadcast {
 		echo "${BROADCAST_LIVE}"
 	fi
 }
+
+function __gvmtool_update_broadcast {
+	COMMAND="$1"
+	BROADCAST_FILE="${GVM_DIR}/var/broadcast"
+	if [ -f "${BROADCAST_FILE}" ]; then
+		BROADCAST_HIST=$(cat "${BROADCAST_FILE}")
+	fi
+
+	if [[ "${GVM_ONLINE}" == "true" && ( "${BROADCAST_LIVE}" != "${BROADCAST_HIST}" ) && ( "${COMMAND}" != 'broadcast' ) ]]; then
+		mkdir -p "${GVM_DIR}/var"
+		echo "${BROADCAST_LIVE}" > "${BROADCAST_FILE}"
+		echo "${BROADCAST_LIVE}"
+	fi
+}
