@@ -1,31 +1,34 @@
 package gvm
 
-import cucumber.runtime.PendingException
-
-import static cucumber.api.groovy.EN.*
+import static cucumber.api.groovy.EN.And
+import static cucumber.api.groovy.EN.Given
 
 final SERVICE_DOWN = "http://localhost:0"
 final FAKE_JDK_PATH = "/path/to/my/openjdk"
 
+And(~'^offline mode is disabled$') {->
+    forceOffline = false
+}
+
+And(~'^offline mode is enabled$') {->
+    forceOffline = true
+}
+
 Given(~'^the internet is not reachable$') {->
-    bash = new BashEnv(gvmBaseEnv, [GVM_DIR: gvmDirEnv, GVM_SERVICE: SERVICE_DOWN, JAVA_HOME: FAKE_JDK_PATH])
-    bash.start()
-    bash.execute("source $binDir/gvm-init.sh")
+    def online = "false"
+    def forceOffline = forceOffline ?: "false"
+    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, SERVICE_DOWN, FAKE_JDK_PATH)
 }
 
 
 And(~'^the internet is reachable$') {->
-    bash = new BashEnv(gvmBaseEnv, [GVM_DIR: gvmDirEnv, GVM_SERVICE: serviceUrlEnv, JAVA_HOME: FAKE_JDK_PATH])
+    def online = "true"
+    def forceOffline = forceOffline ?: "false"
+    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
+}
+
+private initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, javaHome){
+    bash = new BashEnv(gvmBaseEnv, [GVM_DIR: gvmDirEnv, GVM_ONLINE:online, GVM_FORCE_OFFLINE: forceOffline, GVM_SERVICE: serviceUrlEnv, JAVA_HOME: javaHome])
     bash.start()
-    bash.execute("source $binDir/gvm-init.sh")
-}
-
-And(~'^offline mode is disabled$') {->
-    // Express the Regexp above with the code you wish you had
-    throw new PendingException()
-}
-
-And(~'^offline mode is enabled$') {->
-    // Express the Regexp above with the code you wish you had
-    throw new PendingException()
+    bash.execute("source $gvmDirEnv/bin/gvm-init.sh")
 }
