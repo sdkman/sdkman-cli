@@ -16,17 +16,13 @@
 #   limitations under the License.
 #
 
-function __gvmtool_list {
-	CANDIDATE="$1"
-	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
-	__gvmtool_build_version_csv "${CANDIDATE}"
-	__gvmtool_determine_current_version "${CANDIDATE}"
-
-	if [[ "${GVM_AVAILABLE}" == "false" ]]; then
-		__gvmtool_offline_list
-	else
-		FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
-		echo "${FRAGMENT}"
-		unset FRAGMENT
+function __gvmtool_offline {
+	if [[ "$1" == "enable" ]]; then
+		GVM_FORCE_OFFLINE="true"
+		echo "AEROPLANE MODE ENABLED!"
+	fi
+	if [[ "$1" == "disable" ]]; then
+		GVM_FORCE_OFFLINE="false"
+		echo "ONLINE MODE RE-ENABLED!"
 	fi
 }

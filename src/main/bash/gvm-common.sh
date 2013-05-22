@@ -38,22 +38,22 @@ function __gvmtool_check_version_present {
 }
 
 function __gvmtool_determine_version {
-	if [[ "${GVM_ONLINE}" == "false" && -n "$1" && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
+	if [[ "${GVM_AVAILABLE}" == "false" && -n "$1" && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
 		VERSION="$1"
 
-	elif [[ "${GVM_ONLINE}" == "false" && -z "$1" && -L "${GVM_DIR}/${CANDIDATE}/current" ]]; then
+	elif [[ "${GVM_AVAILABLE}" == "false" && -z "$1" && -L "${GVM_DIR}/${CANDIDATE}/current" ]]; then
 
 		VERSION=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed "s!${GVM_DIR}/${CANDIDATE}/!!g")
 
-	elif [[ "${GVM_ONLINE}" == "false" && -n "$1" ]]; then
+	elif [[ "${GVM_AVAILABLE}" == "false" && -n "$1" ]]; then
 		echo "Stop! ${CANDIDATE} ${1} is not available in aeroplane mode."
 		return 1
 
-	elif [[ "${GVM_ONLINE}" == "false" && -z "$1" ]]; then
+	elif [[ "${GVM_AVAILABLE}" == "false" && -z "$1" ]]; then
         echo "${OFFLINE_MESSAGE}"
         return 1
 
-	elif [[ "${GVM_ONLINE}" == "true" && -z "$1" ]]; then
+	elif [[ "${GVM_AVAILABLE}" == "true" && -z "$1" ]]; then
 		VERSION_VALID='valid'
 		VERSION=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/default")
 
@@ -135,6 +135,21 @@ function __gvmtool_validate_zip {
 }
 
 function __gvmtool_default_environment_variables {
+
+	if [ ! "$GVM_FORCE_OFFLINE" ]; then
+		GVM_FORCE_OFFLINE="false"
+	fi
+
+	if [ ! "$GVM_ONLINE" ]; then
+		GVM_ONLINE="true"
+	fi
+
+	if [[ "${GVM_ONLINE}" == "false" || "${GVM_FORCE_OFFLINE}" == "true" ]]; then
+		GVM_AVAILABLE="false"
+	else
+	  	GVM_AVAILABLE="true"
+	fi
+
 	if [ ! "${GVM_SERVICE}" ]; then
 		GVM_SERVICE="http://localhost:8080"
 	fi

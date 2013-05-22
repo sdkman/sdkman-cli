@@ -21,15 +21,15 @@ function gvm {
 	# Various sanity checks and default settings
 	#
 	__gvmtool_default_environment_variables
+
 	mkdir -p "${GVM_DIR}"
 
-	if [[ "${GVM_ONLINE}" == "false" || "${GVM_FORCE_OFFLINE}" == true ]]; then
-		GVM_AVAILABLE="false"
+	if [[ "$GVM_FORCE_OFFLINE" == "true" || ( "$1" == "offline" && "$2" == "enable" ) ]]; then
+		BROADCAST_LIVE="Forced offline mode."
 	else
-	  	GVM_AVAILABLE="true"
+		BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
 	fi
 
-	BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
 	if [[ -z "${BROADCAST_LIVE}" && "${GVM_ONLINE}" == "true" ]]; then
 		echo "${OFFLINE_BROADCAST}"
 	fi
@@ -38,9 +38,9 @@ function gvm {
 		echo "${ONLINE_BROADCAST}"
 	fi
 
-
 	if [[ -z "${BROADCAST_LIVE}" ]]; then
 		GVM_ONLINE="false"
+		GVM_AVAILABLE="false"
 	else
 		GVM_ONLINE="true"
 	fi

@@ -4,6 +4,7 @@ import static cucumber.api.groovy.Hooks.*
 import static gvm.VertxUtils.*
 
 serviceUrlEnv = "http://localhost:8080"
+forceOffline = false
 buildScriptDir = new File("build/scripts")
 
 counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
