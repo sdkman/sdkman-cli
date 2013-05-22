@@ -18,7 +18,7 @@ Feature: Forced Offline Mode
     Given offline mode is enabled
     And the internet is reachable
     When I enter "gvm offline disable"
-    Then I see "ONLINE MODE RE-ENABLED!"
+    Then I see "Online mode re-enabled!"
     When I enter "gvm install grails 2.1.0" and answer "Y"
     Then I see "Done installing!"
     And the candidate "grails" version "2.1.0" is installed
@@ -27,7 +27,7 @@ Feature: Forced Offline Mode
     Given offline mode is enabled
     And the internet is not reachable
     When I enter "gvm offline disable"
-    Then I see "ONLINE MODE RE-ENABLED!"
+    Then I see "Online mode re-enabled!"
     When I enter "gvm install grails 2.1.0"
     Then I see "AEROPLANE MODE ENABLED!"
     And I see "Stop! grails 2.1.0 is not available in aeroplane mode."

@@ -25,7 +25,7 @@ function gvm {
 	mkdir -p "${GVM_DIR}"
 
 	if [[ "$GVM_FORCE_OFFLINE" == "true" || ( "$1" == "offline" && "$2" == "enable" ) ]]; then
-		BROADCAST_LIVE="Forced offline mode."
+		BROADCAST_LIVE=""
 	else
 		BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
 	fi

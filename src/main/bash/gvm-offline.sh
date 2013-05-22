@@ -19,10 +19,11 @@
 function __gvmtool_offline {
 	if [[ "$1" == "enable" ]]; then
 		GVM_FORCE_OFFLINE="true"
-		echo "AEROPLANE MODE ENABLED!"
+		echo "Enabling forced offline mode!"
 	fi
 	if [[ "$1" == "disable" ]]; then
 		GVM_FORCE_OFFLINE="false"
-		echo "ONLINE MODE RE-ENABLED!"
+		GVM_ONLINE="true"
+		echo "Online mode re-enabled!"
 	fi
 }
