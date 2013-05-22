@@ -19,7 +19,7 @@
 function __gvmtool_offline {
 	if [[ "$1" == "enable" ]]; then
 		GVM_FORCE_OFFLINE="true"
-		echo "Enabling forced offline mode!"
+		echo "Forced offline mode enabled."
 	fi
 	if [[ "$1" == "disable" ]]; then
 		GVM_FORCE_OFFLINE="false"
