@@ -7,7 +7,7 @@ environments {
 	master {
 		gvmService = 'http://dev.gvmtool.net'
 	}
-	test {
+	beta {
 		gvmService = 'http://test.gvmtool.net'
 	}
 	prod {
