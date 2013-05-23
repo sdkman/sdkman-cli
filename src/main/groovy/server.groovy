@@ -26,13 +26,17 @@ final VERTX_VERSION = '@VERTX_VERSION@'
 // datasource configuration
 //
 
-def config
-def mongoJson = 'mongo.json' as File
-if(mongoJson.exists()){
-	config = new JsonObject(mongoJson.text).toMap()
-} else {
-	config = [address: 'mongo-persistor', db_name: 'gvm']
-}
+def config = [
+    address: (System.getenv('GVM_DB_ADDRESS') ?: 'mongo-persistor'),
+    db_name: (System.getenv('GVM_DB_NAME') ?: 'gvm'),
+    host: System.getenv('GVM_DB_HOST'),
+    port: System.getenv('GVM_DB_PORT'),
+    username: System.getenv('GVM_DB_USERNAME'),
+    password: System.getenv('GVM_DB_PASSWORD')
+]
+
+println config
+
 container.deployModule 'vertx.mongo-persistor-v1.2', config
 
 def templateEngine = new SimpleTemplateEngine()
