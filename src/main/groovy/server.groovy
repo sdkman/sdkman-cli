@@ -35,8 +35,6 @@ def config = [
     password: System.getenv('GVM_DB_PASSWORD')
 ]
 
-println config
-
 container.deployModule 'vertx.mongo-persistor-v1.2', config
 
 def templateEngine = new SimpleTemplateEngine()
