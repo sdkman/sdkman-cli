@@ -30,7 +30,7 @@ def config = [
     address: (System.getenv('GVM_DB_ADDRESS') ?: 'mongo-persistor'),
     db_name: (System.getenv('GVM_DB_NAME') ?: 'gvm'),
     host: System.getenv('GVM_DB_HOST'),
-    port: System.getenv('GVM_DB_PORT'),
+    port: System.getenv('GVM_DB_PORT')?.toInteger(),
     username: System.getenv('GVM_DB_USERNAME'),
     password: System.getenv('GVM_DB_PASSWORD')
 ]
