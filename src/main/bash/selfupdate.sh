@@ -99,9 +99,6 @@ fi
 echo "Moving gvm-init file to bin folder..."
 mv -v "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
 
-echo "Changing file permissions for init script..."
-chmod +x "${gvm_bin_folder}/gvm-init.sh"
-
 echo "Move remaining module scripts to src folder: ${gvm_src_folder}"
 mv -v "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 
