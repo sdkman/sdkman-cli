@@ -118,8 +118,6 @@ if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
 
-PATH="${GVM_DIR}/bin:${GVM_DIR}/ext:$PATH"
-
 GROOVY_HOME="${GVM_DIR}/groovy/current"
 GRAILS_HOME="${GVM_DIR}/grails/current"
 GRIFFON_HOME="${GVM_DIR}/griffon/current"
