@@ -5,7 +5,7 @@ environments {
 		gvmService = 'http://localhost:8080'
 	}
 	master {
-		gvmService = 'http://master.gvmtool.net'
+		gvmService = 'http://dev.gvmtool.net'
 	}
 	beta {
 		gvmService = 'http://beta.gvmtool.net'
