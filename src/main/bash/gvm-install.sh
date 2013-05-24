@@ -29,9 +29,9 @@ function __gvmtool_install {
 	fi
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
-		__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}" || return 1
+		__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}"
 
-		if [[ "${gvm_auto_answer}" != 'true' ]]; then
+        if [[ "${gvm_auto_answer}" != 'true' ]]; then
 			echo -n "Do you want ${CANDIDATE} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
@@ -40,11 +40,13 @@ function __gvmtool_install {
 			echo "Setting ${CANDIDATE} ${VERSION} as default."
 			__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
 		fi
-		return 1
+
+		return 0
 
 	elif [[ "${VERSION_VALID}" == 'invalid' && -n "${LOCAL_FOLDER}" ]]; then
-		__gvmtool_install_local_version "${CANDIDATE}" "${VERSION}" "${LOCAL_FOLDER}" || return 1
+		__gvmtool_install_local_version "${CANDIDATE}" "${VERSION}" "${LOCAL_FOLDER}"
 
+        return 0
     else
         echo ""
 		echo "Stop! $1 is not a valid ${CANDIDATE} version."
