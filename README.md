@@ -65,22 +65,18 @@ This will start the server on localhost:8080
 
 ### Customizing the Database Location
 
-The database may be configured in the `mongo.json` file in the root folder of the project. If no file is found, it will assume sensible defaults for a local mongodb installation. The file should be structured as follows:
+The database may be configured using environment variables. If non are found, it will assume sensible defaults for a local mongodb installation. The follow environment variables can be specified:
 
-	{
-		"address":"mongo-persistor",
-		"host":"host",
-		"port":port,
-		"username":"username",
-		"password":"password",
-		"db_name":"dbname"
-	}
+    GVM_DB_ADDRESS="mongo-persistor"
+    GVM_DB_HOST="xxx.mongohq.com"
+    GVM_DB_PORT="1234"
+    GVM_DB_NAME="gvm"
+    GVM_DB_PASSWORD="mypassword"
+    GVM_DB_USERNAME="myusername"
 
 ### Making the Local Installation the Default
 
-To make your local GVM installation work with your local server, run the following commands:
+To install GVM locally running against your local server, run the following commands:
 
 	$ ./gradlew install
 	$ source ~/.gvm/bin/gvm-init.sh
-
-
