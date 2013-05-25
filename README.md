@@ -74,7 +74,7 @@ The database may be configured using environment variables. If non are found, it
     GVM_DB_PASSWORD="mypassword"
     GVM_DB_USERNAME="myusername"
 
-### Making the Local Installation the Default
+### Local Installation
 
 To install GVM locally running against your local server, run the following commands:
 
