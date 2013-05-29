@@ -49,8 +49,7 @@ Before(){
     new File(varDir, 'broadcast') << 'This is a LIVE Broadcast!'
 
     // Copy the init script into the gvm bin folder
-    def initScript = new File(binDir, 'gvm-init.sh') << new File(buildScriptDir, 'gvm-init.sh').text
-    initScript.executable = true
+    new File(binDir, 'gvm-init.sh') << new File(buildScriptDir, 'gvm-init.sh').text
 
 	// Copy all modular scripts into the gvm src folder
     for (f in buildScriptDir.listFiles()){
