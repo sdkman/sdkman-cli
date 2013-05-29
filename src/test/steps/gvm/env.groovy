@@ -5,11 +5,13 @@ import static gvm.VertxUtils.*
 
 serviceUrlEnv = "http://localhost:8080"
 forceOffline = false
-buildScriptDir = new File("build/scripts")
+buildScriptDir = new File("build/testScripts")
 
 counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
 
 localGroovyCandidate = "/tmp/groovy-core" as File
+
+gvmVersion = "x.y.z"
 
 gvmBaseEnv = "/tmp/gvm-$counter"
 gvmBaseDir = gvmBaseEnv as File
@@ -29,7 +31,7 @@ bash = null
 
 Before(){
 	cleanUp()
-	server = startServer()
+	server = startServer(gvmVersion)
 
 	binDir.mkdirs()
     srcDir.mkdirs()

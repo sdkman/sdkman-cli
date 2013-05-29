@@ -4,7 +4,7 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-defaultTasks 'clean', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
+defaultTasks 'clean', 'prepareTestScripts', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
 
 ext.installBinDir = "${System.getProperty('user.home')}/.gvm/bin"
 ext.installSrcDir = "${System.getProperty('user.home')}/.gvm/src"
@@ -50,6 +50,13 @@ task prepareServer(type: Copy){
 	into 'build/server'
 	include 'server.groovy'
 	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion, VERTX_VERSION:config.vertxVersion])
+}
+
+task prepareTestScripts(type: Copy) {
+    from 'src/main/bash'
+    into 'build/testScripts'
+    include '**/*'
+    filter(ReplaceTokens, tokens: [GVM_VERSION:"x.y.z", GVM_SERVICE:config.gvmService])
 }
 
 task prepareScripts(type: Copy) {

@@ -7,26 +7,23 @@ import org.vertx.groovy.core.Vertx
 class VertxUtils {
 
     static final LIVE_BROADCAST = "This is a LIVE Broadcast!"
-    static final GVM_VERSION = '1.0.5'
-
     static final groovy = ['2.0.5']
     static final grails = ['1.3.6','1.3.9','2.1.0']
     static final candidates = [groovy:groovy,grails:grails]
     static final defaults = [groovy:'2.0.5',grails:'2.1.0']
 
     static templateEngine = new SimpleTemplateEngine()
-
 	static server
 
-    public static startServer(){
-		if(!server){
+    public static startServer(gvmVersion){
+        if(!server){
 			println "Starting stub webservice..."
-			server = createServer("localhost", 8080)
+			server = createServer("localhost", 8080, gvmVersion)
 		}
 		server
 	}
 
-	private static createServer(String host, int port){
+	private static createServer(String host, int port, String gvmVersion){
 		def rm = new RouteMatcher()
 
 		rm.get("/") { req ->
@@ -90,12 +87,12 @@ class VertxUtils {
 			def version = req.params['version']
 			def gtplFile, binding
 			def output
-			if(GVM_VERSION == version){
+			if(gvmVersion == version){
 				output = LIVE_BROADCAST
 
 			} else {
 				gtplFile = new File('build/templates/upgrade.gtpl')
-				binding = [version:version, gvmVersion:GVM_VERSION]
+				binding = [version:version, gvmVersion:gvmVersion]
 				def template = templateEngine.createTemplate(gtplFile).make(binding)
 				output = template.toString()
 			}
