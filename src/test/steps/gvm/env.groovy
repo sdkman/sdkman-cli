@@ -45,6 +45,8 @@ Before(){
         candidateDir.mkdirs()
     }
 
+    // Initialise broadcast file
+    new File(varDir, 'broadcast') << 'This is a LIVE Broadcast!'
 
     // Copy the init script into the gvm bin folder
     def initScript = new File(binDir, 'gvm-init.sh') << new File(buildScriptDir, 'gvm-init.sh').text
