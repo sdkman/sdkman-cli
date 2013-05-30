@@ -1,7 +1,6 @@
 package gvm
 
-import static cucumber.api.groovy.EN.And
-import static cucumber.api.groovy.EN.Given
+import static cucumber.api.groovy.EN.*
 
 final SERVICE_DOWN = "http://localhost:0"
 final FAKE_JDK_PATH = "/path/to/my/openjdk"
@@ -24,6 +23,12 @@ Given(~'^the internet is not reachable$') {->
 And(~'^the internet is reachable$') {->
     def online = "true"
     def forceOffline = forceOffline ?: "false"
+    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
+}
+
+Given(~'^forced offline mode is enabled$') {->
+    def online = "false"
+    def forceOffline = "true"
     initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
 }
 
