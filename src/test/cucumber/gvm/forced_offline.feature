@@ -55,3 +55,44 @@ Feature: Forced Offline Mode
     And the candidate "grails" version "2.1.0" is not installed
     When I enter "gvm use grails 2.1.0"
     Then I see "Stop! grails 2.1.0 is not available in aeroplane mode."
+
+  #default version
+  Scenario: Set the default to an uninstalled candidate version while Forced Offline
+    Given offline mode is enabled with reachable internet
+    And the candidate "grails" version "1.3.9" is already installed and default
+    When I enter "gvm default grails 2.1.0"
+    Then I see "Stop! grails 2.1.0 is not available in aeroplane mode."
+
+  #install command
+  Scenario: Install a candidate version that is not installed while Forced Offline
+    Given offline mode is enabled with reachable internet
+    And the candidate "grails" version "2.1.0" is not installed
+    When I enter "gvm install grails 2.1.0"
+    Then I see "Stop! grails 2.1.0 is not available in aeroplane mode."
+
+  #uninstall command
+  Scenario: Uninstall a candidate version while Forced Offline
+    Given offline mode is enabled with reachable internet
+    And the candidate "grails" version "2.1.0" is already installed and default
+    When I enter "gvm uninstall grails 2.1.0"
+    And the candidate "grails" version "2.1.0" is not installed
+
+  #current command
+  Scenario: Display the current version of a candidate while Forced Offline
+    Given offline mode is enabled with reachable internet
+    And the candidate "grails" version "2.1.0" is already installed and default
+    When I enter "gvm current grails"
+    Then I see "Using grails version 2.1.0"
+
+  #help command
+  Scenario: Request help while Forced Offline
+    Given offline mode is enabled with reachable internet
+    When I enter "gvm help"
+    Then I see "Usage: gvm <command> <candidate> [version]"
+
+  #selfupdate command
+  Scenario: Attempt self-update while Forced Offline
+    Given offline mode is enabled with reachable internet
+    When I enter "gvm selfupdate"
+    Then I see "This command is not available in aeroplane mode."
+
