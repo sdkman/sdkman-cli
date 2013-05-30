@@ -36,18 +36,18 @@ function __gvmtool_use {
 	fi
 
 	# Just update the *_HOME and PATH for this shell.
-	UPPER_CANDIDATE=`echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]'`
+	UPPER_CANDIDATE=$(echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]')
 	export "${UPPER_CANDIDATE}_HOME"="${GVM_DIR}/${CANDIDATE}/${VERSION}"
 
 	# Replace the current path for the candidate with the selected version.
 	if [[ "${solaris}" == true ]]; then
-		export PATH=`echo $PATH | gsed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
+		export PATH=$(echo $PATH | gsed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g")
 
 	elif [[ "${darwin}" == true ]]; then
-		export PATH=`echo $PATH | sed -E "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
+		export PATH=$(echo $PATH | sed -E "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g")
 
 	else
-		export PATH=`echo $PATH | sed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g"`
+		export PATH=$(echo $PATH | sed -r "s!${GVM_DIR}/${CANDIDATE}/([^/]+)!${GVM_DIR}/${CANDIDATE}/${VERSION}!g")
 	fi
 
 	echo ""
