@@ -5,31 +5,34 @@ import static cucumber.api.groovy.EN.*
 final SERVICE_DOWN = "http://localhost:0"
 final FAKE_JDK_PATH = "/path/to/my/openjdk"
 
-And(~'^offline mode is disabled$') {->
-    forceOffline = false
-}
-
-And(~'^offline mode is enabled$') {->
-    forceOffline = true
+Given(~'^the internet is reachable$') {->
+    def forceOffline = "false"
+    def online = "true"
+    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
 }
 
 Given(~'^the internet is not reachable$') {->
+    def forceOffline = "false"
     def online = "false"
-    def forceOffline = forceOffline ?: "false"
     initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, SERVICE_DOWN, FAKE_JDK_PATH)
 }
 
-
-And(~'^the internet is reachable$') {->
+And(~'^offline mode is disabled with reachable internet$') {->
+    def forceOffline = "false"
     def online = "true"
-    def forceOffline = forceOffline ?: "false"
     initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
 }
 
-Given(~'^forced offline mode is enabled$') {->
-    def online = "false"
+And(~'^offline mode is enabled with reachable internet$') {->
     def forceOffline = "true"
+    def online = "true"
     initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
+}
+
+And(~'^offline mode is enabled with unreachable internet$') {->
+    def forceOffline = "true"
+    def online = "false"
+    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, SERVICE_DOWN, FAKE_JDK_PATH)
 }
 
 private initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, javaHome){
