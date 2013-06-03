@@ -90,7 +90,9 @@ function gvm {
 		return 1
 	fi
 
-	if [[ "$1" == "offline" && -z $(echo "enable disable" | grep -w "$2") ]]; then
+	if [[ "$1" == "offline" &&  -z "$2" ]]; then
+		echo -e "\nStop! Specify a valid offline mode."
+	elif [[ "$1" == "offline" && ( -z $(echo "enable disable" | grep -w "$2")) ]]; then
 		echo -e "\nStop! $2 is not a valid offline mode."
 	fi
 

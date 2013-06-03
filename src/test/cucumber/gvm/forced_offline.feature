@@ -1,10 +1,16 @@
 Feature: Forced Offline Mode
 
   #offline modes
+
   Scenario: Enter an invalid offline mode
     Given offline mode is disabled with reachable internet
     And I enter "gvm offline grails"
     Then I see "Stop! grails is not a valid offline mode."
+
+  Scenario: Issue Offline command without qualification
+    Given offline mode is disabled with reachable internet
+    When I enter "gvm offline"
+    Then I see "Stop! Specify a valid offline mode."
 
   Scenario: Enable Offline Mode with internet reachable
     Given offline mode is disabled with reachable internet
