@@ -59,12 +59,6 @@ function gvm {
 		source "${GVM_DIR}/etc/config"
 	fi
 
-	# Check whether the command exists as an internal function...
-	#
-	# NOTE Internal commands use underscores rather than hyphens,
-	# hence the name conversion as the first step here.
-	CONVERTED_CMD_NAME=$(echo "$1" | tr '-' '_')
-
  	# no command provided
 	if [[ -z "$1" ]]; then
 		__gvmtool_help
@@ -99,6 +93,12 @@ function gvm {
 	if [[ "$1" == "offline" && -z $(echo "enable disable" | grep -w "$2") ]]; then
 		echo -e "\nStop! $2 is not a valid offline mode."
 	fi
+
+	# Check whether the command exists as an internal function...
+	#
+	# NOTE Internal commands use underscores rather than hyphens,
+	# hence the name conversion as the first step here.
+	CONVERTED_CMD_NAME=$(echo "$1" | tr '-' '_')
 
 	# Execute the requested command
 	if [ -n "${CMD_FOUND}" ]; then
