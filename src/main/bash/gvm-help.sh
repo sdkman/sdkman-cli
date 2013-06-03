@@ -19,8 +19,9 @@
 function __gvmtool_help {
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
+	echo "       gvm offline <enable|offline>"
 	echo ""
-	echo "   command    :  install, uninstall, list, use, current, version, default, selfupdate, broadcast or help"
+	echo "   command    :  install, uninstall, list, use, current, version, default, selfupdate, broadcast, help, offline"
 	echo "   candidate  :  groovy, grails, griffon, gradle, lazybones, vertx"
 	echo "   version    :  optional, defaults to latest stable if not provided"
 	echo ""
