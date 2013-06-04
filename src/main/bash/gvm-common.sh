@@ -46,7 +46,7 @@ function __gvmtool_determine_version {
 		VERSION=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed "s!${GVM_DIR}/${CANDIDATE}/!!g")
 
 	elif [[ "${GVM_AVAILABLE}" == "false" && -n "$1" ]]; then
-		echo "Stop! ${CANDIDATE} ${1} is not available in aeroplane mode."
+		echo "Stop! ${CANDIDATE} ${1} is not available in offline mode."
 		return 1
 
 	elif [[ "${GVM_AVAILABLE}" == "false" && -z "$1" ]]; then
@@ -180,7 +180,7 @@ function __gvmtool_link_candidate_version {
 
 function __gvmtool_offline_list {
 	echo "------------------------------------------------------------"
-	echo "Aeroplane Mode: only showing installed ${CANDIDATE} versions"
+	echo "Offline Mode: only showing installed ${CANDIDATE} versions"
 	echo "------------------------------------------------------------"
 	echo "                                                            "
 

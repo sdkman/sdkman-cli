@@ -58,7 +58,7 @@ esac
 OFFLINE_BROADCAST=$( cat << EOF
 ==== BROADCAST =============================================
 
-AEROPLANE MODE ENABLED! Some functionality is now disabled.
+OFFLINE MODE ENABLED! Some functionality is now disabled.
 
 ============================================================
 EOF
@@ -73,7 +73,7 @@ ONLINE MODE RE-ENABLED! All functionality now restored.
 EOF
 )
 
-OFFLINE_MESSAGE="This command is not available in aeroplane mode."
+OFFLINE_MESSAGE="This command is not available in offline mode."
 GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "lazybones" "vertx")
 
 if [[ "${GVM_INIT}" == "true" ]]; then
