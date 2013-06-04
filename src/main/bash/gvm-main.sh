@@ -30,7 +30,7 @@ function gvm {
 		BROADCAST_LIVE=$(curl -s "${GVM_SERVICE}/broadcast/${GVM_VERSION}")
 	fi
 
-	if [[ -z "${BROADCAST_LIVE}" && "${GVM_ONLINE}" == "true" ]]; then
+	if [[ -z "${BROADCAST_LIVE}" && "${GVM_ONLINE}" == "true" && "$1" != "offline" ]]; then
 		echo "${OFFLINE_BROADCAST}"
 	fi
 
