@@ -31,7 +31,7 @@ function __gvmtool_update_broadcast {
 		BROADCAST_HIST=$(cat "${BROADCAST_FILE}")
 	fi
 
-	if [[ "${GVM_AVAILABLE}" == "true" && ( "${BROADCAST_LIVE}" != "${BROADCAST_HIST}" ) && ( "$COMMAND" != "broadcast" ) ]]; then
+	if [[ "${GVM_AVAILABLE}" == "true" && "${BROADCAST_LIVE}" != "${BROADCAST_HIST}" && "$COMMAND" != "broadcast" && "$COMMAND" != "selfupdate" ]]; then
 		mkdir -p "${GVM_DIR}/var"
 		echo "${BROADCAST_LIVE}" > "${BROADCAST_FILE}"
 		echo "${BROADCAST_LIVE}"
