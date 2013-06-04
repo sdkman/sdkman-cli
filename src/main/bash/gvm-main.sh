@@ -47,7 +47,7 @@ function gvm {
 
 
 	__gvmtool_check_upgrade_available
-	if [[ -n "${UPGRADE_AVAILABLE}" && ( "$1" != "broadcast" ) ]]; then
+	if [[ -n "${UPGRADE_AVAILABLE}" && "$1" != "broadcast" && "$1" != "selfupdate" ]]; then
 		echo "${BROADCAST_LIVE}"
 		echo ""
 	else
