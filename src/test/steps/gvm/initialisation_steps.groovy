@@ -40,6 +40,11 @@ Given(~'^an initialised shell$') { ->
     assert initScript.exists()
 }
 
+Given(~'^an outdated system$') {->
+    def initScript = "$gvmDir/bin/gvm-init.sh" as File
+    initScript.text = initScript.text.replace(gvmVersion, gvmVersionOutdated)
+}
+
 When(~'^I reinitialise the shell$') { ->
     def initScript = "$gvmDir/bin/gvm-init.sh" as File
     assert initScript.exists()

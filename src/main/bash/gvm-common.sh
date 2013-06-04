@@ -160,9 +160,9 @@ function __gvmtool_default_environment_variables {
 }
 
 function __gvmtool_check_upgrade_available {
-	UPGRADE_AVAILABLE=""
+	UPGRADE_AVAILABLE="false"
 	UPGRADE_NOTICE=$(echo "${BROADCAST_LIVE}" | grep 'Your version of GVM is out of date!')
-	if [[ -n "${UPGRADE_NOTICE}" && ( "${COMMAND}" != 'selfupdate' ) ]]; then
+	if [[ -n "$UPGRADE_NOTICE" && "$COMMAND" != 'selfupdate' ]]; then
 		UPGRADE_AVAILABLE="true"
 	fi
 }

@@ -12,6 +12,7 @@ counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
 localGroovyCandidate = "/tmp/groovy-core" as File
 
 gvmVersion = "x.y.z"
+gvmVersionOutdated = "x.y.y"
 
 gvmBaseEnv = "/tmp/gvm-$counter"
 gvmBaseDir = gvmBaseEnv as File

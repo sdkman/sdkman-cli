@@ -17,8 +17,12 @@
 #
 
 function __gvmtool_selfupdate {
-	if [[ "${GVM_ONLINE}" == "false" ]]; then
-		echo "${OFFLINE_MESSAGE}"
+	if [[ "$GVM_AVAILABLE" == "false" ]]; then
+		echo "$OFFLINE_MESSAGE"
+
+	elif [[ "$UPGRADE_AVAILABLE" == "false" ]]; then
+		echo "No update available at this time."
+
 	else
 		curl -s "${GVM_SERVICE}/selfupdate" | bash
 	fi
