@@ -59,52 +59,83 @@ function gvm {
 		source "${GVM_DIR}/etc/config"
 	fi
 
+    command="$1"
+    candidate="$2"
+    shift; shift
+
  	# no command provided
-	if [[ -z "$1" ]]; then
+	if [[ -z "$command" ]]; then
 		__gvmtool_help
 		return 1
 	fi
 
+    case "$command" in
+        ls)
+            command="list";;
+        h)
+            command="help";;
+        v)
+            command="version";;
+        u)
+            command="use";;
+        remove)
+            command="uninstall";;
+        cur)
+            command="current";;
+        def)
+            command="default";;
+        groovy) # assumes the command use, if ommitted
+            command="use"; candidate="groovy";;
+        grails)
+            command="use"; candidate="grails";;
+        gradle)
+            command="use"; candidate="gradle";;
+        lazybones)
+            command="use"; candidate="lazybones";;
+        vertx)
+            command="use"; candidate="vertx";;
+    esac
+
 	# Check if it is a valid command
 	CMD_FOUND=""
-	CMD_TARGET="${GVM_DIR}/src/gvm-$1.sh"
+	CMD_TARGET="${GVM_DIR}/src/gvm-$command.sh"
 	if [[ -f "${CMD_TARGET}" ]]; then
 		CMD_FOUND="${CMD_TARGET}"
 	fi
 
 	# Check if it is a sourced function
-	CMD_TARGET="${GVM_DIR}/ext/gvm-$1.sh"
+	CMD_TARGET="${GVM_DIR}/ext/gvm-$command.sh"
 	if [[ -f "${CMD_TARGET}" ]]; then
 		CMD_FOUND="${CMD_TARGET}"
 	fi
 
 	# couldn't find the command
 	if [[ -z "${CMD_FOUND}" ]]; then
-		echo "Invalid command: $1"
+		echo "Invalid command: $command"
 		__gvmtool_help
 	fi
 
 	# Check whether the candidate exists
-	if [[ -n "$2" && "$1" != "offline" && -z $(echo ${GVM_CANDIDATES[@]} | grep -w "$2") ]]; then
-		echo -e "\nStop! $2 is not a valid candidate."
+	if [[ -n "$candidate" && "$command" != "offline" && -z $(echo ${GVM_CANDIDATES[@]} | grep -w "$candidate") ]]; then
+		echo -e "\nStop! $candidate is not a valid candidate."
 		return 1
 	fi
 
-	if [[ "$1" == "offline" &&  -z "$2" ]]; then
+	if [[ "$command" == "offline" &&  -z "$candidate" ]]; then
 		echo -e "\nStop! Specify a valid offline mode."
-	elif [[ "$1" == "offline" && ( -z $(echo "enable disable" | grep -w "$2")) ]]; then
-		echo -e "\nStop! $2 is not a valid offline mode."
+	elif [[ "$command" == "offline" && ( -z $(echo "enable disable" | grep -w "$candidate")) ]]; then
+		echo -e "\nStop! $candidate is not a valid offline mode."
 	fi
 
 	# Check whether the command exists as an internal function...
 	#
 	# NOTE Internal commands use underscores rather than hyphens,
 	# hence the name conversion as the first step here.
-	CONVERTED_CMD_NAME=$(echo "$1" | tr '-' '_')
+	CONVERTED_CMD_NAME=$(echo "$command" | tr '-' '_')
 
 	# Execute the requested command
 	if [ -n "${CMD_FOUND}" ]; then
 		# It's available as a shell function
-		__gvmtool_"${CONVERTED_CMD_NAME}" "$2" "$3" "$4"
+		__gvmtool_"${CONVERTED_CMD_NAME}" "$candidate" $@
 	fi
 }
