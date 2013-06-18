@@ -2,6 +2,9 @@
 
 [![Build Status](https://drone.io/github.com/gvmtool/gvm/status.png)](https://drone.io/github.com/gvmtool/gvm/latest)
 
+<span id="mashape-button" data-api="groovy-environment-manager" data-name="marcovermeulen" data-icon="1"></span>
+<script src="https://www.mashape.com/embed/button.js"></script>
+
 GVM is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
 
 See documentation on the [GVM Project Page](http://gvmtool.net).
