@@ -7,6 +7,7 @@ Feature: Command Line Interop
   Scenario: Enter gvm
     When I enter "gvm"
     Then I see "Usage: gvm <command> <candidate> [version]"
+    And I see "gvm offline <enable|disable>"
 
   Scenario: Ask for help
     When I enter "gvm help"
