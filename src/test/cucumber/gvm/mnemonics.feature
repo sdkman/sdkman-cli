@@ -5,6 +5,11 @@ Feature: Mnemonics
 
   Scenario: Shortcut for listing an uninstalled available Version
     Given I do not have a "grails" candidate installed
+    When I enter "gvm l grails"
+    Then I see "Available Grails Versions"
+
+  Scenario: Alternate shortcut for listing uninstalled available Version
+    Given I do not have a "grails" candidate installed
     When I enter "gvm ls grails"
     Then I see "Available Grails Versions"
 

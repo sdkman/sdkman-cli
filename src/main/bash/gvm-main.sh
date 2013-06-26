@@ -70,6 +70,8 @@ function gvm {
 	fi
 
     case "$COMMAND" in
+        l)
+            COMMAND="list";;
         ls)
             COMMAND="list";;
         h)
