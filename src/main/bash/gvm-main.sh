@@ -78,11 +78,11 @@ function gvm {
             COMMAND="version";;
         u)
             COMMAND="use";;
-        remove)
+        rm)
             COMMAND="uninstall";;
-        cur)
+        c)
             COMMAND="current";;
-        def)
+        d)
             COMMAND="default";;
     esac
 
