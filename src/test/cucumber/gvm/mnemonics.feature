@@ -60,3 +60,9 @@ Feature: Mnemonics
     Then I see "Default groovy version set to 2.0.5"
     And the candidate "groovy" version "2.0.5" should be the default
 
+  Scenario: Shortcut for a Broadcast command issued
+    Given no prior Broadcast was received
+    And a new Broadcast "This is a LIVE Broadcast!" is available
+    When I enter "gvm b"
+    Then I see only "This is a LIVE Broadcast!"
+

@@ -40,6 +40,8 @@ function gvm {
             COMMAND="current";;
         d)
             COMMAND="default";;
+        b)
+            COMMAND="broadcast";;
     esac
 
 	#
