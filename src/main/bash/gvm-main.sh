@@ -32,6 +32,8 @@ function gvm {
             COMMAND="version";;
         u)
             COMMAND="use";;
+        i)
+            COMMAND="install";;
         rm)
             COMMAND="uninstall";;
         c)

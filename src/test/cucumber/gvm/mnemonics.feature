@@ -30,11 +30,17 @@ Feature: Mnemonics
     And I see "grails: 2.1.0"
     And I see "groovy: 2.0.5"
 
-  Scenario: Shortcut for uninstalling a local development Version
-    Given the candidate "groovy" version "2.1-SNAPSHOT" is already linked to "/tmp/groovy-core"
-    When I enter "gvm rm groovy 2.1-SNAPSHOT"
-    Then I see "Uninstalling groovy 2.1-SNAPSHOT"
-    And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
+  Scenario: Shortcut for installing a Candidate Version
+    Given the candidate "grails" version "2.1.0" is not installed
+    When I enter "gvm i grails 2.1.0" and answer "Y"
+    Then I see "Installing: grails 2.1.0"
+    And the candidate "grails" version "2.1.0" is installed
+
+  Scenario: Shortcut for uninstalling a Candidate Version
+    Given the candidate "groovy" version "2.0.5" is already installed and default
+    When I enter "gvm rm groovy 2.0.5"
+    Then I see "Uninstalling groovy 2.0.5"
+    And the candidate "groovy" version "2.0.5" is not installed
 
   Scenario: Shortcut for showing the current Version of gvm
     When I enter "gvm v"
