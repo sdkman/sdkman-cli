@@ -65,6 +65,9 @@ function __gvmtool_determine_version {
 		elif [[ "${VERSION_VALID}" == 'invalid' && -h "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
 			VERSION="$1"
 
+		elif [[ "${VERSION_VALID}" == 'invalid' && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
+			VERSION="$1"
+
 		else
 			echo ""
 			echo "Stop! $1 is not a valid ${CANDIDATE} version."
