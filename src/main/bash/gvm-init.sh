@@ -74,7 +74,7 @@ EOF
 )
 
 OFFLINE_MESSAGE="This command is not available in offline mode."
-GVM_CANDIDATES=("groovy" "grails" "griffon" "gradle" "lazybones" "vertx")
+GVM_CANDIDATES=("groovy" "groovyserv" "grails" "griffon" "gradle" "lazybones" "vertx")
 
 if [[ "${GVM_INIT}" == "true" ]]; then
 	gvm_source_modules
@@ -119,13 +119,14 @@ if [ -z "${GVM_DIR}" ]; then
 fi
 
 GROOVY_HOME="${GVM_DIR}/groovy/current"
+GROOVY_SERV_HOME="${GVM_DIR}/groovyserv/current"
 GRAILS_HOME="${GVM_DIR}/grails/current"
 GRIFFON_HOME="${GVM_DIR}/griffon/current"
 GRADLE_HOME="${GVM_DIR}/gradle/current"
 LAZYBONES_HOME="${GVM_DIR}/lazybones/current"
 VERTX_HOME="${GVM_DIR}/vertx/current"
 
-export PATH="${GROOVY_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_HOME}/bin:${LAZYBONES_HOME}/bin:${VERTX_HOME}/bin:$PATH"
+export PATH="${GROOVY_HOME}/bin:${GROOVY_SERV_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_HOME}/bin:${LAZYBONES_HOME}/bin:${VERTX_HOME}/bin:$PATH"
 
 gvm_source_modules
 export GVM_INIT="true"

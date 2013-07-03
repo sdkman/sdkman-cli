@@ -173,6 +173,7 @@ mkdir -p "${gvm_etc_folder}"
 
 echo "Create candidate directories..."
 mkdir -p "${GVM_DIR}/groovy"
+mkdir -p "${GVM_DIR}/groovyserv"
 mkdir -p "${GVM_DIR}/grails"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/gradle"

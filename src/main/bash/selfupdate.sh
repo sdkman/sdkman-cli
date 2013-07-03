@@ -61,6 +61,7 @@ mkdir -p "${GVM_DIR}/var"
 mkdir -p "${GVM_DIR}/tmp"
 
 mkdir -p "${GVM_DIR}/groovy"
+mkdir -p "${GVM_DIR}/groovyserv"
 mkdir -p "${GVM_DIR}/gradle"
 mkdir -p "${GVM_DIR}/griffon"
 mkdir -p "${GVM_DIR}/grails"
