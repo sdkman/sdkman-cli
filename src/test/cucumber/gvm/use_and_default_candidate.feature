@@ -32,7 +32,8 @@ Feature: Use and Default Candidate
     Then I see "Stop! 1.9.9 is not a valid groovy version."
 
   Scenario: Use a candidate version that only exists locally
-    Given the candidate "grails" version "2.0.0.M1" is already installed but not default
+    Given the candidate "grails" version "2.0.0.M1" is not available for download
+    And the candidate "grails" version "2.0.0.M1" is already installed but not default
     When I enter "gvm use grails 2.0.0.M1"
     Then I see "Using grails version 2.0.0.M1 in this shell."
 

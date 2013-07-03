@@ -44,7 +44,7 @@ Given(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
     assert ! candidateDir.toFile().listFiles()
 }
 
-Given(~'^the candidate "([^"]*)" version "([^"]*)" does not exist$') { String candidate, String version ->
+Given(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$') { String candidate, String version ->
     def versions = new URL("${serviceUrlEnv}/candidates/${candidate}").text
     assert ! versions.contains(version)
 }
