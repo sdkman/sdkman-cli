@@ -74,8 +74,8 @@ EOF
 )
 
 OFFLINE_MESSAGE="This command is not available in offline mode."
-GVM_CANDIDATES=("groovy" "groovyserv" "grails" "griffon" "gradle" "lazybones" "vertx")
 
+# initialise once only
 if [[ "${GVM_INIT}" == "true" ]]; then
 	gvm_source_modules
 	return
@@ -118,15 +118,42 @@ if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
 
-GROOVY_HOME="${GVM_DIR}/groovy/current"
-GROOVY_SERV_HOME="${GVM_DIR}/groovyserv/current"
-GRAILS_HOME="${GVM_DIR}/grails/current"
-GRIFFON_HOME="${GVM_DIR}/griffon/current"
-GRADLE_HOME="${GVM_DIR}/gradle/current"
-LAZYBONES_HOME="${GVM_DIR}/lazybones/current"
-VERTX_HOME="${GVM_DIR}/vertx/current"
+# fabricate list of candidates
+if [[ -f "${GVM_DIR}/var/candidates" ]]; then
+	GVM_CANDIDATES_CSV=$(cat "${GVM_DIR}/var/candidates")
+else
+	GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
+	echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
+fi
 
-export PATH="${GROOVY_HOME}/bin:${GROOVY_SERV_HOME}/bin:${GRAILS_HOME}/bin:${GRIFFON_HOME}/bin:${GRADLE_HOME}/bin:${LAZYBONES_HOME}/bin:${VERTX_HOME}/bin:$PATH"
+# convert csv to array
+if [[ -n $(echo "$SHELL" | grep 'zsh') ]]; then
+	setopt shwordsplit
+fi
+
+OLD_IFS="$IFS"
+IFS=","
+GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
+IFS="$OLD_IFS"
+
+# Build _HOME environment variables and prefix them all to PATH
+
+# bash/zsh hack: Starts at 0 for bash, ends at the candidate array size for zsh
+for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
+	# Eliminate empty entries due to incompatibility
+	if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
+		CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
+		CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
+		CANDIDATE_DIR="${GVM_DIR}/${CANDIDATE_NAME}/current"
+		export $(echo ${CANDIDATE_HOME_VAR})="$CANDIDATE_DIR"
+		PATH="${CANDIDATE_DIR}/bin:${PATH}"
+		unset CANDIDATE_HOME_VAR
+		unset CANDIDATE_NAME
+		unset CANDIDATE_DIR
+	fi
+done
+
+export PATH
 
 gvm_source_modules
 export GVM_INIT="true"
