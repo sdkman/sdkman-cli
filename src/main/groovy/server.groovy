@@ -80,7 +80,7 @@ rm.get("/candidates") { req ->
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def candidates = msg.body.results.collect(new TreeSet()) { it.candidate }
 		addPlainTextHeader req
-		req.response.end candidates.join(', ')
+		req.response.end candidates.join(',')
 	}
 }
 
@@ -91,7 +91,7 @@ rm.get("/candidates/:candidate") { req ->
 		def response
 		if(msg.body.results){
 			def versions = msg.body.results.collect(new TreeSet()) { it.version }
-			response = versions.join(', ')
+			response = versions.join(',')
 
 		} else {
 			response = "invalid"
