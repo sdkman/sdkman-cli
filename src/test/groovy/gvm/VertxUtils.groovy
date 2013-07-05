@@ -39,7 +39,7 @@ class VertxUtils {
 		}
 
 		rm.get("/candidates") { req ->
-			req.response.end "groovy, grails"
+			req.response.end "groovy,grails"
 		}
 
 		rm.get("/candidates/:candidate") { req ->
@@ -80,7 +80,7 @@ class VertxUtils {
 		}
 
 		rm.get("/app/version") { req ->
-			req.response.end '0.1'
+			req.response.end gvmVersion
 		}
 
 		rm.get("/broadcast/:version") { req ->
