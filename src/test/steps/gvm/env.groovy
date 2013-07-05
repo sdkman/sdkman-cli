@@ -49,6 +49,9 @@ Before(){
     // Initialise broadcast file
     new File(varDir, 'broadcast') << 'This is a LIVE Broadcast!'
 
+    // Initialise candidates file
+    new File(varDir, 'candidates') << 'groovy,grails'
+
     // Copy the init script into the gvm bin folder
     new File(binDir, 'gvm-init.sh') << new File(buildScriptDir, 'gvm-init.sh').text
 
