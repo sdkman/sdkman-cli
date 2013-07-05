@@ -172,13 +172,25 @@ mkdir -p "${gvm_ext_folder}"
 mkdir -p "${gvm_etc_folder}"
 
 echo "Create candidate directories..."
-mkdir -p "${GVM_DIR}/groovy"
-mkdir -p "${GVM_DIR}/groovyserv"
-mkdir -p "${GVM_DIR}/grails"
-mkdir -p "${GVM_DIR}/griffon"
-mkdir -p "${GVM_DIR}/gradle"
-mkdir -p "${GVM_DIR}/lazybones"
-mkdir -p "${GVM_DIR}/vertx"
+
+GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
+echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
+
+# convert csv to array
+OLD_IFS="$IFS"
+IFS=","
+GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
+IFS="$OLD_IFS"
+
+for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
+	# Eliminate empty entries due to incompatibility
+	if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
+		CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
+		mkdir -p "${GVM_DIR}/${CANDIDATE_NAME}"
+		echo "Created for ${CANDIDATE_NAME}: ${GVM_DIR}/${CANDIDATE_NAME}"
+		unset CANDIDATE_NAME
+	fi
+done
 
 echo "Prime the config file..."
 touch "${gvm_config_file}"
