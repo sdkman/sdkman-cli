@@ -34,7 +34,8 @@ function __gvmtool_help {
 	echo "       offline           <enable|disable>"
 	echo "       selfupdate"
 	echo ""
-	echo "   candidate  :  groovy, grails, griffon, gradle, lazybones, vertx, groovyserv"
+	echo -n "   candidate  :  "
+	echo "$GVM_CANDIDATES_CSV" | sed 's/,/, /g'
 	echo "   version    :  where optional, defaults to latest stable if not provided"
 	echo ""
 	echo "eg: gvm install groovy"
