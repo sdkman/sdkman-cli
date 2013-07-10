@@ -152,14 +152,6 @@ function __gvmtool_default_environment_variables {
 	else
 	  	GVM_AVAILABLE="true"
 	fi
-
-	if [ ! "${GVM_SERVICE}" ]; then
-		GVM_SERVICE="http://localhost:8080"
-	fi
-
-	if [ ! "${GVM_DIR}" ]; then
-		GVM_DIR="$HOME/.gvm"
-	fi
 }
 
 function __gvmtool_check_upgrade_available {
