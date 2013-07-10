@@ -98,6 +98,10 @@ if [[ -z $(cat ${gvm_config_file} | grep 'gvm_auto_answer') ]]; then
 	echo "gvm_auto_answer=false" >> "${gvm_config_file}"
 fi
 
+if [[ -z $(cat ${gvm_config_file} | grep 'gvm_suggestive_selfupdate') ]]; then
+	echo "gvm_suggestive_selfupdate=true" >> "${gvm_config_file}"
+fi
+
 echo "Download new scripts to: ${gvm_tmp_zip}"
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}"
 

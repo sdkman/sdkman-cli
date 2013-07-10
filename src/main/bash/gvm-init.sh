@@ -156,4 +156,34 @@ done
 export PATH
 
 gvm_source_modules
+
+# Load the gvm config if it exists.
+if [ -f "${GVM_DIR}/etc/config" ]; then
+	source "${GVM_DIR}/etc/config"
+fi
+
+# test the configuration setting for suggestive selfupdate
+if [[ "$gvm_suggestive_selfupdate" == "true" ]]; then
+	# determine if up to date
+	GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
+	if [[ -n "$GVM_REMOTE_VERSION" && ("$GVM_REMOTE_VERSION" != "$GVM_VERSION") ]]; then
+		echo "A new version of GVM is available..."
+		echo ""
+		echo "The current version is $GVM_REMOTE_VERSION, but you have $GVM_VERSION."
+		echo ""
+
+		# this is a configuration setting
+		if [[ "$gvm_auto_answer" != "true" ]]; then
+			echo -n "Would you like to upgrade now? (Y/n)"
+			read upgrade
+		fi
+
+		if [[ -z "$upgrade" ]]; then upgrade="Y"; fi
+	fi
+	if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
+	    __gvmtool_selfupdate
+		unset upgrade
+	fi
+fi
+
 export GVM_INIT="true"

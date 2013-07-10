@@ -24,12 +24,14 @@ Feature: Self Update
     Given an empty configuration file
     When I enter "gvm selfupdate"
     Then the configuration file contains "gvm_auto_answer=false"
+    And the configuration file contains "gvm_suggestive_selfupdate=true"
 
   Scenario: Update an installation already containing an Auto Answer config
     Given the configuration file has been primed with "gvm_auto_answer=true"
+    And the configuration file has been primed with "gvm_suggestive_selfupdate=true"
     When I enter "gvm selfupdate"
     Then the configuration file contains "gvm_auto_answer=true"
-    And the configuration file does not contain "gvm_auto_answer=false"
+    And the configuration file contains "gvm_suggestive_selfupdate=true"
 
   Scenario: Rename the vertx Candidate on Upgrade
     Given the candidate "vert.x" version "1.3.0.final" is already installed and default
