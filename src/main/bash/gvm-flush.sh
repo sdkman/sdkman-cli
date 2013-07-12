@@ -31,17 +31,24 @@ function __gvmtool_cleanup_folder {
 	unset GVM_CLEANUP_COUNT
 }
 
-
 function __gvmtool_flush {
 	QUALIFIER="$1"
 	case "$QUALIFIER" in
 		candidates)
-		    rm "$GVM_DIR/var/candidates"
-		    echo "Candidates have been flushed."
+			if [[ -f "${GVM_DIR}/var/candidates" ]]; then
+		        rm "${GVM_DIR}/var/candidates"
+		        echo "Candidates have been flushed."
+		    else
+		        echo "No candidate list found so not flushed."
+		    fi
 		    ;;
 		broadcast)
-		    rm "$GVM_DIR/var/broadcast"
-		    echo "Broadcast has been flushed."
+			if [[ -f "${GVM_DIR}/var/broadcast" ]]; then
+		        rm "${GVM_DIR}/var/broadcast"
+		        echo "Broadcast has been flushed."
+		    else
+		        echo "No prior broadcast found so not flushed."
+		    fi
 		    ;;
 		archives)
 			__gvmtool_cleanup_folder "archives"
@@ -56,5 +63,4 @@ function __gvmtool_flush {
 			echo "Stop! Please specify what you want to flush."
 			;;
 	esac
-
 }
