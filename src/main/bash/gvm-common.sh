@@ -141,32 +141,3 @@ function __gvmtool_link_candidate_version {
 	fi
 	ln -s "${GVM_DIR}/${CANDIDATE}/${VERSION}" "${GVM_DIR}/${CANDIDATE}/current"
 }
-
-function __gvmtool_offline_list {
-	echo "------------------------------------------------------------"
-	echo "Offline Mode: only showing installed ${CANDIDATE} versions"
-	echo "------------------------------------------------------------"
-	echo "                                                            "
-
-	gvm_versions=($(echo ${CSV//,/ }))
-	for (( i=0 ; i <= ${#gvm_versions} ; i++ )); do
-		if [[ -n "${gvm_versions[${i}]}" ]]; then
-			if [[ "${gvm_versions[${i}]}" == "${CURRENT}" ]]; then
-				echo -e " > ${gvm_versions[${i}]}"
-			else
-				echo -e " * ${gvm_versions[${i}]}"
-			fi
-		fi
-	done
-
-	if [[ -z "${gvm_versions[@]}" ]]; then
-		echo "   None installed!"
-	fi
-
-	echo "------------------------------------------------------------"
-	echo "* - installed                                               "
-	echo "> - currently in use                                        "
-	echo "------------------------------------------------------------"
-
-	unset CSV gvm_versions
-}
