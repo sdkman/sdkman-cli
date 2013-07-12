@@ -76,17 +76,6 @@ function __gvmtool_determine_version {
 	fi
 }
 
-function __gvmtool_build_version_csv {
-	CANDIDATE="$1"
-	CSV=""
-	for version in $(find "${GVM_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
-		if [[ "${version}" != 'current' ]]; then
-			CSV="${version},${CSV}"
-		fi
-	done
-	CSV=${CSV%?}
-}
-
 function __gvmtool_determine_current_version {
 	CANDIDATE="$1"
 	if [[ "${solaris}" == true ]]; then

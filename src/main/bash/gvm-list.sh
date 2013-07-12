@@ -16,6 +16,17 @@
 #   limitations under the License.
 #
 
+function __gvmtool_build_version_csv {
+	CANDIDATE="$1"
+	CSV=""
+	for version in $(find "${GVM_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
+		if [[ "${version}" != 'current' ]]; then
+			CSV="${version},${CSV}"
+		fi
+	done
+	CSV=${CSV%?}
+}
+
 function __gvmtool_list {
 	CANDIDATE="$1"
 	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
