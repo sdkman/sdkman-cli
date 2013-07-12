@@ -173,16 +173,17 @@ if [[ "$gvm_suggestive_selfupdate" == "true" ]]; then
 		echo ""
 
 		# this is a configuration setting
-		if [[ "$gvm_auto_answer" != "true" ]]; then
+		if [[ "$gvm_auto_answer" == "false" ]]; then
 			echo -n "Would you like to upgrade now? (Y/n)"
 			read upgrade
 		fi
 
 		if [[ -z "$upgrade" ]]; then upgrade="Y"; fi
-	fi
-	if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
-	    __gvmtool_selfupdate
-		unset upgrade
+
+		if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
+		    __gvmtool_selfupdate
+			unset upgrade
+		fi
 	fi
 fi
 
