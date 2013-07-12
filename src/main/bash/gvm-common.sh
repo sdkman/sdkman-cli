@@ -76,25 +76,6 @@ function __gvmtool_determine_version {
 	fi
 }
 
-function __gvmtool_determine_current_version {
-	CANDIDATE="$1"
-	if [[ "${solaris}" == true ]]; then
-		CURRENT=$(echo $PATH | gsed -r "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
-	elif [[ "${darwin}" == true ]]; then
-		CURRENT=$(echo $PATH | sed -E "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
-	else
-		CURRENT=$(echo $PATH | sed -r "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
-	fi
-
-	if [[ "${CURRENT}" == "current" ]]; then
-	    unset CURRENT
-	fi
-
-	if [[ -z ${CURRENT} ]]; then
-		CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed "s!${GVM_DIR}/${CANDIDATE}/!!g")
-	fi
-}
-
 function __gvmtool_validate_zip {
 	ZIP_ARCHIVE="$1"
 	ZIP_OK=$(unzip -t "${ZIP_ARCHIVE}" | grep 'No errors detected in compressed data')
