@@ -33,6 +33,7 @@ function __gvmtool_help {
 	echo "       help      or h"
 	echo "       offline           <enable|disable>"
 	echo "       selfupdate"
+	echo "       flush             <candidates|broadcast|archives|temp>"
 	echo ""
 	echo -n "   candidate  :  "
 	echo "$GVM_CANDIDATES_CSV" | sed 's/,/, /g'

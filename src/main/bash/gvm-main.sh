@@ -112,10 +112,12 @@ function gvm {
 	fi
 
 	# Check whether the candidate exists
-	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && -z $(echo ${GVM_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
+	GVM_VALID_CANDIDATE=$(echo ${GVM_CANDIDATES[@]} | grep -w "$QUALIFIER")
+	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && -z "$GVM_VALID_CANDIDATE" ]]; then
 		echo -e "\nStop! $QUALIFIER is not a valid candidate."
 		return 1
 	fi
+    unset GVM_VALID_CANDIDATE
 
 	if [[ "$COMMAND" == "offline" &&  -z "$QUALIFIER" ]]; then
 		echo -e "\nStop! Specify a valid offline mode."

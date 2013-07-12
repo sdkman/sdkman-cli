@@ -24,8 +24,12 @@ srcDir = "${gvmDirEnv}/src" as File
 varDir = "${gvmDirEnv}/var" as File
 etcDir = "${gvmDirEnv}/etc" as File
 extDir = "${gvmDirEnv}/ext" as File
+archiveDir = "${gvmDirEnv}/archives" as File
+tmpDir = "${gvmDir}/tmp" as File
 
-broadcastFile = new File("${gvmDirEnv}/var/broadcast")
+broadcastFile = new File(varDir, "broadcast")
+candidatesFile = new File(varDir, "candidates")
+initScript = new File(binDir, "gvm-init.sh")
 
 server = null
 bash = null
@@ -39,6 +43,8 @@ Before(){
 	varDir.mkdirs()
     etcDir.mkdirs()
     extDir.mkdirs()
+    archiveDir.mkdirs()
+    tmpDir.mkdirs()
 
     // Initialise candidate directories
     ['groovy', 'grails'].each { candidate ->
@@ -47,13 +53,13 @@ Before(){
     }
 
     // Initialise broadcast file
-    new File(varDir, 'broadcast') << 'This is a LIVE Broadcast!'
+    broadcastFile << 'This is a LIVE Broadcast!'
 
     // Initialise candidates file
-    new File(varDir, 'candidates') << 'groovy,grails'
+    candidatesFile << 'groovy,grails'
 
     // Copy the init script into the gvm bin folder
-    new File(binDir, 'gvm-init.sh') << new File(buildScriptDir, 'gvm-init.sh').text
+    initScript << new File(buildScriptDir, 'gvm-init.sh').text
 
 	// Copy all modular scripts into the gvm src folder
     for (f in buildScriptDir.listFiles()){
