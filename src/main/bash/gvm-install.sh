@@ -16,6 +16,26 @@
 #   limitations under the License.
 #
 
+function __gvmtool_download {
+	CANDIDATE="$1"
+	VERSION="$2"
+	mkdir -p "${GVM_DIR}/archives"
+	if [ ! -f "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" ]; then
+		echo ""
+		echo "Downloading: ${CANDIDATE} ${VERSION}"
+		echo ""
+		DOWNLOAD_URL="${GVM_SERVICE}/download/${CANDIDATE}/${VERSION}?platform=${GVM_PLATFORM}"
+		ZIP_ARCHIVE="${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
+		curl -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
+		__gvmtool_validate_zip "${ZIP_ARCHIVE}" || return 1
+	else
+		echo ""
+		echo "Found a previously downloaded ${CANDIDATE} ${VERSION} archive. Not downloading it again..."
+		__gvmtool_validate_zip "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
+	fi
+	echo ""
+}
+
 function __gvmtool_install {
 	CANDIDATE="$1"
 	LOCAL_FOLDER="$3"
