@@ -76,17 +76,6 @@ function __gvmtool_determine_version {
 	fi
 }
 
-function __gvmtool_validate_zip {
-	ZIP_ARCHIVE="$1"
-	ZIP_OK=$(unzip -t "${ZIP_ARCHIVE}" | grep 'No errors detected in compressed data')
-	if [ -z "${ZIP_OK}" ]; then
-		rm "${ZIP_ARCHIVE}"
-		echo ""
-		echo "Stop! The archive was corrupt and has been removed! Please try installing again."
-		return 1
-	fi
-}
-
 function __gvmtool_default_environment_variables {
 
 	if [ ! "$GVM_FORCE_OFFLINE" ]; then
