@@ -10,7 +10,7 @@ if [ -z $(which vertx) ]; then
 fi
 
 if [ -z "$JAVA_HOME" ]; then
-	echo "Please point JAVA_HOME and a valid JDK 7.0"
+	echo "Please point JAVA_HOME at a valid JDK 7.0"
 	exit 0
 fi
 
