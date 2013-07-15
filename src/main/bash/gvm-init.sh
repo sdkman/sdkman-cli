@@ -36,6 +36,14 @@ function gvm_source_modules {
 	unset f
 }
 
+function gvm_set_candidates {
+    # Set the candidate array
+    OLD_IFS="$IFS"
+    IFS=","
+    GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
+    IFS="$OLD_IFS"
+}
+
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
@@ -77,6 +85,7 @@ OFFLINE_MESSAGE="This command is not available in offline mode."
 
 # initialise once only
 if [[ "${GVM_INIT}" == "true" ]]; then
+    gvm_set_candidates
 	gvm_source_modules
 	return
 fi
@@ -126,15 +135,14 @@ else
 	echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 fi
 
+export GVM_CANDIDATES_CSV
+
 # convert csv to array
 if [[ -n $(echo "$SHELL" | grep 'zsh') ]]; then
 	setopt shwordsplit
 fi
 
-OLD_IFS="$IFS"
-IFS=","
-GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
-IFS="$OLD_IFS"
+gvm_set_candidates
 
 # Build _HOME environment variables and prefix them all to PATH
 
