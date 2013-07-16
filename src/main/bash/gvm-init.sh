@@ -19,6 +19,14 @@
 export GVM_VERSION="@GVM_VERSION@"
 export GVM_PLATFORM=$(uname)
 
+if [ -z "${GVM_SERVICE}" ]; then
+    export GVM_SERVICE="@GVM_SERVICE@"
+fi
+
+if [ -z "${GVM_DIR}" ]; then
+	export GVM_DIR="$HOME/.gvm"
+fi
+
 function gvm_source_modules {
 	# Source gvm module scripts.
 	for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
@@ -43,6 +51,11 @@ function gvm_set_candidates {
     GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
     IFS="$OLD_IFS"
 }
+
+# force zsh to behave well
+if [[ -n $(echo "$SHELL" | grep 'zsh') ]]; then
+	setopt shwordsplit
+fi
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
@@ -83,6 +96,14 @@ EOF
 
 OFFLINE_MESSAGE="This command is not available in offline mode."
 
+# fabricate list of candidates
+if [[ -f "${GVM_DIR}/var/candidates" ]]; then
+	GVM_CANDIDATES_CSV=$(cat "${GVM_DIR}/var/candidates")
+else
+	GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
+	echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
+fi
+
 # initialise once only
 if [[ "${GVM_INIT}" == "true" ]]; then
     gvm_set_candidates
@@ -119,32 +140,9 @@ if ${cygwin} ; then
     [ -n "${CP}" ] && CP=$(cygpath --path --unix "${CP}")
 fi
 
-if [ -z "${GVM_SERVICE}" ]; then
-    export GVM_SERVICE="@GVM_SERVICE@"
-fi
-
-if [ -z "${GVM_DIR}" ]; then
-	export GVM_DIR="$HOME/.gvm"
-fi
-
-# fabricate list of candidates
-if [[ -f "${GVM_DIR}/var/candidates" ]]; then
-	GVM_CANDIDATES_CSV=$(cat "${GVM_DIR}/var/candidates")
-else
-	GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
-	echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
-fi
-
-export GVM_CANDIDATES_CSV
-
-# convert csv to array
-if [[ -n $(echo "$SHELL" | grep 'zsh') ]]; then
-	setopt shwordsplit
-fi
+# Build _HOME environment variables and prefix them all to PATH
 
 gvm_set_candidates
-
-# Build _HOME environment variables and prefix them all to PATH
 
 # bash/zsh hack: Starts at 0 for bash, ends at the candidate array size for zsh
 for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
