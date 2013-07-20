@@ -60,10 +60,11 @@ mkdir -p "${GVM_DIR}/src"
 mkdir -p "${GVM_DIR}/var"
 mkdir -p "${GVM_DIR}/tmp"
 
-# create candidate directories
+# prepare candidates
 GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
 echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 
+# create candidate directories
 # convert csv to array
 OLD_IFS="$IFS"
 IFS=","
