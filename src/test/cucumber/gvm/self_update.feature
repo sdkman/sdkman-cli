@@ -16,7 +16,6 @@ Feature: Self Update
   Scenario: Upgrade an installation with dodgy configuration
     Given a configuration file in the extensions folder
     When I enter "gvm selfupdate"
-    Then I see "Removing config from ext folder."
     And the configuration is not present in the extensions folder
     And the configuration file is present in the etc folder
 
