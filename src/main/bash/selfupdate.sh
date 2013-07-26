@@ -15,6 +15,12 @@
 #   limitations under the License.
 #
 
+function gvm_echo_debug {
+	if [[ "$GVM_DEBUG_MODE" == 'true' ]]; then
+		echo "$1"
+	fi
+}
+
 echo ""
 echo "Updating gvm..."
 
@@ -48,11 +54,11 @@ gvm_tmp_zip="${GVM_DIR}/tmp/res-${GVM_VERSION}.zip"
 gvm_stage_folder="${GVM_DIR}/tmp/stage"
 gvm_src_folder="${GVM_DIR}/src"
 
-echo "Purge existing scripts..."
+gvm_echo_debug "Purge existing scripts..."
 rm -rf "${gvm_bin_folder}"
 rm -rf "${gvm_src_folder}"
 
-echo "Refresh directory structure..."
+gvm_echo_debug "Refresh directory structure..."
 mkdir -p "${GVM_DIR}/bin"
 mkdir -p "${GVM_DIR}/ext"
 mkdir -p "${GVM_DIR}/etc"
@@ -76,7 +82,7 @@ for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
 	if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
 		CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
 		mkdir -p "${GVM_DIR}/${CANDIDATE_NAME}"
-		echo "Created for ${CANDIDATE_NAME}: ${GVM_DIR}/${CANDIDATE_NAME}"
+		gvm_echo_debug "Created for ${CANDIDATE_NAME}: ${GVM_DIR}/${CANDIDATE_NAME}"
 		unset CANDIDATE_NAME
 	fi
 done
@@ -88,11 +94,11 @@ else
 fi
 
 if [[ -f "${GVM_DIR}/ext/config" ]]; then
-	echo "Removing config from ext folder..."
+	gvm_echo_debug "Removing config from ext folder..."
 	rm -v "${GVM_DIR}/ext/config"
 fi
 
-echo "Prime the config file..."
+gvm_echo_debug "Prime the config file..."
 gvm_config_file="${GVM_DIR}/etc/config"
 touch "${gvm_config_file}"
 if [[ -z $(cat ${gvm_config_file} | grep 'gvm_auto_answer') ]]; then
@@ -103,25 +109,25 @@ if [[ -z $(cat ${gvm_config_file} | grep 'gvm_suggestive_selfupdate') ]]; then
 	echo "gvm_suggestive_selfupdate=true" >> "${gvm_config_file}"
 fi
 
-echo "Download new scripts to: ${gvm_tmp_zip}"
+gvm_echo_debug "Download new scripts to: ${gvm_tmp_zip}"
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}"
 
-echo "Extract script archive..."
-echo "Unziping scripts to: ${gvm_stage_folder}"
+gvm_echo_debug "Extract script archive..."
+gvm_echo_debug "Unziping scripts to: ${gvm_stage_folder}"
 if [[ "${cygwin}" == 'true' ]]; then
-	echo "Cygwin detected - normalizing paths for unzip..."
+	gvm_echo_debug "Cygwin detected - normalizing paths for unzip..."
 	unzip -qo $(cygpath -w "${gvm_tmp_zip}") -d $(cygpath -w "${gvm_stage_folder}")
 else
 	unzip -qo "${gvm_tmp_zip}" -d "${gvm_stage_folder}"
 fi
 
-echo "Moving gvm-init file to bin folder..."
+gvm_echo_debug "Moving gvm-init file to bin folder..."
 mv -v "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
 
-echo "Move remaining module scripts to src folder: ${gvm_src_folder}"
+gvm_echo_debug "Move remaining module scripts to src folder: ${gvm_src_folder}"
 mv -v "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 
-echo "Clean up staging folder..."
+gvm_echo_debug "Clean up staging folder..."
 rm -rf "${gvm_stage_folder}"
 
 echo ""
