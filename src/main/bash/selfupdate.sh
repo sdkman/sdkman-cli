@@ -122,10 +122,10 @@ else
 fi
 
 gvm_echo_debug "Moving gvm-init file to bin folder..."
-mv -v "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
+mv "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
 
 gvm_echo_debug "Move remaining module scripts to src folder: ${gvm_src_folder}"
-mv -v "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
+mv "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 
 gvm_echo_debug "Clean up staging folder..."
 rm -rf "${gvm_stage_folder}"
