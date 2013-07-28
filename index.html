@@ -109,7 +109,7 @@ eg: gvm install groovy
 <pre><code>$ gvm install grails 3.0-SNAPSHOT /home/dude/git/grails
 </code></pre>
 
-<p>This variant of <code>install</code> can only be executed if the <strong>specified version is not know</strong>. Otherwise the path provided will be ignored and the correct version will be downloaded instead.</p>
+<p>This variant of <code>install</code> can only be executed if the <strong>specified version is not known</strong>. Otherwise, the path provided will be ignored and the correct version will be downloaded instead.</p>
 
 <h3>Use Command</h3>
 
@@ -118,7 +118,7 @@ eg: gvm install groovy
 <pre><code>$ gvm use grails 2.1.1
 </code></pre>
 
-<p>It is important to realise that this will switch the candidate version for the current shell only. To make this change permanent, use the <code>default</code> command instead.</p>
+<p>It is important to realise that this will switch the candidate version <strong>for the current shell only</strong>. To make this change permanent, use the <code>default</code> command instead.</p>
 
 <h3>Default Command</h3>
 
@@ -171,7 +171,9 @@ eg: gvm install groovy
 <pre><code>$ gvm broadcast
 </code></pre>
 
-<p>If you are being nagged about an outdated GVM version:</p>
+<h3>Selfupdate Command</h3>
+
+<p>GVM has the ability to update itself. If you are being nagged about an outdated GVM version:</p>
 
 <pre><code>$ gvm selfupdate
 </code></pre>
@@ -187,7 +189,8 @@ eg: gvm install groovy
 
 <p>Although configuration is very limited at the moment, the list of configurable items will grow as required. Configuration can be found in the <code>.gvm/etc/config</code> file. Currently the following is configurable:</p>
 
-<pre><code>gvm_auto_answer=false/true    #used to make gvm non-interactive, great for CI environments.
+<pre><code># used to make gvm non-interactive, great for CI environments
+gvm_auto_answer=false/true
 </code></pre>
 
 <p>And that's all there is to it!</p>
