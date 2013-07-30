@@ -18,10 +18,12 @@
 
 function __gvmtool_offline {
 	if [[ "$1" == "enable" ]]; then
+		touch "${GVM_DIR}/GVM_FORCE_OFFLINE" || return 1
 		GVM_FORCE_OFFLINE="true"
 		echo "Forced offline mode enabled."
 	fi
 	if [[ "$1" == "disable" ]]; then
+		rm -f "${GVM_DIR}/GVM_FORCE_OFFLINE" || return 1
 		GVM_FORCE_OFFLINE="false"
 		GVM_ONLINE="true"
 		echo "Online mode re-enabled!"
