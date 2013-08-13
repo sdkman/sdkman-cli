@@ -23,4 +23,9 @@ git add config.groovy
 git commit -m "Update version of $BRANCH to $VERSION"
 git push -f origin "$BRANCH:$BRANCH"
 
+if [[ "$BRANCH" == 'production' ]]; then
+	git tag "$VERSION"
+	git push origin "$VERSION"
+fi
+
 git checkout master
