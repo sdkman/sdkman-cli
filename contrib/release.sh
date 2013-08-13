@@ -7,6 +7,7 @@ if [[ "$BRANCH" == 'beta' && -n "$VERSION" ]]; then
 	git checkout master
 
 elif [[ "$BRANCH" == 'production' ]]; then
+	if [[ -n "$VERSION" ]]; then echo "Ignoring version..."; fi
 	git checkout beta
 
 else
