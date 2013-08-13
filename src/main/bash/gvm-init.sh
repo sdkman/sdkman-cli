@@ -54,7 +54,7 @@ function gvm_set_candidates {
 
 function gvm_offline_on_redirect {
 	DETECT_HTML="$(echo "$1" | tr '[:upper:]' '[:lower:]' | grep 'html')"
-    if [[ -n "$DETECT_HTML" ]]; then
+	if [[ -n "$DETECT_HTML" ]]; then
 		echo "GVM can't reach the internet so going offline. Re-enable online with:"
 		echo ""
 		echo "  $ gvm offline disable"
@@ -183,10 +183,12 @@ fi
 if [[ "$gvm_suggestive_selfupdate" == "true" ]]; then
 	# determine if up to date
 	GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
-	
+
 	gvm_offline_on_redirect "$GVM_REMOTE_VERSION"
-	if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then GVM_REMOTE_VERSION="$GVM_VERSION"; fi
-	
+	if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then
+		GVM_REMOTE_VERSION="$GVM_VERSION"
+	fi
+
 	if [[ -n "$GVM_REMOTE_VERSION" && ("$GVM_REMOTE_VERSION" != "$GVM_VERSION") ]]; then
 		echo "A new version of GVM is available..."
 		echo ""
