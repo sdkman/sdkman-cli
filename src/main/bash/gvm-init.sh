@@ -48,7 +48,13 @@ function gvm_set_candidates {
     # Set the candidate array
     OLD_IFS="$IFS"
     IFS=","
-    GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
+
+    if [[ -n "$ZSH_VERSION" ]]; then
+        GVM_CANDIDATES=(${(s:,:)GVM_CANDIDATES_CSV})
+    else
+        GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
+    fi
+    
     IFS="$OLD_IFS"
 }
 
@@ -62,11 +68,6 @@ function gvm_offline_on_redirect {
 		GVM_FORCE_OFFLINE="true"
 	fi
 }
-
-# force zsh to behave well
-if [[ -n $(echo "$SHELL" | grep 'zsh') ]]; then
-	setopt shwordsplit
-fi
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
