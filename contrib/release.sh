@@ -6,12 +6,11 @@ VERSION="$2"
 if [[ "$BRANCH" == 'beta' && -n "$VERSION" ]]; then
 	git checkout master
 
-elif [[ "$BRANCH" == 'production' ]]; then
-	if [[ -n "$VERSION" ]]; then echo "Ignoring version..."; fi
+elif [[ "$BRANCH" == 'production' && -n "$VERSION" ]]; then
 	git checkout beta
 
 else
-	echo "Usage: release.sh <branch> [version]"
+	echo "Usage: release.sh <branch> <version>"
 	exit 0
 fi
 
