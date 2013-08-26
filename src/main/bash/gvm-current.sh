@@ -45,12 +45,8 @@ function __gvmtool_current {
 			echo "Not using any version of ${CANDIDATE}"
 		fi
 	else
-		# The candidates are assigned to an array for zsh compliance, a list of words is not iterable
-		# Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
-		# In bash arrays are zero index based, in zsh they are 1 based(!)
 		INSTALLED_COUNT=0
-		# Starts at 0 for bash, ends at the candidate array size for zsh
-		for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
+		for (( i=0; i <= ${GVM_CANDIDATE_COUNT}; i++ )); do
 			# Eliminate empty entries due to incompatibility
 			if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
 				__gvmtool_determine_current_version "${GVM_CANDIDATES[${i}]}"
