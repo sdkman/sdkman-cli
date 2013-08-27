@@ -87,12 +87,6 @@ for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
 	fi
 done
 
-if [[ -d "${GVM_DIR}/vert.x" && ! -d "${GVM_DIR}/vertx" ]]; then
-	mv "${GVM_DIR}/vert.x" "${GVM_DIR}/vertx"
-else
-	mkdir -p "${GVM_DIR}/vertx"
-fi
-
 if [[ -f "${GVM_DIR}/ext/config" ]]; then
 	gvm_echo_debug "Removing config from ext folder..."
 	rm -v "${GVM_DIR}/ext/config"
