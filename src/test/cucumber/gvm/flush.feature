@@ -34,10 +34,10 @@ Feature: Flush
     Given the archive "grails-1.3.9.zip" has been cached
     When I enter "gvm flush archives"
     Then no archives are cached
-    And I see "1 archive(s) flushed, freeing 4.0K"
+    And I see "1 archive(s) flushed"
 
   Scenario: Clear out the temporary space
     Given the file "res-1.2.0.zip" in temporary storage
     When I enter "gvm flush temp"
     Then no "res-1.2.0.zip" file is present in temporary storage
-    And I see "1 archive(s) flushed, freeing 4.0K"
+    And I see "1 archive(s) flushed"
