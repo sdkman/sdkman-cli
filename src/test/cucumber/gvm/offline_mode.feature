@@ -2,6 +2,7 @@ Feature: Offline Mode
 
   Background:
     Given the internet is not reachable
+    And an initialised environment
 
   # list command
 

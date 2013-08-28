@@ -1,7 +1,8 @@
 Feature: Current Candidate
 
   Background:
-    And the internet is reachable
+    Given the internet is reachable
+    And an initialised environment
 
   Scenario: Display current candidate version in use
     Given the candidate "grails" version "1.3.9" is already installed and default

@@ -7,7 +7,7 @@ import java.nio.file.Path
 import static cucumber.api.groovy.EN.*
 
 Given(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
-	def candidateVersion = new URL("${serviceUrlEnv}/candidates/${candidate}/default").text
+	def candidateVersion = new URL("${SERVICE_UP_URL}/candidates/${candidate}/default").text
 	assert candidateVersion == version
 }
 
@@ -45,7 +45,7 @@ Given(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
 }
 
 Given(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$') { String candidate, String version ->
-    def versions = new URL("${serviceUrlEnv}/candidates/${candidate}").text
+    def versions = new URL("${SERVICE_UP_URL}/candidates/${candidate}").text
     assert ! versions.contains(version)
 }
 

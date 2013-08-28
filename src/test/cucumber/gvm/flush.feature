@@ -2,6 +2,7 @@ Feature: Flush
 
   Background:
     Given the internet is reachable
+    And an initialised environment
 
   Scenario: Flush omitting the Qualifier
     When I enter "gvm flush"

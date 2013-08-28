@@ -2,6 +2,7 @@ Feature: Mnemonics
 
   Background:
     Given the internet is reachable
+    And an initialised environment
 
   Scenario: Shortcut for listing an uninstalled available Version
     Given I do not have a "grails" candidate installed

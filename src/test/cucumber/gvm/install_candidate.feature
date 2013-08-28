@@ -2,6 +2,7 @@ Feature: Install Candidate
 
   Background:
     Given the internet is reachable
+    And an initialised environment
 
   Scenario: Install a default Candidate
     Given the default "grails" candidate is "2.1.0"

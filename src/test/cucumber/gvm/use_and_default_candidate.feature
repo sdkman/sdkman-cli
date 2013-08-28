@@ -2,6 +2,7 @@ Feature: Use and Default Candidate
 
   Background:
     Given the internet is reachable
+    And an initialised environment
 
   Scenario: Use without providing a Candidate
     When I enter "gvm use"

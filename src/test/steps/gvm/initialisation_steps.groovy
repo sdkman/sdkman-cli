@@ -5,19 +5,12 @@ import java.util.zip.ZipFile
 
 import static cucumber.api.groovy.EN.*
 
-final SERVICE_DOWN = "http://localhost:0"
-final FAKE_JDK_PATH = "/path/to/my/openjdk"
-
 Then(~'^the gvm work folder is created$') { ->
     assert gvmDir.isDirectory(), "The gvm directory does not exist."
 }
 
 Then(~'^the "([^"]*)" folder exists in user home$') { String arg1 ->
     assert gvmDir.isDirectory(), "The gvm directory does not exist."
-}
-
-Given(~'^an initialised system$') { ->
-    gvmDir.mkdirs()
 }
 
 When(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { String candidate, String version ->
@@ -51,36 +44,41 @@ When(~'^I reinitialise the shell$') { ->
 }
 
 Given(~'^the internet is reachable$') {->
-    def forceOffline = "false"
-    def online = "true"
-    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
+    forceOffline = "false"
+    online = "true"
+    serviceUrlEnv = SERVICE_UP_URL
+    javaHome = FAKE_JDK_PATH
 }
 
 Given(~'^the internet is not reachable$') {->
-    def forceOffline = "false"
-    def online = "false"
-    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, SERVICE_DOWN, FAKE_JDK_PATH)
+    forceOffline = "false"
+    online = "false"
+    serviceUrlEnv = SERVICE_DOWN_URL
+    javaHome = FAKE_JDK_PATH
 }
 
 And(~'^offline mode is disabled with reachable internet$') {->
-    def forceOffline = "false"
-    def online = "true"
-    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
+    forceOffline = "false"
+    online = "true"
+    serviceUrlEnv = SERVICE_UP_URL
+    javaHome = FAKE_JDK_PATH
 }
 
 And(~'^offline mode is enabled with reachable internet$') {->
-    def forceOffline = "true"
-    def online = "true"
-    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, FAKE_JDK_PATH)
+    forceOffline = "true"
+    online = "true"
+    serviceUrlEnv = SERVICE_UP_URL
+    javaHome = FAKE_JDK_PATH
 }
 
 And(~'^offline mode is enabled with unreachable internet$') {->
-    def forceOffline = "true"
-    def online = "false"
-    initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, SERVICE_DOWN, FAKE_JDK_PATH)
+    forceOffline = "true"
+    online = "false"
+    serviceUrlEnv = SERVICE_DOWN_URL
+    javaHome = FAKE_JDK_PATH
 }
 
-private initialiseEnvironment(gvmBaseEnv, gvmDirEnv, online, forceOffline, serviceUrlEnv, javaHome){
+And(~'^an initialised environment$') {->
     bash = new BashEnv(gvmBaseEnv, [GVM_DIR: gvmDirEnv, GVM_ONLINE:online, GVM_FORCE_OFFLINE: forceOffline, GVM_SERVICE: serviceUrlEnv, JAVA_HOME: javaHome])
     bash.start()
     bash.execute("source $gvmDirEnv/bin/gvm-init.sh")

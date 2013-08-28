@@ -2,6 +2,7 @@ Feature: Broadcast
 
   Background:
     Given the internet is reachable
+    And an initialised environment
 
   Scenario: A command is issued with no prior Broadcast received
     Given no prior Broadcast was received

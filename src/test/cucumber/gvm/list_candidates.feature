@@ -2,6 +2,7 @@ Feature: List Candidates
 
   Background:
     Given the internet is reachable
+    And an initialised environment
 
   Scenario: List an uninstalled available Version
     Given I do not have a "grails" candidate installed

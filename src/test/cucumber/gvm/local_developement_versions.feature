@@ -2,6 +2,7 @@ Feature: Local Development Versions
 
   Background:
     Given the internet is reachable
+    And an initialised environment
 
   Scenario: Install a new local development version
     Given the candidate "groovy" version "2.1-SNAPSHOT" is not available for download

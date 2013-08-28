@@ -3,7 +3,10 @@ package gvm
 import static cucumber.api.groovy.Hooks.*
 import static gvm.VertxUtils.*
 
-serviceUrlEnv = "http://localhost:8080"
+SERVICE_DOWN_URL = "http://localhost:0"
+SERVICE_UP_URL = "http://localhost:8080"
+FAKE_JDK_PATH = "/path/to/my/openjdk"
+
 forceOffline = false
 buildScriptDir = new File("build/testScripts")
 

@@ -2,6 +2,7 @@ Feature: Uninstall Candidate
 
   Background:
     Given the internet is reachable
+    And an initialised environment
 
   Scenario: Uninstall an installed Candidate Version not in use
     Given the candidate "grails" version "2.1.0" is already installed but not default

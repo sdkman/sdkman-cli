@@ -1,8 +1,8 @@
 Feature: Command Line Interop
 
   Background:
-    Given an initialised system
-    And the internet is reachable
+    Given the internet is reachable
+    And an initialised environment
 
   Scenario: Enter gvm
     When I enter "gvm"
