@@ -3,6 +3,7 @@
 \#*
 bin/
 build/
+classes
 .classpath
 .gradle/
 .gradletasknamecache
