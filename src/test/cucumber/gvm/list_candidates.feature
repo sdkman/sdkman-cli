@@ -23,16 +23,16 @@ Feature: List Candidates
     And I see " > * 2.1.0"
 
   Scenario: List an installed local version not in use
-    Given I have a local candidate "grails" version "2.3-SNAPSHOT" at "/tmp/grails-core"
-    And the candidate "grails" version "2.3-SNAPSHOT" is already linked to "/tmp/grails-core"
-    When I enter "gvm list grails"
-    Then I see "Available Grails Versions"
-    And I see "   + 2.3-SNAPSHOT"
+    Given I have a local candidate "grails" version "2.3-SNAPSHOT" at "/tmp/groovy-core"
+    And the candidate "groovy" version "2.2-SNAPSHOT" is already linked to "/tmp/groovy-core"
+    When I enter "gvm list groovy"
+    Then I see "Available Groovy Versions"
+    And I see "   + 2.2-SNAPSHOT"
 
   Scenario: List an installed local Version in use
-    Given I have a local candidate "grails" version "2.3-SNAPSHOT" at "/tmp/grails-core"
-    And the candidate "grails" version "2.3-SNAPSHOT" is already linked to "/tmp/grails-core"
-    And the candidate "grails" version "2.3-SNAPSHOT" is the default
-    When I enter "gvm list grails"
-    Then I see "Available Grails Versions"
-    And I see " > + 2.3-SNAPSHOT"
+    Given I have a local candidate "groovy" version "2.2-SNAPSHOT" at "/tmp/groovy-core"
+    And the candidate "groovy" version "2.2-SNAPSHOT" is already linked to "/tmp/groovy-core"
+    And the candidate "groovy" version "2.2-SNAPSHOT" is the default
+    When I enter "gvm list groovy"
+    Then I see "Available Groovy Versions"
+    And I see " > + 2.2-SNAPSHOT"
