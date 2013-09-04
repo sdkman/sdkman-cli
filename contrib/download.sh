@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 CANDIDATE="$1"
 VERSION="$2"
@@ -9,11 +9,18 @@ if [ -z "$1" -o -z "$2" ]; then
 fi
 
 API="http://api.gvmtool.net"
-DEST="$HOME/gvm"
-TMP_FOLDER="${DEST}/archives"
-ARCHIVE="${TMP_FOLDER}/${CANDIDATE}-${VERSION}.zip"
+BASE_DIR="$HOME/gvm"
+ARCHIVE_DIR="${BASE_DIR}/archives"
+ARCHIVE="${ARCHIVE_DIR}/${CANDIDATE}-${VERSION}.zip"
+DESTINATION_DIR="$BASE_DIR/$CANDIDATE-$VERSION"
 
-mkdir -p "$TMP_FOLDER"
+mkdir -p "$BASE_DIR"
+mkdir -p "$ARCHIVE_DIR"
+
+if [ -d "$DESTINATION_DIR" ]; then
+    echo "Version $VERSION of $CANDIDATE already found, skipping installation."
+    exit 0
+fi
 
 if [ -f "$ARCHIVE" ]; then
 	echo "Archive found, using cached version..."
@@ -22,5 +29,5 @@ else
 	curl -# -L "${API}/download/${CANDIDATE}/${VERSION}?platform=$(uname)" >> "$ARCHIVE"
 fi
 
-echo "Extracting archive to: $DEST"
-unzip -oq "$ARCHIVE" -d "$DEST"
+echo "Extracting archive to: $DESTINATION_DIR"
+unzip -oq "$ARCHIVE" -d "$DESTINATION_DIR"
