@@ -2,12 +2,21 @@ package gvm
 
 class CurlStub {
 
-    static prepareIn(String folder) {
-        def file = new File("$folder/curl")
+    private File file
+
+    static prepareIn(File folder) {
+        folder.mkdirs()
+
+        def file = new File(folder, "curl")
         file.createNewFile()
         file.write "#!/bin/bash\n"
         file.executable = true
-        file
+
+        new CurlStub(file:file)
+    }
+
+    boolean prepared() {
+        file && file.exists()
     }
 
     void primeWith(String bash) {
