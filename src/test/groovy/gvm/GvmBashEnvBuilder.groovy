@@ -16,8 +16,9 @@ class GvmBashEnvBuilder {
     String broadcast = "This is a LIVE broadcast!"
     String service = "http://localhost:8080"
     String jdkHome = "/path/to/my/jdk"
+    Map config = [:]
 
-    File gvmDir, gvmBinDir, gvmVarDir, gvmSrcDir
+    File gvmDir, gvmBinDir, gvmVarDir, gvmSrcDir, gvmEtcDir, gvmExtDir
 
     BashEnv bashEnv
 
@@ -42,6 +43,11 @@ class GvmBashEnvBuilder {
 
     GvmBashEnvBuilder withBroadcast(String broadcast){
         this.broadcast = broadcast
+        this
+    }
+
+    GvmBashEnvBuilder withConfiguration(String key, String value){
+        config.put key, value
         this
     }
 
@@ -70,10 +76,13 @@ class GvmBashEnvBuilder {
         gvmBinDir = prepareDirectory(gvmDir, "bin")
         gvmVarDir = prepareDirectory(gvmDir, "var")
         gvmSrcDir = prepareDirectory(gvmDir, "src")
+        gvmEtcDir = prepareDirectory(gvmDir, "etc")
+        gvmExtDir = prepareDirectory(gvmDir, "ext")
 
         initializeCandidates(gvmDir, candidates)
         initializeAvailableCandidates(gvmVarDir, availableCandidates)
         initializeBroadcast(gvmVarDir, broadcast)
+        initializeConfiguration(gvmEtcDir, config)
 
         primeInitScript(gvmBinDir)
         primeModuleScripts(gvmSrcDir)
@@ -105,6 +114,13 @@ class GvmBashEnvBuilder {
 
     private initializeBroadcast(File targetFolder, String broadcast) {
         new File(targetFolder, "broadcast") << broadcast
+    }
+
+    private initializeConfiguration(File targetFolder, Map config){
+        def configFile = new File(targetFolder, "config")
+        config.each { key, value ->
+            configFile << "$key=$value"
+        }
     }
 
     private primeInitScript(File targetFolder) {
