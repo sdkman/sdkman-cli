@@ -5,7 +5,7 @@ class GvmBashEnvBuilder {
     final buildScriptDir = "build/testScripts" as File
 
     //mandatory fields
-    private final File gvmBase
+    private final File baseFolder
     private final CurlStub curlStub
 
     //optional fields with sensible defaults
@@ -18,16 +18,16 @@ class GvmBashEnvBuilder {
     String jdkHome = "/path/to/my/jdk"
     Map config = [:]
 
-    File gvmDir, gvmBinDir, gvmVarDir, gvmSrcDir, gvmEtcDir, gvmExtDir
+    File gvmDir, gvmBinDir, gvmVarDir, gvmSrcDir, gvmEtcDir, gvmExtDir, gvmArchivesDir, gvmTmpDir
 
     BashEnv bashEnv
 
-    static GvmBashEnvBuilder create(File gvmBase, CurlStub curlStub){
-        new GvmBashEnvBuilder(gvmBase, curlStub)
+    static GvmBashEnvBuilder create(File baseFolder, CurlStub curlStub){
+        new GvmBashEnvBuilder(baseFolder, curlStub)
     }
 
-    private GvmBashEnvBuilder(File gvmBase, CurlStub curlStub){
-        this.gvmBase = gvmBase
+    private GvmBashEnvBuilder(File baseFolder, CurlStub curlStub){
+        this.baseFolder = baseFolder
         this.curlStub = curlStub
     }
 
@@ -72,12 +72,14 @@ class GvmBashEnvBuilder {
     }
 
     BashEnv build() {
-        gvmDir = prepareDirectory(gvmBase, ".gvm")
+        gvmDir = prepareDirectory(baseFolder, ".gvm")
         gvmBinDir = prepareDirectory(gvmDir, "bin")
         gvmVarDir = prepareDirectory(gvmDir, "var")
         gvmSrcDir = prepareDirectory(gvmDir, "src")
         gvmEtcDir = prepareDirectory(gvmDir, "etc")
         gvmExtDir = prepareDirectory(gvmDir, "ext")
+        gvmArchivesDir = prepareDirectory(gvmDir, "archives")
+        gvmTmpDir = prepareDirectory(gvmDir, "tmp")
 
         initializeCandidates(gvmDir, candidates)
         initializeAvailableCandidates(gvmVarDir, availableCandidates)
@@ -87,10 +89,10 @@ class GvmBashEnvBuilder {
         primeInitScript(gvmBinDir)
         primeModuleScripts(gvmSrcDir)
 
-        bashEnv = new BashEnv(gvmBase.absolutePath, [
+        bashEnv = new BashEnv(baseFolder.absolutePath, [
             GVM_DIR: gvmDir.absolutePath,
-            GVM_ONLINE: onlineMode,
-            GVM_FORCE_OFFLINE: forcedOfflineMode,
+            GVM_ONLINE: "$onlineMode",
+            GVM_FORCE_OFFLINE: "$forcedOfflineMode",
             GVM_SERVICE: service,
             JAVA_HOME: jdkHome
         ])
