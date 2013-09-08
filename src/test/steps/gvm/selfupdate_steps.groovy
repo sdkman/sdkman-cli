@@ -1,5 +1,7 @@
 package gvm
 
+import cucumber.runtime.PendingException
+
 import static cucumber.api.groovy.EN.*
 
 And(~'^the configuration file has been primed with "([^"]*)"$') { String content ->
@@ -70,3 +72,4 @@ Given(~'^an empty configuration file$') {->
     def configFile = "$gvmDir/ext/config" as File
     configFile.text = ""
 }
+

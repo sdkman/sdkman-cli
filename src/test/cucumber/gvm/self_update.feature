@@ -1,9 +1,10 @@
 Feature: Self Update
 
   Background:
-    Given an outdated system
-    And the internet is reachable
+    Given the internet is reachable
     And an initialised environment
+    And an outdated system
+    And the system is bootstrapped
 
   Scenario: Upgrade an outdated installation
     When I enter "gvm selfupdate"
