@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 RELEASE=$(grep 'gvmVersion' config.groovy | sed 's_gvmVersion = __g' | tr -d "'")
 
@@ -8,7 +8,6 @@ if [[ "$RELEASE" == "1.0.0-SNAPSHOT" ]]; then
 fi
 
 echo "Release: $RELEASE"
-
 
 ./gradlew -Penv="$DRONE_BRANCH"
 git add -f build
