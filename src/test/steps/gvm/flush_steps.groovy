@@ -2,7 +2,6 @@ package gvm
 
 import static cucumber.api.groovy.EN.*
 
-
 Given(~'^the candidate "([^"]*)" is known locally$') { String candidate ->
     assert candidatesFile.text.contains(candidate)
 }
@@ -23,4 +22,8 @@ Given(~'^the file "([^"]*)" in temporary storage$') { String fileName ->
 }
 Then(~'^no "([^"]*)" file is present in temporary storage$') { String fileName ->
     assert ! new File(tmpDir, fileName).exists()
+}
+
+Given(~'^the broadcast has been flushed$') {->
+    assert broadcastFile.delete()
 }

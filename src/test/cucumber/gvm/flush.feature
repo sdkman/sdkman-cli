@@ -26,7 +26,7 @@ Feature: Flush
     And I see "Broadcast has been flushed."
 
   Scenario: Clean up an uninitialised Broadcast
-    Given I enter "gvm flush broadcast"
+    Given the broadcast has been flushed
     When I enter "gvm flush broadcast"
     Then I see "No prior broadcast found so not flushed."
 
