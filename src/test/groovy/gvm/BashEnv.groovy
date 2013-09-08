@@ -11,7 +11,6 @@ package gvm
  */
 class BashEnv {
 
-    static final PATH = "PATH"
     static final PROMPT = ""
     static final EXIT_CODE_CMD = 'echo "Exit code is: $?"'
     static final EXIT_CODE_PATTERN = ~/Exit code is: (\d+)\s*${PROMPT}?$/
@@ -31,10 +30,10 @@ class BashEnv {
     BashEnv(workDir, Map env) {
         this.workDir = workDir as File
 
-        def currentPath = System.getenv(PATH)
+        def basicPath = "/usr/sbin:/usr/bin:/sbin:/bin"
         def localBinDir = "${workDir}/bin"
 
-        def modifiedPath = "${localBinDir}:$currentPath"
+        def modifiedPath = "$localBinDir:$basicPath"
 
         env = env + [PS1: PROMPT, PATH: modifiedPath]
         this.env = env.collect { k, v -> k + '=' + v }
