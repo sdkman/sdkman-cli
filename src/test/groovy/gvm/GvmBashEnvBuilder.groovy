@@ -20,8 +20,6 @@ class GvmBashEnvBuilder {
 
     File gvmDir, gvmBinDir, gvmVarDir, gvmSrcDir, gvmEtcDir, gvmExtDir, gvmArchivesDir, gvmTmpDir
 
-    BashEnv bashEnv
-
     static GvmBashEnvBuilder create(File baseFolder, CurlStub curlStub){
         new GvmBashEnvBuilder(baseFolder, curlStub)
     }
@@ -89,7 +87,7 @@ class GvmBashEnvBuilder {
         primeInitScript(gvmBinDir)
         primeModuleScripts(gvmSrcDir)
 
-        bashEnv = new BashEnv(baseFolder.absolutePath, [
+        new BashEnv(baseFolder.absolutePath, [
             GVM_DIR: gvmDir.absolutePath,
             GVM_ONLINE: "$onlineMode",
             GVM_FORCE_OFFLINE: "$forcedOfflineMode",
