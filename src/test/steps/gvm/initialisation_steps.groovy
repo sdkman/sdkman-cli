@@ -44,42 +44,52 @@ When(~'^I reinitialise the shell$') { ->
 }
 
 Given(~'^the internet is reachable$') {->
-    forceOffline = "false"
-    online = "true"
+    forcedOffline = false
+    online = true
     serviceUrlEnv = SERVICE_UP_URL
     javaHome = FAKE_JDK_PATH
 }
 
 Given(~'^the internet is not reachable$') {->
-    forceOffline = "false"
-    online = "false"
+    forcedOffline = false
+    online = false
     serviceUrlEnv = SERVICE_DOWN_URL
     javaHome = FAKE_JDK_PATH
 }
 
 And(~'^offline mode is disabled with reachable internet$') {->
-    forceOffline = "false"
-    online = "true"
+    forcedOffline = false
+    online = true
     serviceUrlEnv = SERVICE_UP_URL
     javaHome = FAKE_JDK_PATH
 }
 
 And(~'^offline mode is enabled with reachable internet$') {->
-    forceOffline = "true"
-    online = "true"
+    forcedOffline = true
+    online = true
     serviceUrlEnv = SERVICE_UP_URL
     javaHome = FAKE_JDK_PATH
 }
 
 And(~'^offline mode is enabled with unreachable internet$') {->
-    forceOffline = "true"
-    online = "false"
+    forcedOffline = true
+    online = false
     serviceUrlEnv = SERVICE_DOWN_URL
     javaHome = FAKE_JDK_PATH
 }
 
 And(~'^an initialised environment$') {->
-    bash = new BashEnv(gvmBaseEnv, [GVM_DIR: gvmDirEnv, GVM_ONLINE:online, GVM_FORCE_OFFLINE: forceOffline, GVM_SERVICE: serviceUrlEnv, JAVA_HOME: javaHome])
+    bash = GvmBashEnvBuilder.create(gvmBaseDir, null)
+        .withOnlineMode(online)
+        .withForcedOfflineMode(forcedOffline)
+        .withService(serviceUrlEnv)
+        .withJdkHome(javaHome)
+        .build()
+
     bash.start()
+    bash.execute("source $gvmDirEnv/bin/gvm-init.sh")
+}
+
+And(~'^the system is bootstrapped$') {->
     bash.execute("source $gvmDirEnv/bin/gvm-init.sh")
 }
