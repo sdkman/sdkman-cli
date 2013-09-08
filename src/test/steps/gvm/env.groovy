@@ -40,36 +40,6 @@ bash = null
 Before(){
 	cleanUp()
 	server = startServer(gvmVersion)
-
-	binDir.mkdirs()
-    srcDir.mkdirs()
-	varDir.mkdirs()
-    etcDir.mkdirs()
-    extDir.mkdirs()
-    archiveDir.mkdirs()
-    tmpDir.mkdirs()
-
-    // Initialise candidate directories
-    ['groovy', 'grails'].each { candidate ->
-        def candidateDir = "${gvmDirEnv}/${candidate}" as File
-        candidateDir.mkdirs()
-    }
-
-    // Initialise broadcast file
-    broadcastFile << 'This is a LIVE Broadcast!'
-
-    // Initialise candidates file
-    candidatesFile << 'groovy,grails'
-
-    // Copy the init script into the gvm bin folder
-    initScript << new File(buildScriptDir, 'gvm-init.sh').text
-
-	// Copy all modular scripts into the gvm src folder
-    for (f in buildScriptDir.listFiles()){
-        if(!(f.name in ['selfupdate.sh', 'install.sh', 'gvm-init.sh'])){
-            new File(srcDir, f.name) << f.text
-        }
-    }
 }
 
 After(){ scenario ->
