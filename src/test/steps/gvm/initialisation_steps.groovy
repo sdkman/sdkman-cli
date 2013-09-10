@@ -79,7 +79,7 @@ And(~'^offline mode is enabled with unreachable internet$') {->
 }
 
 And(~'^an initialised environment$') {->
-    bash = GvmBashEnvBuilder.create(gvmBaseDir, null)
+    bash = GvmBashEnvBuilder.create(gvmBaseDir)
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)

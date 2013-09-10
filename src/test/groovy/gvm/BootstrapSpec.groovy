@@ -20,7 +20,8 @@ class BootstrapSpec extends Specification {
         curlStub.primeWith("echo x.y.b")
 
         bash = GvmBashEnvBuilder
-                .create(gvmBaseDir, curlStub)
+                .create(gvmBaseDir)
+                .withCurlStub(curlStub)
                 .build()
 
         bash.start()

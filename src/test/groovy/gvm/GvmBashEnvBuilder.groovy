@@ -6,9 +6,9 @@ class GvmBashEnvBuilder {
 
     //mandatory fields
     private final File baseFolder
-    private final CurlStub curlStub
 
     //optional fields with sensible defaults
+    CurlStub curlStub
     List candidates = ['groovy', 'grails']
     List availableCandidates = candidates
     boolean onlineMode = true
@@ -20,13 +20,17 @@ class GvmBashEnvBuilder {
 
     File gvmDir, gvmBinDir, gvmVarDir, gvmSrcDir, gvmEtcDir, gvmExtDir, gvmArchivesDir, gvmTmpDir
 
-    static GvmBashEnvBuilder create(File baseFolder, CurlStub curlStub){
-        new GvmBashEnvBuilder(baseFolder, curlStub)
+    static GvmBashEnvBuilder create(File baseFolder){
+        new GvmBashEnvBuilder(baseFolder)
     }
 
-    private GvmBashEnvBuilder(File baseFolder, CurlStub curlStub){
+    private GvmBashEnvBuilder(File baseFolder){
         this.baseFolder = baseFolder
+    }
+
+    GvmBashEnvBuilder withCurlStub(CurlStub curlStub){
         this.curlStub = curlStub
+        this
     }
 
     GvmBashEnvBuilder withCandidates(List candidates){

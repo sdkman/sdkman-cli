@@ -4,7 +4,7 @@ class CurlStub {
 
     private File file
 
-    static prepareIn(File folder) {
+    static CurlStub prepareIn(File folder) {
         folder.mkdirs()
 
         def file = new File(folder, "curl")
