@@ -29,14 +29,24 @@ fi
 
 function gvm_source_modules {
 	# Source gvm module scripts.
-	for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
+	# http://mywiki.wooledge.org/BashFAQ/020
+	unset a i
+	while IFS= read -r -d $'\0' file; do
+		a[i++]="$file"
+	done < <(find "${GVM_DIR}/src" -type f -print0)
+	# http://mywiki.wooledge.org/BashFAQ/005#Retrieving_values_from_an_array
+	for f in "${a[@]}"; do
 		source "${f}"
 	done
 
 	# Source extension files prefixed with 'gvm-' and found in the ext/ folder
 	# Use this if extensions are written with the functional approach and want
 	# to use functions in the main gvm script.
-	for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*'); do
+	unset a i
+	while IFS= read -r -d $'\0' file; do
+		a[i++]="$file"
+	done < <(find "${GVM_DIR}/ext" -type f -print0)
+	for f in "${a[@]}"; do
 		if [ -r "${f}" ]; then
 			source "${f}"
 		fi
