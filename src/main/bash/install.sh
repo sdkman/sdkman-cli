@@ -205,10 +205,10 @@ curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_z
 echo "Extract script archive..."
 if [[ "${cygwin}" == 'true' ]]; then
 	echo "Cygwin detected - normalizing paths for unzip..."
-	unzip -qo $(cygpath -w "${gvm_zip_file}") -d $(cygpath -w "${gvm_stage_folder}")	
-else
-	unzip -qo "${gvm_zip_file}" -d "${gvm_stage_folder}"
+	gvm_zip_file=$(cygpath -w "${gvm_zip_file}")
+	gvm_stage_folder=$(cygpath -w "${gvm_stage_folder}")
 fi
+unzip -qo "${gvm_zip_file}" -d "${gvm_stage_folder}"
 
 echo "Install scripts..."
 mv "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
