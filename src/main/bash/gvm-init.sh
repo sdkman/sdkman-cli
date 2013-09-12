@@ -29,9 +29,9 @@ fi
 
 function gvm_source_modules {
 	# Source gvm module scripts.
-	for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*'); do
-		source "${f}"
-	done
+        for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*' -exec basename {} \;); do
+                source "${GVM_DIR}/src/${f}"
+        done
 
 	# Source extension files prefixed with 'gvm-' and found in the ext/ folder
 	# Use this if extensions are written with the functional approach and want
