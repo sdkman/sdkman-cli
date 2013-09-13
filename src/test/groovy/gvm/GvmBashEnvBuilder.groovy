@@ -16,7 +16,9 @@ class GvmBashEnvBuilder {
     String broadcast = "This is a LIVE broadcast!"
     String service = "http://localhost:8080"
     String jdkHome = "/path/to/my/jdk"
-    Map config = [:]
+    Map config = [
+            gvm_auto_answer:'false'
+    ]
 
     File gvmDir, gvmBinDir, gvmVarDir, gvmSrcDir, gvmEtcDir, gvmExtDir, gvmArchivesDir, gvmTmpDir
 
@@ -123,7 +125,7 @@ class GvmBashEnvBuilder {
     private initializeConfiguration(File targetFolder, Map config){
         def configFile = new File(targetFolder, "config")
         config.each { key, value ->
-            configFile << "$key=$value"
+            configFile << "$key=$value\n"
         }
     }
 
