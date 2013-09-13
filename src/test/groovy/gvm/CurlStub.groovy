@@ -3,6 +3,7 @@ package gvm
 class CurlStub {
 
     private File file
+    private commands = [:]
 
     static CurlStub prepareIn(File folder) {
         folder.mkdirs()
@@ -15,11 +16,19 @@ class CurlStub {
         new CurlStub(file:file)
     }
 
-    boolean prepared() {
-        file && file.exists()
+    CurlStub primeWith(String request, String snippet) {
+        commands.put request, snippet
+        this
     }
 
-    void primeWith(String bash) {
-        file.append bash
+    void build(){
+        commands.each { request, snippet ->
+            //use second arg because we use curl with -s
+            file << 'if [[ "$2" == "'
+            file << "$request"
+            file << '" ]]; then\n'
+            file << "    $snippet\n"
+            file << 'fi\n'
+        }
     }
 }
