@@ -64,7 +64,7 @@ function gvm_offline_on_redirect {
 }
 
 # force zsh to behave well
-if [[ -n $(echo "$SHELL" | grep 'zsh') ]]; then
+if [[ -n "$ZSH_VERSION" ]]; then
 	setopt shwordsplit
 fi
 
