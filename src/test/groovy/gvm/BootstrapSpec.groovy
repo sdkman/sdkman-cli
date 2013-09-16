@@ -22,19 +22,6 @@ class BootstrapSpec extends Specification {
         curlStub = CurlStub.prepareIn(new File(gvmBaseDir, "bin"))
     }
 
-    void "should set gvm version"(){
-        given: 'a working gvm installation with default curl stub'
-        bash = GvmBashEnvBuilder.create(gvmBaseDir).build()
-        bash.start()
-        bash.execute("source $bootstrap")
-
-        when: 'I request the gvm version'
-        bash.execute("gvm version")
-
-        then: 'the gvm version is displayed'
-        bash.output.contains "x.y.z"
-    }
-
     void "should suggest selfupdate on new version available if no suggestive selfupdate configuration found"() {
 
         given: 'a working installation with a curl stub primed for version update'
