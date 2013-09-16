@@ -23,20 +23,21 @@ class BootstrapSpec extends Specification {
     }
 
     void "should set gvm version"(){
-        given:
+        given: 'a working gvm installation with default curl stub'
         bash = GvmBashEnvBuilder.create(gvmBaseDir).build()
         bash.start()
         bash.execute("source $bootstrap")
 
-        when:
+        when: 'I request the gvm version'
         bash.execute("gvm version")
 
-        then:
+        then: 'the gvm version is displayed'
         bash.output.contains "x.y.z"
     }
 
     void "should suggest selfupdate on new version available if no suggestive selfupdate configuration found"() {
-        given:
+
+        given: 'a working installation with a curl stub primed for version update'
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
         bash = GvmBashEnvBuilder
                 .create(gvmBaseDir)
@@ -44,21 +45,22 @@ class BootstrapSpec extends Specification {
                 .build()
         bash.start()
 
-        when:
+        when: 'bootstrap the system answering no to selfupdate'
         bash.execute("source $bootstrap", ["N"])
 
-        then:
+        then: 'a prompt for upgrade is presented'
         bash.output.contains "A new version of GVM is available..."
         bash.output.contains "The current version is x.y.b, but you have x.y.z."
         bash.output.contains "Would you like to upgrade now?"
 
-        then:
+        then: 'the upgrade is deferred'
         bash.output.contains "Not upgrading now..."
 
     }
 
     void "should suggest selfupdate on new version available if suggestive selfupdate configuration found"() {
-        given:
+
+        given: 'a working gvm installation with suggestive selfupdate and curl stub primed for version update'
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
         bash = GvmBashEnvBuilder
                 .create(gvmBaseDir)
@@ -67,15 +69,15 @@ class BootstrapSpec extends Specification {
                 .build()
         bash.start()
 
-        when:
+        when: 'bootstrap the system answering no to selfupdate'
         bash.execute("source $bootstrap", ["N"])
 
-        then:
+        then: 'a prompt for upgrade is presented'
         bash.output.contains "A new version of GVM is available..."
         bash.output.contains "The current version is x.y.b, but you have x.y.z."
         bash.output.contains "Would you like to upgrade now?"
 
-        then:
+        then: 'the upgrade is deferred'
         bash.output.contains "Not upgrading now..."
 
     }
