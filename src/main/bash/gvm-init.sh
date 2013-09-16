@@ -185,8 +185,7 @@ if [ -f "${GVM_DIR}/etc/config" ]; then
 	source "${GVM_DIR}/etc/config"
 fi
 
-# test the configuration setting for suggestive selfupdate
-if [[ -z "$gvm_suggestive_selfupdate" || "$gvm_suggestive_selfupdate" == 'true' ]]; then
+if [[ "$gvm_suggestive_selfupdate" == 'true' || "$gvm_auto_selfupdate" == 'true' ]]; then
 	# determine if up to date
 	GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
 
@@ -201,7 +200,6 @@ if [[ -z "$gvm_suggestive_selfupdate" || "$gvm_suggestive_selfupdate" == 'true' 
 		echo "The current version is $GVM_REMOTE_VERSION, but you have $GVM_VERSION."
 		echo ""
 
-		# this is a configuration setting
 		if [[ "$gvm_auto_selfupdate" != "true" ]]; then
 			echo -n "Would you like to upgrade now? (Y/n)"
 			read upgrade

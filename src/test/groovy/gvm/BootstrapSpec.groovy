@@ -17,35 +17,10 @@ class BootstrapSpec extends Specification {
         gvmBaseDir = prepareBaseDir()
         gvmBaseEnv = gvmBaseDir.absolutePath
         bootstrap = "${gvmBaseDir.absolutePath}/.gvm/bin/gvm-init.sh"
-
-
         curlStub = CurlStub.prepareIn(new File(gvmBaseDir, "bin"))
     }
 
-    void "should suggest selfupdate on new version available if no suggestive selfupdate configuration found"() {
-
-        given: 'a working installation with a curl stub primed for version update'
-        curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
-        bash = GvmBashEnvBuilder
-                .create(gvmBaseDir)
-                .withCurlStub(curlStub)
-                .build()
-        bash.start()
-
-        when: 'bootstrap the system answering no to selfupdate'
-        bash.execute("source $bootstrap", ["N"])
-
-        then: 'a prompt for upgrade is presented'
-        bash.output.contains "A new version of GVM is available..."
-        bash.output.contains "The current version is x.y.b, but you have x.y.z."
-        bash.output.contains "Would you like to upgrade now?"
-
-        then: 'the upgrade is deferred'
-        bash.output.contains "Not upgrading now..."
-
-    }
-
-    void "should suggest selfupdate on new version available if suggestive selfupdate configuration found"() {
+    void "should suggest selfupdate on affirmative suggestive selfupdate configuration"() {
 
         given: 'a working gvm installation with suggestive selfupdate and curl stub primed for version update'
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
@@ -69,12 +44,32 @@ class BootstrapSpec extends Specification {
 
     }
 
-    void "should not suggest selfupdate on new version if auto selfupdate configuration found"() {
+    void "should not suggest selfupdate on negative suggestive selfupdate configuration"(){
+
+        given: 'a working gvm installation with suggestive selfupdate and curl stub primed for version update'
+        curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
+        bash = GvmBashEnvBuilder
+                .create(gvmBaseDir)
+                .withCurlStub(curlStub)
+                .withConfiguration("gvm_suggestive_selfupdate", "false")
+                .build()
+        bash.start()
+
+        when: 'bootstrap the system answering no to selfupdate'
+        bash.execute("source $bootstrap")
+
+        then: 'no prompt for upgrade is presented'
+        ! bash.output.contains("A new version of GVM is available...")
+        ! bash.output.contains("The current version is x.y.b, but you have x.y.z.")
+    }
+
+    void "should perform upgrade on affirmative auto selfupdate configuration"() {
         given:
         bash = GvmBashEnvBuilder
                 .create(gvmBaseDir)
                 .withCurlStub(curlStub)
                 .withConfiguration("gvm_auto_selfupdate", "true")
+                .withConfiguration("gvm_suggestive_selfupdate", "true")
                 .build()
         bash.start()
 
@@ -96,7 +91,24 @@ class BootstrapSpec extends Specification {
 
     }
 
+    void "should not suggest selfupdate on negative auto selfupdate configuration"(){
 
+        given: 'a working gvm installation with auto selfupdate and curl stub primed for version update'
+        curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
+        bash = GvmBashEnvBuilder
+                .create(gvmBaseDir)
+                .withCurlStub(curlStub)
+                .withConfiguration("gvm_auto_selfupdate", "false")
+                .build()
+        bash.start()
+
+        when: 'bootstrap the system answering no to selfupdate'
+        bash.execute("source $bootstrap")
+
+        then: 'no prompt for upgrade is presented'
+        ! bash.output.contains("A new version of GVM is available...")
+        ! bash.output.contains("The current version is x.y.b, but you have x.y.z.")
+    }
 
     void cleanup(){
         bash.stop()
