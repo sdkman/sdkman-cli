@@ -1,7 +1,5 @@
 package gvm
 
-import cucumber.runtime.PendingException
-
 import static cucumber.api.groovy.EN.*
 
 And(~'^the configuration file has been primed with "([^"]*)"$') { String content ->
