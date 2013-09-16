@@ -20,15 +20,18 @@ Feature: Self Update
     And the configuration is not present in the extensions folder
     And the configuration file is present in the etc folder
 
-  Scenario: Update an installation without an Auto Answer config
+  Scenario: Update an installation without any configuration
     Given an empty configuration file
     When I enter "gvm selfupdate"
     Then the configuration file contains "gvm_auto_answer=false"
     And the configuration file contains "gvm_suggestive_selfupdate=true"
+    And the configuration file contains "gvm_auto_selfupdate=false"
 
   Scenario: Update an installation already containing an Auto Answer config
     Given the configuration file has been primed with "gvm_auto_answer=true"
     And the configuration file has been primed with "gvm_suggestive_selfupdate=true"
+    And the configuration file has been primed with "gvm_auto_selfupdate=false"
     When I enter "gvm selfupdate"
     Then the configuration file contains "gvm_auto_answer=true"
     And the configuration file contains "gvm_suggestive_selfupdate=true"
+    And the configuration file contains "gvm_auto_selfupdate=false"
