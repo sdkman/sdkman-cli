@@ -179,6 +179,7 @@ eg: gvm install groovy
 <h3>Selfupdate Command</h3>
 
 <p>GVM has the ability to update itself. If you are being nagged about an outdated GVM version:</p>
+<p>It's also useful to know that suggestive and automatic selfupdate modes are availabe. See the Configurations section below.</p>
 
 <pre><code>$ gvm selfupdate
 </code></pre>
@@ -202,13 +203,17 @@ eg: gvm install groovy
 
 <h3>Configurations</h3>
 
-<p>Although configuration is very limited at the moment, the list of configurable items will grow as required. Configuration can be found in the <code>.gvm/etc/config</code> file. Currently the following is configurable:</p>
+<p>Although configuration is limited at the moment, the list of configurable items will grow as required. Configuration can be found in the <code>.gvm/etc/config</code> file. Currently the following is configurable:</p>
 
-<pre><code># used to make gvm non-interactive, great for CI environments
+<pre><code>
+# make gvm non-interactive, great for CI environments
 gvm_auto_answer=false/true
 
-# does not prompt user to selfupdate on new shell
+# prompt user to selfupdate on new shell
 gvm_suggestive_selfupdate=true/false
+
+# perform automatic selfupdates
+gvm_auto_selfupdate=true/false
 </code></pre>
 
 <p>And that's all there is to it!</p>
