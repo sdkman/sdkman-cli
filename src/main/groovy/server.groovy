@@ -21,7 +21,6 @@ import org.vertx.java.core.json.JsonObject
 
 final GVM_VERSION = '@GVM_VERSION@'
 final VERTX_VERSION = '@VERTX_VERSION@'
-final COLUMN_LENGTH = 25
 
 //
 // datasource configuration
@@ -113,6 +112,7 @@ rm.get("/candidates/:candidate/default") { req ->
 	}
 }
 
+def colLength = 10
 def pad = { col, width=20 -> (col ?: "").take(width).padRight(width) }
 def decorate = { version, currentVersion, installedVersions ->
     if(currentVersion == version){
@@ -125,14 +125,13 @@ def decorate = { version, currentVersion, installedVersions ->
 }
 
 def prepareList = { candidate, available, current, installed, local ->
-    println "$candidate, $available, $current, $installed, $local"
     def output = ""
-    for (i in (0..(COLUMN_LENGTH-1))){
+    for (i in (0..(colLength-1))){
         def column1 = decorate(available[i], current, installed)
-        def column2 = decorate(available[i+(COLUMN_LENGTH*1)], current, installed)
-        def column3 = decorate(available[i+(COLUMN_LENGTH*2)], current, installed)
-        def column4 = decorate(available[i+(COLUMN_LENGTH*3)], current, installed)
-        output += "${pad(column1)} ${pad(column2)} ${pad(column3)} ${pad(column4)}\n"
+        def column2 = decorate(available[i+(colLength*1)], current, installed)
+        def column3 = decorate(available[i+(colLength*2)], current, installed)
+        def column4 = decorate(available[i=(colLength*3)], current, installed)
+        output << "${pad(column1)} ${pad(column2)} ${pad(column3)} ${pad(column4)}\n"
     }
     output
 }
@@ -146,13 +145,9 @@ rm.get("/candidates/:candidate/list") { req ->
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def available = msg.body.results.collect { it.version }
 		def local = installed.findAll { ! available.contains(it) }
-        def content = prepareList(candidate, available, current, installed, local)
-
-        def gtplFile = 'build/templates/list.gtpl' as File
-	    def binding = [candidate:candidate, content:content]
-        def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
+        def output = prepareList(candidate, available, current, installed, local)
         addPlainTextHeader req
-		req.response.end templateText
+		req.response.end output
 	}
 }
 
