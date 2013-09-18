@@ -112,22 +112,46 @@ rm.get("/candidates/:candidate/default") { req ->
 	}
 }
 
+def colLength = 10
+def pad = { col, width=20 -> (col ?: "").take(width).padRight(width) }
+def decorate = { version, currentVersion, installedVersions ->
+    if(currentVersion == version){
+        return " > * ${version}"
+    } else if(installedVersions.contains(version)){
+        return "   * ${version}"
+    } else {
+        return "     ${version ?: ''}"
+    }
+}
+
+def prepareList = { candidate, available, current, installed, local ->
+    def output = ""
+    for (i in (0..(colLength-1))){
+        def column1 = decorate(available[i], current, installed)
+        def column2 = decorate(available[i+(colLength*1)], current, installed)
+        def column3 = decorate(available[i+(colLength*2)], current, installed)
+        def column4 = decorate(available[i=(colLength*3)], current, installed)
+        output << "${pad(column1)} ${pad(column2)} ${pad(column3)} ${pad(column4)}\n"
+    }
+    output
+}
+
 rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current'] ?: ''
 	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
-	def gtplFile = 'build/templates/list.gtpl' as File
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def available = msg.body.results.collect { it.version }
 		def local = installed.findAll { ! available.contains(it) }
-		def binding = [candidate:candidate, available:available, current:current, installed:installed, local:local]
-		def template = templateEngine.createTemplate(gtplFile).make(binding)
-		addPlainTextHeader req
-		req.response.end template.toString()
+        def output = prepareList(candidate, available, current, installed, local)
+        addPlainTextHeader req
+		req.response.end output
 	}
 }
+
+
 
 def validationHandler = { req ->
 	def candidate = req.params['candidate']
