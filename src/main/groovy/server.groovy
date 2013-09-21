@@ -17,10 +17,10 @@
 
 import groovy.text.SimpleTemplateEngine
 import org.vertx.groovy.core.http.RouteMatcher
-import org.vertx.java.core.json.JsonObject
 
 final GVM_VERSION = '@GVM_VERSION@'
 final VERTX_VERSION = '@VERTX_VERSION@'
+final COLUMN_LENGTH = 15
 
 //
 // datasource configuration
@@ -116,17 +116,72 @@ rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current'] ?: ''
 	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
-	def gtplFile = 'build/templates/list.gtpl' as File
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def available = msg.body.results.collect { it.version }
-		def local = installed.findAll { ! available.contains(it) }
-		def binding = [candidate:candidate, available:available, current:current, installed:installed, local:local]
-		def template = templateEngine.createTemplate(gtplFile).make(binding)
-		addPlainTextHeader req
-		req.response.end template.toString()
+
+        def combined = combine(available, installed)
+        def local = determineLocal(available, installed)
+
+        def content = prepareListView(combined, current, installed, local, COLUMN_LENGTH)
+
+        def binding = [candidate: candidate, content:content]
+        def gtplFile = 'build/templates/list_2.gtpl' as File
+        def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
+
+        addPlainTextHeader req
+		req.response.end templateText
 	}
+}
+
+private prepareListView(combined, current, installed, local, colLength){
+    def output = ""
+    for (i in (0..(colLength-1))){
+        def versionColumn1 = prepareVersion(combined[i], current, installed, local)
+        def versionColumn2 = prepareVersion(combined[i+(colLength*1)], current, installed, local)
+        def versionColumn3 = prepareVersion(combined[i+(colLength*2)], current, installed, local)
+        def versionColumn4 = prepareVersion(combined[i+(colLength*3)], current, installed, local)
+        output += "${pad(versionColumn1)} ${pad(versionColumn2)} ${pad(versionColumn3)} ${pad(versionColumn4)}\n"
+    }
+    output
+}
+
+private prepareVersion(version, current, installed, local){
+    def isCurrent = (current == version)
+    def isInstalled = installed.contains(version)
+    def isLocalOnly = local.contains(version)
+    decorateVersion(version, isCurrent, isInstalled, isLocalOnly)
+}
+
+private decorateVersion(version, isCurrent, isInstalled, isLocalOnly) {
+    " ${markCurrent(isCurrent)} ${markStatus(isInstalled, isLocalOnly)} ${version ?: ''}"
+}
+
+private pad(col, width=20) {
+    (col ?: "").take(width).padRight(width)
+}
+
+private markCurrent(isCurrent){
+    isCurrent ? '>' : ' '
+}
+
+
+private markStatus(isInstalled, isLocalOnly){
+    if(isInstalled && isLocalOnly) '+'
+    else if(isInstalled) '*'
+    else ' '
+}
+
+private determineLocal(available, installed){
+    installed.findAll { ! available.contains(it) }
+}
+
+private combine(available, installed){
+    def combined = [] as TreeSet
+    combined.addAll installed
+    combined.addAll available
+    combined.toList().reverse()
 }
 
 def validationHandler = { req ->
@@ -232,6 +287,3 @@ def port = System.getenv('PORT') ?: 8080
 def host = System.getenv('PORT') ? '0.0.0.0' : 'localhost'
 println "Starting vertx on $host:$port"
 vertx.createHttpServer().requestHandler(rm.asClosure()).listen(port as int, host)
-
-
-
