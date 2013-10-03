@@ -6,8 +6,9 @@ apply plugin: 'eclipse'
 
 defaultTasks 'clean', 'prepareTestScripts', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
 
-ext.installBinDir = "${System.getProperty('user.home')}/.gvm/bin"
-ext.installSrcDir = "${System.getProperty('user.home')}/.gvm/src"
+def userHome = System.getProperty('user.home')
+ext.installBinDir = "${userHome}/.gvm/bin"
+ext.installSrcDir = "${userHome}/.gvm/src"
 
 ext.defaultGvmVersion = '1.0.0-SNAPSHOT'
 
