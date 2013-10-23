@@ -178,6 +178,8 @@ echo "Create candidate directories..."
 GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
 echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 
+echo "$GVM_VERSION" > "${GVM_DIR}/var/version"
+
 # convert csv to array
 OLD_IFS="$IFS"
 IFS=","

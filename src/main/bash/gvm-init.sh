@@ -184,12 +184,20 @@ if [ -f "${GVM_DIR}/etc/config" ]; then
 fi
 
 if [[ "$gvm_suggestive_selfupdate" == 'true' || "$gvm_auto_selfupdate" == 'true' ]]; then
-	# determine if up to date
-	GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
 
-	gvm_offline_on_redirect "$GVM_REMOTE_VERSION"
-	if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then
-		GVM_REMOTE_VERSION="$GVM_VERSION"
+	# determine if up to date
+	GVM_VERSION_TOKEN="${GVM_DIR}/var/version"
+	if [[ -f "$GVM_VERSION_TOKEN" && ! $(find "$GVM_VERSION_TOKEN" -mtime +1) ]]; then
+		GVM_REMOTE_VERSION=$(cat "$GVM_VERSION_TOKEN")
+
+	else
+		GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
+		gvm_offline_on_redirect "$GVM_REMOTE_VERSION"
+		if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then
+			GVM_REMOTE_VERSION="$GVM_VERSION"
+		else
+			echo ${GVM_REMOTE_VERSION} > "$GVM_VERSION_TOKEN"
+		fi
 	fi
 
 	if [[ -n "$GVM_REMOTE_VERSION" && ("$GVM_REMOTE_VERSION" != "$GVM_VERSION") ]]; then

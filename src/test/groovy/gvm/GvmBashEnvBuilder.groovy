@@ -16,6 +16,8 @@ class GvmBashEnvBuilder {
     String broadcast = "This is a LIVE broadcast!"
     String service = "http://localhost:8080"
     String jdkHome = "/path/to/my/jdk"
+    String versionToken
+
     Map config = [
             gvm_auto_answer:'false'
     ]
@@ -56,7 +58,7 @@ class GvmBashEnvBuilder {
     }
 
     GvmBashEnvBuilder withOnlineMode(boolean onlineMode){
-        this.onlineMode = this.onlineMode
+        this.onlineMode = onlineMode
         this
     }
 
@@ -75,6 +77,11 @@ class GvmBashEnvBuilder {
         this
     }
 
+    GvmBashEnvBuilder withVersionToken(String version){
+        this.versionToken = version
+        this
+    }
+
     BashEnv build() {
         gvmDir = prepareDirectory(baseFolder, ".gvm")
         gvmBinDir = prepareDirectory(gvmDir, "bin")
@@ -89,6 +96,7 @@ class GvmBashEnvBuilder {
         initializeAvailableCandidates(gvmVarDir, availableCandidates)
         initializeBroadcast(gvmVarDir, broadcast)
         initializeConfiguration(gvmEtcDir, config)
+        initializeVersionToken(gvmVarDir, versionToken)
 
         primeInitScript(gvmBinDir)
         primeModuleScripts(gvmSrcDir)
@@ -107,6 +115,13 @@ class GvmBashEnvBuilder {
         directory.mkdirs()
         directory
     }
+
+    private initializeVersionToken(File folder, String version) {
+        if(version) {
+            new File(folder, "version") << version
+        }
+    }
+
 
     private initializeCandidates(File folder, List candidates) {
         candidates.each { candidate ->
