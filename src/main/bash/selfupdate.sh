@@ -71,7 +71,7 @@ GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
 echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 
 # drop version token
-echo "$GVM_VERSION" > "{GVM_DIR}/var/version"
+echo "$GVM_VERSION" > "${GVM_DIR}/var/version"
 
 # create candidate directories
 # convert csv to array
