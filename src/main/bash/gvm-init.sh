@@ -187,7 +187,7 @@ if [[ "$gvm_suggestive_selfupdate" == 'true' || "$gvm_auto_selfupdate" == 'true'
 
 	# determine if up to date
 	GVM_VERSION_TOKEN="${GVM_DIR}/var/version"
-	if [[ -f "$GVM_VERSION_TOKEN" && ! $(find "$GVM_VERSION_TOKEN" -mtime +1) ]]; then
+	if [[ -f "$GVM_VERSION_TOKEN" && -z "$(find "$GVM_VERSION_TOKEN" -mtime +1)" ]]; then
 		GVM_REMOTE_VERSION=$(cat "$GVM_VERSION_TOKEN")
 
 	else
