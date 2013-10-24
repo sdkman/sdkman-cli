@@ -32,6 +32,6 @@ function __gvmtool_selfupdate {
 		echo "No update available at this time."
 
 	else
-		curl -s "${GVM_SERVICE}/selfupdate" | bash
+		curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/selfupdate" | bash
 	fi
 }

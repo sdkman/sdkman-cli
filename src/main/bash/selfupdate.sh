@@ -67,7 +67,7 @@ mkdir -p "${GVM_DIR}/var"
 mkdir -p "${GVM_DIR}/tmp"
 
 # prepare candidates
-GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
+GVM_CANDIDATES_CSV=$(curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/candidates")
 echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 
 # drop version token
@@ -111,7 +111,7 @@ if [[ -z $(cat ${gvm_config_file} | grep 'gvm_auto_selfupdate') ]]; then
 fi
 
 gvm_echo_debug "Download new scripts to: ${gvm_tmp_zip}"
-curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}"
+curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}"
 
 gvm_echo_debug "Extract script archive..."
 gvm_echo_debug "Unziping scripts to: ${gvm_stage_folder}"

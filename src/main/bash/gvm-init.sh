@@ -27,6 +27,20 @@ if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
 
+function gvm_init_curlrc {
+    if [ -z "${GVM_CURLRC}" ]; then
+        export GVM_CURLRC="${GVM_DIR}/etc/curlrc"
+    fi
+    if [ ! -f "${GVM_CURLRC}" ]; then
+        GVM_CURLRC_DIR=$(dirname "${GVM_CURLRC}")
+        if [ ! -d "${GVM_CURLRC_DIR}" ]; then
+            mkdir -p "${GVM_CURLRC_DIR}"
+        fi
+        unset GVM_CURLRC_DIR
+        echo "connect-timeout=5" > "${GVM_CURLRC}"
+    fi
+}
+
 function gvm_source_modules {
 	# Source gvm module scripts.
     for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*' -exec basename {} \;); do
@@ -85,6 +99,8 @@ case "$(uname)" in
         freebsd=true
 esac
 
+gvm_init_curlrc
+
 OFFLINE_BROADCAST=$( cat << EOF
 ==== BROADCAST =============================================
 
@@ -109,7 +125,7 @@ OFFLINE_MESSAGE="This command is not available in offline mode."
 if [[ -f "${GVM_DIR}/var/candidates" ]]; then
 	GVM_CANDIDATES_CSV=$(cat "${GVM_DIR}/var/candidates")
 else
-	GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
+	GVM_CANDIDATES_CSV=$(curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/candidates")
 	echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 fi
 
@@ -191,7 +207,7 @@ if [[ "$gvm_suggestive_selfupdate" == 'true' || "$gvm_auto_selfupdate" == 'true'
 		GVM_REMOTE_VERSION=$(cat "$GVM_VERSION_TOKEN")
 
 	else
-		GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
+		GVM_REMOTE_VERSION=$(curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/app/version" -m 1)
 		gvm_offline_on_redirect "$GVM_REMOTE_VERSION"
 		if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then
 			GVM_REMOTE_VERSION="$GVM_VERSION"

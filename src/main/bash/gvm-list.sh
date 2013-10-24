@@ -65,7 +65,7 @@ function __gvmtool_list {
 	if [[ "${GVM_AVAILABLE}" == "false" ]]; then
 		__gvmtool_offline_list
 	else
-		FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
+		FRAGMENT=$(curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
 		echo "${FRAGMENT}"
 		unset FRAGMENT
 	fi
