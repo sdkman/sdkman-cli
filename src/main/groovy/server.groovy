@@ -229,15 +229,9 @@ def broadcastHandler = { req ->
 	def cmd2 = [action:"find", collection:"broadcast", matcher:[:]]
 	vertx.eventBus.send("mongo-persistor", cmd2){ msg ->
 		def broadcasts = msg.body.results
-		def version = req.params['version'] ?: GVM_VERSION
-		def gtplFile, binding
-		if(GVM_VERSION == version){
-			gtplFile = 'build/templates/broadcast.gtpl' as File
-			binding = [gvmVersion:GVM_VERSION, vertxVersion:VERTX_VERSION, broadcasts:broadcasts]
-		} else {
-			gtplFile = 'build/templates/upgrade.gtpl' as File
-			binding = [version:version, gvmVersion:GVM_VERSION]
-		}
+        def gtplFile = 'build/templates/broadcast.gtpl' as File
+        def binding = [gvmVersion:GVM_VERSION, vertxVersion:VERTX_VERSION, broadcasts:broadcasts]
+
 		def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
 
 		addPlainTextHeader req
