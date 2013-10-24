@@ -175,7 +175,7 @@ mkdir -p "${gvm_var_folder}"
 
 echo "Create candidate directories..."
 
-GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
+GVM_CANDIDATES_CSV=$(curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/candidates")
 echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 
 echo "$GVM_VERSION" > "${GVM_DIR}/var/version"
@@ -203,7 +203,7 @@ echo "gvm_suggestive_selfupdate=true" >> "${gvm_config_file}"
 echo "gvm_auto_selfupdate=false" >> "${gvm_config_file}"
 
 echo "Download script archive..."
-curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_zip_file}"
+curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_zip_file}"
 
 echo "Extract script archive..."
 if [[ "${cygwin}" == 'true' ]]; then

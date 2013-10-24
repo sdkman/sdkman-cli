@@ -55,10 +55,10 @@ function __gvmtool_determine_version {
 
 	elif [[ "${GVM_AVAILABLE}" == "true" && -z "$1" ]]; then
 		VERSION_VALID='valid'
-		VERSION=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/default")
+		VERSION=$(curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/candidates/${CANDIDATE}/default")
 
 	else
-		VERSION_VALID=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/$1")
+		VERSION_VALID=$(curl -K "${GVM_CURLRC}" -s "${GVM_SERVICE}/candidates/${CANDIDATE}/$1")
 		if [[ "${VERSION_VALID}" == 'valid' || ( "${VERSION_VALID}" == 'invalid' && -n "$2" ) ]]; then
 			VERSION="$1"
 
