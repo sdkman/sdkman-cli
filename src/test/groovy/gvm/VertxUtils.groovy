@@ -84,19 +84,7 @@ class VertxUtils {
 		}
 
 		rm.get("/broadcast/:version") { req ->
-			def version = req.params['version']
-			def gtplFile, binding
-			def output
-			if(gvmVersion == version){
-				output = LIVE_BROADCAST
-
-			} else {
-				gtplFile = new File('build/templates/upgrade.gtpl')
-				binding = [version:version, gvmVersion:gvmVersion]
-				def template = templateEngine.createTemplate(gtplFile).make(binding)
-				output = template.toString()
-			}
-			req.response.end output
+			req.response.end LIVE_BROADCAST
 		}
 
 		def vertx = Vertx.newVertx()
