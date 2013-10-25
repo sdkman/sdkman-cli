@@ -84,7 +84,7 @@ class BootstrapSpec extends Specification {
                 .build()
         bash.start()
 
-        when: 'bootstrap the system answering no to selfupdate'
+        when: 'bootstrap the system'
         bash.execute("source $bootstrap")
 
         then:
@@ -103,7 +103,7 @@ class BootstrapSpec extends Specification {
                 .build()
         bash.start()
 
-        when: 'bootstrap the system answering no to selfupdate'
+        when: 'bootstrap the system'
         bash.execute("source $bootstrap")
 
         then:
@@ -125,7 +125,7 @@ class BootstrapSpec extends Specification {
         versionFile.setLastModified(twoDaysAgoInMillis)
         bash.start()
 
-        when: 'bootstrap the system answering no to selfupdate'
+        when: 'bootstrap the system'
         bash.execute("source $bootstrap")
 
         then:
@@ -134,6 +134,8 @@ class BootstrapSpec extends Specification {
 
     void "should ignore version if api is offline"(){
         given: 'a working gvm installation with api down'
+        def gvmVersion = "x.y.z"
+        def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
         bash = GvmBashEnvBuilder
                 .create(gvmBaseDir)
@@ -143,11 +145,12 @@ class BootstrapSpec extends Specification {
                 .build()
         bash.start()
 
-        when: 'bootstrap the system answering no to selfupdate'
+        when: 'bootstrap the system'
         bash.execute("source $bootstrap")
 
         then:
         ! bash.output.contains("A new version of GVM is available...")
+        versionFile.text.contains(gvmVersion)
 
     }
 
@@ -162,7 +165,7 @@ class BootstrapSpec extends Specification {
                 .build()
         bash.start()
 
-        when: 'bootstrap the system answering no to selfupdate'
+        when: 'bootstrap the system'
         bash.execute("source $bootstrap")
 
         then:

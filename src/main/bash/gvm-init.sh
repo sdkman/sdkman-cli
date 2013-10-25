@@ -50,15 +50,18 @@ function gvm_set_candidates {
     IFS="$OLD_IFS"
 }
 
-function gvm_offline_on_redirect {
-	DETECT_HTML="$(echo "$1" | tr '[:upper:]' '[:lower:]' | grep 'html')"
-	if [[ -n "$DETECT_HTML" ]]; then
+function gvm_check_offline {
+    RESPONSE="$1"
+	DETECT_HTML="$(echo "$RESPONSE" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	if [[ -z "$RESPONSE" || -n "$DETECT_HTML" ]]; then
 		echo "GVM can't reach the internet so going offline. Re-enable online with:"
 		echo ""
 		echo "  $ gvm offline disable"
 		echo ""
 		GVM_FORCE_OFFLINE="true"
 	fi
+	unset RESPONSE
+	unset DETECT_HTML
 }
 
 # force zsh to behave well
@@ -190,7 +193,7 @@ if [[ -f "$GVM_VERSION_TOKEN" && -z "$(find "$GVM_VERSION_TOKEN" -mtime +1)" ]];
 
 else
     GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
-    gvm_offline_on_redirect "$GVM_REMOTE_VERSION"
+    gvm_check_offline "$GVM_REMOTE_VERSION"
     if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then
         GVM_REMOTE_VERSION="$GVM_VERSION"
     else
