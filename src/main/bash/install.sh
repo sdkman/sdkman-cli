@@ -199,7 +199,6 @@ done
 echo "Prime the config file..."
 touch "${gvm_config_file}"
 echo "gvm_auto_answer=false" >> "${gvm_config_file}"
-echo "gvm_suggestive_selfupdate=true" >> "${gvm_config_file}"
 echo "gvm_auto_selfupdate=false" >> "${gvm_config_file}"
 
 echo "Download script archive..."

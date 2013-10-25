@@ -84,6 +84,7 @@ And(~'^an initialised environment$') {->
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)
         .withJdkHome(javaHome)
+        .withVersionToken(gvmVersion)
         .build()
 
     bash.start()

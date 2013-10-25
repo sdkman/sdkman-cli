@@ -102,10 +102,6 @@ if [[ -z $(cat ${gvm_config_file} | grep 'gvm_auto_answer') ]]; then
 	echo "gvm_auto_answer=false" >> "${gvm_config_file}"
 fi
 
-if [[ -z $(cat ${gvm_config_file} | grep 'gvm_suggestive_selfupdate') ]]; then
-	echo "gvm_suggestive_selfupdate=true" >> "${gvm_config_file}"
-fi
-
 if [[ -z $(cat ${gvm_config_file} | grep 'gvm_auto_selfupdate') ]]; then
 	echo "gvm_auto_selfupdate=false" >> "${gvm_config_file}"
 fi
