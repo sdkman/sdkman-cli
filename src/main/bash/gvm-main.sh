@@ -74,7 +74,14 @@ function gvm {
 		GVM_ONLINE="true"
 	fi
 
-	__gvmtool_update_broadcast "$COMMAND"
+
+	__gvmtool_check_upgrade_available
+	if [[ "$UPGRADE_AVAILABLE" == "true" && "$COMMAND" != "broadcast" && "$COMMAND" != "selfupdate" ]]; then
+		echo "$BROADCAST_LIVE"
+		echo ""
+	else
+		__gvmtool_update_broadcast "$COMMAND"
+	fi
 
 	# Load the gvm config if it exists.
 	if [ -f "${GVM_DIR}/etc/config" ]; then

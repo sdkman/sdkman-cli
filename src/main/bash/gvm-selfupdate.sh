@@ -16,11 +16,19 @@
 #   limitations under the License.
 #
 
+function __gvmtool_check_upgrade_available {
+	UPGRADE_AVAILABLE="false"
+	UPGRADE_NOTICE=$(echo "${BROADCAST_LIVE}" | grep 'Your version of GVM is out of date!')
+	if [[ -n "$UPGRADE_NOTICE" ]]; then
+		UPGRADE_AVAILABLE="true"
+	fi
+}
+
 function __gvmtool_selfupdate {
 	if [[ "$GVM_AVAILABLE" == "false" ]]; then
 		echo "$OFFLINE_MESSAGE"
 
-	elif [[ "$GVM_REMOTE_VERSION" == "$GVM_VERSION" ]]; then
+	elif [[ "$UPGRADE_AVAILABLE" == "false" ]]; then
 		echo "No update available at this time."
 
 	else

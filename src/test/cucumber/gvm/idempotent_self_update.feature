@@ -1,4 +1,3 @@
-@manual
 Feature: Idempotent Self Update
 
   Scenario: Attempt Self Update on an up to date system
