@@ -116,6 +116,7 @@ rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current'] ?: ''
 	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
+    def gtplFile = 'build/templates/list_2.gtpl' as File
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
@@ -125,26 +126,24 @@ rm.get("/candidates/:candidate/list") { req ->
         def local = determineLocal(available, installed)
 
         def content = prepareListView(combined, current, installed, local, COLUMN_LENGTH)
-
         def binding = [candidate: candidate, content:content]
-        def gtplFile = 'build/templates/list_2.gtpl' as File
-        def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
+        def output = templateEngine.createTemplate(gtplFile).make(binding)
 
         addPlainTextHeader req
-		req.response.end templateText
+        req.response.end output.toString()
 	}
 }
 
 private prepareListView(combined, current, installed, local, colLength){
-    def output = ""
+    def builder = new StringBuilder()
     for (i in (0..(colLength-1))){
         def versionColumn1 = prepareVersion(combined[i], current, installed, local)
         def versionColumn2 = prepareVersion(combined[i+(colLength*1)], current, installed, local)
         def versionColumn3 = prepareVersion(combined[i+(colLength*2)], current, installed, local)
         def versionColumn4 = prepareVersion(combined[i+(colLength*3)], current, installed, local)
-        output += "${pad(versionColumn1)} ${pad(versionColumn2)} ${pad(versionColumn3)} ${pad(versionColumn4)}\n"
+        builder << "${pad(versionColumn1)} ${pad(versionColumn2)} ${pad(versionColumn3)} ${pad(versionColumn4)}\n"
     }
-    output
+    builder.toString()
 }
 
 private prepareVersion(version, current, installed, local){
