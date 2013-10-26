@@ -1,31 +1,30 @@
 #!/bin/bash
 
-BRANCH="$1"
-VERSION="$2"
+VERSION="$1"
+BRANCH="production"
 
-if [[ "$BRANCH" == 'beta' && -n "$VERSION" ]]; then
-	git checkout master
-
-elif [[ "$BRANCH" == 'production' && -n "$VERSION" ]]; then
-	git checkout beta
-
-else
-	echo "Usage: release.sh <branch> <version>"
+#sanity
+if [[ -z "$VERSION" ]]; then
+	echo "Usage: release.sh <version>"
 	exit 0
 fi
 
+#prepare branch
+git checkout master
 git branch -D "$BRANCH"
 git checkout -b "$BRANCH"
+
+#update version
 sed -i "s/1.0.0-SNAPSHOT/$VERSION/g" config.groovy
-
-
 git add config.groovy
 git commit -m "Update version of $BRANCH to $VERSION"
+
+#push branch
 git push -f origin "$BRANCH:$BRANCH"
 
-if [[ "$BRANCH" == 'production' ]]; then
-	git tag "$VERSION"
-	git push origin "$VERSION"
-fi
+#push tag
+git tag "$VERSION"
+git push origin "$VERSION"
 
+#bach to master branch
 git checkout master
