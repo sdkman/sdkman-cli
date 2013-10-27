@@ -120,28 +120,32 @@ rm.get("/candidates/:candidate/default") { req ->
 	}
 }
 
-rm.get("/candidates/:candidate/list") { req ->
-	def candidate = req.params['candidate']
-	def current = req.params['current'] ?: ''
-	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
-
-	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
-	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		def available = msg.body.results.collect { it.version }
-
-        def combined = combine(available, installed)
-        def local = determineLocal(available, installed)
-
-        def content = prepareListView(combined, current, installed, local, COLUMN_LENGTH)
-        def binding = [candidate: candidate, content:content]
-        def template = listTemplate.make(binding)
-
-        addPlainTextHeader req
-        req.response.end template.toString()
-	}
+def markCurrent = { isCurrent ->
+    isCurrent ? '>' : ' '
 }
 
-private prepareListView(combined, current, installed, local, colLength){
+def markStatus = { isInstalled, isLocalOnly ->
+    if(isInstalled && isLocalOnly) '+'
+    else if(isInstalled) '*'
+    else ' '
+}
+
+def decorateVersion = { version, isCurrent, isInstalled, isLocalOnly ->
+    " ${markCurrent(isCurrent)} ${markStatus(isInstalled, isLocalOnly)} ${version ?: ''}"
+}
+
+def prepareVersion = { version, current, installed, local ->
+    def isCurrent = (current == version)
+    def isInstalled = installed.contains(version)
+    def isLocalOnly = local.contains(version)
+    decorateVersion(version, isCurrent, isInstalled, isLocalOnly)
+}
+
+def pad = { col, width=20 ->
+    (col ?: "").take(width).padRight(width)
+}
+
+def prepareListView = { combined, current, installed, local, colLength ->
     def builder = new StringBuilder()
     for (i in (0..(colLength-1))){
         def versionColumn1 = prepareVersion(combined[i], current, installed, local)
@@ -153,41 +157,37 @@ private prepareListView(combined, current, installed, local, colLength){
     builder.toString()
 }
 
-private prepareVersion(version, current, installed, local){
-    def isCurrent = (current == version)
-    def isInstalled = installed.contains(version)
-    def isLocalOnly = local.contains(version)
-    decorateVersion(version, isCurrent, isInstalled, isLocalOnly)
-}
-
-private decorateVersion(version, isCurrent, isInstalled, isLocalOnly) {
-    " ${markCurrent(isCurrent)} ${markStatus(isInstalled, isLocalOnly)} ${version ?: ''}"
-}
-
-private pad(col, width=20) {
-    (col ?: "").take(width).padRight(width)
-}
-
-private markCurrent(isCurrent){
-    isCurrent ? '>' : ' '
-}
-
-
-private markStatus(isInstalled, isLocalOnly){
-    if(isInstalled && isLocalOnly) '+'
-    else if(isInstalled) '*'
-    else ' '
-}
-
-private determineLocal(available, installed){
+def determineLocal = { available, installed ->
     installed.findAll { ! available.contains(it) }
 }
 
-private combine(available, installed){
+def combine = { available, installed ->
     def combined = [] as TreeSet
     combined.addAll installed
     combined.addAll available
     combined.toList().reverse()
+}
+
+rm.get("/candidates/:candidate/list") { req ->
+	def candidate = req.params['candidate']
+	def current = req.params['current'] ?: ''
+	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
+    def gtplFile = 'build/templates/list_2.gtpl' as File
+
+	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		def available = msg.body.results.collect { it.version }
+
+        def combined = combine(available, installed)
+        def local = determineLocal(available, installed)
+
+        def content = prepareListView(combined, current, installed, local, COLUMN_LENGTH)
+        def binding = [candidate: candidate, content:content]
+        def output = templateEngine.createTemplate(gtplFile).make(binding)
+
+        addPlainTextHeader req
+        req.response.end output.toString()
+	}
 }
 
 def validationHandler = { req ->
