@@ -39,6 +39,14 @@ container.deployModule 'vertx.mongo-persistor-v1.2', config
 
 def templateEngine = new SimpleTemplateEngine()
 
+def templateBase = "build/templates"
+
+def listTemplateFile = "${templateBase}/list_2.gtpl" as File
+def listTemplate = templateEngine.createTemplate(listTemplateFile)
+
+def broadcastTemplateFile = "${templateBase}/broadcast.gtpl" as File
+def broadcastTemplate = templateEngine.createTemplate(broadcastTemplateFile)
+
 
 //
 // route matcher implementations
@@ -116,7 +124,6 @@ rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def current = req.params['current'] ?: ''
 	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
-    def gtplFile = 'build/templates/list_2.gtpl' as File
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
@@ -127,10 +134,10 @@ rm.get("/candidates/:candidate/list") { req ->
 
         def content = prepareListView(combined, current, installed, local, COLUMN_LENGTH)
         def binding = [candidate: candidate, content:content]
-        def output = templateEngine.createTemplate(gtplFile).make(binding)
+        def template = listTemplate.make(binding)
 
         addPlainTextHeader req
-        req.response.end output.toString()
+        req.response.end template.toString()
 	}
 }
 
@@ -228,13 +235,12 @@ def broadcastHandler = { req ->
 	def cmd2 = [action:"find", collection:"broadcast", matcher:[:]]
 	vertx.eventBus.send("mongo-persistor", cmd2){ msg ->
 		def broadcasts = msg.body.results
-        def gtplFile = 'build/templates/broadcast.gtpl' as File
         def binding = [gvmVersion:GVM_VERSION, vertxVersion:VERTX_VERSION, broadcasts:broadcasts]
 
-		def templateText = templateEngine.createTemplate(gtplFile).make(binding).toString()
+		def template = broadcastTemplate.make(binding)
 
 		addPlainTextHeader req
-		req.response.end templateText
+		req.response.end template.toString()
 	}
 }
 
