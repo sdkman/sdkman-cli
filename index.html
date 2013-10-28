@@ -203,6 +203,18 @@ eg: gvm install groovy
 <pre><code>$ gvm offline disable
   Online mode re-enabled!</code></pre>
 
+<h3>Flushing</h3>
+<p>Operating state is held withing the folders of GVM. This includes a candidate list, broadcast message, downloaded archives, current remote version and temporary storage area.</p>
+<p>Sometime it is necessary to clean up this persistent state. It is possible to flush these individually by using the <code>flush</code> command:</p>
+<pre><code>
+$ gvm flush candidates # flush the list of available candidates
+$ gvm flush broadcast  # flush the broadcast message
+$ gvm flush archives   # flush all downloaded archives (!)
+$ gvm flush version    # flush the last known remote version (used for selfupdate)
+$ gvm flush temp       # flush out the temporary storage
+</code></pre>
+
+
 <h3>Configurations</h3>
 
 <p>Although configuration is limited at the moment, the list of configurable items will grow as required. Configuration can be found in the <code>.gvm/etc/config</code> file. Currently the following is configurable:</p>
@@ -211,10 +223,7 @@ eg: gvm install groovy
 # make gvm non-interactive, great for CI environments
 gvm_auto_answer=false/true
 
-# prompt user to selfupdate on new shell
-gvm_suggestive_selfupdate=true/false
-
-# perform automatic selfupdates
+# perform automatic selfupdates on new shells
 gvm_auto_selfupdate=true/false
 </code></pre>
 
