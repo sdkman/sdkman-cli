@@ -22,13 +22,11 @@ If the environment needs tweaking for GVM to be installed, the installer will pr
 
 ## Running the Cucumber Features
 
-All GVM's tests are written in Cucumber and can be found under `src/test/cucumber/gvm`. These can be run with Gradle by running the following command:
+All GVM's BDD tests are written in Cucumber and can be found under `src/test/cucumber/gvm`.
+These can be run with Gradle by running the following command:
 
     $ ./gradlew
 
-or to see the output
-
-	$ ./gradlew -i
 
 __Please ensure that the JAVA_HOME environment variable set to JDK 1.7 on your system!__
 
@@ -61,7 +59,7 @@ Add any other candidates that you might require.
 Next, prepare the local GVM environment by building and starting the server.
 
 	$ ./gradlew
-	$ ./run.sh
+	$ contrib/run.sh
 
 This will start the server on localhost:8080
 
