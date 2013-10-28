@@ -32,6 +32,7 @@ tmpDir = "${gvmDir}/tmp" as File
 
 broadcastFile = new File(varDir, "broadcast")
 candidatesFile = new File(varDir, "candidates")
+versionTokenFile = new File(varDir, "version")
 initScript = new File(binDir, "gvm-init.sh")
 
 server = null

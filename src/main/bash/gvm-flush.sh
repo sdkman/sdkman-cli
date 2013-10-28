@@ -50,6 +50,14 @@ function __gvmtool_flush {
 		        echo "No prior broadcast found so not flushed."
 		    fi
 		    ;;
+		version)
+			if [[ -f "${GVM_DIR}/var/version" ]]; then
+		        rm "${GVM_DIR}/var/version"
+		        echo "Version Token has been flushed."
+		    else
+		        echo "No prior Remote Version found so not flushed."
+		    fi
+		    ;;
 		archives)
 			__gvmtool_cleanup_folder "archives"
 		    ;;

@@ -27,3 +27,13 @@ Then(~'^no "([^"]*)" file is present in temporary storage$') { String fileName -
 Given(~'^the broadcast has been flushed$') {->
     assert broadcastFile.delete()
 }
+Given(~'^a prior version "([^"]*)" was detected$') { String version ->
+    assert versionTokenFile.exists()
+    assert versionTokenFile.text.contains(version)
+}
+Then(~'^no version token can be found$') {->
+    assert ! versionTokenFile.exists()
+}
+Given(~'^the Remote Version has been flushed$') {->
+    assert versionTokenFile.delete()
+}

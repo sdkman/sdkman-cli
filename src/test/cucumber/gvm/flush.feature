@@ -30,6 +30,17 @@ Feature: Flush
     When I enter "gvm flush broadcast"
     Then I see "No prior broadcast found so not flushed."
 
+  Scenario: Clean up the last known Remote Version
+    Given a prior version "x.y.z" was detected
+    When I enter "gvm flush version"
+    Then no version token can be found
+    And I see "Version Token has been flushed."
+
+  Scenario: Clean up an uninitialised last known Remote Version
+    Given the Remote Version has been flushed
+    When I enter "gvm flush version"
+    Then I see "No prior Remote Version found so not flushed."
+
   Scenario: Clear out the cached Archives
     Given the archive "grails-1.3.9.zip" has been cached
     When I enter "gvm flush archives"
