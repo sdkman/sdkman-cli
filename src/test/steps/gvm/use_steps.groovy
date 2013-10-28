@@ -4,7 +4,7 @@ import java.nio.file.*
 
 import static cucumber.api.groovy.EN.*
 
-Then(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidate, String version ->
+And(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidate, String version ->
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
 	def current = FileSystems.default.getPath("$gvmDir/$candidate/current")
 	def symlinkFile = current.toFile()
@@ -13,7 +13,7 @@ Then(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidat
 	}
 }
 
-Then(~'^the candidate "([^"]*)" version "([^"]*)" is not in use$') { String candidate, String version ->
+And(~'^the candidate "([^"]*)" version "([^"]*)" is not in use$') { String candidate, String version ->
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
 	def current = FileSystems.default.getPath("$gvmDir/$candidate/current")
 	def symlinkFile = current.toFile()
@@ -22,24 +22,24 @@ Then(~'^the candidate "([^"]*)" version "([^"]*)" is not in use$') { String cand
 	}
 }
 
-Then(~'^the candidate "([^"]*)" version "([^"]*)" should be in use$') { String candidate, String version ->
+And(~'^the candidate "([^"]*)" version "([^"]*)" should be in use$') { String candidate, String version ->
 	bash.execute("$candidate --version")
 	assert bash.output.contains(version)
 }
 
-Then(~'^the candidate "([^"]*)" version "([^"]*)" should be the default$') { String candidate, String version ->
+And(~'^the candidate "([^"]*)" version "([^"]*)" should be the default$') { String candidate, String version ->
 	def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
 	def current = FileSystems.default.getPath("$gvmDir/$candidate/current")
 	assert Files.isSameFile(current, directory)
 }
 
-Then(~'^the candidate "([^"]*)" version "([^"]*)" should not be the default$') { String candidate, String version ->
+And(~'^the candidate "([^"]*)" version "([^"]*)" should not be the default$') { String candidate, String version ->
     def directory = FileSystems.default.getPath("$gvmDir/$candidate/$version")
     def current = FileSystems.default.getPath("$gvmDir/$candidate/current")
     assert (!Files.isSymbolicLink(current) || (Files.isSymbolicLink(current) && !Files.isSameFile(current, directory)))
 }
 
-Then(~'^the candidate "([^"]*)" is no longer selected$') { String candidate ->
+And(~'^the candidate "([^"]*)" is no longer selected$') { String candidate ->
 	def symlink = new File("$gvmDir/$candidate/current")
 	assert ! symlink.exists()
 }

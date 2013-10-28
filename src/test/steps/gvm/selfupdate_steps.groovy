@@ -14,7 +14,7 @@ And(~'^the configuration file has not been primed$') { ->
     }
 }
 
-Then(~'^the configuration file is present$') { ->
+And(~'^the configuration file is present$') { ->
     def configFile = "$gvmDir/etc/config" as File
     assert configFile.exists()
 }
@@ -29,7 +29,7 @@ And(~'^the configuration file does not contain "([^"]*)"$') { String content ->
     assert ! configFile.text.contains(content)
 }
 
-Given(~'^a configuration file in the extensions folder$') {->
+And(~'^a configuration file in the extensions folder$') {->
     def configFile = "$gvmDir/ext/config" as File
     configFile.text = ""
 }
@@ -66,7 +66,7 @@ And(~'^the gvm module scripts are placed in the src folder$') {->
 And(~'^the staging folder is cleaned up$') {->
     assert ! new File("$gvmDir/tmp/stage").exists()
 }
-Given(~'^an empty configuration file$') {->
+And(~'^an empty configuration file$') {->
     def configFile = "$gvmDir/ext/config" as File
     configFile.text = ""
 }
