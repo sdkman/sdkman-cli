@@ -27,6 +27,10 @@ if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
 
+if [ -e "${GVM_DIR}/GVM_FORCE_OFFLINE" ]; then
+	GVM_FORCE_OFFLINE="true"
+fi
+
 function gvm_source_modules {
 	# Source gvm module scripts.
     for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*' -exec basename {} \;); do
