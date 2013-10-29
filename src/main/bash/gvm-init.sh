@@ -222,5 +222,5 @@ if [[ "$GVM_REMOTE_VERSION" != "$GVM_VERSION" ]]; then
     fi
 fi
 
-
+unset i
 export GVM_INIT="true"
