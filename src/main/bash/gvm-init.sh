@@ -176,6 +176,7 @@ for (( i=0; i <= ${GVM_CANDIDATE_COUNT}; i++ )); do
 		unset CANDIDATE_DIR
 	fi
 done
+unset i
 
 export PATH
 
