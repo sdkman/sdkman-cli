@@ -4,6 +4,8 @@
 
 [![API Documentation](https://s3.amazonaws.com/gvmtool/mashape_small.png)](https://www.mashape.com/marcovermeulen/gvm)
 
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gvmtool/gvm/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 GVM is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
 
 See documentation on the [GVM Project Page](http://gvmtool.net).
@@ -80,7 +82,4 @@ To install GVM locally running against your local server, run the following comm
 
 	$ ./gradlew install
 	$ source ~/.gvm/bin/gvm-init.sh
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gvmtool/gvm/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
