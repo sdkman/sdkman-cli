@@ -80,3 +80,7 @@ To install GVM locally running against your local server, run the following comm
 
 	$ ./gradlew install
 	$ source ~/.gvm/bin/gvm-init.sh
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gvmtool/gvm/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
