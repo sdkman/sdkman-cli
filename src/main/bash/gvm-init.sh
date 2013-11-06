@@ -120,7 +120,6 @@ fi
 if [[ "${GVM_INIT}" == "true" ]]; then
     gvm_set_candidates
 	gvm_source_modules
-	return
 fi
 
 # Attempt to set JAVA_HOME if it's not already set.
