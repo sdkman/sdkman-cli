@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 if [ -z $(which java) ]; then
 	echo "Please install java before continuing..."

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 BRANCH="$1"
 VERSION="$2"

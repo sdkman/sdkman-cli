@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/zsh
 
 RELEASE=$(grep 'gvmVersion' config.groovy | sed 's_gvmVersion = __g' | tr -d "'")
 

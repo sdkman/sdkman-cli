@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 CANDIDATE="$1"
 VERSION="$2"

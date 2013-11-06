@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 #
 #   Copyright 2012 Marco Vermeulen
 #
