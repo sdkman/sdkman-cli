@@ -94,11 +94,11 @@ rm.get("/candidates") { req ->
 
 rm.get("/candidates/:candidate") { req ->
 	def candidate = req.params['candidate']
-	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1]]
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate], keys:["versions.version":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		def response
 		if(msg.body.results){
-			def versions = msg.body.results.collect(new TreeSet()) { it.version }
+			def versions = msg.body.results.versions.version.first().collect(new TreeSet()) { it }
 			response = versions.join(',')
 
 		} else {
@@ -125,9 +125,9 @@ rm.get("/candidates/:candidate/list") { req ->
 	def current = req.params['current'] ?: ''
 	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
 
-	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate], keys:["versions.version":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		def available = msg.body.results.collect { it.version }
+		def available = msg.body.results.versions.version.first().collect { it }
 
         def combined = combine(available, installed)
         def local = determineLocal(available, installed)
@@ -193,7 +193,7 @@ private combine(available, installed){
 def validationHandler = { req ->
 	def candidate = req.params['candidate']
 	def version = req.params['version']
-	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate, version:version]]
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		addPlainTextHeader req
 		if(msg.body.results) {
@@ -213,9 +213,9 @@ def downloadHandler = { req ->
 
 	log 'install', candidate, version, req
 
-	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate, version:version], keys:["url":1]]
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version], keys:["versions.url":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		req.response.headers['Location'] = msg.body.results.url.first()
+		req.response.headers['Location'] = msg.body.results.versions.url.first()
 		req.response.statusCode = 302
 		req.response.end()
 	}
