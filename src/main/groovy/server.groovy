@@ -193,7 +193,7 @@ private combine(available, installed){
 def validationHandler = { req ->
 	def candidate = req.params['candidate']
 	def version = req.params['version']
-	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version]]
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version], keys:['versions.version.$':1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		addPlainTextHeader req
 		if(msg.body.results) {
@@ -213,7 +213,7 @@ def downloadHandler = { req ->
 
 	log 'install', candidate, version, req
 
-	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version], keys:["versions.url":1]]
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version], keys:['versions.url.$':1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		req.response.headers['Location'] = msg.body.results.versions.url.first()
 		req.response.statusCode = 302
