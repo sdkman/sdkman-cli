@@ -3,7 +3,7 @@ package gvm
 import cucumber.api.junit.Cucumber
 import org.junit.runner.RunWith
 
-@RunWith(Cucumber.class)
+@RunWith(Cucumber)
 @Cucumber.Options(
 	format=["pretty", "html:build/reports/cucumber"],
 	strict=true,
@@ -11,5 +11,4 @@ import org.junit.runner.RunWith
 	glue=["src/test/steps"],
 	tags=["~@manual", "~@review"]
 )
-public class RunCukesTest {
-}
+class RunCukesTest {}
