@@ -70,8 +70,12 @@ rm.get("/robots.txt") { req ->
 }
 
 rm.get("/alive") { req ->
-	addPlainTextHeader req
-	req.response.end "OK"
+    def cmd = [action:"find", collection:"application", matcher:[alive:"OK"]]
+    vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+        def alive = msg.body.results.alive.first()
+        addPlainTextHeader req
+        req.response.end alive
+    }
 }
 
 rm.get("/res") { req ->
