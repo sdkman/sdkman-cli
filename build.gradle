@@ -32,7 +32,7 @@ dependencies {
 test.testLogging.exceptionFormat = 'full'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.9-rc-2'
+    gradleVersion = '1.9'
 }
 
 def loadConfiguration() {
