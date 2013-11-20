@@ -219,7 +219,7 @@ def downloadHandler = { req ->
 
 	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate, "versions.version":version], keys:['versions.url.$':1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		req.response.headers['Location'] = msg.body.results.versions.url.first()
+		req.response.headers['Location'] = msg.body.results.versions.url[0].first()
 		req.response.statusCode = 302
 		req.response.end()
 	}
