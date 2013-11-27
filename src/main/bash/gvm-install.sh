@@ -56,7 +56,7 @@ function __gvmtool_install {
 	if [[ -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" || -h "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is already installed."
-		return 1
+		return 0
 	fi
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
@@ -71,7 +71,7 @@ function __gvmtool_install {
 			echo "Setting ${CANDIDATE} ${VERSION} as default."
 			__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
 		fi
-		return 1
+		return 0
 
 	elif [[ "${VERSION_VALID}" == 'invalid' && -n "${LOCAL_FOLDER}" ]]; then
 		__gvmtool_install_local_version "${CANDIDATE}" "${VERSION}" "${LOCAL_FOLDER}" || return 1
