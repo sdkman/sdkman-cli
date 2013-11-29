@@ -24,14 +24,6 @@ And(~'^I see only \"([^\"]*)\"$') { String output ->
     assert result?.replaceAll("\\n", "") == output
 }
 
-And(~'^the exit status is zero$') {->
-    assert bash.status == 0
-}
-
-And(~'^the exit status is non-zero$') {->
-    assert bash.status != 0
-}
-
 And(~'^I see the current gvm version$') {->
     assert result.contains("Groovy enVironment Manager")
 }
