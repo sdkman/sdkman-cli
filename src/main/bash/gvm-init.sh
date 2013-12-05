@@ -51,17 +51,17 @@ function gvm_set_candidates {
 }
 
 function gvm_check_offline {
-    RESPONSE="$1"
-	DETECT_HTML="$(echo "$RESPONSE" | tr '[:upper:]' '[:lower:]' | grep 'html')"
-	if [[ -z "$RESPONSE" || -n "$DETECT_HTML" ]]; then
+    GVM_RESPONSE="$1"
+	GVM_DETECT_HTML="$(echo "$GVM_RESPONSE" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	if [[ -n "$GVM_DETECT_HTML" ]]; then
 		echo "GVM can't reach the internet so going offline. Re-enable online with:"
 		echo ""
 		echo "  $ gvm offline disable"
 		echo ""
 		GVM_FORCE_OFFLINE="true"
 	fi
-	unset RESPONSE
-	unset DETECT_HTML
+	unset GVM_RESPONSE
+	unset GVM_DETECT_HTML
 }
 
 # force zsh to behave well
