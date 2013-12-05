@@ -32,7 +32,7 @@ function __gvmtool_help {
 	echo "       broadcast or b"
 	echo "       help      or h"
 	echo "       offline           <enable|disable>"
-	echo "       selfupdate"
+	echo "       selfupdate        [force]"
 	echo "       flush             <candidates|broadcast|archives|temp>"
 	echo ""
 	echo -n "   candidate  :  "

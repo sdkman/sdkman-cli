@@ -17,13 +17,15 @@
 #
 
 function __gvmtool_selfupdate {
+    GVM_FORCE_SELFUPDATE="$1"
 	if [[ "$GVM_AVAILABLE" == "false" ]]; then
 		echo "$OFFLINE_MESSAGE"
 
-	elif [[ "$GVM_REMOTE_VERSION" == "$GVM_VERSION" ]]; then
+	elif [[ "$GVM_REMOTE_VERSION" == "$GVM_VERSION" && "$GVM_FORCE_SELFUPDATE" != "force" ]]; then
 		echo "No update available at this time."
 
 	else
 		curl -s "${GVM_SERVICE}/selfupdate" | bash
 	fi
+	unset GVM_FORCE_SELFUPDATE
 }

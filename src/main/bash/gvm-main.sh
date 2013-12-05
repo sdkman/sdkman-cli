@@ -108,7 +108,7 @@ function gvm {
 
 	# Check whether the candidate exists
 	GVM_VALID_CANDIDATE=$(echo ${GVM_CANDIDATES[@]} | grep -w "$QUALIFIER")
-	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && -z "$GVM_VALID_CANDIDATE" ]]; then
+	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && -z "$GVM_VALID_CANDIDATE" ]]; then
 		echo -e "\nStop! $QUALIFIER is not a valid candidate."
 		return 1
 	fi
