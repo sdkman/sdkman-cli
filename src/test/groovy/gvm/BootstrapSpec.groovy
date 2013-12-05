@@ -172,6 +172,25 @@ class BootstrapSpec extends Specification {
         ! bash.output.contains("GVM can't reach the internet so going offline.")
     }
 
+    void "should not suggest selfupdate if curl times out"(){
+        given: 'a working gvm installation with api down'
+        def gvmVersion = "x.y.z"
+        def versionFile = new File(versionToken)
+        curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
+        bash = GvmBashEnvBuilder
+                .create(gvmBaseDir)
+                .withCurlStub(curlStub)
+                .withConfiguration("gvm_auto_selfupdate", "true")
+                .build()
+        bash.start()
+
+        when: 'bootstrap the system'
+        bash.execute("source $bootstrap")
+
+        then:
+        ! bash.output.contains("A new version of GVM is available...")
+    }
+
     void "should ignore version if api returns garbage"(){
         given: 'a working gvm installation with garbled api'
         curlStub.primeWith("http://localhost:8080/app/version", "echo <html><title>sorry</title></html>").build()

@@ -195,7 +195,7 @@ if [[ -f "$GVM_VERSION_TOKEN" && -z "$(find "$GVM_VERSION_TOKEN" -mtime +1)" ]];
 else
     GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
     gvm_check_offline "$GVM_REMOTE_VERSION"
-    if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then
+    if [[ -z "$GVM_REMOTE_VERSION" || "$GVM_FORCE_OFFLINE" == 'true' ]]; then
         GVM_REMOTE_VERSION="$GVM_VERSION"
     else
         echo ${GVM_REMOTE_VERSION} > "$GVM_VERSION_TOKEN"
