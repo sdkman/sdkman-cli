@@ -4,12 +4,12 @@ CANDIDATE="$1"
 VERSION="$2"
 
 if [ -z "$1" -o -z "$2" ]; then
-	echo "Usage: download.sh <CANDIDATE> <VERSION>"
-	exit 0
+    echo "Usage: download.sh <CANDIDATE> <VERSION>"
+    exit 0
 fi
 
 API="http://api.gvmtool.net"
-BASE_DIR="$HOME/gvm"
+BASE_DIR="${HOME}/gvm"
 ARCHIVE_DIR="${BASE_DIR}/archives"
 TMP_DIR="${BASE_DIR}/tmp"
 ARCHIVE="${ARCHIVE_DIR}/${CANDIDATE}-${VERSION}.zip"
