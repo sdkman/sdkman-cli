@@ -13,8 +13,11 @@ BASE_DIR="$HOME/gvm"
 ARCHIVE_DIR="${BASE_DIR}/archives"
 TMP_DIR="${BASE_DIR}/tmp"
 ARCHIVE="${ARCHIVE_DIR}/${CANDIDATE}-${VERSION}.zip"
-ARCHIVE_OK=$(unzip -t "${ARCHIVE}" | grep 'No errors detected in compressed data')
 DESTINATION_DIR="$BASE_DIR/$CANDIDATE-$VERSION"
+
+function download_archive {
+    curl -# -L "${API}/download/${CANDIDATE}/${VERSION}?platform=$(uname)" > "$ARCHIVE"
+}
 
 if [ -d "$TMP_DIR" ]; then
     echo "Cleaning up temporary folder..."
@@ -30,11 +33,17 @@ if [ -d "$DESTINATION_DIR" ]; then
     exit 0
 fi
 
-if [[ -f "$ARCHIVE" && -n "$ARCHIVE_OK" ]]; then
-	echo "Archive found and verified, using cached version..."
+if [[ -f "$ARCHIVE" ]]; then
+    ARCHIVE_OK=$(unzip -qt "${ARCHIVE}" | grep 'No errors detected in compressed data')
+    if [[ -n "$ARCHIVE_OK" ]]; then
+        echo "Archive found and verified, using cached version..."
+    else
+        echo "Archive found but was corrupt, redownloading..."
+        download_archive
+    fi
 else
-	echo "Downloading archive..."
-	curl -# -L "${API}/download/${CANDIDATE}/${VERSION}?platform=$(uname)" > "$ARCHIVE"
+    echo "Downloading archive..."
+    download_archive
 fi
 
 echo "Extracting archive to: $DESTINATION_DIR"
