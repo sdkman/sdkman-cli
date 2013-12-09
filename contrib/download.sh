@@ -16,7 +16,9 @@ ARCHIVE="${ARCHIVE_DIR}/${CANDIDATE}-${VERSION}.zip"
 DESTINATION_DIR="$BASE_DIR/$CANDIDATE-$VERSION"
 
 function download_archive {
-    curl -# -L "${API}/download/${CANDIDATE}/${VERSION}?platform=$(uname)" > "$ARCHIVE"
+    echo -n "Downloading $CANDIDATE-$VERSION... "
+    curl -s -L "${API}/download/${CANDIDATE}/${VERSION}?platform=$(uname)" > "$ARCHIVE"
+    [ $? == 0 ] && echo "DONE" || echo " -- error downloading $CANDIDATE-$VERSION"
 }
 
 if [ -d "$TMP_DIR" ]; then
@@ -42,7 +44,6 @@ if [[ -f "$ARCHIVE" ]]; then
         download_archive
     fi
 else
-    echo "Downloading archive..."
     download_archive
 fi
 
