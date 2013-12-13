@@ -46,6 +46,13 @@ Feature: Install Candidate
     Then the candidate "grails" version "2.1.0" should be the default
     #And the exit status is zero
 
+  Scenario: Install a candidate and select to use it using an environment variable
+    When I enter "GVM_AUTO_ANSWER=true gvm install grails 2.1.0"
+    Then the candidate "grails" version "2.1.0" is installed
+    And I see "Done installing!"
+    And I see "Setting grails 2.1.0 as default."
+    Then the candidate "grails" version "2.1.0" should be the default
+
   Scenario: Install a candidate and do not select to use it
     When I enter "gvm install grails 2.1.0" and answer "n"
     Then the candidate "grails" version "2.1.0" is installed
@@ -63,4 +70,4 @@ Feature: Install Candidate
     #And the exit status is non-zero
     And the candidate "grails" version "1.3.6" is not installed
     And the archive for candidate "grails" version "1.3.6" is removed
-	
+

@@ -81,6 +81,11 @@ function gvm {
 		source "${GVM_DIR}/etc/config"
 	fi
 
+  # Overwrite gvm_auto_answer from environment variable
+  if [[ "$GVM_AUTO_ANSWER" == "true" ]]; then
+    gvm_auto_answer=true
+  fi
+
  	# no command provided
 	if [[ -z "$COMMAND" ]]; then
 		__gvmtool_help
