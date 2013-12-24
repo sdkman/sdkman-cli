@@ -31,10 +31,6 @@ dependencies {
 
 test.testLogging.exceptionFormat = 'full'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.10'
-}
-
 def loadConfiguration() {
     def environment = hasProperty('env') ? env : 'local'
     ext.environment = environment
