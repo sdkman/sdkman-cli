@@ -229,6 +229,7 @@ rm.get("/candidates/:candidate/:version/download", downloadHandler)
 rm.get("/download/:candidate/:version", downloadHandler)
 
 def versionHandler = { req ->
+	addPlainTextHeader req
 	req.response.end GVM_VERSION
 }
 
