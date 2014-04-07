@@ -59,7 +59,7 @@ task prepareTemplates(type: Copy) {
 }
 
 task prepareServer(type: Copy){
-	from 'src/main/groovy'
+	from 'src/main/vertx'
 	into 'build/server'
 	include 'server.groovy'
 	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion ?: defaultGvmVersion, VERTX_VERSION:config.vertxVersion])
