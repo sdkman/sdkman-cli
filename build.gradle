@@ -1,8 +1,19 @@
+import com.wiredforcode.gradle.spawn.*
 import org.apache.tools.ant.filters.*
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.wiredforcode:gradle-spawn-plugin:0.5.2'
+    }
+}
 
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'spawn'
 
 defaultTasks 'clean', 'prepareTestScripts', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
 
@@ -96,3 +107,10 @@ task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]
 }
 
 task install(dependsOn: [installInit, installModules])
+
+task startServer(type: SpawnProcessTask) {
+    command "vertx run build/server/server.groovy"
+    ready 'Starting vertx'
+}
+
+task stopServer(type: KillProcessTask)
