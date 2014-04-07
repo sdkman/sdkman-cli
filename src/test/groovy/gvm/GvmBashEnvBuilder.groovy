@@ -2,7 +2,7 @@ package gvm
 
 class GvmBashEnvBuilder {
 
-    final buildScriptDir = "build/testScripts" as File
+    final TEST_SCRIPT_BUILD_DIR = "build/testScripts" as File
 
     //mandatory fields
     private final File baseFolder
@@ -145,7 +145,7 @@ class GvmBashEnvBuilder {
     }
 
     private primeInitScript(File targetFolder) {
-        def sourceInitScript = new File(buildScriptDir, 'gvm-init.sh')
+        def sourceInitScript = new File(TEST_SCRIPT_BUILD_DIR, 'gvm-init.sh')
 
         if (!sourceInitScript.exists())
             throw new IllegalStateException("gvm-init.sh has not been prepared for consumption.")
@@ -156,7 +156,7 @@ class GvmBashEnvBuilder {
     }
 
     private primeModuleScripts(File targetFolder){
-        for (f in buildScriptDir.listFiles()){
+        for (f in TEST_SCRIPT_BUILD_DIR.listFiles()){
             if(!(f.name in ['selfupdate.sh', 'install.sh', 'gvm-init.sh'])){
                 new File(targetFolder, f.name) << f.text
             }

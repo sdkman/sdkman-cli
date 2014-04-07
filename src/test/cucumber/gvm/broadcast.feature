@@ -25,11 +25,11 @@ Feature: Broadcast
   Scenario: A Broadcast command recalls a prior Broadcast
     Given a prior Broadcast "This is an OLD Broadcast!" was issued
     When I enter "gvm broadcast"
-    Then I see only "This is an OLD Broadcast!"
+    Then I see "This is an OLD Broadcast!"
 
   Scenario: A Broadcast command is issued with no prior Broadcast received
     Given no prior Broadcast was received
     And a new Broadcast "This is a LIVE Broadcast!" is available
     When I enter "gvm broadcast"
-    Then I see only "This is a LIVE Broadcast!"
+    Then I see "This is a LIVE Broadcast!"
 

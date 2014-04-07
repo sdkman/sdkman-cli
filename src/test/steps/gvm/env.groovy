@@ -1,14 +1,11 @@
 package gvm
 
-import static cucumber.api.groovy.Hooks.*
-import static gvm.VertxUtils.*
+import static cucumber.api.groovy.Hooks.After
+import static cucumber.api.groovy.Hooks.Before
 
 SERVICE_DOWN_URL = "http://localhost:0"
 SERVICE_UP_URL = "http://localhost:8080"
 FAKE_JDK_PATH = "/path/to/my/openjdk"
-
-forceOffline = false
-buildScriptDir = new File("build/testScripts")
 
 counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
 
@@ -35,12 +32,10 @@ candidatesFile = new File(varDir, "candidates")
 versionTokenFile = new File(varDir, "version")
 initScript = new File(binDir, "gvm-init.sh")
 
-server = null
 bash = null
 
 Before(){
 	cleanUp()
-	server = startServer(gvmVersion)
 }
 
 After(){ scenario ->

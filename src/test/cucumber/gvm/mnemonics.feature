@@ -65,5 +65,5 @@ Feature: Mnemonics
     Given no prior Broadcast was received
     And a new Broadcast "This is a LIVE Broadcast!" is available
     When I enter "gvm b"
-    Then I see only "This is a LIVE Broadcast!"
+    Then I see "This is a LIVE Broadcast!"
 
