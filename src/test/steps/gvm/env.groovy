@@ -2,6 +2,8 @@ package gvm
 
 import static cucumber.api.groovy.Hooks.After
 import static cucumber.api.groovy.Hooks.Before
+import static gvm.MongoHelper.loadDbCollectionFromFile
+import static gvm.MongoHelper.prepareDB
 
 SERVICE_DOWN_URL = "http://localhost:0"
 SERVICE_UP_URL = "http://localhost:8080"
@@ -34,8 +36,20 @@ initScript = new File(binDir, "gvm-init.sh")
 
 bash = null
 
+if(!binding.hasVariable("db")) {
+    db = setupDb()
+}
+
+private setupDb(){
+    db = prepareDB()
+    loadDbCollectionFromFile(db, "candidates", "gvm_candidates.js")
+    loadDbCollectionFromFile(db, "broadcast", "gvm_broadcast.js")
+    loadDbCollectionFromFile(db, "application", "gvm_application.js")
+    db
+}
+
 Before(){
-	cleanUp()
+    cleanUp()
 }
 
 After(){ scenario ->
@@ -44,7 +58,7 @@ After(){ scenario ->
         scenario.write("\nOutput: \n${output}")
     }
 	bash?.stop()
-    cleanUp()
+    //cleanUp()
 }
 
 private cleanUp(){
