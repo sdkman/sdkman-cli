@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.wiredforcode:gradle-spawn-plugin:0.5.2'
-        classpath 'com.sourcemuse.gradle.plugin:gradle-mongo-plugin:0.1.0'
+        classpath 'com.sourcemuse.gradle.plugin:gradle-mongo-plugin:0.4.0'
     }
 }
 
