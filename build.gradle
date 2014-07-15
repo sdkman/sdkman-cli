@@ -39,6 +39,7 @@ dependencies {
     testCompile 'info.cukes:cucumber-junit:1.1.5'
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
     testCompile 'org.mongodb:mongo-java-driver:2.12.0'
+    testCompile 'com.github.tomakehurst:wiremock:1.46'
 }
 
 test.testLogging.exceptionFormat = 'full'
