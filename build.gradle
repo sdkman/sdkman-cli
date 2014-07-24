@@ -1,23 +1,16 @@
-import com.wiredforcode.gradle.spawn.*
 import org.apache.tools.ant.filters.*
 
 buildscript {
     repositories {
         jcenter()
     }
-    dependencies {
-        classpath 'com.wiredforcode:gradle-spawn-plugin:0.5.2'
-        classpath 'com.sourcemuse.gradle.plugin:gradle-mongo-plugin:0.4.0'
-    }
 }
 
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
-apply plugin: 'mongo'
-apply plugin: 'spawn'
 
-defaultTasks 'clean', 'prepareTestScripts', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'startManagedMongoDb', 'startServer', 'test', 'stopServer'
+defaultTasks 'clean', 'prepareTestScripts', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
 
 def userHome = System.getProperty('user.home')
 ext.installBinDir = "${userHome}/.gvm/bin"
@@ -28,7 +21,7 @@ ext.defaultGvmVersion = '1.0.0-SNAPSHOT'
 loadConfiguration()
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -38,7 +31,6 @@ dependencies {
     testCompile 'info.cukes:cucumber-groovy:1.1.5'
     testCompile 'info.cukes:cucumber-junit:1.1.5'
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
-    testCompile 'org.mongodb:mongo-java-driver:2.12.0'
     testCompile 'com.github.tomakehurst:wiremock:1.46'
 }
 
@@ -109,10 +101,3 @@ task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]
 }
 
 task install(dependsOn: [installInit, installModules])
-
-task startServer(type: SpawnProcessTask) {
-    command "vertx run build/server/server.groovy"
-    ready 'Starting vertx'
-}
-
-task stopServer(type: KillProcessTask)

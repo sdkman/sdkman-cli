@@ -16,6 +16,7 @@ class GvmBashEnvBuilder {
     String broadcast = "This is a LIVE broadcast!"
     String service = "http://localhost:8080"
     String jdkHome = "/path/to/my/jdk"
+    String httpProxy
     String versionToken
 
     Map config = [
@@ -77,6 +78,11 @@ class GvmBashEnvBuilder {
         this
     }
 
+    GvmBashEnvBuilder withHttpProxy(String httpProxy){
+        this.httpProxy = httpProxy
+        this
+    }
+
     GvmBashEnvBuilder withVersionToken(String version){
         this.versionToken = version
         this
@@ -101,13 +107,19 @@ class GvmBashEnvBuilder {
         primeInitScript(gvmBinDir)
         primeModuleScripts(gvmSrcDir)
 
-        new BashEnv(baseFolder.absolutePath, [
-            GVM_DIR: gvmDir.absolutePath,
-            GVM_ONLINE: "$onlineMode",
-            GVM_FORCE_OFFLINE: "$forcedOfflineMode",
-            GVM_SERVICE: service,
-            JAVA_HOME: jdkHome
-        ])
+        def env = [
+                GVM_DIR: gvmDir.absolutePath,
+                GVM_ONLINE: "$onlineMode",
+                GVM_FORCE_OFFLINE: "$forcedOfflineMode",
+                GVM_SERVICE: service,
+                JAVA_HOME: jdkHome
+        ]
+
+        if(httpProxy) {
+            env.put("http_proxy", httpProxy)
+        }
+
+        new BashEnv(baseFolder.absolutePath, env)
     }
 
     private prepareDirectory(File target, String directoryName) {

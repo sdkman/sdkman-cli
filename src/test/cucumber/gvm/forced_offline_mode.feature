@@ -26,6 +26,7 @@ Feature: Forced Offline Mode
   Scenario: Disable Offline Mode with internet reachable
     Given offline mode is enabled with reachable internet
     And an initialised environment
+    And the candidate "grails" version "2.1.0" is available for download
     When I enter "gvm offline disable"
     Then I see "Online mode re-enabled!"
     When I enter "gvm install grails 2.1.0" and answer "Y"

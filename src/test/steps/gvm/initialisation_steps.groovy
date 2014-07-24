@@ -4,6 +4,7 @@ import java.util.zip.ZipException
 import java.util.zip.ZipFile
 
 import static cucumber.api.groovy.EN.*
+import static gvm.StubHelper.primeEndpoint
 
 And(~'^the gvm work folder is created$') { ->
     assert gvmDir.isDirectory(), "The gvm directory does not exist."
@@ -15,7 +16,7 @@ And(~'^the "([^"]*)" folder exists in user home$') { String arg1 ->
 
 And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { String candidate, String version ->
 	try {
-		new ZipFile(new File("src/test/resources/${candidate}-${version}.zip"))
+		new ZipFile(new File("src/test/resources/__files/${candidate}-${version}.zip"))
 		assert false, "Archive was not corrupt!"
 
 	} catch (ZipException ze){
@@ -33,7 +34,9 @@ And(~'^an initialised shell$') { ->
     assert initScript.exists()
 }
 
-And(~'^an outdated system$') {->
+And(~'^an outdated system$') { ->
+    primeEndpoint("/broadcast/$gvmVersionOutdated", "This is a LIVE Broadcast!")
+
     def initScript = "$gvmDir/bin/gvm-init.sh" as File
     initScript.text = initScript.text.replace(gvmVersion, gvmVersionOutdated)
 }
@@ -44,6 +47,8 @@ And(~'^I reinitialise the shell$') { ->
 }
 
 And(~'^the internet is reachable$') {->
+    primeEndpoint("/broadcast/$gvmVersion", "This is a LIVE Broadcast!")
+
     forcedOffline = false
     online = true
     serviceUrlEnv = SERVICE_UP_URL
@@ -58,6 +63,8 @@ And(~'^the internet is not reachable$') {->
 }
 
 And(~'^offline mode is disabled with reachable internet$') {->
+    primeEndpoint("/broadcast/$gvmVersion", "This is a LIVE Broadcast!")
+
     forcedOffline = false
     online = true
     serviceUrlEnv = SERVICE_UP_URL
@@ -65,6 +72,8 @@ And(~'^offline mode is disabled with reachable internet$') {->
 }
 
 And(~'^offline mode is enabled with reachable internet$') {->
+    primeEndpoint("/broadcast/$gvmVersion", "This is a LIVE Broadcast!")
+
     forcedOffline = true
     online = true
     serviceUrlEnv = SERVICE_UP_URL
@@ -84,6 +93,7 @@ And(~'^an initialised environment$') {->
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)
         .withJdkHome(javaHome)
+        .withHttpProxy(HTTP_PROXY)
         .withVersionToken(gvmVersion)
         .build()
 

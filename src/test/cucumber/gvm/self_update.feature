@@ -1,3 +1,4 @@
+@manual
 Feature: Self Update
 
   Background:
@@ -13,12 +14,6 @@ Feature: Self Update
     And the gvm module scripts are placed in the src folder
     And the staging folder is cleaned up
     And I see "Successfully upgraded GVM."
-
-  Scenario: Upgrade an installation with dodgy configuration
-    Given a configuration file in the extensions folder
-    When I enter "gvm selfupdate"
-    And the configuration is not present in the extensions folder
-    And the configuration file is present in the etc folder
 
   Scenario: Update an installation without any configuration
     Given an empty configuration file

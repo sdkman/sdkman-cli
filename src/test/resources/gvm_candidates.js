@@ -5,7 +5,7 @@
 	"versions" : [
 		{
 			"version" : "2.0.5",
-			"url" : "http://localhost/groovy-2.0.5.zip"
+			"url" : "http://localhost:8080/groovy-2.0.5.zip"
 		}
 	]
 },
@@ -16,15 +16,15 @@
 	"versions" : [
 		{
 			"version" : "1.3.6",
-			"url" : "http://localhost/grails-1.3.6.zip"
+			"url" : "http://localhost:8080/grails-1.3.6.zip"
 		},
 		{
 			"version" : "1.3.9",
-			"url" : "http://localhost/grails-1.3.9.zip"
+			"url" : "http://localhost:8080/grails-1.3.9.zip"
 		},
 		{
 			"version" : "2.1.0",
-			"url" : "http://localhost/grails-2.1.0.zip"
+			"url" : "http://localhost:8080/grails-2.1.0.zip"
 		}
 	]
 }]

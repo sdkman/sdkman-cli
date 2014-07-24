@@ -6,11 +6,13 @@ Feature: Mnemonics
 
   Scenario: Shortcut for listing an uninstalled available Version
     Given I do not have a "grails" candidate installed
+    And a "grails" list view is available for consumption
     When I enter "gvm l grails"
     Then I see "Available Grails Versions"
 
   Scenario: Alternate shortcut for listing uninstalled available Version
     Given I do not have a "grails" candidate installed
+    And a "grails" list view is available for consumption
     When I enter "gvm ls grails"
     Then I see "Available Grails Versions"
 
@@ -33,6 +35,7 @@ Feature: Mnemonics
 
   Scenario: Shortcut for installing a Candidate Version
     Given the candidate "grails" version "2.1.0" is not installed
+    And the candidate "grails" version "2.1.0" is available for download
     When I enter "gvm i grails 2.1.0" and answer "Y"
     Then I see "Installing: grails 2.1.0"
     And the candidate "grails" version "2.1.0" is installed
@@ -49,14 +52,17 @@ Feature: Mnemonics
 
   Scenario: Shortcut for using a candidate version that is installed
     Given the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "grails" version "2.1.0" is a valid candidate version
     And the candidate "grails" version "1.3.9" is already installed but not default
+    And the candidate "grails" version "1.3.9" is a valid candidate version
     When I enter "gvm u grails 1.3.9"
     Then I see "Using grails version 1.3.9 in this shell."
     Then the candidate "grails" version "1.3.9" should be in use
     And the candidate "grails" version "2.1.0" should be the default
 
   Scenario: Shortcut for defaulting a Candidate Version that is installed and not default
-    And the candidate "groovy" version "2.0.5" is already installed but not default
+    Given the candidate "groovy" version "2.0.5" is already installed but not default
+    And the candidate "groovy" version "2.0.5" is a valid candidate version
     When I enter "gvm d groovy 2.0.5"
     Then I see "Default groovy version set to 2.0.5"
     And the candidate "groovy" version "2.0.5" should be the default

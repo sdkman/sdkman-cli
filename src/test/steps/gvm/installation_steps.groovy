@@ -4,12 +4,7 @@ import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.nio.file.Path
 
-import static cucumber.api.groovy.EN.*
-
-And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
-	def candidateVersion = new URL("${SERVICE_UP_URL}/candidates/${candidate}/default").text
-	assert candidateVersion == version
-}
+import static cucumber.api.groovy.EN.And
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candidate, String version ->
 	def file = "${gvmDir}/${candidate}/${version}" as File
@@ -42,11 +37,6 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not de
 And(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
     def candidateDir = FileSystems.default.getPath("${gvmDir}/${candidate}")
     assert ! candidateDir.toFile().listFiles()
-}
-
-And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$') { String candidate, String version ->
-    def versions = new URL("${SERVICE_UP_URL}/candidates/${candidate}").text
-    assert ! versions.contains(version)
 }
 
 And(~'^the candidate "([^"]*)" does not exist$') { String candidate ->

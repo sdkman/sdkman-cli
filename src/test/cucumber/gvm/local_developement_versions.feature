@@ -31,6 +31,7 @@ Feature: Local Development Versions
 
   Scenario: Make the local development version the default for the candidate
     Given the candidate "groovy" version "2.0.6" is already installed and default
+    And the candidate "groovy" version "2.1-SNAPSHOT" is not available for download
     And the candidate "groovy" version "2.1-SNAPSHOT" is already linked to "/tmp/groovy-core"
     When I enter "gvm default groovy 2.1-SNAPSHOT"
     Then I see "Default groovy version set to 2.1-SNAPSHOT"
@@ -38,6 +39,7 @@ Feature: Local Development Versions
 
   Scenario: Use a local development version
     Given the candidate "groovy" version "2.0.6" is already installed and default
+    And the candidate "groovy" version "2.1-SNAPSHOT" is not available for download
     And the candidate "groovy" version "2.1-SNAPSHOT" is already linked to "/tmp/groovy-core"
     When I enter "gvm use groovy 2.1-SNAPSHOT"
     Then I see "Using groovy version 2.1-SNAPSHOT in this shell"

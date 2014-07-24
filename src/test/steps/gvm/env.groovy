@@ -1,13 +1,19 @@
 package gvm
 
+import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.client.WireMock
+
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import static cucumber.api.groovy.Hooks.After
 import static cucumber.api.groovy.Hooks.Before
-import static gvm.MongoHelper.loadDbCollectionFromFile
-import static gvm.MongoHelper.prepareDB
 
-SERVICE_DOWN_URL = "http://localhost:0"
-SERVICE_UP_URL = "http://localhost:8080"
+HTTP_PROXY = System.getProperty("httpProxy") ?: ""
+
 FAKE_JDK_PATH = "/path/to/my/openjdk"
+SERVICE_UP_HOST="localhost"
+SERVICE_UP_PORT=8081
+SERVICE_UP_URL = "http://$SERVICE_UP_HOST:$SERVICE_UP_PORT"
+SERVICE_DOWN_URL = "http://localhost:0"
 
 counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
 
@@ -36,20 +42,20 @@ initScript = new File(binDir, "gvm-init.sh")
 
 bash = null
 
-if(!binding.hasVariable("db")) {
-    db = setupDb()
-}
-
-private setupDb(){
-    db = prepareDB()
-    loadDbCollectionFromFile(db, "candidates", "gvm_candidates.js")
-    loadDbCollectionFromFile(db, "broadcast", "gvm_broadcast.js")
-    loadDbCollectionFromFile(db, "application", "gvm_application.js")
-    db
+if(!binding.hasVariable("wireMock")) {
+    wireMock = new WireMockServer(wireMockConfig().port(SERVICE_UP_PORT))
+    wireMock.start()
+    WireMock.configureFor(SERVICE_UP_HOST, SERVICE_UP_PORT)
 }
 
 Before(){
+    WireMock.reset()
     cleanUp()
+}
+
+private cleanUp(){
+    gvmBaseDir.deleteDir()
+    localGroovyCandidate.deleteDir()
 }
 
 After(){ scenario ->
@@ -58,10 +64,4 @@ After(){ scenario ->
         scenario.write("\nOutput: \n${output}")
     }
 	bash?.stop()
-    //cleanUp()
-}
-
-private cleanUp(){
-    gvmBaseDir.deleteDir()
-    localGroovyCandidate.deleteDir()
 }
