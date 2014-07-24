@@ -4,7 +4,7 @@ import java.util.zip.ZipException
 import java.util.zip.ZipFile
 
 import static cucumber.api.groovy.EN.*
-import static gvm.StubHelper.primeEndpoint
+import static gvm.stubs.WebServiceStub.primeEndpoint
 
 And(~'^the gvm work folder is created$') { ->
     assert gvmDir.isDirectory(), "The gvm directory does not exist."
@@ -88,7 +88,7 @@ And(~'^offline mode is enabled with unreachable internet$') {->
 }
 
 And(~'^an initialised environment$') {->
-    bash = GvmBashEnvBuilder.create(gvmBaseDir)
+    bash = env.GvmBashEnvBuilder.create(gvmBaseDir)
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)

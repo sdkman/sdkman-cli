@@ -1,5 +1,5 @@
 import static cucumber.api.groovy.EN.And
-import static gvm.StubHelper.*
+import static gvm.stubs.WebServiceStub.*
 
 And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
     primeEndpoint("/candidates/${candidate}/default", version)

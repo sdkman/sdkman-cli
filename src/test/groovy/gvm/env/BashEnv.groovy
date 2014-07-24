@@ -1,4 +1,4 @@
-package gvm
+package gvm.env
 
 /**
  * <p>As part of the gvm test suite we need to launch a bash shell and execute

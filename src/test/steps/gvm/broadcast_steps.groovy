@@ -1,7 +1,7 @@
 package gvm
 
 import static cucumber.api.groovy.EN.And
-import static gvm.StubHelper.primeEndpoint
+import static gvm.stubs.WebServiceStub.primeEndpoint
 
 And(~'^no prior Broadcast was received$') { ->
     broadcastFile.delete()

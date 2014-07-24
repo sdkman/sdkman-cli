@@ -1,4 +1,4 @@
-package gvm
+package gvm.stubs
 
 class CurlStub {
 

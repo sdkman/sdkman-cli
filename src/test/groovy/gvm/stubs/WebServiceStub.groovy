@@ -1,8 +1,8 @@
-package gvm
+package gvm.stubs
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 
-class StubHelper {
+class WebServiceStub {
 
     static primeEndpoint(String endpoint, String body) {
         stubFor(get(urlEqualTo(endpoint))

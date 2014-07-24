@@ -1,8 +1,11 @@
-package gvm
+package gvm.specs
 
+import gvm.env.BashEnv
+import gvm.stubs.CurlStub
+import gvm.env.GvmBashEnvBuilder
 import spock.lang.Specification
 
-import static gvm.TestUtils.prepareBaseDir
+import static gvm.utils.TestUtils.prepareBaseDir
 
 class BootstrapSpec extends Specification {
 

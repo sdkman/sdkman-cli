@@ -1,4 +1,6 @@
-package gvm
+package gvm.env
+
+import gvm.stubs.CurlStub
 
 class GvmBashEnvBuilder {
 
