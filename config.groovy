@@ -7,7 +7,7 @@ environments {
 	}
 	master {
 		gvmService = 'http://dev.gvmtool.net'
-        gvmBroadcastService = 'http://cast-dev.gvm.io'
+        gvmBroadcastService = 'http://devcast.cfapps.io'
 	}
 	production {
 		gvmService = 'http://api.gvmtool.net'
