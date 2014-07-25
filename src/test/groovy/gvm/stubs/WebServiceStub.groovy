@@ -14,10 +14,10 @@ class WebServiceStub {
         )
     }
 
-    static primeDownloadFor(String candidate, String version) {
+    static primeDownloadFor(String host, String candidate, String version) {
         stubFor(get(urlEqualTo("/download/${candidate}/${version}?platform=Linux"))
                 .willReturn(aResponse()
-                .withHeader("Location", "http://localhost:8081/${candidate}-${version}.zip")
+                .withHeader("Location", "${host}/${candidate}-${version}.zip")
                 .withStatus(302)))
 
         def binary = "${candidate}-${version}.zip"

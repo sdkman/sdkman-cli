@@ -63,7 +63,13 @@ task prepareTestScripts(type: Copy) {
     from 'src/main/bash'
     into 'build/testScripts'
     include '**/*'
-    filter(ReplaceTokens, tokens: [GVM_VERSION:"x.y.z", GVM_SERVICE:config.gvmService])
+    filter(ReplaceTokens, tokens:
+        [
+            GVM_VERSION          : "x.y.z",
+            GVM_SERVICE          : config.gvmService,
+            GVM_BROADCAST_SERVICE: config.gvmBroadcastService
+        ]
+    )
 }
 
 task prepareScripts(type: Copy) {

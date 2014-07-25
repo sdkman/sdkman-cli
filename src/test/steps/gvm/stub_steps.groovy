@@ -3,7 +3,7 @@ import static gvm.stubs.WebServiceStub.*
 
 And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
     primeEndpoint("/candidates/${candidate}/default", version)
-    primeDownloadFor(candidate, version)
+    primeDownloadFor(SERVICE_UP_URL, candidate, version)
 }
 
 And(~'^an available selfupdate$') { ->
@@ -12,7 +12,7 @@ And(~'^an available selfupdate$') { ->
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { String candidate, String version ->
     primeEndpoint("/candidates/${candidate}/${version}", "valid")
-    primeDownloadFor(candidate, version)
+    primeDownloadFor(SERVICE_UP_URL, candidate, version)
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$') { String candidate, String version ->

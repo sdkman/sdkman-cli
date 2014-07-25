@@ -23,6 +23,10 @@ if [ -z "${GVM_SERVICE}" ]; then
     export GVM_SERVICE="@GVM_SERVICE@"
 fi
 
+if [ -z "${GVM_BROADCAST_SERVICE}" ]; then
+    export GVM_BROADCAST_SERVICE="@GVM_BROADCAST_SERVICE@"
+fi
+
 if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi

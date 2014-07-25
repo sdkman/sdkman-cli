@@ -92,6 +92,7 @@ And(~'^an initialised environment$') {->
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)
+        .withBroadcastService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
         .withVersionToken(gvmVersion)

@@ -11,7 +11,7 @@ HTTP_PROXY = System.getProperty("httpProxy") ?: ""
 
 FAKE_JDK_PATH = "/path/to/my/openjdk"
 SERVICE_UP_HOST="localhost"
-SERVICE_UP_PORT=8081
+SERVICE_UP_PORT=8080
 SERVICE_UP_URL = "http://$SERVICE_UP_HOST:$SERVICE_UP_PORT"
 SERVICE_DOWN_URL = "http://localhost:0"
 
