@@ -73,10 +73,16 @@ task prepareTestScripts(type: Copy) {
 }
 
 task prepareScripts(type: Copy) {
-	from 'src/main/bash'
-	into 'build/scripts'
-	include '**/*'
-	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion ?: defaultGvmVersion, GVM_SERVICE:config.gvmService])
+    from 'src/main/bash'
+    into 'build/scripts'
+    include '**/*'
+    filter(ReplaceTokens, tokens:
+        [
+            GVM_VERSION          : config.gvmVersion ?: defaultGvmVersion,
+            GVM_SERVICE          : config.gvmService,
+            GVM_BROADCAST_SERVICE: config.gvmBroadcastService
+        ]
+    )
 }
 
 task assembleArchive(type: Zip) {
