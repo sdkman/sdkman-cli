@@ -25,8 +25,8 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy:2.1.7'
-    compile 'org.codehaus.groovy:groovy-templates:2.1.7'
+    compile 'org.codehaus.groovy:groovy:2.3.5'
+    compile 'org.codehaus.groovy:groovy-templates:2.3.5'
     testCompile 'junit:junit:4.11'
     testCompile 'info.cukes:cucumber-groovy:1.1.5'
     testCompile 'info.cukes:cucumber-junit:1.1.5'
