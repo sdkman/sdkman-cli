@@ -237,16 +237,8 @@ rm.get("/app/version", versionHandler)
 rm.get("/api/version", versionHandler)
 
 def broadcastHandler = { req ->
-	def cmd2 = [action:"find", collection:"broadcast", matcher:[:]]
-	vertx.eventBus.send("mongo-persistor", cmd2){ msg ->
-		def broadcasts = msg.body.results
-        def binding = [gvmVersion:GVM_VERSION, vertxVersion:VERTX_VERSION, broadcasts:broadcasts]
-
-		def template = broadcastTemplate.make(binding)
-
-		addPlainTextHeader req
-		req.response.end template.toString()
-	}
+    addPlainTextHeader req
+    req.response.end "This Broadcast API is being discontinued. \nPlease upgrade to the latest version of GVM!"
 }
 
 rm.get("/broadcast", broadcastHandler)
