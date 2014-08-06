@@ -35,8 +35,6 @@ And(~'^an initialised shell$') { ->
 }
 
 And(~'^an outdated system$') { ->
-    primeEndpoint("/broadcast/$gvmVersionOutdated", "This is a LIVE Broadcast!")
-
     def initScript = "$gvmDir/bin/gvm-init.sh" as File
     initScript.text = initScript.text.replace(gvmVersion, gvmVersionOutdated)
 }
@@ -47,7 +45,7 @@ And(~'^I reinitialise the shell$') { ->
 }
 
 And(~'^the internet is reachable$') {->
-    primeEndpoint("/broadcast/$gvmVersion", "This is a LIVE Broadcast!")
+    primeEndpoint("/broadcast/latest", "This is a LIVE Broadcast!")
 
     forcedOffline = false
     online = true
@@ -63,7 +61,7 @@ And(~'^the internet is not reachable$') {->
 }
 
 And(~'^offline mode is disabled with reachable internet$') {->
-    primeEndpoint("/broadcast/$gvmVersion", "This is a LIVE Broadcast!")
+    primeEndpoint("/broadcast/latest", "This is a LIVE Broadcast!")
 
     forcedOffline = false
     online = true
@@ -72,7 +70,7 @@ And(~'^offline mode is disabled with reachable internet$') {->
 }
 
 And(~'^offline mode is enabled with reachable internet$') {->
-    primeEndpoint("/broadcast/$gvmVersion", "This is a LIVE Broadcast!")
+    primeEndpoint("/broadcast/latest", "This is a LIVE Broadcast!")
 
     forcedOffline = true
     online = true

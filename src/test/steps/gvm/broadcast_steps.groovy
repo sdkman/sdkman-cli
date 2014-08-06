@@ -8,7 +8,7 @@ And(~'^no prior Broadcast was received$') { ->
 }
 
 And(~'^a new Broadcast "([^"]*)" is available$') { String broadcast ->
-    primeEndpoint("/broadcast/$gvmVersion", broadcast)
+    primeEndpoint("/broadcast/latest", broadcast)
 }
 
 And(~'^a prior Broadcast "([^"]*)" was issued$') { String broadcast ->

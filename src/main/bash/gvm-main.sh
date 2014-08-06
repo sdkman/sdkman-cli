@@ -54,7 +54,7 @@ function gvm {
 	if [[ "$GVM_FORCE_OFFLINE" == "true" || ( "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ) ]]; then
 		BROADCAST_LIVE=""
 	else
-		BROADCAST_LIVE=$(curl -s "${GVM_BROADCAST_SERVICE}/broadcast/${GVM_VERSION}")
+		BROADCAST_LIVE=$(curl -s "${GVM_BROADCAST_SERVICE}/broadcast/latest")
 		gvm_check_offline "$BROADCAST_LIVE"
 		if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then BROADCAST_LIVE=""; fi
 	fi
