@@ -261,14 +261,6 @@ fi
 
 echo -e "\n\n\nAll done!\n\n"
 
-echo "Please note that GVM will prompt you to upgrade itself"
-echo "when new versions become available."
-echo ""
-echo "This is configurable in:"
-echo "    ~.gvm/etc/config"
-
-echo -e "\n\n\n\n"
-
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""
 echo "    source \"${GVM_DIR}/bin/gvm-init.sh\""
