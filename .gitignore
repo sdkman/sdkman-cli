@@ -11,6 +11,7 @@
 bin/
 build/
 classes
+gvm-cli.iml
 gvm.iml
 gvm.ipr
 gvm.iws
