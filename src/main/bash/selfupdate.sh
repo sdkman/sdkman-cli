@@ -127,8 +127,11 @@ mv "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
 gvm_echo_debug "Clean up staging folder..."
 rm -rf "${gvm_stage_folder}"
 
-echo ""
-echo ""
+echo "Please note that the upgrade prompts are configurable in:"
+echo "    ~.gvm/etc/config"
+
+echo -e "\n\n\n\n"
+
 echo "Successfully upgraded GVM."
 echo ""
 echo "Please open a new terminal, or run the following in the existing one:"
