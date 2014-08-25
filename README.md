@@ -1,7 +1,7 @@
-[![Stories in Ready](https://badge.waffle.io/gvmtool/gvm-cli.png?label=ready&title=Ready)](https://waffle.io/gvmtool/gvm-cli)
 # GVM the Groovy enVironment Manager
 
 [![Build Status](https://drone.io/github.com/gvmtool/gvm/status.png)](https://drone.io/github.com/gvmtool/gvm/latest)
+[![Stories in Ready](https://badge.waffle.io/gvmtool/gvm-cli.png?label=ready&title=Ready)](https://waffle.io/gvmtool/gvm-cli)
 
 GVM is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
 
