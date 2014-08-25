@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/gvmtool/gvm-cli.png?label=ready&title=Ready)](https://waffle.io/gvmtool/gvm-cli)
 # GVM the Groovy enVironment Manager
 
 [![Build Status](https://drone.io/github.com/gvmtool/gvm/status.png)](https://drone.io/github.com/gvmtool/gvm/latest)
