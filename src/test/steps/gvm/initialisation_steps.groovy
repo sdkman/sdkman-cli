@@ -5,6 +5,7 @@ import java.util.zip.ZipFile
 
 import static cucumber.api.groovy.EN.*
 import static gvm.stubs.WebServiceStub.primeEndpoint
+import static gvm.stubs.WebServiceStub.primeSelfupdate
 
 And(~'^the gvm work folder is created$') { ->
     assert gvmDir.isDirectory(), "The gvm directory does not exist."
@@ -34,11 +35,6 @@ And(~'^an initialised shell$') { ->
     assert initScript.exists()
 }
 
-And(~'^an outdated system$') { ->
-    def initScript = "$gvmDir/bin/gvm-init.sh" as File
-    initScript.text = initScript.text.replace(gvmVersion, gvmVersionOutdated)
-}
-
 And(~'^I reinitialise the shell$') { ->
     def initScript = "$gvmDir/bin/gvm-init.sh" as File
     assert initScript.exists()
@@ -46,6 +42,8 @@ And(~'^I reinitialise the shell$') { ->
 
 And(~'^the internet is reachable$') {->
     primeEndpoint("/broadcast/latest", "This is a LIVE Broadcast!")
+    primeEndpoint("/app/version", gvmVersion)
+    primeSelfupdate()
 
     forcedOffline = false
     online = true
@@ -95,6 +93,33 @@ And(~'^an initialised environment$') {->
         .withHttpProxy(HTTP_PROXY)
         .withVersionToken(gvmVersion)
         .build()
+
+    bash.start()
+    bash.execute("source $gvmDirEnv/bin/gvm-init.sh")
+}
+
+And(~'^an outdated initialised environment$') {->
+    bash = env.GvmBashEnvBuilder.create(gvmBaseDir)
+        .withOnlineMode(online)
+        .withForcedOfflineMode(forcedOffline)
+        .withService(serviceUrlEnv)
+        .withBroadcastService(serviceUrlEnv)
+        .withJdkHome(javaHome)
+        .withHttpProxy(HTTP_PROXY)
+        .withVersionToken(gvmVersionOutdated)
+        .build()
+
+    def twoDaysAgoInMillis = System.currentTimeMillis() - 172800000
+
+    def upgradeToken = "$gvmDir/var/delay_upgrade" as File
+    upgradeToken.createNewFile()
+    upgradeToken.setLastModified(twoDaysAgoInMillis)
+
+    def versionToken = "$gvmDir/var/version" as File
+    versionToken.setLastModified(twoDaysAgoInMillis)
+
+    def initFile = "$gvmDir/bin/gvm-init.sh" as File
+    initFile.text = initFile.text.replace(gvmVersion, gvmVersionOutdated)
 
     bash.start()
     bash.execute("source $gvmDirEnv/bin/gvm-init.sh")

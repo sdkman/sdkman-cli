@@ -1,6 +1,6 @@
 package gvm
 
-import static cucumber.api.groovy.EN.*
+import static cucumber.api.groovy.EN.And
 
 And(~'^the configuration file has been primed with "([^"]*)"$') { String content ->
     def configFile = "$gvmDir/etc/config" as File
@@ -26,29 +26,29 @@ And(~'^the configuration file contains "([^"]*)"$') { String content ->
 
 And(~'^the configuration file does not contain "([^"]*)"$') { String content ->
     def configFile = "$gvmDir/etc/config" as File
-    assert ! configFile.text.contains(content)
+    assert !configFile.text.contains(content)
 }
 
-And(~'^a configuration file in the extensions folder$') {->
+And(~'^a configuration file in the extensions folder$') { ->
     def configFile = "$gvmDir/ext/config" as File
     configFile.text = ""
 }
 
-And(~'^the configuration is not present in the extensions folder$') {->
+And(~'^the configuration is not present in the extensions folder$') { ->
     def configFile = "$gvmDir/ext/config" as File
-    assert ! configFile.exists()
+    assert !configFile.exists()
 }
 
-And(~'^the configuration file is present in the etc folder$') {->
+And(~'^the configuration file is present in the etc folder$') { ->
     def configFile = "$gvmDir/etc/config" as File
     assert configFile.exists()
 }
 
-And(~'^the gvm init script is placed in the bin folder$') {->
+And(~'^the gvm init script is placed in the bin folder$') { ->
     assert new File("$gvmDir/bin", "gvm-init.sh").exists()
 }
 
-And(~'^the gvm module scripts are placed in the src folder$') {->
+And(~'^the gvm module scripts are placed in the src folder$') { ->
     assert new File("$gvmDir/src", "gvm-common.sh").exists()
     assert new File("$gvmDir/src", "gvm-main.sh").exists()
     assert new File("$gvmDir/src", "gvm-broadcast.sh").exists()
@@ -63,11 +63,11 @@ And(~'^the gvm module scripts are placed in the src folder$') {->
     assert new File("$gvmDir/src", "gvm-help.sh").exists()
 }
 
-And(~'^the staging folder is cleaned up$') {->
-    assert ! new File("$gvmDir/tmp/stage").exists()
+And(~'^the staging folder is cleaned up$') { ->
+    assert !new File("$gvmDir/tmp/stage").exists()
 }
-And(~'^an empty configuration file$') {->
+
+And(~'^an empty configuration file$') { ->
     def configFile = "$gvmDir/ext/config" as File
     configFile.text = ""
 }
-

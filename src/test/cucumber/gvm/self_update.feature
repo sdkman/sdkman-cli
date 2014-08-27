@@ -1,29 +1,50 @@
-@manual
 Feature: Self Update
 
   Background:
     Given the internet is reachable
-    And an initialised environment
-    And an outdated system
-    And the system is bootstrapped
 
-  Scenario: Upgrade an outdated installation
-    When I enter "gvm selfupdate"
-    Then I see "Updating gvm..."
-    And the gvm init script is placed in the bin folder
-    And the gvm module scripts are placed in the src folder
-    And the staging folder is cleaned up
+  Scenario: Agree to a suggested Selfupdate
+    Given an outdated initialised environment
+    When I enter "gvm help" and answer "Y"
+    Then I see "A new version of GVM is available..."
+    And I see "Would you like to upgrade now? (Y/n)"
+    And I see "Successfully upgraded GVM."
+    And I do not see "Not upgrading today..."
+
+  Scenario: Do not agree to a suggested Selfupdate
+    Given an outdated initialised environment
+    When I enter "gvm help" and answer "N"
+    Then I see "A new version of GVM is available..."
+    And I see "Would you like to upgrade now? (Y/n)"
+    And I see "Not upgrading today..."
+    And I do not see "Successfully upgraded GVM."
+
+  Scenario: Automatically Selfupdate
+    Given an outdated initialised environment
+    And the configuration file has been primed with "gvm_auto_selfupdate=true"
+    When I enter "gvm help"
+    Then I see "A new version of GVM is available..."
+    And I do not see "Would you like to upgrade now? (Y/n)"
+    And I do not see "Not upgrading today..."
     And I see "Successfully upgraded GVM."
 
-  Scenario: Update an installation without any configuration
-    Given an empty configuration file
-    When I enter "gvm selfupdate"
-    Then the configuration file contains "gvm_auto_answer=false"
-    And the configuration file contains "gvm_auto_selfupdate=false"
-
-  Scenario: Update an installation already containing an Auto Answer config
-    Given the configuration file has been primed with "gvm_auto_answer=true"
+  Scenario: Do not automatically Selfupdate
+    Given an outdated initialised environment
     And the configuration file has been primed with "gvm_auto_selfupdate=false"
-    When I enter "gvm selfupdate"
-    Then the configuration file contains "gvm_auto_answer=true"
-    And the configuration file contains "gvm_auto_selfupdate=false"
+    When I enter "gvm help" and answer "n"
+    Then I see "A new version of GVM is available..."
+    And I see "Would you like to upgrade now? (Y/n)"
+    And I see "Not upgrading today..."
+    And I do not see "Successfully upgraded GVM."
+
+  Scenario: Bother the user with Upgrade message once a day
+    Given an outdated initialised environment
+    When I enter "gvm help" and answer "N"
+    Then I see "A new version of GVM is available..."
+    And I see "Would you like to upgrade now? (Y/n)"
+    And I see "Not upgrading today..."
+    And I enter "gvm help"
+    Then I do not see "A new version of GVM is available..."
+    And I do not see "Would you like to upgrade now? (Y/n)"
+    And I do not see "Not upgrading now..."
+    And I do not see "Successfully upgraded GVM."

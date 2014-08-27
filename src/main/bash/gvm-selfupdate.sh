@@ -29,3 +29,35 @@ function __gvmtool_selfupdate {
 	fi
 	unset GVM_FORCE_SELFUPDATE
 }
+
+function __gvmtool_auto_update {
+
+    local GVM_REMOTE_VERSION="$1"
+    local GVM_VERSION="$2"
+
+    GVM_DELAY_UPGRADE="${GVM_DIR}/var/delay_upgrade"
+
+    if [[ -n "$(find "$GVM_DELAY_UPGRADE" -mtime +1)" && ( "$GVM_REMOTE_VERSION" != "$GVM_VERSION" ) ]]; then
+        echo "A new version of GVM is available..."
+        echo ""
+        echo "The current version is $GVM_REMOTE_VERSION, but you have $GVM_VERSION."
+        echo ""
+
+        if [[ "$gvm_auto_selfupdate" != "true" ]]; then
+            echo -n "Would you like to upgrade now? (Y/n)"
+            read upgrade
+        fi
+
+        if [[ -z "$upgrade" ]]; then upgrade="Y"; fi
+
+        if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
+            __gvmtool_selfupdate
+            unset upgrade
+        else
+            echo "Not upgrading today..."
+        fi
+
+        touch "${GVM_DELAY_UPGRADE}"
+    fi
+
+}

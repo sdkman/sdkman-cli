@@ -131,4 +131,7 @@ function gvm {
 		# It's available as a shell function
 		__gvmtool_"$CONVERTED_CMD_NAME" "$QUALIFIER" "$3" "$4"
 	fi
+
+	# Attempt upgrade after all is done
+	__gvmtool_auto_update "$GVM_REMOTE_VERSION" "$GVM_VERSION"
 }

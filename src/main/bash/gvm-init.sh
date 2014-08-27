@@ -191,13 +191,20 @@ if [ -f "${GVM_DIR}/etc/config" ]; then
 	source "${GVM_DIR}/etc/config"
 fi
 
+# Drop upgrade delay token if it does'nt exist
+
+if [[ ! -f "${GVM_DIR}/var/delay_upgrade" ]]; then
+	touch "${GVM_DIR}/var/delay_upgrade"
+fi
+
+
 # determine if up to date
 GVM_VERSION_TOKEN="${GVM_DIR}/var/version"
 if [[ -f "$GVM_VERSION_TOKEN" && -z "$(find "$GVM_VERSION_TOKEN" -mtime +1)" ]]; then
     GVM_REMOTE_VERSION=$(cat "$GVM_VERSION_TOKEN")
 
 else
-    GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" -m 1)
+    GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" --connect-timeout 1 --max-time 1)
     gvm_check_offline "$GVM_REMOTE_VERSION"
     if [[ -z "$GVM_REMOTE_VERSION" || "$GVM_FORCE_OFFLINE" == 'true' ]]; then
         GVM_REMOTE_VERSION="$GVM_VERSION"
@@ -205,27 +212,5 @@ else
         echo ${GVM_REMOTE_VERSION} > "$GVM_VERSION_TOKEN"
     fi
 fi
-
-if [[ "$GVM_REMOTE_VERSION" != "$GVM_VERSION" ]]; then
-    echo "A new version of GVM is available..."
-    echo ""
-    echo "The current version is $GVM_REMOTE_VERSION, but you have $GVM_VERSION."
-    echo ""
-
-    if [[ "$gvm_auto_selfupdate" != "true" ]]; then
-        echo -n "Would you like to upgrade now? (Y/n)"
-        read upgrade
-    fi
-
-    if [[ -z "$upgrade" ]]; then upgrade="Y"; fi
-
-    if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
-        __gvmtool_selfupdate
-        unset upgrade
-    else
-        echo "Not upgrading now..."
-    fi
-fi
-
 
 export GVM_INIT="true"
