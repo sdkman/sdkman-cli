@@ -133,5 +133,7 @@ function gvm {
 	fi
 
 	# Attempt upgrade after all is done
-	__gvmtool_auto_update "$GVM_REMOTE_VERSION" "$GVM_VERSION"
+	if [[ "$COMMAND" != "selfupdate" ]]; then
+	    __gvmtool_auto_update "$GVM_REMOTE_VERSION" "$GVM_VERSION"
+	fi
 }

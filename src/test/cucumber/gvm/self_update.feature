@@ -3,6 +3,24 @@ Feature: Self Update
   Background:
     Given the internet is reachable
 
+  Scenario: Force a Selfupdate
+    Given an initialised environment
+    When I enter "gvm selfupdate force"
+    Then I do not see "A new version of GVM is available..."
+    And I do not see "Would you like to upgrade now? (Y/n)"
+    And I do not see "Not upgrading today..."
+    And I see "Updating gvm..."
+    And I see "Successfully upgraded GVM."
+
+  Scenario: Selfupdate when out of date
+    Given an outdated initialised environment
+    When I enter "gvm selfupdate"
+    Then I do not see "A new version of GVM is available..."
+    And I do not see "Would you like to upgrade now? (Y/n)"
+    And I do not see "Not upgrading today..."
+    And I see "Updating gvm..."
+    And I see "Successfully upgraded GVM."
+
   Scenario: Agree to a suggested Selfupdate
     Given an outdated initialised environment
     When I enter "gvm help" and answer "Y"
@@ -48,3 +66,8 @@ Feature: Self Update
     And I do not see "Would you like to upgrade now? (Y/n)"
     And I do not see "Not upgrading now..."
     And I do not see "Successfully upgraded GVM."
+
+  Scenario: Selfupdate when not out of date
+    Given an initialised environment
+    When I enter "gvm selfupdate"
+    Then I see "No update available at this time."
