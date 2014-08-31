@@ -80,14 +80,11 @@ IFS=","
 GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
 IFS="$OLD_IFS"
 
-for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
-	# Eliminate empty entries due to incompatibility
-	if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
-		CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
-		mkdir -p "${GVM_DIR}/${CANDIDATE_NAME}"
-		gvm_echo_debug "Created for ${CANDIDATE_NAME}: ${GVM_DIR}/${CANDIDATE_NAME}"
-		unset CANDIDATE_NAME
-	fi
+for candidate in "${GVM_CANDIDATES[@]}"; do
+    if [[ -n "$candidate" ]]; then
+        mkdir -p "${GVM_DIR}/${candidate}"
+        gvm_echo_debug "Created for ${candidate}: ${GVM_DIR}/${candidate}"
+    fi
 done
 
 if [[ -f "${GVM_DIR}/ext/config" ]]; then
