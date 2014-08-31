@@ -38,7 +38,9 @@ function __gvmtool_auto_update {
     GVM_DELAY_UPGRADE="${GVM_DIR}/var/delay_upgrade"
 
     if [[ -n "$(find "$GVM_DELAY_UPGRADE" -mtime +1)" && ( "$GVM_REMOTE_VERSION" != "$GVM_VERSION" ) ]]; then
-        echo "A new version of GVM is available..."
+        echo ""
+        echo ""
+        echo "ATTENTION: A new version of GVM is available..."
         echo ""
         echo "The current version is $GVM_REMOTE_VERSION, but you have $GVM_VERSION."
         echo ""
