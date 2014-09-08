@@ -8,7 +8,6 @@
 .project
 .settings/
 \#*
-bin/
 build/
 classes
 gvm-cli.iml
