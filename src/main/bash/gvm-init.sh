@@ -171,8 +171,10 @@ for (( i=0; i <= ${GVM_CANDIDATE_COUNT}; i++ )); do
 		CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
 		CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
 		CANDIDATE_DIR="${GVM_DIR}/${CANDIDATE_NAME}/current"
-		export $(echo ${CANDIDATE_HOME_VAR})="$CANDIDATE_DIR"
-		PATH="${CANDIDATE_DIR}/bin:${PATH}"
+        if [ -d "${CANDIDATE_DIR}" ]; then
+		    export $(echo ${CANDIDATE_HOME_VAR})="$CANDIDATE_DIR"
+		    PATH="${CANDIDATE_DIR}/bin:${PATH}"
+        fi
 		unset CANDIDATE_HOME_VAR
 		unset CANDIDATE_NAME
 		unset CANDIDATE_DIR
