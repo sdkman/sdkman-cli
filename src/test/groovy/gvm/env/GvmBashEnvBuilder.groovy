@@ -18,6 +18,7 @@ class GvmBashEnvBuilder {
     String broadcast = "This is a LIVE broadcast!"
     String service = "http://localhost:8080"
     String broadcastService = "http://localhost:8080"
+    String brokerService = "http://localhost:8080"
     String jdkHome = "/path/to/my/jdk"
     String httpProxy
     String versionToken
@@ -81,6 +82,11 @@ class GvmBashEnvBuilder {
         this
     }
 
+    GvmBashEnvBuilder withBrokerService(String brokerService){
+        this.brokerService = brokerService
+        this
+    }
+
     GvmBashEnvBuilder withJdkHome(String jdkHome){
         this.jdkHome = jdkHome
         this
@@ -121,6 +127,7 @@ class GvmBashEnvBuilder {
                 GVM_FORCE_OFFLINE: "$forcedOfflineMode",
                 GVM_SERVICE: service,
                 GVM_BROADCAST_SERVICE: broadcastService,
+                GVM_BROKER_SERVICE: brokerService,
                 JAVA_HOME: jdkHome
         ]
 

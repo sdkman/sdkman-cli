@@ -67,6 +67,7 @@ task prepareTestScripts(type: Copy) {
         [
             GVM_VERSION          : "x.y.z",
             GVM_SERVICE          : config.gvmService,
+            GVM_BROKER_SERVICE   : config.gvmBrokerService,
             GVM_BROADCAST_SERVICE: config.gvmBroadcastService
         ]
     )
@@ -80,6 +81,7 @@ task prepareScripts(type: Copy) {
         [
             GVM_VERSION          : config.gvmVersion ?: defaultGvmVersion,
             GVM_SERVICE          : config.gvmService,
+            GVM_BROKER_SERVICE   : config.gvmBrokerService,
             GVM_BROADCAST_SERVICE: config.gvmBroadcastService
         ]
     )

@@ -27,6 +27,10 @@ if [ -z "${GVM_BROADCAST_SERVICE}" ]; then
     export GVM_BROADCAST_SERVICE="@GVM_BROADCAST_SERVICE@"
 fi
 
+if [ -z "${GVM_BROKER_SERVICE}" ]; then
+    export GVM_BROKER_SERVICE="@GVM_BROKER_SERVICE@"
+fi
+
 if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
