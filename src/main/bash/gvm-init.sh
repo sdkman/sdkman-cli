@@ -165,7 +165,7 @@ fi
 # In bash arrays are zero index based, in zsh they are 1 based(!)
 gvm_set_candidates
 if [[ -z "$ZSH_VERSION" ]]; then
-	GVM_CANDIDATE_COUNT=${#GVM_CANDIDATES[@]}
+	export GVM_CANDIDATE_COUNT=${#GVM_CANDIDATES[@]}
 else
 	GVM_CANDIDATE_COUNT=${#GVM_CANDIDATES}
 fi
