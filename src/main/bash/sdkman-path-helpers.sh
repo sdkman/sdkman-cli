@@ -84,5 +84,17 @@ function __sdkman_link_candidate_version {
 	if [[ -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]]; then
 		rm -f "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 	fi
-	ln -s "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+
+	function cygwin_ln(){
+		mapfile -t ph < <(cygpath -aw "$@")
+		[ -d "$2" ] && d=/d || d=
+		cmd /c mklink $d "${ph[@]}"
+	}
+
+	# cygwin doesn't handle symlinks properly, fall back to a proxy mklink
+	if [[ "$OSTYPE" == "cygwin" ]]; then
+		cygwin_ln "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	else
+		ln -s "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+	fi
 }
