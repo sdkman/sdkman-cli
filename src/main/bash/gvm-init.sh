@@ -37,6 +37,7 @@ fi
 
 function gvm_source_modules {
 	# Source gvm module scripts.
+	unset IFS
     for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*' -exec basename {} \;); do
         source "${GVM_DIR}/src/${f}"
     done
