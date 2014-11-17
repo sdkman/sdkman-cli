@@ -19,7 +19,7 @@
 function __gvmtool_build_version_csv {
 	CANDIDATE="$1"
 	CSV=""
-	for version in $(find "${GVM_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
+	for version in $(find -L "${GVM_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
 		if [[ "${version}" != 'current' ]]; then
 			CSV="${version},${CSV}"
 		fi
