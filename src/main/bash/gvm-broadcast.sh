@@ -17,17 +17,13 @@
 #
 
 function __gvmtool_broadcast {
-	if [ "${BROADCAST_HIST}" ]; then
-		echo "${BROADCAST_HIST}"
-	else
-        if [[ "$GVM_FORCE_OFFLINE" == "true" ]]; then
-            BROADCAST_LIVE=""
-        else
-            BROADCAST_LIVE=$(curl -s --connect-timeout 1 "${GVM_BROADCAST_SERVICE}/broadcast/latest")
-            gvm_check_offline "$BROADCAST_LIVE"
-        fi
-        echo "${BROADCAST_LIVE}"
-	fi
+    if [[ "$GVM_FORCE_OFFLINE" == "true" ]]; then
+        BROADCAST_LIVE=""
+    else
+        BROADCAST_LIVE=$(curl -s --connect-timeout 5 "${GVM_BROADCAST_SERVICE}/broadcast/latest")
+        gvm_check_offline "$BROADCAST_LIVE"
+    fi
+    echo "${BROADCAST_LIVE}"
 }
 
 function __gvmtool_update_broadcast {
