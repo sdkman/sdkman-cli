@@ -38,7 +38,7 @@ function __gvmtool_check_version_present {
 }
 
 function __gvmtool_determine_version {
-	if [[ "${GVM_AVAILABLE}" == "false" && -n "$1" && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
+	if [[ -n "$1" && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
 		VERSION="$1"
 
 	elif [[ "${GVM_AVAILABLE}" == "false" && -z "$1" && -L "${GVM_DIR}/${CANDIDATE}/current" ]]; then

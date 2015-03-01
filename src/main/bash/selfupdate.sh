@@ -23,6 +23,7 @@ function gvm_echo_debug {
 
 echo ""
 echo "Updating gvm..."
+echo "If you do not see the SUCCESSFUL message, that means it failed and you could try again."
 
 GVM_VERSION="@GVM_VERSION@"
 if [ -z "${GVM_DIR}" ]; then
@@ -53,18 +54,6 @@ gvm_bin_folder="${GVM_DIR}/bin"
 gvm_tmp_zip="${GVM_DIR}/tmp/res-${GVM_VERSION}.zip"
 gvm_stage_folder="${GVM_DIR}/tmp/stage"
 gvm_src_folder="${GVM_DIR}/src"
-
-gvm_echo_debug "Purge existing scripts..."
-rm -rf "${gvm_bin_folder}"
-rm -rf "${gvm_src_folder}"
-
-gvm_echo_debug "Refresh directory structure..."
-mkdir -p "${GVM_DIR}/bin"
-mkdir -p "${GVM_DIR}/ext"
-mkdir -p "${GVM_DIR}/etc"
-mkdir -p "${GVM_DIR}/src"
-mkdir -p "${GVM_DIR}/var"
-mkdir -p "${GVM_DIR}/tmp"
 
 # prepare candidates
 GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
@@ -104,16 +93,28 @@ if [[ -z $(cat ${gvm_config_file} | grep 'gvm_auto_selfupdate') ]]; then
 fi
 
 gvm_echo_debug "Download new scripts to: ${gvm_tmp_zip}"
-curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}"
+curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}" || exit 1
 
 gvm_echo_debug "Extract script archive..."
 gvm_echo_debug "Unziping scripts to: ${gvm_stage_folder}"
 if [[ "${cygwin}" == 'true' ]]; then
 	gvm_echo_debug "Cygwin detected - normalizing paths for unzip..."
-	unzip -qo $(cygpath -w "${gvm_tmp_zip}") -d $(cygpath -w "${gvm_stage_folder}")
+	unzip -qo $(cygpath -w "${gvm_tmp_zip}") -d $(cygpath -w "${gvm_stage_folder}") || exit 1
 else
-	unzip -qo "${gvm_tmp_zip}" -d "${gvm_stage_folder}"
+	unzip -qo "${gvm_tmp_zip}" -d "${gvm_stage_folder}" || exit 1
 fi
+
+gvm_echo_debug "Purge existing scripts..."
+rm -rf "${gvm_bin_folder}"
+rm -rf "${gvm_src_folder}"
+
+gvm_echo_debug "Refresh directory structure..."
+mkdir -p "${GVM_DIR}/bin"
+mkdir -p "${GVM_DIR}/ext"
+mkdir -p "${GVM_DIR}/etc"
+mkdir -p "${GVM_DIR}/src"
+mkdir -p "${GVM_DIR}/var"
+mkdir -p "${GVM_DIR}/tmp"
 
 gvm_echo_debug "Moving gvm-init file to bin folder..."
 mv "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"

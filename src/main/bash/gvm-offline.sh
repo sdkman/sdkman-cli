@@ -23,7 +23,6 @@ function __gvmtool_offline {
 	fi
 	if [[ "$1" == "disable" ]]; then
 		GVM_FORCE_OFFLINE="false"
-		GVM_ONLINE="true"
 		echo "Online mode re-enabled!"
 	fi
 }

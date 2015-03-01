@@ -51,27 +51,14 @@ function gvm {
 
 	mkdir -p "$GVM_DIR"
 
-	if [[ "$GVM_FORCE_OFFLINE" == "true" || ( "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ) ]]; then
-		BROADCAST_LIVE=""
-	else
-		BROADCAST_LIVE=$(curl -s "${GVM_BROADCAST_SERVICE}/broadcast/latest")
-		gvm_check_offline "$BROADCAST_LIVE"
-		if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then BROADCAST_LIVE=""; fi
-	fi
-
-	if [[ -z "$BROADCAST_LIVE" && "$GVM_ONLINE" == "true" && "$COMMAND" != "offline" ]]; then
+	if [[ "$GVM_ONLINE" == "true" && "$GVM_FORCE_OFFLINE" == "true" ]]; then
 		echo "$OFFLINE_BROADCAST"
-	fi
-
-	if [[ -n "$BROADCAST_LIVE" && "$GVM_ONLINE" == "false" ]]; then
+        GVM_ONLINE=false
+        GVM_AVAILABLE=false
+	elif [[ "$GVM_ONLINE" == "false" && "$GVM_FORCE_OFFLINE" == "false" ]]; then
 		echo "$ONLINE_BROADCAST"
-	fi
-
-	if [[ -z "$BROADCAST_LIVE" ]]; then
-		GVM_ONLINE="false"
-		GVM_AVAILABLE="false"
-	else
-		GVM_ONLINE="true"
+        GVM_ONLINE=true
+        GVM_AVAILABLE=true
 	fi
 
 	__gvmtool_update_broadcast "$COMMAND"
