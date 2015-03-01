@@ -164,12 +164,7 @@ fi
 # Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
 # In bash arrays are zero index based, in zsh they are 1 based(!)
 gvm_set_candidates
-if [[ -z "$ZSH_VERSION" ]]; then
-	GVM_CANDIDATE_COUNT=${#GVM_CANDIDATES[@]}
-else
-	GVM_CANDIDATE_COUNT=${#GVM_CANDIDATES}
-fi
-for (( i=0; i <= ${GVM_CANDIDATE_COUNT}; i++ )); do
+for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
 	# Eliminate empty entries due to incompatibility
 	if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
 		CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
