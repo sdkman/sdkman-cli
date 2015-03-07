@@ -7,7 +7,8 @@ And(~'^no prior Broadcast was received$') { ->
     broadcastFile.delete()
 }
 
-And(~'^a new Broadcast "([^"]*)" is available$') { String broadcast ->
+And(~'^a new Broadcast "(.*)" with id "(.*)" is available$') { String broadcast, String id ->
+    primeEndpoint("/broadcast/latest/id", id)
     primeEndpoint("/broadcast/latest", broadcast)
 }
 

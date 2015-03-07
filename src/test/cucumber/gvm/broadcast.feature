@@ -6,19 +6,19 @@ Feature: Broadcast
 
   Scenario: A command is issued with no prior Broadcast received
     Given no prior Broadcast was received
-    And a new Broadcast "This is a LIVE Broadcast!" is available
+    And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
     When I enter "gvm version"
     Then I see "This is a LIVE Broadcast!"
 
   Scenario: A command is issued where the prior Broadcast was different to the Live one
     Given a prior Broadcast "This is an OLD Broadcast!" was issued
-    And a new Broadcast "This is a LIVE Broadcast!" is available
+    And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
     When I enter "gvm version"
     Then I see "This is a LIVE Broadcast!"
 
   Scenario: A command is issued where the prior Broadcast was the same as the Live one
     Given a prior Broadcast "This is a LIVE Broadcast!" was issued
-    And a new Broadcast "This is a LIVE Broadcast!" is available
+    And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
     When I enter "gvm version"
     Then I do not see "This is a LIVE Broadcast!"
 
@@ -29,7 +29,7 @@ Feature: Broadcast
 
   Scenario: A Broadcast command is issued with no prior Broadcast received
     Given no prior Broadcast was received
-    And a new Broadcast "This is a LIVE Broadcast!" is available
+    And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
     When I enter "gvm broadcast"
     Then I see "This is a LIVE Broadcast!"
 

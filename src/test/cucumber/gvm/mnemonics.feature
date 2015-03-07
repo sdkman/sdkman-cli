@@ -86,7 +86,7 @@ Feature: Mnemonics
 
   Scenario: Shortcut for a Broadcast command issued
     Given no prior Broadcast was received
-    And a new Broadcast "This is a LIVE Broadcast!" is available
+    And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
     When I enter "gvm b"
     Then I see "This is a LIVE Broadcast!"
 
