@@ -35,12 +35,12 @@ Mac users can add the following line to their `~/.bash_profile` file to set this
 
 ### Using Docker for tests
 
-You can run the tests in the docker container which environment is clean enough.
+You can run the tests in the docker container guaranteeing a clean test environment.
 
     $ docker build -t gvm-cli/testing .
     $ docker run --rm gvm-cli/testing
 
-If you run the following command, you doesn't need waiting downloading Gradle wrapper and other dependencies and you can see the test reports under your local "build" directory.
+By running the following command, you don't need to wait for downloading Gradle wrapper and other dependencies. The test reports can be found under the local `build` directory.
 
     $ docker run --rm -v $PWD:/usr/src/app -v $HOME/.gradle:/root/.gradle gvm-cli/testing
 
