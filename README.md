@@ -33,6 +33,17 @@ Mac users can add the following line to their `~/.bash_profile` file to set this
 
 	export JAVA_HOME=$(/usr/libexec/java_home -v1.7)
 
+### Using Docker for tests
+
+You can run the tests in the docker container which environment is clean enough.
+
+    $ docker build -t gvm-cli/testing .
+    $ docker run --rm gvm-cli/testing
+
+If you run the following command, you doesn't need waiting downloading Gradle wrapper and other dependencies and you can see the test reports under your local "build" directory.
+
+    $ docker run --rm -v $PWD:/usr/src/app -v $HOME/.gradle:/root/.gradle gvm-cli/testing
+
 ## Running the Server Locally
 
 It is useful to run the server locally for development purposes. Working installations of MongoDB and vert.x are required to get going. GVM can be used to install vert.x, otherwise install it manually as described on the [install page](http://vertx.io/install.html).
@@ -79,4 +90,3 @@ To install GVM locally running against your local server, run the following comm
 
 	$ ./gradlew install
 	$ source ~/.gvm/bin/gvm-init.sh
-
