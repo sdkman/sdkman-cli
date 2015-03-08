@@ -46,7 +46,7 @@ Feature: Forced Offline Mode
   Scenario: Recall a broadcast while Forced Offline
     Given offline mode is enabled with reachable internet
     And an initialised environment
-    When a prior Broadcast "This is an OLD Broadcast!" was issued
+    When a prior Broadcast "This is an OLD Broadcast!" with id "12344" was issued
     And I enter "gvm broadcast"
     Then I see "This is an OLD Broadcast!"
 

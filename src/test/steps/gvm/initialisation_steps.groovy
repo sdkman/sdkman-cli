@@ -41,7 +41,7 @@ And(~'^I reinitialise the shell$') { ->
 }
 
 And(~'^the internet is reachable$') {->
-    primeEndpoint("/broadcast/latest", "This is a LIVE Broadcast!")
+    primeEndpoint("/broadcast/latest/id", "12345")
     primeEndpoint("/app/version", gvmVersion)
     primeSelfupdate()
 
@@ -68,7 +68,7 @@ And(~'^offline mode is disabled with reachable internet$') {->
 }
 
 And(~'^offline mode is enabled with reachable internet$') {->
-    primeEndpoint("/broadcast/latest", "This is a LIVE Broadcast!")
+    primeEndpoint("/broadcast/latest/id", "12345")
 
     forcedOffline = true
     online = true

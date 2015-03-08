@@ -11,19 +11,20 @@ Feature: Broadcast
     Then I see "This is a LIVE Broadcast!"
 
   Scenario: A command is issued where the prior Broadcast was different to the Live one
-    Given a prior Broadcast "This is an OLD Broadcast!" was issued
+    Given a prior Broadcast "This is an OLD Broadcast!" with id "12344" was issued
     And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
     When I enter "gvm version"
     Then I see "This is a LIVE Broadcast!"
 
   Scenario: A command is issued where the prior Broadcast was the same as the Live one
-    Given a prior Broadcast "This is a LIVE Broadcast!" was issued
+    Given a prior Broadcast "This is a LIVE Broadcast!" with id "12345" was issued
     And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
     When I enter "gvm version"
     Then I do not see "This is a LIVE Broadcast!"
 
   Scenario: A Broadcast command recalls a prior Broadcast
-    Given a prior Broadcast "This is an OLD Broadcast!" was issued
+    Given a prior Broadcast "This is an OLD Broadcast!" with id "12344" was issued
+    And a new Broadcast "This is an OLD Broadcast!" with id "12344" is available
     When I enter "gvm broadcast"
     Then I see "This is an OLD Broadcast!"
 

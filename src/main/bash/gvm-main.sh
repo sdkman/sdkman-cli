@@ -54,29 +54,29 @@ function gvm {
 	mkdir -p "$GVM_DIR"
 
 	if [[ "$GVM_FORCE_OFFLINE" == "true" || ( "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ) ]]; then
-		BROADCAST_LIVE=""
+		BROADCAST_LIVE_ID=""
 	else
-		BROADCAST_LIVE=$(curl -s "${GVM_BROADCAST_SERVICE}/broadcast/latest")
-		gvm_check_offline "$BROADCAST_LIVE"
-		if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then BROADCAST_LIVE=""; fi
+		BROADCAST_LIVE_ID=$(curl -s "${GVM_BROADCAST_SERVICE}/broadcast/latest/id")
+		gvm_check_offline "$BROADCAST_LIVE_ID"
+		if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then BROADCAST_LIVE_ID=""; fi
 	fi
 
-	if [[ -z "$BROADCAST_LIVE" && "$GVM_ONLINE" == "true" && "$COMMAND" != "offline" ]]; then
+	if [[ -z "$BROADCAST_LIVE_ID" && "$GVM_ONLINE" == "true" && "$COMMAND" != "offline" ]]; then
 		echo "$OFFLINE_BROADCAST"
 	fi
 
-	if [[ -n "$BROADCAST_LIVE" && "$GVM_ONLINE" == "false" ]]; then
+	if [[ -n "$BROADCAST_LIVE_ID" && "$GVM_ONLINE" == "false" ]]; then
 		echo "$ONLINE_BROADCAST"
 	fi
 
-	if [[ -z "$BROADCAST_LIVE" ]]; then
+	if [[ -z "$BROADCAST_LIVE_ID" ]]; then
 		GVM_ONLINE="false"
 		GVM_AVAILABLE="false"
 	else
 		GVM_ONLINE="true"
 	fi
 
-	__gvmtool_update_broadcast "$COMMAND"
+	__gvmtool_update_broadcast "${COMMAND}" "${BROADCAST_LIVE_ID}"
 
 	# Load the gvm config if it exists.
 	if [ -f "${GVM_DIR}/etc/config" ]; then

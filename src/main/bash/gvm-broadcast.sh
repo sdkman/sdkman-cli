@@ -25,15 +25,29 @@ function __gvmtool_broadcast {
 }
 
 function __gvmtool_update_broadcast {
-	COMMAND="$1"
-	BROADCAST_FILE="${GVM_DIR}/var/broadcast"
-	if [ -f "${BROADCAST_FILE}" ]; then
-		BROADCAST_HIST=$(cat "${BROADCAST_FILE}")
+	local command="$1"
+	local broadcast_live_id="$2"
+
+	local broadcast_id_file="${GVM_DIR}/var/broadcast_id"
+	local broadcast_file="${GVM_DIR}/var/broadcast"
+
+	local broadcast_hist_id=""
+
+	if [[ -f "$broadcast_id_file" ]]; then
+		broadcast_hist_id=$(cat "$broadcast_id_file");
 	fi
 
-	if [[ "${GVM_AVAILABLE}" == "true" && "${BROADCAST_LIVE}" != "${BROADCAST_HIST}" && "$COMMAND" != "broadcast" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then
+	if [[ -f "$broadcast_file" ]]; then
+		BROADCAST_HIST=$(cat "$broadcast_file");
+	fi
+
+	if [[ "${GVM_AVAILABLE}" == "true" && "$broadcast_live_id" != "${broadcast_hist_id}" && "$command" != "selfupdate" && "$command" != "flush" ]]; then
 		mkdir -p "${GVM_DIR}/var"
-		echo "${BROADCAST_LIVE}" > "${BROADCAST_FILE}"
+
+		echo "${broadcast_live_id}" > "$broadcast_id_file"
+
+		BROADCAST_LIVE=$(curl -s "${GVM_BROADCAST_SERVICE}/broadcast/${broadcast_live_id}")
+		echo "${BROADCAST_LIVE}" > "${broadcast_file}"
 		echo "${BROADCAST_LIVE}"
 	fi
 }

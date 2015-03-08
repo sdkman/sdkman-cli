@@ -5,13 +5,15 @@ import static gvm.stubs.WebServiceStub.primeEndpoint
 
 And(~'^no prior Broadcast was received$') { ->
     broadcastFile.delete()
+    broadcastIdFile.delete()
 }
 
 And(~'^a new Broadcast "(.*)" with id "(.*)" is available$') { String broadcast, String id ->
     primeEndpoint("/broadcast/latest/id", id)
-    primeEndpoint("/broadcast/latest", broadcast)
+    primeEndpoint("/broadcast/$id", broadcast)
 }
 
-And(~'^a prior Broadcast "([^"]*)" was issued$') { String broadcast ->
+And(~'^a prior Broadcast "(.*)" with id "(.*)" was issued$') { String broadcast, String id ->
+    broadcastIdFile.write id
     broadcastFile.write broadcast
 }

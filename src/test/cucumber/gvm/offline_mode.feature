@@ -114,7 +114,7 @@ Feature: Offline Mode
 
   # broadcast command
   Scenario: Recall a broadcast while Offline
-    Given a prior Broadcast "This is an OLD Broadcast!" was issued
+    Given a prior Broadcast "This is an OLD Broadcast!" with id "12344" was issued
     When I enter "gvm broadcast"
     Then I see "This is an OLD Broadcast!"
 

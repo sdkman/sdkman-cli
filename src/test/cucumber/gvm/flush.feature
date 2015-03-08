@@ -20,7 +20,7 @@ Feature: Flush
     Then I see "No candidate list found so not flushed."
 
   Scenario: Clean up the current Broadcast
-    Given a prior Broadcast "This is an old broadcast" was issued
+    Given a prior Broadcast "This is an old broadcast" with id "12344" was issued
     When I enter "gvm flush broadcast"
     Then no broadcast message can be found
     And I see "Broadcast has been flushed."
