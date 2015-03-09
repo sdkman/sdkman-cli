@@ -28,6 +28,7 @@ function __gvmtool_help {
 	echo "       use       or u    <candidate> [version]"
 	echo "       default   or d    <candidate> [version]"
 	echo "       current   or c    [candidate]"
+	echo "       outdated  or o    [candidate]"
 	echo "       version   or v"
 	echo "       broadcast or b"
 	echo "       help      or h"

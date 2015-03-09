@@ -8,13 +8,14 @@ Feature: Outdated Candidate
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" candidate is "2.4.4"
     When I enter "gvm outdated grails"
-    Then I see "grails (1.3.9 < 2.4.4)"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.4.4)"
 
   Scenario: Display outdated candidate version in use when it is not outdated
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" candidate is "1.3.9"
     When I enter "gvm outdated grails"
-    Then I do not see "grails"
+    Then I see "grails is up-to-date"
 
   Scenario: Display outdated candidate version when none is in use
     Given the candidate "grails" does not exist
@@ -30,7 +31,8 @@ Feature: Outdated Candidate
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" candidate is "2.4.4"
     When I enter "gvm outdated"
-    Then I see "grails (1.3.9 < 2.4.4)"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.4.4)"
 
   Scenario: Display outdated candidate versions when none is specified and multiple are in use
     Given  the candidate "grails" version "1.3.9" is already installed and default
@@ -38,6 +40,14 @@ Feature: Outdated Candidate
     And the candidate "groovy" version "2.0.5" is already installed and default
     And the default "groovy" candidate is "2.4.1"
     When I enter "gvm outdated"
-    Then I see "grails (1.3.9 < 2.4.4)"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.4.4)"
     And I see "groovy (2.0.5 < 2.4.1)"
 
+  Scenario: Display outdated candidate versions when none is specified and multiple are in use but they are not outdated
+    Given  the candidate "grails" version "1.3.9" is already installed and default
+    And the default "grails" candidate is "1.3.9"
+    And the candidate "groovy" version "2.0.5" is already installed and default
+    And the default "groovy" candidate is "2.0.5"
+    When I enter "gvm outdated"
+    Then I see "All candidates are up-to-date"

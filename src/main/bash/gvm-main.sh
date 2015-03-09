@@ -38,6 +38,8 @@ function gvm {
             COMMAND="uninstall";;
         c)
             COMMAND="current";;
+        o)
+            COMMAND="outdated";;
         d)
             COMMAND="default";;
         b)

@@ -33,6 +33,23 @@ Feature: Mnemonics
     And I see "grails: 2.1.0"
     And I see "groovy: 2.0.5"
 
+  Scenario: Shortcut for displaying outdated Candidate Version in use
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the default "grails" candidate is "2.4.4"
+    When I enter "gvm o grails"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.4.4)"
+
+  Scenario: Shortcut for displaying outdated Candidate Versions
+    Given  the candidate "grails" version "1.3.9" is already installed and default
+    And the default "grails" candidate is "2.4.4"
+    And the candidate "groovy" version "2.0.5" is already installed and default
+    And the default "groovy" candidate is "2.4.1"
+    When I enter "gvm o"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.4.4)"
+    And I see "groovy (2.0.5 < 2.4.1)"
+
   Scenario: Shortcut for installing a Candidate Version
     Given the candidate "grails" version "2.1.0" is not installed
     And the candidate "grails" version "2.1.0" is available for download
