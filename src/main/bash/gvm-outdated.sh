@@ -23,7 +23,7 @@ function __gvmtool_determine_outdated_version {
 }
 
 function __gvmtool_outdated {
-    local all candidates candidate outdated installed_count
+    local all candidates candidate outdated installed_count outdated_count
     if [ -n "$1" ]; then
         all=false
         candidates=$1
@@ -32,6 +32,7 @@ function __gvmtool_outdated {
         candidates=${GVM_CANDIDATES[@]}
     fi
     installed_count=0
+    outdated_count=0
     for candidate in ${candidates}; do
         outdated="$(__gvmtool_determine_outdated_version "${candidate}")"
         case $? in
@@ -44,12 +45,22 @@ function __gvmtool_outdated {
                 return 1
                 ;;
             *)
-                [ -n "${outdated}" ] && echo "${outdated}"
+                if [ -n "${outdated}" ]; then
+                    [ ${installed_count} -eq 0 ] && echo "Outdated:"
+                    echo "${outdated}"
+                    (( outdated_count += 1 ))
+                fi
                 (( installed_count += 1 ))
                 ;;
         esac
     done
-    if $all && [ ${installed_count} -eq 0 ]; then
-        echo 'No candidates are in use'
+    if $all; then
+        if [ ${installed_count} -eq 0 ]; then
+            echo 'No candidates are in use'
+        elif [ ${outdated_count} -eq 0 ]; then
+            echo "All candidates are up-to-date"
+        fi
+    elif [ ${outdated_count} -eq 0 ]; then
+        echo "${candidate} is up-to-date"
     fi
 }
