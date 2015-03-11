@@ -24,6 +24,36 @@ function __gvmtool_broadcast {
 	fi
 }
 
+function gvm_update_broadcast_or_force_offline {
+    BROADCAST_LIVE_ID=$(gvm_infer_broadcast_id)
+
+    gvm_force_offline_on_proxy "$BROADCAST_LIVE_ID"
+    if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then BROADCAST_LIVE_ID=""; fi
+
+    gvm_display_online_availability
+    gvm_determine_offline "$BROADCAST_LIVE_ID"
+
+	gvmtool_update_broadcast "$COMMAND" "$BROADCAST_LIVE_ID"
+}
+
+function gvm_infer_broadcast_id {
+	if [[ "$GVM_FORCE_OFFLINE" == "true" || ( "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ) ]]; then
+		echo ""
+	else
+		echo $(curl -s "${GVM_BROADCAST_SERVICE}/broadcast/latest/id")
+	fi
+}
+
+function gvm_display_online_availability {
+	if [[ -z "$BROADCAST_LIVE_ID" && "$GVM_ONLINE" == "true" && "$COMMAND" != "offline" ]]; then
+		echo "$OFFLINE_BROADCAST"
+	fi
+
+	if [[ -n "$BROADCAST_LIVE_ID" && "$GVM_ONLINE" == "false" ]]; then
+		echo "$ONLINE_BROADCAST"
+	fi
+}
+
 function gvmtool_update_broadcast {
 	local command="$1"
 	local broadcast_live_id="$2"
