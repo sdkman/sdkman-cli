@@ -57,7 +57,7 @@ function gvm {
 		BROADCAST_LIVE_ID=""
 	else
 		BROADCAST_LIVE_ID=$(curl -s "${GVM_BROADCAST_SERVICE}/broadcast/latest/id")
-		gvm_check_offline "$BROADCAST_LIVE_ID"
+		gvm_force_offline_for_proxy "$BROADCAST_LIVE_ID"
 		if [[ "$GVM_FORCE_OFFLINE" == 'true' ]]; then BROADCAST_LIVE_ID=""; fi
 	fi
 
@@ -76,7 +76,7 @@ function gvm {
 		GVM_ONLINE="true"
 	fi
 
-	__gvmtool_update_broadcast "${COMMAND}" "${BROADCAST_LIVE_ID}"
+	gvmtool_update_broadcast "${COMMAND}" "${BROADCAST_LIVE_ID}"
 
 	# Load the gvm config if it exists.
 	if [ -f "${GVM_DIR}/etc/config" ]; then

@@ -24,7 +24,7 @@ function __gvmtool_broadcast {
 	fi
 }
 
-function __gvmtool_update_broadcast {
+function gvmtool_update_broadcast {
 	local command="$1"
 	local broadcast_live_id="$2"
 
