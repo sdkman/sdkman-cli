@@ -10,7 +10,7 @@ And(~'^no prior Broadcast was received$') { ->
 
 And(~'^a new Broadcast "(.*)" with id "(.*)" is available$') { String broadcast, String id ->
     primeEndpoint("/broadcast/latest/id", id)
-    primeEndpoint("/broadcast/$id", broadcast)
+    primeEndpoint("/broadcast/latest", broadcast)
 }
 
 And(~'^a prior Broadcast "(.*)" with id "(.*)" was issued$') { String broadcast, String id ->
