@@ -46,7 +46,7 @@ function __gvmtool_outdated {
                 ;;
             *)
                 if [ -n "${outdated}" ]; then
-                    [ ${installed_count} -eq 0 ] && echo "Outdated:"
+                    [ ${outdated_count} -eq 0 ] && echo "Outdated:"
                     echo "${outdated}"
                     (( outdated_count += 1 ))
                 fi
