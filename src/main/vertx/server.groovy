@@ -145,16 +145,12 @@ rm.get("/candidates/:candidate/list") { req ->
 	}
 }
 
-private prepareListView(combined, current, installed, local, colLength){
-    def builder = new StringBuilder()
-    for (i in (0..(colLength-1))){
-        def versionColumn1 = prepareVersion(combined[i], current, installed, local)
-        def versionColumn2 = prepareVersion(combined[i+(colLength*1)], current, installed, local)
-        def versionColumn3 = prepareVersion(combined[i+(colLength*2)], current, installed, local)
-        def versionColumn4 = prepareVersion(combined[i+(colLength*3)], current, installed, local)
-        builder << "${pad(versionColumn1)} ${pad(versionColumn2)} ${pad(versionColumn3)} ${pad(versionColumn4)}\n"
-    }
-    builder.toString()
+private String prepareListView(combined, current, installed, local, colLength) {
+  combined.collate(colLength).transpose().collect { rowVersions ->
+    rowVersions.collect { v ->
+      pad(prepareVersion(v, current, installed, local))
+    }.join(' ')
+  }.join('\n')
 }
 
 private prepareVersion(version, current, installed, local){
@@ -188,10 +184,12 @@ private determineLocal(available, installed){
 }
 
 private combine(available, installed){
-    def combined = [] as TreeSet
-    combined.addAll installed
-    combined.addAll available
-    combined.toList().reverse()
+    (available + installed).unique().sort { b, a ->
+        def at = a.tokenize('.').collect { it as Integer }
+        def bt = b.tokenize('.').collect { it as Integer }
+        //sort first on major, then minor, and lastly on micro
+        at[0] <=> bt[0] ?: at[1] <=> bt[1] ?: at[2] <=> bt[2]
+    }
 }
 
 def validationHandler = { req ->
