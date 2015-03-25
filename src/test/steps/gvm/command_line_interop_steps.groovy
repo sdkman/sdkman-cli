@@ -31,3 +31,23 @@ And(~'^I see the current gvm version$') {->
 And(~'^I see a single occurrence of \"([^\"]*)\"$') { String occurrence ->
     assert result.count(occurrence) == 1
 }
+
+And(~'^I see a sorted table of versions$') { ->
+    def versions = result.readLines().findAll {
+        it.startsWith(' ')
+    }.collect {
+        it.trim().tokenize(' ')
+    }.flatten().findAll { it }
+
+    def sorted = versions.sort(false) { b, a ->
+        [a, b].collect { v ->
+            //["2.3.5", "2.3.11"] => [[2,3,5],[2,3,11]]
+            v.tokenize('.').collect { toInt(it) }
+        }.transpose().findResult { ta, tb ->
+            // [[2,3,5],[2,3,11]].transpose() => [[2, 2], [3, 3], [5, 11]]
+            // compare versions major,minor,micro return first non-zero
+            ta <=> tb ?: null
+        }
+    }
+    assert versions == sorted
+}
