@@ -148,7 +148,7 @@ rm.get("/candidates/:candidate/list") { req ->
 private String prepareListView(combined, current, installed, local, numberOfColumns) {
     int colLength = Math.ceil(combined.size() / (numberOfColumns*1.0))
 
-    combined.collate(colLength, true).collect { it
+    combined.collate(colLength, true).collect {
         // transpose throws away the tails of lists when list lengths differ,
         // this fills the last list out with empty strings
         it + ([''] * (colLength - it.size()))
