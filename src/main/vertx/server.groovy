@@ -20,7 +20,7 @@ import org.vertx.groovy.core.http.RouteMatcher
 
 final GVM_VERSION = '@GVM_VERSION@'
 final VERTX_VERSION = '@VERTX_VERSION@'
-final COLUMN_LENGTH = 15
+final NUMBER_OF_COLUMNS = 4
 
 //
 // datasource configuration
@@ -35,7 +35,7 @@ def config = [
     password: System.getenv('GVM_DB_PASSWORD')
 ]
 
-container.deployModule 'vertx.mongo-persistor-v1.2', config
+container.deployModule 'io.vertx~mod-mongo-persistor~2.1.0', config
 
 def templateEngine = new SimpleTemplateEngine()
 
@@ -136,7 +136,7 @@ rm.get("/candidates/:candidate/list") { req ->
         def combined = combine(available, installed)
         def local = determineLocal(available, installed)
 
-        def content = prepareListView(combined, current, installed, local, COLUMN_LENGTH)
+        def content = prepareListView(combined, current, installed, local, NUMBER_OF_COLUMNS)
         def binding = [candidate: candidate, content:content]
         def template = listTemplate.make(binding)
 
@@ -145,8 +145,14 @@ rm.get("/candidates/:candidate/list") { req ->
     }
 }
 
-private String prepareListView(combined, current, installed, local, colLength) {
-    combined.collate(colLength).transpose().collect { rowVersions ->
+private String prepareListView(combined, current, installed, local, numberOfColumns) {
+    int colLength = Math.ceil(combined.size() / (numberOfColumns*1.0))
+
+    combined.collate(colLength, true).collect { it
+        // transpose throws away the tails of lists when list lengths differ,
+        // this fills the last list out with empty strings
+        it + ([''] * (colLength - it.size()))
+    }.transpose().collect { rowVersions ->
         rowVersions.collect { v ->
             pad(prepareVersion(v, current, installed, local))
         }.join(' ')
@@ -196,7 +202,7 @@ private determineLocal(available, installed){
  */
 private combine(available, installed) {
     def toInt = {
-        try { it as Integer } catch (ignored) { Integer.MAX_VALUE }
+        try { it as Integer } catch (ignored) { Integer.MIN_VALUE }
     }
 
     (available + installed).unique().sort { b, a ->
@@ -207,7 +213,7 @@ private combine(available, installed) {
             // [[2,3,5],[2,3,11]].transpose() => [[2, 2], [3, 3], [5, 11]]
             // compare versions major,minor,micro return first non-zero
             ta <=> tb ?: null
-        }
+        } ?: 0
     }
 }
 
