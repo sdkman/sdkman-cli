@@ -196,7 +196,7 @@ private determineLocal(available, installed){
  */
 private combine(available, installed) {
     def toInt = {
-        try { it as Integer } catch (e) { Integer.MAX_VALUE }
+        try { it as Integer } catch (ignored) { Integer.MAX_VALUE }
     }
 
     (available + installed).unique().sort { b, a ->
