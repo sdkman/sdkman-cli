@@ -183,12 +183,32 @@ private determineLocal(available, installed){
     installed.findAll { ! available.contains(it) }
 }
 
-private combine(available, installed){
+/**
+ * Returns a numerically sorted list of all versions.
+ *
+ * Handles version oddities like
+ * ["2.90", "2.3.10", "2.3-beta.15", "3"]
+ * i.e. differing lengths and non-parseable version tokens
+ *
+ * @param available List<String> of available versions
+ * @param installed List<String> of installed versions
+ *
+ * @return numerically sorted list of the combination of available and installed
+ */
+private combine(available, installed) {
+    def toInt = {
+        try { it as Integer } catch (e) { Integer.MAX_VALUE }
+    }
+
     (available + installed).unique().sort { b, a ->
-        def at = a.tokenize('.').collect { it as Integer }
-        def bt = b.tokenize('.').collect { it as Integer }
-        //sort first on major, then minor, and lastly on micro
-        at[0] <=> bt[0] ?: at[1] <=> bt[1] ?: at[2] <=> bt[2]
+        [a, b].collect { v ->
+          //["2.3.5", "2.3.11"] => [[2,3,5],[2,3,11]]
+          v.tokenize('.').collect { toInt(it) }
+        }.transpose().findResult { ta, tb -> 
+          // [[2,3,5],[2,3,11]].transpose() => [[2, 2], [3, 3], [5, 11]]
+          // compare versions major,minor,micro return first non-zero
+          ta <=> tb ?: null
+        }
     }
 }
 
