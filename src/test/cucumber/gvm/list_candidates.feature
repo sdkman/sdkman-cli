@@ -39,7 +39,7 @@ Feature: List Candidates
     And I see " > + 2.2-SNAPSHOT"
 
   Scenario: List all abailable versions and validate sorting
-    Given Given I do not have a "groovy" candidate installed
+    Given I do not have a "groovy" candidate installed
     When I enter "gvm list groovy"
     Then I see "Available Groovy Versions"
     And I see a sorted table of versions
