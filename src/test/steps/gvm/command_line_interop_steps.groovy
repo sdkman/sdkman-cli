@@ -32,10 +32,13 @@ And(~'^I see a single occurrence of \"([^\"]*)\"$') { String occurrence ->
     assert result.count(occurrence) == 1
 }
 
-And(~'^I see a sorted table of versions$') { specVersions ->
-    assert specVersions.asList(String) == result.readLines().findAll {
+And(~'^I see a sorted table of versions$') { dataTable ->
+    def specVersions = dataTable.asList(String).collect { it.trim() }
+    def resultVersions = result.readLines().findAll {
         it.startsWith(' ')
     }.collect {
         it.trim().tokenize(' ')
     }.flatten().findAll { it }
+
+    assert specVersions == resultVersions
 }
