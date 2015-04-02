@@ -19,11 +19,11 @@
 function __gvmtool_determine_current_version {
 	CANDIDATE="$1"
 	if [[ "${solaris}" == true ]]; then
-		CURRENT=$(echo $PATH | gsed -r "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
+		CURRENT=$(echo $PATH | gsed -r "s|${GVM_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
 	elif [[ "${darwin}" == true ]]; then
-		CURRENT=$(echo $PATH | sed -E "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
+		CURRENT=$(echo $PATH | sed -E "s|${GVM_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
 	else
-		CURRENT=$(echo $PATH | sed -r "s|.gvm/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
+		CURRENT=$(echo $PATH | sed -r "s|${GVM_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
 	fi
 
 	if [[ "${CURRENT}" == "current" ]]; then
