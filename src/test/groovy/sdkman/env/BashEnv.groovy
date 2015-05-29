@@ -1,7 +1,7 @@
 package sdkman.env
 
 /**
- * <p>As part of the gvm test suite we need to launch a bash shell and execute
+ * <p>As part of the sdkman test suite we need to launch a bash shell and execute
  * multiple commands in it. This is tricky to do using Java's support for
  * working with external processes as the API can't tell you when a command
  * has finished executing.</p>

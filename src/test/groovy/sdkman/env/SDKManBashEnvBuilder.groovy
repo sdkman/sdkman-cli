@@ -2,7 +2,7 @@ package sdkman.env
 
 import sdkman.stubs.CurlStub
 
-class GvmBashEnvBuilder {
+class SDKManBashEnvBuilder {
 
     final TEST_SCRIPT_BUILD_DIR = "build/testScripts" as File
 
@@ -24,105 +24,105 @@ class GvmBashEnvBuilder {
     String versionToken
 
     Map config = [
-            gvm_auto_answer:'false'
+            sdkman_auto_answer:'false'
     ]
 
-    File gvmDir, gvmBinDir, gvmVarDir, gvmSrcDir, gvmEtcDir, gvmExtDir, gvmArchivesDir, gvmTmpDir
+    File sdkManDir, sdkManBinDir, sdkManVarDir, sdkManSrcDir, sdkManEtcDir, sdkManExtDir, sdkManArchivesDir, sdkManTmpDir
 
-    static GvmBashEnvBuilder create(File baseFolder){
-        new GvmBashEnvBuilder(baseFolder)
+    static SDKManBashEnvBuilder create(File baseFolder){
+        new SDKManBashEnvBuilder(baseFolder)
     }
 
-    private GvmBashEnvBuilder(File baseFolder){
+    private SDKManBashEnvBuilder(File baseFolder){
         this.baseFolder = baseFolder
     }
 
-    GvmBashEnvBuilder withCurlStub(CurlStub curlStub){
+    SDKManBashEnvBuilder withCurlStub(CurlStub curlStub){
         this.curlStub = curlStub
         this
     }
 
-    GvmBashEnvBuilder withCandidates(List candidates){
+    SDKManBashEnvBuilder withCandidates(List candidates){
         this.candidates = candidates
         this
     }
 
-    GvmBashEnvBuilder withAvailableCandidates(List candidates){
+    SDKManBashEnvBuilder withAvailableCandidates(List candidates){
         this.availableCandidates = candidates
         this
     }
 
-    GvmBashEnvBuilder withBroadcast(String broadcast){
+    SDKManBashEnvBuilder withBroadcast(String broadcast){
         this.broadcast = broadcast
         this
     }
 
-    GvmBashEnvBuilder withConfiguration(String key, String value){
+    SDKManBashEnvBuilder withConfiguration(String key, String value){
         config.put key, value
         this
     }
 
-    GvmBashEnvBuilder withOnlineMode(boolean onlineMode){
+    SDKManBashEnvBuilder withOnlineMode(boolean onlineMode){
         this.onlineMode = onlineMode
         this
     }
 
-    GvmBashEnvBuilder withForcedOfflineMode(boolean forcedOfflineMode){
+    SDKManBashEnvBuilder withForcedOfflineMode(boolean forcedOfflineMode){
         this.forcedOfflineMode = forcedOfflineMode
         this
     }
 
-    GvmBashEnvBuilder withService(String service){
+    SDKManBashEnvBuilder withService(String service){
         this.service = service
         this
     }
 
-    GvmBashEnvBuilder withBroadcastService(String broadcastService){
+    SDKManBashEnvBuilder withBroadcastService(String broadcastService){
         this.broadcastService = broadcastService
         this
     }
 
-    GvmBashEnvBuilder withBrokerService(String brokerService){
+    SDKManBashEnvBuilder withBrokerService(String brokerService){
         this.brokerService = brokerService
         this
     }
 
-    GvmBashEnvBuilder withJdkHome(String jdkHome){
+    SDKManBashEnvBuilder withJdkHome(String jdkHome){
         this.jdkHome = jdkHome
         this
     }
 
-    GvmBashEnvBuilder withHttpProxy(String httpProxy){
+    SDKManBashEnvBuilder withHttpProxy(String httpProxy){
         this.httpProxy = httpProxy
         this
     }
 
-    GvmBashEnvBuilder withVersionToken(String version){
+    SDKManBashEnvBuilder withVersionToken(String version){
         this.versionToken = version
         this
     }
 
     BashEnv build() {
-        gvmDir = prepareDirectory(baseFolder, ".gvm")
-        gvmBinDir = prepareDirectory(gvmDir, "bin")
-        gvmVarDir = prepareDirectory(gvmDir, "var")
-        gvmSrcDir = prepareDirectory(gvmDir, "src")
-        gvmEtcDir = prepareDirectory(gvmDir, "etc")
-        gvmExtDir = prepareDirectory(gvmDir, "ext")
-        gvmArchivesDir = prepareDirectory(gvmDir, "archives")
-        gvmTmpDir = prepareDirectory(gvmDir, "tmp")
+        sdkManDir = prepareDirectory(baseFolder, ".sdkman")
+        sdkManBinDir = prepareDirectory(sdkManDir, "bin")
+        sdkManVarDir = prepareDirectory(sdkManDir, "var")
+        sdkManSrcDir = prepareDirectory(sdkManDir, "src")
+        sdkManEtcDir = prepareDirectory(sdkManDir, "etc")
+        sdkManExtDir = prepareDirectory(sdkManDir, "ext")
+        sdkManArchivesDir = prepareDirectory(sdkManDir, "archives")
+        sdkManTmpDir = prepareDirectory(sdkManDir, "tmp")
 
-        initializeCandidates(gvmDir, candidates)
-        initializeAvailableCandidates(gvmVarDir, availableCandidates)
-        initializeBroadcast(gvmVarDir, broadcast)
-        initializeConfiguration(gvmEtcDir, config)
-        initializeVersionToken(gvmVarDir, versionToken)
+        initializeCandidates(sdkManDir, candidates)
+        initializeAvailableCandidates(sdkManVarDir, availableCandidates)
+        initializeBroadcast(sdkManVarDir, broadcast)
+        initializeConfiguration(sdkManEtcDir, config)
+        initializeVersionToken(sdkManVarDir, versionToken)
 
-        primeInitScript(gvmBinDir)
-        primeModuleScripts(gvmSrcDir)
+        primeInitScript(sdkManBinDir)
+        primeModuleScripts(sdkManSrcDir)
 
         def env = [
-                GVM_DIR: gvmDir.absolutePath,
+                GVM_DIR: sdkManDir.absolutePath,
                 GVM_ONLINE: "$onlineMode",
                 GVM_FORCE_OFFLINE: "$forcedOfflineMode",
                 GVM_SERVICE: service,
@@ -173,19 +173,19 @@ class GvmBashEnvBuilder {
     }
 
     private primeInitScript(File targetFolder) {
-        def sourceInitScript = new File(TEST_SCRIPT_BUILD_DIR, 'gvm-init.sh')
+        def sourceInitScript = new File(TEST_SCRIPT_BUILD_DIR, 'sdkman-init.sh')
 
         if (!sourceInitScript.exists())
-            throw new IllegalStateException("gvm-init.sh has not been prepared for consumption.")
+            throw new IllegalStateException("sdkman-init.sh has not been prepared for consumption.")
 
-        def destInitScript = new File(targetFolder, "gvm-init.sh")
+        def destInitScript = new File(targetFolder, "sdkman-init.sh")
         destInitScript << sourceInitScript.text
         destInitScript
     }
 
     private primeModuleScripts(File targetFolder){
         for (f in TEST_SCRIPT_BUILD_DIR.listFiles()){
-            if(!(f.name in ['selfupdate.sh', 'install.sh', 'gvm-init.sh'])){
+            if(!(f.name in ['selfupdate.sh', 'install.sh', 'sdkman-init.sh'])){
                 new File(targetFolder, f.name) << f.text
             }
         }

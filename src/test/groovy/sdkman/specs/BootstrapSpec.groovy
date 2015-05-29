@@ -2,7 +2,7 @@ package sdkman.specs
 
 import sdkman.env.BashEnv
 import sdkman.stubs.CurlStub
-import sdkman.env.GvmBashEnvBuilder
+import sdkman.env.SDKManBashEnvBuilder
 import spock.lang.Specification
 
 import static sdkman.utils.TestUtils.prepareBaseDir
@@ -12,26 +12,26 @@ class BootstrapSpec extends Specification {
     CurlStub curlStub
     BashEnv bash
 
-    File gvmBaseDir
-    String gvmBaseEnv
+    File sdkManBaseDir
+    String sdkManBaseEnv
     String bootstrap
     String versionToken
 
     void setup(){
-        gvmBaseDir = prepareBaseDir()
-        gvmBaseEnv = gvmBaseDir.absolutePath
-        bootstrap = "${gvmBaseDir.absolutePath}/.gvm/bin/gvm-init.sh"
-        versionToken = "${gvmBaseDir.absolutePath}/.gvm/var/version"
-        curlStub = CurlStub.prepareIn(new File(gvmBaseDir, "bin"))
+        sdkManBaseDir = prepareBaseDir()
+        sdkManBaseEnv = sdkManBaseDir.absolutePath
+        bootstrap = "${sdkManBaseDir.absolutePath}/.sdkman/bin/sdkman-init.sh"
+        versionToken = "${sdkManBaseDir.absolutePath}/.sdkman/var/version"
+        curlStub = CurlStub.prepareIn(new File(sdkManBaseDir, "bin"))
     }
 
     void "should store version token if not exists"() {
 
-        given: 'a working gvm installation without version token'
+        given: 'a working sdkman installation without version token'
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
-        bash = GvmBashEnvBuilder
-                .create(gvmBaseDir)
+        bash = SDKManBashEnvBuilder
+                .create(sdkManBaseDir)
                 .withCurlStub(curlStub)
                 .build()
         bash.start()
@@ -44,10 +44,10 @@ class BootstrapSpec extends Specification {
     }
 
     void "should not query server if token is found"() {
-        given: 'a working gvm installation with version token'
+        given: 'a working sdkman installation with version token'
         def versionFile = new File(versionToken)
-        bash = GvmBashEnvBuilder
-                .create(gvmBaseDir)
+        bash = SDKManBashEnvBuilder
+                .create(sdkManBaseDir)
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.z")
                 .build()
@@ -62,11 +62,11 @@ class BootstrapSpec extends Specification {
     }
 
     void "should query server for version and refresh if token is older than a day"() {
-        given: 'a working gvm installation with expired version token'
+        given: 'a working sdkman installation with expired version token'
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
-        bash = GvmBashEnvBuilder
-                .create(gvmBaseDir)
+        bash = SDKManBashEnvBuilder
+                .create(sdkManBaseDir)
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.a")
                 .build()
@@ -83,14 +83,14 @@ class BootstrapSpec extends Specification {
     }
 
     void "should ignore version if api is offline"(){
-        given: 'a working gvm installation with api down'
-        def gvmVersion = "x.y.z"
+        given: 'a working sdkman installation with api down'
+        def sdkManVersion = "x.y.z"
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
-        bash = GvmBashEnvBuilder
-                .create(gvmBaseDir)
+        bash = SDKManBashEnvBuilder
+                .create(sdkManBaseDir)
                 .withCurlStub(curlStub)
-                .withVersionToken(gvmVersion)
+                .withVersionToken(sdkManVersion)
                 .build()
         bash.start()
 
@@ -98,14 +98,14 @@ class BootstrapSpec extends Specification {
         bash.execute("source $bootstrap")
 
         then:
-        versionFile.text.contains(gvmVersion)
+        versionFile.text.contains(sdkManVersion)
     }
 
     void "should not go offline if curl times out"(){
-        given: 'a working gvm installation with api down'
+        given: 'a working sdkman installation with api down'
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
-        bash = GvmBashEnvBuilder
-                .create(gvmBaseDir)
+        bash = SDKManBashEnvBuilder
+                .create(sdkManBaseDir)
                 .withCurlStub(curlStub)
                 .build()
         bash.start()
@@ -118,14 +118,14 @@ class BootstrapSpec extends Specification {
     }
 
     void "should ignore version if api returns garbage"(){
-        given: 'a working gvm installation with garbled api'
-        def gvmVersion = "x.y.z"
+        given: 'a working sdkman installation with garbled api'
+        def sdkManVersion = "x.y.z"
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo '<html><title>sorry</title></html>'").build()
-        bash = GvmBashEnvBuilder
-                .create(gvmBaseDir)
+        bash = SDKManBashEnvBuilder
+                .create(sdkManBaseDir)
                 .withCurlStub(curlStub)
-                .withVersionToken(gvmVersion)
+                .withVersionToken(sdkManVersion)
                 .build()
         bash.start()
 
@@ -133,12 +133,12 @@ class BootstrapSpec extends Specification {
         bash.execute("source $bootstrap")
 
         then:
-        versionFile.text.contains gvmVersion
+        versionFile.text.contains sdkManVersion
     }
 
     void cleanup(){
         println bash.output
         bash.stop()
-        assert gvmBaseDir.deleteDir()
+        assert sdkManBaseDir.deleteDir()
     }
 }
