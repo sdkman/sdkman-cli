@@ -16,30 +16,30 @@
 #
 
 # Global variables
-GVM_SERVICE="@GVM_SERVICE@"
-GVM_BROKER_SERVICE="@GVM_BROKER_SERVICE@"
-GVM_VERSION="@GVM_VERSION@"
-GVM_DIR="$HOME/.gvm"
+SDKMAN_SERVICE="@SDKMAN_SERVICE@"
+SDKMAN_BROKER_SERVICE="@SDKMAN_BROKER_SERVICE@"
+SDKMAN_VERSION="@SDKMAN_VERSION@"
+SDKMAN_DIR="$HOME/.sdkman"
 
 # Local variables
-gvm_bin_folder="${GVM_DIR}/bin"
-gvm_src_folder="${GVM_DIR}/src"
-gvm_tmp_folder="${GVM_DIR}/tmp"
-gvm_stage_folder="${gvm_tmp_folder}/stage"
-gvm_zip_file="${gvm_tmp_folder}/res-${GVM_VERSION}.zip"
-gvm_ext_folder="${GVM_DIR}/ext"
-gvm_etc_folder="${GVM_DIR}/etc"
-gvm_var_folder="${GVM_DIR}/var"
-gvm_config_file="${gvm_etc_folder}/config"
-gvm_bash_profile="${HOME}/.bash_profile"
-gvm_profile="${HOME}/.profile"
-gvm_bashrc="${HOME}/.bashrc"
-gvm_zshrc="${HOME}/.zshrc"
-gvm_platform=$(uname)
+sdkman_bin_folder="${SDKMAN_DIR}/bin"
+sdkman_src_folder="${SDKMAN_DIR}/src"
+sdkman_tmp_folder="${SDKMAN_DIR}/tmp"
+sdkman_stage_folder="${sdkman_tmp_folder}/stage"
+sdkman_zip_file="${sdkman_tmp_folder}/res-${SDKMAN_VERSION}.zip"
+sdkman_ext_folder="${SDKMAN_DIR}/ext"
+sdkman_etc_folder="${SDKMAN_DIR}/etc"
+sdkman_var_folder="${SDKMAN_DIR}/var"
+sdkman_config_file="${sdkman_etc_folder}/config"
+sdkman_bash_profile="${HOME}/.bash_profile"
+sdkman_profile="${HOME}/.profile"
+sdkman_bashrc="${HOME}/.bashrc"
+sdkman_zshrc="${HOME}/.zshrc"
+sdkman_platform=$(uname)
 
-gvm_init_snippet=$( cat << EOF
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "${GVM_DIR}/bin/gvm-init.sh" ]] && source "${GVM_DIR}/bin/gvm-init.sh"
+sdkman_init_snippet=$( cat << EOF
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 EOF
 )
 
@@ -81,19 +81,19 @@ echo '                                                                     '
 
 # Sanity checks
 
-echo "Looking for a previous installation of GVM..."
-if [ -d "${GVM_DIR}" ]; then
-	echo "GVM found."
+echo "Looking for a previous installation of SDKman..."
+if [ -d "${SDKMAN_DIR}" ]; then
+	echo "SDKman found."
 	echo ""
 	echo "======================================================================================================"
-	echo " You already have GVM installed."
-	echo " GVM was found at:"
+	echo " You already have SDKman installed."
+	echo " SDKman was found at:"
 	echo ""
-	echo "    ${GVM_DIR}"
+	echo "    ${SDKMAN_DIR}"
 	echo ""
 	echo " Please consider running the following if you need to upgrade."
 	echo ""
-	echo "    $ gvm selfupdate"
+	echo "    $ sdk selfupdate"
 	echo ""
 	echo "======================================================================================================"
 	echo ""
@@ -119,7 +119,7 @@ if [ -z $(which curl) ]; then
 	echo "======================================================================================================"
 	echo " Please install curl on your system using your favourite package manager."
 	echo ""
-	echo " GVM uses curl for crucial interactions with it's backend server."
+	echo " SDKman uses curl for crucial interactions with it's backend server."
 	echo ""
 	echo " Restart after installing curl."
 	echo "======================================================================================================"
@@ -134,7 +134,7 @@ if [ -z $(which sed) ]; then
 	echo "======================================================================================================"
 	echo " Please install sed on your system using your favourite package manager."
 	echo ""
-	echo " GVM uses sed extensively."
+	echo " SDKman uses sed extensively."
 	echo ""
 	echo " Restart after installing sed."
 	echo "======================================================================================================"
@@ -150,7 +150,7 @@ if [[ "${solaris}" == true ]]; then
 		echo "======================================================================================================"
 		echo " Please install gsed on your solaris system."
 		echo ""
-		echo " GVM uses gsed extensively."
+		echo " SDKman uses gsed extensively."
 		echo ""
 		echo " Restart after installing gsed."
 		echo "======================================================================================================"
@@ -160,89 +160,89 @@ if [[ "${solaris}" == true ]]; then
 fi
 
 
-echo "Installing gvm scripts..."
+echo "Installing SDKman scripts..."
 
 
 # Create directory structure
 
 echo "Create distribution directories..."
-mkdir -p "${gvm_bin_folder}"
-mkdir -p "${gvm_src_folder}"
-mkdir -p "${gvm_tmp_folder}"
-mkdir -p "${gvm_stage_folder}"
-mkdir -p "${gvm_ext_folder}"
-mkdir -p "${gvm_etc_folder}"
-mkdir -p "${gvm_var_folder}"
+mkdir -p "${sdkman_bin_folder}"
+mkdir -p "${sdkman_src_folder}"
+mkdir -p "${sdkman_tmp_folder}"
+mkdir -p "${sdkman_stage_folder}"
+mkdir -p "${sdkman_ext_folder}"
+mkdir -p "${sdkman_etc_folder}"
+mkdir -p "${sdkman_var_folder}"
 
 echo "Create candidate directories..."
 
-GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
-echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
+SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates")
+echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 
-echo "$GVM_VERSION" > "${GVM_DIR}/var/version"
+echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
 # convert csv to array
 OLD_IFS="$IFS"
 IFS=","
-GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
+SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
 IFS="$OLD_IFS"
 
-for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
+for (( i=0; i <= ${#SDKMAN_CANDIDATES}; i++ )); do
 	# Eliminate empty entries due to incompatibility
-	if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
-		CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
-		mkdir -p "${GVM_DIR}/${CANDIDATE_NAME}"
-		echo "Created for ${CANDIDATE_NAME}: ${GVM_DIR}/${CANDIDATE_NAME}"
+	if [[ -n ${SDKMAN_CANDIDATES[${i}]} ]]; then
+		CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
+		mkdir -p "${SDKMAN_DIR}/${CANDIDATE_NAME}"
+		echo "Created for ${CANDIDATE_NAME}: ${SDKMAN_DIR}/${CANDIDATE_NAME}"
 		unset CANDIDATE_NAME
 	fi
 done
 
 echo "Prime the config file..."
-touch "${gvm_config_file}"
-echo "gvm_auto_answer=false" >> "${gvm_config_file}"
-echo "gvm_auto_selfupdate=false" >> "${gvm_config_file}"
-echo "gvm_insecure_ssl=false" >> "${gvm_config_file}"
+touch "${sdkman_config_file}"
+echo "sdkman_auto_answer=false" >> "${sdkman_config_file}"
+echo "sdkman_auto_selfupdate=false" >> "${sdkman_config_file}"
+echo "sdkman_insecure_ssl=false" >> "${sdkman_config_file}"
 
 echo "Download script archive..."
-curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=install" > "${gvm_zip_file}"
+curl -s "${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=install" > "${sdkman_zip_file}"
 
 echo "Extract script archive..."
 if [[ "${cygwin}" == 'true' ]]; then
 	echo "Cygwin detected - normalizing paths for unzip..."
-	gvm_zip_file=$(cygpath -w "${gvm_zip_file}")
-	gvm_stage_folder=$(cygpath -w "${gvm_stage_folder}")
+	sdkman_zip_file=$(cygpath -w "${sdkman_zip_file}")
+	sdkman_stage_folder=$(cygpath -w "${sdkman_stage_folder}")
 fi
-unzip -qo "${gvm_zip_file}" -d "${gvm_stage_folder}"
+unzip -qo "${sdkman_zip_file}" -d "${sdkman_stage_folder}"
 
 echo "Install scripts..."
-mv "${gvm_stage_folder}/gvm-init.sh" "${gvm_bin_folder}"
-mv "${gvm_stage_folder}"/gvm-* "${gvm_src_folder}"
+mv "${sdkman_stage_folder}/sdkman-init.sh" "${sdkman_bin_folder}"
+mv "${sdkman_stage_folder}"/sdkman-* "${sdkman_src_folder}"
 
 echo "Attempt update of bash profiles..."
-if [ ! -f "${gvm_bash_profile}" -a ! -f "${gvm_profile}" ]; then
-	echo "#!/bin/bash" > "${gvm_bash_profile}"
-	echo "${gvm_init_snippet}" >> "${gvm_bash_profile}"
-	echo "Created and initialised ${gvm_bash_profile}"
+if [ ! -f "${sdkman_bash_profile}" -a ! -f "${sdkman_profile}" ]; then
+	echo "#!/bin/bash" > "${sdkman_bash_profile}"
+	echo "${sdkman_init_snippet}" >> "${sdkman_bash_profile}"
+	echo "Created and initialised ${sdkman_bash_profile}"
 else
-	if [ -f "${gvm_bash_profile}" ]; then
-		if [[ -z `grep 'gvm-init.sh' "${gvm_bash_profile}"` ]]; then
-			echo -e "\n${gvm_init_snippet}" >> "${gvm_bash_profile}"
-			echo "Updated existing ${gvm_bash_profile}"
+	if [ -f "${sdkman_bash_profile}" ]; then
+		if [[ -z `grep 'sdkman-init.sh' "${sdkman_bash_profile}"` ]]; then
+			echo -e "\n${sdkman_init_snippet}" >> "${sdkman_bash_profile}"
+			echo "Updated existing ${sdkman_bash_profile}"
 		fi
 	fi
 
-	if [ -f "${gvm_profile}" ]; then
-		if [[ -z `grep 'gvm-init.sh' "${gvm_profile}"` ]]; then
-			echo -e "\n${gvm_init_snippet}" >> "${gvm_profile}"
-			echo "Updated existing ${gvm_profile}"
+	if [ -f "${sdkman_profile}" ]; then
+		if [[ -z `grep 'sdkman-init.sh' "${sdkman_profile}"` ]]; then
+			echo -e "\n${sdkman_init_snippet}" >> "${sdkman_profile}"
+			echo "Updated existing ${sdkman_profile}"
 		fi
 	fi
 fi
 
-if [ ! -f "${gvm_bashrc}" ]; then
-	echo "#!/bin/bash" > "${gvm_bashrc}"
-	echo "${gvm_init_snippet}" >> "${gvm_bashrc}"
-	echo "Created and initialised ${gvm_bashrc}"
+if [ ! -f "${sdkman_bashrc}" ]; then
+	echo "#!/bin/bash" > "${sdkman_bashrc}"
+	echo "${sdkman_init_snippet}" >> "${sdkman_bashrc}"
+	echo "Created and initialised ${sdkman_bashrc}"
 else
 	if [[ -z `grep 'gvm-init.sh' "${gvm_bashrc}"` ]]; then
 		echo -e "\n${gvm_init_snippet}" >> "${gvm_bashrc}"
