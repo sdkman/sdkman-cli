@@ -18,8 +18,8 @@
 
 function __sdkman_help {
 	echo ""
-	echo "Usage: gvm <command> <candidate> [version]"
-	echo "       gvm offline <enable|disable>"
+	echo "Usage: sdk <command> <candidate> [version]"
+	echo "       sdk offline <enable|disable>"
 	echo ""
 	echo "   commands:"
 	echo "       install   or i    <candidate> [version]"
@@ -37,8 +37,8 @@ function __sdkman_help {
 	echo "       flush             <candidates|broadcast|archives|temp>"
 	echo ""
 	echo -n "   candidate  :  "
-	echo "$GVM_CANDIDATES_CSV" | sed 's/,/, /g'
+	echo "$SDKMAN_CANDIDATES_CSV" | sed 's/,/, /g'
 	echo "   version    :  where optional, defaults to latest stable if not provided"
 	echo ""
-	echo "eg: gvm install groovy"
+	echo "eg: sdk install groovy"
 }

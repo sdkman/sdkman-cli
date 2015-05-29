@@ -17,35 +17,35 @@
 #
 
 function __sdkman_selfupdate {
-    GVM_FORCE_SELFUPDATE="$1"
-	if [[ "$GVM_AVAILABLE" == "false" ]]; then
+    SDKMAN_FORCE_SELFUPDATE="$1"
+	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "$OFFLINE_MESSAGE"
 
-	elif [[ "$GVM_REMOTE_VERSION" == "$GVM_VERSION" && "$GVM_FORCE_SELFUPDATE" != "force" ]]; then
+	elif [[ "$SDKMAN_REMOTE_VERSION" == "$SDKMAN_VERSION" && "$SDKMAN_FORCE_SELFUPDATE" != "force" ]]; then
 		echo "No update available at this time."
 
 	else
-		curl -s "${GVM_SERVICE}/selfupdate" | bash
+		curl -s "${SDKMAN_SERVICE}/selfupdate" | bash
 	fi
-	unset GVM_FORCE_SELFUPDATE
+	unset SDKMAN_FORCE_SELFUPDATE
 }
 
 function __sdkman_auto_update {
 
-    local GVM_REMOTE_VERSION="$1"
-    local GVM_VERSION="$2"
+    local SDKMAN_REMOTE_VERSION="$1"
+    local SDKMAN_VERSION="$2"
 
-    GVM_DELAY_UPGRADE="${GVM_DIR}/var/delay_upgrade"
+    SDKMAN_DELAY_UPGRADE="${SDKMAN_DIR}/var/delay_upgrade"
 
-    if [[ -n "$(find "$GVM_DELAY_UPGRADE" -mtime +1)" && ( "$GVM_REMOTE_VERSION" != "$GVM_VERSION" ) ]]; then
+    if [[ -n "$(find "$SDKMAN_DELAY_UPGRADE" -mtime +1)" && ( "$SDKMAN_REMOTE_VERSION" != "$SDKMAN_VERSION" ) ]]; then
         echo ""
         echo ""
-        echo "ATTENTION: A new version of GVM is available..."
+        echo "ATTENTION: A new version of SDKman is available..."
         echo ""
-        echo "The current version is $GVM_REMOTE_VERSION, but you have $GVM_VERSION."
+        echo "The current version is $SDKMAN_REMOTE_VERSION, but you have $SDKMAN_VERSION."
         echo ""
 
-        if [[ "$gvm_auto_selfupdate" != "true" ]]; then
+        if [[ "$sdkman_auto_selfupdate" != "true" ]]; then
             echo -n "Would you like to upgrade now? (Y/n)"
             read upgrade
         fi
@@ -59,7 +59,7 @@ function __sdkman_auto_update {
             echo "Not upgrading today..."
         fi
 
-        touch "${GVM_DELAY_UPGRADE}"
+        touch "${SDKMAN_DELAY_UPGRADE}"
     fi
 
 }

@@ -5,19 +5,19 @@ function __sdkman_determine_outdated_version {
     candidate="$1"
 
     # Resolve local versions
-    local_versions="$(echo $(find "${GVM_DIR}/${candidate}" -maxdepth 1 -mindepth 1 -type d -exec basename '{}' \;) | sed -e "s/ /, /g" )"
+    local_versions="$(echo $(find "${SDKMAN_DIR}/${candidate}" -maxdepth 1 -mindepth 1 -type d -exec basename '{}' \;) | sed -e "s/ /, /g" )"
     if [ ${#local_versions} -eq 0 ]; then
         return 1
     fi
 
     # Resolve remote default version
-    remote_default_version="$(curl -s "${GVM_SERVICE}/candidates/${candidate}/default")"
+    remote_default_version="$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/default")"
     if [ -z "$remote_default_version" ]; then
         return 2
     fi
 
     # Check outdated or not
-    if [ ! -d "${GVM_DIR}/${candidate}/${remote_default_version}" ]; then
+    if [ ! -d "${SDKMAN_DIR}/${candidate}/${remote_default_version}" ]; then
         echo "${candidate} (${local_versions} < ${remote_default_version})"
     fi
 }
@@ -29,7 +29,7 @@ function __sdkman_outdated {
         candidates=$1
     else
         all=true
-        candidates=${GVM_CANDIDATES[@]}
+        candidates=${SDKMAN_CANDIDATES[@]}
     fi
     installed_count=0
     outdated_count=0

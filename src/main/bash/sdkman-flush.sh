@@ -17,42 +17,42 @@
 #
 
 function __sdkman_cleanup_folder {
-	GVM_CLEANUP_DIR="${GVM_DIR}/${1}"
-	GVM_CLEANUP_DU=$(du -sh "$GVM_CLEANUP_DIR")
-	GVM_CLEANUP_COUNT=$(ls -1 "$GVM_CLEANUP_DIR" | wc -l)
+	SDKMAN_CLEANUP_DIR="${SDKMAN_DIR}/${1}"
+	SDKMAN_CLEANUP_DU=$(du -sh "$SDKMAN_CLEANUP_DIR")
+	SDKMAN_CLEANUP_COUNT=$(ls -1 "$SDKMAN_CLEANUP_DIR" | wc -l)
 
-	rm -rf "${GVM_DIR}/${1}"
-	mkdir "${GVM_DIR}/${1}"
+	rm -rf "${SDKMAN_DIR}/${1}"
+	mkdir "${SDKMAN_DIR}/${1}"
 
-	echo "${GVM_CLEANUP_COUNT} archive(s) flushed, freeing ${GVM_CLEANUP_DU}."
+	echo "${SDKMAN_CLEANUP_COUNT} archive(s) flushed, freeing ${SDKMAN_CLEANUP_DU}."
 
-	unset GVM_CLEANUP_DIR
-	unset GVM_CLEANUP_DU
-	unset GVM_CLEANUP_COUNT
+	unset SDKMAN_CLEANUP_DIR
+	unset SDKMAN_CLEANUP_DU
+	unset SDKMAN_CLEANUP_COUNT
 }
 
 function __sdkman_flush {
 	QUALIFIER="$1"
 	case "$QUALIFIER" in
 		candidates)
-			if [[ -f "${GVM_DIR}/var/candidates" ]]; then
-		        rm "${GVM_DIR}/var/candidates"
+			if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
+		        rm "${SDKMAN_DIR}/var/candidates"
 		        echo "Candidates have been flushed."
 		    else
 		        echo "No candidate list found so not flushed."
 		    fi
 		    ;;
 		broadcast)
-			if [[ -f "${GVM_DIR}/var/broadcast" ]]; then
-		        rm "${GVM_DIR}/var/broadcast"
+			if [[ -f "${SDKMAN_DIR}/var/broadcast" ]]; then
+		        rm "${SDKMAN_DIR}/var/broadcast"
 		        echo "Broadcast has been flushed."
 		    else
 		        echo "No prior broadcast found so not flushed."
 		    fi
 		    ;;
 		version)
-			if [[ -f "${GVM_DIR}/var/version" ]]; then
-		        rm "${GVM_DIR}/var/version"
+			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
+		        rm "${SDKMAN_DIR}/var/version"
 		        echo "Version Token has been flushed."
 		    else
 		        echo "No prior Remote Version found so not flushed."

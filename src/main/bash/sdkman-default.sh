@@ -21,7 +21,7 @@ function __sdkman_default {
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
 	__sdkman_determine_version "$2" || return 1
 
-	if [ ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]; then
+	if [ ! -d "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}" ]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
 		return 1

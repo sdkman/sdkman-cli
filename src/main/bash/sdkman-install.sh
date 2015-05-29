@@ -19,13 +19,13 @@
 function __sdkman_download {
 	CANDIDATE="$1"
 	VERSION="$2"
-	mkdir -p "${GVM_DIR}/archives"
-	if [ ! -f "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" ]; then
+	mkdir -p "${SDKMAN_DIR}/archives"
+	if [ ! -f "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" ]; then
 		echo ""
 		echo "Downloading: ${CANDIDATE} ${VERSION}"
 		echo ""
-		DOWNLOAD_URL="${GVM_SERVICE}/download/${CANDIDATE}/${VERSION}?platform=${GVM_PLATFORM}"
-		ZIP_ARCHIVE="${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
+		DOWNLOAD_URL="${SDKMAN_SERVICE}/download/${CANDIDATE}/${VERSION}?platform=${SDKMAN_PLATFORM}"
+		ZIP_ARCHIVE="${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
 		if [[ "$sdkman_insecure_ssl" == "true" ]]; then
 			curl -k -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
 		else
@@ -34,7 +34,7 @@ function __sdkman_download {
 	else
 		echo ""
 		echo "Found a previously downloaded ${CANDIDATE} ${VERSION} archive. Not downloading it again..."
-		__sdkman_validate_zip "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
+		__sdkman_validate_zip "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
 	fi
 	echo ""
 }
@@ -56,7 +56,7 @@ function __sdkman_install {
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
 	__sdkman_determine_version "$2" "$3" || return 1
 
-	if [[ -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" || -h "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
+	if [[ -d "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}" || -h "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is already installed."
 		return 0
@@ -65,7 +65,7 @@ function __sdkman_install {
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
 		__sdkman_install_candidate_version "${CANDIDATE}" "${VERSION}" || return 1
 
-		if [[ "${gvm_auto_answer}" != 'true' ]]; then
+		if [[ "${sdkman_auto_answer}" != 'true' ]]; then
 			echo -n "Do you want ${CANDIDATE} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
@@ -90,10 +90,10 @@ function __sdkman_install_local_version {
 	CANDIDATE="$1"
 	VERSION="$2"
 	LOCAL_FOLDER="$3"
-	mkdir -p "${GVM_DIR}/${CANDIDATE}"
+	mkdir -p "${SDKMAN_DIR}/${CANDIDATE}"
 
 	echo "Linking ${CANDIDATE} ${VERSION} to ${LOCAL_FOLDER}"
-	ln -s "${LOCAL_FOLDER}" "${GVM_DIR}/${CANDIDATE}/${VERSION}"
+	ln -s "${LOCAL_FOLDER}" "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}"
 	echo "Done installing!"
 	echo ""
 }
@@ -104,10 +104,10 @@ function __sdkman_install_candidate_version {
 	__sdkman_download "${CANDIDATE}" "${VERSION}" || return 1
 	echo "Installing: ${CANDIDATE} ${VERSION}"
 
-	mkdir -p "${GVM_DIR}/${CANDIDATE}"
+	mkdir -p "${SDKMAN_DIR}/${CANDIDATE}"
 
-	unzip -oq "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${GVM_DIR}/tmp/"
-	mv "${GVM_DIR}"/tmp/*-${VERSION} "${GVM_DIR}/${CANDIDATE}/${VERSION}"
+	unzip -oq "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${SDKMAN_DIR}/tmp/"
+	mv "${SDKMAN_DIR}"/tmp/*-${VERSION} "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}"
 	echo "Done installing!"
 	echo ""
 }

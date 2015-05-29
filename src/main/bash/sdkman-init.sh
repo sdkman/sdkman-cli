@@ -16,24 +16,48 @@
 #   limitations under the License.
 #
 
-export GVM_VERSION="@GVM_VERSION@"
-export GVM_PLATFORM=$(uname)
+export SDKMAN_VERSION="@SDKMAN_VERSION@"
+export SDKMAN_PLATFORM=$(uname)
 
-if [ -z "${GVM_SERVICE}" ]; then
-    export GVM_SERVICE="@GVM_SERVICE@"
+if [ -z "${SDKMAN_SERVICE}" ]; then
+    export SDKMAN_SERVICE="@SDKMAN_SERVICE@"
 fi
 
-if [ -z "${GVM_BROADCAST_SERVICE}" ]; then
-    export GVM_BROADCAST_SERVICE="@GVM_BROADCAST_SERVICE@"
+if [ -z "${SDKMAN_BROADCAST_SERVICE}" ]; then
+    export SDKMAN_BROADCAST_SERVICE="@SDKMAN_BROADCAST_SERVICE@"
 fi
 
-if [ -z "${GVM_BROKER_SERVICE}" ]; then
-    export GVM_BROKER_SERVICE="@GVM_BROKER_SERVICE@"
+if [ -z "${SDKMAN_BROKER_SERVICE}" ]; then
+    export SDKMAN_BROKER_SERVICE="@SDKMAN_BROKER_SERVICE@"
 fi
 
-if [ -z "${GVM_DIR}" ]; then
-	export GVM_DIR="$HOME/.gvm"
+if [ -z "${SDKMAN_DIR}" ]; then
+	export SDKMAN_DIR="$HOME/.sdkman"
 fi
+
+function sdkman_source_modules {
+	# Source sdkman module scripts.
+    for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
+        source "${SDKMAN_DIR}/src/${f}"
+    done
+
+	# Source extension files prefixed with 'sdkman-' and found in the ext/ folder
+	# Use this if extensions are written with the functional approach and want
+	# to use functions in the main sdkman script.
+	for f in $(find "${SDKMAN_DIR}/ext" -type f -name 'sdkman-*' -exec basename {} \;); do
+		source "${SDKMAN_DIR}/ext/${f}"
+	done
+	unset f
+}
+
+function sdkman_set_candidates {
+    # Set the candidate array
+    OLD_IFS="$IFS"
+    IFS=","
+    SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
+    IFS="$OLD_IFS"
+}
+
 
 # force zsh to behave well
 if [[ -n "$ZSH_VERSION" ]]; then
@@ -88,11 +112,11 @@ EOF
 OFFLINE_MESSAGE="This command is not available in offline mode."
 
 # fabricate list of candidates
-if [[ -f "${GVM_DIR}/var/candidates" ]]; then
-	GVM_CANDIDATES_CSV=$(cat "${GVM_DIR}/var/candidates")
+if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
+	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
 else
-	GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
-	echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
+	SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates")
+	echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 fi
 
 
@@ -100,19 +124,19 @@ fi
 # Set the candidate array
 OLD_IFS="$IFS"
 IFS=","
-GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
+SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
 IFS="$OLD_IFS"
 
-# Source gvm module scripts.
-for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*' -exec basename {} \;); do
-    source "${GVM_DIR}/src/${f}"
+# Source sdkman module scripts.
+for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
+    source "${SDKMAN_DIR}/src/${f}"
 done
 
-# Source extension files prefixed with 'gvm-' and found in the ext/ folder
+# Source extension files prefixed with 'sdkman-' and found in the ext/ folder
 # Use this if extensions are written with the functional approach and want
-# to use functions in the main gvm script.
-for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*' -exec basename {} \;); do
-    source "${GVM_DIR}/ext/${f}"
+# to use functions in the main sdkman script.
+for f in $(find "${SDKMAN_DIR}/ext" -type f -name 'sdkman-*' -exec basename {} \;); do
+    source "${SDKMAN_DIR}/ext/${f}"
 done
 unset f
 
@@ -124,58 +148,58 @@ if [ -z "${JAVA_HOME}" ] ; then
         [ -z "${JAVA_HOME}" -a -d "/System/Library/Frameworks/JavaVM.framework/Home" ] && export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
     else
         javaExecutable="$(which javac 2> /dev/null)"
-        [[ -z "${javaExecutable}" ]] && echo "GVM: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME." && return
+        [[ -z "${javaExecutable}" ]] && echo "SDKMAN: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME." && return
 
         readLink="$(which readlink 2> /dev/null)"
-        [[ -z "${readLink}" ]] && echo "GVM: JAVA_HOME not set and readlink not available, please set JAVA_HOME." && return
+        [[ -z "${readLink}" ]] && echo "SDKMAN: JAVA_HOME not set and readlink not available, please set JAVA_HOME." && return
 
         javaExecutable="$(readlink -f "${javaExecutable}")"
         javaHome="$(dirname "${javaExecutable}")"
         javaHome=$(expr "${javaHome}" : '\(.*\)/bin')
         JAVA_HOME="${javaHome}"
-        [[ -z "${JAVA_HOME}" ]] && echo "GVM: could not find java, please set JAVA_HOME" && return
+        [[ -z "${JAVA_HOME}" ]] && echo "SDKMAN: could not find java, please set JAVA_HOME" && return
         export JAVA_HOME
     fi
 fi
 
-# Load the gvm config if it exists.
-if [ -f "${GVM_DIR}/etc/config" ]; then
-	source "${GVM_DIR}/etc/config"
+# Load the sdkman config if it exists.
+if [ -f "${SDKMAN_DIR}/etc/config" ]; then
+	source "${SDKMAN_DIR}/etc/config"
 fi
 
 # Create upgrade delay token if it doesn't exist
-if [[ ! -f "${GVM_DIR}/var/delay_upgrade" ]]; then
-	touch "${GVM_DIR}/var/delay_upgrade"
+if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
+	touch "${SDKMAN_DIR}/var/delay_upgrade"
 fi
 
 # determine if up to date
-GVM_VERSION_TOKEN="${GVM_DIR}/var/version"
-if [[ -f "$GVM_VERSION_TOKEN" && -z "$(find "$GVM_VERSION_TOKEN" -mmin +$((60*24)))" ]]; then
-    GVM_REMOTE_VERSION=$(cat "$GVM_VERSION_TOKEN")
+SDKMAN_VERSION_TOKEN="${SDKMAN_DIR}/var/version"
+if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$((60*24)))" ]]; then
+    SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_TOKEN")
 
 else
-    GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" --connect-timeout 1 --max-time 1)
-    gvm_force_offline_on_proxy "$GVM_REMOTE_VERSION"
-    if [[ -z "$GVM_REMOTE_VERSION" || "$GVM_FORCE_OFFLINE" == 'true' ]]; then
-        GVM_REMOTE_VERSION="$GVM_VERSION"
+    SDKMAN_REMOTE_VERSION=$(curl -s "${SDKMAN_SERVICE}/app/version" --connect-timeout 1 --max-time 1)
+    sdkman_force_offline_on_proxy "$SDKMAN_REMOTE_VERSION"
+    if [[ -z "$SDKMAN_REMOTE_VERSION" || "$SDKMAN_FORCE_OFFLINE" == 'true' ]]; then
+        SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
     else
-        echo ${GVM_REMOTE_VERSION} > "$GVM_VERSION_TOKEN"
+        echo ${SDKMAN_REMOTE_VERSION} > "$SDKMAN_VERSION_TOKEN"
     fi
 fi
 
 # initialise once only
-if [[ "${GVM_INIT}" != "true" ]]; then
+if [[ "${SDKMAN_INIT}" != "true" ]]; then
     # Build _HOME environment variables and prefix them all to PATH
 
     # The candidates are assigned to an array for zsh compliance, a list of words is not iterable
     # Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
     # In bash arrays are zero index based, in zsh they are 1 based(!)
-    for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
+    for (( i=0; i <= ${#SDKMAN_CANDIDATES}; i++ )); do
         # Eliminate empty entries due to incompatibility
-        if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
-            CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
+        if [[ -n ${SDKMAN_CANDIDATES[${i}]} ]]; then
+            CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
             CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
-            CANDIDATE_DIR="${GVM_DIR}/${CANDIDATE_NAME}/current"
+            CANDIDATE_DIR="${SDKMAN_DIR}/${CANDIDATE_NAME}/current"
             export $(echo ${CANDIDATE_HOME_VAR})="$CANDIDATE_DIR"
             PATH="${CANDIDATE_DIR}/bin:${PATH}"
             unset CANDIDATE_HOME_VAR
@@ -186,5 +210,5 @@ if [[ "${GVM_INIT}" != "true" ]]; then
     unset i
     export PATH
 
-    export GVM_INIT="true"
+    export SDKMAN_INIT="true"
 fi

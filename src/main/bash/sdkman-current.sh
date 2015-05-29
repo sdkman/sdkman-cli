@@ -19,11 +19,11 @@
 function __sdkman_determine_current_version {
 	CANDIDATE="$1"
 	if [[ "${solaris}" == true ]]; then
-		CURRENT=$(echo $PATH | gsed -r "s|${GVM_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
+		CURRENT=$(echo $PATH | gsed -r "s|${SDKMAN_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
 	elif [[ "${darwin}" == true ]]; then
-		CURRENT=$(echo $PATH | sed -E "s|${GVM_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
+		CURRENT=$(echo $PATH | sed -E "s|${SDKMAN_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
 	else
-		CURRENT=$(echo $PATH | sed -r "s|${GVM_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
+		CURRENT=$(echo $PATH | sed -r "s|${SDKMAN_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
 	fi
 
 	if [[ "${CURRENT}" == "current" ]]; then
@@ -31,7 +31,7 @@ function __sdkman_determine_current_version {
 	fi
 
 	if [[ -z ${CURRENT} ]]; then
-		CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed "s!${GVM_DIR}/${CANDIDATE}/!!g")
+		CURRENT=$(readlink "${SDKMAN_DIR}/${CANDIDATE}/current" | sed "s!${SDKMAN_DIR}/${CANDIDATE}/!!g")
 	fi
 }
 
@@ -46,15 +46,15 @@ function __sdkman_current {
 		fi
 	else
 		INSTALLED_COUNT=0
-		for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
+		for (( i=0; i <= ${#SDKMAN_CANDIDATES}; i++ )); do
 			# Eliminate empty entries due to incompatibility
-			if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
-				__sdkman_determine_current_version "${GVM_CANDIDATES[${i}]}"
+			if [[ -n ${SDKMAN_CANDIDATES[${i}]} ]]; then
+				__sdkman_determine_current_version "${SDKMAN_CANDIDATES[${i}]}"
 				if [ -n "${CURRENT}" ]; then
 					if [ ${INSTALLED_COUNT} -eq 0 ]; then
 						echo 'Using:'
 					fi
-					echo "${GVM_CANDIDATES[${i}]}: ${CURRENT}"
+					echo "${SDKMAN_CANDIDATES[${i}]}: ${CURRENT}"
 					(( INSTALLED_COUNT += 1 ))
 				fi
 			fi

@@ -51,13 +51,13 @@ function sdk {
 	#
 	__sdkman_default_environment_variables
 
-	mkdir -p "$GVM_DIR"
+	mkdir -p "$SDKMAN_DIR"
 
-    gvm_update_broadcast_or_force_offline
+    sdkman_update_broadcast_or_force_offline
 
-	# Load the gvm config if it exists.
-	if [ -f "${GVM_DIR}/etc/config" ]; then
-		source "${GVM_DIR}/etc/config"
+	# Load the sdkman config if it exists.
+	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
+		source "${SDKMAN_DIR}/etc/config"
 	fi
 
  	# no command provided
@@ -68,13 +68,13 @@ function sdk {
 
 	# Check if it is a valid command
 	CMD_FOUND=""
-	CMD_TARGET="${GVM_DIR}/src/gvm-${COMMAND}.sh"
+	CMD_TARGET="${SDKMAN_DIR}/src/sdkman-${COMMAND}.sh"
 	if [[ -f "$CMD_TARGET" ]]; then
 		CMD_FOUND="$CMD_TARGET"
 	fi
 
 	# Check if it is a sourced function
-	CMD_TARGET="${GVM_DIR}/ext/gvm-${COMMAND}.sh"
+	CMD_TARGET="${SDKMAN_DIR}/ext/sdkman-${COMMAND}.sh"
 	if [[ -f "$CMD_TARGET" ]]; then
 		CMD_FOUND="$CMD_TARGET"
 	fi
@@ -86,8 +86,8 @@ function sdk {
 	fi
 
 	# Check whether the candidate exists
-	local gvm_valid_candidate=$(echo ${GVM_CANDIDATES[@]} | grep -w "$QUALIFIER")
-	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && -z "$gvm_valid_candidate" ]]; then
+	local sdkman_valid_candidate=$(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER")
+	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && -z "$sdkman_valid_candidate" ]]; then
 		echo -e "\nStop! $QUALIFIER is not a valid candidate."
 		return 1
 	fi
@@ -112,6 +112,6 @@ function sdk {
 
 	# Attempt upgrade after all is done
 	if [[ "$COMMAND" != "selfupdate" ]]; then
-	    __sdkman_auto_update "$GVM_REMOTE_VERSION" "$GVM_VERSION"
+	    __sdkman_auto_update "$SDKMAN_REMOTE_VERSION" "$SDKMAN_VERSION"
 	fi
 }

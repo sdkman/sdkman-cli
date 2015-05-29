@@ -18,36 +18,36 @@
 
 function __sdkman_offline {
 	if [[ "$1" == "enable" ]]; then
-		GVM_FORCE_OFFLINE="true"
+		SDKMAN_FORCE_OFFLINE="true"
 		echo "Forced offline mode enabled."
 	fi
 	if [[ "$1" == "disable" ]]; then
-		GVM_FORCE_OFFLINE="false"
-		GVM_ONLINE="true"
+		SDKMAN_FORCE_OFFLINE="false"
+		SDKMAN_ONLINE="true"
 		echo "Online mode re-enabled!"
 	fi
 }
 
-function gvm_determine_offline {
+function sdkman_determine_offline {
     local input="$1"
 	if [[ -z "$input" ]]; then
-		GVM_ONLINE="false"
-		GVM_AVAILABLE="false"
+		SDKMAN_ONLINE="false"
+		SDKMAN_AVAILABLE="false"
 	else
-		GVM_ONLINE="true"
+		SDKMAN_ONLINE="true"
 	fi
 }
 
-function gvm_force_offline_on_proxy {
+function sdkman_force_offline_on_proxy {
 	local response="$1"
 	local detect_html="$(echo "$response" | tr '[:upper:]' '[:lower:]' | grep 'html')"
 	if [[ -n "$detect_html" ]]; then
-		echo "GVM can't reach the internet so going offline. Re-enable online with:"
+		echo "SDKMAN can't reach the internet so going offline. Re-enable online with:"
 		echo ""
-		echo "  $ gvm offline disable"
+		echo "  $ sdk offline disable"
 		echo ""
-		GVM_FORCE_OFFLINE="true"
+		SDKMAN_FORCE_OFFLINE="true"
     else
-        GVM_FORCE_OFFLINE="false"
+        SDKMAN_FORCE_OFFLINE="false"
 	fi
 }

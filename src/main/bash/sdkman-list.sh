@@ -19,7 +19,7 @@
 function __sdkman_build_version_csv {
 	CANDIDATE="$1"
 	CSV=""
-	for version in $(find "${GVM_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
+	for version in $(find "${SDKMAN_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
 		if [[ "${version}" != 'current' ]]; then
 			CSV="${version},${CSV}"
 		fi
@@ -33,18 +33,18 @@ function __sdkman_offline_list {
 	echo "------------------------------------------------------------"
 	echo "                                                            "
 
-	gvm_versions=($(echo ${CSV//,/ }))
-	for (( i=0 ; i <= ${#gvm_versions} ; i++ )); do
-		if [[ -n "${gvm_versions[${i}]}" ]]; then
-			if [[ "${gvm_versions[${i}]}" == "${CURRENT}" ]]; then
-				echo -e " > ${gvm_versions[${i}]}"
+	sdkman_versions=($(echo ${CSV//,/ }))
+	for (( i=0 ; i <= ${#sdkman_versions} ; i++ )); do
+		if [[ -n "${sdkman_versions[${i}]}" ]]; then
+			if [[ "${sdkman_versions[${i}]}" == "${CURRENT}" ]]; then
+				echo -e " > ${sdkman_versions[${i}]}"
 			else
-				echo -e " * ${gvm_versions[${i}]}"
+				echo -e " * ${sdkman_versions[${i}]}"
 			fi
 		fi
 	done
 
-	if [[ -z "${gvm_versions[@]}" ]]; then
+	if [[ -z "${sdkman_versions[@]}" ]]; then
 		echo "   None installed!"
 	fi
 
@@ -53,7 +53,7 @@ function __sdkman_offline_list {
 	echo "> - currently in use                                        "
 	echo "------------------------------------------------------------"
 
-	unset CSV gvm_versions
+	unset CSV sdkman_versions
 }
 
 function __sdkman_list {
@@ -62,10 +62,10 @@ function __sdkman_list {
 	__sdkman_build_version_csv "${CANDIDATE}"
 	__sdkman_determine_current_version "${CANDIDATE}"
 
-	if [[ "${GVM_AVAILABLE}" == "false" ]]; then
+	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
 		__sdkman_offline_list
 	else
-		FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
+		FRAGMENT=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${CSV}")
 		echo "${FRAGMENT}"
 		unset FRAGMENT
 	fi
