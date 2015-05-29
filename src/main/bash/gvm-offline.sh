@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __gvmtool_offline {
+function __sdkman_offline {
 	if [[ "$1" == "enable" ]]; then
 		GVM_FORCE_OFFLINE="true"
 		echo "Forced offline mode enabled."

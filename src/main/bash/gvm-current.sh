@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __gvmtool_determine_current_version {
+function __sdkman_determine_current_version {
 	CANDIDATE="$1"
 	if [[ "${solaris}" == true ]]; then
 		CURRENT=$(echo $PATH | gsed -r "s|${GVM_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
@@ -35,10 +35,10 @@ function __gvmtool_determine_current_version {
 	fi
 }
 
-function __gvmtool_current {
+function __sdkman_current {
 	if [ -n "$1" ]; then
 		CANDIDATE="$1"
-		__gvmtool_determine_current_version "${CANDIDATE}"
+		__sdkman_determine_current_version "${CANDIDATE}"
 		if [ -n "${CURRENT}" ]; then
 			echo "Using ${CANDIDATE} version ${CURRENT}"
 		else
@@ -49,7 +49,7 @@ function __gvmtool_current {
 		for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
 			# Eliminate empty entries due to incompatibility
 			if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
-				__gvmtool_determine_current_version "${GVM_CANDIDATES[${i}]}"
+				__sdkman_determine_current_version "${GVM_CANDIDATES[${i}]}"
 				if [ -n "${CURRENT}" ]; then
 					if [ ${INSTALLED_COUNT} -eq 0 ]; then
 						echo 'Using:'

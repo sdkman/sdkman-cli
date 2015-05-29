@@ -16,11 +16,11 @@
 #   limitations under the License.
 #
 
-function __gvmtool_uninstall {
+function __sdkman_uninstall {
 	CANDIDATE="$1"
 	VERSION="$2"
-	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
-	__gvmtool_check_version_present "${VERSION}" || return 1
+	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
+	__sdkman_check_version_present "${VERSION}" || return 1
 	CURRENT=$(readlink "${GVM_DIR}/${CANDIDATE}/current" | sed "s_${GVM_DIR}/${CANDIDATE}/__g")
 	if [[ -h "${GVM_DIR}/${CANDIDATE}/current" && ( "${VERSION}" == "${CURRENT}" ) ]]; then
 		echo ""

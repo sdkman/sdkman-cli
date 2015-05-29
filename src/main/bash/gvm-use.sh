@@ -16,10 +16,10 @@
 #   limitations under the License.
 #
 
-function __gvmtool_use {
+function __sdkman_use {
 	CANDIDATE="$1"
-	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
-	__gvmtool_determine_version "$2" || return 1
+	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
+	__sdkman_determine_version "$2" || return 1
 
 	if [[ ! -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
@@ -29,7 +29,7 @@ function __gvmtool_use {
 			read INSTALL
 		fi
 		if [[ -z "${INSTALL}" || "${INSTALL}" == "y" || "${INSTALL}" == "Y" ]]; then
-			__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}"
+			__sdkman_install_candidate_version "${CANDIDATE}" "${VERSION}"
 		else
 			return 1
 		fi

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function __gvmtool_determine_outdated_version {
+function __sdkman_determine_outdated_version {
     local candidate local_versions remote_default_version
     candidate="$1"
 
@@ -22,7 +22,7 @@ function __gvmtool_determine_outdated_version {
     fi
 }
 
-function __gvmtool_outdated {
+function __sdkman_outdated {
     local all candidates candidate outdated installed_count outdated_count
     if [ -n "$1" ]; then
         all=false
@@ -34,7 +34,7 @@ function __gvmtool_outdated {
     installed_count=0
     outdated_count=0
     for candidate in ${candidates}; do
-        outdated="$(__gvmtool_determine_outdated_version "${candidate}")"
+        outdated="$(__sdkman_determine_outdated_version "${candidate}")"
         case $? in
             1)
                 $all || echo "Not using any version of ${candidate}"

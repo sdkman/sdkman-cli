@@ -16,6 +16,6 @@
 #   limitations under the License.
 #
 
-function __gvmtool_version {
+function __sdkman_version {
 	echo "Groovy enVironment Manager ${GVM_VERSION}"
 }

@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __gvmtool_build_version_csv {
+function __sdkman_build_version_csv {
 	CANDIDATE="$1"
 	CSV=""
 	for version in $(find "${GVM_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
@@ -27,7 +27,7 @@ function __gvmtool_build_version_csv {
 	CSV=${CSV%?}
 }
 
-function __gvmtool_offline_list {
+function __sdkman_offline_list {
 	echo "------------------------------------------------------------"
 	echo "Offline Mode: only showing installed ${CANDIDATE} versions"
 	echo "------------------------------------------------------------"
@@ -56,14 +56,14 @@ function __gvmtool_offline_list {
 	unset CSV gvm_versions
 }
 
-function __gvmtool_list {
+function __sdkman_list {
 	CANDIDATE="$1"
-	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
-	__gvmtool_build_version_csv "${CANDIDATE}"
-	__gvmtool_determine_current_version "${CANDIDATE}"
+	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
+	__sdkman_build_version_csv "${CANDIDATE}"
+	__sdkman_determine_current_version "${CANDIDATE}"
 
 	if [[ "${GVM_AVAILABLE}" == "false" ]]; then
-		__gvmtool_offline_list
+		__sdkman_offline_list
 	else
 		FRAGMENT=$(curl -s "${GVM_SERVICE}/candidates/${CANDIDATE}/list?platform=${GVM_PLATFORM}&current=${CURRENT}&installed=${CSV}")
 		echo "${FRAGMENT}"

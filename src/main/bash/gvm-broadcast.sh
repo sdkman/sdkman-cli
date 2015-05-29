@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __gvmtool_broadcast {
+function __sdkman_broadcast {
 	if [ "${BROADCAST_OLD_TEXT}" ]; then
 		echo "${BROADCAST_OLD_TEXT}"
 	else
@@ -33,7 +33,7 @@ function gvm_update_broadcast_or_force_offline {
     gvm_display_online_availability
     gvm_determine_offline "$BROADCAST_LIVE_ID"
 
-	gvmtool_update_broadcast "$COMMAND" "$BROADCAST_LIVE_ID"
+	sdkman_update_broadcast "$COMMAND" "$BROADCAST_LIVE_ID"
 }
 
 function gvm_infer_broadcast_id {
@@ -54,7 +54,7 @@ function gvm_display_online_availability {
 	fi
 }
 
-function gvmtool_update_broadcast {
+function sdkman_update_broadcast {
 	local command="$1"
 	local broadcast_live_id="$2"
 

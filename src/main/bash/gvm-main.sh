@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function gvm {
+function sdk {
 
     COMMAND="$1"
     QUALIFIER="$2"
@@ -49,7 +49,7 @@ function gvm {
 	#
 	# Various sanity checks and default settings
 	#
-	__gvmtool_default_environment_variables
+	__sdkman_default_environment_variables
 
 	mkdir -p "$GVM_DIR"
 
@@ -62,7 +62,7 @@ function gvm {
 
  	# no command provided
 	if [[ -z "$COMMAND" ]]; then
-		__gvmtool_help
+		__sdkman_help
 		return 1
 	fi
 
@@ -82,7 +82,7 @@ function gvm {
 	# couldn't find the command
 	if [[ -z "$CMD_FOUND" ]]; then
 		echo "Invalid command: $COMMAND"
-		__gvmtool_help
+		__sdkman_help
 	fi
 
 	# Check whether the candidate exists
@@ -107,11 +107,11 @@ function gvm {
 	# Execute the requested command
 	if [ -n "$CMD_FOUND" ]; then
 		# It's available as a shell function
-		__gvmtool_"$CONVERTED_CMD_NAME" "$QUALIFIER" "$3" "$4"
+		__sdkman_"$CONVERTED_CMD_NAME" "$QUALIFIER" "$3" "$4"
 	fi
 
 	# Attempt upgrade after all is done
 	if [[ "$COMMAND" != "selfupdate" ]]; then
-	    __gvmtool_auto_update "$GVM_REMOTE_VERSION" "$GVM_VERSION"
+	    __sdkman_auto_update "$GVM_REMOTE_VERSION" "$GVM_VERSION"
 	fi
 }

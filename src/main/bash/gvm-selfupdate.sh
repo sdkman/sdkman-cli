@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __gvmtool_selfupdate {
+function __sdkman_selfupdate {
     GVM_FORCE_SELFUPDATE="$1"
 	if [[ "$GVM_AVAILABLE" == "false" ]]; then
 		echo "$OFFLINE_MESSAGE"
@@ -30,7 +30,7 @@ function __gvmtool_selfupdate {
 	unset GVM_FORCE_SELFUPDATE
 }
 
-function __gvmtool_auto_update {
+function __sdkman_auto_update {
 
     local GVM_REMOTE_VERSION="$1"
     local GVM_VERSION="$2"
@@ -53,7 +53,7 @@ function __gvmtool_auto_update {
         if [[ -z "$upgrade" ]]; then upgrade="Y"; fi
 
         if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
-            __gvmtool_selfupdate
+            __sdkman_selfupdate
             unset upgrade
         else
             echo "Not upgrading today..."

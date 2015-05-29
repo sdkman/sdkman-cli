@@ -21,23 +21,23 @@
 # common internal function definitions
 #
 
-function __gvmtool_check_candidate_present {
+function __sdkman_check_candidate_present {
 	if [ -z "$1" ]; then
 		echo -e "\nNo candidate provided."
-		__gvmtool_help
+		__sdkman_help
 		return 1
 	fi
 }
 
-function __gvmtool_check_version_present {
+function __sdkman_check_version_present {
 	if [ -z "$1" ]; then
 		echo -e "\nNo candidate version provided."
-		__gvmtool_help
+		__sdkman_help
 		return 1
 	fi
 }
 
-function __gvmtool_determine_version {
+function __sdkman_determine_version {
 	if [[ "${GVM_AVAILABLE}" == "false" && -n "$1" && -d "${GVM_DIR}/${CANDIDATE}/$1" ]]; then
 		VERSION="$1"
 
@@ -76,7 +76,7 @@ function __gvmtool_determine_version {
 	fi
 }
 
-function __gvmtool_default_environment_variables {
+function __sdkman_default_environment_variables {
 
 	if [ ! "$GVM_FORCE_OFFLINE" ]; then
 		GVM_FORCE_OFFLINE="false"
@@ -93,7 +93,7 @@ function __gvmtool_default_environment_variables {
 	fi
 }
 
-function __gvmtool_link_candidate_version {
+function __sdkman_link_candidate_version {
 	CANDIDATE="$1"
 	VERSION="$2"
 

@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __gvmtool_download {
+function __sdkman_download {
 	CANDIDATE="$1"
 	VERSION="$2"
 	mkdir -p "${GVM_DIR}/archives"
@@ -26,21 +26,20 @@ function __gvmtool_download {
 		echo ""
 		DOWNLOAD_URL="${GVM_SERVICE}/download/${CANDIDATE}/${VERSION}?platform=${GVM_PLATFORM}"
 		ZIP_ARCHIVE="${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
-		if [[ "$gvm_insecure_ssl" == "true" ]]; then
+		if [[ "$sdkman_insecure_ssl" == "true" ]]; then
 			curl -k -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
 		else
 			curl -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
 		fi
-		__gvmtool_validate_zip "${ZIP_ARCHIVE}" || return 1
 	else
 		echo ""
 		echo "Found a previously downloaded ${CANDIDATE} ${VERSION} archive. Not downloading it again..."
-		__gvmtool_validate_zip "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
+		__sdkman_validate_zip "${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
 	fi
 	echo ""
 }
 
-function __gvmtool_validate_zip {
+function __sdkman_validate_zip {
 	ZIP_ARCHIVE="$1"
 	ZIP_OK=$(unzip -t "${ZIP_ARCHIVE}" | grep 'No errors detected in compressed data')
 	if [ -z "${ZIP_OK}" ]; then
@@ -51,11 +50,11 @@ function __gvmtool_validate_zip {
 	fi
 }
 
-function __gvmtool_install {
+function __sdkman_install {
 	CANDIDATE="$1"
 	LOCAL_FOLDER="$3"
-	__gvmtool_check_candidate_present "${CANDIDATE}" || return 1
-	__gvmtool_determine_version "$2" "$3" || return 1
+	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
+	__sdkman_determine_version "$2" "$3" || return 1
 
 	if [[ -d "${GVM_DIR}/${CANDIDATE}/${VERSION}" || -h "${GVM_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
@@ -64,7 +63,7 @@ function __gvmtool_install {
 	fi
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
-		__gvmtool_install_candidate_version "${CANDIDATE}" "${VERSION}" || return 1
+		__sdkman_install_candidate_version "${CANDIDATE}" "${VERSION}" || return 1
 
 		if [[ "${gvm_auto_answer}" != 'true' ]]; then
 			echo -n "Do you want ${CANDIDATE} ${VERSION} to be set as default? (Y/n): "
@@ -73,12 +72,12 @@ function __gvmtool_install {
 		if [[ -z "${USE}" || "${USE}" == "y" || "${USE}" == "Y" ]]; then
 			echo ""
 			echo "Setting ${CANDIDATE} ${VERSION} as default."
-			__gvmtool_link_candidate_version "${CANDIDATE}" "${VERSION}"
+			__sdkman_link_candidate_version "${CANDIDATE}" "${VERSION}"
 		fi
 		return 0
 
 	elif [[ "${VERSION_VALID}" == 'invalid' && -n "${LOCAL_FOLDER}" ]]; then
-		__gvmtool_install_local_version "${CANDIDATE}" "${VERSION}" "${LOCAL_FOLDER}" || return 1
+		__sdkman_install_local_version "${CANDIDATE}" "${VERSION}" "${LOCAL_FOLDER}" || return 1
 
     else
         echo ""
@@ -87,7 +86,7 @@ function __gvmtool_install {
 	fi
 }
 
-function __gvmtool_install_local_version {
+function __sdkman_install_local_version {
 	CANDIDATE="$1"
 	VERSION="$2"
 	LOCAL_FOLDER="$3"
@@ -99,10 +98,10 @@ function __gvmtool_install_local_version {
 	echo ""
 }
 
-function __gvmtool_install_candidate_version {
+function __sdkman_install_candidate_version {
 	CANDIDATE="$1"
 	VERSION="$2"
-	__gvmtool_download "${CANDIDATE}" "${VERSION}" || return 1
+	__sdkman_download "${CANDIDATE}" "${VERSION}" || return 1
 	echo "Installing: ${CANDIDATE} ${VERSION}"
 
 	mkdir -p "${GVM_DIR}/${CANDIDATE}"

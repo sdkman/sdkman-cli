@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __gvmtool_help {
+function __sdkman_help {
 	echo ""
 	echo "Usage: gvm <command> <candidate> [version]"
 	echo "       gvm offline <enable|disable>"

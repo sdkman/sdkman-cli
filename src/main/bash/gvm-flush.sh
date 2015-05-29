@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __gvmtool_cleanup_folder {
+function __sdkman_cleanup_folder {
 	GVM_CLEANUP_DIR="${GVM_DIR}/${1}"
 	GVM_CLEANUP_DU=$(du -sh "$GVM_CLEANUP_DIR")
 	GVM_CLEANUP_COUNT=$(ls -1 "$GVM_CLEANUP_DIR" | wc -l)
@@ -31,7 +31,7 @@ function __gvmtool_cleanup_folder {
 	unset GVM_CLEANUP_COUNT
 }
 
-function __gvmtool_flush {
+function __sdkman_flush {
 	QUALIFIER="$1"
 	case "$QUALIFIER" in
 		candidates)
@@ -59,13 +59,13 @@ function __gvmtool_flush {
 		    fi
 		    ;;
 		archives)
-			__gvmtool_cleanup_folder "archives"
+			__sdkman_cleanup_folder "archives"
 		    ;;
 		temp)
-			__gvmtool_cleanup_folder "tmp"
+			__sdkman_cleanup_folder "tmp"
 		    ;;
 		tmp)
-			__gvmtool_cleanup_folder "tmp"
+			__sdkman_cleanup_folder "tmp"
 		    ;;
 		*)
 			echo "Stop! Please specify what you want to flush."
