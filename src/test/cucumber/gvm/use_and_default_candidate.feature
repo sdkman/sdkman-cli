@@ -24,7 +24,7 @@ Feature: Use and Default Candidate
     And the candidate "grails" version "1.3.9" should be in use
 
   Scenario: Use a candidate version that is automatically installed
-    Given I have configured "gvm_auto_answer" to "true"
+    Given I have configured "sdkman_auto_answer" to "true"
     And the candidate "grails" version "1.3.9" is available for download
     When I enter "gvm use grails 1.3.9"
     Then I see "Stop! grails 1.3.9 is not installed."

@@ -7,12 +7,12 @@ import static cucumber.api.groovy.EN.*
 import static gvm.stubs.WebServiceStub.primeEndpoint
 import static gvm.stubs.WebServiceStub.primeSelfupdate
 
-And(~'^the gvm work folder is created$') { ->
-    assert gvmDir.isDirectory(), "The gvm directory does not exist."
+And(~'^the sdkman work folder is created$') { ->
+    assert gvmDir.isDirectory(), "The SDKman directory does not exist."
 }
 
 And(~'^the "([^"]*)" folder exists in user home$') { String arg1 ->
-    assert gvmDir.isDirectory(), "The gvm directory does not exist."
+    assert gvmDir.isDirectory(), "The SDKman directory does not exist."
 }
 
 And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { String candidate, String version ->
@@ -31,12 +31,12 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { Str
 }
 
 And(~'^an initialised shell$') { ->
-    def initScript = "$gvmDir/bin/gvm-init.sh" as File
+    def initScript = "$gvmDir/bin/sdkman-init.sh" as File
     assert initScript.exists()
 }
 
 And(~'^I reinitialise the shell$') { ->
-    def initScript = "$gvmDir/bin/gvm-init.sh" as File
+    def initScript = "$gvmDir/bin/sdkman-init.sh" as File
     assert initScript.exists()
 }
 
@@ -95,7 +95,7 @@ And(~'^an initialised environment$') {->
         .build()
 
     bash.start()
-    bash.execute("source $gvmDirEnv/bin/gvm-init.sh")
+    bash.execute("source $gvmDirEnv/bin/sdkman-init.sh")
 }
 
 And(~'^an outdated initialised environment$') {->
@@ -118,13 +118,13 @@ And(~'^an outdated initialised environment$') {->
     def versionToken = "$gvmDir/var/version" as File
     versionToken.setLastModified(twoDaysAgoInMillis)
 
-    def initFile = "$gvmDir/bin/gvm-init.sh" as File
+    def initFile = "$gvmDir/bin/sdkman-init.sh" as File
     initFile.text = initFile.text.replace(gvmVersion, gvmVersionOutdated)
 
     bash.start()
-    bash.execute("source $gvmDirEnv/bin/gvm-init.sh")
+    bash.execute("source $gvmDirEnv/bin/sdkman-init.sh")
 }
 
 And(~'^the system is bootstrapped$') {->
-    bash.execute("source $gvmDirEnv/bin/gvm-init.sh")
+    bash.execute("source $gvmDirEnv/bin/sdkman-init.sh")
 }

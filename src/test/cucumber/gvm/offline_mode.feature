@@ -108,9 +108,9 @@ Feature: Offline Mode
 	And I see "groovy: 2.0.5"
 
   # version command
-  Scenario: Determine the GVM version when Offline
+  Scenario: Determine the sdkman version when Offline
     When I enter "gvm version"
-    Then I see the current gvm version
+    Then I see the current sdkman version
 
   # broadcast command
   Scenario: Recall a broadcast while Offline

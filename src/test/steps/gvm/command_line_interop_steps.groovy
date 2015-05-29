@@ -24,7 +24,7 @@ And(~'^I see only \"([^\"]*)\"$') { String output ->
     assert result?.replaceAll("\\n", "") == output
 }
 
-And(~'^I see the current gvm version$') {->
+And(~'^I see the current sdkman version$') {->
     assert result.contains("Groovy enVironment Manager")
 }
 

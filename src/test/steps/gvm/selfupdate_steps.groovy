@@ -44,23 +44,23 @@ And(~'^the configuration file is present in the etc folder$') { ->
     assert configFile.exists()
 }
 
-And(~'^the gvm init script is placed in the bin folder$') { ->
-    assert new File("$gvmDir/bin", "gvm-init.sh").exists()
+And(~'^the sdkman init script is placed in the bin folder$') { ->
+    assert new File("$gvmDir/bin", "sdkman-init.sh").exists()
 }
 
-And(~'^the gvm module scripts are placed in the src folder$') { ->
-    assert new File("$gvmDir/src", "gvm-common.sh").exists()
-    assert new File("$gvmDir/src", "gvm-main.sh").exists()
-    assert new File("$gvmDir/src", "gvm-broadcast.sh").exists()
-    assert new File("$gvmDir/src", "gvm-current.sh").exists()
-    assert new File("$gvmDir/src", "gvm-default.sh").exists()
-    assert new File("$gvmDir/src", "gvm-install.sh").exists()
-    assert new File("$gvmDir/src", "gvm-list.sh").exists()
-    assert new File("$gvmDir/src", "gvm-selfupdate.sh").exists()
-    assert new File("$gvmDir/src", "gvm-uninstall.sh").exists()
-    assert new File("$gvmDir/src", "gvm-use.sh").exists()
-    assert new File("$gvmDir/src", "gvm-version.sh").exists()
-    assert new File("$gvmDir/src", "gvm-help.sh").exists()
+And(~'^the sdkman module scripts are placed in the src folder$') { ->
+    assert new File("$gvmDir/src", "sdkman-common.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-main.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-broadcast.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-current.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-default.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-install.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-list.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-selfupdate.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-uninstall.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-use.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-version.sh").exists()
+    assert new File("$gvmDir/src", "sdkman-help.sh").exists()
 }
 
 And(~'^the staging folder is cleaned up$') { ->

@@ -63,7 +63,7 @@ Feature: Mnemonics
     Then I see "Uninstalling groovy 2.0.5"
     And the candidate "groovy" version "2.0.5" is not installed
 
-  Scenario: Shortcut for showing the current Version of gvm
+  Scenario: Shortcut for showing the current Version of sdkman
     When I enter "gvm v"
     Then I see "Groovy enVironment Manager x.y.z"
 

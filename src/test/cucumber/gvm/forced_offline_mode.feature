@@ -51,11 +51,11 @@ Feature: Forced Offline Mode
     Then I see "This is an OLD Broadcast!"
 
   #gvm version
-  Scenario: Determine the GVM version while Forced Offline
+  Scenario: Determine the sdkman version while Forced Offline
     Given offline mode is enabled with reachable internet
     And an initialised environment
     When I enter "gvm version"
-    Then I see the current gvm version
+    Then I see the current sdkman version
 
   #list candidate version
   Scenario: List candidate versions found while Forced Offline

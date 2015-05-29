@@ -7,7 +7,7 @@ And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, Strin
 }
 
 And(~'^an available selfupdate$') { ->
-    primeEndpoint("/selfupdate", 'echo "Successfully upgraded GVM."')
+    primeEndpoint("/selfupdate", 'echo "Successfully upgraded SDKman."')
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { String candidate, String version ->

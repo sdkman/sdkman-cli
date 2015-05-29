@@ -38,7 +38,7 @@ Feature: Install Candidate
 
   Scenario: Install a candidate and select to use it automatically
     Given the candidate "grails" version "2.1.0" is available for download
-    And I have configured "gvm_auto_answer" to "true"
+    And I have configured "sdkman_auto_answer" to "true"
     When I enter "gvm install grails 2.1.0"
     Then the candidate "grails" version "2.1.0" is installed
     And I see "Done installing!"

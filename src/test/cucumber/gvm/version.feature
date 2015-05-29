@@ -4,6 +4,6 @@ Feature: Version
     Given the internet is reachable
     And an initialised environment
 
-  Scenario: Show the current version of gvm
+  Scenario: Show the current version of sdkman
     When I enter "gvm version"
     Then I see "Groovy enVironment Manager x.y.z"
