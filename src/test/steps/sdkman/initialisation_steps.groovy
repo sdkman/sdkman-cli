@@ -84,7 +84,7 @@ And(~'^offline mode is enabled with unreachable internet$') {->
 }
 
 And(~'^an initialised environment$') {->
-    bash = env.GvmBashEnvBuilder.create(sdkManBaseDir)
+    bash = SDKManBashEnvBuilder.create(sdkManBaseDir)
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)
@@ -99,7 +99,7 @@ And(~'^an initialised environment$') {->
 }
 
 And(~'^an outdated initialised environment$') {->
-    bash = env.GvmBashEnvBuilder.create(sdkManBaseDir)
+    bash = env.SdkManBashEnvBuilder.create(sdkManBaseDir)
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)

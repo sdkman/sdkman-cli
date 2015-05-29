@@ -122,12 +122,12 @@ class SDKManBashEnvBuilder {
         primeModuleScripts(sdkManSrcDir)
 
         def env = [
-                GVM_DIR: sdkManDir.absolutePath,
-                GVM_ONLINE: "$onlineMode",
-                GVM_FORCE_OFFLINE: "$forcedOfflineMode",
-                GVM_SERVICE: service,
-                GVM_BROADCAST_SERVICE: broadcastService,
-                GVM_BROKER_SERVICE: brokerService,
+                SDKMAN_DIR: sdkManDir.absolutePath,
+                SDKMAN_ONLINE: "$onlineMode",
+                SDKMAN_FORCE_OFFLINE: "$forcedOfflineMode",
+                SDKMAN_SERVICE: service,
+                SDKMAN_BROADCAST_SERVICE: broadcastService,
+                SDKMAN_BROKER_SERVICE: brokerService,
                 JAVA_HOME: jdkHome
         ]
 
