@@ -10,10 +10,10 @@
 \#*
 build/
 classes
-gvm-cli.iml
-gvm.iml
-gvm.ipr
-gvm.iws
+sdkman-cli.iml
+sdkman.iml
+sdkman.ipr
+sdkman.iws
 mongo.json
 out/
 sdkman-cli.iml

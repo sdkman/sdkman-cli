@@ -13,8 +13,8 @@ apply plugin: 'eclipse'
 defaultTasks 'clean', 'prepareTestScripts', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
 
 def userHome = System.getProperty('user.home')
-ext.installBinDir = "${userHome}/.gvm/bin"
-ext.installSrcDir = "${userHome}/.gvm/src"
+ext.installBinDir = "${userHome}/.sdkman/bin"
+ext.installSrcDir = "${userHome}/.sdkman/src"
 
 ext.defaultGvmVersion = '1.0.0-SNAPSHOT'
 
@@ -56,7 +56,7 @@ task prepareServer(type: Copy){
 	from 'src/main/vertx'
 	into 'build/server'
 	include 'server.groovy'
-	filter(ReplaceTokens, tokens: [GVM_VERSION:config.gvmVersion ?: defaultGvmVersion, VERTX_VERSION:config.vertxVersion])
+	filter(ReplaceTokens, tokens: [GVM_VERSION:config.sdkManVersion ?: defaultGvmVersion, VERTX_VERSION:config.vertxVersion])
 }
 
 task prepareTestScripts(type: Copy) {
@@ -66,9 +66,9 @@ task prepareTestScripts(type: Copy) {
     filter(ReplaceTokens, tokens:
         [
             GVM_VERSION          : "x.y.z",
-            GVM_SERVICE          : config.gvmService,
-            GVM_BROKER_SERVICE   : config.gvmBrokerService,
-            GVM_BROADCAST_SERVICE: config.gvmBroadcastService
+            GVM_SERVICE          : config.sdkManService,
+            GVM_BROKER_SERVICE   : config.sdkManBrokerService,
+            GVM_BROADCAST_SERVICE: config.sdkManBroadcastService
         ]
     )
 }
@@ -79,10 +79,10 @@ task prepareScripts(type: Copy) {
     include '**/*'
     filter(ReplaceTokens, tokens:
         [
-            GVM_VERSION          : config.gvmVersion ?: defaultGvmVersion,
-            GVM_SERVICE          : config.gvmService,
-            GVM_BROKER_SERVICE   : config.gvmBrokerService,
-            GVM_BROADCAST_SERVICE: config.gvmBroadcastService
+            GVM_VERSION          : config.sdkManVersion ?: defaultGvmVersion,
+            GVM_SERVICE          : config.sdkManService,
+            GVM_BROKER_SERVICE   : config.sdkManBrokerService,
+            GVM_BROADCAST_SERVICE: config.sdkManBroadcastService
         ]
     )
 }
@@ -90,7 +90,7 @@ task prepareScripts(type: Copy) {
 task assembleArchive(type: Zip) {
 	classifier = 'scripts'
 	from "build/scripts"
-	include "gvm*"
+	include "sdkman*"
 }
 
 task cleanInstallInit(type: Delete) {
@@ -104,14 +104,14 @@ task cleanInstallModules(type: Delete) {
 task installInit(type: Copy, dependsOn: [cleanInstallInit, prepareScripts]) {
 	from "build/scripts"
 	into installBinDir
-	include "gvm-init.sh"
+	include "sdkman-init.sh"
 }
 
 task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]) {
     from "build/scripts"
     into installSrcDir
-    include "gvm-*.sh"
-    exclude "gvm-init.sh"
+    include "sdkman-*.sh"
+    exclude "sdkman-init.sh"
 }
 
 task install(dependsOn: [installInit, installModules])

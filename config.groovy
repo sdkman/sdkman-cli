@@ -1,19 +1,19 @@
 vertxVersion = '1.3.1.final'
-gvmVersion = '1.0.0-SNAPSHOT'
+sdkManVersion = '1.0.0-SNAPSHOT'
 environments {
 	local {
-		gvmService = 'http://localhost:8080'
-        gvmBroadcastService = 'http://localhost:8080'
-        gvmBrokerService = 'http://localhost:8080'
+		sdkManService = 'http://localhost:8080'
+        sdkManBroadcastService = 'http://localhost:8080'
+        sdkManBrokerService = 'http://localhost:8080'
 	}
 	master {
-		gvmService = 'http://dev.gvmtool.net'
-        gvmBroadcastService = 'http://cast-dev.gvm.io'
-        gvmBrokerService = 'http://release-dev.gvm.io'
+		sdkManService = 'http://dev.gvmtool.net'
+        sdkManBroadcastService = 'http://cast-dev.gvm.io'
+        sdkManBrokerService = 'http://release-dev.gvm.io'
 	}
 	production {
-		gvmService = 'http://api.gvmtool.net'
-        gvmBroadcastService = 'http://cast.gvm.io'
-        gvmBrokerService = 'http://release.gvm.io'
+		sdkManService = 'http://api.gvmtool.net'
+        sdkManBroadcastService = 'http://cast.gvm.io'
+        sdkManBrokerService = 'http://release.gvm.io'
 	}
 }
