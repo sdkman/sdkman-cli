@@ -5,40 +5,40 @@ Feature: Forced Offline Mode
   Scenario: Enter an invalid offline mode
     Given offline mode is disabled with reachable internet
     And an initialised environment
-    When I enter "gvm offline grails"
+    When I enter "sdk offline grails"
     Then I see "Stop! grails is not a valid offline mode."
 
   Scenario: Issue Offline command without qualification
     Given offline mode is disabled with reachable internet
     And an initialised environment
-    When I enter "gvm offline"
+    When I enter "sdk offline"
     Then I see "Stop! Specify a valid offline mode."
 
   Scenario: Enable Offline Mode with internet reachable
     Given offline mode is disabled with reachable internet
     And an initialised environment
-    When I enter "gvm offline enable"
+    When I enter "sdk offline enable"
     Then I see "Forced offline mode enabled."
     And I do not see "OFFLINE MODE ENABLED!"
-    When I enter "gvm install grails 2.1.0"
+    When I enter "sdk install grails 2.1.0"
     Then I see "Stop! grails 2.1.0 is not available in offline mode."
 
   Scenario: Disable Offline Mode with internet reachable
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the candidate "grails" version "2.1.0" is available for download
-    When I enter "gvm offline disable"
+    When I enter "sdk offline disable"
     Then I see "Online mode re-enabled!"
-    When I enter "gvm install grails 2.1.0" and answer "Y"
+    When I enter "sdk install grails 2.1.0" and answer "Y"
     Then I see "Done installing!"
     And the candidate "grails" version "2.1.0" is installed
 
   Scenario: Disable Offline Mode with internet unreachable
     Given offline mode is enabled with unreachable internet
     And an initialised environment
-    When I enter "gvm offline disable"
+    When I enter "sdk offline disable"
     Then I see "Online mode re-enabled!"
-    When I enter "gvm install grails 2.1.0"
+    When I enter "sdk install grails 2.1.0"
     Then I see "OFFLINE MODE ENABLED!"
     And I see "Stop! grails 2.1.0 is not available in offline mode."
 
@@ -47,21 +47,21 @@ Feature: Forced Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     When a prior Broadcast "This is an OLD Broadcast!" with id "12344" was issued
-    And I enter "gvm broadcast"
+    And I enter "sdk broadcast"
     Then I see "This is an OLD Broadcast!"
 
-  #gvm version
+  #sdk version
   Scenario: Determine the sdkman version while Forced Offline
     Given offline mode is enabled with reachable internet
     And an initialised environment
-    When I enter "gvm version"
+    When I enter "sdk version"
     Then I see the current sdkman version
 
   #list candidate version
   Scenario: List candidate versions found while Forced Offline
     Given offline mode is enabled with reachable internet
     And an initialised environment
-    When I enter "gvm list grails"
+    When I enter "sdk list grails"
     Then I see "Offline Mode: only showing installed grails versions"
 
   #use version
@@ -70,7 +70,7 @@ Feature: Forced Offline Mode
     And an initialised environment
     And the candidate "grails" version "1.3.9" is already installed and default
     And the candidate "grails" version "2.1.0" is not installed
-    When I enter "gvm use grails 2.1.0"
+    When I enter "sdk use grails 2.1.0"
     Then I see "Stop! grails 2.1.0 is not available in offline mode."
 
   #default version
@@ -78,7 +78,7 @@ Feature: Forced Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the candidate "grails" version "1.3.9" is already installed and default
-    When I enter "gvm default grails 2.1.0"
+    When I enter "sdk default grails 2.1.0"
     Then I see "Stop! grails 2.1.0 is not available in offline mode."
 
   #install command
@@ -86,7 +86,7 @@ Feature: Forced Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the candidate "grails" version "2.1.0" is not installed
-    When I enter "gvm install grails 2.1.0"
+    When I enter "sdk install grails 2.1.0"
     Then I see "Stop! grails 2.1.0 is not available in offline mode."
 
   #uninstall command
@@ -94,7 +94,7 @@ Feature: Forced Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the candidate "grails" version "2.1.0" is already installed and default
-    When I enter "gvm uninstall grails 2.1.0"
+    When I enter "sdk uninstall grails 2.1.0"
     And the candidate "grails" version "2.1.0" is not installed
 
   #current command
@@ -102,20 +102,20 @@ Feature: Forced Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the candidate "grails" version "2.1.0" is already installed and default
-    When I enter "gvm current grails"
+    When I enter "sdk current grails"
     Then I see "Using grails version 2.1.0"
 
   #help command
   Scenario: Request help while Forced Offline
     Given offline mode is enabled with reachable internet
     And an initialised environment
-    When I enter "gvm help"
-    Then I see "Usage: gvm <command> <candidate> [version]"
+    When I enter "sdk help"
+    Then I see "Usage: sdk <command> <candidate> [version]"
 
   #selfupdate command
   Scenario: Attempt self-update while Forced Offline
     Given offline mode is enabled with reachable internet
     And an initialised environment
-    When I enter "gvm selfupdate"
+    When I enter "sdk selfupdate"
     Then I see "This command is not available in offline mode."
 

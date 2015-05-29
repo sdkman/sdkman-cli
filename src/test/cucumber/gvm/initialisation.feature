@@ -5,12 +5,12 @@ Feature: Initialisation
     And an initialised environment
 
   Scenario: Use sdkman for the first time
-    When I enter "gvm"
+    When I enter "sdk"
     Then the sdkman work folder is created
 
   Scenario: Use sdkman after initialisation
-    When I enter "gvm"
-    Then I see "Usage: gvm <command> <candidate> [version]"
+    When I enter "sdk"
+    Then I see "Usage: sdk <command> <candidate> [version]"
     Then the sdkman work folder is created
 
   Scenario: sdkman is initialised for the first time

@@ -5,5 +5,5 @@ Feature: Version
     And an initialised environment
 
   Scenario: Show the current version of sdkman
-    When I enter "gvm version"
+    When I enter "sdk version"
     Then I see "Groovy enVironment Manager x.y.z"
