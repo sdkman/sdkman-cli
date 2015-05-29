@@ -1,10 +1,11 @@
 package sdkman.cucumber
 
+import cucumber.api.CucumberOptions
 import cucumber.api.junit.Cucumber
 import org.junit.runner.RunWith
 
 @RunWith(Cucumber)
-@Cucumber.Options(
+@CucumberOptions(
 	format=["pretty", "html:build/reports/cucumber"],
 	strict=true,
 	features=["src/test/cucumber"],
