@@ -9,7 +9,7 @@ if [ -z "$1" -o -z "$2" ]; then
 fi
 
 API="http://api.gvmtool.net"
-BASE_DIR="${HOME}/gvm"
+BASE_DIR="${HOME}/sdkman"
 ARCHIVE_DIR="${BASE_DIR}/archives"
 TMP_DIR="${BASE_DIR}/tmp"
 ARCHIVE="${ARCHIVE_DIR}/${CANDIDATE}-${VERSION}.zip"
