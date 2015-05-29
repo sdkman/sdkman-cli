@@ -8,11 +8,11 @@ import static sdkman.stubs.WebServiceStub.primeEndpoint
 import static sdkman.stubs.WebServiceStub.primeSelfupdate
 
 And(~'^the sdkman work folder is created$') { ->
-    assert sdkManDir.isDirectory(), "The SDKman directory does not exist."
+    assert sdkmanDir.isDirectory(), "The SDKman directory does not exist."
 }
 
 And(~'^the "([^"]*)" folder exists in user home$') { String arg1 ->
-    assert sdkManDir.isDirectory(), "The SDKman directory does not exist."
+    assert sdkmanDir.isDirectory(), "The SDKman directory does not exist."
 }
 
 And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { String candidate, String version ->
@@ -26,23 +26,23 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { Str
 }
 
 And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { String candidate, String version ->
-	def archive = new File("${sdkManDir}/archives/${candidate}-${version}.zip")
+	def archive = new File("${sdkmanDir}/archives/${candidate}-${version}.zip")
 	assert ! archive.exists()
 }
 
 And(~'^an initialised shell$') { ->
-    def initScript = "$sdkManDir/bin/sdkman-init.sh" as File
+    def initScript = "$sdkmanDir/bin/sdkman-init.sh" as File
     assert initScript.exists()
 }
 
 And(~'^I reinitialise the shell$') { ->
-    def initScript = "$sdkManDir/bin/sdkman-init.sh" as File
+    def initScript = "$sdkmanDir/bin/sdkman-init.sh" as File
     assert initScript.exists()
 }
 
 And(~'^the internet is reachable$') {->
     primeEndpoint("/broadcast/latest/id", "12345")
-    primeEndpoint("/app/version", sdkManVersion)
+    primeEndpoint("/app/version", sdkmanVersion)
     primeSelfupdate()
 
     forcedOffline = false
@@ -84,47 +84,47 @@ And(~'^offline mode is enabled with unreachable internet$') {->
 }
 
 And(~'^an initialised environment$') {->
-    bash = SDKManBashEnvBuilder.create(sdkManBaseDir)
+    bash = SDKManBashEnvBuilder.create(sdkmanBaseDir)
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)
         .withBroadcastService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
-        .withVersionToken(sdkManVersion)
+        .withVersionToken(sdkmanVersion)
         .build()
 
     bash.start()
-    bash.execute("source $sdkManDirEnv/bin/sdkman-init.sh")
+    bash.execute("source $sdkmanDirEnv/bin/sdkman-init.sh")
 }
 
 And(~'^an outdated initialised environment$') {->
-    bash = env.SdkManBashEnvBuilder.create(sdkManBaseDir)
+    bash = env.SdkManBashEnvBuilder.create(sdkmanBaseDir)
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)
         .withBroadcastService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
-        .withVersionToken(sdkManVersionOutdated)
+        .withVersionToken(sdkmanVersionOutdated)
         .build()
 
     def twoDaysAgoInMillis = System.currentTimeMillis() - 172800000
 
-    def upgradeToken = "$sdkManDir/var/delay_upgrade" as File
+    def upgradeToken = "$sdkmanDir/var/delay_upgrade" as File
     upgradeToken.createNewFile()
     upgradeToken.setLastModified(twoDaysAgoInMillis)
 
-    def versionToken = "$sdkManDir/var/version" as File
+    def versionToken = "$sdkmanDir/var/version" as File
     versionToken.setLastModified(twoDaysAgoInMillis)
 
-    def initFile = "$sdkManDir/bin/sdkman-init.sh" as File
-    initFile.text = initFile.text.replace(sdkManVersion, sdkManVersionOutdated)
+    def initFile = "$sdkmanDir/bin/sdkman-init.sh" as File
+    initFile.text = initFile.text.replace(sdkmanVersion, sdkmanVersionOutdated)
 
     bash.start()
-    bash.execute("source $sdkManDirEnv/bin/sdkman-init.sh")
+    bash.execute("source $sdkmanDirEnv/bin/sdkman-init.sh")
 }
 
 And(~'^the system is bootstrapped$') {->
-    bash.execute("source $sdkManDirEnv/bin/sdkman-init.sh")
+    bash.execute("source $sdkmanDirEnv/bin/sdkman-init.sh")
 }

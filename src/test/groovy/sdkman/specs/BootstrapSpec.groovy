@@ -12,17 +12,17 @@ class BootstrapSpec extends Specification {
     CurlStub curlStub
     BashEnv bash
 
-    File sdkManBaseDir
-    String sdkManBaseEnv
+    File sdkmanBaseDir
+    String sdkmanBaseEnv
     String bootstrap
     String versionToken
 
     void setup(){
-        sdkManBaseDir = prepareBaseDir()
-        sdkManBaseEnv = sdkManBaseDir.absolutePath
-        bootstrap = "${sdkManBaseDir.absolutePath}/.sdkman/bin/sdkman-init.sh"
-        versionToken = "${sdkManBaseDir.absolutePath}/.sdkman/var/version"
-        curlStub = CurlStub.prepareIn(new File(sdkManBaseDir, "bin"))
+        sdkmanBaseDir = prepareBaseDir()
+        sdkmanBaseEnv = sdkmanBaseDir.absolutePath
+        bootstrap = "${sdkmanBaseDir.absolutePath}/.sdkman/bin/sdkman-init.sh"
+        versionToken = "${sdkmanBaseDir.absolutePath}/.sdkman/var/version"
+        curlStub = CurlStub.prepareIn(new File(sdkmanBaseDir, "bin"))
     }
 
     void "should store version token if not exists"() {
@@ -31,7 +31,7 @@ class BootstrapSpec extends Specification {
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
         bash = SDKManBashEnvBuilder
-                .create(sdkManBaseDir)
+                .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .build()
         bash.start()
@@ -47,7 +47,7 @@ class BootstrapSpec extends Specification {
         given: 'a working sdkman installation with version token'
         def versionFile = new File(versionToken)
         bash = SDKManBashEnvBuilder
-                .create(sdkManBaseDir)
+                .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.z")
                 .build()
@@ -66,7 +66,7 @@ class BootstrapSpec extends Specification {
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
         bash = SDKManBashEnvBuilder
-                .create(sdkManBaseDir)
+                .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.a")
                 .build()
@@ -84,13 +84,13 @@ class BootstrapSpec extends Specification {
 
     void "should ignore version if api is offline"(){
         given: 'a working sdkman installation with api down'
-        def sdkManVersion = "x.y.z"
+        def sdkmanVersion = "x.y.z"
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
         bash = SDKManBashEnvBuilder
-                .create(sdkManBaseDir)
+                .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
-                .withVersionToken(sdkManVersion)
+                .withVersionToken(sdkmanVersion)
                 .build()
         bash.start()
 
@@ -98,14 +98,14 @@ class BootstrapSpec extends Specification {
         bash.execute("source $bootstrap")
 
         then:
-        versionFile.text.contains(sdkManVersion)
+        versionFile.text.contains(sdkmanVersion)
     }
 
     void "should not go offline if curl times out"(){
         given: 'a working sdkman installation with api down'
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
         bash = SDKManBashEnvBuilder
-                .create(sdkManBaseDir)
+                .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .build()
         bash.start()
@@ -119,13 +119,13 @@ class BootstrapSpec extends Specification {
 
     void "should ignore version if api returns garbage"(){
         given: 'a working sdkman installation with garbled api'
-        def sdkManVersion = "x.y.z"
+        def sdkmanVersion = "x.y.z"
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo '<html><title>sorry</title></html>'").build()
         bash = SDKManBashEnvBuilder
-                .create(sdkManBaseDir)
+                .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
-                .withVersionToken(sdkManVersion)
+                .withVersionToken(sdkmanVersion)
                 .build()
         bash.start()
 
@@ -133,12 +133,12 @@ class BootstrapSpec extends Specification {
         bash.execute("source $bootstrap")
 
         then:
-        versionFile.text.contains sdkManVersion
+        versionFile.text.contains sdkmanVersion
     }
 
     void cleanup(){
         println bash.output
         bash.stop()
-        assert sdkManBaseDir.deleteDir()
+        assert sdkmanBaseDir.deleteDir()
     }
 }

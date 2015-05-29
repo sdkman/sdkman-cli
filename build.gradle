@@ -56,7 +56,7 @@ task prepareServer(type: Copy){
 	from 'src/main/vertx'
 	into 'build/server'
 	include 'server.groovy'
-	filter(ReplaceTokens, tokens: [SDKMAN_VERSION:config.sdkManVersion ?: defaultSdkManVersion, VERTX_VERSION:config.vertxVersion])
+	filter(ReplaceTokens, tokens: [SDKMAN_VERSION:config.sdkmanVersion ?: defaultSdkManVersion, VERTX_VERSION:config.vertxVersion])
 }
 
 task prepareTestScripts(type: Copy) {
@@ -66,9 +66,9 @@ task prepareTestScripts(type: Copy) {
     filter(ReplaceTokens, tokens:
         [
             SDKMAN_VERSION          : "x.y.z",
-            SDKMAN_SERVICE          : config.sdkManService,
-            SDKMAN_BROKER_SERVICE   : config.sdkManBrokerService,
-            SDKMAN_BROADCAST_SERVICE: config.sdkManBroadcastService
+            SDKMAN_SERVICE          : config.sdkmanService,
+            SDKMAN_BROKER_SERVICE   : config.sdkmanBrokerService,
+            SDKMAN_BROADCAST_SERVICE: config.sdkmanBroadcastService
         ]
     )
 }
@@ -79,10 +79,10 @@ task prepareScripts(type: Copy) {
     include '**/*'
     filter(ReplaceTokens, tokens:
         [
-            SDKMAN_VERSION          : config.sdkManVersion ?: defaultSdkManVersion,
-            SDKMAN_SERVICE          : config.sdkManService,
-            SDKMAN_BROKER_SERVICE   : config.sdkManBrokerService,
-            SDKMAN_BROADCAST_SERVICE: config.sdkManBroadcastService
+            SDKMAN_VERSION          : config.sdkmanVersion ?: defaultSdkManVersion,
+            SDKMAN_SERVICE          : config.sdkmanService,
+            SDKMAN_BROKER_SERVICE   : config.sdkmanBrokerService,
+            SDKMAN_BROADCAST_SERVICE: config.sdkmanBroadcastService
         ]
     )
 }

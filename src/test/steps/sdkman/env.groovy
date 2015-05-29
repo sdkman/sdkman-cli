@@ -19,21 +19,21 @@ counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
 
 localGroovyCandidate = "/tmp/groovy-core" as File
 
-sdkManVersion = "x.y.z"
-sdkManVersionOutdated = "x.y.y"
+sdkmanVersion = "x.y.z"
+sdkmanVersionOutdated = "x.y.y"
 
-sdkManBaseEnv = "/tmp/sdkman-$counter"
-sdkManBaseDir = sdkManBaseEnv as File
+sdkmanBaseEnv = "/tmp/sdkman-$counter"
+sdkmanBaseDir = sdkmanBaseEnv as File
 
-sdkManDirEnv = "$sdkManBaseEnv/.sdkman"
-sdkManDir = sdkManDirEnv as File
-binDir = "${sdkManDirEnv}/bin" as File
-srcDir = "${sdkManDirEnv}/src" as File
-varDir = "${sdkManDirEnv}/var" as File
-etcDir = "${sdkManDirEnv}/etc" as File
-extDir = "${sdkManDirEnv}/ext" as File
-archiveDir = "${sdkManDirEnv}/archives" as File
-tmpDir = "${sdkManDir}/tmp" as File
+sdkmanDirEnv = "$sdkmanBaseEnv/.sdkman"
+sdkmanDir = sdkmanDirEnv as File
+binDir = "${sdkmanDirEnv}/bin" as File
+srcDir = "${sdkmanDirEnv}/src" as File
+varDir = "${sdkmanDirEnv}/var" as File
+etcDir = "${sdkmanDirEnv}/etc" as File
+extDir = "${sdkmanDirEnv}/ext" as File
+archiveDir = "${sdkmanDirEnv}/archives" as File
+tmpDir = "${sdkmanDir}/tmp" as File
 
 broadcastFile = new File(varDir, "broadcast")
 broadcastIdFile = new File(varDir, "broadcast_id")
@@ -55,7 +55,7 @@ Before(){
 }
 
 private cleanUp(){
-    sdkManBaseDir.deleteDir()
+    sdkmanBaseDir.deleteDir()
     localGroovyCandidate.deleteDir()
 }
 

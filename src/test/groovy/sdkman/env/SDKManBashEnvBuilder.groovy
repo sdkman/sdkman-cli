@@ -27,7 +27,7 @@ class SDKManBashEnvBuilder {
             sdkman_auto_answer:'false'
     ]
 
-    File sdkManDir, sdkManBinDir, sdkManVarDir, sdkManSrcDir, sdkManEtcDir, sdkManExtDir, sdkManArchivesDir, sdkManTmpDir
+    File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir, sdkmanTmpDir
 
     static SDKManBashEnvBuilder create(File baseFolder){
         new SDKManBashEnvBuilder(baseFolder)
@@ -103,26 +103,26 @@ class SDKManBashEnvBuilder {
     }
 
     BashEnv build() {
-        sdkManDir = prepareDirectory(baseFolder, ".sdkman")
-        sdkManBinDir = prepareDirectory(sdkManDir, "bin")
-        sdkManVarDir = prepareDirectory(sdkManDir, "var")
-        sdkManSrcDir = prepareDirectory(sdkManDir, "src")
-        sdkManEtcDir = prepareDirectory(sdkManDir, "etc")
-        sdkManExtDir = prepareDirectory(sdkManDir, "ext")
-        sdkManArchivesDir = prepareDirectory(sdkManDir, "archives")
-        sdkManTmpDir = prepareDirectory(sdkManDir, "tmp")
+        sdkmanDir = prepareDirectory(baseFolder, ".sdkman")
+        sdkmanBinDir = prepareDirectory(sdkmanDir, "bin")
+        sdkmanVarDir = prepareDirectory(sdkmanDir, "var")
+        sdkmanSrcDir = prepareDirectory(sdkmanDir, "src")
+        sdkmanEtcDir = prepareDirectory(sdkmanDir, "etc")
+        sdkmanExtDir = prepareDirectory(sdkmanDir, "ext")
+        sdkmanArchivesDir = prepareDirectory(sdkmanDir, "archives")
+        sdkmanTmpDir = prepareDirectory(sdkmanDir, "tmp")
 
-        initializeCandidates(sdkManDir, candidates)
-        initializeAvailableCandidates(sdkManVarDir, availableCandidates)
-        initializeBroadcast(sdkManVarDir, broadcast)
-        initializeConfiguration(sdkManEtcDir, config)
-        initializeVersionToken(sdkManVarDir, versionToken)
+        initializeCandidates(sdkmanDir, candidates)
+        initializeAvailableCandidates(sdkmanVarDir, availableCandidates)
+        initializeBroadcast(sdkmanVarDir, broadcast)
+        initializeConfiguration(sdkmanEtcDir, config)
+        initializeVersionToken(sdkmanVarDir, versionToken)
 
-        primeInitScript(sdkManBinDir)
-        primeModuleScripts(sdkManSrcDir)
+        primeInitScript(sdkmanBinDir)
+        primeModuleScripts(sdkmanSrcDir)
 
         def env = [
-                SDKMAN_DIR: sdkManDir.absolutePath,
+                SDKMAN_DIR: sdkmanDir.absolutePath,
                 SDKMAN_ONLINE: "$onlineMode",
                 SDKMAN_FORCE_OFFLINE: "$forcedOfflineMode",
                 SDKMAN_SERVICE: service,

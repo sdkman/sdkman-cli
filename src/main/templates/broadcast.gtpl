@@ -6,6 +6,6 @@
 		println broadcast.text
 	}
 %>
-Running SDKman server ${sdkManVersion} on vertx ${vertxVersion}
+Running SDKman server ${sdkmanVersion} on vertx ${vertxVersion}
 
 ================================================================================
