@@ -1,4 +1,4 @@
-package gvm
+package sdkman
 
 import static cucumber.api.groovy.EN.And
 

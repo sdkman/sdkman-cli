@@ -1,11 +1,11 @@
-package gvm.specs
+package sdkman.specs
 
-import gvm.env.BashEnv
-import gvm.stubs.CurlStub
-import gvm.env.GvmBashEnvBuilder
+import sdkman.env.BashEnv
+import sdkman.stubs.CurlStub
+import sdkman.env.GvmBashEnvBuilder
 import spock.lang.Specification
 
-import static gvm.utils.TestUtils.prepareBaseDir
+import static sdkman.utils.TestUtils.prepareBaseDir
 
 class BootstrapSpec extends Specification {
 

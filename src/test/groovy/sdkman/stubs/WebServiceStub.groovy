@@ -1,4 +1,4 @@
-package gvm.stubs
+package sdkman.stubs
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 

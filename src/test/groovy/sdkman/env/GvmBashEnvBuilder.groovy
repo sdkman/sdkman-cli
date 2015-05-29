@@ -1,6 +1,6 @@
-package gvm.env
+package sdkman.env
 
-import gvm.stubs.CurlStub
+import sdkman.stubs.CurlStub
 
 class GvmBashEnvBuilder {
 

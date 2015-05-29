@@ -1,11 +1,11 @@
-package gvm
+package sdkman
 
 import java.util.zip.ZipException
 import java.util.zip.ZipFile
 
 import static cucumber.api.groovy.EN.*
-import static gvm.stubs.WebServiceStub.primeEndpoint
-import static gvm.stubs.WebServiceStub.primeSelfupdate
+import static sdkman.stubs.WebServiceStub.primeEndpoint
+import static sdkman.stubs.WebServiceStub.primeSelfupdate
 
 And(~'^the sdkman work folder is created$') { ->
     assert gvmDir.isDirectory(), "The SDKman directory does not exist."

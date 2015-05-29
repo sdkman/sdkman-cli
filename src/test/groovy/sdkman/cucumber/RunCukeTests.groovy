@@ -1,4 +1,4 @@
-package gvm.cucumber
+package sdkman.cucumber
 
 import cucumber.api.junit.Cucumber
 import org.junit.runner.RunWith

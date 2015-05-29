@@ -1,4 +1,4 @@
-package gvm.utils
+package sdkman.utils
 
 
 class TestUtils {
