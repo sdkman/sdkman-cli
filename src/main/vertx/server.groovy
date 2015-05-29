@@ -18,7 +18,7 @@
 import groovy.text.SimpleTemplateEngine
 import org.vertx.groovy.core.http.RouteMatcher
 
-final GVM_VERSION = '@GVM_VERSION@'
+final SDKMAN_VERSION = '@SDKMAN_VERSION@'
 final VERTX_VERSION = '@VERTX_VERSION@'
 final COLUMN_LENGTH = 15
 
@@ -27,12 +27,12 @@ final COLUMN_LENGTH = 15
 //
 
 def config = [
-    address: (System.getenv('GVM_DB_ADDRESS') ?: 'mongo-persistor'),
-    db_name: (System.getenv('GVM_DB_NAME') ?: 'gvm'),
-    host: System.getenv('GVM_DB_HOST'),
-    port: System.getenv('GVM_DB_PORT')?.toInteger(),
-    username: System.getenv('GVM_DB_USERNAME'),
-    password: System.getenv('GVM_DB_PASSWORD')
+    address: (System.getenv('SDKMAN_DB_ADDRESS') ?: 'mongo-persistor'),
+    db_name: (System.getenv('SDKMAN_DB_NAME') ?: 'sdkman'),
+    host: System.getenv('SDKMAN_DB_HOST'),
+    port: System.getenv('SDKMAN_DB_PORT')?.toInteger(),
+    username: System.getenv('SDKMAN_DB_USERNAME'),
+    password: System.getenv('SDKMAN_DB_PASSWORD')
 ]
 
 container.deployModule 'vertx.mongo-persistor-v1.2', config
@@ -80,9 +80,9 @@ rm.get("/alive") { req ->
 
 rm.get("/res") { req ->
     def purpose = req.params['purpose']
-	log purpose, 'gvm', GVM_VERSION, req
+	log purpose, 'sdkman', SDKMAN_VERSION, req
 
-	def zipFile = 'build/distributions/gvm-scripts.zip' as File
+	def zipFile = 'build/distributions/sdkman-scripts.zip' as File
 	req.response.putHeader("Content-Type", "application/zip")
 	req.response.sendFile zipFile.absolutePath
 }
@@ -230,7 +230,7 @@ rm.get("/download/:candidate/:version", downloadHandler)
 
 def versionHandler = { req ->
 	addPlainTextHeader req
-	req.response.end GVM_VERSION
+	req.response.end SDKMAN_VERSION
 }
 
 rm.get("/app/version", versionHandler)
@@ -238,7 +238,7 @@ rm.get("/api/version", versionHandler)
 
 def broadcastHandler = { req ->
     addPlainTextHeader req
-    req.response.end "This Broadcast API is being discontinued. \nPlease upgrade to the latest version of GVM!"
+    req.response.end "This Broadcast API is being discontinued. \nPlease upgrade to the latest version of SDKman!"
 }
 
 rm.get("/broadcast", broadcastHandler)
