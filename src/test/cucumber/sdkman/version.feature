@@ -6,4 +6,4 @@ Feature: Version
 
   Scenario: Show the current version of sdkman
     When I enter "sdk version"
-    Then I see "Groovy enVironment Manager x.y.z"
+    Then I see "SDKman x.y.z"

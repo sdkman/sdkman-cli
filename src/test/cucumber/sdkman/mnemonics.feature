@@ -65,7 +65,7 @@ Feature: Mnemonics
 
   Scenario: Shortcut for showing the current Version of sdkman
     When I enter "sdk v"
-    Then I see "Groovy enVironment Manager x.y.z"
+    Then I see "SDKman x.y.z"
 
   Scenario: Shortcut for using a candidate version that is installed
     Given the candidate "grails" version "2.1.0" is already installed and default

@@ -17,5 +17,5 @@
 #
 
 function __sdkman_version {
-	echo "Groovy enVironment Manager ${SDKMAN_VERSION}"
+	echo "SDKman ${SDKMAN_VERSION}"
 }
