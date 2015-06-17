@@ -35,30 +35,6 @@ if [ -z "${GVM_DIR}" ]; then
 	export GVM_DIR="$HOME/.gvm"
 fi
 
-function gvm_source_modules {
-	# Source gvm module scripts.
-    for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*' -exec basename {} \;); do
-        source "${GVM_DIR}/src/${f}"
-    done
-
-	# Source extension files prefixed with 'gvm-' and found in the ext/ folder
-	# Use this if extensions are written with the functional approach and want
-	# to use functions in the main gvm script.
-	for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*' -exec basename {} \;); do
-		source "${GVM_DIR}/ext/${f}"
-	done
-	unset f
-}
-
-function gvm_set_candidates {
-    # Set the candidate array
-    OLD_IFS="$IFS"
-    IFS=","
-    GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
-    IFS="$OLD_IFS"
-}
-
-
 # force zsh to behave well
 if [[ -n "$ZSH_VERSION" ]]; then
 	setopt shwordsplit
@@ -82,6 +58,14 @@ case "$(uname)" in
     FreeBSD*)
         freebsd=true
 esac
+
+# For Cygwin, ensure paths are in UNIX format before anything is touched.
+if ${cygwin} ; then
+    [ -n "${JAVACMD}" ] && JAVACMD=$(cygpath --unix "${JAVACMD}")
+    [ -n "${JAVA_HOME}" ] && JAVA_HOME=$(cygpath --unix "${JAVA_HOME}")
+    [ -n "${CP}" ] && CP=$(cygpath --path --unix "${CP}")
+fi
+
 
 OFFLINE_BROADCAST=$( cat << EOF
 ==== BROADCAST =============================================
@@ -111,12 +95,26 @@ else
 	echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 fi
 
-# initialise once only
-if [[ "${GVM_INIT}" == "true" ]]; then
-    gvm_set_candidates
-	gvm_source_modules
-	return
-fi
+
+
+# Set the candidate array
+OLD_IFS="$IFS"
+IFS=","
+GVM_CANDIDATES=(${GVM_CANDIDATES_CSV})
+IFS="$OLD_IFS"
+
+# Source gvm module scripts.
+for f in $(find "${GVM_DIR}/src" -type f -name 'gvm-*' -exec basename {} \;); do
+    source "${GVM_DIR}/src/${f}"
+done
+
+# Source extension files prefixed with 'gvm-' and found in the ext/ folder
+# Use this if extensions are written with the functional approach and want
+# to use functions in the main gvm script.
+for f in $(find "${GVM_DIR}/ext" -type f -name 'gvm-*' -exec basename {} \;); do
+    source "${GVM_DIR}/ext/${f}"
+done
+unset f
 
 # Attempt to set JAVA_HOME if it's not already set.
 if [ -z "${JAVA_HOME}" ] ; then
@@ -140,49 +138,15 @@ if [ -z "${JAVA_HOME}" ] ; then
     fi
 fi
 
-# For Cygwin, ensure paths are in UNIX format before anything is touched.
-if ${cygwin} ; then
-    [ -n "${JAVACMD}" ] && JAVACMD=$(cygpath --unix "${JAVACMD}")
-    [ -n "${JAVA_HOME}" ] && JAVA_HOME=$(cygpath --unix "${JAVA_HOME}")
-    [ -n "${CP}" ] && CP=$(cygpath --path --unix "${CP}")
-fi
-
-# Build _HOME environment variables and prefix them all to PATH
-
-# The candidates are assigned to an array for zsh compliance, a list of words is not iterable
-# Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
-# In bash arrays are zero index based, in zsh they are 1 based(!)
-gvm_set_candidates
-for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
-	# Eliminate empty entries due to incompatibility
-	if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
-		CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
-		CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
-		CANDIDATE_DIR="${GVM_DIR}/${CANDIDATE_NAME}/current"
-		export $(echo ${CANDIDATE_HOME_VAR})="$CANDIDATE_DIR"
-		PATH="${CANDIDATE_DIR}/bin:${PATH}"
-		unset CANDIDATE_HOME_VAR
-		unset CANDIDATE_NAME
-		unset CANDIDATE_DIR
-	fi
-done
-unset i
-
-export PATH
-
-gvm_source_modules
-
 # Load the gvm config if it exists.
 if [ -f "${GVM_DIR}/etc/config" ]; then
 	source "${GVM_DIR}/etc/config"
 fi
 
-# Drop upgrade delay token if it does'nt exist
-
+# Create upgrade delay token if it doesn't exist
 if [[ ! -f "${GVM_DIR}/var/delay_upgrade" ]]; then
 	touch "${GVM_DIR}/var/delay_upgrade"
 fi
-
 
 # determine if up to date
 GVM_VERSION_TOKEN="${GVM_DIR}/var/version"
@@ -199,4 +163,28 @@ else
     fi
 fi
 
-export GVM_INIT="true"
+# initialise once only
+if [[ "${GVM_INIT}" != "true" ]]; then
+    # Build _HOME environment variables and prefix them all to PATH
+
+    # The candidates are assigned to an array for zsh compliance, a list of words is not iterable
+    # Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
+    # In bash arrays are zero index based, in zsh they are 1 based(!)
+    for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
+        # Eliminate empty entries due to incompatibility
+        if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
+            CANDIDATE_NAME="${GVM_CANDIDATES[${i}]}"
+            CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
+            CANDIDATE_DIR="${GVM_DIR}/${CANDIDATE_NAME}/current"
+            export $(echo ${CANDIDATE_HOME_VAR})="$CANDIDATE_DIR"
+            PATH="${CANDIDATE_DIR}/bin:${PATH}"
+            unset CANDIDATE_HOME_VAR
+            unset CANDIDATE_NAME
+            unset CANDIDATE_DIR
+        fi
+    done
+    unset i
+    export PATH
+
+    export GVM_INIT="true"
+fi
