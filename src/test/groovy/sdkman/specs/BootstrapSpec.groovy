@@ -2,7 +2,7 @@ package sdkman.specs
 
 import sdkman.env.BashEnv
 import sdkman.stubs.CurlStub
-import sdkman.env.SDKManBashEnvBuilder
+import sdkman.env.SdkManBashEnvBuilder
 import spock.lang.Specification
 
 import static sdkman.utils.TestUtils.prepareBaseDir
@@ -30,7 +30,7 @@ class BootstrapSpec extends Specification {
         given: 'a working sdkman installation without version token'
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
-        bash = SDKManBashEnvBuilder
+        bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .build()
@@ -46,7 +46,7 @@ class BootstrapSpec extends Specification {
     void "should not query server if token is found"() {
         given: 'a working sdkman installation with version token'
         def versionFile = new File(versionToken)
-        bash = SDKManBashEnvBuilder
+        bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.z")
@@ -65,7 +65,7 @@ class BootstrapSpec extends Specification {
         given: 'a working sdkman installation with expired version token'
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
-        bash = SDKManBashEnvBuilder
+        bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.a")
@@ -87,7 +87,7 @@ class BootstrapSpec extends Specification {
         def sdkmanVersion = "x.y.z"
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
-        bash = SDKManBashEnvBuilder
+        bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .withVersionToken(sdkmanVersion)
@@ -104,7 +104,7 @@ class BootstrapSpec extends Specification {
     void "should not go offline if curl times out"(){
         given: 'a working sdkman installation with api down'
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
-        bash = SDKManBashEnvBuilder
+        bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .build()
@@ -122,7 +122,7 @@ class BootstrapSpec extends Specification {
         def sdkmanVersion = "x.y.z"
         def versionFile = new File(versionToken)
         curlStub.primeWith("http://localhost:8080/app/version", "echo '<html><title>sorry</title></html>'").build()
-        bash = SDKManBashEnvBuilder
+        bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
                 .withVersionToken(sdkmanVersion)

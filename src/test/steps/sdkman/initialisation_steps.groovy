@@ -7,7 +7,7 @@ import static cucumber.api.groovy.EN.*
 import static sdkman.stubs.WebServiceStub.primeEndpoint
 import static sdkman.stubs.WebServiceStub.primeSelfupdate
 
-import sdkman.env.SDKManBashEnvBuilder
+import sdkman.env.SdkManBashEnvBuilder
 
 And(~'^the sdkman work folder is created$') { ->
     assert sdkmanDir.isDirectory(), "The SDKman directory does not exist."
@@ -86,7 +86,7 @@ And(~'^offline mode is enabled with unreachable internet$') {->
 }
 
 And(~'^an initialised environment$') {->
-    bash = SDKManBashEnvBuilder.create(sdkmanBaseDir)
+    bash = SdkManBashEnvBuilder.create(sdkmanBaseDir)
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)
@@ -101,7 +101,7 @@ And(~'^an initialised environment$') {->
 }
 
 And(~'^an outdated initialised environment$') {->
-    bash = SDKManBashEnvBuilder.create(sdkmanBaseDir)
+    bash = SdkManBashEnvBuilder.create(sdkmanBaseDir)
         .withOnlineMode(online)
         .withForcedOfflineMode(forcedOffline)
         .withService(serviceUrlEnv)
