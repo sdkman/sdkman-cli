@@ -16,4 +16,5 @@ gvm.ipr
 gvm.iws
 mongo.json
 out/
+sdkman-cli.iml
 target/
