@@ -35,30 +35,6 @@ if [ -z "${SDKMAN_DIR}" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
 
-function sdkman_source_modules {
-	# Source sdkman module scripts.
-    for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
-        source "${SDKMAN_DIR}/src/${f}"
-    done
-
-	# Source extension files prefixed with 'sdkman-' and found in the ext/ folder
-	# Use this if extensions are written with the functional approach and want
-	# to use functions in the main sdkman script.
-	for f in $(find "${SDKMAN_DIR}/ext" -type f -name 'sdkman-*' -exec basename {} \;); do
-		source "${SDKMAN_DIR}/ext/${f}"
-	done
-	unset f
-}
-
-function sdkman_set_candidates {
-    # Set the candidate array
-    OLD_IFS="$IFS"
-    IFS=","
-    SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
-    IFS="$OLD_IFS"
-}
-
-
 # force zsh to behave well
 if [[ -n "$ZSH_VERSION" ]]; then
 	setopt shwordsplit
