@@ -103,6 +103,10 @@ if [[ -z $(cat ${gvm_config_file} | grep 'gvm_auto_selfupdate') ]]; then
 	echo "gvm_auto_selfupdate=false" >> "${gvm_config_file}"
 fi
 
+if [[ -z $(cat ${gvm_config_file} | grep 'gvm_insecure_ssl') ]]; then
+	echo "gvm_insecure_ssl=false" >> "${gvm_config_file}"
+fi
+
 gvm_echo_debug "Download new scripts to: ${gvm_tmp_zip}"
 curl -s "${GVM_SERVICE}/res?platform=${gvm_platform}&purpose=selfupdate" > "${gvm_tmp_zip}"
 

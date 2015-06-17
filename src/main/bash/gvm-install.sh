@@ -26,7 +26,11 @@ function __gvmtool_download {
 		echo ""
 		DOWNLOAD_URL="${GVM_SERVICE}/download/${CANDIDATE}/${VERSION}?platform=${GVM_PLATFORM}"
 		ZIP_ARCHIVE="${GVM_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
-		curl -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
+		if [[ "$gvm_insecure_ssl" == "true" ]]; then
+			curl -k -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
+		else
+			curl -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
+		fi
 		__gvmtool_validate_zip "${ZIP_ARCHIVE}" || return 1
 	else
 		echo ""
