@@ -59,14 +59,6 @@ case "$(uname)" in
         freebsd=true
 esac
 
-# For Cygwin, ensure paths are in UNIX format before anything is touched.
-if ${cygwin} ; then
-    [ -n "${JAVACMD}" ] && JAVACMD=$(cygpath --unix "${JAVACMD}")
-    [ -n "${JAVA_HOME}" ] && JAVA_HOME=$(cygpath --unix "${JAVA_HOME}")
-    [ -n "${CP}" ] && CP=$(cygpath --path --unix "${CP}")
-fi
-
-
 OFFLINE_BROADCAST=$( cat << EOF
 ==== BROADCAST =============================================
 
