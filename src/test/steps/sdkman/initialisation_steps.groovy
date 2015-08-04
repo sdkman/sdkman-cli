@@ -44,6 +44,7 @@ And(~'^I reinitialise the shell$') { ->
 
 And(~'^the internet is reachable$') {->
     primeEndpoint("/broadcast/latest/id", "12345")
+    primeEndpoint("/broadcast/latest", "broadcast message")
     primeEndpoint("/app/version", sdkmanVersion)
     primeSelfupdate()
 
