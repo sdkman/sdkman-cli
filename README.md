@@ -69,7 +69,7 @@ Add any other candidates that you might require.
 Next, prepare the local GVM environment by building and starting the server.
 
 	$ ./gradlew
-	$ contrib/run.sh
+	$ bin/run.sh
 
 This will start the server on localhost:8080
 
