@@ -42,6 +42,7 @@ gvm_platform=$(uname)
 
 gvm_init_snippet=$( cat << EOF
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+export GVM_DIR="$GVM_DIR"
 [[ -s "${GVM_DIR}/bin/gvm-init.sh" ]] && source "${GVM_DIR}/bin/gvm-init.sh"
 EOF
 )
