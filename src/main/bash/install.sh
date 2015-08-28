@@ -19,7 +19,10 @@
 SDKMAN_SERVICE="@SDKMAN_SERVICE@"
 SDKMAN_BROKER_SERVICE="@SDKMAN_BROKER_SERVICE@"
 SDKMAN_VERSION="@SDKMAN_VERSION@"
-SDKMAN_DIR="$HOME/.sdkman"
+
+if [ -z "${SDKMAN_DIR}" ]; then
+    SDKMAN_DIR="$HOME/.sdkman"
+fi
 
 # Local variables
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
