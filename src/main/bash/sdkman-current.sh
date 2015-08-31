@@ -46,7 +46,7 @@ function __sdkman_current {
 		fi
 	else
 		INSTALLED_COUNT=0
-		for (( i=0; i <= ${#SDKMAN_CANDIDATES}; i++ )); do
+		for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 			# Eliminate empty entries due to incompatibility
 			if [[ -n ${SDKMAN_CANDIDATES[${i}]} ]]; then
 				__sdkman_determine_current_version "${SDKMAN_CANDIDATES[${i}]}"
