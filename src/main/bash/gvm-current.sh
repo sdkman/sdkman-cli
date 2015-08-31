@@ -46,7 +46,7 @@ function __gvmtool_current {
 		fi
 	else
 		INSTALLED_COUNT=0
-		for (( i=0; i <= ${#GVM_CANDIDATES}; i++ )); do
+		for (( i=0; i <= ${#GVM_CANDIDATES[*]}; i++ )); do
 			# Eliminate empty entries due to incompatibility
 			if [[ -n ${GVM_CANDIDATES[${i}]} ]]; then
 				__gvmtool_determine_current_version "${GVM_CANDIDATES[${i}]}"
