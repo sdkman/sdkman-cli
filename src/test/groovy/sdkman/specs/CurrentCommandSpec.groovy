@@ -5,9 +5,9 @@ import sdkman.env.SdkManBashEnvBuilder
 import sdkman.stubs.CurlStub
 import spock.lang.Specification
 
-import java.nio.file.Files
 import java.nio.file.Paths
 
+import static java.nio.file.Files.createSymbolicLink
 import static sdkman.utils.TestUtils.prepareBaseDir
 
 class CurrentCommandSpec extends Specification {
@@ -57,13 +57,7 @@ class CurrentCommandSpec extends Specification {
                 .withVersionToken("x.y.z")
                 .build()
 
-        installedCandidates.forEach { candidate, version ->
-            def candidateVersionDir = "$sdkmanDotDir/$candidate/$version"
-            def candidateVersionPath = Paths.get(candidateVersionDir)
-            def symlink = Paths.get("$sdkmanDotDir/$candidate/current")
-            new File(candidateVersionDir).mkdirs()
-            Files.createSymbolicLink(symlink, candidateVersionPath)
-        }
+        prepareFoldersFor(installedCandidates)
 
         bash.start()
         bash.execute("source $bootstrap")
@@ -77,5 +71,15 @@ class CurrentCommandSpec extends Specification {
         bash.output.contains("groovy: 2.4.4")
         bash.output.contains("gradle: 2.7")
         bash.output.contains("vertx: 3.0.0")
+    }
+
+    private prepareFoldersFor(Map installedCandidates) {
+        installedCandidates.forEach { candidate, version ->
+            def candidateVersionDir = "$sdkmanDotDir/$candidate/$version"
+            def candidateVersionPath = Paths.get(candidateVersionDir)
+            def symlink = Paths.get("$sdkmanDotDir/$candidate/current")
+            new File(candidateVersionDir).mkdirs()
+            createSymbolicLink(symlink, candidateVersionPath)
+        }
     }
 }
