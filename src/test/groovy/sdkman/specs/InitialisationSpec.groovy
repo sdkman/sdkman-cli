@@ -39,7 +39,7 @@ class InitialisationSpec extends Specification {
                 "jbossforge",
                 "lazybones",
                 "springboot",
-                "vertx",
+                "vertx"
         ]
         bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
