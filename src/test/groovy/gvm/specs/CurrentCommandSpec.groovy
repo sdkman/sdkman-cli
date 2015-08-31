@@ -60,7 +60,7 @@ class CurrentCommandSpec extends Specification {
                 .withVersionToken("x.y.z")
                 .build()
 
-        installedCandidates.forEach { candidate, version ->
+        installedCandidates.each { candidate, version ->
             def candidateVersionDir = "$gvmDotDir/$candidate/$version"
             def candidateVersionPath = Paths.get(candidateVersionDir)
             def symlink = Paths.get("$gvmDotDir/$candidate/current")
