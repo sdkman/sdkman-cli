@@ -25,7 +25,7 @@ class InitialisationSpec extends Specification {
 
     void "should include all candidates in PATH"(){
         given: 'a working sdkman installation with many candidates'
-        def candidates = [
+        def allCandidates = [
                 "asciidoctorj",
                 "crash",
                 "gaiden",
@@ -43,8 +43,8 @@ class InitialisationSpec extends Specification {
         ]
         bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
-                .withAvailableCandidates(candidates)
-                .withCandidates(candidates)
+                .withAvailableCandidates(allCandidates)
+                .withCandidates(allCandidates)
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.z")
                 .build()
@@ -57,13 +57,20 @@ class InitialisationSpec extends Specification {
         def pathParts = bash.output.split(':')
         def pathElementMatcher = ~/$sdkmanDotDir\/([^\/]+)\/.*/
         def includedCandidates = pathParts
+                .collect { it.replace("\n", "")}
                 .collect { it =~ pathElementMatcher }
                 .findAll { it }
                 .collect { it[0][1] }
+                .sort()
+
+        println("Available: $allCandidates")
+        println("Included : $includedCandidates")
+
+        and:
+        def missingCandidates = allCandidates - includedCandidates
 
         then:
-        def missingCandidates = (candidates - includedCandidates)
-        missingCandidates.empty
+        missingCandidates.isEmpty()
     }
 
     void cleanup(){

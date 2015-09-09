@@ -23,7 +23,7 @@ class CurrentCommandSpec extends Specification {
         sdkmanBaseDir = prepareBaseDir()
         sdkmanDotDir = "${sdkmanBaseDir.absolutePath}/.sdkman"
         bootstrap = "${sdkmanDotDir}/bin/sdkman-init.sh"
-        curlStub = CurlStub.prepareIn(new File(sdkmanBaseDir, "bin"))
+        curlStub = CurlStub.prepareIn(new File(sdkmanBaseDir, "bin")).build()
     }
 
     void "should display current version of all candidates installed"() {
@@ -33,7 +33,7 @@ class CurrentCommandSpec extends Specification {
                 "groovy" : "2.4.4",
                 "vertx" : "3.0.0"
         ]
-        def longAvailableCandidateList = [
+        def allCandidates = [
                 "asciidoctorj",
                 "crash",
                 "gaiden",
@@ -52,7 +52,7 @@ class CurrentCommandSpec extends Specification {
         bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
-                .withAvailableCandidates(longAvailableCandidateList)
+                .withAvailableCandidates(allCandidates)
                 .withCandidates(installedCandidates.keySet().toList())
                 .withVersionToken("x.y.z")
                 .build()
@@ -61,7 +61,6 @@ class CurrentCommandSpec extends Specification {
 
         bash.start()
         bash.execute("source $bootstrap")
-        bash.resetOutput()
 
         when:
         bash.execute('sdk current')
@@ -73,6 +72,11 @@ class CurrentCommandSpec extends Specification {
         bash.output.contains("vertx: 3.0.0")
     }
 
+    void cleanup() {
+        bash.stop()
+        assert sdkmanBaseDir.deleteDir()
+    }
+
     private prepareFoldersFor(Map installedCandidates) {
         installedCandidates.forEach { candidate, version ->
             def candidateVersionDir = "$sdkmanDotDir/$candidate/$version"
@@ -82,4 +86,5 @@ class CurrentCommandSpec extends Specification {
             createSymbolicLink(symlink, candidateVersionPath)
         }
     }
+
 }
