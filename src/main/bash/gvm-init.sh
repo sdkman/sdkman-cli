@@ -90,7 +90,7 @@ OFFLINE_MESSAGE="This command is not available in offline mode."
 # fabricate list of candidates
 if [[ -f "${GVM_DIR}/var/candidates" ]]; then
 	GVM_CANDIDATES_CSV=$(cat "${GVM_DIR}/var/candidates")
-else
+elif [[ -z "${GVM_NOT_REFRESH}" ]]; then
 	GVM_CANDIDATES_CSV=$(curl -s "${GVM_SERVICE}/candidates")
 	echo "$GVM_CANDIDATES_CSV" > "${GVM_DIR}/var/candidates"
 fi
@@ -153,7 +153,7 @@ GVM_VERSION_TOKEN="${GVM_DIR}/var/version"
 if [[ -f "$GVM_VERSION_TOKEN" && -z "$(find "$GVM_VERSION_TOKEN" -mmin +$((60*24)))" ]]; then
     GVM_REMOTE_VERSION=$(cat "$GVM_VERSION_TOKEN")
 
-else
+elif [[ -z "${GVM_NOT_REFRESH}" ]]; then
     GVM_REMOTE_VERSION=$(curl -s "${GVM_SERVICE}/app/version" --connect-timeout 1 --max-time 1)
     gvm_force_offline_on_proxy "$GVM_REMOTE_VERSION"
     if [[ -z "$GVM_REMOTE_VERSION" || "$GVM_FORCE_OFFLINE" == 'true' ]]; then
