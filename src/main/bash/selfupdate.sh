@@ -177,8 +177,10 @@ if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_insecure_ssl') ]]; then
 	echo "sdkman_insecure_ssl=false" >> "${sdkman_config_file}"
 fi
 
+download_url="${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate"
+sdkman_echo_debug "Download new scripts from: ${download_url}"
 sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
-curl -s "${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate" > "${sdkman_tmp_zip}"
+curl -s "${download_url}" > "${sdkman_tmp_zip}"
 
 sdkman_echo_debug "Extract script archive..."
 sdkman_echo_debug "Unziping scripts to: ${sdkman_stage_folder}"
