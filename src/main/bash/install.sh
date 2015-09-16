@@ -108,13 +108,13 @@ echo '                                                                          
 
 # Sanity checks
 
-echo "Looking for a previous installation of SDKman..."
+echo "Looking for a previous installation of SDKMAN..."
 if [ -d "${SDKMAN_DIR}" ]; then
-	echo "SDKman found."
+	echo "SDKMAN found."
 	echo ""
 	echo "======================================================================================================"
-	echo " You already have SDKman installed."
-	echo " SDKman was found at:"
+	echo " You already have SDKMAN installed."
+	echo " SDKMAN was found at:"
 	echo ""
 	echo "    ${SDKMAN_DIR}"
 	echo ""
@@ -146,7 +146,7 @@ if [ -z $(which curl) ]; then
 	echo "======================================================================================================"
 	echo " Please install curl on your system using your favourite package manager."
 	echo ""
-	echo " SDKman uses curl for crucial interactions with it's backend server."
+	echo " SDKMAN uses curl for crucial interactions with it's backend server."
 	echo ""
 	echo " Restart after installing curl."
 	echo "======================================================================================================"
@@ -161,7 +161,7 @@ if [ -z $(which sed) ]; then
 	echo "======================================================================================================"
 	echo " Please install sed on your system using your favourite package manager."
 	echo ""
-	echo " SDKman uses sed extensively."
+	echo " SDKMAN uses sed extensively."
 	echo ""
 	echo " Restart after installing sed."
 	echo "======================================================================================================"
@@ -177,7 +177,7 @@ if [[ "${solaris}" == true ]]; then
 		echo "======================================================================================================"
 		echo " Please install gsed on your solaris system."
 		echo ""
-		echo " SDKman uses gsed extensively."
+		echo " SDKMAN uses gsed extensively."
 		echo ""
 		echo " Restart after installing gsed."
 		echo "======================================================================================================"
@@ -187,7 +187,7 @@ if [[ "${solaris}" == true ]]; then
 fi
 
 
-echo "Installing SDKman scripts..."
+echo "Installing SDKMAN scripts..."
 
 
 # Create directory structure

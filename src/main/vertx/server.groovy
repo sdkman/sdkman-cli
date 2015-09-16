@@ -238,7 +238,7 @@ rm.get("/api/version", versionHandler)
 
 def broadcastHandler = { req ->
     addPlainTextHeader req
-    req.response.end "This Broadcast API is being discontinued. \nPlease upgrade to the latest version of SDKman!"
+    req.response.end "This Broadcast API is being discontinued. \nPlease upgrade to the latest version of SDKMAN!"
 }
 
 rm.get("/broadcast", broadcastHandler)

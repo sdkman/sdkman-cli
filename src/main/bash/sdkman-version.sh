@@ -17,5 +17,5 @@
 #
 
 function __sdkman_version {
-	echo "SDKman ${SDKMAN_VERSION}"
+	echo "SDKMAN ${SDKMAN_VERSION}"
 }

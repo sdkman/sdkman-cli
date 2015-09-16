@@ -40,7 +40,7 @@ function __sdkman_auto_update {
     if [[ -n "$(find "$SDKMAN_DELAY_UPGRADE" -mtime +1)" && ( "$SDKMAN_REMOTE_VERSION" != "$SDKMAN_VERSION" ) ]]; then
         echo ""
         echo ""
-        echo "ATTENTION: A new version of SDKman is available..."
+        echo "ATTENTION: A new version of SDKMAN is available..."
         echo ""
         echo "The current version is $SDKMAN_REMOTE_VERSION, but you have $SDKMAN_VERSION."
         echo ""

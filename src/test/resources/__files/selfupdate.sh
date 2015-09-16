@@ -16,7 +16,7 @@
 #
 
 echo ""
-echo "Updating SDKman..."
+echo "Updating SDKMAN..."
 
 SDKMAN_VERSION="x.y.z"
 
@@ -55,7 +55,7 @@ echo "Clean up staging folder..."
 
 echo ""
 echo ""
-echo "Successfully upgraded SDKman."
+echo "Successfully upgraded SDKMAN."
 echo ""
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""

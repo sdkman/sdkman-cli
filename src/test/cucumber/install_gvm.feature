@@ -1,5 +1,5 @@
 @manual
-Feature: Install SDKman
+Feature: Install SDKMAN
 
   Platform defaults as follows:
   * Ubuntu:  .profile, .bashrc

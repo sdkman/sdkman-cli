@@ -16,11 +16,11 @@ Open your favourite terminal and enter the following:
 
     $ curl -s api.sdkman.io | bash
 
-If the environment needs tweaking for SDKman to be installed, the installer will prompt you accordingly and ask you to restart.
+If the environment needs tweaking for SDKMAN to be installed, the installer will prompt you accordingly and ask you to restart.
 
 ## Running the Cucumber Features
 
-All SDKman's BDD tests are written in Cucumber and can be found under `src/test/cucumber/sdkman`.
+All SDKMAN's BDD tests are written in Cucumber and can be found under `src/test/cucumber/sdkman`.
 These can be run with Gradle by running the following command:
 
     $ ./gradlew

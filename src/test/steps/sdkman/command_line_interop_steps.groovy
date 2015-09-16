@@ -25,7 +25,7 @@ And(~'^I see only \"([^\"]*)\"$') { String output ->
 }
 
 And(~'^I see the current sdkman version$') {->
-    assert result.contains("SDKman")
+    assert result.contains("SDKMAN")
 }
 
 And(~'^I see a single occurrence of \"([^\"]*)\"$') { String occurrence ->

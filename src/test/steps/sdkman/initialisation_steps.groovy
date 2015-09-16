@@ -10,11 +10,11 @@ import static sdkman.stubs.WebServiceStub.primeSelfupdate
 import sdkman.env.SdkManBashEnvBuilder
 
 And(~'^the sdkman work folder is created$') { ->
-    assert sdkmanDir.isDirectory(), "The SDKman directory does not exist."
+    assert sdkmanDir.isDirectory(), "The SDKMAN directory does not exist."
 }
 
 And(~'^the "([^"]*)" folder exists in user home$') { String arg1 ->
-    assert sdkmanDir.isDirectory(), "The SDKman directory does not exist."
+    assert sdkmanDir.isDirectory(), "The SDKMAN directory does not exist."
 }
 
 And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { String candidate, String version ->

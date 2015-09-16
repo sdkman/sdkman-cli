@@ -11,4 +11,4 @@ Feature: Idempotent Self Update
 
   Scenario: Force Self Update on an up to date system
     When I enter "sdk selfupdate force"
-    Then I see "Successfully upgraded SDKman."
+    Then I see "Successfully upgraded SDKMAN."

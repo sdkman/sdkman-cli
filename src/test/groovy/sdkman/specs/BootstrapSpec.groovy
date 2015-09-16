@@ -114,7 +114,7 @@ class BootstrapSpec extends Specification {
         bash.execute("source $bootstrap")
 
         then:
-        ! bash.output.contains("SDKman can't reach the internet so going offline.")
+        ! bash.output.contains("SDKMAN can't reach the internet so going offline.")
     }
 
     void "should ignore version if api returns garbage"(){

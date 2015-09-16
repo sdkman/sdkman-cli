@@ -22,7 +22,7 @@ function sdkman_echo_debug {
 }
 
 echo ""
-echo "Updating SDKman..."
+echo "Updating SDKMAN..."
 
 SDKMAN_VERSION="@SDKMAN_VERSION@"
 if [ -z "${SDKMAN_DIR}" ]; then
@@ -130,7 +130,7 @@ rm -rf "${sdkman_stage_folder}"
 
 echo ""
 echo ""
-echo "Successfully upgraded SDKman."
+echo "Successfully upgraded SDKMAN."
 echo ""
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""
