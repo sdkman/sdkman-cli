@@ -271,20 +271,20 @@ if [ ! -f "${sdkman_bashrc}" ]; then
 	echo "${sdkman_init_snippet}" >> "${sdkman_bashrc}"
 	echo "Created and initialised ${sdkman_bashrc}"
 else
-	if [[ -z `grep 'gvm-init.sh' "${gvm_bashrc}"` ]]; then
-		echo -e "\n${gvm_init_snippet}" >> "${gvm_bashrc}"
-		echo "Updated existing ${gvm_bashrc}"
+	if [[ -z `grep 'sdkman-init.sh' "${sdkman_bashrc}"` ]]; then
+		echo -e "\n${sdkman_init_snippet}" >> "${sdkman_bashrc}"
+		echo "Updated existing ${sdkman_bashrc}"
 	fi
 fi
 
 echo "Attempt update of zsh profiles..."
-if [ ! -f "${gvm_zshrc}" ]; then
-	echo "${gvm_init_snippet}" >> "${gvm_zshrc}"
-	echo "Created and initialised ${gvm_zshrc}"
+if [ ! -f "${sdkman_zshrc}" ]; then
+	echo "${sdkman_init_snippet}" >> "${sdkman_zshrc}"
+	echo "Created and initialised ${sdkman_zshrc}"
 else
-	if [[ -z `grep 'gvm-init.sh' "${gvm_zshrc}"` ]]; then
-		echo -e "\n${gvm_init_snippet}" >> "${gvm_zshrc}"
-		echo "Updated existing ${gvm_zshrc}"
+	if [[ -z `grep 'sdkman-init.sh' "${sdkman_zshrc}"` ]]; then
+		echo -e "\n${sdkman_init_snippet}" >> "${sdkman_zshrc}"
+		echo "Updated existing ${sdkman_zshrc}"
 	fi
 fi
 
@@ -292,10 +292,10 @@ echo -e "\n\n\nAll done!\n\n"
 
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""
-echo "    source \"${GVM_DIR}/bin/gvm-init.sh\""
+echo "    source \"${SDKMAN_DIR}/bin/sdkman-init.sh\""
 echo ""
 echo "Then issue the following command:"
 echo ""
-echo "    gvm help"
+echo "    sdk help"
 echo ""
 echo "Enjoy!!!"
