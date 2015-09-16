@@ -82,7 +82,7 @@ rm.get("/res") { req ->
     def purpose = req.params['purpose']
 	log purpose, 'sdkman', SDKMAN_VERSION, req
 
-	def zipFile = 'build/distributions/sdkman-scripts.zip' as File
+	def zipFile = 'build/distributions/sdkman-cli-scripts.zip' as File
 	req.response.putHeader("Content-Type", "application/zip")
 	req.response.sendFile zipFile.absolutePath
 }
