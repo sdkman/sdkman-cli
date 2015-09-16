@@ -26,11 +26,11 @@ These can be run with Gradle by running the following command:
     $ ./gradlew
 
 
-__Please ensure that the JAVA_HOME environment variable set to JDK 1.7 on your system!__
+__Please ensure that the JAVA_HOME environment variable set to JDK 1.8 on your system!__
 
 Mac users can add the following line to their `~/.bash_profile` file to set this variable:
 
-	export JAVA_HOME=$(/usr/libexec/java_home -v1.7)
+	export JAVA_HOME=$(/usr/libexec/java_home -v1.8)
 
 ### Using Docker for tests
 
