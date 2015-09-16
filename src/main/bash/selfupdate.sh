@@ -21,6 +21,36 @@ function sdkman_echo_debug {
 	fi
 }
 
+if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
+    echo ""
+    echo "GVM has been detected on your system..."
+    echo ""
+    echo "This update will upgrade GVM to SDKMAN!"
+    echo ""
+    echo -n "Do you want to continue with the upgrade? (Y/n)"
+
+    read continue
+    if [[ -z "${continue}" || "${continue}" == "y" || "${continue}" == "Y" ]]; then
+        echo ""
+        echo "Upgrading from GVM to SDKMAN!"
+
+        SDKMAN_DIR=$(echo $GVM_DIR | sed 's/gvm/sdkman/g')
+        mv "$GVM_DIR" "$SDKMAN_DIR"
+
+        [[ -s "$HOME/.bashrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.bashrc"
+        [[ -s "$HOME/.profile" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.profile"
+        [[ -s "$HOME/.zshrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.zshrc"
+
+        [[ -s "$SDKMAN/etc/config" ]] && sed -i 's/gvm/sdkman/g' "$SDKMAN/etc/config"
+
+    else
+        echo ""
+        echo "Not upgrading today..."
+        touch "${GVM_DIR}/var/delay_upgrade"
+        exit
+    fi
+fi
+
 echo ""
 echo "Updating SDKMAN..."
 
