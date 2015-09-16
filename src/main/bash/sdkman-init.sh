@@ -187,4 +187,5 @@ if [[ "${SDKMAN_INIT}" != "true" ]]; then
     export PATH
 
     export SDKMAN_INIT="true"
+    alias gvm="sdk"
 fi
