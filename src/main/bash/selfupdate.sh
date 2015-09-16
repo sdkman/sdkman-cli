@@ -75,9 +75,11 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
 
         mv "$GVM_DIR" "$SDKMAN_DIR"
 
-        [[ -s "$HOME/.bashrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.bashrc"
-        [[ -s "$HOME/.profile" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.profile"
-        [[ -s "$HOME/.zshrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.zshrc"
+        [[ -s "$HOME/.bashrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.bashrc" && sed -i 's/GVM/SDKMAN/g' "$HOME/.bashrc"
+
+        [[ -s "$HOME/.profile" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.profile" && sed -i 's/GVM/SDKMAN/g' "$HOME/.profile"
+
+        [[ -s "$HOME/.zshrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.zshrc" && sed -i 's/GVM/SDKMAN/g' "$HOME/.zshrc"
 
         [[ -s "$SDKMAN/etc/config" ]] && sed -i 's/gvm/sdkman/g' "$SDKMAN/etc/config"
 
