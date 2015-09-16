@@ -1,4 +1,4 @@
-FROM dockerfile/java
+FROM java:8
 
 # Copy all here
 RUN mkdir -p /usr/src/app
