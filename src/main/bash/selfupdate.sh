@@ -29,7 +29,7 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
     echo ""
     echo -n "Do you want to continue with the upgrade? (Y/n)"
 
-    read continue
+    read continue < /dev/tty
 
     if [[ -z "${continue}" || "${continue}" == "y" || "${continue}" == "Y" ]]; then
         echo ''
