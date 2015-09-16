@@ -6,6 +6,6 @@
 		println broadcast.text
 	}
 %>
-Running GVM server ${gvmVersion} on vertx ${vertxVersion}
+Running SDKman server ${sdkmanVersion} on vertx ${vertxVersion}
 
 ================================================================================

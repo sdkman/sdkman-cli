@@ -3,7 +3,7 @@
 
 Please upgrade right away using:
 
-	$ gvm selfupdate
+	$ sdk selfupdate
 
 
 Warning! You might see some jumbled text on the console.

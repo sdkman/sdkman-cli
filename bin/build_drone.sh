@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RELEASE=$(grep 'gvmVersion' config.groovy | sed 's_gvmVersion = __g' | tr -d "'")
+RELEASE=$(grep 'sdkmanVersion' config.groovy | sed 's_sdkmanVersion = __g' | tr -d "'")
 
 if [[ "$RELEASE" == "1.0.0-SNAPSHOT" ]]; then
 	RELEASE="1.0.0-build-$DRONE_BUILD_NUMBER"

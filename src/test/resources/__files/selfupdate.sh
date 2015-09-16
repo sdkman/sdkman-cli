@@ -16,49 +16,49 @@
 #
 
 echo ""
-echo "Updating gvm..."
+echo "Updating SDKman..."
 
-GVM_VERSION="x.y.z"
+SDKMAN_VERSION="x.y.z"
 
-gvm_bin_folder="${GVM_DIR}/bin"
-gvm_stage_folder="${GVM_DIR}/tmp/stage"
-gvm_src_folder="${GVM_DIR}/src"
+sdkman_bin_folder="${SDKMAN_DIR}/bin"
+sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
+sdkman_src_folder="${SDKMAN_DIR}/src"
 
 echo "Purge existing scripts..."
-rm -rf "${gvm_bin_folder}"
-rm -rf "${gvm_src_folder}"
+rm -rf "${sdkman_bin_folder}"
+rm -rf "${sdkman_src_folder}"
 
 echo "Refresh directory structure..."
-mkdir -p "${GVM_DIR}/bin"
-mkdir -p "${GVM_DIR}/ext"
-mkdir -p "${GVM_DIR}/etc"
-mkdir -p "${GVM_DIR}/src"
-mkdir -p "${GVM_DIR}/var"
-mkdir -p "${GVM_DIR}/tmp"
+mkdir -p "${SDKMAN_DIR}/bin"
+mkdir -p "${SDKMAN_DIR}/ext"
+mkdir -p "${SDKMAN_DIR}/etc"
+mkdir -p "${SDKMAN_DIR}/src"
+mkdir -p "${SDKMAN_DIR}/var"
+mkdir -p "${SDKMAN_DIR}/tmp"
 
 # drop version token
-echo "$GVM_VERSION" > "${GVM_DIR}/var/version"
+echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
 echo "Prime the config file..."
-gvm_config_file="${GVM_DIR}/etc/config"
-touch "${gvm_config_file}"
+sdkman_config_file="${SDKMAN_DIR}/etc/config"
+touch "${sdkman_config_file}"
 
 echo "Extract script archive..."
 
-echo "Unziping scripts to: ${gvm_stage_folder}"
+echo "Unziping scripts to: ${sdkman_stage_folder}"
 
-echo "Moving gvm-init file to bin folder..."
+echo "Moving sdkman-init file to bin folder..."
 
-echo "Move remaining module scripts to src folder: ${gvm_src_folder}"
+echo "Move remaining module scripts to src folder: ${sdkman_src_folder}"
 
 echo "Clean up staging folder..."
 
 echo ""
 echo ""
-echo "Successfully upgraded GVM."
+echo "Successfully upgraded SDKman."
 echo ""
 echo "Please open a new terminal, or run the following in the existing one:"
 echo ""
-echo "    source \"${GVM_DIR}/bin/gvm-init.sh\""
+echo "    source \"${SDKMAN_DIR}/bin/sdkman-init.sh\""
 echo ""
 echo ""
