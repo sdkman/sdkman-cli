@@ -30,11 +30,49 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
     echo -n "Do you want to continue with the upgrade? (Y/n)"
 
     read continue
+
     if [[ -z "${continue}" || "${continue}" == "y" || "${continue}" == "Y" ]]; then
-        echo ""
-        echo "Upgrading from GVM to SDKMAN!"
+        echo ''
+        echo '                                                               		         '
+        echo 'Thanks for upgrading to...                                       		         '
+        echo '                                                               		         '
+        echo '                                                               		         '
+        echo '     SSSSSSSSSSSSSSS DDDDDDDDDDDDD       KKKKKKKKK    KKKKKKK                  '
+        echo '   SS:::::::::::::::SD::::::::::::DDD    K:::::::K    K:::::K                  '
+        echo '  S:::::SSSSSS::::::SD:::::::::::::::DD  K:::::::K    K:::::K                  '
+        echo '  S:::::S     SSSSSSSDDD:::::DDDDD:::::D K:::::::K   K::::::K                  '
+        echo '  S:::::S              D:::::D    D:::::DKK::::::K  K:::::KKK                  '
+        echo '  S:::::S              D:::::D     D:::::D K:::::K K:::::K                     '
+        echo '   S::::SSSS           D:::::D     D:::::D K::::::K:::::K                      '
+        echo '    SS::::::SSSSS      D:::::D     D:::::D K:::::::::::K                       '
+        echo '      SSS::::::::SS    D:::::D     D:::::D K:::::::::::K                       '
+        echo '         SSSSSS::::S   D:::::D     D:::::D K::::::K:::::K                      '
+        echo '              S:::::S  D:::::D     D:::::D K:::::K K:::::K                     '
+        echo '              S:::::S  D:::::D    D:::::DKK::::::K  K:::::KKK                  '
+        echo '  SSSSSSS     S:::::SDDD:::::DDDDD:::::D K:::::::K   K::::::K                  '
+        echo '  S::::::SSSSSS:::::SD:::::::::::::::DD  K:::::::K    K:::::K                  '
+        echo '  S:::::::::::::::SS D::::::::::::DDD    K:::::::K    K:::::K                  '
+        echo '   SSSSSSSSSSSSSSS   DDDDDDDDDDDDD       KKKKKKKKK    KKKKKKK                  '
+        echo '                                                                               '
+        echo '                                                                               '
+        echo '                      mmmmmmm    mmmmmmm     aaaaaaaaaaaaa  nnnn  nnnnnnnn     '
+        echo '                    mm:::::::m  m:::::::mm   a::::::::::::a n:::nn::::::::nn   '
+        echo '                   m::::::::::mm::::::::::m  aaaaaaaaa:::::an::::::::::::::nn  '
+        echo '                   m::::::::::::::::::::::m           a::::ann:::::::::::::::n '
+        echo '                   m:::::mmm::::::mmm:::::m    aaaaaaa:::::a  n:::::nnnn:::::n '
+        echo '                   m::::m   m::::m   m::::m  aa::::::::::::a  n::::n    n::::n '
+        echo '                   m::::m   m::::m   m::::m a::::aaaa::::::a  n::::n    n::::n '
+        echo '                   m::::m   m::::m   m::::ma::::a    a:::::a  n::::n    n::::n '
+        echo '                   m::::m   m::::m   m::::ma::::a    a:::::a  n::::n    n::::n '
+        echo '                   m::::m   m::::m   m::::ma:::::aaaa::::::a  n::::n    n::::n '
+        echo '                   m::::m   m::::m   m::::m a::::::::::aa:::a n::::n    n::::n '
+        echo '                   mmmmmm   mmmmmm   mmmmmm  aaaaaaaaaa  aaaa nnnnnn    nnnnnn '
+        echo '            								                                     '
+        echo '                                                                               '
 
         SDKMAN_DIR=$(echo $GVM_DIR | sed 's/gvm/sdkman/g')
+        SDKMAN_SERVICE="$GVM_SERVICE"
+
         mv "$GVM_DIR" "$SDKMAN_DIR"
 
         [[ -s "$HOME/.bashrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.bashrc"
