@@ -34,8 +34,8 @@ function __sdkman_download {
 	else
 		echo ""
 		echo "Found a previously downloaded ${CANDIDATE} ${VERSION} archive. Not downloading it again..."
-		__sdkman_validate_zip "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
 	fi
+	__sdkman_validate_zip "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
 	echo ""
 }
 
