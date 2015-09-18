@@ -97,6 +97,7 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
         SDKMAN_SERVICE="$GVM_SERVICE"
 
         mv "$GVM_DIR" "$SDKMAN_DIR"
+        ln -s "$SDKMAN_DIR" "$GVM_DIR"
 
         if [[ "${darwin}" == "true" ]]; then
             [[ -s "$HOME/.bashrc" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.bashrc" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.bashrc"
