@@ -15,6 +15,29 @@
 #   limitations under the License.
 #
 
+# OS specific support (must be 'true' or 'false').
+cygwin=false;
+darwin=false;
+solaris=false;
+freebsd=false;
+linux=false;
+case "$(uname)" in
+    CYGWIN*)
+        cygwin=true
+        ;;
+    Darwin*)
+        darwin=true
+        ;;
+    SunOS*)
+        solaris=true
+        ;;
+    FreeBSD*)
+        freebsd=true
+        ;;
+    Linux*)
+        linux=true
+esac
+
 function sdkman_echo_debug {
 	if [[ "$SDKMAN_DEBUG_MODE" == 'true' ]]; then
 		echo "$1"
@@ -75,13 +98,22 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
 
         mv "$GVM_DIR" "$SDKMAN_DIR"
 
-        [[ -s "$HOME/.bashrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.bashrc" && sed -i 's/GVM/SDKMAN/g' "$HOME/.bashrc"
-
-        [[ -s "$HOME/.profile" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.profile" && sed -i 's/GVM/SDKMAN/g' "$HOME/.profile"
-
-        [[ -s "$HOME/.zshrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.zshrc" && sed -i 's/GVM/SDKMAN/g' "$HOME/.zshrc"
-
-        [[ -s "$SDKMAN/etc/config" ]] && sed -i 's/gvm/sdkman/g' "$SDKMAN/etc/config"
+        if [[ "${darwin}" == "true" ]]; then
+            [[ -s "$HOME/.bashrc" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.bashrc" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.bashrc"
+            [[ -s "$HOME/.profile" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.profile" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.profile"
+            [[ -s "$HOME/.zshrc" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.zshrc" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.zshrc"
+            [[ -s "$SDKMAN/etc/config" ]] && sed -i '' 's/gvm/sdkman/g' "$SDKMAN/etc/config"
+        elif [[ "${solaris}" == true ]]; then
+            [[ -s "$HOME/.bashrc" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.bashrc" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.bashrc"
+            [[ -s "$HOME/.profile" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.profile" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.profile"
+            [[ -s "$HOME/.zshrc" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.zshrc" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.zshrc"
+            [[ -s "$SDKMAN/etc/config" ]] && gsed -i 's/gvm/sdkman/g' "$SDKMAN/etc/config"
+        else
+            [[ -s "$HOME/.bashrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.bashrc" && sed -i 's/GVM/SDKMAN/g' "$HOME/.bashrc"
+            [[ -s "$HOME/.profile" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.profile" && sed -i 's/GVM/SDKMAN/g' "$HOME/.profile"
+            [[ -s "$HOME/.zshrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.zshrc" && sed -i 's/GVM/SDKMAN/g' "$HOME/.zshrc"
+            [[ -s "$SDKMAN/etc/config" ]] && sed -i 's/gvm/sdkman/g' "$SDKMAN/etc/config"
+        fi
 
     else
         echo ""
@@ -98,25 +130,6 @@ SDKMAN_VERSION="@SDKMAN_VERSION@"
 if [ -z "${SDKMAN_DIR}" ]; then
 	SDKMAN_DIR="$HOME/.sdkman"
 fi
-
-# OS specific support (must be 'true' or 'false').
-cygwin=false;
-darwin=false;
-solaris=false;
-freebsd=false;
-case "$(uname)" in
-    CYGWIN*)
-        cygwin=true
-        ;;
-    Darwin*)
-        darwin=true
-        ;;
-    SunOS*)
-        solaris=true
-        ;;
-    FreeBSD*)
-        freebsd=true
-esac
 
 sdkman_platform=$(uname)
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
