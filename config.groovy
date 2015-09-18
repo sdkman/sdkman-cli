@@ -7,12 +7,12 @@ environments {
         sdkmanBrokerService = 'http://localhost:8080'
 	}
 	master {
-		sdkmanService = 'http://dev.gvmtool.net'
+		sdkmanService = 'http://dev.sdkman.io'
         sdkmanBroadcastService = 'http://cast-dev.gvm.io'
         sdkmanBrokerService = 'http://release-dev.gvm.io'
 	}
 	production {
-		sdkmanService = 'http://api.gvmtool.net'
+		sdkmanService = 'http://api.sdkman.io'
         sdkmanBroadcastService = 'http://cast.gvm.io'
         sdkmanBrokerService = 'http://release.gvm.io'
 	}
