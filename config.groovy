@@ -1,5 +1,5 @@
 vertxVersion = '1.3.1.final'
-sdkmanVersion = '1.0.0-SNAPSHOT'
+sdkmanVersion = '3.0.2'
 environments {
 	local {
 		sdkmanService = 'http://localhost:8080'
