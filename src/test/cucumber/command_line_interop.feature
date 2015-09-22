@@ -3,6 +3,7 @@ Feature: Command Line Interop
   Background:
     Given the internet is reachable
     And an initialised environment
+    And the system is bootstrapped
 
   Scenario: Enter sdk
     When I enter "sdk"

@@ -31,3 +31,7 @@ And(~'^I see the current sdkman version$') {->
 And(~'^I see a single occurrence of \"([^\"]*)\"$') { String occurrence ->
     assert result.count(occurrence) == 1
 }
+
+And(~'^I see no occurrences of \"([^\"]*)\"$') { String occurrence ->
+    assert result.count(occurrence) == 0
+}

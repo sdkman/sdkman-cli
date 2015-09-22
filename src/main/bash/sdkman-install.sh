@@ -73,6 +73,7 @@ function __sdkman_install {
 			echo ""
 			echo "Setting ${CANDIDATE} ${VERSION} as default."
 			__sdkman_link_candidate_version "${CANDIDATE}" "${VERSION}"
+			__sdkman_add_to_path "${CANDIDATE}"
 		fi
 		return 0
 

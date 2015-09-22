@@ -18,13 +18,17 @@
 
 function __sdkman_build_version_csv {
 	CANDIDATE="$1"
-	CSV=""
-	for version in $(find "${SDKMAN_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
-		if [[ "${version}" != 'current' ]]; then
-			CSV="${version},${CSV}"
-		fi
-	done
-	CSV=${CSV%?}
+	if [[ -d "${SDKMAN_DIR}/${CANDIDATE}" ]]; then
+		CSV=""
+		for version in $(find "${SDKMAN_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
+			if [[ "${version}" != 'current' ]]; then
+				CSV="${version},${CSV}"
+			fi
+		done
+		CSV=${CSV%?}
+	else
+		CSV=""
+	fi
 }
 
 function __sdkman_offline_list {
@@ -65,8 +69,7 @@ function __sdkman_list {
 	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
 		__sdkman_offline_list
 	else
-		FRAGMENT=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${CSV}")
-		echo "${FRAGMENT}"
-		unset FRAGMENT
+		local fragment=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${CSV}")
+		echo "${fragment}"
 	fi
 }

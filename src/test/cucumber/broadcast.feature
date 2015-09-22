@@ -3,6 +3,7 @@ Feature: Broadcast
   Background:
     Given the internet is reachable
     And an initialised environment
+    And the system is bootstrapped
 
   Scenario: A command is issued with no prior Broadcast received
     Given no prior Broadcast was received

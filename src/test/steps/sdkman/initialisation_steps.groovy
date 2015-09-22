@@ -32,16 +32,6 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { Str
 	assert ! archive.exists()
 }
 
-And(~'^an initialised shell$') { ->
-    def initScript = "$sdkmanDir/bin/sdkman-init.sh" as File
-    assert initScript.exists()
-}
-
-And(~'^I reinitialise the shell$') { ->
-    def initScript = "$sdkmanDir/bin/sdkman-init.sh" as File
-    assert initScript.exists()
-}
-
 And(~'^the internet is reachable$') {->
     primeEndpoint("/broadcast/latest/id", "12345")
     primeEndpoint("/broadcast/latest", "broadcast message")
@@ -96,9 +86,6 @@ And(~'^an initialised environment$') {->
         .withHttpProxy(HTTP_PROXY)
         .withVersionToken(sdkmanVersion)
         .build()
-
-    bash.start()
-    bash.execute("source $sdkmanDirEnv/bin/sdkman-init.sh")
 }
 
 And(~'^an outdated initialised environment$') {->
@@ -123,11 +110,13 @@ And(~'^an outdated initialised environment$') {->
 
     def initFile = "$sdkmanDir/bin/sdkman-init.sh" as File
     initFile.text = initFile.text.replace(sdkmanVersion, sdkmanVersionOutdated)
+}
 
+And(~'^the system is bootstrapped$') {->
     bash.start()
     bash.execute("source $sdkmanDirEnv/bin/sdkman-init.sh")
 }
 
-And(~'^the system is bootstrapped$') {->
+And(~'^the system is bootstrapped again$') {->
     bash.execute("source $sdkmanDirEnv/bin/sdkman-init.sh")
 }

@@ -3,6 +3,7 @@ Feature: Flush
   Background:
     Given the internet is reachable
     And an initialised environment
+    And the system is bootstrapped
 
   Scenario: Flush omitting the Qualifier
     When I enter "sdk flush"

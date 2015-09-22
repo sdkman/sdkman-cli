@@ -5,6 +5,9 @@ import sdkman.env.SdkManBashEnvBuilder
 import sdkman.stubs.CurlStub
 import spock.lang.Specification
 
+import java.nio.file.Files
+import java.nio.file.Paths
+
 import static sdkman.utils.TestUtils.prepareBaseDir
 
 class InitialisationSpec extends Specification {
@@ -48,6 +51,18 @@ class InitialisationSpec extends Specification {
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.z")
                 .build()
+
+        and:
+        allCandidates.forEach {
+            def current = Paths.get("$sdkmanDotDir/$it/current")
+            def targetFilename = "$sdkmanDotDir/$it/xxx"
+
+            new File(targetFilename).createNewFile()
+            def target = Paths.get(targetFilename)
+
+            Files.createSymbolicLink(current, target)
+        }
+
         bash.start()
         bash.execute("source $bootstrap")
         bash.resetOutput()

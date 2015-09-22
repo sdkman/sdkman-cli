@@ -5,6 +5,7 @@ Feature: Self Update
 
   Scenario: Force a Selfupdate
     Given an initialised environment
+    And the system is bootstrapped
     When I enter "sdk selfupdate force"
     Then I do not see "A new version of SDKMAN is available..."
     And I do not see "Would you like to upgrade now? (Y/n)"
@@ -14,6 +15,7 @@ Feature: Self Update
 
   Scenario: Selfupdate when out of date
     Given an outdated initialised environment
+    And the system is bootstrapped
     When I enter "sdk selfupdate"
     Then I do not see "A new version of SDKMAN is available..."
     And I do not see "Would you like to upgrade now? (Y/n)"
@@ -23,6 +25,7 @@ Feature: Self Update
 
   Scenario: Agree to a suggested Selfupdate
     Given an outdated initialised environment
+    And the system is bootstrapped
     When I enter "sdk help" and answer "Y"
     Then I see "A new version of SDKMAN is available..."
     And I see "Would you like to upgrade now? (Y/n)"
@@ -31,6 +34,7 @@ Feature: Self Update
 
   Scenario: Do not agree to a suggested Selfupdate
     Given an outdated initialised environment
+    And the system is bootstrapped
     When I enter "sdk help" and answer "N"
     Then I see "A new version of SDKMAN is available..."
     And I see "Would you like to upgrade now? (Y/n)"
@@ -40,6 +44,7 @@ Feature: Self Update
   Scenario: Automatically Selfupdate
     Given an outdated initialised environment
     And the configuration file has been primed with "sdkman_auto_selfupdate=true"
+    And the system is bootstrapped
     When I enter "sdk help"
     Then I see "A new version of SDKMAN is available..."
     And I do not see "Would you like to upgrade now? (Y/n)"
@@ -49,6 +54,7 @@ Feature: Self Update
   Scenario: Do not automatically Selfupdate
     Given an outdated initialised environment
     And the configuration file has been primed with "sdkman_auto_selfupdate=false"
+    And the system is bootstrapped
     When I enter "sdk help" and answer "n"
     Then I see "A new version of SDKMAN is available..."
     And I see "Would you like to upgrade now? (Y/n)"
@@ -57,6 +63,7 @@ Feature: Self Update
 
   Scenario: Bother the user with Upgrade message once a day
     Given an outdated initialised environment
+    And the system is bootstrapped
     When I enter "sdk help" and answer "N"
     Then I see "A new version of SDKMAN is available..."
     And I see "Would you like to upgrade now? (Y/n)"
@@ -69,5 +76,6 @@ Feature: Self Update
 
   Scenario: Selfupdate when not out of date
     Given an initialised environment
+    And the system is bootstrapped
     When I enter "sdk selfupdate"
     Then I see "No update available at this time."

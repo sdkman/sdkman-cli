@@ -172,16 +172,16 @@ if [[ "${SDKMAN_INIT}" != "true" ]]; then
     # In bash arrays are zero index based, in zsh they are 1 based(!)
     for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
         # Eliminate empty entries due to incompatibility
-        if [[ -n ${SDKMAN_CANDIDATES[${i}]} ]]; then
-            CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
+        CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
+        CANDIDATE_DIR="${SDKMAN_DIR}/${CANDIDATE_NAME}/current"
+        if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
             CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
-            CANDIDATE_DIR="${SDKMAN_DIR}/${CANDIDATE_NAME}/current"
-            export $(echo ${CANDIDATE_HOME_VAR})="$CANDIDATE_DIR"
+            export $(echo "${CANDIDATE_HOME_VAR}")="$CANDIDATE_DIR"
             PATH="${CANDIDATE_DIR}/bin:${PATH}"
             unset CANDIDATE_HOME_VAR
-            unset CANDIDATE_NAME
-            unset CANDIDATE_DIR
         fi
+        unset CANDIDATE_NAME
+        unset CANDIDATE_DIR
     done
     unset i
     export PATH

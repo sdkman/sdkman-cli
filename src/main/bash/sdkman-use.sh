@@ -30,6 +30,7 @@ function __sdkman_use {
 		fi
 		if [[ -z "${INSTALL}" || "${INSTALL}" == "y" || "${INSTALL}" == "Y" ]]; then
 			__sdkman_install_candidate_version "${CANDIDATE}" "${VERSION}"
+			__sdkman_add_to_path "${CANDIDATE}"
 		else
 			return 1
 		fi
