@@ -67,7 +67,7 @@ function __sdkman_list {
 	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
 		__sdkman_offline_list
 	else
-		local fragment=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${CSV}")
+		fragment=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${CSV}")
 		echo "${fragment}"
 	fi
 }
