@@ -18,16 +18,14 @@
 
 function __sdkman_build_version_csv {
 	CANDIDATE="$1"
+	CSV=""
 	if [[ -d "${SDKMAN_DIR}/${CANDIDATE}" ]]; then
-		CSV=""
 		for version in $(find "${SDKMAN_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
 			if [[ "${version}" != 'current' ]]; then
 				CSV="${version},${CSV}"
 			fi
 		done
 		CSV=${CSV%?}
-	else
-		CSV=""
 	fi
 }
 
