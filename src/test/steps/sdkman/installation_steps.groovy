@@ -2,9 +2,10 @@ package sdkman
 
 import java.nio.file.FileSystems
 import java.nio.file.Files
-import java.nio.file.Path
 
 import static cucumber.api.groovy.EN.And
+import static sdkman.utils.FilesystemUtils.prepareCandidateWithVersionFolder
+import static sdkman.utils.FilesystemUtils.prepareLocalCandidateWithVersionFolder
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candidate, String version ->
 	def file = "${sdkmanDir}/${candidate}/${version}" as File
@@ -19,7 +20,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String ca
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and default$') { String candidate, String version ->
-    def candidateVersion = prepareCandidateFolder("$sdkmanDir", candidate, version)
+    def candidateVersion = prepareCandidateWithVersionFolder("$sdkmanDir", candidate, version)
     def currentLink = FileSystems.default.getPath("$sdkmanDir/$candidate/current")
     Files.createSymbolicLink currentLink, candidateVersion
 }
@@ -31,7 +32,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is the default$') { String cand
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not default$') { String candidate, String version ->
-    prepareCandidateFolder "$sdkmanDir", candidate, version
+    prepareCandidateWithVersionFolder "$sdkmanDir", candidate, version
 }
 
 And(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
@@ -46,7 +47,7 @@ And(~'^the candidate "([^"]*)" does not exist$') { String candidate ->
 }
 
 And(~'^I have a local candidate "([^"]*)" version "([^"]*)" at "([^"]*)"$') { String candidate, String version, String directory ->
-    prepareLocalCandidateFolder directory, candidate, version
+    prepareLocalCandidateWithVersionFolder directory, candidate, version
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is linked to "([^"]*)"$') { String candidate, String version, String directory ->
@@ -68,7 +69,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is already linked to "([^"]*)"$
     candidateFolder.mkdirs()
 
     def link = fileSystem.getPath("$sdkmanDir/$candidate/$version")
-    def target = prepareLocalCandidateFolder(folder, candidate, version)
+    def target = prepareLocalCandidateWithVersionFolder(folder, candidate, version)
 
     Files.createSymbolicLink(link, target)
 }
@@ -76,29 +77,4 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is already linked to "([^"]*)"$
 And(~'^I have configured "([^"]*)" to "([^"]*)"$') { String configName, String flag ->
     def configFile = new File("$sdkmanDir/etc/config")
     configFile.write "${configName}=${flag}"
-}
-
-private prepareCandidateFolder(String baseDir, String candidate, String version) {
-    def directory = "$baseDir/$candidate/$version"
-    prepareCandidateBinFolder directory, candidate, version
-}
-
-private prepareLocalCandidateFolder(String baseDir, String candidate, String version){
-    prepareCandidateBinFolder baseDir, candidate, version
-}
-
-private prepareCandidateBinFolder(String folder, String candidate, String version) {
-    def fileSystem = FileSystems.default
-
-    def binFolderPath = fileSystem.getPath("$folder/bin")
-    Files.createDirectories binFolderPath
-    prepareCandidateExecutable binFolderPath, candidate, version
-
-    return fileSystem.getPath("$folder")
-}
-
-private prepareCandidateExecutable(Path binFolder, String candidate, String version) {
-    def candidateFile = new File("$binFolder/$candidate")
-    candidateFile.write "echo ${candidate.capitalize()} Version: ${version}"
-    candidateFile.executable = true
 }

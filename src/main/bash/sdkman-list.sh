@@ -18,14 +18,15 @@
 
 function __sdkman_build_version_csv {
 	CANDIDATE="$1"
-	CSV=""
 	if [[ -d "${SDKMAN_DIR}/${CANDIDATE}" ]]; then
-		for version in $(find "${SDKMAN_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort); do
+		for version in $(find "${SDKMAN_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do
 			if [[ "${version}" != 'current' ]]; then
-				CSV="${version},${CSV}"
+				SDKMAN_VERSIONS_CSV="${version},${SDKMAN_VERSIONS_CSV}"
 			fi
 		done
-		CSV=${CSV%?}
+		SDKMAN_VERSIONS_CSV=${SDKMAN_VERSIONS_CSV%?}
+	else
+		SDKMAN_VERSIONS_CSV=""
 	fi
 }
 
@@ -35,7 +36,7 @@ function __sdkman_offline_list {
 	echo "------------------------------------------------------------"
 	echo "                                                            "
 
-	sdkman_versions=($(echo ${CSV//,/ }))
+	sdkman_versions=($(echo ${SDKMAN_VERSIONS_CSV//,/ }))
 	for (( i=0 ; i <= ${#sdkman_versions} ; i++ )); do
 		if [[ -n "${sdkman_versions[${i}]}" ]]; then
 			if [[ "${sdkman_versions[${i}]}" == "${CURRENT}" ]]; then
@@ -67,7 +68,8 @@ function __sdkman_list {
 	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
 		__sdkman_offline_list
 	else
-		fragment=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${CSV}")
+		local url="${SDKMAN_SERVICE}/candidates/${CANDIDATE}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${SDKMAN_VERSIONS_CSV}"
+		local fragment=$(curl -s "$url")
 		echo "${fragment}"
 	fi
 }

@@ -1,5 +1,7 @@
 import static cucumber.api.groovy.EN.And
 import static sdkman.stubs.WebServiceStub.*
+import static sdkman.utils.FilesystemUtils.readCurrentFromCandidateFolder
+import static sdkman.utils.FilesystemUtils.readVersionsCsvFromCandidateFolder
 
 And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
     primeEndpoint("/candidates/${candidate}/default", version)
@@ -29,4 +31,12 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is a valid candidate version$')
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is not a valid candidate version$') { String candidate, String version ->
     primeEndpoint("/candidates/${candidate}/${version}", "invalid")
+}
+
+And(~/^the candidate "(.*?)" has a version list available$/) { String candidate ->
+    def current = readCurrentFromCandidateFolder(sdkmanDir, candidate)
+    def versions = readVersionsCsvFromCandidateFolder(sdkmanDir, candidate)
+    def url = "/candidates/${candidate}/list?platform=Linux&current=${current}&installed=${versions}"
+
+    primeEndpoint(url, "Candidate: $candidate; Versions: $versions; Current: $current")
 }

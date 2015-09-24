@@ -8,7 +8,7 @@ import spock.lang.Specification
 import java.nio.file.Files
 import java.nio.file.Paths
 
-import static sdkman.utils.TestUtils.prepareBaseDir
+import static sdkman.utils.FilesystemUtils.prepareBaseDir
 
 class InitialisationSpec extends Specification {
 
