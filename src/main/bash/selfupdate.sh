@@ -102,16 +102,19 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
         if [[ "${darwin}" == "true" ]]; then
             [[ -s "$HOME/.bashrc" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.bashrc" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.bashrc"
             [[ -s "$HOME/.profile" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.profile" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.profile"
+            [[ -s "$HOME/.bash_profile" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.bash_profile" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.bash_profile"
             [[ -s "$HOME/.zshrc" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.zshrc" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.zshrc"
             [[ -s "$SDKMAN/etc/config" ]] && sed -i '' 's/gvm/sdkman/g' "$SDKMAN/etc/config"
         elif [[ "${solaris}" == true ]]; then
             [[ -s "$HOME/.bashrc" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.bashrc" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.bashrc"
             [[ -s "$HOME/.profile" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.profile" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.profile"
+            [[ -s "$HOME/.bash_profile" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.bash_profile" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.bash_profile"
             [[ -s "$HOME/.zshrc" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.zshrc" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.zshrc"
             [[ -s "$SDKMAN/etc/config" ]] && gsed -i 's/gvm/sdkman/g' "$SDKMAN/etc/config"
         else
             [[ -s "$HOME/.bashrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.bashrc" && sed -i 's/GVM/SDKMAN/g' "$HOME/.bashrc"
             [[ -s "$HOME/.profile" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.profile" && sed -i 's/GVM/SDKMAN/g' "$HOME/.profile"
+            [[ -s "$HOME/.bash_profile" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.bash_profile" && sed -i 's/GVM/SDKMAN/g' "$HOME/.bash_profile"
             [[ -s "$HOME/.zshrc" ]] && sed -i 's/gvm/sdkman/g' "$HOME/.zshrc" && sed -i 's/GVM/SDKMAN/g' "$HOME/.zshrc"
             [[ -s "$SDKMAN/etc/config" ]] && sed -i 's/gvm/sdkman/g' "$SDKMAN/etc/config"
         fi
