@@ -32,6 +32,15 @@ Feature: List Candidates
     Then I see "Current: 2.1.0"
     And I see "Versions: 2.1.0"
 
+  Scenario: List installed multiple Versions
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "grails" version "2.0.9" is already installed but not default
+    And the candidate "grails" has a version list available
+    And the system is bootstrapped
+    When I enter "sdk list grails"
+    Then I see "Current: 2.1.0"
+    And I see "Versions: 2.0.9,2.1.0"
+
   Scenario: List an installed local version not in use
     Given I have a local candidate "grails" version "2.3-SNAPSHOT" at "/tmp/groovy-core"
     And the candidate "groovy" version "2.3-SNAPSHOT" is already linked to "/tmp/groovy-core"
