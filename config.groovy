@@ -8,12 +8,12 @@ environments {
 	}
 	master {
 		sdkmanService = 'http://dev.sdkman.io'
-        sdkmanBroadcastService = 'http://cast-dev.gvm.io'
-        sdkmanBrokerService = 'http://release-dev.gvm.io'
+        sdkmanBroadcastService = 'http://cast-dev.sdkman.io'
+        sdkmanBrokerService = 'http://broker-dev.sdkman.io'
 	}
 	production {
 		sdkmanService = 'http://api.sdkman.io'
-        sdkmanBroadcastService = 'http://cast.gvm.io'
-        sdkmanBrokerService = 'http://release.gvm.io'
+        sdkmanBroadcastService = 'http://cast.sdkman.io'
+        sdkmanBrokerService = 'http://broker.sdkman.io'
 	}
 }
