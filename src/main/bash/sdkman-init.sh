@@ -148,7 +148,7 @@ if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
 	touch "${SDKMAN_DIR}/var/delay_upgrade"
 fi
 
-# determine if up to date each 24 hours (60*60*24)
+# determine if up to date
 SDKMAN_VERSION_TOKEN="${SDKMAN_DIR}/var/version"
 if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$((60*24)))" ]]; then
     SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_TOKEN")
