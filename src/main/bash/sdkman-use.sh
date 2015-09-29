@@ -51,6 +51,11 @@ function __sdkman_use {
 		export PATH=$(echo $PATH | sed -r "s!${SDKMAN_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_DIR}/${CANDIDATE}/${VERSION}!g")
 	fi
 
+	if [[ ! -h "${SDKMAN_DIR}/${CANDIDATE}/current" ]]; then
+	    echo "Setting ${CANDIDATE} version ${VERSION} as default."
+		__sdkman_link_candidate_version "${CANDIDATE}" "${VERSION}"
+	fi
+
 	echo ""
-	echo Using "${CANDIDATE}" version "${VERSION} in this shell."
+	echo "Using ${CANDIDATE} version ${VERSION} in this shell."
 }

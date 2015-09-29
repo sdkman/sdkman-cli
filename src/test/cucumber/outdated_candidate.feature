@@ -20,13 +20,13 @@ Feature: Outdated Candidate
     Then I see "grails is up-to-date"
 
   Scenario: Display outdated candidate version when none is in use
-    Given the candidate "grails" does not exist
+    Given the candidate "grails" does not exist locally
     And the system is bootstrapped
     When I enter "sdk outdated grails"
     Then I see "Not using any version of grails"
 
   Scenario: Display outdated candidate versions when none is specified and none is in use
-    Given the candidate "grails" does not exist
+    Given the candidate "grails" does not exist locally
     And the system is bootstrapped
     When I enter "sdk outdated"
     Then I see "No candidates are in use"

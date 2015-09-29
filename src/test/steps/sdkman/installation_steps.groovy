@@ -40,7 +40,7 @@ And(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
     assert ! candidateDir.toFile().listFiles()
 }
 
-And(~'^the candidate "([^"]*)" does not exist$') { String candidate ->
+And(~'^the candidate "([^"]*)" does not exist locally$') { String candidate ->
     def candidateDir = "${sdkmanDir}/${candidate}" as File
     candidateDir.deleteDir()
     assert ! candidateDir.exists()

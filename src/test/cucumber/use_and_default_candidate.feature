@@ -48,6 +48,26 @@ Feature: Use and Default Candidate
     When I enter "sdk use grails 2.0.0.M1"
     Then I see "Using grails version 2.0.0.M1 in this shell."
 
+  Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default
+    Given the candidate "grails" version "1.3.9" is available for download
+    And the candidate "grails" does not exist locally
+    And the system is bootstrapped
+    When I enter "sdk use grails 1.3.9" and answer "Y"
+    Then I see "Setting grails version 1.3.9 as default."
+    And I see "Using grails version 1.3.9 in this shell."
+    And the candidate "grails" version "1.3.9" is installed
+    And the candidate "grails" version "1.3.9" should be the default
+
+  Scenario: Use an uninstalled candidate version of an installed candidate and it does not become default
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the candidate "grails" version "2.1.0" is available for download
+    And the system is bootstrapped
+    When I enter "sdk use grails 2.1.0" and answer "Y"
+    Then I do not see "Setting grails version 1.3.9 as default."
+    And I see "Using grails version 2.1.0 in this shell."
+    And the candidate "grails" version "2.1.0" is installed
+    And the candidate "grails" version "1.3.9" should be the default
+
   Scenario: Default a candidate version that is not installed
     Given the candidate "groovy" version "2.0.5" is a valid candidate version
     And the system is bootstrapped
