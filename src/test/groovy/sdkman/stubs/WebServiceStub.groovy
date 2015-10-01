@@ -12,8 +12,8 @@ class WebServiceStub {
                 .withBody(body)))
     }
 
-    static primeDownloadFor(String host, String candidate, String version) {
-        stubFor(get(urlEqualTo("/download/${candidate}/${version}?platform=Linux")).willReturn(
+    static primeDownloadFor(String host, String candidate, String version, String platform) {
+        stubFor(get(urlEqualTo("/download/${candidate}/${version}?platform=${platform}")).willReturn(
             aResponse()
                 .withHeader("Location", "${host}/${candidate}-${version}.zip")
                 .withStatus(302)))
