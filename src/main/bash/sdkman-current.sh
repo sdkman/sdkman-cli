@@ -20,7 +20,7 @@ function __sdkman_determine_current_version {
 	CANDIDATE="$1"
 	__sdkman_path_contains "${CANDIDATE}"
 
-	if [[  "$sdkman_candidate_in_path" == 'true' ]]; then
+	if [[  "${SDKMAN_CANDIDATE_IN_PATH}" == 'true' ]]; then
 		if [[ "${solaris}" == true ]]; then
 			CURRENT=$(echo $PATH | gsed -r "s|${SDKMAN_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
 		elif [[ "${darwin}" == true ]]; then
