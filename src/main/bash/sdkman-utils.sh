@@ -33,3 +33,8 @@ function __sdkman_add_to_path {
         PATH="$SDKMAN_DIR/$candidate/current/bin:$PATH"
     fi
 }
+
+function __sdkman_set_candidate_home {
+	local upper_candidate=$(echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]')
+	export "${upper_candidate}_HOME"="${SDKMAN_DIR}/${CANDIDATE}/${VERSION}"
+}

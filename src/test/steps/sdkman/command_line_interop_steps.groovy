@@ -35,3 +35,13 @@ And(~'^I see a single occurrence of \"([^\"]*)\"$') { String occurrence ->
 And(~'^I see no occurrences of \"([^\"]*)\"$') { String occurrence ->
     assert result.count(occurrence) == 0
 }
+
+And(~'the "(.*)" variable contains "(.*)"') { String home, String segment ->
+    bash.execute("echo \$$home")
+    assert bash.output.contains(segment)
+}
+
+And(~'the "(.*)" variable is not set') { String home ->
+    bash.execute("echo \$$home")
+    assert ! bash.output.contains(".sdkman/")
+}

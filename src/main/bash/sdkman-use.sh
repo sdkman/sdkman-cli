@@ -37,8 +37,7 @@ function __sdkman_use {
 	fi
 
 	# Just update the *_HOME and PATH for this shell.
-	UPPER_CANDIDATE=$(echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]')
-	export "${UPPER_CANDIDATE}_HOME"="${SDKMAN_DIR}/${CANDIDATE}/${VERSION}"
+	__sdkman_set_candidate_home "${CANDIDATE}" "${VERSION}"
 
 	# Replace the current path for the candidate with the selected version.
 	if [[ "${solaris}" == true ]]; then

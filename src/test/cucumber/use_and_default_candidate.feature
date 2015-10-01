@@ -95,3 +95,33 @@ Feature: Use and Default Candidate
     And the system is bootstrapped
     When I enter "sdk default groovy 2.9.9"
     Then I see "Stop! 2.9.9 is not a valid groovy version."
+
+
+  #scenarios related to updating _HOME variable
+
+  Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the candidate "grails" version "2.1.0" is already installed but not default
+    And the candidate "grails" version "2.1.0" is available for download
+    And the system is bootstrapped
+    And the "GRAILS_HOME" variable contains "grails/current"
+    When I enter "sdk use grails 2.1.0"
+    And I see "Using grails version 2.1.0 in this shell."
+    Then the "GRAILS_HOME" variable contains "grails/2.1.0"
+
+  Scenario: Use an uninstalled version of an uninstalled candidate updates the candidate _HOME variable
+    Given the candidate "grails" does not exist locally
+    And the candidate "grails" version "2.1.0" is available for download
+    And the system is bootstrapped
+    And the "GRAILS_HOME" variable is not set
+    When I enter "sdk use grails 2.1.0" and answer "Y"
+    Then the "GRAILS_HOME" variable contains "grails/2.1.0"
+
+  Scenario: Use an uninstalled version of an installed candidate updates the candidate _HOME variable
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the candidate "grails" version "2.1.0" is available for download
+    And the system is bootstrapped
+    And the "GRAILS_HOME" variable contains "grails/current"
+    When I enter "sdk use grails 2.1.0" and answer "Y"
+    Then the "GRAILS_HOME" variable contains "grails/2.1.0"
+
