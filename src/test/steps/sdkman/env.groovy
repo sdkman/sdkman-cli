@@ -2,12 +2,14 @@ package sdkman
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
+import sdkman.utils.UnixUtils
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import static cucumber.api.groovy.Hooks.After
 import static cucumber.api.groovy.Hooks.Before
 
 HTTP_PROXY = System.getProperty("httpProxy") ?: ""
+PLATFORM = UnixUtils.platform
 
 FAKE_JDK_PATH = "/path/to/my/openjdk"
 SERVICE_UP_HOST="localhost"
