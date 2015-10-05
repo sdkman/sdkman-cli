@@ -1,4 +1,4 @@
-Feature: List Candidates
+Feature: List Candidate Versions
 
   A dummy template to be served back that has the following information:
   * Candidate: grails
