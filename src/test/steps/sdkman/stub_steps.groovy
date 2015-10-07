@@ -1,3 +1,5 @@
+import cucumber.api.DataTable
+
 import static cucumber.api.groovy.EN.And
 import static sdkman.stubs.WebServiceStub.*
 import static sdkman.utils.FilesystemUtils.readCurrentFromCandidateFolder
@@ -39,4 +41,8 @@ And(~/^the candidate "(.*?)" has a version list available$/) { String candidate 
     def url = "/candidates/${candidate}/list?platform=${PLATFORM}&current=${current}&installed=${versions}"
 
     primeEndpoint(url, "Candidate: $candidate; Versions: $versions; Current: $current")
+}
+
+And(~/^The candidate list is available$/) { ->
+    primeEndpoint("/candidates/list", "Candidate List")
 }

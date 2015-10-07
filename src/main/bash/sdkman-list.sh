@@ -59,8 +59,19 @@ function __sdkman_offline_list {
 }
 
 function __sdkman_list {
-	CANDIDATE="$1"
-	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
+    CANDIDATE="$1"
+    if [[ -z "$CANDIDATE" ]]; then
+        __sdkman_list_candidates
+    else
+        __sdkman_list_versions
+    fi
+}
+
+function __sdkman_list_candidates {
+    echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")"
+}
+
+function __sdkman_list_versions {
 	__sdkman_build_version_csv "${CANDIDATE}"
 	__sdkman_determine_current_version "${CANDIDATE}"
 
