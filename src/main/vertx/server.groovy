@@ -41,8 +41,8 @@ def templateEngine = new SimpleTemplateEngine()
 
 def templateBase = "build/templates"
 
-def listTemplateFile = "${templateBase}/list_2.gtpl" as File
-def listTemplate = templateEngine.createTemplate(listTemplateFile)
+def listVersionsTemplateFile = "${templateBase}/list_versions.gtpl" as File
+def listVersionsTemplate = templateEngine.createTemplate(listVersionsTemplateFile)
 
 def broadcastTemplateFile = "${templateBase}/broadcast.gtpl" as File
 def broadcastTemplate = templateEngine.createTemplate(broadcastTemplateFile)
@@ -126,26 +126,26 @@ rm.get("/candidates/:candidate/default") { req ->
 
 rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
-	def current = req.params['current'] ?: ''
-	def installed = req.params['installed'] ? req.params['installed'].tokenize(',') : []
+	def currentVersion = req.params['current'] ?: ''
+	def installedVersions = req.params['installed'] ? req.params['installed'].tokenize(',') : []
 
 	def cmd = [action:"find", collection:"versions", matcher:[candidate:candidate], keys:["version":1], sort:["version":-1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-	def available = msg.body.results.collect { it.version }
+		def availableVersions = msg.body.results.collect { it.version }
 
-        def combined = combine(available, installed)
-        def local = determineLocal(available, installed)
+        def combinedVersions = combineVersions(availableVersions, installedVersions)
+        def localVersions = determineLocalVersions(availableVersions, installedVersions)
 
-        def content = prepareListView(combined, current, installed, local, COLUMN_LENGTH)
+        def content = prepareVersionListView(combinedVersions, currentVersion, installedVersions, localVersions, COLUMN_LENGTH)
         def binding = [candidate: candidate, content:content]
-        def template = listTemplate.make(binding)
+        def template = listVersionsTemplate.make(binding)
 
         addPlainTextHeader req
         req.response.end template.toString()
 	}
 }
 
-private prepareListView(combined, current, installed, local, colLength){
+private prepareVersionListView(combined, current, installed, local, colLength){
     def builder = new StringBuilder()
     for (i in (0..(colLength-1))){
         def versionColumn1 = prepareVersion(combined[i], current, installed, local)
@@ -176,18 +176,17 @@ private markCurrent(isCurrent){
     isCurrent ? '>' : ' '
 }
 
-
 private markStatus(isInstalled, isLocalOnly){
     if(isInstalled && isLocalOnly) '+'
     else if(isInstalled) '*'
     else ' '
 }
 
-private determineLocal(available, installed){
+private determineLocalVersions(available, installed){
     installed.findAll { ! available.contains(it) }
 }
 
-private combine(available, installed){
+private combineVersions(available, installed){
     def combined = [] as TreeSet
     combined.addAll installed
     combined.addAll available
