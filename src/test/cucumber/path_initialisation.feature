@@ -7,8 +7,6 @@ Feature: Path Initialisation
   Scenario: sdkman is initialised for the first time
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the system is bootstrapped
-    When I enter "echo $SDKMAN_INIT"
-    Then I see "true"
     When I enter "echo $PATH"
     Then I see a single occurrence of "grails"
 
