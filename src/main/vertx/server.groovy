@@ -38,14 +38,13 @@ def config = [
 container.deployModule 'vertx.mongo-persistor-v1.2', config
 
 def templateEngine = new SimpleTemplateEngine()
-
 def templateBase = "build/templates"
 
 def listVersionsTemplateFile = "${templateBase}/list_versions.gtpl" as File
 def listVersionsTemplate = templateEngine.createTemplate(listVersionsTemplateFile)
 
-def broadcastTemplateFile = "${templateBase}/broadcast.gtpl" as File
-def broadcastTemplate = templateEngine.createTemplate(broadcastTemplateFile)
+def listCandidatesTemplateFile = "${templateBase}/list_candidates.gtpl" as File
+def listCandidatesTemplate = templateEngine.createTemplate(listCandidatesTemplateFile)
 
 
 //
@@ -94,6 +93,60 @@ rm.get("/candidates") { req ->
 		addPlainTextHeader req
 		req.response.end candidates.join(',')
 	}
+}
+
+rm.get("/candidates/list") { req ->
+	def cmd = [action:"find",
+			   collection:"candidates",
+			   matcher:[:],
+			   keys:[candidate:1,
+					 default:1,
+					 description:1,
+					 websiteUrl:1,
+					 name:1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		TreeMap candidates = [:]
+		msg.body.results.each {
+			candidates.put(
+					it.candidate,
+                    [
+                        header: header(it.name, it.default, it.websiteUrl),
+                        description: compose(it.description.tokenize(" ")).join("\n"),
+                        footer: footer(it.candidate)
+                    ]
+            )
+		}
+		addPlainTextHeader req
+		def binding = [candidates: candidates]
+        def template = listCandidatesTemplate.make(binding)
+		req.response.end template.toString()
+	}
+}
+
+PARAGRAPH_WIDTH = 80
+
+def header(String name, String version, String websiteUrl) {
+    int padding = PARAGRAPH_WIDTH - websiteUrl.length()
+    "${name} (${version})".padRight(padding, " ") + websiteUrl
+}
+
+def footer(String candidate) {
+    "\$ sdk install $candidate".padLeft(PARAGRAPH_WIDTH)
+}
+
+def compose(List words) {
+	def lineWords = [], lineLength = 0, idx = 0
+	for(word in words) {
+		idx++
+		lineLength += word.size() + 1
+		lineWords << word
+		if(lineLength > PARAGRAPH_WIDTH){
+            def lineText = lineWords.take(lineWords.size()-1).join(" ")
+			def remainingWords = [word] + words.drop(idx)
+			return [lineText] + compose(remainingWords)
+		}
+	}
+	[words.join(" ")]
 }
 
 rm.get("/candidates/:candidate") { req ->
@@ -235,17 +288,6 @@ def versionHandler = { req ->
 rm.get("/app/version", versionHandler)
 rm.get("/api/version", versionHandler)
 
-def broadcastHandler = { req ->
-    addPlainTextHeader req
-    req.response.end "This Broadcast API is being discontinued. \nPlease upgrade to the latest version of SDKMAN!"
-}
-
-rm.get("/broadcast", broadcastHandler)
-rm.get("/broadcast/:version", broadcastHandler)
-rm.get("/api/broadcast", broadcastHandler)
-rm.get("/api/broadcast/:version", broadcastHandler)
-
-
 //
 // private methods
 //
@@ -270,7 +312,7 @@ private log(command, candidate, version, req){
 		date:date
 	]
 
-	def cmd = [action:'save', collection:'audit', document:document] 
+	def cmd = [action:'save', collection:'audit', document:document]
 
 	vertx.eventBus.send 'mongo-persistor', cmd
 }
