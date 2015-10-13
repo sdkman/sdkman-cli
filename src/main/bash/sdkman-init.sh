@@ -169,23 +169,18 @@ fi
 # Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
 # In bash arrays are zero index based, in zsh they are 1 based(!)
 for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
-    # Eliminate empty entries due to incompatibility
-    CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
-    CANDIDATE_DIR="${SDKMAN_DIR}/${CANDIDATE_NAME}/current"
-    if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
-        CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
-        export $(echo "${CANDIDATE_HOME_VAR}")="$CANDIDATE_DIR"
-
-        # Prefix candidate bin to PATH if it doesn't exist already
-        CANDIDATE_BIN="${CANDIDATE_DIR}/bin"
-        echo "$PATH" | grep -q "${CANDIDATE_BIN}" || PATH="${CANDIDATE_BIN}:${PATH}"
-
-        unset CANDIDATE_HOME_VAR
-    fi
-    unset CANDIDATE_NAME
-    unset CANDIDATE_DIR
+	# Eliminate empty entries due to incompatibility
+	CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
+	CANDIDATE_DIR="${SDKMAN_DIR}/${CANDIDATE_NAME}/current"
+	if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
+		CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
+		export $(echo "${CANDIDATE_HOME_VAR}")="$CANDIDATE_DIR"
+		echo "$PATH" | grep -q "${CANDIDATE_DIR}" || PATH="${CANDIDATE_DIR}/bin:${PATH}"
+		unset CANDIDATE_HOME_VAR
+	fi
+	unset CANDIDATE_NAME
+	unset CANDIDATE_DIR
 done
-unset i
 export PATH
 
 alias gvm="sdk"
