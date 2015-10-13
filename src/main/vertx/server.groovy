@@ -96,31 +96,31 @@ rm.get("/candidates") { req ->
 }
 
 rm.get("/candidates/list") { req ->
-	def cmd = [action:"find",
-			   collection:"candidates",
-			   matcher:[:],
-			   keys:[candidate:1,
-					 default:1,
-					 description:1,
-					 websiteUrl:1,
-					 name:1]]
-	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		TreeMap candidates = [:]
-		msg.body.results.each {
-			candidates.put(
-					it.candidate,
+    def cmd = [action    : "find",
+               collection: "candidates",
+               matcher   : [:],
+               keys      : [candidate  : 1,
+                            default    : 1,
+                            description: 1,
+                            websiteUrl : 1,
+                            name       : 1]]
+    vertx.eventBus.send("mongo-persistor", cmd) { msg ->
+        TreeMap candidates = [:]
+        msg.body.results.each {
+            candidates.put(
+                    it.candidate,
                     [
-                        header: header(it.name, it.default, it.websiteUrl),
-                        description: compose(it.description.tokenize(" ")).join("\n"),
-                        footer: footer(it.candidate)
+                            header     : header(it.name, it.default, it.websiteUrl),
+                            description: compose(it.description.tokenize(" ")).join("\n"),
+                            footer     : footer(it.candidate)
                     ]
             )
-		}
-		addPlainTextHeader req
-		def binding = [candidates: candidates]
+        }
+        addPlainTextHeader req
+        def binding = [candidates: candidates]
         def template = listCandidatesTemplate.make(binding)
-		req.response.end template.toString()
-	}
+        req.response.end template.toString()
+    }
 }
 
 PARAGRAPH_WIDTH = 80
@@ -135,18 +135,18 @@ def footer(String candidate) {
 }
 
 def compose(List words) {
-	def lineWords = [], lineLength = 0, idx = 0
-	for(word in words) {
-		idx++
-		lineLength += word.size() + 1
-		lineWords << word
-		if(lineLength > PARAGRAPH_WIDTH){
-            def lineText = lineWords.take(lineWords.size()-1).join(" ")
-			def remainingWords = [word] + words.drop(idx)
-			return [lineText] + compose(remainingWords)
-		}
-	}
-	[words.join(" ")]
+    def lineWords = [], lineLength = 0, idx = 0
+    for (word in words) {
+        idx++
+        lineLength += word.size() + 1
+        lineWords << word
+        if (lineLength > PARAGRAPH_WIDTH) {
+            def lineText = lineWords.take(lineWords.size() - 1).join(" ")
+            def remainingWords = [word] + words.drop(idx)
+            return [lineText] + compose(remainingWords)
+        }
+    }
+    [words.join(" ")]
 }
 
 rm.get("/candidates/:candidate") { req ->
