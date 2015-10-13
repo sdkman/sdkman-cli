@@ -124,7 +124,7 @@ Feature: Forced Offline Mode
     And an initialised environment
     And the system is bootstrapped
     When I enter "sdk help"
-    Then I see "Usage: sdk <command> <candidate> [version]"
+    Then I see "Usage: sdk <command> [candidate] [version]"
 
   #selfupdate command
   Scenario: Attempt self-update while Forced Offline

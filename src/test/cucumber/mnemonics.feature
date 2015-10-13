@@ -21,7 +21,7 @@ Feature: Mnemonics
   Scenario: Shortcut for asking help
     Given the system is bootstrapped
     When I enter "sdk h"
-    Then I see "Usage: sdk <command> <candidate> [version]"
+    Then I see "Usage: sdk <command> [candidate] [version]"
 
   Scenario: Shortcut for displaying current Candidate Version in use
     Given the candidate "grails" version "1.3.9" is already installed and default

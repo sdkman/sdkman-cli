@@ -18,13 +18,13 @@
 
 function __sdkman_help {
 	echo ""
-	echo "Usage: sdk <command> <candidate> [version]"
+	echo "Usage: sdk <command> [candidate] [version]"
 	echo "       sdk offline <enable|disable>"
 	echo ""
 	echo "   commands:"
 	echo "       install   or i    <candidate> [version]"
 	echo "       uninstall or rm   <candidate> <version>"
-	echo "       list      or ls   <candidate>"
+	echo "       list      or ls   [candidate]"
 	echo "       use       or u    <candidate> [version]"
 	echo "       default   or d    <candidate> [version]"
 	echo "       current   or c    [candidate]"

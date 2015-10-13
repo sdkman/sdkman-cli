@@ -140,7 +140,7 @@ Feature: Offline Mode
   Scenario: Request help while Offline
     Given the system is bootstrapped
     When I enter "sdk help"
-    Then I see "Usage: sdk <command> <candidate> [version]"
+    Then I see "Usage: sdk <command> [candidate] [version]"
 
   # selfupdate command
   Scenario: Attempt self-update while Offline
