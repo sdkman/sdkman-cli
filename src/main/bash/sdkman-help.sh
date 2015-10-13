@@ -36,9 +36,11 @@ function __sdkman_help {
 	echo "       selfupdate        [force]"
 	echo "       flush             <candidates|broadcast|archives|temp>"
 	echo ""
-	echo -n "   candidate  :  "
-	echo "$SDKMAN_CANDIDATES_CSV" | sed 's/,/, /g'
-	echo "   version    :  where optional, defaults to latest stable if not provided"
+	echo "   candidate  :  the SDK to install: groovy, scala, grails, akka, etc."
+	echo "                 use list command for comprehensive list of candidates"
+	echo "                 eg: \$ sdk list"
 	echo ""
-	echo "eg: sdk install groovy"
+	echo "   version    :  where optional, defaults to latest stable if not provided"
+	echo "                 eg: \$ sdk install groovy"
+	echo ""
 }
