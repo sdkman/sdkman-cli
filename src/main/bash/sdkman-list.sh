@@ -68,7 +68,7 @@ function __sdkman_list {
 }
 
 function __sdkman_list_candidates {
-    echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")" | more
+    echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")" | less
 }
 
 function __sdkman_list_versions {
