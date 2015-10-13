@@ -111,7 +111,7 @@ rm.get("/candidates/list") { req ->
                     it.candidate,
                     [
                             header     : header(it.name, it.default, it.websiteUrl),
-                            description: compose(it.description.tokenize(" ")).join("\n"),
+                            description: paragraph(it.description),
                             footer     : footer(it.candidate)
                     ]
             )
@@ -130,11 +130,17 @@ def header(String name, String version, String websiteUrl) {
     "${name} (${version})".padRight(padding, " ") + websiteUrl
 }
 
+def paragraph(String text) {
+	def words = text.tokenize(" ")
+	def lines = format(words)
+	lines.join("\n")
+}
+
 def footer(String candidate) {
     "\$ sdk install $candidate".padLeft(PARAGRAPH_WIDTH)
 }
 
-def compose(List words) {
+def format(List words) {
     def lineWords = [], lineLength = 0, idx = 0
     for (word in words) {
         idx++
@@ -143,7 +149,7 @@ def compose(List words) {
         if (lineLength > PARAGRAPH_WIDTH) {
             def lineText = lineWords.take(lineWords.size() - 1).join(" ")
             def remainingWords = [word] + words.drop(idx)
-            return [lineText] + compose(remainingWords)
+            return [lineText] + format(remainingWords)
         }
     }
     [words.join(" ")]
