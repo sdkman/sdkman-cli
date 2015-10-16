@@ -95,6 +95,8 @@ rm.get("/candidates") { req ->
 	}
 }
 
+candidateList = "Candidate List initialising. Please try again..."
+TreeMap candidates = [:]
 rm.get("/candidates/list") { req ->
     def cmd = [action    : "find",
                collection: "candidates",
@@ -104,23 +106,25 @@ rm.get("/candidates/list") { req ->
                             description: 1,
                             websiteUrl : 1,
                             name       : 1]]
-    vertx.eventBus.send("mongo-persistor", cmd) { msg ->
-        TreeMap candidates = [:]
-        msg.body.results.each {
-            candidates.put(
-                    it.candidate,
-                    [
-                            header     : header(it.name, it.default, it.websiteUrl),
-                            description: paragraph(it.description),
-                            footer     : footer(it.candidate)
-                    ]
-            )
-        }
-        addPlainTextHeader req
-        def binding = [candidates: candidates]
-        def template = listCandidatesTemplate.make(binding)
-        req.response.end template.toString()
-    }
+	if(candidates.isEmpty()){
+		vertx.eventBus.send("mongo-persistor", cmd) { msg ->
+			msg.body.results.each {
+				candidates.put(
+						it.candidate,
+						[
+								header     : header(it.name, it.default, it.websiteUrl),
+								description: paragraph(it.description),
+								footer     : footer(it.candidate)
+						]
+				)
+			}
+			def binding = [candidates: candidates]
+			def template = listCandidatesTemplate.make(binding)
+			candidateList = template.toString()
+		}
+	}
+	addPlainTextHeader req
+	req.response.end candidateList
 }
 
 PARAGRAPH_WIDTH = 80
