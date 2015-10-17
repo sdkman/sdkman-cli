@@ -21,7 +21,7 @@ function __sdkman_use {
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
 	__sdkman_determine_version "$2" || return 1
 
-	if [[ ! -d "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}" ]]; then
+	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
 		if [[ "${sdkman_auto_answer}" != 'true' ]]; then
@@ -41,16 +41,16 @@ function __sdkman_use {
 
 	# Replace the current path for the candidate with the selected version.
 	if [[ "${solaris}" == true ]]; then
-		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_DIR}/${CANDIDATE}/${VERSION}!g")
+		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}!g")
 
 	elif [[ "${darwin}" == true ]]; then
-		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_DIR}/${CANDIDATE}/${VERSION}!g")
+		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}!g")
 
 	else
-		export PATH=$(echo $PATH | sed -r "s!${SDKMAN_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_DIR}/${CANDIDATE}/${VERSION}!g")
+		export PATH=$(echo $PATH | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}!g")
 	fi
 
-	if [[ ! -h "${SDKMAN_DIR}/${CANDIDATE}/current" ]]; then
+	if [[ ! -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" ]]; then
 	    echo "Setting ${CANDIDATE} version ${VERSION} as default."
 		__sdkman_link_candidate_version "${CANDIDATE}" "${VERSION}"
 	fi

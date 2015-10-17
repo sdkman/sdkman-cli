@@ -24,6 +24,10 @@ if [ -z "${SDKMAN_DIR}" ]; then
     SDKMAN_DIR="$HOME/.sdkman"
 fi
 
+if [ -z "${SDKMAN_CANDIDATES_DIR}" ]; then
+    SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
+fi
+
 # Local variables
 sdkman_bin_folder="${SDKMAN_DIR}/bin"
 sdkman_src_folder="${SDKMAN_DIR}/src"

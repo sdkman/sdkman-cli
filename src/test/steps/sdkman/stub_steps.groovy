@@ -36,8 +36,8 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not a valid candidate versio
 }
 
 And(~/^the candidate "(.*?)" has a version list available$/) { String candidate ->
-    def current = readCurrentFromCandidateFolder(sdkmanDir, candidate)
-    def versions = readVersionsCsvFromCandidateFolder(sdkmanDir, candidate)
+    def current = readCurrentFromCandidateFolder(candidatesDir, candidate)
+    def versions = readVersionsCsvFromCandidateFolder(candidatesDir, candidate)
     def url = "/candidates/${candidate}/list?platform=${PLATFORM}&current=${current}&installed=${versions}"
 
     primeEndpoint(url, "Candidate: $candidate; Versions: $versions; Current: $current")

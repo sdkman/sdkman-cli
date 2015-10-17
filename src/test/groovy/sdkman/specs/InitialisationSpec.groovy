@@ -21,11 +21,13 @@ class InitialisationSpec extends Specification {
     File sdkmanBaseDir
     String sdkmanDotDir
     String bootstrap
+    String candidatesDir
 
     void setup(){
         sdkmanBaseDir = prepareBaseDir()
         sdkmanDotDir = "${sdkmanBaseDir.absolutePath}/.sdkman"
         bootstrap = "${sdkmanDotDir}/bin/sdkman-init.sh"
+        candidatesDir = "${sdkmanDotDir}/candidates"
         curlStub = CurlStub.prepareIn(new File(sdkmanBaseDir, "bin"))
         bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
@@ -46,7 +48,7 @@ class InitialisationSpec extends Specification {
         when:
         bash.execute('echo "$PATH"')
         def pathParts = bash.output.split(':')
-        def pathElementMatcher = ~/$sdkmanDotDir\/([^\/]+)\/.*/
+        def pathElementMatcher = ~/$candidatesDir\/([^\/]+)\/.*/
         def includedCandidates = pathParts
                 .collect { it.replace("\n", "")}
                 .collect { it =~ pathElementMatcher }
@@ -79,7 +81,7 @@ class InitialisationSpec extends Specification {
         bash.execute('echo "$PATH"')
 
         def pathParts = bash.output.split(':')
-        def pathElementMatcher = ~/$sdkmanDotDir\/([^\/]+)\/.*/
+        def pathElementMatcher = ~/$candidatesDir\/([^\/]+)\/.*/
         def includedCandidates = pathParts
                 .collect { it.replace("\n", "")}
                 .collect { it =~ pathElementMatcher }
@@ -108,7 +110,7 @@ class InitialisationSpec extends Specification {
         bash.execute('echo "$PATH"')
 
         def pathParts = bash.output.split(':')
-        def pathElementMatcher = ~/$sdkmanDotDir\/([^\/]+)\/.*/
+        def pathElementMatcher = ~/$candidatesDir\/([^\/]+)\/.*/
         def includedCandidates = pathParts
                 .collect { it.replace("\n", "")}
                 .collect { it =~ pathElementMatcher }
@@ -134,8 +136,8 @@ class InitialisationSpec extends Specification {
 
     private prepareCandidateDirectories(List candidates) {
         candidates.forEach {
-            def current = Paths.get("$sdkmanDotDir/$it/current")
-            def targetFilename = "$sdkmanDotDir/$it/xxx"
+            def current = Paths.get("$candidatesDir/$it/current")
+            def targetFilename = "$candidatesDir/$it/xxx"
 
             new File(targetFilename).createNewFile()
             def target = Paths.get(targetFilename)

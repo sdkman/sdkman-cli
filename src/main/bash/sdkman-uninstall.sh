@@ -21,16 +21,16 @@ function __sdkman_uninstall {
 	VERSION="$2"
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
 	__sdkman_check_version_present "${VERSION}" || return 1
-	CURRENT=$(readlink "${SDKMAN_DIR}/${CANDIDATE}/current" | sed "s_${SDKMAN_DIR}/${CANDIDATE}/__g")
-	if [[ -h "${SDKMAN_DIR}/${CANDIDATE}/current" && ( "${VERSION}" == "${CURRENT}" ) ]]; then
+	CURRENT=$(readlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" | sed "s_${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/__g")
+	if [[ -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" && ( "${VERSION}" == "${CURRENT}" ) ]]; then
 		echo ""
 		echo "Unselecting ${CANDIDATE} ${VERSION}..."
-		unlink "${SDKMAN_DIR}/${CANDIDATE}/current"
+		unlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current"
 	fi
 	echo ""
-	if [ -d "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}" ]; then
+	if [ -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" ]; then
 		echo "Uninstalling ${CANDIDATE} ${VERSION}..."
-		rm -rf "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}"
+		rm -rf "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
 	else
 		echo "${CANDIDATE} ${VERSION} is not installed."
 	fi

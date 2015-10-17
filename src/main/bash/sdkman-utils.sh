@@ -30,11 +30,11 @@ function __sdkman_add_to_path {
     local candidate="$1"
     __sdkman_path_contains "$candidate"
     if [[ "${SDKMAN_CANDIDATE_IN_PATH}" == 'false' ]]; then
-        PATH="$SDKMAN_DIR/$candidate/current/bin:$PATH"
+        PATH="$SDKMAN_CANDIDATES_DIR/$candidate/current/bin:$PATH"
     fi
 }
 
 function __sdkman_set_candidate_home {
 	local upper_candidate=$(echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]')
-	export "${upper_candidate}_HOME"="${SDKMAN_DIR}/${CANDIDATE}/${VERSION}"
+	export "${upper_candidate}_HOME"="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
 }

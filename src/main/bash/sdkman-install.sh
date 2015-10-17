@@ -56,7 +56,7 @@ function __sdkman_install {
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
 	__sdkman_determine_version "$2" "$3" || return 1
 
-	if [[ -d "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}" || -h "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}" ]]; then
+	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" || -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
 		echo "Stop! ${CANDIDATE} ${VERSION} is already installed."
 		return 0
@@ -91,10 +91,10 @@ function __sdkman_install_local_version {
 	CANDIDATE="$1"
 	VERSION="$2"
 	LOCAL_FOLDER="$3"
-	mkdir -p "${SDKMAN_DIR}/${CANDIDATE}"
+	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}"
 
 	echo "Linking ${CANDIDATE} ${VERSION} to ${LOCAL_FOLDER}"
-	ln -s "${LOCAL_FOLDER}" "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}"
+	ln -s "${LOCAL_FOLDER}" "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
 	echo "Done installing!"
 	echo ""
 }
@@ -105,10 +105,10 @@ function __sdkman_install_candidate_version {
 	__sdkman_download "${CANDIDATE}" "${VERSION}" || return 1
 	echo "Installing: ${CANDIDATE} ${VERSION}"
 
-	mkdir -p "${SDKMAN_DIR}/${CANDIDATE}"
+	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}"
 
 	unzip -oq "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${SDKMAN_DIR}/tmp/"
-	mv "${SDKMAN_DIR}"/tmp/*-${VERSION} "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}"
+	mv "${SDKMAN_DIR}"/tmp/*-${VERSION} "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
 	echo "Done installing!"
 	echo ""
 }

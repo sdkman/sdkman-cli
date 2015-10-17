@@ -27,7 +27,7 @@ class SdkManBashEnvBuilder {
             sdkman_auto_answer:'false'
     ]
 
-    File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir, sdkmanTmpDir
+    File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir, sdkmanTmpDir, sdkmanCandidatesDir
 
     static SdkManBashEnvBuilder create(File baseFolder){
         new SdkManBashEnvBuilder(baseFolder)
@@ -111,8 +111,9 @@ class SdkManBashEnvBuilder {
         sdkmanExtDir = prepareDirectory(sdkmanDir, "ext")
         sdkmanArchivesDir = prepareDirectory(sdkmanDir, "archives")
         sdkmanTmpDir = prepareDirectory(sdkmanDir, "tmp")
+        sdkmanCandidatesDir = prepareDirectory(sdkmanDir, "candidates")
 
-        initializeCandidates(sdkmanDir, candidates)
+        initializeCandidates(sdkmanCandidatesDir, candidates)
         initializeAvailableCandidates(sdkmanVarDir, availableCandidates)
         initializeBroadcast(sdkmanVarDir, broadcast)
         initializeConfiguration(sdkmanEtcDir, config)
@@ -123,6 +124,7 @@ class SdkManBashEnvBuilder {
 
         def env = [
                 SDKMAN_DIR: sdkmanDir.absolutePath,
+                SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
                 SDKMAN_ONLINE: "$onlineMode",
                 SDKMAN_FORCE_OFFLINE: "$forcedOfflineMode",
                 SDKMAN_SERVICE: service,

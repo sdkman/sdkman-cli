@@ -38,12 +38,12 @@ function __sdkman_check_version_present {
 }
 
 function __sdkman_determine_version {
-	if [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$1" && -d "${SDKMAN_DIR}/${CANDIDATE}/$1" ]]; then
+	if [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$1" && -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$1" ]]; then
 		VERSION="$1"
 
-	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -z "$1" && -L "${SDKMAN_DIR}/${CANDIDATE}/current" ]]; then
+	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -z "$1" && -L "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" ]]; then
 
-		VERSION=$(readlink "${SDKMAN_DIR}/${CANDIDATE}/current" | sed "s!${SDKMAN_DIR}/${CANDIDATE}/!!g")
+		VERSION=$(readlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/!!g")
 
 	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$1" ]]; then
 		echo "Stop! ${CANDIDATE} ${1} is not available in offline mode."
@@ -62,10 +62,10 @@ function __sdkman_determine_version {
 		if [[ "${VERSION_VALID}" == 'valid' || ( "${VERSION_VALID}" == 'invalid' && -n "$2" ) ]]; then
 			VERSION="$1"
 
-		elif [[ "${VERSION_VALID}" == 'invalid' && -h "${SDKMAN_DIR}/${CANDIDATE}/$1" ]]; then
+		elif [[ "${VERSION_VALID}" == 'invalid' && -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$1" ]]; then
 			VERSION="$1"
 
-		elif [[ "${VERSION_VALID}" == 'invalid' && -d "${SDKMAN_DIR}/${CANDIDATE}/$1" ]]; then
+		elif [[ "${VERSION_VALID}" == 'invalid' && -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$1" ]]; then
 			VERSION="$1"
 
 		else
@@ -98,8 +98,8 @@ function __sdkman_link_candidate_version {
 	VERSION="$2"
 
 	# Change the 'current' symlink for the candidate, hence affecting all shells.
-	if [ -L "${SDKMAN_DIR}/${CANDIDATE}/current" ]; then
-		unlink "${SDKMAN_DIR}/${CANDIDATE}/current"
+	if [ -L "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" ]; then
+		unlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current"
 	fi
-	ln -s "${SDKMAN_DIR}/${CANDIDATE}/${VERSION}" "${SDKMAN_DIR}/${CANDIDATE}/current"
+	ln -s "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current"
 }

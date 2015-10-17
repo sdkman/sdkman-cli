@@ -171,7 +171,7 @@ fi
 for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 	# Eliminate empty entries due to incompatibility
 	CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
-	CANDIDATE_DIR="${SDKMAN_DIR}/${CANDIDATE_NAME}/current"
+	CANDIDATE_DIR="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE_NAME}/current"
 	if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
 		CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
 		export $(echo "${CANDIDATE_HOME_VAR}")="$CANDIDATE_DIR"
