@@ -44,6 +44,9 @@ function sdkman_echo_debug {
 	fi
 }
 
+
+# upgrade from GVM
+
 if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
     echo ""
     echo "GVM has been detected on your system..."
@@ -127,6 +130,9 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
     fi
 fi
 
+
+# setup
+
 echo ""
 echo "Updating SDKMAN..."
 
@@ -141,6 +147,23 @@ sdkman_tmp_zip="${SDKMAN_DIR}/tmp/res-${SDKMAN_VERSION}.zip"
 sdkman_stage_folder="${SDKMAN_DIR}/tmp/stage"
 sdkman_src_folder="${SDKMAN_DIR}/src"
 
+
+# fetch new distribution and check integrity
+download_url="${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate"
+sdkman_echo_debug "Download new scripts from: ${download_url}"
+sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
+curl -s "${download_url}" > "${sdkman_tmp_zip}"
+
+ARCHIVE_OK=$(unzip -qt "${sdkman_tmp_zip}" | grep 'No errors detected in compressed data')
+if [[ -z "$ARCHIVE_OK" ]]; then
+	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
+	echo ""
+	echo "If problem persists, please ask for help on https://gitter.im/sdkman/user-issues"
+	exit
+fi
+
+
+# prepare file system
 sdkman_echo_debug "Purge existing scripts..."
 rm -rf "${sdkman_bin_folder}"
 rm -rf "${sdkman_src_folder}"
@@ -153,52 +176,8 @@ mkdir -p "${SDKMAN_DIR}/src"
 mkdir -p "${SDKMAN_DIR}/var"
 mkdir -p "${SDKMAN_DIR}/tmp"
 
-# prepare candidates
-SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates")
-echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 
-# drop version token
-echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
-
-# create candidate directories
-# convert csv to array
-OLD_IFS="$IFS"
-IFS=","
-SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
-IFS="$OLD_IFS"
-
-for candidate in "${SDKMAN_CANDIDATES[@]}"; do
-    if [[ -n "$candidate" ]]; then
-        mkdir -p "${SDKMAN_DIR}/${candidate}"
-        sdkman_echo_debug "Created for ${candidate}: ${SDKMAN_DIR}/${candidate}"
-    fi
-done
-
-if [[ -f "${SDKMAN_DIR}/ext/config" ]]; then
-	sdkman_echo_debug "Removing config from ext folder..."
-	rm -v "${SDKMAN_DIR}/ext/config"
-fi
-
-sdkman_echo_debug "Prime the config file..."
-sdkman_config_file="${SDKMAN_DIR}/etc/config"
-touch "${sdkman_config_file}"
-if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_answer') ]]; then
-	echo "sdkman_auto_answer=false" >> "${sdkman_config_file}"
-fi
-
-if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_selfupdate') ]]; then
-	echo "sdkman_auto_selfupdate=false" >> "${sdkman_config_file}"
-fi
-
-if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_insecure_ssl') ]]; then
-	echo "sdkman_insecure_ssl=false" >> "${sdkman_config_file}"
-fi
-
-download_url="${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate"
-sdkman_echo_debug "Download new scripts from: ${download_url}"
-sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
-curl -s "${download_url}" > "${sdkman_tmp_zip}"
-
+# extract new distribution
 sdkman_echo_debug "Extract script archive..."
 sdkman_echo_debug "Unziping scripts to: ${sdkman_stage_folder}"
 if [[ "${cygwin}" == 'true' ]]; then
@@ -217,6 +196,29 @@ mv "${sdkman_stage_folder}"/sdkman-* "${sdkman_src_folder}"
 sdkman_echo_debug "Clean up staging folder..."
 rm -rf "${sdkman_stage_folder}"
 
+
+# prime config file
+sdkman_echo_debug "Prime the config file..."
+sdkman_config_file="${SDKMAN_DIR}/etc/config"
+touch "${sdkman_config_file}"
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_answer') ]]; then
+	echo "sdkman_auto_answer=false" >> "${sdkman_config_file}"
+fi
+
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_selfupdate') ]]; then
+	echo "sdkman_auto_selfupdate=false" >> "${sdkman_config_file}"
+fi
+
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_insecure_ssl') ]]; then
+	echo "sdkman_insecure_ssl=false" >> "${sdkman_config_file}"
+fi
+
+
+# drop version token
+echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
+
+
+# the end
 echo ""
 echo ""
 echo "Successfully upgraded SDKMAN."
