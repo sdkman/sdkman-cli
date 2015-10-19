@@ -176,6 +176,23 @@ mkdir -p "${SDKMAN_DIR}/src"
 mkdir -p "${SDKMAN_DIR}/var"
 mkdir -p "${SDKMAN_DIR}/tmp"
 
+# prepare candidates
+SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates")
+echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
+
+# remove empty candidate directories
+# convert csv to array
+OLD_IFS="$IFS"
+IFS=","
+SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
+IFS="$OLD_IFS"
+
+for candidate in "${SDKMAN_CANDIDATES[@]}"; do
+    if [[ -n "$candidate" ]]; then
+        sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
+        rmdir --ignore-fail-on-non-empty "${SDKMAN_DIR}/${candidate}"
+    fi
+done
 
 # extract new distribution
 sdkman_echo_debug "Extract script archive..."
