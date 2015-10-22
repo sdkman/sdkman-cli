@@ -18,11 +18,13 @@ class CurrentCommandSpec extends Specification {
     File sdkmanBaseDir
     String sdkmanDotDir
     String bootstrap
+    String candidatesDir
 
     void setup() {
         sdkmanBaseDir = prepareBaseDir()
         sdkmanDotDir = "${sdkmanBaseDir.absolutePath}/.sdkman"
         bootstrap = "${sdkmanDotDir}/bin/sdkman-init.sh"
+        candidatesDir = "${sdkmanDotDir}/candidates"
         curlStub = CurlStub.prepareIn(new File(sdkmanBaseDir, "bin")).build()
     }
 
@@ -79,9 +81,9 @@ class CurrentCommandSpec extends Specification {
 
     private prepareFoldersFor(Map installedCandidates) {
         installedCandidates.forEach { candidate, version ->
-            def candidateVersionDir = "$sdkmanDotDir/$candidate/$version"
+            def candidateVersionDir = "$candidatesDir/$candidate/$version"
             def candidateVersionPath = Paths.get(candidateVersionDir)
-            def symlink = Paths.get("$sdkmanDotDir/$candidate/current")
+            def symlink = Paths.get("$candidatesDir/$candidate/current")
             new File(candidateVersionDir).mkdirs()
             createSymbolicLink(symlink, candidateVersionPath)
         }

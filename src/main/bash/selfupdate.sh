@@ -170,6 +170,7 @@ rm -rf "${sdkman_src_folder}"
 
 sdkman_echo_debug "Refresh directory structure..."
 mkdir -p "${SDKMAN_DIR}/bin"
+mkdir -p "${SDKMAN_DIR}/candidates"
 mkdir -p "${SDKMAN_DIR}/ext"
 mkdir -p "${SDKMAN_DIR}/etc"
 mkdir -p "${SDKMAN_DIR}/src"
@@ -189,8 +190,14 @@ IFS="$OLD_IFS"
 
 for candidate in "${SDKMAN_CANDIDATES[@]}"; do
     if [[ -n "$candidate" ]]; then
-        sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
-        rmdir --ignore-fail-on-non-empty "${SDKMAN_DIR}/${candidate}"
+        if [[ -z "$(ls -A /path/to/directory)" ]]; then
+            sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
+            rmdir --ignore-fail-on-non-empty "${SDKMAN_DIR}/${candidate}"
+        else
+            sdkman_echo_debug "Moving this ${candidate} into dir: ${SDKMAN_DIR}/candidates/${candidate} and symlinking into dir: ${SDKMAN_DIR}/${candidate}"
+            mv "${SDKMAN_DIR}/${candidate}" "${SDKMAN_DIR}/candidates/${candidate}"
+            ln -s "${SDKMAN_DIR}/candidates/${candidate}" "${SDKMAN_DIR}/${candidate}"
+        fi
     fi
 done
 

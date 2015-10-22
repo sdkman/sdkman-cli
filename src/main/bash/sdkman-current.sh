@@ -22,15 +22,15 @@ function __sdkman_determine_current_version {
 
 	if [[  "${SDKMAN_CANDIDATE_IN_PATH}" == 'true' ]]; then
 		if [[ "${solaris}" == true ]]; then
-			CURRENT=$(echo $PATH | gsed -r "s|${SDKMAN_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
+			CURRENT=$(echo $PATH | gsed -r "s|${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
 		elif [[ "${darwin}" == true ]]; then
-			CURRENT=$(echo $PATH | sed -E "s|${SDKMAN_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
+			CURRENT=$(echo $PATH | sed -E "s|${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
 		else
-			CURRENT=$(echo $PATH | sed -r "s|${SDKMAN_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
+			CURRENT=$(echo $PATH | sed -r "s|${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
 		fi
 
 		if [[ "${CURRENT}" == "current" ]]; then
-			CURRENT=$(readlink "${SDKMAN_DIR}/${CANDIDATE}/current" | sed "s!${SDKMAN_DIR}/${CANDIDATE}/!!g")
+			CURRENT=$(readlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/!!g")
 		fi
 	else
 		CURRENT=""

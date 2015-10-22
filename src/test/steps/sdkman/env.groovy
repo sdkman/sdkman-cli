@@ -29,6 +29,7 @@ sdkmanBaseDir = sdkmanBaseEnv as File
 
 sdkmanDirEnv = "$sdkmanBaseEnv/.sdkman"
 sdkmanDir = sdkmanDirEnv as File
+candidatesDir = "${sdkmanDirEnv}/candidates" as File
 binDir = "${sdkmanDirEnv}/bin" as File
 srcDir = "${sdkmanDirEnv}/src" as File
 varDir = "${sdkmanDirEnv}/var" as File

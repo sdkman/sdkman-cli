@@ -19,8 +19,8 @@
 function __sdkman_build_version_csv {
 	CANDIDATE="$1"
     SDKMAN_VERSIONS_CSV=""
-	if [[ -d "${SDKMAN_DIR}/${CANDIDATE}" ]]; then
-		for version in $(find "${SDKMAN_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do
+	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}" ]]; then
+		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do
 			if [[ "${version}" != 'current' ]]; then
 				SDKMAN_VERSIONS_CSV="${version},${SDKMAN_VERSIONS_CSV}"
 			fi
