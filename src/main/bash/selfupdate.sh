@@ -194,6 +194,7 @@ for candidate in "${SDKMAN_CANDIDATES[@]}"; do
             sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
             rmdir --ignore-fail-on-non-empty "${SDKMAN_DIR}/${candidate}"
         else
+            sdkman_echo_debug "Moving this ${candidate} into dir: ${SDKMAN_DIR}/candidates/${candidate} and symlinking into dir: ${SDKMAN_DIR}/${candidate}"
             mv "${SDKMAN_DIR}/${candidate}" "${SDKMAN_DIR}/candidates/${candidate}"
             ln -s "${SDKMAN_DIR}/candidates/${candidate}" "${SDKMAN_DIR}/${candidate}"
         fi
