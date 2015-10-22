@@ -33,6 +33,7 @@ fi
 
 if [ -z "${SDKMAN_DIR}" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
+	export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
 fi
 
 # force zsh to behave well
