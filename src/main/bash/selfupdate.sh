@@ -189,8 +189,8 @@ SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
 IFS="$OLD_IFS"
 
 for candidate in "${SDKMAN_CANDIDATES[@]}"; do
-    if [[ -n "$candidate" ]]; then
-        if [[ -z "$(ls -A /path/to/directory)" ]]; then
+    if [[ -n "$candidate" && -d "${SDKMAN_DIR}/${candidate}" ]]; then
+        if [[ -z "$(ls -A ${SDKMAN_DIR}/${candidate})" ]]; then
             sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
             rmdir --ignore-fail-on-non-empty "${SDKMAN_DIR}/${candidate}"
         else
