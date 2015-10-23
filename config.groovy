@@ -11,7 +11,7 @@ environments {
         sdkmanBroadcastService = 'http://cast-dev.sdkman.io'
         sdkmanBrokerService = 'http://broker-dev.sdkman.io'
 	}
-	production {
+	RELEASE {
 		sdkmanService = 'http://api.sdkman.io'
         sdkmanBroadcastService = 'http://cast.sdkman.io'
         sdkmanBrokerService = 'http://broker.sdkman.io'
