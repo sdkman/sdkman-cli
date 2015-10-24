@@ -9,6 +9,6 @@ fi
 
 echo "Release: $RELEASE"
 
-./gradlew -Penv="$CI_BRANCH"
+./gradlew -q -Penv="$CI_BRANCH"
 git add -f build
 git commit -m "Release: $RELEASE"
