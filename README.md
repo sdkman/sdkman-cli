@@ -5,7 +5,7 @@
 [![Gitter](https://badges.gitter.im/sdkman/user-issues.png)](https://gitter.im/sdkman/user-issues)
 [![Stories in Ready](https://badge.waffle.io/gvmtool/gvm-cli.png?label=ready&title=Ready)](https://waffle.io/gvmtool/gvm-cli)
 
-SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
+SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
 
 See documentation on the [sdkman Project Page](http://sdkman.io).
 
