@@ -1,7 +1,7 @@
 # SDKMAN
 ### The Software Development Kit Manager
 
-[![Build Status](https://drone.io/github.com/gvmtool/gvm/status.png)](https://drone.io/github.com/gvmtool/gvm/latest)
+[![Build Status](https://drone.io/github.com/sdkman/sdkman-cli/status.png)](https://drone.io/github.com/sdkman/sdkman-cli/latest)
 [![Gitter](https://badges.gitter.im/sdkman/user-issues.png)](https://gitter.im/sdkman/user-issues)
 [![Stories in Ready](https://badge.waffle.io/gvmtool/gvm-cli.png?label=ready&title=Ready)](https://waffle.io/gvmtool/gvm-cli)
 
