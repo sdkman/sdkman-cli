@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Use a local development version" tests="10" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:40" hostname="schrodinger" time="0.312">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="Given the candidate &quot;groovy&quot; version &quot;2.0.6&quot; is already installed and default" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="And the candidate &quot;groovy&quot; version &quot;2.1-SNAPSHOT&quot; is not available for download" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="And the candidate &quot;groovy&quot; version &quot;2.1-SNAPSHOT&quot; is already linked to &quot;/tmp/groovy-core&quot;" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="When I enter &quot;sdk use groovy 2.1-SNAPSHOT&quot;" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="Then I see &quot;Using groovy version 2.1-SNAPSHOT in this shell&quot;" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="And the candidate &quot;groovy&quot; version &quot;2.1-SNAPSHOT&quot; should be in use" classname="Scenario: Use a local development version" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Use a local development version" time="0.328"/>
+  <system-out><![CDATA[
+  Scenario: Make the local development version the default for the candidate                  ?[90m# local_developement_versions.feature:36?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.6?[0m?[32m" is already installed and default?[0m             ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.1-SNAPSHOT?[0m?[32m" is not available for download?[0m           ?[90m# stub_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.1-SNAPSHOT?[0m?[32m" is already linked to "?[0m?[32m?[1m/tmp/groovy-core?[0m?[32m"?[0m ?[90m# installation_steps.groovy:66?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                            ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk default groovy 2.1-SNAPSHOT?[0m?[32m"?[0m                                            ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mDefault groovy version set to 2.1-SNAPSHOT?[0m?[32m"?[0m                                   ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.1-SNAPSHOT?[0m?[32m" should be the default?[0m                   ?[90m# use_steps.groovy:30?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

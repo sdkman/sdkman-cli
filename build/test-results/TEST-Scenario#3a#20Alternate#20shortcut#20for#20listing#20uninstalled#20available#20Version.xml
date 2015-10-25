@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Alternate shortcut for listing uninstalled available Version" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:41" hostname="schrodinger" time="0.213">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Alternate shortcut for listing uninstalled available Version" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Alternate shortcut for listing uninstalled available Version" time="0.0"/>
+  <testcase name="Given I do not have a &quot;grails&quot; candidate installed" classname="Scenario: Alternate shortcut for listing uninstalled available Version" time="0.0"/>
+  <testcase name="And a &quot;grails&quot; list view is available for consumption" classname="Scenario: Alternate shortcut for listing uninstalled available Version" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Alternate shortcut for listing uninstalled available Version" time="0.0"/>
+  <testcase name="When I enter &quot;sdk ls grails&quot;" classname="Scenario: Alternate shortcut for listing uninstalled available Version" time="0.0"/>
+  <testcase name="Then I see &quot;Available Grails Versions&quot;" classname="Scenario: Alternate shortcut for listing uninstalled available Version" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Alternate shortcut for listing uninstalled available Version" time="0.228"/>
+  <system-out><![CDATA[
+  Scenario: Shortcut for listing an uninstalled available Version ?[90m# mnemonics.feature:7?[0m
+    ?[32mGiven ?[0m?[32mI do not have a "?[0m?[32m?[1mgrails?[0m?[32m" candidate installed?[0m            ?[90m# installation_steps.groovy:39?[0m
+    ?[32mAnd ?[0m?[32ma "?[0m?[32m?[1mgrails?[0m?[32m" list view is available for consumption?[0m         ?[90m# stub_steps.groovy:26?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk l grails?[0m?[32m"?[0m                                   ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mAvailable Grails Versions?[0m?[32m"?[0m                        ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

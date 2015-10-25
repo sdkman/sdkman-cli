@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: A command is issued with no prior Broadcast received" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:25" hostname="schrodinger" time="0.258">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: A command is issued with no prior Broadcast received" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: A command is issued with no prior Broadcast received" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: A command is issued with no prior Broadcast received" time="0.0"/>
+  <testcase name="Given no prior Broadcast was received" classname="Scenario: A command is issued with no prior Broadcast received" time="0.0"/>
+  <testcase name="And a new Broadcast &quot;This is a LIVE Broadcast!&quot; with id &quot;12345&quot; is available" classname="Scenario: A command is issued with no prior Broadcast received" time="0.0"/>
+  <testcase name="When I enter &quot;sdk version&quot;" classname="Scenario: A command is issued with no prior Broadcast received" time="0.0"/>
+  <testcase name="Then I see &quot;This is a LIVE Broadcast!&quot;" classname="Scenario: A command is issued with no prior Broadcast received" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: A command is issued with no prior Broadcast received" time="0.827"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[2015-10-25 04:18:25.514:INFO:/__admin:RequestHandlerClass from context returned com.github.tomakehurst.wiremock.http.AdminRequestHandler
+]]></system-err>
+</testsuite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Flush omitting the Qualifier" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:29" hostname="schrodinger" time="0.21">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Flush omitting the Qualifier" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Flush omitting the Qualifier" time="0.001"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Flush omitting the Qualifier" time="0.0"/>
+  <testcase name="When I enter &quot;sdk flush&quot;" classname="Scenario: Flush omitting the Qualifier" time="0.0"/>
+  <testcase name="Then I see &quot;Stop! Please specify what you want to flush.&quot;" classname="Scenario: Flush omitting the Qualifier" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Flush omitting the Qualifier" time="0.244"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Show the current version of sdkman" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:59" hostname="schrodinger" time="0.205">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Show the current version of sdkman" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Show the current version of sdkman" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Show the current version of sdkman" time="0.0"/>
+  <testcase name="When I enter &quot;sdk version&quot;" classname="Scenario: Show the current version of sdkman" time="0.0"/>
+  <testcase name="Then I see &quot;SDKMAN x.y.z&quot;" classname="Scenario: Show the current version of sdkman" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Show the current version of sdkman" time="0.219"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

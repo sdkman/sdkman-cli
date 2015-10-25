@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Install a default Candidate" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:35" hostname="schrodinger" time="0.218">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Install a default Candidate" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Install a default Candidate" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Install a default Candidate" time="0.0"/>
+  <testcase name="Given the default &quot;grails&quot; candidate is &quot;2.1.0&quot;" classname="Scenario: Install a default Candidate" time="0.0"/>
+  <testcase name="When I enter &quot;sdk install grails&quot; and answer &quot;Y&quot;" classname="Scenario: Install a default Candidate" time="0.0"/>
+  <testcase name="Then I see &quot;Done installing!&quot;" classname="Scenario: Install a default Candidate" time="0.0"/>
+  <testcase name="Then the candidate &quot;grails&quot; version &quot;2.1.0&quot; is installed" classname="Scenario: Install a default Candidate" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Install a default Candidate" time="0.236"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

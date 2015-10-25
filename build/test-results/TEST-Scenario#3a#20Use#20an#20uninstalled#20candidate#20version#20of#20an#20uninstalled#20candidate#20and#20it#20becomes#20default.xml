@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" tests="11" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:56" hostname="schrodinger" time="0.218">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;1.3.9&quot; is available for download" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; does not exist locally" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="When I enter &quot;sdk use grails 1.3.9&quot; and answer &quot;Y&quot;" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="Then I see &quot;Setting grails version 1.3.9 as default.&quot;" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="And I see &quot;Using grails version 1.3.9 in this shell.&quot;" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.9&quot; is installed" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.9&quot; should be the default" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Use an uninstalled candidate version of an uninstalled candidate and it becomes default" time="0.234"/>
+  <system-out><![CDATA[
+  Scenario: Use a candidate version that only exists locally                           ?[90m# use_and_default_candidate.feature:44?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.0.0.M1?[0m?[32m" is not available for download?[0m      ?[90m# stub_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.0.0.M1?[0m?[32m" is already installed but not default?[0m ?[90m# installation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                     ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk use grails 2.0.0.M1?[0m?[32m"?[0m                                             ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsing grails version 2.0.0.M1 in this shell.?[0m?[32m"?[0m                          ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

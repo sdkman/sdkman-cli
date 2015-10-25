@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Enter an invalid Command" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:27" hostname="schrodinger" time="0.216">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Enter an invalid Command" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Enter an invalid Command" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Enter an invalid Command" time="0.0"/>
+  <testcase name="When I enter &quot;sdk goopoo grails&quot;" classname="Scenario: Enter an invalid Command" time="0.0"/>
+  <testcase name="Then I see &quot;Invalid command: goopoo&quot;" classname="Scenario: Enter an invalid Command" time="0.0"/>
+  <testcase name="And I see &quot;Usage: sdk &lt;command&gt; [candidate] [version]&quot;" classname="Scenario: Enter an invalid Command" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Enter an invalid Command" time="0.253"/>
+  <system-out><![CDATA[
+  Scenario: Ask for help                                    ?[90m# command_line_interop.feature:13?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk help?[0m?[32m"?[0m                                 ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsage: sdk <command> [candidate] [version]?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

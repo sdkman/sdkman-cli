@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Clear out the Candidate List" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:29" hostname="schrodinger" time="0.213">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Clear out the Candidate List" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Clear out the Candidate List" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Clear out the Candidate List" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; is known locally" classname="Scenario: Clear out the Candidate List" time="0.0"/>
+  <testcase name="When I enter &quot;sdk flush candidates&quot;" classname="Scenario: Clear out the Candidate List" time="0.0"/>
+  <testcase name="Then no candidates are know locally" classname="Scenario: Clear out the Candidate List" time="0.0"/>
+  <testcase name="And I see &quot;Candidates have been flushed.&quot;" classname="Scenario: Clear out the Candidate List" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Clear out the Candidate List" time="0.239"/>
+  <system-out><![CDATA[
+  Scenario: Flush omitting the Qualifier                      ?[90m# flush.feature:8?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk flush?[0m?[32m"?[0m                                  ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! Please specify what you want to flush.?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

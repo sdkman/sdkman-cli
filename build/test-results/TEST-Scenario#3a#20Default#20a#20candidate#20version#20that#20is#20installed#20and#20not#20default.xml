@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Default a candidate version that is installed and not default" tests="9" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:57" hostname="schrodinger" time="0.21">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Default a candidate version that is installed and not default" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Default a candidate version that is installed and not default" time="0.0"/>
+  <testcase name="Given the candidate &quot;groovy&quot; version &quot;2.0.5&quot; is a valid candidate version" classname="Scenario: Default a candidate version that is installed and not default" time="0.0"/>
+  <testcase name="And the candidate &quot;groovy&quot; version &quot;2.0.5&quot; is already installed but not default" classname="Scenario: Default a candidate version that is installed and not default" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Default a candidate version that is installed and not default" time="0.0"/>
+  <testcase name="When I enter &quot;sdk default groovy 2.0.5&quot;" classname="Scenario: Default a candidate version that is installed and not default" time="0.0"/>
+  <testcase name="Then I see &quot;Default groovy version set to 2.0.5&quot;" classname="Scenario: Default a candidate version that is installed and not default" time="0.0"/>
+  <testcase name="And the candidate &quot;groovy&quot; version &quot;2.0.5&quot; should be the default" classname="Scenario: Default a candidate version that is installed and not default" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Default a candidate version that is installed and not default" time="0.223"/>
+  <system-out><![CDATA[
+  Scenario: Default a candidate version that is not installed                 ?[90m# use_and_default_candidate.feature:71?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is a valid candidate version?[0m ?[90m# stub_steps.groovy:30?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                            ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk default groovy 2.0.5?[0m?[32m"?[0m                                   ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! groovy 2.0.5 is not installed.?[0m?[32m"?[0m                         ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

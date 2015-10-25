@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" tests="10" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:49" hostname="schrodinger" time="0.227">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;1.3.9&quot; is already installed and default" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="And the default &quot;grails&quot; candidate is &quot;1.3.9&quot;" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="And the candidate &quot;groovy&quot; version &quot;2.0.5&quot; is already installed and default" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="And the default &quot;groovy&quot; candidate is &quot;2.0.5&quot;" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="When I enter &quot;sdk outdated&quot;" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="Then I see &quot;All candidates are up-to-date&quot;" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated" time="0.243"/>
+  <system-out><![CDATA[
+  Scenario: Display outdated candidate versions when none is specified and multiple are in use ?[90m# outdated_candidate.feature:42?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.9?[0m?[32m" is already installed and default?[0m              ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe default "?[0m?[32m?[1mgrails?[0m?[32m" candidate is "?[0m?[32m?[1m2.4.4?[0m?[32m"?[0m                                              ?[90m# stub_steps.groovy:8?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is already installed and default?[0m                ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe default "?[0m?[32m?[1mgroovy?[0m?[32m" candidate is "?[0m?[32m?[1m2.4.1?[0m?[32m"?[0m                                              ?[90m# stub_steps.groovy:8?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                             ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk outdated?[0m?[32m"?[0m                                                                ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mOutdated:?[0m?[32m"?[0m                                                                     ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mgrails (1.3.9 < 2.4.4)?[0m?[32m"?[0m                                                         ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mgroovy (2.0.5 < 2.4.1)?[0m?[32m"?[0m                                                         ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

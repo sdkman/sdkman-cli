@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Install a candidate and see it on the PATH" tests="14" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:50" hostname="schrodinger" time="0.538">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="Given the system is bootstrapped" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="When I enter &quot;echo $PATH&quot;" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="Then I see no occurrences of &quot;grails&quot;" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Install a candidate and see it on the PATH" time="0.22"/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; is available for download" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="And I enter &quot;sdk install grails 2.1.0&quot; and answer &quot;Y&quot;" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="When I enter &quot;echo $PATH&quot;" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="Then I see a single occurrence of &quot;grails&quot;" classname="Scenario: Install a candidate and see it on the PATH" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Install a candidate and see it on the PATH" time="0.332"/>
+  <system-out><![CDATA[
+  Scenario: sdkman is initialised a subsequent time                               ?[90m# path_initialisation.feature:13?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is already installed and default?[0m ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped again?[0m                                          ?[90m# initialisation_steps.groovy:120?[0m
+    ?[32mAnd ?[0m?[32mI enter "?[0m?[32m?[1mecho $PATH?[0m?[32m"?[0m                                                      ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see a single occurrence of "?[0m?[32m?[1mgrails?[0m?[32m"?[0m                                    ?[90m# command_line_interop_steps.groovy:31?[0m
+
+  Scenario: Install a candidate and see it on the PATH ?[90m# path_initialisation.feature:20?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                   ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1mecho $PATH?[0m?[32m"?[0m                          ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see no occurrences of "?[0m?[32m?[1mgrails?[0m?[32m"?[0m              ?[90m# command_line_interop_steps.groovy:35?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

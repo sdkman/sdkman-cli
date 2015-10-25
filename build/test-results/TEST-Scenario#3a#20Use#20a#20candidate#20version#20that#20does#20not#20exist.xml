@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Use a candidate version that does not exist" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:55" hostname="schrodinger" time="0.208">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Use a candidate version that does not exist" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Use a candidate version that does not exist" time="0.001"/>
+  <testcase name="Given the candidate &quot;groovy&quot; version &quot;1.9.9&quot; is not available for download" classname="Scenario: Use a candidate version that does not exist" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Use a candidate version that does not exist" time="0.0"/>
+  <testcase name="When I enter &quot;sdk use groovy 1.9.9&quot;" classname="Scenario: Use a candidate version that does not exist" time="0.0"/>
+  <testcase name="Then I see &quot;Stop! 1.9.9 is not a valid groovy version.&quot;" classname="Scenario: Use a candidate version that does not exist" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Use a candidate version that does not exist" time="0.223"/>
+  <system-out><![CDATA[
+  Scenario: Use a candidate version that is automatically installed      ?[90m# use_and_default_candidate.feature:29?[0m
+    ?[32mGiven ?[0m?[32mI have configured "?[0m?[32m?[1msdkman_auto_answer?[0m?[32m" to "?[0m?[32m?[1mtrue?[0m?[32m"?[0m               ?[90m# installation_steps.groovy:78?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.9?[0m?[32m" is available for download?[0m ?[90m# stub_steps.groovy:17?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                       ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk use grails 1.3.9?[0m?[32m"?[0m                                  ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! grails 1.3.9 is not installed.?[0m?[32m"?[0m                    ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsing grails version 1.3.9 in this shell.?[0m?[32m"?[0m               ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.9?[0m?[32m" should be in use?[0m          ?[90m# use_steps.groovy:25?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

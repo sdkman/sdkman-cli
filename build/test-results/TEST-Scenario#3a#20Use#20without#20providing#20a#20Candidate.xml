@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Use without providing a Candidate" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:54" hostname="schrodinger" time="0.207">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Use without providing a Candidate" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Use without providing a Candidate" time="0.0"/>
+  <testcase name="Given the system is bootstrapped" classname="Scenario: Use without providing a Candidate" time="0.0"/>
+  <testcase name="When I enter &quot;sdk use&quot;" classname="Scenario: Use without providing a Candidate" time="0.0"/>
+  <testcase name="Then I see &quot;Usage: sdk &lt;command&gt; [candidate] [version]&quot;" classname="Scenario: Use without providing a Candidate" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Use without providing a Candidate" time="0.224"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

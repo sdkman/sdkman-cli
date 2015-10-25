@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Clear out an uninitialised Candidate List" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:30" hostname="schrodinger" time="0.309">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Clear out an uninitialised Candidate List" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Clear out an uninitialised Candidate List" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Clear out an uninitialised Candidate List" time="0.0"/>
+  <testcase name="Given I enter &quot;sdk flush candidates&quot;" classname="Scenario: Clear out an uninitialised Candidate List" time="0.0"/>
+  <testcase name="When I enter &quot;sdk flush candidates&quot;" classname="Scenario: Clear out an uninitialised Candidate List" time="0.0"/>
+  <testcase name="Then I see &quot;No candidate list found so not flushed.&quot;" classname="Scenario: Clear out an uninitialised Candidate List" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Clear out an uninitialised Candidate List" time="0.336"/>
+  <system-out><![CDATA[
+  Scenario: Clear out the Candidate List          ?[90m# flush.feature:12?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" is known locally?[0m ?[90m# flush_steps.groovy:5?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk flush candidates?[0m?[32m"?[0m           ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mno candidates are know locally?[0m           ?[90m# flush_steps.groovy:9?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mCandidates have been flushed.?[0m?[32m"?[0m     ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

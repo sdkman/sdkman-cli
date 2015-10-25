@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Abort installation on download of a corrupt Candidate archive" tests="10" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:37" hostname="schrodinger" time="0.229">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;1.3.6&quot; is available for download" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="And the archive for candidate &quot;grails&quot; version &quot;1.3.6&quot; is corrupt" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="When I enter &quot;sdk install grails 1.3.6&quot;" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="Then I see &quot;Stop! The archive was corrupt and has been removed! Please try installing again.&quot;" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.6&quot; is not installed" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="And the archive for candidate &quot;grails&quot; version &quot;1.3.6&quot; is removed" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Abort installation on download of a corrupt Candidate archive" time="0.255"/>
+  <system-out><![CDATA[
+  Scenario: Install a candidate and do not select to use it                ?[90m# install_candidate.feature:49?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is available for download?[0m ?[90m# stub_steps.groovy:17?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk install grails 2.1.0?[0m?[32m" and answer "?[0m?[32m?[1mn?[0m?[32m"?[0m                 ?[90m# command_line_interop_steps.groovy:10?[0m
+    ?[32mThen ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is installed?[0m               ?[90m# installation_steps.groovy:10?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mDone installing!?[0m?[32m"?[0m                                           ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mDo you want grails 2.1.0 to be set as default? (Y/n)?[0m?[32m"?[0m       ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI do not see "?[0m?[32m?[1mSetting grails 2.1.0 as default.?[0m?[32m"?[0m                    ?[90m# command_line_interop_steps.groovy:19?[0m
+    ?[32mThen ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" should not be the default?[0m  ?[90m# use_steps.groovy:36?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

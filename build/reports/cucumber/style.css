@@ -1,0 +1,96 @@
+.cucumber-report .body {
+  font-family: Helvetica,Arial,sans-serif;
+}
+
+.cucumber-report .keyword {
+  font-weight: bold;
+}
+
+.cucumber-report .description {
+  font-style: italic;
+  margin-left: 20px;
+}
+
+.cucumber-report details > section {
+  margin-left: 20px;
+}
+
+.cucumber-report ol.steps {
+  list-style-type: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.cucumber-report .step .embedded-text {
+  background: #dddddd;
+}
+
+.cucumber-report .doc_string {
+  margin: 0 0 0 20px;
+}
+
+.cucumber-report table {
+  border-collapse: collapse;
+  border: 1px;
+  border-style: solid;
+}
+
+.cucumber-report td, .cucumber-report th {
+  border: 1px;
+  border-style: solid;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.cucumber-report table {
+  margin-left: 20px;
+}
+
+.cucumber-report thead {
+  background-color: #C0C0C0;
+}
+
+.cucumber-report .passed {
+  background-color: #C5D88A;
+}
+
+.cucumber-report .undefined, .cucumber-report .pending {
+  background-color: #EAEC2D;
+}
+
+.cucumber-report .skipped {
+  background-color: #2DEAEC;
+}
+
+.cucumber-report .failed {
+  background-color: #D88A8A;
+}
+
+.cucumber-report .tags {
+  display: inline;
+}
+
+.cucumber-report .tag {
+  margin-right: 0.25em;
+  color: #246ac1;
+}
+
+.cucumber-report .comments {
+  display: inline;
+}
+
+.cucumber-report .comment {
+  margin 0;
+  padding 0;
+}
+
+.cucumber-report .error {
+  margin: .2em .75em;
+  padding: .2em;
+  border: 1px solid #900;
+  background-color: #EDBBBB;
+}
+
+#cucumber-templates {
+  display: none;
+}

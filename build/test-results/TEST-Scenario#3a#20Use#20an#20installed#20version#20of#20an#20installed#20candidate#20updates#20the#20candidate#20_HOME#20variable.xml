@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" tests="11" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:57" hostname="schrodinger" time="0.417">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;1.3.9&quot; is already installed and default" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; is already installed but not default" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; is available for download" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="And the &quot;GRAILS_HOME&quot; variable contains &quot;grails/current&quot;" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="When I enter &quot;sdk use grails 2.1.0&quot;" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="And I see &quot;Using grails version 2.1.0 in this shell.&quot;" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="Then the &quot;GRAILS_HOME&quot; variable contains &quot;grails/2.1.0&quot;" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable" time="0.431"/>
+  <system-out><![CDATA[
+  Scenario: Default a candidate version that does not exist                    ?[90m# use_and_default_candidate.feature:93?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.9.9?[0m?[32m" is not available for download?[0m ?[90m# stub_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                             ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk default groovy 2.9.9?[0m?[32m"?[0m                                    ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! 2.9.9 is not a valid groovy version.?[0m?[32m"?[0m                    ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

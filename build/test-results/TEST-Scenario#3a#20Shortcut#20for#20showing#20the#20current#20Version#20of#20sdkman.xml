@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Shortcut for showing the current Version of sdkman" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:43" hostname="schrodinger" time="0.206">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Shortcut for showing the current Version of sdkman" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Shortcut for showing the current Version of sdkman" time="0.0"/>
+  <testcase name="Given the system is bootstrapped" classname="Scenario: Shortcut for showing the current Version of sdkman" time="0.0"/>
+  <testcase name="When I enter &quot;sdk v&quot;" classname="Scenario: Shortcut for showing the current Version of sdkman" time="0.0"/>
+  <testcase name="Then I see &quot;SDKMAN x.y.z&quot;" classname="Scenario: Shortcut for showing the current Version of sdkman" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Shortcut for showing the current Version of sdkman" time="0.224"/>
+  <system-out><![CDATA[
+  Scenario: Shortcut for uninstalling a Candidate Version                         ?[90m# mnemonics.feature:68?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is already installed and default?[0m ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk rm groovy 2.0.5?[0m?[32m"?[0m                                            ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUninstalling groovy 2.0.5?[0m?[32m"?[0m                                        ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is not installed?[0m                   ?[90m# installation_steps.groovy:16?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

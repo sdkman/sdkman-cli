@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Determine the sdkman version while Forced Offline" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:33" hostname="schrodinger" time="0.207">
+  <properties/>
+  <testcase name="Given offline mode is enabled with reachable internet" classname="Scenario: Determine the sdkman version while Forced Offline" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Determine the sdkman version while Forced Offline" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Determine the sdkman version while Forced Offline" time="0.0"/>
+  <testcase name="When I enter &quot;sdk version&quot;" classname="Scenario: Determine the sdkman version while Forced Offline" time="0.0"/>
+  <testcase name="Then I see the current sdkman version" classname="Scenario: Determine the sdkman version while Forced Offline" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Determine the sdkman version while Forced Offline" time="0.216"/>
+  <system-out><![CDATA[
+  #broadcast
+  Scenario: Recall a broadcast while Forced Offline                               ?[90m# forced_offline_mode.feature:51?[0m
+    ?[32mGiven ?[0m?[32moffline mode is enabled with reachable internet?[0m                         ?[90m# initialisation_steps.groovy:63?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m                                                ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32ma prior Broadcast "?[0m?[32m?[1mThis is an OLD Broadcast!?[0m?[32m" with id "?[0m?[32m?[1m12344?[0m?[32m" was issued?[0m ?[90m# broadcast_steps.groovy:16?[0m
+    ?[32mAnd ?[0m?[32mI enter "?[0m?[32m?[1msdk broadcast?[0m?[32m"?[0m                                                   ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mThis is an OLD Broadcast!?[0m?[32m"?[0m                                        ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

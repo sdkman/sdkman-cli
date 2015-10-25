@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Shortcut for displaying current Candidate Versions" tests="10" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:41" hostname="schrodinger" time="0.207">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="Given the candidate &quot;groovy&quot; version &quot;2.0.5&quot; is already installed and default" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; is already installed and default" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="When I enter &quot;sdk c&quot;" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="Then I see &quot;Using:&quot;" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="And I see &quot;grails: 2.1.0&quot;" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="And I see &quot;groovy: 2.0.5&quot;" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Shortcut for displaying current Candidate Versions" time="0.222"/>
+  <system-out><![CDATA[
+  Scenario: Shortcut for displaying current Candidate Version in use              ?[90m# mnemonics.feature:26?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.9?[0m?[32m" is already installed and default?[0m ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk c grails?[0m?[32m"?[0m                                                   ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsing grails version 1.3.9?[0m?[32m"?[0m                                       ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

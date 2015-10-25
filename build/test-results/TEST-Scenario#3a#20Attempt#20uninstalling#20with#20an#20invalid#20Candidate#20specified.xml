@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Attempt uninstalling with an invalid Candidate specified" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:54" hostname="schrodinger" time="0.205">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Attempt uninstalling with an invalid Candidate specified" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Attempt uninstalling with an invalid Candidate specified" time="0.001"/>
+  <testcase name="Given the system is bootstrapped" classname="Scenario: Attempt uninstalling with an invalid Candidate specified" time="0.0"/>
+  <testcase name="When I enter &quot;sdk uninstall groffle&quot;" classname="Scenario: Attempt uninstalling with an invalid Candidate specified" time="0.0"/>
+  <testcase name="Then I see &quot;Stop! groffle is not a valid candidate.&quot;" classname="Scenario: Attempt uninstalling with an invalid Candidate specified" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Attempt uninstalling with an invalid Candidate specified" time="0.219"/>
+  <system-out><![CDATA[
+  Scenario: Attempt uninstalling with no Candidate specified ?[90m# uninstall_candidate.feature:30?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                         ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk uninstall?[0m?[32m"?[0m                             ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mNo candidate provided.?[0m?[32m"?[0m                      ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

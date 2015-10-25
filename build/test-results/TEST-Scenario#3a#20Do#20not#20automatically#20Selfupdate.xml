@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Do not automatically Selfupdate" tests="10" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:52" hostname="schrodinger" time="0.206">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="Given an outdated initialised environment" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="And the configuration file has been primed with &quot;sdkman_auto_selfupdate=false&quot;" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="When I enter &quot;sdk help&quot; and answer &quot;n&quot;" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="Then I see &quot;A new version of SDKMAN is available...&quot;" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="And I see &quot;Would you like to upgrade now? (Y/n)&quot;" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="And I see &quot;Not upgrading today...&quot;" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="And I do not see &quot;Successfully upgraded SDKMAN.&quot;" classname="Scenario: Do not automatically Selfupdate" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Do not automatically Selfupdate" time="0.222"/>
+  <system-out><![CDATA[
+  Scenario: Automatically Selfupdate                                              ?[90m# self_update.feature:44?[0m
+    ?[32mGiven ?[0m?[32man outdated initialised environment?[0m                                     ?[90m# initialisation_steps.groovy:91?[0m
+    ?[32mAnd ?[0m?[32mthe configuration file has been primed with "?[0m?[32m?[1msdkman_auto_selfupdate=true?[0m?[32m"?[0m ?[90m# selfupdate_steps.groovy:5?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk help?[0m?[32m"?[0m                                                       ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mA new version of SDKMAN is available...?[0m?[32m"?[0m                          ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI do not see "?[0m?[32m?[1mWould you like to upgrade now? (Y/n)?[0m?[32m"?[0m                       ?[90m# command_line_interop_steps.groovy:19?[0m
+    ?[32mAnd ?[0m?[32mI do not see "?[0m?[32m?[1mNot upgrading today...?[0m?[32m"?[0m                                     ?[90m# command_line_interop_steps.groovy:19?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mSuccessfully upgraded SDKMAN.?[0m?[32m"?[0m                                     ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

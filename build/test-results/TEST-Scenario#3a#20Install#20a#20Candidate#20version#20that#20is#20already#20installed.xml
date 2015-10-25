@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Install a Candidate version that is already installed" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:36" hostname="schrodinger" time="0.227">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Install a Candidate version that is already installed" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Install a Candidate version that is already installed" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Install a Candidate version that is already installed" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;1.3.9&quot; is available for download" classname="Scenario: Install a Candidate version that is already installed" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.9&quot; is already installed and default" classname="Scenario: Install a Candidate version that is already installed" time="0.0"/>
+  <testcase name="When I enter &quot;sdk install grails 1.3.9&quot;" classname="Scenario: Install a Candidate version that is already installed" time="0.0"/>
+  <testcase name="Then I see &quot;Stop! grails 1.3.9 is already installed.&quot;" classname="Scenario: Install a Candidate version that is already installed" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Install a Candidate version that is already installed" time="0.246"/>
+  <system-out><![CDATA[
+  Scenario: Install a Candidate version that does not exist                    ?[90m# install_candidate.feature:20?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.4.4?[0m?[32m" is not available for download?[0m ?[90m# stub_steps.groovy:22?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk install grails 1.4.4?[0m?[32m"?[0m                                    ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! 1.4.4 is not a valid grails version.?[0m?[32m"?[0m                    ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

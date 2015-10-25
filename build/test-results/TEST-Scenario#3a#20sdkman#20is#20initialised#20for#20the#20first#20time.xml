@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: sdkman is initialised for the first time" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:49" hostname="schrodinger" time="0.207">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: sdkman is initialised for the first time" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: sdkman is initialised for the first time" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;2.1.0&quot; is already installed and default" classname="Scenario: sdkman is initialised for the first time" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: sdkman is initialised for the first time" time="0.0"/>
+  <testcase name="When I enter &quot;echo $PATH&quot;" classname="Scenario: sdkman is initialised for the first time" time="0.001"/>
+  <testcase name="Then I see a single occurrence of &quot;grails&quot;" classname="Scenario: sdkman is initialised for the first time" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: sdkman is initialised for the first time" time="0.223"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

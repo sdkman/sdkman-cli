@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Display outdated candidate versions when none is specified and none is in use" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:48" hostname="schrodinger" time="0.209">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Display outdated candidate versions when none is specified and none is in use" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Display outdated candidate versions when none is specified and none is in use" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; does not exist locally" classname="Scenario: Display outdated candidate versions when none is specified and none is in use" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Display outdated candidate versions when none is specified and none is in use" time="0.0"/>
+  <testcase name="When I enter &quot;sdk outdated&quot;" classname="Scenario: Display outdated candidate versions when none is specified and none is in use" time="0.0"/>
+  <testcase name="Then I see &quot;No candidates are in use&quot;" classname="Scenario: Display outdated candidate versions when none is specified and none is in use" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Display outdated candidate versions when none is specified and none is in use" time="0.227"/>
+  <system-out><![CDATA[
+  Scenario: Display outdated candidate version when none is in use ?[90m# outdated_candidate.feature:22?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" does not exist locally?[0m            ?[90m# installation_steps.groovy:44?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                 ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk outdated grails?[0m?[32m"?[0m                             ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mNot using any version of grails?[0m?[32m"?[0m                   ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Disable Offline Mode with internet reachable" tests="10" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:32" hostname="schrodinger" time="0.33">
+  <properties/>
+  <testcase name="Given offline mode is enabled with reachable internet" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; is available for download" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="When I enter &quot;sdk offline disable&quot;" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="Then I see &quot;Online mode re-enabled!&quot;" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="When I enter &quot;sdk install grails 2.1.0&quot; and answer &quot;Y&quot;" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="Then I see &quot;Done installing!&quot;" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; is installed" classname="Scenario: Disable Offline Mode with internet reachable" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Disable Offline Mode with internet reachable" time="0.338"/>
+  <system-out><![CDATA[
+  Scenario: Enable Offline Mode with internet reachable               ?[90m# forced_offline_mode.feature:19?[0m
+    ?[32mGiven ?[0m?[32moffline mode is disabled with reachable internet?[0m            ?[90m# initialisation_steps.groovy:54?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m                                    ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                    ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk offline enable?[0m?[32m"?[0m                                 ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mForced offline mode enabled.?[0m?[32m"?[0m                         ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI do not see "?[0m?[32m?[1mOFFLINE MODE ENABLED!?[0m?[32m"?[0m                          ?[90m# command_line_interop_steps.groovy:19?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk install grails 2.1.0?[0m?[32m"?[0m                           ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! grails 2.1.0 is not available in offline mode.?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

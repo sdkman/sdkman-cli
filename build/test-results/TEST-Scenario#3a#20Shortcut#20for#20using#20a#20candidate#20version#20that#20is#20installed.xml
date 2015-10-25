@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Shortcut for using a candidate version that is installed" tests="12" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:43" hostname="schrodinger" time="0.319">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;2.1.0&quot; is already installed and default" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; is a valid candidate version" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.9&quot; is already installed but not default" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.9&quot; is a valid candidate version" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="When I enter &quot;sdk u grails 1.3.9&quot;" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="Then I see &quot;Using grails version 1.3.9 in this shell.&quot;" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="Then the candidate &quot;grails&quot; version &quot;1.3.9&quot; should be in use" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; should be the default" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Shortcut for using a candidate version that is installed" time="0.335"/>
+  <system-out><![CDATA[
+  Scenario: Shortcut for showing the current Version of sdkman ?[90m# mnemonics.feature:75?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                           ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk v?[0m?[32m"?[0m                                       ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mSDKMAN x.y.z?[0m?[32m"?[0m                                  ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

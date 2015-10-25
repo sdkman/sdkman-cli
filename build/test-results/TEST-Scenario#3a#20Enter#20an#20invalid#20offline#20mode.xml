@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Enter an invalid offline mode" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:31" hostname="schrodinger" time="0.207">
+  <properties/>
+  <testcase name="Given offline mode is disabled with reachable internet" classname="Scenario: Enter an invalid offline mode" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Enter an invalid offline mode" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Enter an invalid offline mode" time="0.0"/>
+  <testcase name="When I enter &quot;sdk offline grails&quot;" classname="Scenario: Enter an invalid offline mode" time="0.0"/>
+  <testcase name="Then I see &quot;Stop! grails is not a valid offline mode.&quot;" classname="Scenario: Enter an invalid offline mode" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Enter an invalid offline mode" time="0.214"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

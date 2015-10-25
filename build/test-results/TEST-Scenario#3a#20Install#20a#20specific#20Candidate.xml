@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Install a specific Candidate" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:36" hostname="schrodinger" time="0.218">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Install a specific Candidate" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Install a specific Candidate" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Install a specific Candidate" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.9&quot; is available for download" classname="Scenario: Install a specific Candidate" time="0.0"/>
+  <testcase name="When I enter &quot;sdk install grails 1.3.9&quot; and answer &quot;Y&quot;" classname="Scenario: Install a specific Candidate" time="0.0"/>
+  <testcase name="Then I see &quot;Done installing!&quot;" classname="Scenario: Install a specific Candidate" time="0.0"/>
+  <testcase name="Then the candidate &quot;grails&quot; version &quot;1.3.9&quot; is installed" classname="Scenario: Install a specific Candidate" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Install a specific Candidate" time="0.237"/>
+  <system-out><![CDATA[
+  Scenario: Install a default Candidate                      ?[90m# install_candidate.feature:8?[0m
+    ?[32mGiven ?[0m?[32mthe default "?[0m?[32m?[1mgrails?[0m?[32m" candidate is "?[0m?[32m?[1m2.1.0?[0m?[32m"?[0m          ?[90m# stub_steps.groovy:8?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk install grails?[0m?[32m" and answer "?[0m?[32m?[1mY?[0m?[32m"?[0m         ?[90m# command_line_interop_steps.groovy:10?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mDone installing!?[0m?[32m"?[0m                            ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mThen ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is installed?[0m ?[90m# installation_steps.groovy:10?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

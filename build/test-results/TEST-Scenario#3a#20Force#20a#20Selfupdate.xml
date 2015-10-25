@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Force a Selfupdate" tests="10" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:51" hostname="schrodinger" time="0.206">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="Given an initialised environment" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="When I enter &quot;sdk selfupdate force&quot;" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="Then I do not see &quot;A new version of SDKMAN is available...&quot;" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="And I do not see &quot;Would you like to upgrade now? (Y/n)&quot;" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="And I do not see &quot;Not upgrading today...&quot;" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="And I see &quot;Updating SDKMAN...&quot;" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="And I see &quot;Successfully upgraded SDKMAN.&quot;" classname="Scenario: Force a Selfupdate" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Force a Selfupdate" time="0.221"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

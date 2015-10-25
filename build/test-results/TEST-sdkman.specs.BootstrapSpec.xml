@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="sdkman.specs.BootstrapSpec" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:17" hostname="schrodinger" time="0.924">
+  <properties/>
+  <testcase name="should store version token if not exists" classname="sdkman.specs.BootstrapSpec" time="0.357"/>
+  <testcase name="should not query server if token is found" classname="sdkman.specs.BootstrapSpec" time="0.12"/>
+  <testcase name="should query server for version and refresh if token is older than a day" classname="sdkman.specs.BootstrapSpec" time="0.116"/>
+  <testcase name="should ignore version if api is offline" classname="sdkman.specs.BootstrapSpec" time="0.111"/>
+  <testcase name="should not go offline if curl times out" classname="sdkman.specs.BootstrapSpec" time="0.112"/>
+  <testcase name="should ignore version if api returns garbage" classname="sdkman.specs.BootstrapSpec" time="0.107"/>
+  <system-out><![CDATA[
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

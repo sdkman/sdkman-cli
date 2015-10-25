@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Shortcut for displaying outdated Candidate Version in use" tests="9" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:42" hostname="schrodinger" time="0.221">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;1.3.9&quot; is already installed and default" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.0"/>
+  <testcase name="And the default &quot;grails&quot; candidate is &quot;2.4.4&quot;" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.0"/>
+  <testcase name="When I enter &quot;sdk o grails&quot;" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.0"/>
+  <testcase name="Then I see &quot;Outdated:&quot;" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.0"/>
+  <testcase name="And I see &quot;grails (1.3.9 &lt; 2.4.4)&quot;" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Shortcut for displaying outdated Candidate Version in use" time="0.24"/>
+  <system-out><![CDATA[
+  Scenario: Shortcut for displaying current Candidate Versions                    ?[90m# mnemonics.feature:32?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is already installed and default?[0m ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is already installed and default?[0m   ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk c?[0m?[32m"?[0m                                                          ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsing:?[0m?[32m"?[0m                                                           ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mgrails: 2.1.0?[0m?[32m"?[0m                                                     ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mgroovy: 2.0.5?[0m?[32m"?[0m                                                     ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

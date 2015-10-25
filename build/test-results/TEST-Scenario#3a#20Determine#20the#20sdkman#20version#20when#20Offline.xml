@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Determine the sdkman version when Offline" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:47" hostname="schrodinger" time="0.205">
+  <properties/>
+  <testcase name="Given the internet is not reachable" classname="Scenario: Determine the sdkman version when Offline" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Determine the sdkman version when Offline" time="0.0"/>
+  <testcase name="Given the system is bootstrapped" classname="Scenario: Determine the sdkman version when Offline" time="0.0"/>
+  <testcase name="When I enter &quot;sdk version&quot;" classname="Scenario: Determine the sdkman version when Offline" time="0.0"/>
+  <testcase name="Then I see the current sdkman version" classname="Scenario: Determine the sdkman version when Offline" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Determine the sdkman version when Offline" time="0.208"/>
+  <system-out><![CDATA[
+  Scenario: Display the current version of all candidates while Offline           ?[90m# offline_mode.feature:117?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is already installed and default?[0m ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is already installed and default?[0m   ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk current?[0m?[32m"?[0m                                                    ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsing:?[0m?[32m"?[0m                                                           ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mgrails: 2.1.0?[0m?[32m"?[0m                                                     ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mgroovy: 2.0.5?[0m?[32m"?[0m                                                     ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

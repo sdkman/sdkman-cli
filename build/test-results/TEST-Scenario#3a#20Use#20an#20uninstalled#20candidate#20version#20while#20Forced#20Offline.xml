@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Use an uninstalled candidate version while Forced Offline" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:33" hostname="schrodinger" time="0.209">
+  <properties/>
+  <testcase name="Given offline mode is enabled with reachable internet" classname="Scenario: Use an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.9&quot; is already installed and default" classname="Scenario: Use an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;2.1.0&quot; is not installed" classname="Scenario: Use an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Use an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Use an uninstalled candidate version while Forced Offline" time="0.001"/>
+  <testcase name="When I enter &quot;sdk use grails 2.1.0&quot;" classname="Scenario: Use an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="Then I see &quot;Stop! grails 2.1.0 is not available in offline mode.&quot;" classname="Scenario: Use an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Use an uninstalled candidate version while Forced Offline" time="0.217"/>
+  <system-out><![CDATA[
+  #list candidate version
+  Scenario: List candidate versions found while Forced Offline        ?[90m# forced_offline_mode.feature:68?[0m
+    ?[32mGiven ?[0m?[32moffline mode is enabled with reachable internet?[0m             ?[90m# initialisation_steps.groovy:63?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m                                    ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                    ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk list grails?[0m?[32m"?[0m                                    ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mOffline Mode: only showing installed grails versions?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

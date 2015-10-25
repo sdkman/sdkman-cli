@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Clean up an uninitialised Broadcast" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:30" hostname="schrodinger" time="0.215">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Clean up an uninitialised Broadcast" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Clean up an uninitialised Broadcast" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Clean up an uninitialised Broadcast" time="0.0"/>
+  <testcase name="Given the broadcast has been flushed" classname="Scenario: Clean up an uninitialised Broadcast" time="0.0"/>
+  <testcase name="When I enter &quot;sdk flush broadcast&quot;" classname="Scenario: Clean up an uninitialised Broadcast" time="0.0"/>
+  <testcase name="Then I see &quot;No prior broadcast found so not flushed.&quot;" classname="Scenario: Clean up an uninitialised Broadcast" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Clean up an uninitialised Broadcast" time="0.241"/>
+  <system-out><![CDATA[
+  Scenario: Clean up the current Broadcast                                        ?[90m# flush.feature:23?[0m
+    ?[32mGiven ?[0m?[32ma prior Broadcast "?[0m?[32m?[1mThis is an old broadcast?[0m?[32m" with id "?[0m?[32m?[1m12344?[0m?[32m" was issued?[0m ?[90m# broadcast_steps.groovy:16?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk flush broadcast?[0m?[32m"?[0m                                            ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mno broadcast message can be found?[0m                                        ?[90m# flush_steps.groovy:13?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mBroadcast has been flushed.?[0m?[32m"?[0m                                       ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

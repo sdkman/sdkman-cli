@@ -1,0 +1,2445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="sdkman.cucumber.RunCukesTest" tests="0" skipped="0" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="schrodinger" time="0.0">
+  <properties/>
+  <system-out><![CDATA[Feature: Broadcast
+
+  Background:                       ?[90m# broadcast.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+This is a LIVE Broadcast!
+SDKMAN x.y.z
+
+
+?[0m
+
+  Background:                       ?[90m# broadcast.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+This is a LIVE Broadcast!
+SDKMAN x.y.z
+
+
+?[0m
+
+  Background:                       ?[90m# broadcast.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+SDKMAN x.y.z
+
+
+?[0m
+
+  Background:                       ?[90m# broadcast.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+This is an OLD Broadcast!
+
+
+?[0m
+
+  Background:                       ?[90m# broadcast.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+This is a LIVE Broadcast!
+This is a LIVE Broadcast!
+
+
+?[0m
+
+  Scenario: A Broadcast command is issued with no prior Broadcast received       ?[90m# broadcast.feature:32?[0m
+    ?[32mGiven ?[0m?[32mno prior Broadcast was received?[0m                                        ?[90m# broadcast_steps.groovy:6?[0m
+    ?[32mAnd ?[0m?[32ma new Broadcast "?[0m?[32m?[1mThis is a LIVE Broadcast!?[0m?[32m" with id "?[0m?[32m?[1m12345?[0m?[32m" is available?[0m ?[90m# broadcast_steps.groovy:11?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk broadcast?[0m?[32m"?[0m                                                 ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mThis is a LIVE Broadcast!?[0m?[32m"?[0m                                       ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Command Line Interop
+
+  Background:                       ?[90m# command_line_interop.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Background:                       ?[90m# command_line_interop.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Background:                       ?[90m# command_line_interop.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+Invalid command: goopoo
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Background:                       ?[90m# command_line_interop.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! groffle is not a valid candidate.
+
+
+?[0m
+
+  Scenario: Enter an invalid Candidate                   ?[90m# command_line_interop.feature:22?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk install groffle?[0m?[32m"?[0m                   ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! groffle is not a valid candidate.?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Current Candidate
+
+  Background:                       ?[90m# current_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Using grails version 1.3.9
+
+
+?[0m
+
+  Background:                       ?[90m# current_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Not using any version of grails
+
+
+?[0m
+
+  Background:                       ?[90m# current_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+No candidates are in use
+
+
+?[0m
+
+  Background:                       ?[90m# current_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Using:
+grails: 2.1.0
+
+
+?[0m
+
+  Background:                       ?[90m# current_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Using:
+groovy: 2.0.5
+grails: 2.1.0
+
+
+?[0m
+
+  Scenario: Display current candidate versions when none is specified and multiple are in use ?[90m# current_candidate.feature:32?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is already installed and default?[0m             ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is already installed and default?[0m               ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                            ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk current?[0m?[32m"?[0m                                                                ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsing:?[0m?[32m"?[0m                                                                       ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mgrails: 2.1.0?[0m?[32m"?[0m                                                                 ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mgroovy: 2.0.5?[0m?[32m"?[0m                                                                 ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Flush
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+Stop! Please specify what you want to flush.
+
+
+?[0m
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+Candidates have been flushed.
+
+
+?[0m
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+No candidate list found so not flushed.
+
+
+?[0m
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+Broadcast has been flushed.
+
+
+?[0m
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+No prior broadcast found so not flushed.
+
+
+?[0m
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+Version Token has been flushed.
+
+
+?[0m
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+No prior Remote Version found so not flushed.
+
+
+?[0m
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+1 archive(s) flushed, freeing 4.0K	/tmp/sdkman-1286/.sdkman/archives.
+
+
+?[0m
+
+  Background:                       ?[90m# flush.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+1 archive(s) flushed, freeing 4.0K	/tmp/sdkman-1286/.sdkman/tmp.
+
+
+?[0m
+
+  Scenario: Clear out the temporary space                        ?[90m# flush.feature:51?[0m
+    ?[32mGiven ?[0m?[32mthe file "?[0m?[32m?[1mres-1.2.0.zip?[0m?[32m" in temporary storage?[0m          ?[90m# flush_steps.groovy:25?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk flush temp?[0m?[32m"?[0m                                ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mno "?[0m?[32m?[1mres-1.2.0.zip?[0m?[32m" file is present in temporary storage?[0m ?[90m# flush_steps.groovy:29?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1m1 archive(s) flushed?[0m?[32m"?[0m                             ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Forced Offline Mode
+?[34m
+Output: 
+
+SDKMAN can't reach the internet so going offline. Re-enable online with:
+
+  $ sdk offline disable
+
+
+Stop! grails is not a valid offline mode.
+
+
+?[0m
+?[34m
+Output: 
+
+SDKMAN can't reach the internet so going offline. Re-enable online with:
+
+  $ sdk offline disable
+
+
+Stop! Specify a valid offline mode.
+
+
+?[0m
+?[34m
+Output: 
+
+Stop! grails 2.1.0 is not available in offline mode.
+
+
+?[0m
+?[34m
+Output: 
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+<title>Error 404 NOT_FOUND</title>
+</head>
+<body><h2>HTTP ERROR 404</h2>
+<p>Problem accessing /__files/broadcast/latest. Reason:
+<pre>    NOT_FOUND</pre></p><hr /><i><small>Powered by Jetty://</small></i><br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+<br/>                                                
+
+</body>
+</html>
+
+Downloading: grails 2.1.0
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0   120k      0 --:--:-- --:--:-- --:--:--  120k
+
+Installing: grails 2.1.0
+Done installing!
+
+Do you want grails 2.1.0 to be set as default? (Y/n): 
+Setting grails 2.1.0 as default.
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+Stop! grails 2.1.0 is not available in offline mode.
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+This is an OLD Broadcast!
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+SDKMAN x.y.z
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+------------------------------------------------------------
+Offline Mode: only showing installed grails versions
+------------------------------------------------------------
+                                                            
+   None installed!
+------------------------------------------------------------
+* - installed                                               
+> - currently in use                                        
+------------------------------------------------------------
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+Stop! grails 2.1.0 is not available in offline mode.
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+Stop! grails 2.1.0 is not available in offline mode.
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+Stop! grails 2.1.0 is not available in offline mode.
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+
+Unselecting grails 2.1.0...
+
+Uninstalling grails 2.1.0...
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+Using grails version 2.1.0
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+?[34m
+Output: 
+
+==== BROADCAST =============================================
+
+OFFLINE MODE ENABLED! Some functionality is now disabled.
+
+============================================================
+This command is not available in offline mode.
+
+
+?[0m
+
+  #selfupdate command
+  Scenario: Attempt self-update while Forced Offline            ?[90m# forced_offline_mode.feature:130?[0m
+    ?[32mGiven ?[0m?[32moffline mode is enabled with reachable internet?[0m       ?[90m# initialisation_steps.groovy:63?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m                              ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                              ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk selfupdate?[0m?[32m"?[0m                               ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mThis command is not available in offline mode.?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Idempotent Self Update
+
+  Background:                       ?[90m# idempotent_self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mAnd ?[0m?[32man available selfupdate?[0m     ?[90m# stub_steps.groovy:13?[0m
+?[34m
+Output: 
+
+No update available at this time.
+
+
+?[0m
+
+  Background:                       ?[90m# idempotent_self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mAnd ?[0m?[32man available selfupdate?[0m     ?[90m# stub_steps.groovy:13?[0m
+?[34m
+Output: 
+
+Successfully upgraded SDKMAN.
+
+
+?[0m
+
+  Scenario: Force Self Update on an up to date system ?[90m# idempotent_self_update.feature:13?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk selfupdate force?[0m?[32m"?[0m               ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mSuccessfully upgraded SDKMAN.?[0m?[32m"?[0m        ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Install Candidate
+
+  Background:                       ?[90m# install_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Downloading: grails 2.1.0
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0   393k      0 --:--:-- --:--:-- --:--:--  393k
+
+Installing: grails 2.1.0
+Done installing!
+
+Do you want grails 2.1.0 to be set as default? (Y/n): 
+Setting grails 2.1.0 as default.
+
+
+?[0m
+
+  Background:                       ?[90m# install_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Downloading: grails 1.3.9
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0   430k      0 --:--:-- --:--:-- --:--:--  430k
+
+Installing: grails 1.3.9
+Done installing!
+
+Do you want grails 1.3.9 to be set as default? (Y/n): 
+Setting grails 1.3.9 as default.
+
+
+?[0m
+
+  Background:                       ?[90m# install_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! 1.4.4 is not a valid grails version.
+
+
+?[0m
+
+  Background:                       ?[90m# install_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! grails 1.3.9 is already installed.
+
+
+?[0m
+
+  Background:                       ?[90m# install_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Downloading: grails 2.1.0
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0  99302      0 --:--:-- --:--:-- --:--:-- 99302
+
+Installing: grails 2.1.0
+Done installing!
+
+Do you want grails 2.1.0 to be set as default? (Y/n): 
+Setting grails 2.1.0 as default.
+
+
+?[0m
+
+  Background:                       ?[90m# install_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Downloading: grails 2.1.0
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0  98381      0 --:--:-- --:--:-- --:--:-- 98381
+
+Installing: grails 2.1.0
+Done installing!
+
+
+Setting grails 2.1.0 as default.
+
+
+?[0m
+
+  Background:                       ?[90m# install_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Downloading: grails 2.1.0
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0   104k      0 --:--:-- --:--:-- --:--:--  104k
+
+Installing: grails 2.1.0
+Done installing!
+
+Do you want grails 2.1.0 to be set as default? (Y/n): 
+
+?[0m
+
+  Background:                       ?[90m# install_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Downloading: grails 1.3.6
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100    31  100    31    0     0  13259      0 --:--:-- --:--:-- --:--:-- 13259
+
+Stop! The archive was corrupt and has been removed! Please try installing again.
+
+
+?[0m
+
+  #revisit to redownload automatically
+  Scenario: Abort installation on download of a corrupt Candidate archive                         ?[90m# install_candidate.feature:59?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.6?[0m?[32m" is available for download?[0m                        ?[90m# stub_steps.groovy:17?[0m
+    ?[32mAnd ?[0m?[32mthe archive for candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.6?[0m?[32m" is corrupt?[0m                             ?[90m# initialisation_steps.groovy:20?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk install grails 1.3.6?[0m?[32m"?[0m                                                       ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! The archive was corrupt and has been removed! Please try installing again.?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.6?[0m?[32m" is not installed?[0m                                   ?[90m# installation_steps.groovy:16?[0m
+    ?[32mAnd ?[0m?[32mthe archive for candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.6?[0m?[32m" is removed?[0m                             ?[90m# initialisation_steps.groovy:30?[0m
+Feature: List Candidate Versions
+  
+  A dummy template to be served back that has the following information:
+  * Candidate: grails
+  * Current: 2.1.0
+  * Versions: 2.1.0,2.1.1,2.1.2 (CSV)
+
+  Background:                       ?[90m# list_candidate_versions.feature:8?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Candidate: grails; Versions: ; Current: 
+
+
+?[0m
+
+  Background:                       ?[90m# list_candidate_versions.feature:8?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Candidate: grails; Versions: 2.1.0; Current: 
+
+?[0m
+
+  Background:                       ?[90m# list_candidate_versions.feature:8?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Candidate: grails; Versions: 2.1.0; Current: 2.1.0
+
+
+?[0m
+
+  Background:                       ?[90m# list_candidate_versions.feature:8?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Candidate: grails; Versions: 2.0.9,2.1.0; Current: 2.1.0
+
+
+?[0m
+
+  Background:                       ?[90m# list_candidate_versions.feature:8?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Candidate: groovy; Versions: 2.3-SNAPSHOT; Current: 
+
+
+?[0m
+
+  Background:                       ?[90m# list_candidate_versions.feature:8?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Candidate: groovy; Versions: 2.2-SNAPSHOT; Current: 2.2-SNAPSHOT
+
+
+?[0m
+
+  Scenario: List an installed local Version in use                                            ?[90m# list_candidate_versions.feature:53?[0m
+    ?[32mGiven ?[0m?[32mI have a local candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.2-SNAPSHOT?[0m?[32m" at "?[0m?[32m?[1m/tmp/groovy-core?[0m?[32m"?[0m      ?[90m# installation_steps.groovy:50?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.2-SNAPSHOT?[0m?[32m" is already linked to "?[0m?[32m?[1m/tmp/groovy-core?[0m?[32m"?[0m ?[90m# installation_steps.groovy:66?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.2-SNAPSHOT?[0m?[32m" is the default?[0m                          ?[90m# installation_steps.groovy:29?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" has a version list available?[0m                                   ?[90m# stub_steps.groovy:38?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                            ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk list groovy?[0m?[32m"?[0m                                                            ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mCurrent: 2.2-SNAPSHOT?[0m?[32m"?[0m                                                        ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mVersions: 2.2-SNAPSHOT?[0m?[32m"?[0m                                                        ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: List Candidates
+
+  Background:                       ?[90m# list_candidates.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Candidate List
+
+
+?[0m
+
+  Scenario: A List of Available Candidates can be viewed ?[90m# list_candidates.feature:7?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                     ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mAnd ?[0m?[32mThe candidate list is available?[0m                  ?[90m# stub_steps.groovy:46?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk list?[0m?[32m"?[0m                              ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mCandidate List?[0m?[32m"?[0m                          ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Local Development Versions
+
+  Background:                       ?[90m# local_developement_versions.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Linking groovy 2.1-SNAPSHOT to /tmp/groovy-core
+Done installing!
+
+
+
+?[0m
+
+  Background:                       ?[90m# local_developement_versions.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! groovy 2.1-SNAPSHOT is already installed.
+
+
+?[0m
+
+  Background:                       ?[90m# local_developement_versions.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Uninstalling groovy 2.1-SNAPSHOT...
+
+
+?[0m
+
+  Background:                       ?[90m# local_developement_versions.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+groovy 2.1-SNAPSHOT is not installed.
+
+
+?[0m
+
+  Background:                       ?[90m# local_developement_versions.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Default groovy version set to 2.1-SNAPSHOT
+
+
+?[0m
+
+  Background:                       ?[90m# local_developement_versions.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Groovy Version: 2.1-SNAPSHOT
+
+
+?[0m
+
+  Scenario: Use a local development version                                                   ?[90m# local_developement_versions.feature:45?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.6?[0m?[32m" is already installed and default?[0m             ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.1-SNAPSHOT?[0m?[32m" is not available for download?[0m           ?[90m# stub_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.1-SNAPSHOT?[0m?[32m" is already linked to "?[0m?[32m?[1m/tmp/groovy-core?[0m?[32m"?[0m ?[90m# installation_steps.groovy:66?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                            ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk use groovy 2.1-SNAPSHOT?[0m?[32m"?[0m                                                ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsing groovy version 2.1-SNAPSHOT in this shell?[0m?[32m"?[0m                              ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.1-SNAPSHOT?[0m?[32m" should be in use?[0m                        ?[90m# use_steps.groovy:25?[0m
+Feature: Mnemonics
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Available Grails Versions
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Available Grails Versions
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Using grails version 1.3.9
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Using:
+groovy: 2.0.5
+grails: 2.1.0
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Outdated:
+grails (1.3.9 < 2.4.4)
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Outdated:
+groovy (2.0.5 < 2.4.1)
+grails (1.3.9 < 2.4.4)
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Downloading: grails 2.1.0
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0   450k      0 --:--:-- --:--:-- --:--:--  450k
+
+Installing: grails 2.1.0
+Done installing!
+
+Do you want grails 2.1.0 to be set as default? (Y/n): 
+Setting grails 2.1.0 as default.
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Unselecting groovy 2.0.5...
+
+Uninstalling groovy 2.0.5...
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+SDKMAN x.y.z
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Grails Version: 1.3.9
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Default groovy version set to 2.0.5
+
+
+?[0m
+
+  Background:                       ?[90m# mnemonics.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+This is a LIVE Broadcast!
+This is a LIVE Broadcast!
+
+
+?[0m
+
+  Scenario: Shortcut for a Broadcast command issued                              ?[90m# mnemonics.feature:99?[0m
+    ?[32mGiven ?[0m?[32mno prior Broadcast was received?[0m                                        ?[90m# broadcast_steps.groovy:6?[0m
+    ?[32mAnd ?[0m?[32ma new Broadcast "?[0m?[32m?[1mThis is a LIVE Broadcast!?[0m?[32m" with id "?[0m?[32m?[1m12345?[0m?[32m" is available?[0m ?[90m# broadcast_steps.groovy:11?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                               ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk b?[0m?[32m"?[0m                                                         ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mThis is a LIVE Broadcast!?[0m?[32m"?[0m                                       ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Offline Mode
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+------------------------------------------------------------
+Offline Mode: only showing installed grails versions
+------------------------------------------------------------
+                                                            
+ * 1.3.9
+ > 2.1.0
+------------------------------------------------------------
+* - installed                                               
+> - currently in use                                        
+------------------------------------------------------------
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+------------------------------------------------------------
+Offline Mode: only showing installed grails versions
+------------------------------------------------------------
+                                                            
+   None installed!
+------------------------------------------------------------
+* - installed                                               
+> - currently in use                                        
+------------------------------------------------------------
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+
+Using grails version 2.1.0 in this shell.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+This command is not available in offline mode.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Stop! grails 2.1.0 is not available in offline mode.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Stop! grails 9.9.9 is not available in offline mode.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+
+Using grails version 1.3.9 in this shell.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Stop! grails 2.1.0 is not available in offline mode.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Stop! grails 999 is not available in offline mode.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+
+Default grails version set to 1.3.9
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Stop! grails 2.1.0 is not available in offline mode.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+
+Stop! grails 2.1.0 is already installed.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+
+Unselecting grails 2.1.0...
+
+Uninstalling grails 2.1.0...
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+
+grails 2.1.0 is not installed.
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Using grails version 2.1.0
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Using:
+groovy: 2.0.5
+grails: 2.1.0
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+SDKMAN x.y.z
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+This is an OLD Broadcast!
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Background:                           ?[90m# offline_mode.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is not reachable?[0m ?[90m# initialisation_steps.groovy:47?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m      ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+This command is not available in offline mode.
+
+
+?[0m
+
+  # selfupdate command
+  Scenario: Attempt self-update while Offline                   ?[90m# offline_mode.feature:146?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                            ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk selfupdate?[0m?[32m"?[0m                               ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mThis command is not available in offline mode.?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Outdated Candidate
+
+  Background:                       ?[90m# outdated_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Outdated:
+grails (1.3.9 < 2.4.4)
+
+
+?[0m
+
+  Background:                       ?[90m# outdated_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+grails is up-to-date
+
+
+?[0m
+
+  Background:                       ?[90m# outdated_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+find: `/tmp/sdkman-1286/.sdkman/candidates/grails': No such file or directory
+Not using any version of grails
+grails is up-to-date
+
+
+?[0m
+
+  Background:                       ?[90m# outdated_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+find: `/tmp/sdkman-1286/.sdkman/candidates/grails': No such file or directory
+No candidates are in use
+
+
+?[0m
+
+  Background:                       ?[90m# outdated_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Outdated:
+grails (1.3.9 < 2.4.4)
+
+
+?[0m
+
+  Background:                       ?[90m# outdated_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Outdated:
+groovy (2.0.5 < 2.4.1)
+grails (1.3.9 < 2.4.4)
+
+
+?[0m
+
+  Background:                       ?[90m# outdated_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+All candidates are up-to-date
+
+
+?[0m
+
+  Scenario: Display outdated candidate versions when none specified and multiple in use but not outdated ?[90m# outdated_candidate.feature:53?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.9?[0m?[32m" is already installed and default?[0m                        ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe default "?[0m?[32m?[1mgrails?[0m?[32m" candidate is "?[0m?[32m?[1m1.3.9?[0m?[32m"?[0m                                                        ?[90m# stub_steps.groovy:8?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is already installed and default?[0m                          ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe default "?[0m?[32m?[1mgroovy?[0m?[32m" candidate is "?[0m?[32m?[1m2.0.5?[0m?[32m"?[0m                                                        ?[90m# stub_steps.groovy:8?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                                       ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk outdated?[0m?[32m"?[0m                                                                          ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mAll candidates are up-to-date?[0m?[32m"?[0m                                                           ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Path Initialisation
+
+  Background:                       ?[90m# path_initialisation.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+/tmp/sdkman-1286/.sdkman/candidates/grails/current/bin:/tmp/sdkman-1286/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+?[0m
+
+  Background:                       ?[90m# path_initialisation.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+/tmp/sdkman-1286/.sdkman/candidates/grails/current/bin:/tmp/sdkman-1286/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+?[0m
+
+  Background:                       ?[90m# path_initialisation.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+/tmp/sdkman-1286/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+?[0m
+
+  Background:                       ?[90m# path_initialisation.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+/tmp/sdkman-1286/.sdkman/candidates/grails/current/bin:/tmp/sdkman-1286/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+
+?[0m
+
+  Background:                       ?[90m# path_initialisation.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+/tmp/sdkman-1286/.sdkman/candidates/grails/current/bin:/tmp/sdkman-1286/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+?[0m
+
+  Scenario: Install multiple candidate versions and see it once on the PATH ?[90m# path_initialisation.feature:32?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.9?[0m?[32m" is available for download?[0m  ?[90m# stub_steps.groovy:17?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is available for download?[0m    ?[90m# stub_steps.groovy:17?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                          ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mAnd ?[0m?[32mI enter "?[0m?[32m?[1msdk install grails 1.3.9?[0m?[32m" and answer "?[0m?[32m?[1mY?[0m?[32m"?[0m                   ?[90m# command_line_interop_steps.groovy:10?[0m
+    ?[32mAnd ?[0m?[32mI enter "?[0m?[32m?[1msdk install grails 2.1.0?[0m?[32m" and answer "?[0m?[32m?[1mY?[0m?[32m"?[0m                   ?[90m# command_line_interop_steps.groovy:10?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1mecho $PATH?[0m?[32m"?[0m                                               ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see a single occurrence of "?[0m?[32m?[1mgrails?[0m?[32m"?[0m                              ?[90m# command_line_interop_steps.groovy:31?[0m
+Feature: Self Update
+
+  Background:                       ?[90m# self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+?[34m
+Output: 
+
+
+Updating SDKMAN...
+Purge existing scripts...
+Refresh directory structure...
+Prime the config file...
+Extract script archive...
+Unziping scripts to: /tmp/sdkman-1286/.sdkman/tmp/stage
+Moving sdkman-init file to bin folder...
+Move remaining module scripts to src folder: /tmp/sdkman-1286/.sdkman/src
+Clean up staging folder...
+
+
+Successfully upgraded SDKMAN.
+
+Please open a new terminal, or run the following in the existing one:
+
+    source "/tmp/sdkman-1286/.sdkman/bin/sdkman-init.sh"
+
+
+
+
+?[0m
+
+  Background:                       ?[90m# self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+?[34m
+Output: 
+
+
+Updating SDKMAN...
+Purge existing scripts...
+Refresh directory structure...
+Prime the config file...
+Extract script archive...
+Unziping scripts to: /tmp/sdkman-1286/.sdkman/tmp/stage
+Moving sdkman-init file to bin folder...
+Move remaining module scripts to src folder: /tmp/sdkman-1286/.sdkman/src
+Clean up staging folder...
+
+
+Successfully upgraded SDKMAN.
+
+Please open a new terminal, or run the following in the existing one:
+
+    source "/tmp/sdkman-1286/.sdkman/bin/sdkman-init.sh"
+
+
+
+
+?[0m
+
+  Background:                       ?[90m# self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+ATTENTION: A new version of SDKMAN is available...
+
+The current version is x.y.z, but you have x.y.y.
+
+Would you like to upgrade now? (Y/n)
+Updating SDKMAN...
+Purge existing scripts...
+Refresh directory structure...
+Prime the config file...
+Extract script archive...
+Unziping scripts to: /tmp/sdkman-1286/.sdkman/tmp/stage
+Moving sdkman-init file to bin folder...
+Move remaining module scripts to src folder: /tmp/sdkman-1286/.sdkman/src
+Clean up staging folder...
+
+
+Successfully upgraded SDKMAN.
+
+Please open a new terminal, or run the following in the existing one:
+
+    source "/tmp/sdkman-1286/.sdkman/bin/sdkman-init.sh"
+
+
+
+
+?[0m
+
+  Background:                       ?[90m# self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+ATTENTION: A new version of SDKMAN is available...
+
+The current version is x.y.z, but you have x.y.y.
+
+Would you like to upgrade now? (Y/n)Not upgrading today...
+
+
+?[0m
+
+  Background:                       ?[90m# self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+ATTENTION: A new version of SDKMAN is available...
+
+The current version is x.y.z, but you have x.y.y.
+
+
+Updating SDKMAN...
+Purge existing scripts...
+Refresh directory structure...
+Prime the config file...
+Extract script archive...
+Unziping scripts to: /tmp/sdkman-1286/.sdkman/tmp/stage
+Moving sdkman-init file to bin folder...
+Move remaining module scripts to src folder: /tmp/sdkman-1286/.sdkman/src
+Clean up staging folder...
+
+
+Successfully upgraded SDKMAN.
+
+Please open a new terminal, or run the following in the existing one:
+
+    source "/tmp/sdkman-1286/.sdkman/bin/sdkman-init.sh"
+
+
+
+
+?[0m
+
+  Background:                       ?[90m# self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+ATTENTION: A new version of SDKMAN is available...
+
+The current version is x.y.z, but you have x.y.y.
+
+Would you like to upgrade now? (Y/n)Not upgrading today...
+
+
+?[0m
+
+  Background:                       ?[90m# self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+?[34m
+Output: 
+
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Background:                       ?[90m# self_update.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+?[34m
+Output: 
+
+No update available at this time.
+
+
+?[0m
+
+  Scenario: Selfupdate when not out of date        ?[90m# self_update.feature:77?[0m
+    ?[32mGiven ?[0m?[32man initialised environment?[0m               ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                 ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk selfupdate?[0m?[32m"?[0m                  ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mNo update available at this time.?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Uninstall Candidate
+
+  Background:                       ?[90m# uninstall_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Uninstalling grails 2.1.0...
+
+
+?[0m
+
+  Background:                       ?[90m# uninstall_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Unselecting grails 2.1.0...
+
+Uninstalling grails 2.1.0...
+
+
+?[0m
+
+  Background:                       ?[90m# uninstall_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+grails 1.3.9 is not installed.
+
+
+?[0m
+
+  Background:                       ?[90m# uninstall_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+No candidate provided.
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Background:                       ?[90m# uninstall_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! groffle is not a valid candidate.
+
+
+?[0m
+
+  Background:                       ?[90m# uninstall_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+No candidate version provided.
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Scenario: Attempt uninstalling without a version provided ?[90m# uninstall_candidate.feature:40?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                        ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk uninstall grails?[0m?[32m"?[0m                     ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mNo candidate version provided.?[0m?[32m"?[0m             ?[90m# command_line_interop_steps.groovy:15?[0m
+Feature: Use and Default Candidate
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+No candidate provided.
+
+Usage: sdk <command> [candidate] [version]
+       sdk offline <enable|disable>
+
+   commands:
+       install   or i    <candidate> [version]
+       uninstall or rm   <candidate> <version>
+       list      or ls   [candidate]
+       use       or u    <candidate> [version]
+       default   or d    <candidate> [version]
+       current   or c    [candidate]
+       outdated  or o    [candidate]
+       version   or v
+       broadcast or b
+       help      or h
+       offline           <enable|disable>
+       selfupdate        [force]
+       flush             <candidates|broadcast|archives|temp>
+
+   candidate  :  the SDK to install: groovy, scala, grails, akka, etc.
+                 use list command for comprehensive list of candidates
+                 eg: $ sdk list
+
+   version    :  where optional, defaults to latest stable if not provided
+                 eg: $ sdk install groovy
+
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Grails Version: 1.3.9
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Grails version: 1.3.9
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+Grails version: 1.3.9
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! 1.9.9 is not a valid groovy version.
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+Setting grails version 2.0.0.M1 as default.
+
+Using grails version 2.0.0.M1 in this shell.
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! grails 1.3.9 is not installed.
+Do you want to install it now? (Y/n): 
+Downloading: grails 1.3.9
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0   533k      0 --:--:-- --:--:-- --:--:--  533k
+
+Installing: grails 1.3.9
+Done installing!
+
+Setting grails version 1.3.9 as default.
+
+Using grails version 1.3.9 in this shell.
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! grails 2.1.0 is not installed.
+Do you want to install it now? (Y/n): 
+Downloading: grails 2.1.0
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   541  100   541    0     0    99k      0 --:--:-- --:--:-- --:--:--   99k
+
+Installing: grails 2.1.0
+Done installing!
+
+
+Using grails version 2.1.0 in this shell.
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! groovy 2.0.5 is not installed.
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Default groovy version set to 2.0.5
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Default groovy version set to 2.0.5
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+broadcast message
+
+Stop! 2.9.9 is not a valid groovy version.
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+/tmp/sdkman-1286/.sdkman/candidates/grails/2.1.0
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+/tmp/sdkman-1286/.sdkman/candidates/grails/2.1.0
+
+
+?[0m
+
+  Background:                       ?[90m# use_and_default_candidate.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+?[34m
+Output: 
+
+/tmp/sdkman-1286/.sdkman/candidates/grails/2.1.0
+
+
+?[0m
+
+  Scenario: Use an uninstalled version of an installed candidate updates the candidate _HOME variable ?[90m# use_and_default_candidate.feature:120?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.9?[0m?[32m" is already installed and default?[0m                     ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is available for download?[0m                              ?[90m# stub_steps.groovy:17?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                                    ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mAnd ?[0m?[32mthe "?[0m?[32m?[1mGRAILS_HOME?[0m?[32m" variable contains "?[0m?[32m?[1mgrails/current?[0m?[32m"?[0m                                          ?[90m# command_line_interop_steps.groovy:39?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk use grails 2.1.0?[0m?[32m" and answer "?[0m?[32m?[1mY?[0m?[32m"?[0m                                                ?[90m# command_line_interop_steps.groovy:10?[0m
+    ?[32mThen ?[0m?[32mthe "?[0m?[32m?[1mGRAILS_HOME?[0m?[32m" variable contains "?[0m?[32m?[1mgrails/2.1.0?[0m?[32m"?[0m                                           ?[90m# command_line_interop_steps.groovy:39?[0m
+Feature: Version
+
+  Background:                       ?[90m# version.feature:3?[0m
+    ?[32mGiven ?[0m?[32mthe internet is reachable?[0m ?[90m# initialisation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m  ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m  ?[90m# initialisation_steps.groovy:115?[0m
+?[34m
+Output: 
+
+broadcast message
+SDKMAN x.y.z
+
+
+?[0m
+
+  Scenario: Show the current version of sdkman ?[90m# version.feature:8?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk version?[0m?[32m"?[0m                 ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mSDKMAN x.y.z?[0m?[32m"?[0m                  ?[90m# command_line_interop_steps.groovy:15?[0m
+
+136 Scenarios (?[32m136 passed?[0m)
+972 Steps (?[32m972 passed?[0m)
+0m33.387s
+
+]]></system-out>
+  <system-err><![CDATA[2015-10-25 04:18:24.813:INFO::Logging to STDERR via org.mortbay.log.StdErrLog
+2015-10-25 04:18:24.858:INFO::jetty-6.1.26
+2015-10-25 04:18:24.871:INFO::Started DelayableSocketConnector@0.0.0.0:8080
+log4j:WARN No appenders could be found for logger (org.apache.http.impl.conn.PoolingClientConnectionManager).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+2015-10-25 04:18:26.128:INFO:/:RequestHandlerClass from context returned com.github.tomakehurst.wiremock.http.StubRequestHandler
+]]></system-err>
+</testsuite>

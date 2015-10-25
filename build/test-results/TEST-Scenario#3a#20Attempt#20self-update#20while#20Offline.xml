@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Attempt self-update while Offline" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:48" hostname="schrodinger" time="0.207">
+  <properties/>
+  <testcase name="Given the internet is not reachable" classname="Scenario: Attempt self-update while Offline" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Attempt self-update while Offline" time="0.0"/>
+  <testcase name="Given the system is bootstrapped" classname="Scenario: Attempt self-update while Offline" time="0.0"/>
+  <testcase name="When I enter &quot;sdk selfupdate&quot;" classname="Scenario: Attempt self-update while Offline" time="0.0"/>
+  <testcase name="Then I see &quot;This command is not available in offline mode.&quot;" classname="Scenario: Attempt self-update while Offline" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Attempt self-update while Offline" time="0.209"/>
+  <system-out><![CDATA[
+  # help command
+  Scenario: Request help while Offline                      ?[90m# offline_mode.feature:140?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                        ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk help?[0m?[32m"?[0m                                 ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsage: sdk <command> [candidate] [version]?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

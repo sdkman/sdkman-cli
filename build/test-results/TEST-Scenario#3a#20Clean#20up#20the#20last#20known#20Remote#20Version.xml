@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Clean up the last known Remote Version" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:30" hostname="schrodinger" time="0.211">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Clean up the last known Remote Version" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Clean up the last known Remote Version" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Clean up the last known Remote Version" time="0.0"/>
+  <testcase name="Given a prior version &quot;x.y.z&quot; was detected" classname="Scenario: Clean up the last known Remote Version" time="0.0"/>
+  <testcase name="When I enter &quot;sdk flush version&quot;" classname="Scenario: Clean up the last known Remote Version" time="0.0"/>
+  <testcase name="Then no version token can be found" classname="Scenario: Clean up the last known Remote Version" time="0.001"/>
+  <testcase name="And I see &quot;Version Token has been flushed.&quot;" classname="Scenario: Clean up the last known Remote Version" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Clean up the last known Remote Version" time="0.243"/>
+  <system-out><![CDATA[
+  Scenario: Clean up an uninitialised Broadcast           ?[90m# flush.feature:29?[0m
+    ?[32mGiven ?[0m?[32mthe broadcast has been flushed?[0m                  ?[90m# flush_steps.groovy:33?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk flush broadcast?[0m?[32m"?[0m                    ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mNo prior broadcast found so not flushed.?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

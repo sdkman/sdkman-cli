@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Attempt uninstalling without a version provided" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:54" hostname="schrodinger" time="0.207">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Attempt uninstalling without a version provided" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Attempt uninstalling without a version provided" time="0.0"/>
+  <testcase name="Given the system is bootstrapped" classname="Scenario: Attempt uninstalling without a version provided" time="0.0"/>
+  <testcase name="When I enter &quot;sdk uninstall grails&quot;" classname="Scenario: Attempt uninstalling without a version provided" time="0.0"/>
+  <testcase name="Then I see &quot;No candidate version provided.&quot;" classname="Scenario: Attempt uninstalling without a version provided" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Attempt uninstalling without a version provided" time="0.224"/>
+  <system-out><![CDATA[
+  Scenario: Attempt uninstalling with an invalid Candidate specified ?[90m# uninstall_candidate.feature:35?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                                 ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk uninstall groffle?[0m?[32m"?[0m                             ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! groffle is not a valid candidate.?[0m?[32m"?[0m             ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: List an uninstalled available Version" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:37" hostname="schrodinger" time="0.23">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: List an uninstalled available Version" time="0.001"/>
+  <testcase name="And an initialised environment" classname="Scenario: List an uninstalled available Version" time="0.0"/>
+  <testcase name="Given I do not have a &quot;grails&quot; candidate installed" classname="Scenario: List an uninstalled available Version" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; has a version list available" classname="Scenario: List an uninstalled available Version" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: List an uninstalled available Version" time="0.0"/>
+  <testcase name="When I enter &quot;sdk list grails&quot;" classname="Scenario: List an uninstalled available Version" time="0.0"/>
+  <testcase name="Then I see &quot;Candidate: grails&quot;" classname="Scenario: List an uninstalled available Version" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: List an uninstalled available Version" time="0.25"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Shortcut for a Broadcast command issued" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:43" hostname="schrodinger" time="0.216">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Shortcut for a Broadcast command issued" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Shortcut for a Broadcast command issued" time="0.0"/>
+  <testcase name="Given no prior Broadcast was received" classname="Scenario: Shortcut for a Broadcast command issued" time="0.0"/>
+  <testcase name="And a new Broadcast &quot;This is a LIVE Broadcast!&quot; with id &quot;12345&quot; is available" classname="Scenario: Shortcut for a Broadcast command issued" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Shortcut for a Broadcast command issued" time="0.0"/>
+  <testcase name="When I enter &quot;sdk b&quot;" classname="Scenario: Shortcut for a Broadcast command issued" time="0.0"/>
+  <testcase name="Then I see &quot;This is a LIVE Broadcast!&quot;" classname="Scenario: Shortcut for a Broadcast command issued" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Shortcut for a Broadcast command issued" time="0.232"/>
+  <system-out><![CDATA[
+  Scenario: Shortcut for defaulting a Candidate Version that is installed and not default ?[90m# mnemonics.feature:91?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is already installed but not default?[0m     ?[90m# installation_steps.groovy:35?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" is a valid candidate version?[0m               ?[90m# stub_steps.groovy:30?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                        ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk d groovy 2.0.5?[0m?[32m"?[0m                                                     ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mDefault groovy version set to 2.0.5?[0m?[32m"?[0m                                      ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.0.5?[0m?[32m" should be the default?[0m                      ?[90m# use_steps.groovy:30?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

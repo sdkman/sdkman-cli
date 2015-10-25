@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Shortcut for displaying current Candidate Version in use" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:41" hostname="schrodinger" time="0.206">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Shortcut for displaying current Candidate Version in use" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Shortcut for displaying current Candidate Version in use" time="0.0"/>
+  <testcase name="Given the candidate &quot;grails&quot; version &quot;1.3.9&quot; is already installed and default" classname="Scenario: Shortcut for displaying current Candidate Version in use" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Shortcut for displaying current Candidate Version in use" time="0.0"/>
+  <testcase name="When I enter &quot;sdk c grails&quot;" classname="Scenario: Shortcut for displaying current Candidate Version in use" time="0.0"/>
+  <testcase name="Then I see &quot;Using grails version 1.3.9&quot;" classname="Scenario: Shortcut for displaying current Candidate Version in use" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Shortcut for displaying current Candidate Version in use" time="0.222"/>
+  <system-out><![CDATA[
+  Scenario: Shortcut for asking help                        ?[90m# mnemonics.feature:21?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                        ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk h?[0m?[32m"?[0m                                    ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUsage: sdk <command> [candidate] [version]?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

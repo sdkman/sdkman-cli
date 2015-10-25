@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Recall a broadcast while Offline" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:47" hostname="schrodinger" time="0.212">
+  <properties/>
+  <testcase name="Given the internet is not reachable" classname="Scenario: Recall a broadcast while Offline" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Recall a broadcast while Offline" time="0.0"/>
+  <testcase name="Given a prior Broadcast &quot;This is an OLD Broadcast!&quot; with id &quot;12344&quot; was issued" classname="Scenario: Recall a broadcast while Offline" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Recall a broadcast while Offline" time="0.0"/>
+  <testcase name="When I enter &quot;sdk broadcast&quot;" classname="Scenario: Recall a broadcast while Offline" time="0.0"/>
+  <testcase name="Then I see &quot;This is an OLD Broadcast!&quot;" classname="Scenario: Recall a broadcast while Offline" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Recall a broadcast while Offline" time="0.214"/>
+  <system-out><![CDATA[
+  # version command
+  Scenario: Determine the sdkman version when Offline ?[90m# offline_mode.feature:127?[0m
+    ?[32mGiven ?[0m?[32mthe system is bootstrapped?[0m                  ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk version?[0m?[32m"?[0m                        ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see the current sdkman version?[0m             ?[90m# command_line_interop_steps.groovy:27?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

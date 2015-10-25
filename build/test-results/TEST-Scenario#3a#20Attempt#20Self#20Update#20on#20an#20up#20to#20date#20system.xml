@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Attempt Self Update on an up to date system" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:35" hostname="schrodinger" time="0.217">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Attempt Self Update on an up to date system" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Attempt Self Update on an up to date system" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Attempt Self Update on an up to date system" time="0.0"/>
+  <testcase name="And an available selfupdate" classname="Scenario: Attempt Self Update on an up to date system" time="0.0"/>
+  <testcase name="When I enter &quot;sdk selfupdate&quot;" classname="Scenario: Attempt Self Update on an up to date system" time="0.0"/>
+  <testcase name="Then I see &quot;No update available at this time.&quot;" classname="Scenario: Attempt Self Update on an up to date system" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Attempt Self Update on an up to date system" time="0.236"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

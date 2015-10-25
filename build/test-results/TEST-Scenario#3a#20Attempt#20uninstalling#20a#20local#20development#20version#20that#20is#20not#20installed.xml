@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Attempt uninstalling a local development version that is not installed" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:40" hostname="schrodinger" time="0.206">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Attempt uninstalling a local development version that is not installed" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Attempt uninstalling a local development version that is not installed" time="0.0"/>
+  <testcase name="Given the candidate &quot;groovy&quot; version &quot;2.1-SNAPSHOT&quot; is not installed" classname="Scenario: Attempt uninstalling a local development version that is not installed" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Attempt uninstalling a local development version that is not installed" time="0.0"/>
+  <testcase name="When I enter &quot;sdk uninstall groovy 2.1-SNAPSHOT&quot;" classname="Scenario: Attempt uninstalling a local development version that is not installed" time="0.001"/>
+  <testcase name="Then I see &quot;groovy 2.1-SNAPSHOT is not installed.&quot;" classname="Scenario: Attempt uninstalling a local development version that is not installed" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Attempt uninstalling a local development version that is not installed" time="0.223"/>
+  <system-out><![CDATA[
+  Scenario: Uninstall a local development version                                               ?[90m# local_developement_versions.feature:23?[0m
+    ?[32mGiven ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.1-SNAPSHOT?[0m?[32m" is already linked to "?[0m?[32m?[1m/tmp/groovy-core?[0m?[32m"?[0m ?[90m# installation_steps.groovy:66?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                                              ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk uninstall groovy 2.1-SNAPSHOT?[0m?[32m"?[0m                                            ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mUninstalling groovy 2.1-SNAPSHOT?[0m?[32m"?[0m                                               ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgroovy?[0m?[32m" version "?[0m?[32m?[1m2.1-SNAPSHOT?[0m?[32m" is not installed?[0m                          ?[90m# installation_steps.groovy:16?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

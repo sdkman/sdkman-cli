@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Set the default to an uninstalled candidate version while Forced Offline" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:34" hostname="schrodinger" time="0.211">
+  <properties/>
+  <testcase name="Given offline mode is enabled with reachable internet" classname="Scenario: Set the default to an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="And the candidate &quot;grails&quot; version &quot;1.3.9&quot; is already installed and default" classname="Scenario: Set the default to an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Set the default to an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Set the default to an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="When I enter &quot;sdk default grails 2.1.0&quot;" classname="Scenario: Set the default to an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="Then I see &quot;Stop! grails 2.1.0 is not available in offline mode.&quot;" classname="Scenario: Set the default to an uninstalled candidate version while Forced Offline" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Set the default to an uninstalled candidate version while Forced Offline" time="0.22"/>
+  <system-out><![CDATA[
+  #use version
+  Scenario: Use an uninstalled candidate version while Forced Offline           ?[90m# forced_offline_mode.feature:76?[0m
+    ?[32mGiven ?[0m?[32moffline mode is enabled with reachable internet?[0m                       ?[90m# initialisation_steps.groovy:63?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m1.3.9?[0m?[32m" is already installed and default?[0m ?[90m# installation_steps.groovy:22?[0m
+    ?[32mAnd ?[0m?[32mthe candidate "?[0m?[32m?[1mgrails?[0m?[32m" version "?[0m?[32m?[1m2.1.0?[0m?[32m" is not installed?[0m                 ?[90m# installation_steps.groovy:16?[0m
+    ?[32mAnd ?[0m?[32man initialised environment?[0m                                              ?[90m# initialisation_steps.groovy:79?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                                              ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk use grails 2.1.0?[0m?[32m"?[0m                                         ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mStop! grails 2.1.0 is not available in offline mode.?[0m?[32m"?[0m           ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

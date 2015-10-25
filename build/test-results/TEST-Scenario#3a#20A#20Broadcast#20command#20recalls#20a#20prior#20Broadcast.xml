@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: A Broadcast command recalls a prior Broadcast" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:26" hostname="schrodinger" time="0.239">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: A Broadcast command recalls a prior Broadcast" time="0.001"/>
+  <testcase name="And an initialised environment" classname="Scenario: A Broadcast command recalls a prior Broadcast" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: A Broadcast command recalls a prior Broadcast" time="0.0"/>
+  <testcase name="Given a prior Broadcast &quot;This is an OLD Broadcast!&quot; with id &quot;12344&quot; was issued" classname="Scenario: A Broadcast command recalls a prior Broadcast" time="0.0"/>
+  <testcase name="And a new Broadcast &quot;This is an OLD Broadcast!&quot; with id &quot;12344&quot; is available" classname="Scenario: A Broadcast command recalls a prior Broadcast" time="0.0"/>
+  <testcase name="When I enter &quot;sdk broadcast&quot;" classname="Scenario: A Broadcast command recalls a prior Broadcast" time="0.0"/>
+  <testcase name="Then I see &quot;This is an OLD Broadcast!&quot;" classname="Scenario: A Broadcast command recalls a prior Broadcast" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: A Broadcast command recalls a prior Broadcast" time="0.289"/>
+  <system-out><![CDATA[
+  Scenario: A command is issued where the prior Broadcast was the same as the Live one ?[90m# broadcast.feature:20?[0m
+    ?[32mGiven ?[0m?[32ma prior Broadcast "?[0m?[32m?[1mThis is a LIVE Broadcast!?[0m?[32m" with id "?[0m?[32m?[1m12345?[0m?[32m" was issued?[0m     ?[90m# broadcast_steps.groovy:16?[0m
+    ?[32mAnd ?[0m?[32ma new Broadcast "?[0m?[32m?[1mThis is a LIVE Broadcast!?[0m?[32m" with id "?[0m?[32m?[1m12345?[0m?[32m" is available?[0m       ?[90m# broadcast_steps.groovy:11?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk version?[0m?[32m"?[0m                                                         ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI do not see "?[0m?[32m?[1mThis is a LIVE Broadcast!?[0m?[32m"?[0m                                      ?[90m# command_line_interop_steps.groovy:19?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

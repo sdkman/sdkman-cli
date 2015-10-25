@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="sdkman.specs.InitialisationSpec" tests="3" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:18" hostname="schrodinger" time="5.905">
+  <properties/>
+  <testcase name="should include all candidates in PATH" classname="sdkman.specs.InitialisationSpec" time="0.251"/>
+  <testcase name="should reinitialize candidates in PATH if necessary" classname="sdkman.specs.InitialisationSpec" time="0.421"/>
+  <testcase name="should not duplicate PATH entries if re-sourced" classname="sdkman.specs.InitialisationSpec" time="5.233"/>
+  <system-out><![CDATA[Available: [asciidoctorj, crash, gaiden, glide, gradle, grails, griffon, groovy, groovyserv, jbake, jbossforge, lazybones, springboot, vertx]
+Included : [asciidoctorj, crash, gaiden, glide, gradle, grails, griffon, groovy, groovyserv, jbake, jbossforge, lazybones, springboot, vertx]
+
+/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/vertx/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/springboot/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/lazybones/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/jbossforge/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/jbake/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/groovyserv/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/groovy/current/bin:/tmp/sdkman-test/sdkman-7232/.
+sdkman/candidates/griffon/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/grails/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/gradle/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/glide/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/gaiden/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/crash/current/bin:/tmp/sdkman-test/sdkman-7232/.sdkman/candidates/asciidoctorj/current/bin:/tmp/sdkman-test/sdkman-7232/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+Available: [asciidoctorj, crash, gaiden, glide, gradle, grails, griffon, groovy, groovyserv, jbake, jbossforge, lazybones, springboot, vertx]
+Included : [asciidoctorj, crash, gaiden, glide, gradle, grails, griffon, groovy, groovyserv, jbake, jbossforge, lazybones, springboot, vertx]
+
+/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/vertx/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/springboot/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/lazybones/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/jbossforge/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/jbake/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/groovyserv/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/groovy/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/griffon/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/grails/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/gradle/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/glide/current/bin:/tmp/sdkman-test/s
+dkman-9184/.sdkman/candidates/gaiden/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/crash/current/bin:/tmp/sdkman-test/sdkman-9184/.sdkman/candidates/asciidoctorj/current/bin:/tmp/sdkman-test/sdkman-9184/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+Available: [asciidoctorj, crash, gaiden, glide, gradle, grails, griffon, groovy, groovyserv, jbake, jbossforge, lazybones, springboot, vertx]
+Included : [asciidoctorj, crash, gaiden, glide, gradle, grails, groovy, groovyserv, jbake, jbossforge, lazybones, springboot, vertx]
+ALERT! Command timed out. Last output was:
+
+
+/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/vertx/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/springboot/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/lazybones/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/jbossforge/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/jbake/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/groovyserv/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/groovy/current/bin:/tmp/sdkman-test/sdkman-9133/.echo "Exit code is: sdkman/candidates/griffon/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/grails/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/gradle/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/glide/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/gaiden/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/crash/current/bin:/tmp/sdkman-test/sdkman-9133/.sdkman/candidates/asciidoctorj/current/bin:/tmp/sdkman-test/sdkman-9133/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Exit $?"
+code is: 0
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

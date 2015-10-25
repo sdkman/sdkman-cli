@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Clear out the cached Archives" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:31" hostname="schrodinger" time="0.211">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Clear out the cached Archives" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Clear out the cached Archives" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Clear out the cached Archives" time="0.0"/>
+  <testcase name="Given the archive &quot;grails-1.3.9.zip&quot; has been cached" classname="Scenario: Clear out the cached Archives" time="0.0"/>
+  <testcase name="When I enter &quot;sdk flush archives&quot;" classname="Scenario: Clear out the cached Archives" time="0.0"/>
+  <testcase name="Then no archives are cached" classname="Scenario: Clear out the cached Archives" time="0.0"/>
+  <testcase name="And I see &quot;1 archive(s) flushed&quot;" classname="Scenario: Clear out the cached Archives" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Clear out the cached Archives" time="0.242"/>
+  <system-out><![CDATA[
+  Scenario: Clean up an uninitialised last known Remote Version ?[90m# flush.feature:40?[0m
+    ?[32mGiven ?[0m?[32mthe Remote Version has been flushed?[0m                   ?[90m# flush_steps.groovy:47?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk flush version?[0m?[32m"?[0m                            ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mNo prior Remote Version found so not flushed.?[0m?[32m"?[0m  ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Clear out the temporary space" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:31" hostname="schrodinger" time="0.207">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Clear out the temporary space" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Clear out the temporary space" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Clear out the temporary space" time="0.001"/>
+  <testcase name="Given the file &quot;res-1.2.0.zip&quot; in temporary storage" classname="Scenario: Clear out the temporary space" time="0.0"/>
+  <testcase name="When I enter &quot;sdk flush temp&quot;" classname="Scenario: Clear out the temporary space" time="0.0"/>
+  <testcase name="Then no &quot;res-1.2.0.zip&quot; file is present in temporary storage" classname="Scenario: Clear out the temporary space" time="0.0"/>
+  <testcase name="And I see &quot;1 archive(s) flushed&quot;" classname="Scenario: Clear out the temporary space" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Clear out the temporary space" time="0.228"/>
+  <system-out><![CDATA[
+  Scenario: Clear out the cached Archives                ?[90m# flush.feature:45?[0m
+    ?[32mGiven ?[0m?[32mthe archive "?[0m?[32m?[1mgrails-1.3.9.zip?[0m?[32m" has been cached?[0m ?[90m# flush_steps.groovy:17?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk flush archives?[0m?[32m"?[0m                    ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mno archives are cached?[0m                          ?[90m# flush_steps.groovy:21?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1m1 archive(s) flushed?[0m?[32m"?[0m                     ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

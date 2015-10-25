@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Force Self Update on an up to date system" tests="7" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:35" hostname="schrodinger" time="0.211">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Force Self Update on an up to date system" time="0.0"/>
+  <testcase name="And an initialised environment" classname="Scenario: Force Self Update on an up to date system" time="0.0"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Force Self Update on an up to date system" time="0.001"/>
+  <testcase name="And an available selfupdate" classname="Scenario: Force Self Update on an up to date system" time="0.0"/>
+  <testcase name="When I enter &quot;sdk selfupdate force&quot;" classname="Scenario: Force Self Update on an up to date system" time="0.0"/>
+  <testcase name="Then I see &quot;Successfully upgraded SDKMAN.&quot;" classname="Scenario: Force Self Update on an up to date system" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Force Self Update on an up to date system" time="0.231"/>
+  <system-out><![CDATA[
+  Scenario: Attempt Self Update on an up to date system ?[90m# idempotent_self_update.feature:9?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk selfupdate?[0m?[32m"?[0m                       ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI see "?[0m?[32m?[1mNo update available at this time.?[0m?[32m"?[0m      ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

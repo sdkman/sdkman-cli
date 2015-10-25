@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Scenario: Agree to a suggested Selfupdate" tests="9" skipped="0" failures="0" errors="0" timestamp="2015-10-25T04:18:51" hostname="schrodinger" time="0.214">
+  <properties/>
+  <testcase name="Given the internet is reachable" classname="Scenario: Agree to a suggested Selfupdate" time="0.001"/>
+  <testcase name="Given an outdated initialised environment" classname="Scenario: Agree to a suggested Selfupdate" time="0.001"/>
+  <testcase name="And the system is bootstrapped" classname="Scenario: Agree to a suggested Selfupdate" time="0.0"/>
+  <testcase name="When I enter &quot;sdk help&quot; and answer &quot;Y&quot;" classname="Scenario: Agree to a suggested Selfupdate" time="0.0"/>
+  <testcase name="Then I see &quot;A new version of SDKMAN is available...&quot;" classname="Scenario: Agree to a suggested Selfupdate" time="0.0"/>
+  <testcase name="And I see &quot;Would you like to upgrade now? (Y/n)&quot;" classname="Scenario: Agree to a suggested Selfupdate" time="0.0"/>
+  <testcase name="And I see &quot;Successfully upgraded SDKMAN.&quot;" classname="Scenario: Agree to a suggested Selfupdate" time="0.0"/>
+  <testcase name="And I do not see &quot;Not upgrading today...&quot;" classname="Scenario: Agree to a suggested Selfupdate" time="0.0"/>
+  <testcase name="classMethod" classname="Scenario: Agree to a suggested Selfupdate" time="0.233"/>
+  <system-out><![CDATA[
+  Scenario: Selfupdate when out of date                         ?[90m# self_update.feature:16?[0m
+    ?[32mGiven ?[0m?[32man outdated initialised environment?[0m                   ?[90m# initialisation_steps.groovy:91?[0m
+    ?[32mAnd ?[0m?[32mthe system is bootstrapped?[0m                              ?[90m# initialisation_steps.groovy:115?[0m
+    ?[32mWhen ?[0m?[32mI enter "?[0m?[32m?[1msdk selfupdate?[0m?[32m"?[0m                               ?[90m# command_line_interop_steps.groovy:5?[0m
+    ?[32mThen ?[0m?[32mI do not see "?[0m?[32m?[1mA new version of SDKMAN is available...?[0m?[32m"?[0m ?[90m# command_line_interop_steps.groovy:19?[0m
+    ?[32mAnd ?[0m?[32mI do not see "?[0m?[32m?[1mWould you like to upgrade now? (Y/n)?[0m?[32m"?[0m     ?[90m# command_line_interop_steps.groovy:19?[0m
+    ?[32mAnd ?[0m?[32mI do not see "?[0m?[32m?[1mNot upgrading today...?[0m?[32m"?[0m                   ?[90m# command_line_interop_steps.groovy:19?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mUpdating SDKMAN...?[0m?[32m"?[0m                              ?[90m# command_line_interop_steps.groovy:15?[0m
+    ?[32mAnd ?[0m?[32mI see "?[0m?[32m?[1mSuccessfully upgraded SDKMAN.?[0m?[32m"?[0m                   ?[90m# command_line_interop_steps.groovy:15?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
