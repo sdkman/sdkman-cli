@@ -195,7 +195,11 @@ for candidate in "${SDKMAN_CANDIDATES[@]}"; do
             rmdir "${SDKMAN_DIR}/${candidate}"
         else
             sdkman_echo_debug "Moving this ${candidate} into dir: ${SDKMAN_DIR}/candidates/${candidate} and symlinking into dir: ${SDKMAN_DIR}/${candidate}"
+            OLD_CURRENT_DIR=$(readlink "${SDKMAN_DIR}/${candidate}/current")
+            NEW_CURRENT_DIR=$(echo "${OLD_CURRENT_DIR}" | sed "s_${SDKMAN_DIR}_${SDKMAN_DIR}/candidates_g")
+            unlink "${SDKMAN_DIR}/${candidate}/current"
             mv "${SDKMAN_DIR}/${candidate}" "${SDKMAN_DIR}/candidates/${candidate}"
+            ln -s "${NEW_CURRENT_DIR}" "${SDKMAN_DIR}/candidates/groovy/current"
             ln -s "${SDKMAN_DIR}/candidates/${candidate}" "${SDKMAN_DIR}/${candidate}"
         fi
     fi
