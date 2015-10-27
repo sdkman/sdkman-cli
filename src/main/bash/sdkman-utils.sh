@@ -18,7 +18,7 @@
 
 function __sdkman_path_contains {
     local candidate="$1"
-    local exists=$(echo "$PATH" | grep "$candidate")
+    local exists="$(echo "$PATH" | grep "$candidate")"
     if [[ -n "$exists" ]]; then
         SDKMAN_CANDIDATE_IN_PATH='true'
     else
