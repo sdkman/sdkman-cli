@@ -5,7 +5,7 @@ function __sdkman_determine_outdated_version {
     candidate="$1"
 
     # Resolve local versions
-    local_versions="$(echo $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 -type d -exec basename '{}' \;) | sed -e "s/ /, /g" )"
+    local_versions="$(echo $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 -type d -exec basename '{}' \; 2>/dev/null) | sed -e "s/ /, /g" )"
     if [ ${#local_versions} -eq 0 ]; then
         return 1
     fi
