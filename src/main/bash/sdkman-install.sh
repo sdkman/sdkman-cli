@@ -107,8 +107,9 @@ function __sdkman_install_candidate_version {
 
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}"
 
-	unzip -oq "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${SDKMAN_DIR}/tmp/"
-	mv "${SDKMAN_DIR}"/tmp/*-${VERSION} "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
+	rm -rf "${SDKMAN_DIR}/tmp/out"
+	unzip -oq "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${SDKMAN_DIR}/tmp/out"
+	mv "${SDKMAN_DIR}"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
 	echo "Done installing!"
 	echo ""
 }
