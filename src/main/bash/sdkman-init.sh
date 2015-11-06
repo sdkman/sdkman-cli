@@ -153,7 +153,7 @@ for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 	# Eliminate empty entries due to incompatibility
 	CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
 	CANDIDATE_DIR="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE_NAME}/current"
-	if [[ -n "$CANDIDATE_NAME" && -h "$CANDIDATE_DIR" ]]; then
+	if [[ -n "$CANDIDATE_NAME" && ( -h "$CANDIDATE_DIR" || -d "${CANDIDATE_DIR}" ) ]]; then
 		__sdkman_export_candidate_home "$CANDIDATE_NAME" "$CANDIDATE_DIR"
 		__sdkman_prepend_candidate_to_path "$CANDIDATE_DIR"
 	fi
