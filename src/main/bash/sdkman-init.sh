@@ -183,6 +183,7 @@ for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 	unset CANDIDATE_NAME
 	unset CANDIDATE_DIR
 done
+unset i
 export PATH
 
 alias gvm="sdk"
