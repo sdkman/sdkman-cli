@@ -5,7 +5,7 @@ import sdkman.stubs.CurlStub
 import sdkman.env.SdkManBashEnvBuilder
 import spock.lang.Specification
 
-import static sdkman.utils.FilesystemUtils.prepareBaseDir
+import static sdkman.utils.FilesystemUtils.prepareSdkmanDir
 
 class BootstrapSpec extends Specification {
 
@@ -18,7 +18,7 @@ class BootstrapSpec extends Specification {
     String versionToken
 
     void setup(){
-        sdkmanBaseDir = prepareBaseDir()
+        sdkmanBaseDir = prepareSdkmanDir()
         sdkmanBaseEnv = sdkmanBaseDir.absolutePath
         bootstrap = "${sdkmanBaseDir.absolutePath}/.sdkman/bin/sdkman-init.sh"
         versionToken = "${sdkmanBaseDir.absolutePath}/.sdkman/var/version"

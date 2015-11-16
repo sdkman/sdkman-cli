@@ -8,7 +8,7 @@ import spock.lang.Specification
 import java.nio.file.Files
 import java.nio.file.Paths
 
-import static sdkman.utils.FilesystemUtils.prepareBaseDir
+import static sdkman.utils.FilesystemUtils.prepareSdkmanDir
 
 class InitialisationSpec extends Specification {
 
@@ -24,7 +24,7 @@ class InitialisationSpec extends Specification {
     String candidatesDir
 
     void setup(){
-        sdkmanBaseDir = prepareBaseDir()
+        sdkmanBaseDir = prepareSdkmanDir()
         sdkmanDotDir = "${sdkmanBaseDir.absolutePath}/.sdkman"
         bootstrap = "${sdkmanDotDir}/bin/sdkman-init.sh"
         candidatesDir = "${sdkmanDotDir}/candidates"
