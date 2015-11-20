@@ -92,4 +92,9 @@ class SdkCompatibilitySpec extends Specification {
         candidateCurrentDir.toString()
     }
 
+    void cleanup(){
+        println bash.output
+        bash.stop()
+        assert sdkmanBaseDirectory.deleteDir()
+    }
 }

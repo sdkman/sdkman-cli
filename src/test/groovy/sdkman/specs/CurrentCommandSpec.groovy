@@ -54,6 +54,8 @@ class CurrentCommandSpec extends Specification {
         bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDir)
                 .withCurlStub(curlStub)
+                .withOnlineMode(true)
+                .withForcedOfflineMode(false)
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(installedCandidates.keySet().toList())
                 .withVersionToken("x.y.z")
@@ -82,9 +84,10 @@ class CurrentCommandSpec extends Specification {
     private prepareFoldersFor(Map installedCandidates) {
         installedCandidates.forEach { candidate, version ->
             def candidateVersionDir = "$candidatesDir/$candidate/$version"
+            def candidateVersionBinDir = "$candidateVersionDir/bin"
+            new File(candidateVersionBinDir).mkdirs()
             def candidateVersionPath = Paths.get(candidateVersionDir)
             def symlink = Paths.get("$candidatesDir/$candidate/current")
-            new File(candidateVersionDir).mkdirs()
             createSymbolicLink(symlink, candidateVersionPath)
         }
     }
