@@ -167,6 +167,29 @@ fi
 
 # Build _HOME environment variables and prefix them all to PATH
 
+function sdkman_export_candidate_home {
+	local candidate_name="$1"
+	local candidate_dir="$2"
+	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
+	export $(echo "${candidate_home_var}")="$candidate_dir"
+}
+
+function sdkman_set_candidate_bin_dir {
+	local candidate_dir="$1"
+	if [[ -d "${candidate_dir}/bin" ]]; then
+		CANDIDATE_BIN_DIR="${candidate_dir}/bin"
+	else
+		CANDIDATE_BIN_DIR="${candidate_dir}"
+	fi
+}
+
+function sdkman_prepend_candidate_to_path {
+	local candidate_dir="$1"
+	sdkman_set_candidate_bin_dir "${candidate_dir}"
+	echo "$PATH" | grep -q "${candidate_dir}" || PATH="${CANDIDATE_BIN_DIR}:${PATH}"
+	unset CANDIDATE_BIN_DIR
+}
+
 # The candidates are assigned to an array for zsh compliance, a list of words is not iterable
 # Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
 # In bash arrays are zero index based, in zsh they are 1 based(!)
@@ -175,15 +198,8 @@ for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 	CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
 	CANDIDATE_DIR="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE_NAME}/current"
 	if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
-		CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
-		export $(echo "${CANDIDATE_HOME_VAR}")="$CANDIDATE_DIR"
-		if [[ -d "${CANDIDATE_DIR}/bin" ]]; then
-			CANDIDATE_BIN_DIR="${CANDIDATE_DIR}/bin"
-		else
-			CANDIDATE_BIN_DIR="${CANDIDATE_DIR}"
-		fi
-		echo "$PATH" | grep -q "${CANDIDATE_DIR}" || PATH="${CANDIDATE_BIN_DIR}:${PATH}"
-		unset CANDIDATE_HOME_VAR CANDIDATE_BIN_DIR
+		sdkman_export_candidate_home "${CANDIDATE_NAME}" "${CANDIDATE_DIR}"
+		sdkman_prepend_candidate_to_path "${CANDIDATE_DIR}"
 	fi
 	unset CANDIDATE_NAME CANDIDATE_DIR
 done
