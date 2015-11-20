@@ -177,11 +177,15 @@ for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 	if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
 		CANDIDATE_HOME_VAR="$(echo ${CANDIDATE_NAME} | tr '[:lower:]' '[:upper:]')_HOME"
 		export $(echo "${CANDIDATE_HOME_VAR}")="$CANDIDATE_DIR"
-		echo "$PATH" | grep -q "${CANDIDATE_DIR}" || PATH="${CANDIDATE_DIR}/bin:${PATH}"
-		unset CANDIDATE_HOME_VAR
+		if [[ -d "${CANDIDATE_DIR}/bin" ]]; then
+			CANDIDATE_BIN_DIR="${CANDIDATE_DIR}/bin"
+		else
+			CANDIDATE_BIN_DIR="${CANDIDATE_DIR}"
+		fi
+		echo "$PATH" | grep -q "${CANDIDATE_DIR}" || PATH="${CANDIDATE_BIN_DIR}:${PATH}"
+		unset CANDIDATE_HOME_VAR CANDIDATE_BIN_DIR
 	fi
-	unset CANDIDATE_NAME
-	unset CANDIDATE_DIR
+	unset CANDIDATE_NAME CANDIDATE_DIR
 done
 unset i
 export PATH
