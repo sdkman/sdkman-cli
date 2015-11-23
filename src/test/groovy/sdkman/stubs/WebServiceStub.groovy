@@ -19,19 +19,27 @@ class WebServiceStub {
                 .withStatus(302)))
 
         def binary = "${candidate}-${version}.zip"
-        stubFor(get(urlEqualTo("/$binary")).willReturn(
-            aResponse()
-                .withStatus(200)
-                .withHeader("Content-Type", "application/zip")
-                .withBodyFile(binary)))
+        primeZipEndpoint("/$binary", binary)
     }
 
     static primeSelfupdate() {
-        stubFor(get(urlEqualTo("/selfupdate")).willReturn(
-            aResponse()
-                .withStatus(200)
-                .withHeader("Content-Type", "text/plain")
-                .withBodyFile("selfupdate.sh")))
+        primePlainFileEndpoint("/selfupdate", "selfupdate.sh")
+    }
+
+    static primeFileEndpoint(String endpoint, String filePath, String contentType) {
+        stubFor(get(urlEqualTo(endpoint)).willReturn(
+                aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", contentType)
+                        .withBodyFile(filePath)))
+    }
+
+    static primeZipEndpoint(String endpoint, String filePath) {
+        primeFileEndpoint(endpoint, filePath, "application/zip")
+    }
+
+    static primePlainFileEndpoint(String endpoint, String filePath) {
+        primeFileEndpoint(endpoint, filePath, "text/plain")
     }
 
 }
