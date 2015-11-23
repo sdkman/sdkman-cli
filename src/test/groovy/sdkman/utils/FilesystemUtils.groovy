@@ -21,11 +21,29 @@ class FilesystemUtils {
         currentSymlinkPath ? Files.readSymbolicLink(Paths.get(currentSymlinkPath)).fileName : ""
     }
 
-    static prepareBaseDir() {
-        def counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
-        def baseDir = "$DEFAULT_BASE_DIR/sdkman-$counter" as File
+    static prepareStubInstallDir(String counter) {
+        def baseDir = "$DEFAULT_BASE_DIR/stub-install-$counter" as File
         baseDir.mkdirs()
         baseDir
+    }
+
+    static prepareSdkmanDir(String counter) {
+        def sdkmanDir = defineSdkmanDir(counter) as File
+        sdkmanDir.mkdirs()
+        sdkmanDir
+    }
+
+    static defineSdkmanDir(String counter) {
+        "$DEFAULT_BASE_DIR/sdkman-$counter"
+    }
+
+    static prepareSdkmanDir() {
+        def counter = defineCounterForSdkmanDir()
+        prepareSdkmanDir(counter)
+    }
+
+    static defineCounterForSdkmanDir() {
+        "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
     }
 
     static prepareCandidateWithVersionFolder(String baseDir, String candidate, String version) {

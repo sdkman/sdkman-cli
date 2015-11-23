@@ -8,7 +8,7 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 import static java.nio.file.Files.createSymbolicLink
-import static sdkman.utils.FilesystemUtils.prepareBaseDir
+import static sdkman.utils.FilesystemUtils.prepareSdkmanDir
 
 class CurrentCommandSpec extends Specification {
 
@@ -21,7 +21,7 @@ class CurrentCommandSpec extends Specification {
     String candidatesDir
 
     void setup() {
-        sdkmanBaseDir = prepareBaseDir()
+        sdkmanBaseDir = prepareSdkmanDir()
         sdkmanDotDir = "${sdkmanBaseDir.absolutePath}/.sdkman"
         bootstrap = "${sdkmanDotDir}/bin/sdkman-init.sh"
         candidatesDir = "${sdkmanDotDir}/candidates"

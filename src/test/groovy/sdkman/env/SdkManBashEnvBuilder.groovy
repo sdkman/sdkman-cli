@@ -22,6 +22,8 @@ class SdkManBashEnvBuilder {
     String jdkHome = "/path/to/my/jdk"
     String httpProxy
     String versionToken
+    Boolean shouldEmulateInstallScript = true
+    String home
 
     Map config = [
             sdkman_auto_answer:'false'
@@ -102,7 +104,41 @@ class SdkManBashEnvBuilder {
         this
     }
 
+    SdkManBashEnvBuilder withShouldEmulateInstallScript(Boolean shouldEmulateInstallScript) {
+        this.shouldEmulateInstallScript = shouldEmulateInstallScript
+        this
+    }
+
+    SdkManBashEnvBuilder withHome(String home){
+        this.home = home
+        this
+    }
+
     BashEnv build() {
+        def env = setCommonEnvVariables()
+        if (shouldEmulateInstallScript) {
+            def variablesSetByInstallScript = emulateInstallScript()
+            env.putAll(variablesSetByInstallScript)
+        } else {
+            env.putAll([HOME: home])
+            primeInstallScript(baseFolder)
+            primeSdkmanScripts(baseFolder)
+        }
+        new BashEnv(baseFolder.absolutePath, env)
+    }
+
+    private Map<String, String> setCommonEnvVariables() {
+        Map<String, String> env = [
+                SDKMAN_SERVICE       : service,
+                SDKMAN_BROKER_SERVICE: brokerService
+        ]
+        if (httpProxy) {
+            env.put("http_proxy", httpProxy)
+        }
+        env
+    }
+
+    private Map<String, String> emulateInstallScript() {
         sdkmanDir = prepareDirectory(baseFolder, ".sdkman")
         sdkmanBinDir = prepareDirectory(sdkmanDir, "bin")
         sdkmanVarDir = prepareDirectory(sdkmanDir, "var")
@@ -122,22 +158,14 @@ class SdkManBashEnvBuilder {
         primeInitScript(sdkmanBinDir)
         primeModuleScripts(sdkmanSrcDir)
 
-        def env = [
-                SDKMAN_DIR: sdkmanDir.absolutePath,
-                SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
-                SDKMAN_ONLINE: "$onlineMode",
-                SDKMAN_FORCE_OFFLINE: "$forcedOfflineMode",
-                SDKMAN_SERVICE: service,
+        [
+                SDKMAN_DIR              : sdkmanDir.absolutePath,
+                SDKMAN_CANDIDATES_DIR   : sdkmanCandidatesDir.absolutePath,
+                SDKMAN_ONLINE           : "$onlineMode",
+                SDKMAN_FORCE_OFFLINE    : "$forcedOfflineMode",
                 SDKMAN_BROADCAST_SERVICE: broadcastService,
-                SDKMAN_BROKER_SERVICE: brokerService,
-                JAVA_HOME: jdkHome
+                JAVA_HOME               : jdkHome
         ]
-
-        if(httpProxy) {
-            env.put("http_proxy", httpProxy)
-        }
-
-        new BashEnv(baseFolder.absolutePath, env)
     }
 
     private prepareDirectory(File target, String directoryName) {
@@ -175,14 +203,31 @@ class SdkManBashEnvBuilder {
     }
 
     private primeInitScript(File targetFolder) {
-        def sourceInitScript = new File(TEST_SCRIPT_BUILD_DIR, 'sdkman-init.sh')
+        primeScript('sdkman-init.sh', targetFolder)
+    }
 
-        if (!sourceInitScript.exists())
-            throw new IllegalStateException("sdkman-init.sh has not been prepared for consumption.")
+    private primeInstallScript(File targetFolder) {
+        primeScript('install.sh', targetFolder)
+    }
 
-        def destInitScript = new File(targetFolder, "sdkman-init.sh")
-        destInitScript << sourceInitScript.text
-        destInitScript
+    private primeSdkmanScripts(File targetFolder) {
+        def tmpSdkmanScriptsDir = prepareDirectory(targetFolder, "tmpSdkmanScripts")
+        TEST_SCRIPT_BUILD_DIR.eachFile { script ->
+            if(script.name.contains("sdkman")){
+                primeScript(script.name, tmpSdkmanScriptsDir)
+            }
+        }
+    }
+
+    private primeScript(String script, File targetFolder) {
+        def sourceScript = new File(TEST_SCRIPT_BUILD_DIR, script)
+
+        if (!sourceScript.exists())
+            throw new IllegalStateException("${script} has not been prepared for consumption.")
+
+        def destScript = new File(targetFolder, script)
+        destScript << sourceScript.text
+        destScript
     }
 
     private primeModuleScripts(File targetFolder){
