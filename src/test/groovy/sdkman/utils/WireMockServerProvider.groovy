@@ -11,7 +11,7 @@ class WireMockServerProvider {
     static WireMockServer wireMockServer
 
     static def wireMockServer() {
-        wireMockServer == null ? createWireMockServer() : wireMockServer
+        wireMockServer ?: createWireMockServer()
     }
 
     private static def createWireMockServer() {
