@@ -90,3 +90,7 @@ To install SDKMAN locally running against your local server, run the following c
 
 	$ ./gradlew install
 	$ source ~/.sdkman/bin/sdkman-init.sh
+
+### Disabling the GVM alias
+
+By default we `alias gvm="sdk"` for backwards compatibility. However, if you'd like to disable this, you can by setting `sdkman_disable_gvm_alias=true` in `${SDKMAN_DIR}/etc/config`
