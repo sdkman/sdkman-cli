@@ -9,6 +9,7 @@ import sdkman.utils.WireMockServerProvider
 import spock.lang.Specification
 
 import static sdkman.stubs.WebServiceStub.primeEndpointWithBinary
+import static sdkman.stubs.WebServiceStub.primeEndpointWithString
 import static sdkman.utils.FilesystemUtils.prepareBaseDir
 
 class InstallSpec extends Specification {
@@ -40,8 +41,7 @@ class InstallSpec extends Specification {
     }
 
     private def primeInstallScriptEndpoint() {
-        def binary = Files.readAllBytes(Paths.get("build/testScripts/install.sh"))
-        primeEndpointWithBinary("/", binary)
+        primeEndpointWithString("/", ("build/testScripts/install.sh" as File).text)
     }
 
     private def primeDownloadSdkmanEndpoint() {

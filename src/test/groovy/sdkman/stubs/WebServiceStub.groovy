@@ -4,7 +4,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*
 
 class WebServiceStub {
 
-    static primeEndpoint(String endpoint, String body) {
+    static primeEndpointWithString(String endpoint, String body) {
         stubFor(get(urlEqualTo(endpoint)).willReturn(
                 aResponse()
                         .withStatus(200)
@@ -16,7 +16,7 @@ class WebServiceStub {
         stubFor(get(urlEqualTo(endpoint)).willReturn(
                 aResponse()
                         .withStatus(200)
-                        .withHeader("Content-Type", "text/plain")
+                        .withHeader("Content-Type", "application/octet-stream")
                         .withBody(body)))
     }
 

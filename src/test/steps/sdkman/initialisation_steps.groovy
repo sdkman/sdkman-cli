@@ -4,7 +4,7 @@ import java.util.zip.ZipException
 import java.util.zip.ZipFile
 
 import static cucumber.api.groovy.EN.*
-import static sdkman.stubs.WebServiceStub.primeEndpoint
+import static sdkman.stubs.WebServiceStub.primeEndpointWithString
 import static sdkman.stubs.WebServiceStub.primeSelfupdate
 
 import sdkman.env.SdkManBashEnvBuilder
@@ -33,9 +33,9 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { Str
 }
 
 And(~'^the internet is reachable$') {->
-    primeEndpoint("/broadcast/latest/id", "12345")
-    primeEndpoint("/broadcast/latest", "broadcast message")
-    primeEndpoint("/app/version", sdkmanVersion)
+    primeEndpointWithString("/broadcast/latest/id", "12345")
+    primeEndpointWithString("/broadcast/latest", "broadcast message")
+    primeEndpointWithString("/app/version", sdkmanVersion)
     primeSelfupdate()
 
     forcedOffline = false
@@ -52,7 +52,7 @@ And(~'^the internet is not reachable$') {->
 }
 
 And(~'^offline mode is disabled with reachable internet$') {->
-    primeEndpoint("/broadcast/latest", "This is a LIVE Broadcast!")
+    primeEndpointWithString("/broadcast/latest", "This is a LIVE Broadcast!")
 
     forcedOffline = false
     online = true
@@ -61,7 +61,7 @@ And(~'^offline mode is disabled with reachable internet$') {->
 }
 
 And(~'^offline mode is enabled with reachable internet$') {->
-    primeEndpoint("/broadcast/latest/id", "12345")
+    primeEndpointWithString("/broadcast/latest/id", "12345")
 
     forcedOffline = true
     online = true
