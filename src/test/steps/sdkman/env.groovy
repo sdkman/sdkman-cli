@@ -3,6 +3,7 @@ package sdkman
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import sdkman.utils.UnixUtils
+import sdkman.utils.WireMockServerProvider
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import static cucumber.api.groovy.Hooks.After
@@ -47,9 +48,7 @@ initScript = new File(binDir, "sdkman-init.sh")
 bash = null
 
 if(!binding.hasVariable("wireMock")) {
-    wireMock = new WireMockServer(wireMockConfig().port(SERVICE_UP_PORT))
-    wireMock.start()
-    WireMock.configureFor(SERVICE_UP_HOST, SERVICE_UP_PORT)
+    wireMock = WireMockServerProvider.wireMockServer()
 }
 
 Before(){
