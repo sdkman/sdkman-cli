@@ -241,6 +241,9 @@ if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_insecure_ssl') ]]; then
 	echo "sdkman_insecure_ssl=false" >> "${sdkman_config_file}"
 fi
 
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_disable_gvm_alias') ]]; then
+    echo "sdkman_disable_gvm_alias=false" >> "${sdkman_config_file}"
+fi
 
 # drop version token
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
