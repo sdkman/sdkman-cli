@@ -30,26 +30,27 @@ class InstallSpec extends Specification {
 
     void "should install init script at bin dir"() {
         given:
-        bash.execute("curl -s ${service} | bash")
-        bash.resetOutput()
+        def sdkmanBinFolder = new File(sdkmanBaseDir, ".sdkman/bin")
+        def sdkmanInitScript = new File(sdkmanBinFolder, "sdkman-init.sh")
 
         when:
-        bash.execute("ls ${sdkmanBaseDir.absolutePath}/.sdkman/bin")
+        bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.output.contains("sdkman-init.sh")
+        sdkmanBinFolder.exists()
+        sdkmanInitScript.exists()
     }
 
-    private def primeInstallScriptEndpoint() {
+    private static primeInstallScriptEndpoint() {
         primeEndpointWithString("/", ("build/testScripts/install.sh" as File).text)
     }
 
-    private def primeDownloadSdkmanEndpoint() {
+    private primeDownloadSdkmanEndpoint() {
         def binary = Files.readAllBytes(Paths.get("build/distributions/sdkman-scripts.zip"))
         primeEndpointWithBinary("/res?platform=${getUname()}&purpose=install", binary)
     }
 
-    private def getUname() {
+    private getUname() {
         bash.execute('echo $(uname)')
         def uname = bash.output.trim()
         bash.resetOutput()
