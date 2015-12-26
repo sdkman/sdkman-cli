@@ -18,7 +18,6 @@ class InstallSpec extends Specification {
     File sdkmanBaseDir
     WireMockServer wireMockServer
 
-
     void setup() {
         sdkmanBaseDir = prepareBaseDir()
         bash = CleanBashEnvBuilder.create(sdkmanBaseDir).build()
@@ -26,6 +25,12 @@ class InstallSpec extends Specification {
         wireMockServer = WireMockServerProvider.wireMockServer()
         primeInstallScriptEndpoint()
         primeDownloadSdkmanEndpoint()
+    }
+
+    void cleanup(){
+        println bash.output
+        bash.stop()
+        assert sdkmanBaseDir.deleteDir()
     }
 
     void "should install init script at bin dir"() {
