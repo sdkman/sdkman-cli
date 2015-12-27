@@ -1,36 +1,19 @@
 package sdkman.specs
 
-import sdkman.env.BashEnv
 import sdkman.env.SdkManBashEnvBuilder
-import sdkman.stubs.CurlStub
-import spock.lang.Specification
+import sdkman.support.BashSpecification
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
-import static sdkman.support.FilesystemUtils.prepareBaseDir
-
-class InitialisationSpec extends Specification {
+class InitialisationSpec extends BashSpecification {
 
     static final allCandidates = ["asciidoctorj", "crash", "gaiden", "glide", "gradle", "grails", "griffon", "groovy",
                                   "groovyserv", "jbake", "jbossforge", "lazybones", "springboot", "vertx"]
 
-    CurlStub curlStub
-    BashEnv bash
-
-    File sdkmanBaseDir
-    String sdkmanDotDir
-    String bootstrap
-    String candidatesDir
-
-    void setup(){
-        sdkmanBaseDir = prepareBaseDir()
-        sdkmanDotDir = "${sdkmanBaseDir.absolutePath}/.sdkman"
-        bootstrap = "${sdkmanDotDir}/bin/sdkman-init.sh"
-        candidatesDir = "${sdkmanDotDir}/candidates"
-        curlStub = CurlStub.prepareIn(new File(sdkmanBaseDir, "bin"))
+    void setup() {
         bash = SdkManBashEnvBuilder
-                .create(sdkmanBaseDir)
+                .create(sdkmanBaseDirectory)
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
                 .withCurlStub(curlStub)
@@ -39,18 +22,18 @@ class InitialisationSpec extends Specification {
         prepareCandidateDirectories(allCandidates)
     }
 
-    void "should include all candidates in PATH"(){
+    void "should include all candidates in PATH"() {
         given:
         bash.start()
-        bash.execute("source $bootstrap")
+        bash.execute("source $bootstrapScript")
         bash.resetOutput()
 
         when:
         bash.execute('echo "$PATH"')
         def pathParts = bash.output.split(':')
-        def pathElementMatcher = ~/$candidatesDir\/([^\/]+)\/.*/
+        def pathElementMatcher = ~/$candidatesDirectory\/([^\/]+)\/.*/
         def includedCandidates = pathParts
-                .collect { it.replace("\n", "")}
+                .collect { it.replace("\n", "") }
                 .collect { it =~ pathElementMatcher }
                 .findAll { it }
                 .collect { it[0][1] }
@@ -69,7 +52,7 @@ class InitialisationSpec extends Specification {
     void "should reinitialize candidates in PATH if necessary"() {
         given:
         bash.start()
-        bash.execute("source $bootstrap")
+        bash.execute("source $bootstrapScript")
         bash.resetOutput()
 
         when:
@@ -77,13 +60,13 @@ class InitialisationSpec extends Specification {
         bash.execute(originalPath)
 
         and:
-        bash.execute("source $bootstrap")
+        bash.execute("source $bootstrapScript")
         bash.execute('echo "$PATH"')
 
         def pathParts = bash.output.split(':')
-        def pathElementMatcher = ~/$candidatesDir\/([^\/]+)\/.*/
+        def pathElementMatcher = ~/$candidatesDirectory\/([^\/]+)\/.*/
         def includedCandidates = pathParts
-                .collect { it.replace("\n", "")}
+                .collect { it.replace("\n", "") }
                 .collect { it =~ pathElementMatcher }
                 .findAll { it }
                 .collect { it[0][1] }
@@ -102,17 +85,17 @@ class InitialisationSpec extends Specification {
     void "should not duplicate PATH entries if re-sourced"() {
         given:
         bash.start()
-        bash.execute("source $bootstrap")
+        bash.execute("source $bootstrapScript")
         bash.resetOutput()
 
         when:
-        bash.execute("source $bootstrap")
+        bash.execute("source $bootstrapScript")
         bash.execute('echo "$PATH"')
 
         def pathParts = bash.output.split(':')
-        def pathElementMatcher = ~/$candidatesDir\/([^\/]+)\/.*/
+        def pathElementMatcher = ~/$candidatesDirectory\/([^\/]+)\/.*/
         def includedCandidates = pathParts
-                .collect { it.replace("\n", "")}
+                .collect { it.replace("\n", "") }
                 .collect { it =~ pathElementMatcher }
                 .findAll { it }
                 .collect { it[0][1] }
@@ -128,16 +111,10 @@ class InitialisationSpec extends Specification {
         duplicateCandidates.isEmpty()
     }
 
-    void cleanup(){
-        println bash.output
-        bash.stop()
-        assert sdkmanBaseDir.deleteDir()
-    }
-
     private prepareCandidateDirectories(List candidates) {
         candidates.forEach {
-            def current = Paths.get("$candidatesDir/$it/current")
-            def targetFilename = "$candidatesDir/$it/xxx"
+            def current = Paths.get("$candidatesDirectory/$it/current")
+            def targetFilename = "$candidatesDirectory/$it/xxx"
 
             new File(targetFilename).createNewFile()
             def target = Paths.get(targetFilename)

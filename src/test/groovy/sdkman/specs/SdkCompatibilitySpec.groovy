@@ -1,36 +1,20 @@
 package sdkman.specs
 
-import sdkman.env.*
-import sdkman.stubs.CurlStub
-import spock.lang.Specification
+import sdkman.env.SdkManBashEnvBuilder
+import sdkman.support.BashSpecification
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
-import static sdkman.support.FilesystemUtils.prepareBaseDir
-
-class SdkCompatibilitySpec extends Specification {
-
-    File sdkmanBaseDirectory
-    String sdkmanDotDirectory
-    String candidatesDir
-    String bootstrapScript
-
-    CurlStub curlStub
-    BashEnv bash
+class SdkCompatibilitySpec extends BashSpecification {
 
     def allCandidates = ["groovy", "grails", "scala", "activator"]
 
     void setup() {
-        sdkmanBaseDirectory = prepareBaseDir()
-        sdkmanDotDirectory = "${sdkmanBaseDirectory.absolutePath}/.sdkman"
-        candidatesDir = "${sdkmanDotDirectory}/candidates"
-        bootstrapScript = "${sdkmanDotDirectory}/bin/sdkman-init.sh"
         bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDirectory)
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
-                .withCurlStub(curlStub)
                 .withVersionToken("x.y.z")
                 .build()
     }
@@ -71,14 +55,14 @@ class SdkCompatibilitySpec extends Specification {
         firstPathEntry.contains("$candidateFolder")
 
         and:
-        ! firstPathEntry.contains("$candidateFolder/bin")
+        !firstPathEntry.contains("$candidateFolder/bin")
     }
 
     private prepareCandidateFolder(String candidate, String version, boolean hasBinFolder) {
-        def candidateBaseDir = "$candidatesDir/$candidate"
+        def candidateBaseDir = "${candidatesDirectory.absolutePath}/$candidate"
         def candidateCurrentDir = Paths.get("$candidateBaseDir/current")
 
-        def candidateLocation = "$candidatesDir/$candidate/$version"
+        def candidateLocation = "${candidatesDirectory.absolutePath}/$candidate/$version"
         def candidatePath = Paths.get(candidateLocation)
 
         def binLocation = hasBinFolder ? "$candidateLocation/bin/" : "$candidateLocation"
@@ -90,11 +74,5 @@ class SdkCompatibilitySpec extends Specification {
 
         Files.createSymbolicLink(candidateCurrentDir, candidatePath)
         candidateCurrentDir.toString()
-    }
-
-    void cleanup(){
-        println bash.output
-        bash.stop()
-        assert sdkmanBaseDirectory.deleteDir()
     }
 }

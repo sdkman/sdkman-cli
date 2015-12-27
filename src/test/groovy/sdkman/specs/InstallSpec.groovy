@@ -13,29 +13,25 @@ import static sdkman.stubs.WebServiceStub.primeEndpointWithString
 import static sdkman.support.FilesystemUtils.prepareBaseDir
 
 class InstallSpec extends Specification {
+
     final service = "http://localhost:8080"
-    BashEnv bash
-    File sdkmanBaseDir
     WireMockServer wireMockServer
 
+    BashEnv bash
+    File sdkmanBaseDirectory
+
     void setup() {
-        sdkmanBaseDir = prepareBaseDir()
-        bash = CleanBashEnvBuilder.create(sdkmanBaseDir).build()
+        sdkmanBaseDirectory = prepareBaseDir()
+        bash = CleanBashEnvBuilder.create(sdkmanBaseDirectory).build()
         bash.start()
         wireMockServer = WireMockServerProvider.wireMockServer()
         primeInstallScriptEndpoint()
         primeDownloadSdkmanEndpoint()
     }
 
-    void cleanup(){
-        println bash.output
-        bash.stop()
-        assert sdkmanBaseDir.deleteDir()
-    }
-
     void "should install init script at bin dir"() {
         given:
-        def sdkmanBinFolder = new File(sdkmanBaseDir, ".sdkman/bin")
+        def sdkmanBinFolder = new File(sdkmanBaseDirectory, ".sdkman/bin")
         def sdkmanInitScript = new File(sdkmanBinFolder, "sdkman-init.sh")
 
         when:
@@ -48,7 +44,7 @@ class InstallSpec extends Specification {
 
     void "should skip installation if SDKMAN has been already installed"() {
         given:
-        new File(sdkmanBaseDir, ".sdkman").mkdirs()
+        new File(sdkmanBaseDirectory, ".sdkman").mkdirs()
 
         when:
         bash.execute("curl -s ${service} | bash")
@@ -62,26 +58,26 @@ class InstallSpec extends Specification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.execute("cat ${sdkmanBaseDir}/.sdkman/var/version")
+        bash.execute("cat ${sdkmanBaseDirectory}/.sdkman/var/version")
         bash.output.trim() == 'x.y.z'
     }
 
     void "should update existing bash_profile when sdkman snippet is not present"() {
         given:
-        new File(sdkmanBaseDir, ".bash_profile").createNewFile()
+        new File(sdkmanBaseDirectory, ".bash_profile").createNewFile()
 
         when:
         bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.output.contains("Updated existing ${sdkmanBaseDir}/.bash_profile")
-        bash.execute("cat ${sdkmanBaseDir}/.bash_profile")
+        bash.output.contains("Updated existing ${sdkmanBaseDirectory}/.bash_profile")
+        bash.execute("cat ${sdkmanBaseDirectory}/.bash_profile")
         bash.output.contains('#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!')
     }
 
     void "should skip updating existing bash_profile when sdkman snippet is present"() {
         given:
-        def file = new File(sdkmanBaseDir, ".bash_profile")
+        def file = new File(sdkmanBaseDirectory, ".bash_profile")
         file.createNewFile()
         file.write "sdkman-init.sh"
 
@@ -89,25 +85,25 @@ class InstallSpec extends Specification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        !bash.output.contains("Updated existing ${sdkmanBaseDir}/.bash_profile")
+        !bash.output.contains("Updated existing ${sdkmanBaseDirectory}/.bash_profile")
     }
 
     void "should update existing profile when sdkman snippet is not present"() {
         given:
-        new File(sdkmanBaseDir, ".profile").createNewFile()
+        new File(sdkmanBaseDirectory, ".profile").createNewFile()
 
         when:
         bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.output.contains("Updated existing ${sdkmanBaseDir}/.profile")
-        bash.execute("cat ${sdkmanBaseDir}/.profile")
+        bash.output.contains("Updated existing ${sdkmanBaseDirectory}/.profile")
+        bash.execute("cat ${sdkmanBaseDirectory}/.profile")
         bash.output.contains('#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!')
     }
 
     void "should skip updating existing profile when sdkman snippet is present"() {
         given:
-        def file = new File(sdkmanBaseDir, ".profile")
+        def file = new File(sdkmanBaseDirectory, ".profile")
         file.createNewFile()
         file.write "sdkman-init.sh"
 
@@ -115,25 +111,25 @@ class InstallSpec extends Specification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        !bash.output.contains("Updated existing ${sdkmanBaseDir}/.profile")
+        !bash.output.contains("Updated existing ${sdkmanBaseDirectory}/.profile")
     }
 
     void "should update existing bashrc when sdkman snippet is not present"() {
         given:
-        new File(sdkmanBaseDir, ".bashrc").createNewFile()
+        new File(sdkmanBaseDirectory, ".bashrc").createNewFile()
 
         when:
         bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.output.contains("Updated existing ${sdkmanBaseDir}/.bashrc")
-        bash.execute("cat ${sdkmanBaseDir}/.bashrc")
+        bash.output.contains("Updated existing ${sdkmanBaseDirectory}/.bashrc")
+        bash.execute("cat ${sdkmanBaseDirectory}/.bashrc")
         bash.output.contains('#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!')
     }
 
     void "should skip updating existing bashrc when sdkman snippet is present"() {
         given:
-        def file = new File(sdkmanBaseDir, ".bashrc")
+        def file = new File(sdkmanBaseDirectory, ".bashrc")
         file.createNewFile()
         file.write "sdkman-init.sh"
 
@@ -141,25 +137,25 @@ class InstallSpec extends Specification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        !bash.output.contains("Updated existing ${sdkmanBaseDir}/.bashrc")
+        !bash.output.contains("Updated existing ${sdkmanBaseDirectory}/.bashrc")
     }
 
     void "should update existing zshrc when sdkman snippet is not present"() {
         given:
-        new File(sdkmanBaseDir, ".zshrc").createNewFile()
+        new File(sdkmanBaseDirectory, ".zshrc").createNewFile()
 
         when:
         bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.output.contains("Updated existing ${sdkmanBaseDir}/.zshrc")
-        bash.execute("cat ${sdkmanBaseDir}/.zshrc")
+        bash.output.contains("Updated existing ${sdkmanBaseDirectory}/.zshrc")
+        bash.execute("cat ${sdkmanBaseDirectory}/.zshrc")
         bash.output.contains('#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!')
     }
 
     void "should skip updating existing zshrc when sdkman snippet is present"() {
         given:
-        def file = new File(sdkmanBaseDir, ".zshrc")
+        def file = new File(sdkmanBaseDirectory, ".zshrc")
         file.createNewFile()
         file.write "sdkman-init.sh"
 
@@ -167,7 +163,7 @@ class InstallSpec extends Specification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        !bash.output.contains("Updated existing ${sdkmanBaseDir}/.zshrc")
+        !bash.output.contains("Updated existing ${sdkmanBaseDirectory}/.zshrc")
     }
 
     void "should create bash_profile when not present"() {
@@ -175,8 +171,8 @@ class InstallSpec extends Specification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.output.contains("Created and initialised ${sdkmanBaseDir}/.bash_profile")
-        bash.execute("cat ${sdkmanBaseDir}/.bash_profile")
+        bash.output.contains("Created and initialised ${sdkmanBaseDirectory}/.bash_profile")
+        bash.execute("cat ${sdkmanBaseDirectory}/.bash_profile")
         bash.output.contains('#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!')
     }
 
@@ -185,8 +181,8 @@ class InstallSpec extends Specification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.output.contains("Created and initialised ${sdkmanBaseDir}/.bashrc")
-        bash.execute("cat ${sdkmanBaseDir}/.bashrc")
+        bash.output.contains("Created and initialised ${sdkmanBaseDirectory}/.bashrc")
+        bash.execute("cat ${sdkmanBaseDirectory}/.bashrc")
         bash.output.contains('#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!')
     }
 
@@ -195,9 +191,15 @@ class InstallSpec extends Specification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        bash.output.contains("Created and initialised ${sdkmanBaseDir}/.zshrc")
-        bash.execute("cat ${sdkmanBaseDir}/.zshrc")
+        bash.output.contains("Created and initialised ${sdkmanBaseDirectory}/.zshrc")
+        bash.execute("cat ${sdkmanBaseDirectory}/.zshrc")
         bash.output.contains('#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!')
+    }
+
+    void cleanup(){
+        println bash.output
+        bash.stop()
+        assert sdkmanBaseDirectory.deleteDir()
     }
 
     private static primeInstallScriptEndpoint() {
@@ -206,10 +208,10 @@ class InstallSpec extends Specification {
 
     private primeDownloadSdkmanEndpoint() {
         def binary = Files.readAllBytes(Paths.get("build/distributions/sdkman-scripts.zip"))
-        primeEndpointWithBinary("/res?platform=${getUname()}&purpose=install", binary)
+        primeEndpointWithBinary("/res?platform=${determineUname()}&purpose=install", binary)
     }
 
-    private getUname() {
+    private determineUname() {
         bash.execute('echo $(uname)')
         def uname = bash.output.trim()
         bash.resetOutput()
