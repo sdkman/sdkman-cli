@@ -1,4 +1,4 @@
-package sdkman.utils
+package sdkman.support
 
 import java.nio.file.FileSystems
 import java.nio.file.Files

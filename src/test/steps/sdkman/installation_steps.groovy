@@ -4,8 +4,8 @@ import java.nio.file.FileSystems
 import java.nio.file.Files
 
 import static cucumber.api.groovy.EN.And
-import static sdkman.utils.FilesystemUtils.prepareCandidateWithVersionFolder
-import static sdkman.utils.FilesystemUtils.prepareLocalCandidateWithVersionFolder
+import static sdkman.support.FilesystemUtils.prepareCandidateWithVersionFolder
+import static sdkman.support.FilesystemUtils.prepareLocalCandidateWithVersionFolder
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candidate, String version ->
 	def file = "${candidatesDir}/${candidate}/${version}" as File

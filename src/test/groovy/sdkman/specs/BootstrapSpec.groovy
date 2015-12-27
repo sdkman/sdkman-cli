@@ -5,7 +5,7 @@ import sdkman.stubs.CurlStub
 import sdkman.env.SdkManBashEnvBuilder
 import spock.lang.Specification
 
-import static sdkman.utils.FilesystemUtils.prepareBaseDir
+import static sdkman.support.FilesystemUtils.prepareBaseDir
 
 class BootstrapSpec extends Specification {
 

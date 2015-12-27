@@ -5,12 +5,12 @@ import java.nio.file.Paths
 import com.github.tomakehurst.wiremock.WireMockServer
 import sdkman.env.BashEnv
 import sdkman.env.CleanBashEnvBuilder
-import sdkman.utils.WireMockServerProvider
+import sdkman.support.WireMockServerProvider
 import spock.lang.Specification
 
 import static sdkman.stubs.WebServiceStub.primeEndpointWithBinary
 import static sdkman.stubs.WebServiceStub.primeEndpointWithString
-import static sdkman.utils.FilesystemUtils.prepareBaseDir
+import static sdkman.support.FilesystemUtils.prepareBaseDir
 
 class InstallSpec extends Specification {
     final service = "http://localhost:8080"

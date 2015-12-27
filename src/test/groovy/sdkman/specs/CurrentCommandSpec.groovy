@@ -8,7 +8,7 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 import static java.nio.file.Files.createSymbolicLink
-import static sdkman.utils.FilesystemUtils.prepareBaseDir
+import static sdkman.support.FilesystemUtils.prepareBaseDir
 
 class CurrentCommandSpec extends Specification {
 

@@ -1,9 +1,7 @@
-import cucumber.api.DataTable
-
 import static cucumber.api.groovy.EN.And
 import static sdkman.stubs.WebServiceStub.*
-import static sdkman.utils.FilesystemUtils.readCurrentFromCandidateFolder
-import static sdkman.utils.FilesystemUtils.readVersionsCsvFromCandidateFolder
+import static sdkman.support.FilesystemUtils.readCurrentFromCandidateFolder
+import static sdkman.support.FilesystemUtils.readVersionsCsvFromCandidateFolder
 
 And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
     primeEndpointWithString("/candidates/${candidate}/default", version)

@@ -1,11 +1,9 @@
 package sdkman
 
-import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
-import sdkman.utils.UnixUtils
-import sdkman.utils.WireMockServerProvider
+import sdkman.support.UnixUtils
+import sdkman.support.WireMockServerProvider
 
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import static cucumber.api.groovy.Hooks.After
 import static cucumber.api.groovy.Hooks.Before
 

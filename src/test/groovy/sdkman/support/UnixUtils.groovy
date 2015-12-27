@@ -1,4 +1,4 @@
-package sdkman.utils
+package sdkman.support
 
 class UnixUtils {
     static getPlatform() {
