@@ -72,16 +72,7 @@ fi
 OFFLINE_BROADCAST=$( cat << EOF
 ==== BROADCAST =============================================
 
-OFFLINE MODE ENABLED! Some functionality is now disabled.
-
-============================================================
-EOF
-)
-
-ONLINE_BROADCAST=$( cat << EOF
-==== BROADCAST =============================================
-
-ONLINE MODE RE-ENABLED! All functionality now restored.
+INTERNET NOT REACHABLE! Some functionality is disabled.
 
 ============================================================
 EOF
