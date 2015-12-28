@@ -1,16 +1,16 @@
 package sdkman.specs
 
 import sdkman.env.SdkManBashEnvBuilder
-import sdkman.support.BashSpecification
+import sdkman.support.SdkmanEnvSpecification
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class SdkCompatibilitySpec extends BashSpecification {
+class SdkCompatibilitySpec extends SdkmanEnvSpecification {
 
     def allCandidates = ["groovy", "grails", "scala", "activator"]
 
-    void setup() {
+    def setup() {
         bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDirectory)
                 .withAvailableCandidates(allCandidates)
@@ -29,7 +29,7 @@ class SdkCompatibilitySpec extends BashSpecification {
         bash.resetOutput()
 
         when:
-        bash.execute('echo "$PATH"')
+        bash.execute('echo $PATH')
         def pathEntries = bash.output.split(':')
         def firstPathEntry = pathEntries.first()
 
@@ -47,7 +47,7 @@ class SdkCompatibilitySpec extends BashSpecification {
         bash.resetOutput()
 
         when:
-        bash.execute('echo "$PATH"')
+        bash.execute('echo $PATH')
         def pathEntries = bash.output.split(':')
         def firstPathEntry = pathEntries.first()
 

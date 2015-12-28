@@ -1,13 +1,13 @@
 package sdkman.specs
 
 import sdkman.env.SdkManBashEnvBuilder
-import sdkman.support.BashSpecification
+import sdkman.support.SdkmanEnvSpecification
 
 import java.nio.file.Paths
 
 import static java.nio.file.Files.createSymbolicLink
 
-class CurrentCommandSpec extends BashSpecification {
+class CurrentCommandSpec extends SdkmanEnvSpecification {
 
     void "should display current version of all candidates installed"() {
         given:

@@ -1,14 +1,11 @@
 package sdkman.support
 
-import sdkman.env.BashEnv
 import sdkman.stubs.CurlStub
-import spock.lang.Specification
 
 import static sdkman.support.FilesystemUtils.prepareBaseDir
 
-abstract class BashSpecification extends Specification {
+abstract class SdkmanEnvSpecification extends BashEnvSpecification {
 
-    BashEnv bash
     CurlStub curlStub
 
     File sdkmanBaseDirectory
@@ -17,7 +14,7 @@ abstract class BashSpecification extends Specification {
 
     String bootstrapScript
 
-    void setup() {
+    def setup() {
         sdkmanBaseDirectory = prepareBaseDir()
         sdkmanDotDirectory = new File(sdkmanBaseDirectory, ".sdkman")
         candidatesDirectory = new File(sdkmanDotDirectory, "candidates")
@@ -25,10 +22,7 @@ abstract class BashSpecification extends Specification {
         curlStub = CurlStub.prepareIn(new File(sdkmanBaseDirectory, "bin"))
     }
 
-    void cleanup() {
-        println bash.output
-        bash.stop()
+    def cleanup() {
         assert sdkmanBaseDirectory.deleteDir()
     }
-
 }

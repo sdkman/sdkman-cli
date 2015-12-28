@@ -1,23 +1,22 @@
 package sdkman.specs
 
+import com.github.tomakehurst.wiremock.WireMockServer
+import sdkman.env.CleanBashEnvBuilder
+import sdkman.support.BashEnvSpecification
+import sdkman.support.WireMockServerProvider
+
 import java.nio.file.Files
 import java.nio.file.Paths
-import com.github.tomakehurst.wiremock.WireMockServer
-import sdkman.env.BashEnv
-import sdkman.env.CleanBashEnvBuilder
-import sdkman.support.WireMockServerProvider
-import spock.lang.Specification
 
 import static sdkman.stubs.WebServiceStub.primeEndpointWithBinary
 import static sdkman.stubs.WebServiceStub.primeEndpointWithString
 import static sdkman.support.FilesystemUtils.prepareBaseDir
 
-class InstallSpec extends Specification {
+class InstallSpec extends BashEnvSpecification {
 
     final service = "http://localhost:8080"
     WireMockServer wireMockServer
 
-    BashEnv bash
     File sdkmanBaseDirectory
 
     void setup() {
@@ -194,12 +193,6 @@ class InstallSpec extends Specification {
         bash.output.contains("Created and initialised ${sdkmanBaseDirectory}/.zshrc")
         bash.execute("cat ${sdkmanBaseDirectory}/.zshrc")
         bash.output.contains('#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!')
-    }
-
-    void cleanup(){
-        println bash.output
-        bash.stop()
-        assert sdkmanBaseDirectory.deleteDir()
     }
 
     private static primeInstallScriptEndpoint() {

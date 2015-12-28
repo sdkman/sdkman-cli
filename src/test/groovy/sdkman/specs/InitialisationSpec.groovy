@@ -1,17 +1,17 @@
 package sdkman.specs
 
 import sdkman.env.SdkManBashEnvBuilder
-import sdkman.support.BashSpecification
+import sdkman.support.SdkmanEnvSpecification
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class InitialisationSpec extends BashSpecification {
+class InitialisationSpec extends SdkmanEnvSpecification {
 
     static final allCandidates = ["asciidoctorj", "crash", "gaiden", "glide", "gradle", "grails", "griffon", "groovy",
                                   "groovyserv", "jbake", "jbossforge", "lazybones", "springboot", "vertx"]
 
-    void setup() {
+    def setup() {
         bash = SdkManBashEnvBuilder
                 .create(sdkmanBaseDirectory)
                 .withAvailableCandidates(allCandidates)

@@ -1,13 +1,13 @@
 package sdkman.specs
 
 import sdkman.env.SdkManBashEnvBuilder
-import sdkman.support.BashSpecification
+import sdkman.support.SdkmanEnvSpecification
 
-class BootstrapSpec extends BashSpecification {
+class BootstrapSpec extends SdkmanEnvSpecification {
 
     File versionFile
 
-    void setup(){
+    def setup(){
         versionFile = new File("${sdkmanDotDirectory}/var", "version")
     }
 
