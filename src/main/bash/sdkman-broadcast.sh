@@ -25,7 +25,7 @@ function __sdkman_broadcast {
 }
 
 function sdkman_update_broadcast_or_force_offline {
-    BROADCAST_LIVE_ID=$(sdkman_infer_broadcast_id)
+    BROADCAST_LIVE_ID=$(sdkman_determine_broadcast_id)
 
     sdkman_force_offline_on_proxy "$BROADCAST_LIVE_ID"
     if [[ "$SDKMAN_FORCE_OFFLINE" == 'true' ]]; then BROADCAST_LIVE_ID=""; fi
@@ -36,8 +36,8 @@ function sdkman_update_broadcast_or_force_offline {
 	sdkman_update_broadcast "$COMMAND" "$BROADCAST_LIVE_ID"
 }
 
-function sdkman_infer_broadcast_id {
-	if [[ "$SDKMAN_FORCE_OFFLINE" == "true" || ( "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ) ]]; then
+function sdkman_determine_broadcast_id {
+	if [[ "$SDKMAN_FORCE_OFFLINE" == "true" || "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ]]; then
 		echo ""
 	else
 		echo $(curl -s "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id" --connect-timeout 20 --max-time 10)

@@ -59,7 +59,7 @@ function __sdkman_determine_version {
 
 	else
 		VERSION_VALID=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/$1")
-		if [[ "${VERSION_VALID}" == 'valid' || ( "${VERSION_VALID}" == 'invalid' && -n "$2" ) ]]; then
+		if [[ "${VERSION_VALID}" == 'valid' || "${VERSION_VALID}" == 'invalid' && -n "$2" ]]; then
 			VERSION="$1"
 
 		elif [[ "${VERSION_VALID}" == 'invalid' && -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$1" ]]; then
