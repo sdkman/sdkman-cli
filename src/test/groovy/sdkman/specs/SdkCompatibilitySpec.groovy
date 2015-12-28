@@ -1,6 +1,5 @@
 package sdkman.specs
 
-import sdkman.env.SdkManBashEnvBuilder
 import sdkman.support.SdkmanEnvSpecification
 
 import java.nio.file.Files
@@ -11,8 +10,7 @@ class SdkCompatibilitySpec extends SdkmanEnvSpecification {
     def allCandidates = ["groovy", "grails", "scala", "activator"]
 
     def setup() {
-        bash = SdkManBashEnvBuilder
-                .create(sdkmanBaseDirectory)
+        bash = sdkManBashEnvBuilder
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
                 .withVersionToken("x.y.z")

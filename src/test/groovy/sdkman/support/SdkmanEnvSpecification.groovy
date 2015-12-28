@@ -1,10 +1,13 @@
 package sdkman.support
 
+import sdkman.env.SdkManBashEnvBuilder
 import sdkman.stubs.CurlStub
 
 import static sdkman.support.FilesystemUtils.prepareBaseDir
 
 abstract class SdkmanEnvSpecification extends BashEnvSpecification {
+
+    SdkManBashEnvBuilder sdkManBashEnvBuilder
 
     CurlStub curlStub
 
@@ -16,6 +19,8 @@ abstract class SdkmanEnvSpecification extends BashEnvSpecification {
 
     def setup() {
         sdkmanBaseDirectory = prepareBaseDir()
+        sdkManBashEnvBuilder = SdkManBashEnvBuilder.create(sdkmanBaseDirectory)
+
         sdkmanDotDirectory = new File(sdkmanBaseDirectory, ".sdkman")
         candidatesDirectory = new File(sdkmanDotDirectory, "candidates")
         bootstrapScript = "${sdkmanDotDirectory}/bin/sdkman-init.sh"

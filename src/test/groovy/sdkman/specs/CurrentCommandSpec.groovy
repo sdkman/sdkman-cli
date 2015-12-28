@@ -1,6 +1,5 @@
 package sdkman.specs
 
-import sdkman.env.SdkManBashEnvBuilder
 import sdkman.support.SdkmanEnvSpecification
 
 import java.nio.file.Paths
@@ -34,8 +33,7 @@ class CurrentCommandSpec extends SdkmanEnvSpecification {
         ]
 
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.z").build()
-        bash = SdkManBashEnvBuilder
-                .create(sdkmanBaseDirectory)
+        bash = sdkManBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withOnlineMode(true)
                 .withForcedOfflineMode(false)

@@ -1,6 +1,5 @@
 package sdkman.specs
 
-import sdkman.env.SdkManBashEnvBuilder
 import sdkman.support.SdkmanEnvSpecification
 
 import java.nio.file.Files
@@ -12,8 +11,7 @@ class InitialisationSpec extends SdkmanEnvSpecification {
                                   "groovyserv", "jbake", "jbossforge", "lazybones", "springboot", "vertx"]
 
     def setup() {
-        bash = SdkManBashEnvBuilder
-                .create(sdkmanBaseDirectory)
+        bash = sdkManBashEnvBuilder
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
                 .withCurlStub(curlStub)
