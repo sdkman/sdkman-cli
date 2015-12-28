@@ -1,4 +1,4 @@
-package sdkman
+package sdkman.steps
 
 import java.util.zip.ZipException
 import java.util.zip.ZipFile

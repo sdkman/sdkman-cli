@@ -1,3 +1,5 @@
+package sdkman.steps
+
 import static cucumber.api.groovy.EN.And
 import static sdkman.stubs.WebServiceStub.*
 import static sdkman.support.FilesystemUtils.readCurrentFromCandidateFolder

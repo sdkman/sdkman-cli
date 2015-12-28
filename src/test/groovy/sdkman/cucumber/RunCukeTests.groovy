@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 	format=["pretty", "html:build/reports/cucumber"],
 	strict=true,
 	features=["src/test/cucumber"],
-	glue=["src/test/steps"],
+	glue=["src/test/groovy/sdkman/steps"],
 	tags=["~@manual", "~@review"]
 )
-class RunCukesTest {}
+class RunCukeTests {}

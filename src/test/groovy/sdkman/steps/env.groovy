@@ -1,4 +1,4 @@
-package sdkman
+package sdkman.steps
 
 import com.github.tomakehurst.wiremock.client.WireMock
 import sdkman.support.UnixUtils
