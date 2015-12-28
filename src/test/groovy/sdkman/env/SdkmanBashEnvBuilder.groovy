@@ -2,7 +2,7 @@ package sdkman.env
 
 import sdkman.stubs.CurlStub
 
-class SdkManBashEnvBuilder {
+class SdkmanBashEnvBuilder {
 
     final TEST_SCRIPT_BUILD_DIR = "build/testScripts" as File
 
@@ -29,75 +29,75 @@ class SdkManBashEnvBuilder {
 
     File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir, sdkmanTmpDir, sdkmanCandidatesDir
 
-    static SdkManBashEnvBuilder create(File baseFolder){
-        new SdkManBashEnvBuilder(baseFolder)
+    static SdkmanBashEnvBuilder create(File baseFolder){
+        new SdkmanBashEnvBuilder(baseFolder)
     }
 
-    private SdkManBashEnvBuilder(File baseFolder){
+    private SdkmanBashEnvBuilder(File baseFolder){
         this.baseFolder = baseFolder
     }
 
-    SdkManBashEnvBuilder withCurlStub(CurlStub curlStub){
+    SdkmanBashEnvBuilder withCurlStub(CurlStub curlStub){
         this.curlStub = curlStub
         this
     }
 
-    SdkManBashEnvBuilder withCandidates(List candidates){
+    SdkmanBashEnvBuilder withCandidates(List candidates){
         this.candidates = candidates
         this
     }
 
-    SdkManBashEnvBuilder withAvailableCandidates(List candidates){
+    SdkmanBashEnvBuilder withAvailableCandidates(List candidates){
         this.availableCandidates = candidates
         this
     }
 
-    SdkManBashEnvBuilder withBroadcast(String broadcast){
+    SdkmanBashEnvBuilder withBroadcast(String broadcast){
         this.broadcast = broadcast
         this
     }
 
-    SdkManBashEnvBuilder withConfiguration(String key, String value){
+    SdkmanBashEnvBuilder withConfiguration(String key, String value){
         config.put key, value
         this
     }
 
-    SdkManBashEnvBuilder withOnlineMode(boolean onlineMode){
+    SdkmanBashEnvBuilder withOnlineMode(boolean onlineMode){
         this.onlineMode = onlineMode
         this
     }
 
-    SdkManBashEnvBuilder withForcedOfflineMode(boolean forcedOfflineMode){
+    SdkmanBashEnvBuilder withForcedOfflineMode(boolean forcedOfflineMode){
         this.forcedOfflineMode = forcedOfflineMode
         this
     }
 
-    SdkManBashEnvBuilder withService(String service){
+    SdkmanBashEnvBuilder withService(String service){
         this.service = service
         this
     }
 
-    SdkManBashEnvBuilder withBroadcastService(String broadcastService){
+    SdkmanBashEnvBuilder withBroadcastService(String broadcastService){
         this.broadcastService = broadcastService
         this
     }
 
-    SdkManBashEnvBuilder withBrokerService(String brokerService){
+    SdkmanBashEnvBuilder withBrokerService(String brokerService){
         this.brokerService = brokerService
         this
     }
 
-    SdkManBashEnvBuilder withJdkHome(String jdkHome){
+    SdkmanBashEnvBuilder withJdkHome(String jdkHome){
         this.jdkHome = jdkHome
         this
     }
 
-    SdkManBashEnvBuilder withHttpProxy(String httpProxy){
+    SdkmanBashEnvBuilder withHttpProxy(String httpProxy){
         this.httpProxy = httpProxy
         this
     }
 
-    SdkManBashEnvBuilder withVersionToken(String version){
+    SdkmanBashEnvBuilder withVersionToken(String version){
         this.versionToken = version
         this
     }

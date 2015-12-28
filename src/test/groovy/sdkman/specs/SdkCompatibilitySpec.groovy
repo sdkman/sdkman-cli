@@ -10,7 +10,7 @@ class SdkCompatibilitySpec extends SdkmanEnvSpecification {
     def allCandidates = ["groovy", "grails", "scala", "activator"]
 
     def setup() {
-        bash = sdkManBashEnvBuilder
+        bash = sdkmanBashEnvBuilder
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
                 .withVersionToken("x.y.z")

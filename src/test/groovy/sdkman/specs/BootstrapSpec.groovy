@@ -14,7 +14,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
 
         given: 'a working sdkman installation without version token'
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
-        bash = sdkManBashEnvBuilder
+        bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .build()
 
@@ -30,7 +30,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
 
     void "should not query server if token is found"() {
         given: 'a working sdkman installation with version token'
-        bash = sdkManBashEnvBuilder
+        bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.z")
                 .build()
@@ -49,7 +49,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
     void "should query server for version and refresh if token is older than a day"() {
         given: 'a working sdkman installation with expired version token'
         curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.b").build()
-        bash = sdkManBashEnvBuilder
+        bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.a")
                 .build()
@@ -71,7 +71,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         given: 'a working sdkman installation with api down'
         def sdkmanVersion = "x.y.z"
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
-        bash = sdkManBashEnvBuilder
+        bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withVersionToken(sdkmanVersion)
                 .build()
@@ -89,7 +89,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
     void "should not go offline if curl times out"(){
         given: 'a working sdkman installation with api down'
         curlStub.primeWith("http://localhost:8080/app/version", "echo ''").build()
-        bash = sdkManBashEnvBuilder
+        bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .build()
 
@@ -107,7 +107,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         given: 'a working sdkman installation with garbled api'
         def sdkmanVersion = "x.y.z"
         curlStub.primeWith("http://localhost:8080/app/version", "echo '<html><title>sorry</title></html>'").build()
-        bash = sdkManBashEnvBuilder
+        bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withVersionToken(sdkmanVersion)
                 .build()

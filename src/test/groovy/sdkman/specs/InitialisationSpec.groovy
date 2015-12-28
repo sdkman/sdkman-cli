@@ -11,7 +11,7 @@ class InitialisationSpec extends SdkmanEnvSpecification {
                                   "groovyserv", "jbake", "jbossforge", "lazybones", "springboot", "vertx"]
 
     def setup() {
-        bash = sdkManBashEnvBuilder
+        bash = sdkmanBashEnvBuilder
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
                 .withCurlStub(curlStub)
