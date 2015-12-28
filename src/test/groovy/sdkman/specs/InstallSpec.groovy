@@ -28,6 +28,10 @@ class InstallSpec extends BashEnvSpecification {
         primeDownloadSdkmanEndpoint()
     }
 
+    def cleanup() {
+        assert sdkmanBaseDirectory.deleteDir()
+    }
+
     void "should install init script at bin dir"() {
         given:
         def sdkmanBinFolder = new File(sdkmanBaseDirectory, ".sdkman/bin")
