@@ -69,10 +69,15 @@ if ${cygwin} ; then
 fi
 
 
-OFFLINE_BROADCAST=$( cat << EOF
-==== BROADCAST =============================================
+OFFLINE_WARNING=$( cat << EOF
+==== WARNING ===============================================
 
-INTERNET NOT REACHABLE! Some functionality is disabled.
+INTERNET NOT REACHABLE!
+
+Some functionality is disabled. If this persists, please
+enable the offline mode:
+
+   $ sdk offline enable
 
 ============================================================
 EOF

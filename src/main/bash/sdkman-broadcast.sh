@@ -46,7 +46,7 @@ function sdkman_determine_broadcast_id {
 
 function sdkman_display_online_availability {
 	if [[ -z "$BROADCAST_LIVE_ID" && "$SDKMAN_ONLINE" == "true" && "$COMMAND" != "offline" ]]; then
-		echo "$OFFLINE_BROADCAST"
+		echo "$OFFLINE_WARNING"
 	fi
 }
 

@@ -22,7 +22,7 @@ Feature: Forced Offline Mode
     And the system is bootstrapped
     When I enter "sdk offline enable"
     Then I see "Forced offline mode enabled."
-    And I do not see "THE INTERNET IS NOT REACHABLE!"
+    And I do not see "INTERNET NOT REACHABLE!"
     When I enter "sdk install grails 2.1.0"
     Then I see "Stop! grails 2.1.0 is not available in offline mode."
 
@@ -44,7 +44,7 @@ Feature: Forced Offline Mode
     When I enter "sdk offline disable"
     Then I see "Online mode re-enabled!"
     When I enter "sdk install grails 2.1.0"
-    Then I see "THE INTERNET IS NOT REACHABLE!"
+    Then I see "INTERNET NOT REACHABLE!"
     And I see "Stop! grails 2.1.0 is not available in offline mode."
 
   #broadcast
