@@ -40,7 +40,7 @@ function sdkman_determine_broadcast_id {
 	if [[ "$SDKMAN_FORCE_OFFLINE" == "true" || "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ]]; then
 		echo ""
 	else
-		echo $(curl -s "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id" --connect-timeout 20 --max-time 10)
+		echo $(curl -s "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id")
 	fi
 }
 
