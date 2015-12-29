@@ -24,7 +24,8 @@ Feature: Forced Offline Mode
     Then I see "Forced offline mode enabled."
     And I do not see "INTERNET NOT REACHABLE!"
     When I enter "sdk install grails 2.1.0"
-    Then I see "Stop! grails 2.1.0 is not available in offline mode."
+    Then I do not see "INTERNET NOT REACHABLE!"
+    And I see "Stop! grails 2.1.0 is not available while offline."
 
   Scenario: Disable Offline Mode with internet reachable
     Given offline mode is enabled with reachable internet
@@ -45,7 +46,7 @@ Feature: Forced Offline Mode
     Then I see "Online mode re-enabled!"
     When I enter "sdk install grails 2.1.0"
     Then I see "INTERNET NOT REACHABLE!"
-    And I see "Stop! grails 2.1.0 is not available in offline mode."
+    And I see "Stop! grails 2.1.0 is not available while offline."
 
   #broadcast
   Scenario: Recall a broadcast while Forced Offline
@@ -70,7 +71,7 @@ Feature: Forced Offline Mode
     And an initialised environment
     And the system is bootstrapped
     When I enter "sdk list grails"
-    Then I see "Offline Mode: only showing installed grails versions"
+    Then I see "Offline: only showing installed grails versions"
 
   #use version
   Scenario: Use an uninstalled candidate version while Forced Offline
@@ -80,7 +81,7 @@ Feature: Forced Offline Mode
     And an initialised environment
     And the system is bootstrapped
     When I enter "sdk use grails 2.1.0"
-    Then I see "Stop! grails 2.1.0 is not available in offline mode."
+    Then I see "Stop! grails 2.1.0 is not available while offline."
 
   #default version
   Scenario: Set the default to an uninstalled candidate version while Forced Offline
@@ -89,7 +90,7 @@ Feature: Forced Offline Mode
     And an initialised environment
     And the system is bootstrapped
     When I enter "sdk default grails 2.1.0"
-    Then I see "Stop! grails 2.1.0 is not available in offline mode."
+    Then I see "Stop! grails 2.1.0 is not available while offline."
 
   #install command
   Scenario: Install a candidate version that is not installed while Forced Offline
@@ -98,7 +99,7 @@ Feature: Forced Offline Mode
     And an initialised environment
     And the system is bootstrapped
     When I enter "sdk install grails 2.1.0"
-    Then I see "Stop! grails 2.1.0 is not available in offline mode."
+    Then I see "Stop! grails 2.1.0 is not available while offline."
 
   #uninstall command
   Scenario: Uninstall a candidate version while Forced Offline
@@ -132,5 +133,5 @@ Feature: Forced Offline Mode
     And an initialised environment
     And the system is bootstrapped
     When I enter "sdk selfupdate"
-    Then I see "This command is not available in offline mode."
+    Then I see "This command is not available while offline."
 

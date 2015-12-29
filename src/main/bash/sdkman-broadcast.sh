@@ -24,16 +24,10 @@ function __sdkman_broadcast {
 	fi
 }
 
-function sdkman_update_broadcast_or_force_offline {
+function sdkman_update_broadcast_and_service_availability {
     BROADCAST_LIVE_ID=$(sdkman_determine_broadcast_id)
-
-    sdkman_force_offline_on_proxy "$BROADCAST_LIVE_ID"
-    if [[ "$SDKMAN_FORCE_OFFLINE" == 'true' ]]; then BROADCAST_LIVE_ID=""; fi
-
-    sdkman_display_online_availability
-    sdkman_determine_offline "$BROADCAST_LIVE_ID"
-
-	sdkman_update_broadcast "$COMMAND" "$BROADCAST_LIVE_ID"
+    sdkman_set_availability "$BROADCAST_LIVE_ID"
+	sdkman_update_broadcast "$BROADCAST_LIVE_ID"
 }
 
 function sdkman_determine_broadcast_id {
@@ -44,15 +38,44 @@ function sdkman_determine_broadcast_id {
 	fi
 }
 
-function sdkman_display_online_availability {
-	if [[ -z "$BROADCAST_LIVE_ID" && "$SDKMAN_ONLINE" == "true" && "$COMMAND" != "offline" ]]; then
-		echo "$OFFLINE_WARNING"
+function sdkman_set_availability {
+    local broadcast_id="$1"
+	local detect_html="$(echo "$broadcast_id" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	if [[ -z "$broadcast_id" ]]; then
+		SDKMAN_AVAILABLE="false"
+		sdkman_display_offline_warning "$broadcast_id"
+	elif [[ -n "$detect_html" ]]; then
+		SDKMAN_AVAILABLE="false"
+		sdkman_display_proxy_warning
+	else
+		SDKMAN_AVAILABLE="true"
 	fi
 }
 
+function sdkman_display_offline_warning {
+	local broadcast_id="$1"
+	if [[ -z "$broadcast_id" && "$COMMAND" != "offline" && "$SDKMAN_FORCE_OFFLINE" != "true" ]]; then
+        echo "==== INTERNET NOT REACHABLE! ==============================="
+        echo ""
+        echo " Some functionality is disabled or only partially available."
+        echo " If this persists, please enable the offline mode:"
+        echo ""
+        echo "   $ sdk offline enable"
+        echo ""
+        echo "============================================================"
+        echo ""
+	fi
+}
+
+function sdkman_display_proxy_warning {
+	echo "==== PROXY DETECTED! ======================================="
+	echo "Please ensure you have open internet access to continue."
+	echo "============================================================"
+    echo ""
+}
+
 function sdkman_update_broadcast {
-	local command="$1"
-	local broadcast_live_id="$2"
+	local broadcast_live_id="$1"
 
 	local broadcast_id_file="${SDKMAN_DIR}/var/broadcast_id"
 	local broadcast_text_file="${SDKMAN_DIR}/var/broadcast"
@@ -67,7 +90,7 @@ function sdkman_update_broadcast {
 		BROADCAST_OLD_TEXT=$(cat "$broadcast_text_file");
 	fi
 
-	if [[ "${SDKMAN_AVAILABLE}" == "true" && "$broadcast_live_id" != "${broadcast_old_id}" && "$command" != "selfupdate" && "$command" != "flush" ]]; then
+	if [[ "${SDKMAN_AVAILABLE}" == "true" && "$broadcast_live_id" != "${broadcast_old_id}" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then
 		mkdir -p "${SDKMAN_DIR}/var"
 
 		echo "${broadcast_live_id}" > "$broadcast_id_file"

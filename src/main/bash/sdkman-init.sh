@@ -68,23 +68,6 @@ if ${cygwin} ; then
     [ -n "${CP}" ] && CP=$(cygpath --path --unix "${CP}")
 fi
 
-
-OFFLINE_WARNING=$( cat << EOF
-==== WARNING ===============================================
-
-INTERNET NOT REACHABLE!
-
-Some functionality is disabled. If this persists, please
-enable the offline mode:
-
-   $ sdk offline enable
-
-============================================================
-EOF
-)
-
-OFFLINE_MESSAGE="This command is not available in offline mode."
-
 # fabricate list of candidates
 if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
 	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
@@ -154,7 +137,7 @@ if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$(
 else
     SDKMAN_REMOTE_VERSION=$(curl -s "${SDKMAN_SERVICE}/app/version" --connect-timeout 1 --max-time 1)
     sdkman_force_offline_on_proxy "$SDKMAN_REMOTE_VERSION"
-    if [[ -z "$SDKMAN_REMOTE_VERSION" || "$SDKMAN_FORCE_OFFLINE" == 'true' ]]; then
+    if [[ -z "$SDKMAN_REMOTE_VERSION" ]]; then
         SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
     else
         echo ${SDKMAN_REMOTE_VERSION} > "$SDKMAN_VERSION_TOKEN"
