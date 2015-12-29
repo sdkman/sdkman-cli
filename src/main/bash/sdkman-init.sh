@@ -156,7 +156,7 @@ if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$(
     SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_TOKEN")
 
 else
-    SDKMAN_REMOTE_VERSION=$(curl -s "${SDKMAN_SERVICE}/app/version" --connect-timeout 1 --max-time 1)
+    SDKMAN_REMOTE_VERSION=$(curl -s "${SDKMAN_SERVICE}/app/version" --connect-timeout 15 --max-time 15)
     sdkman_force_offline_on_proxy "$SDKMAN_REMOTE_VERSION"
     if [[ -z "$SDKMAN_REMOTE_VERSION" || "$SDKMAN_FORCE_OFFLINE" == 'true' ]]; then
         SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
