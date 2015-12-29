@@ -54,7 +54,7 @@ function __sdkman_install {
 	CANDIDATE="$1"
 	LOCAL_FOLDER="$3"
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
-	__sdkman_determine_version "$2" "$3" || return 1
+	sdkman_determine_version "$2" "$3" || return 1
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" || -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""
