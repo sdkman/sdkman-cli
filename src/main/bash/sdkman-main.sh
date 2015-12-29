@@ -53,8 +53,8 @@ function sdk {
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"
-	if [ -z "$SDKMAN_FORCE_OFFLINE" ]; then
-		SDKMAN_FORCE_OFFLINE="false"
+	if [ -z "$SDKMAN_OFFLINE_MODE" ]; then
+		SDKMAN_OFFLINE_MODE="false"
 	fi
 
 	# ...unless proven otherwise

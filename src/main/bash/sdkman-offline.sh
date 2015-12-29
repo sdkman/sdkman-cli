@@ -19,11 +19,11 @@
 function __sdkman_offline {
 	local mode="$1"
 	if [[ "$mode" == "enable" ]]; then
-		SDKMAN_FORCE_OFFLINE="true"
-		echo "Forced offline mode enabled."
+		SDKMAN_OFFLINE_MODE="true"
+		echo "Offline mode enabled."
 	fi
 	if [[ "$mode" == "disable" ]]; then
-		SDKMAN_FORCE_OFFLINE="false"
+		SDKMAN_OFFLINE_MODE="false"
 		echo "Online mode re-enabled!"
 	fi
 }

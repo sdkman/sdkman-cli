@@ -31,7 +31,7 @@ function sdkman_update_broadcast_and_service_availability {
 }
 
 function sdkman_determine_broadcast_id {
-	if [[ "$SDKMAN_FORCE_OFFLINE" == "true" || "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ]]; then
+	if [[ "$SDKMAN_OFFLINE_MODE" == "true" || "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ]]; then
 		echo ""
 	else
 		echo $(curl -s "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id")
@@ -54,7 +54,7 @@ function sdkman_set_availability {
 
 function sdkman_display_offline_warning {
 	local broadcast_id="$1"
-	if [[ -z "$broadcast_id" && "$COMMAND" != "offline" && "$SDKMAN_FORCE_OFFLINE" != "true" ]]; then
+	if [[ -z "$broadcast_id" && "$COMMAND" != "offline" && "$SDKMAN_OFFLINE_MODE" != "true" ]]; then
         echo "==== INTERNET NOT REACHABLE! ==============================="
         echo ""
         echo " Some functionality is disabled or only partially available."

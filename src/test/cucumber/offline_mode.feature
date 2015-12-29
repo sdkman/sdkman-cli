@@ -1,4 +1,4 @@
-Feature: Forced Offline Mode
+Feature: Offline Mode
 
   #offline modes
 
@@ -21,7 +21,7 @@ Feature: Forced Offline Mode
     And an initialised environment
     And the system is bootstrapped
     When I enter "sdk offline enable"
-    Then I see "Forced offline mode enabled."
+    Then I see "Offline mode enabled."
     And I do not see "INTERNET NOT REACHABLE!"
     When I enter "sdk install grails 2.1.0"
     Then I do not see "INTERNET NOT REACHABLE!"
@@ -49,7 +49,7 @@ Feature: Forced Offline Mode
     And I see "Stop! grails 2.1.0 is not available while offline."
 
   #broadcast
-  Scenario: Recall a broadcast while Forced Offline
+  Scenario: Recall a broadcast while in Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the system is bootstrapped
@@ -58,7 +58,7 @@ Feature: Forced Offline Mode
     Then I see "This is an OLD Broadcast!"
 
   #sdk version
-  Scenario: Determine the sdkman version while Forced Offline
+  Scenario: Determine the sdkman version while in Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the system is bootstrapped
@@ -66,7 +66,7 @@ Feature: Forced Offline Mode
     Then I see the current sdkman version
 
   #list candidate version
-  Scenario: List candidate versions found while Forced Offline
+  Scenario: List candidate versions found while in Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the system is bootstrapped
@@ -74,7 +74,7 @@ Feature: Forced Offline Mode
     Then I see "Offline: only showing installed grails versions"
 
   #use version
-  Scenario: Use an uninstalled candidate version while Forced Offline
+  Scenario: Use an uninstalled candidate version while in Offline Mode
     Given offline mode is enabled with reachable internet
     And the candidate "grails" version "1.3.9" is already installed and default
     And the candidate "grails" version "2.1.0" is not installed
@@ -84,7 +84,7 @@ Feature: Forced Offline Mode
     Then I see "Stop! grails 2.1.0 is not available while offline."
 
   #default version
-  Scenario: Set the default to an uninstalled candidate version while Forced Offline
+  Scenario: Set the default to an uninstalled candidate version while in Offline Mode
     Given offline mode is enabled with reachable internet
     And the candidate "grails" version "1.3.9" is already installed and default
     And an initialised environment
@@ -93,7 +93,7 @@ Feature: Forced Offline Mode
     Then I see "Stop! grails 2.1.0 is not available while offline."
 
   #install command
-  Scenario: Install a candidate version that is not installed while Forced Offline
+  Scenario: Install a candidate version that is not installed while in Offline Mode
     Given offline mode is enabled with reachable internet
     And the candidate "grails" version "2.1.0" is not installed
     And an initialised environment
@@ -102,7 +102,7 @@ Feature: Forced Offline Mode
     Then I see "Stop! grails 2.1.0 is not available while offline."
 
   #uninstall command
-  Scenario: Uninstall a candidate version while Forced Offline
+  Scenario: Uninstall a candidate version while in Offline Mode
     Given offline mode is enabled with reachable internet
     And the candidate "grails" version "2.1.0" is already installed and default
     And an initialised environment
@@ -111,7 +111,7 @@ Feature: Forced Offline Mode
     And the candidate "grails" version "2.1.0" is not installed
 
   #current command
-  Scenario: Display the current version of a candidate while Forced Offline
+  Scenario: Display the current version of a candidate while in Offline Mode
     Given offline mode is enabled with reachable internet
     And the candidate "grails" version "2.1.0" is already installed and default
     And an initialised environment
@@ -120,7 +120,7 @@ Feature: Forced Offline Mode
     Then I see "Using grails version 2.1.0"
 
   #help command
-  Scenario: Request help while Forced Offline
+  Scenario: Request help while in Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the system is bootstrapped
@@ -128,7 +128,7 @@ Feature: Forced Offline Mode
     Then I see "Usage: sdk <command> [candidate] [version]"
 
   #selfupdate command
-  Scenario: Attempt self-update while Forced Offline
+  Scenario: Attempt self-update while in Offline Mode
     Given offline mode is enabled with reachable internet
     And an initialised environment
     And the system is bootstrapped

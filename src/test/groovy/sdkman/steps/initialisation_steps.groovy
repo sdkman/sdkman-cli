@@ -38,13 +38,13 @@ And(~'^the internet is reachable$') {->
     primeEndpointWithString("/app/version", sdkmanVersion)
     primeSelfupdate()
 
-    forcedOffline = false
+    offlineMode = false
     serviceUrlEnv = SERVICE_UP_URL
     javaHome = FAKE_JDK_PATH
 }
 
 And(~'^the internet is not reachable$') {->
-    forcedOffline = false
+    offlineMode = false
     serviceUrlEnv = SERVICE_DOWN_URL
     javaHome = FAKE_JDK_PATH
 }
@@ -54,7 +54,7 @@ And(~'^offline mode is disabled with reachable internet$') {->
     primeEndpointWithString("/broadcast/latest", "broadcast message")
     primeEndpointWithString("/app/version", sdkmanVersion)
 
-    forcedOffline = false
+    offlineMode = false
     serviceUrlEnv = SERVICE_UP_URL
     javaHome = FAKE_JDK_PATH
 }
@@ -64,20 +64,20 @@ And(~'^offline mode is enabled with reachable internet$') {->
     primeEndpointWithString("/broadcast/latest", "broadcast message")
     primeEndpointWithString("/app/version", sdkmanVersion)
 
-    forcedOffline = true
+    offlineMode = true
     serviceUrlEnv = SERVICE_UP_URL
     javaHome = FAKE_JDK_PATH
 }
 
 And(~'^offline mode is enabled with unreachable internet$') {->
-    forcedOffline = true
+    offlineMode = true
     serviceUrlEnv = SERVICE_DOWN_URL
     javaHome = FAKE_JDK_PATH
 }
 
 And(~'^an initialised environment$') {->
     bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
-        .withForcedOfflineMode(forcedOffline)
+        .withOfflineMode(offlineMode)
         .withService(serviceUrlEnv)
         .withBroadcastService(serviceUrlEnv)
         .withJdkHome(javaHome)
@@ -88,7 +88,7 @@ And(~'^an initialised environment$') {->
 
 And(~'^an outdated initialised environment$') {->
     bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
-        .withForcedOfflineMode(forcedOffline)
+        .withOfflineMode(offlineMode)
         .withService(serviceUrlEnv)
         .withBroadcastService(serviceUrlEnv)
         .withJdkHome(javaHome)
