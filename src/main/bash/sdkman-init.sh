@@ -136,8 +136,8 @@ if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$(
 
 else
     SDKMAN_REMOTE_VERSION=$(curl -s "${SDKMAN_SERVICE}/app/version" --connect-timeout 1 --max-time 1)
-    sdkman_force_offline_on_proxy "$SDKMAN_REMOTE_VERSION"
-    if [[ -z "$SDKMAN_REMOTE_VERSION" ]]; then
+	DETECT_HTML="$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+    if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$DETECT_HTML" ]]; then
         SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
     else
         echo ${SDKMAN_REMOTE_VERSION} > "$SDKMAN_VERSION_TOKEN"
