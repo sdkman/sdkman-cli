@@ -14,7 +14,7 @@ Feature: Offline Mode
     And an initialised environment
     And the system is bootstrapped
     When I enter "sdk offline"
-    Then I see "Stop! Specify a valid offline mode."
+    Then I see "Offline mode enabled."
 
   Scenario: Enable Offline Mode with internet reachable
     Given offline mode is disabled with reachable internet

@@ -32,7 +32,7 @@ function __sdkman_help {
 	echo "       version   or v"
 	echo "       broadcast or b"
 	echo "       help      or h"
-	echo "       offline           <enable|disable>"
+	echo "       offline           [enable|disable]"
 	echo "       selfupdate        [force]"
 	echo "       flush             <candidates|broadcast|archives|temp>"
 	echo ""

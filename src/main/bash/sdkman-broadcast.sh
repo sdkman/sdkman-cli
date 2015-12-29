@@ -60,7 +60,7 @@ function sdkman_display_offline_warning {
         echo " Some functionality is disabled or only partially available."
         echo " If this persists, please enable the offline mode:"
         echo ""
-        echo "   $ sdk offline enable"
+        echo "   $ sdk offline"
         echo ""
         echo "============================================================"
         echo ""
