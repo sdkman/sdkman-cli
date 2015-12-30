@@ -97,9 +97,8 @@ function sdk {
 		return 1
 	fi
 
-	if [[ "$COMMAND" == "offline" &&  -z "$QUALIFIER" ]]; then
-		echo -e "\nStop! Specify a valid offline mode."
-	elif [[ "$COMMAND" == "offline" && ( -z $(echo "enable disable" | grep -w "$QUALIFIER")) ]]; then
+	# Validate offline qualifier
+	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && -z $(echo "enable disable" | grep -w "$QUALIFIER") ]]; then
 		echo -e "\nStop! $QUALIFIER is not a valid offline mode."
 	fi
 
