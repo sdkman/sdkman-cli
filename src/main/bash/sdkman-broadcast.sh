@@ -34,7 +34,7 @@ function sdkman_determine_broadcast_id {
 	if [[ "$SDKMAN_OFFLINE_MODE" == "true" || "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ]]; then
 		echo ""
 	else
-		echo $(curl -s "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id")
+		echo $(curl_with_timeouts "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id")
 	fi
 }
 

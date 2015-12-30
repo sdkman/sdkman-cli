@@ -86,3 +86,7 @@ function __sdkman_link_candidate_version {
 	fi
 	ln -s "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current"
 }
+
+function curl_with_timeouts {
+	curl -s "$1" --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time}
+}
