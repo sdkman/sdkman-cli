@@ -245,6 +245,14 @@ if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_disable_gvm_alias') ]]; then
 	echo "sdkman_disable_gvm_alias=false" >> "${sdkman_config_file}"
 fi
 
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_curl_connect_timeout') ]]; then
+	echo "sdkman_curl_connect_timeout=5" >> "${sdkman_config_file}"
+fi
+
+if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_curl_max_time') ]]; then
+	echo "sdkman_curl_max_time=4" >> "${sdkman_config_file}"
+fi
+
 
 # drop version token
 echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"

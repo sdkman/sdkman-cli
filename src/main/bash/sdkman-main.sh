@@ -49,11 +49,16 @@ function sdk {
 	#
 	# Various sanity checks and default settings
 	#
-	__sdkman_default_environment_variables
-
 	mkdir -p "$SDKMAN_DIR"
 
-    sdkman_update_broadcast_or_force_offline
+	# Always presume internet availability
+	SDKMAN_AVAILABLE="true"
+	if [ -z "$SDKMAN_OFFLINE_MODE" ]; then
+		SDKMAN_OFFLINE_MODE="false"
+	fi
+
+	# ...unless proven otherwise
+    sdkman_update_broadcast_and_service_availability
 
 	# Load the sdkman config if it exists.
 	if [ -f "${SDKMAN_DIR}/etc/config" ]; then

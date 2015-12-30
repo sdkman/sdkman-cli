@@ -43,15 +43,14 @@ function sdkman_determine_version {
 		VERSION="$version"
 
 	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -z "$version" && -L "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" ]]; then
-
 		VERSION=$(readlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/!!g")
 
 	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$version" ]]; then
-		echo "Stop! ${CANDIDATE} ${1} is not available in offline mode."
+		echo "Stop! ${CANDIDATE} ${1} is not available while offline."
 		return 1
 
 	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -z "$version" ]]; then
-        echo "${OFFLINE_MESSAGE}"
+        echo "This command is not available while offline."
         return 1
 
 	elif [[ "${SDKMAN_AVAILABLE}" == "true" && -z "$version" ]]; then
@@ -77,23 +76,6 @@ function sdkman_determine_version {
 	fi
 }
 
-function __sdkman_default_environment_variables {
-
-	if [ ! "$SDKMAN_FORCE_OFFLINE" ]; then
-		SDKMAN_FORCE_OFFLINE="false"
-	fi
-
-	if [ ! "$SDKMAN_ONLINE" ]; then
-		SDKMAN_ONLINE="true"
-	fi
-
-	if [[ "${SDKMAN_ONLINE}" == "false" || "${SDKMAN_FORCE_OFFLINE}" == "true" ]]; then
-		SDKMAN_AVAILABLE="false"
-	else
-	  	SDKMAN_AVAILABLE="true"
-	fi
-}
-
 function __sdkman_link_candidate_version {
 	CANDIDATE="$1"
 	VERSION="$2"
@@ -103,4 +85,8 @@ function __sdkman_link_candidate_version {
 		unlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current"
 	fi
 	ln -s "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current"
+}
+
+function curl_with_timeouts {
+	curl -s "$1" --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time}
 }

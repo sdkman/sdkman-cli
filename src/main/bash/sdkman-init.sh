@@ -68,23 +68,6 @@ if ${cygwin} ; then
     [ -n "${CP}" ] && CP=$(cygpath --path --unix "${CP}")
 fi
 
-
-OFFLINE_WARNING=$( cat << EOF
-==== WARNING ===============================================
-
-INTERNET NOT REACHABLE!
-
-Some functionality is disabled. If this persists, please
-enable the offline mode:
-
-   $ sdk offline enable
-
-============================================================
-EOF
-)
-
-OFFLINE_MESSAGE="This command is not available in offline mode."
-
 # fabricate list of candidates
 if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
 	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
@@ -146,15 +129,19 @@ if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
 	touch "${SDKMAN_DIR}/var/delay_upgrade"
 fi
 
+# set curl connect-timeout and max-time
+if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=5; fi
+if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=4; fi
+
 # determine if up to date
 SDKMAN_VERSION_TOKEN="${SDKMAN_DIR}/var/version"
 if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$((60*24)))" ]]; then
     SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_TOKEN")
 
 else
-    SDKMAN_REMOTE_VERSION=$(curl -s "${SDKMAN_SERVICE}/app/version" --connect-timeout 1 --max-time 1)
-    sdkman_force_offline_on_proxy "$SDKMAN_REMOTE_VERSION"
-    if [[ -z "$SDKMAN_REMOTE_VERSION" || "$SDKMAN_FORCE_OFFLINE" == 'true' ]]; then
+    SDKMAN_REMOTE_VERSION=$(curl_with_timeouts "${SDKMAN_SERVICE}/app/version")
+	DETECT_HTML="$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+    if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$DETECT_HTML" ]]; then
         SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
     else
         echo ${SDKMAN_REMOTE_VERSION} > "$SDKMAN_VERSION_TOKEN"

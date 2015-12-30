@@ -17,37 +17,13 @@
 #
 
 function __sdkman_offline {
-	if [[ "$1" == "enable" ]]; then
-		SDKMAN_FORCE_OFFLINE="true"
-		echo "Forced offline mode enabled."
+	local mode="$1"
+	if [[ -z "$mode" || "$mode" == "enable" ]]; then
+		SDKMAN_OFFLINE_MODE="true"
+		echo "Offline mode enabled."
 	fi
-	if [[ "$1" == "disable" ]]; then
-		SDKMAN_FORCE_OFFLINE="false"
-		SDKMAN_ONLINE="true"
+	if [[ "$mode" == "disable" ]]; then
+		SDKMAN_OFFLINE_MODE="false"
 		echo "Online mode re-enabled!"
-	fi
-}
-
-function sdkman_determine_offline {
-    local input="$1"
-	if [[ -z "$input" ]]; then
-		SDKMAN_ONLINE="false"
-		SDKMAN_AVAILABLE="false"
-	else
-		SDKMAN_ONLINE="true"
-	fi
-}
-
-function sdkman_force_offline_on_proxy {
-	local response="$1"
-	local detect_html="$(echo "$response" | tr '[:upper:]' '[:lower:]' | grep 'html')"
-	if [[ -n "$detect_html" ]]; then
-		echo "SDKMAN can't reach the internet so going offline. Re-enable online with:"
-		echo ""
-		echo "  $ sdk offline disable"
-		echo ""
-		SDKMAN_FORCE_OFFLINE="true"
-    else
-        SDKMAN_FORCE_OFFLINE="false"
 	fi
 }

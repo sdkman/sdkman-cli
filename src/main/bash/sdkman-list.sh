@@ -31,7 +31,7 @@ function __sdkman_build_version_csv {
 
 function __sdkman_offline_list {
 	echo "------------------------------------------------------------"
-	echo "Offline Mode: only showing installed ${CANDIDATE} versions"
+	echo "Offline: only showing installed ${CANDIDATE} versions"
 	echo "------------------------------------------------------------"
 	echo "                                                            "
 

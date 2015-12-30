@@ -13,8 +13,7 @@ class SdkmanBashEnvBuilder {
     CurlStub curlStub
     List candidates = ['groovy', 'grails']
     List availableCandidates = candidates
-    boolean onlineMode = true
-    boolean forcedOfflineMode = false
+    boolean offlineMode = false
     String broadcast = "This is a LIVE broadcast!"
     String service = "http://localhost:8080"
     String broadcastService = "http://localhost:8080"
@@ -62,13 +61,8 @@ class SdkmanBashEnvBuilder {
         this
     }
 
-    SdkmanBashEnvBuilder withOnlineMode(boolean onlineMode){
-        this.onlineMode = onlineMode
-        this
-    }
-
-    SdkmanBashEnvBuilder withForcedOfflineMode(boolean forcedOfflineMode){
-        this.forcedOfflineMode = forcedOfflineMode
+    SdkmanBashEnvBuilder withOfflineMode(boolean offlineMode){
+        this.offlineMode = offlineMode
         this
     }
 
@@ -125,8 +119,7 @@ class SdkmanBashEnvBuilder {
         def env = [
                 SDKMAN_DIR: sdkmanDir.absolutePath,
                 SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
-                SDKMAN_ONLINE: "$onlineMode",
-                SDKMAN_FORCE_OFFLINE: "$forcedOfflineMode",
+                SDKMAN_OFFLINE_MODE: "$offlineMode",
                 SDKMAN_SERVICE: service,
                 SDKMAN_BROADCAST_SERVICE: broadcastService,
                 SDKMAN_BROKER_SERVICE: brokerService,
