@@ -4,7 +4,7 @@ Feature: Service Unavailable
     Given the internet is not reachable
     And an initialised environment
 
-  # list command
+  # list commands
 
   Scenario: List candidate versions found while Offline
     Given the candidate "grails" version "2.1.0" is already installed and default
@@ -20,6 +20,11 @@ Feature: Service Unavailable
     When I enter "sdk list grails"
     Then I see "Offline: only showing installed grails versions"
     And I see "None installed!"
+
+  Scenario: List Available Candidates while Offline
+    Given the system is bootstrapped
+    When I enter "sdk list"
+    Then I see "This command is not available while offline."
 
 # use command
 

@@ -68,7 +68,11 @@ function __sdkman_list {
 }
 
 function __sdkman_list_candidates {
-    echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")" | ${PAGER-less}
+	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
+		echo "This command is not available while offline."
+	else
+		echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")" | ${PAGER-less}
+	fi
 }
 
 function __sdkman_list_versions {
