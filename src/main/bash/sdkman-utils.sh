@@ -17,8 +17,10 @@
 #
 
 function __sdkman_path_contains {
-    local candidate="$1"
-    local exists="$(echo "$PATH" | grep "$candidate")"
+	local candidate exists
+
+    candidate="$1"
+    exists="$(echo "$PATH" | grep "$candidate")"
     if [[ -n "$exists" ]]; then
         SDKMAN_CANDIDATE_IN_PATH='true'
     else
@@ -28,6 +30,7 @@ function __sdkman_path_contains {
 
 function __sdkman_add_to_path {
     local candidate="$1"
+
     __sdkman_path_contains "$candidate"
     if [[ "${SDKMAN_CANDIDATE_IN_PATH}" == 'false' ]]; then
         PATH="$SDKMAN_CANDIDATES_DIR/$candidate/current/bin:$PATH"
@@ -35,6 +38,8 @@ function __sdkman_add_to_path {
 }
 
 function __sdkman_set_candidate_home {
-	local upper_candidate=$(echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]')
+	local upper_candidate
+
+	upper_candidate=$(echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]')
 	export "${upper_candidate}_HOME"="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
 }

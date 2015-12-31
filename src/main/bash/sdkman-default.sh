@@ -17,7 +17,9 @@
 #
 
 function __sdkman_default {
+	#todo: fix leaking state
 	CANDIDATE="$1"
+
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
 	sdkman_determine_version "$2" || return 1
 

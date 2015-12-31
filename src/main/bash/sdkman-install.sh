@@ -17,33 +17,37 @@
 #
 
 function __sdkman_download {
-	CANDIDATE="$1"
-	VERSION="$2"
+	local candidate version
+
+	candidate="$1"
+	version="$2"
 	mkdir -p "${SDKMAN_DIR}/archives"
-	if [ ! -f "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" ]; then
+	if [ ! -f "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" ]; then
 		echo ""
-		echo "Downloading: ${CANDIDATE} ${VERSION}"
+		echo "Downloading: ${candidate} ${version}"
 		echo ""
-		DOWNLOAD_URL="${SDKMAN_SERVICE}/download/${CANDIDATE}/${VERSION}?platform=${SDKMAN_PLATFORM}"
-		ZIP_ARCHIVE="${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip"
+		local download_url="${SDKMAN_SERVICE}/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
+		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 		if [[ "$sdkman_insecure_ssl" == "true" ]]; then
-			curl -k -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
+			curl -k -L "${download_url}" > "${zip_archive}"
 		else
-			curl -L "${DOWNLOAD_URL}" > "${ZIP_ARCHIVE}"
+			curl -L "${download_url}" > "${zip_archive}"
 		fi
 	else
 		echo ""
-		echo "Found a previously downloaded ${CANDIDATE} ${VERSION} archive. Not downloading it again..."
+		echo "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
 	fi
-	__sdkman_validate_zip "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" || return 1
+	__sdkman_validate_zip "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" || return 1
 	echo ""
 }
 
 function __sdkman_validate_zip {
-	ZIP_ARCHIVE="$1"
-	ZIP_OK=$(unzip -t "${ZIP_ARCHIVE}" | grep 'No errors detected in compressed data')
-	if [ -z "${ZIP_OK}" ]; then
-		rm "${ZIP_ARCHIVE}"
+	local zip_archive zip_ok
+
+	zip_archive="$1"
+	zip_ok=$(unzip -t "${zip_archive}" | grep 'No errors detected in compressed data')
+	if [ -z "${zip_ok}" ]; then
+		rm "${zip_archive}"
 		echo ""
 		echo "Stop! The archive was corrupt and has been removed! Please try installing again."
 		return 1
@@ -51,8 +55,12 @@ function __sdkman_validate_zip {
 }
 
 function __sdkman_install {
+	local CANDIDATE LOCAL_FOLDER
+
+	#todo: fix leaking state
 	CANDIDATE="$1"
 	LOCAL_FOLDER="$3"
+
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
 	sdkman_determine_version "$2" "$3" || return 1
 
@@ -88,28 +96,34 @@ function __sdkman_install {
 }
 
 function __sdkman_install_local_version {
-	CANDIDATE="$1"
-	VERSION="$2"
-	LOCAL_FOLDER="$3"
-	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}"
+	local candidate version folder
 
-	echo "Linking ${CANDIDATE} ${VERSION} to ${LOCAL_FOLDER}"
-	ln -s "${LOCAL_FOLDER}" "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
+	candidate="$1"
+	version="$2"
+	folder="$3"
+
+	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
+
+	echo "Linking ${candidate} ${version} to ${folder}"
+	ln -s "${folder}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	echo "Done installing!"
 	echo ""
 }
 
 function __sdkman_install_candidate_version {
-	CANDIDATE="$1"
-	VERSION="$2"
-	__sdkman_download "${CANDIDATE}" "${VERSION}" || return 1
-	echo "Installing: ${CANDIDATE} ${VERSION}"
+	local candidate version
 
-	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}"
+	candidate="$1"
+	version="$2"
+
+	__sdkman_download "${candidate}" "${version}" || return 1
+	echo "Installing: ${candidate} ${version}"
+
+	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
 	rm -rf "${SDKMAN_DIR}/tmp/out"
-	unzip -oq "${SDKMAN_DIR}/archives/${CANDIDATE}-${VERSION}.zip" -d "${SDKMAN_DIR}/tmp/out"
-	mv "${SDKMAN_DIR}"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
+	unzip -oq "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
+	mv "${SDKMAN_DIR}"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	echo "Done installing!"
 	echo ""
 }

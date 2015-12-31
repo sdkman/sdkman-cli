@@ -2,6 +2,7 @@
 
 function __sdkman_determine_outdated_version {
     local candidate local_versions remote_default_version
+
     candidate="$1"
 
     # Resolve local versions

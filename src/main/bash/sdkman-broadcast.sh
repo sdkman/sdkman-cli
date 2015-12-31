@@ -25,9 +25,9 @@ function __sdkman_broadcast {
 }
 
 function sdkman_update_broadcast_and_service_availability {
-    BROADCAST_LIVE_ID=$(sdkman_determine_broadcast_id)
-    sdkman_set_availability "$BROADCAST_LIVE_ID"
-	sdkman_update_broadcast "$BROADCAST_LIVE_ID"
+    local broadcast_live_id=$(sdkman_determine_broadcast_id)
+    sdkman_set_availability "$broadcast_live_id"
+	sdkman_update_broadcast "$broadcast_live_id"
 }
 
 function sdkman_determine_broadcast_id {
@@ -75,12 +75,12 @@ function sdkman_display_proxy_warning {
 }
 
 function sdkman_update_broadcast {
-	local broadcast_live_id="$1"
+	local broadcast_live_id broadcast_id_file broadcast_text_file broadcast_old_id
 
-	local broadcast_id_file="${SDKMAN_DIR}/var/broadcast_id"
-	local broadcast_text_file="${SDKMAN_DIR}/var/broadcast"
-
-	local broadcast_old_id=""
+	broadcast_live_id="$1"
+	broadcast_id_file="${SDKMAN_DIR}/var/broadcast_id"
+	broadcast_text_file="${SDKMAN_DIR}/var/broadcast"
+	broadcast_old_id=""
 
 	if [[ -f "$broadcast_id_file" ]]; then
 		broadcast_old_id=$(cat "$broadcast_id_file");

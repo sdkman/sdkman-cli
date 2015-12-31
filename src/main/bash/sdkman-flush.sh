@@ -17,23 +17,21 @@
 #
 
 function __sdkman_cleanup_folder {
-	SDKMAN_CLEANUP_DIR="${SDKMAN_DIR}/${1}"
-	SDKMAN_CLEANUP_DU=$(du -sh "$SDKMAN_CLEANUP_DIR")
-	SDKMAN_CLEANUP_COUNT=$(ls -1 "$SDKMAN_CLEANUP_DIR" | wc -l)
+	local folder="$1"
+	sdkman_cleanup_dir="${SDKMAN_DIR}/${folder}"
+	sdkman_cleanup_disk_usage=$(du -sh "$sdkman_cleanup_dir")
+	sdkman_cleanup_count=$(ls -1 "$sdkman_cleanup_dir" | wc -l)
 
-	rm -rf "${SDKMAN_DIR}/${1}"
-	mkdir "${SDKMAN_DIR}/${1}"
+	rm -rf "${SDKMAN_DIR}/${folder}"
+	mkdir "${SDKMAN_DIR}/${folder}"
 
-	echo "${SDKMAN_CLEANUP_COUNT} archive(s) flushed, freeing ${SDKMAN_CLEANUP_DU}."
-
-	unset SDKMAN_CLEANUP_DIR
-	unset SDKMAN_CLEANUP_DU
-	unset SDKMAN_CLEANUP_COUNT
+	echo "${sdkman_cleanup_count} archive(s) flushed, freeing ${sdkman_cleanup_disk_usage}."
 }
 
 function __sdkman_flush {
-	QUALIFIER="$1"
-	case "$QUALIFIER" in
+	local qualifier="$1"
+
+	case "$qualifier" in
 		candidates)
 			if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
 		        rm "${SDKMAN_DIR}/var/candidates"

@@ -17,9 +17,13 @@
 #
 
 function __sdkman_use {
+	#todo: fix leaking state of CANDIDATE
+	local CANDIDATE version
+
 	CANDIDATE="$1"
+	version="$2"
 	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
-	sdkman_determine_version "$2" || return 1
+	sdkman_determine_version "$version" || return 1
 
 	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" ]]; then
 		echo ""

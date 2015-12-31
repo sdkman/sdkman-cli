@@ -22,7 +22,9 @@
 #
 
 function __sdkman_check_candidate_present {
-	if [ -z "$1" ]; then
+	local candidate="$1"
+
+	if [ -z "$candidate" ]; then
 		echo -e "\nNo candidate provided."
 		__sdkman_help
 		return 1
@@ -30,7 +32,9 @@ function __sdkman_check_candidate_present {
 }
 
 function __sdkman_check_version_present {
-	if [ -z "$1" ]; then
+	local version="$1"
+
+	if [ -z "$version" ]; then
 		echo -e "\nNo candidate version provided."
 		__sdkman_help
 		return 1
@@ -39,6 +43,7 @@ function __sdkman_check_version_present {
 
 function sdkman_determine_version {
 	local version="$1"
+
 	if [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$version" && -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$version" ]]; then
 		VERSION="$version"
 
@@ -77,14 +82,16 @@ function sdkman_determine_version {
 }
 
 function __sdkman_link_candidate_version {
-	CANDIDATE="$1"
-	VERSION="$2"
+	local candidate version
+
+	candidate="$1"
+	version="$2"
 
 	# Change the 'current' symlink for the candidate, hence affecting all shells.
-	if [ -L "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" ]; then
-		unlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current"
+	if [ -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]; then
+		unlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 	fi
-	ln -s "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current"
+	ln -s "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 }
 
 function curl_with_timeouts {

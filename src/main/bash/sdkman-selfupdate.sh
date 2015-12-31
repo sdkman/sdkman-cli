@@ -17,11 +17,13 @@
 #
 
 function __sdkman_selfupdate {
-    SDKMAN_FORCE_SELFUPDATE="$1"
+    local force_selfupdate
+
+    force_selfupdate="$1"
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "This command is not available while offline."
 
-	elif [[ "$SDKMAN_REMOTE_VERSION" == "$SDKMAN_VERSION" && "$SDKMAN_FORCE_SELFUPDATE" != "force" ]]; then
+	elif [[ "$SDKMAN_REMOTE_VERSION" == "$SDKMAN_VERSION" && "$force_selfupdate" != "force" ]]; then
 		echo "No update available at this time."
 
 	else
@@ -31,18 +33,18 @@ function __sdkman_selfupdate {
 }
 
 function __sdkman_auto_update {
+	local remote_version version delay_upgrade
 
-    local SDKMAN_REMOTE_VERSION="$1"
-    local SDKMAN_VERSION="$2"
+    remote_version="$1"
+    version="$2"
+    delay_upgrade="${SDKMAN_DIR}/var/delay_upgrade"
 
-    SDKMAN_DELAY_UPGRADE="${SDKMAN_DIR}/var/delay_upgrade"
-
-    if [[ -n "$(find "$SDKMAN_DELAY_UPGRADE" -mtime +1)" && ( "$SDKMAN_REMOTE_VERSION" != "$SDKMAN_VERSION" ) ]]; then
+    if [[ -n "$(find "$delay_upgrade" -mtime +1)" && "$remote_version" != "$version" ]]; then
         echo ""
         echo ""
         echo "ATTENTION: A new version of SDKMAN is available..."
         echo ""
-        echo "The current version is $SDKMAN_REMOTE_VERSION, but you have $SDKMAN_VERSION."
+        echo "The current version is $remote_version, but you have $version."
         echo ""
 
         if [[ "$sdkman_auto_selfupdate" != "true" ]]; then
@@ -59,7 +61,7 @@ function __sdkman_auto_update {
             echo "Not upgrading today..."
         fi
 
-        touch "${SDKMAN_DELAY_UPGRADE}"
+        touch "${delay_upgrade}"
     fi
 
 }

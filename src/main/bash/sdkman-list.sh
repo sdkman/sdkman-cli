@@ -17,36 +17,45 @@
 #
 
 function __sdkman_build_version_csv {
-	CANDIDATE="$1"
-    SDKMAN_VERSIONS_CSV=""
-	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}" ]]; then
-		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do
+	local candidate versions_csv
+
+	candidate="$1"
+    versions_csv=""
+
+	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}" ]]; then
+		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do
 			if [[ "${version}" != 'current' ]]; then
-				SDKMAN_VERSIONS_CSV="${version},${SDKMAN_VERSIONS_CSV}"
+				versions_csv="${version},${versions_csv}"
 			fi
 		done
-		SDKMAN_VERSIONS_CSV=${SDKMAN_VERSIONS_CSV%?}
+		versions_csv=${versions_csv%?}
 	fi
+	echo "$versions_csv"
 }
 
 function __sdkman_offline_list {
+	local candidate versions_csv
+
+	candidate="$1"
+	versions_csv="$2"
+
 	echo "------------------------------------------------------------"
-	echo "Offline: only showing installed ${CANDIDATE} versions"
+	echo "Offline: only showing installed ${candidate} versions"
 	echo "------------------------------------------------------------"
 	echo "                                                            "
 
-	sdkman_versions=($(echo ${SDKMAN_VERSIONS_CSV//,/ }))
-	for (( i=0 ; i <= ${#sdkman_versions} ; i++ )); do
-		if [[ -n "${sdkman_versions[${i}]}" ]]; then
-			if [[ "${sdkman_versions[${i}]}" == "${CURRENT}" ]]; then
-				echo -e " > ${sdkman_versions[${i}]}"
+	local versions=($(echo ${versions_csv//,/ }))
+	for (( i=0 ; i <= ${#versions} ; i++ )); do
+		if [[ -n "${versions[${i}]}" ]]; then
+			if [[ "${versions[${i}]}" == "${CURRENT}" ]]; then
+				echo -e " > ${versions[${i}]}"
 			else
-				echo -e " * ${sdkman_versions[${i}]}"
+				echo -e " * ${versions[${i}]}"
 			fi
 		fi
 	done
 
-	if [[ -z "${sdkman_versions[@]}" ]]; then
+	if [[ -z "${versions[@]}" ]]; then
 		echo "   None installed!"
 	fi
 
@@ -54,16 +63,15 @@ function __sdkman_offline_list {
 	echo "* - installed                                               "
 	echo "> - currently in use                                        "
 	echo "------------------------------------------------------------"
-
-	unset CSV sdkman_versions
 }
 
 function __sdkman_list {
-    CANDIDATE="$1"
-    if [[ -z "$CANDIDATE" ]]; then
+    local candidate="$1"
+
+    if [[ -z "$candidate" ]]; then
         __sdkman_list_candidates
     else
-        __sdkman_list_versions
+        __sdkman_list_versions "$candidate"
     fi
 }
 
@@ -76,12 +84,15 @@ function __sdkman_list_candidates {
 }
 
 function __sdkman_list_versions {
-	__sdkman_build_version_csv "${CANDIDATE}"
-	__sdkman_determine_current_version "${CANDIDATE}"
+	local candidate versions_csv
+
+	candidate="$1"
+	versions_csv="$(__sdkman_build_version_csv "${candidate}")"
+	__sdkman_determine_current_version "${candidate}"
 
 	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
-		__sdkman_offline_list
+		__sdkman_offline_list "$candidate" "$versions_csv"
 	else
-        echo "$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${SDKMAN_VERSIONS_CSV}")"
+        echo "$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
 	fi
 }
