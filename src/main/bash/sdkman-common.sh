@@ -41,7 +41,7 @@ function __sdkman_check_version_present {
 	fi
 }
 
-function sdkman_determine_version {
+function __sdkman_determine_version {
 	local version="$1"
 
 	if [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$version" && -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$version" ]]; then
@@ -94,6 +94,6 @@ function __sdkman_link_candidate_version {
 	ln -s "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 }
 
-function curl_with_timeouts {
+function __sdkman_curl_with_timeouts {
 	curl -s "$1" --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time}
 }

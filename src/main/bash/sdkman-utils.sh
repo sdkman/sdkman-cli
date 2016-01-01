@@ -43,3 +43,9 @@ function __sdkman_set_candidate_home {
 	upper_candidate=$(echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]')
 	export "${upper_candidate}_HOME"="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
 }
+
+function __sdkman_echo_debug {
+	if [[ "$SDKMAN_DEBUG_MODE" == 'true' ]]; then
+		echo "$1"
+	fi
+}

@@ -24,35 +24,35 @@ function __sdkman_broadcast {
 	fi
 }
 
-function sdkman_update_broadcast_and_service_availability {
-    local broadcast_live_id=$(sdkman_determine_broadcast_id)
-    sdkman_set_availability "$broadcast_live_id"
-	sdkman_update_broadcast "$broadcast_live_id"
+function __sdkman_update_broadcast_and_service_availability {
+    local broadcast_live_id=$(__sdkman_determine_broadcast_id)
+    __sdkman_set_availability "$broadcast_live_id"
+	__sdkman_update_broadcast "$broadcast_live_id"
 }
 
-function sdkman_determine_broadcast_id {
+function __sdkman_determine_broadcast_id {
 	if [[ "$SDKMAN_OFFLINE_MODE" == "true" || "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ]]; then
 		echo ""
 	else
-		echo $(curl_with_timeouts "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id")
+		echo $(__sdkman_curl_with_timeouts "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id")
 	fi
 }
 
-function sdkman_set_availability {
+function __sdkman_set_availability {
     local broadcast_id="$1"
 	local detect_html="$(echo "$broadcast_id" | tr '[:upper:]' '[:lower:]' | grep 'html')"
 	if [[ -z "$broadcast_id" ]]; then
 		SDKMAN_AVAILABLE="false"
-		sdkman_display_offline_warning "$broadcast_id"
+		__sdkman_display_offline_warning "$broadcast_id"
 	elif [[ -n "$detect_html" ]]; then
 		SDKMAN_AVAILABLE="false"
-		sdkman_display_proxy_warning
+		__sdkman_display_proxy_warning
 	else
 		SDKMAN_AVAILABLE="true"
 	fi
 }
 
-function sdkman_display_offline_warning {
+function __sdkman_display_offline_warning {
 	local broadcast_id="$1"
 	if [[ -z "$broadcast_id" && "$COMMAND" != "offline" && "$SDKMAN_OFFLINE_MODE" != "true" ]]; then
         echo "==== INTERNET NOT REACHABLE! ==============================="
@@ -67,14 +67,14 @@ function sdkman_display_offline_warning {
 	fi
 }
 
-function sdkman_display_proxy_warning {
+function __sdkman_display_proxy_warning {
 	echo "==== PROXY DETECTED! ======================================="
 	echo "Please ensure you have open internet access to continue."
 	echo "============================================================"
     echo ""
 }
 
-function sdkman_update_broadcast {
+function __sdkman_update_broadcast {
 	local broadcast_live_id broadcast_id_file broadcast_text_file broadcast_old_id
 
 	broadcast_live_id="$1"

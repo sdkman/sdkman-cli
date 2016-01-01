@@ -38,13 +38,6 @@ case "$(uname)" in
         linux=true
 esac
 
-function sdkman_echo_debug {
-	if [[ "$SDKMAN_DEBUG_MODE" == 'true' ]]; then
-		echo "$1"
-	fi
-}
-
-
 # upgrade from GVM
 
 if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
@@ -150,8 +143,8 @@ sdkman_src_folder="${SDKMAN_DIR}/src"
 
 # fetch new distribution and check integrity
 download_url="${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate"
-sdkman_echo_debug "Download new scripts from: ${download_url}"
-sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
+__sdkman_echo_debug "Download new scripts from: ${download_url}"
+__sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
 curl -s "${download_url}" > "${sdkman_tmp_zip}"
 
 ARCHIVE_OK=$(unzip -qt "${sdkman_tmp_zip}" | grep 'No errors detected in compressed data')
@@ -164,11 +157,11 @@ fi
 
 
 # prepare file system
-sdkman_echo_debug "Purge existing scripts..."
+__sdkman_echo_debug "Purge existing scripts..."
 rm -rf "${sdkman_bin_folder}"
 rm -rf "${sdkman_src_folder}"
 
-sdkman_echo_debug "Refresh directory structure..."
+__sdkman_echo_debug "Refresh directory structure..."
 mkdir -p "${SDKMAN_DIR}/bin"
 mkdir -p "${SDKMAN_DIR}/candidates"
 mkdir -p "${SDKMAN_DIR}/ext"
@@ -191,10 +184,10 @@ IFS="$OLD_IFS"
 for candidate in "${SDKMAN_CANDIDATES[@]}"; do
     if [[ -n "$candidate" && -d "${SDKMAN_DIR}/${candidate}" && ! -L "${SDKMAN_DIR}/${candidate}" ]]; then
         if [[ -z "$(ls -A ${SDKMAN_DIR}/${candidate})" ]]; then
-            sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
+            __sdkman_echo_debug "Attempt removal of ${candidate} dir: ${SDKMAN_DIR}/${candidate}"
             rmdir "${SDKMAN_DIR}/${candidate}"
         else
-            sdkman_echo_debug "Moving this ${candidate} into dir: ${SDKMAN_DIR}/candidates/${candidate} and symlinking into dir: ${SDKMAN_DIR}/${candidate}"
+            __sdkman_echo_debug "Moving this ${candidate} into dir: ${SDKMAN_DIR}/candidates/${candidate} and symlinking into dir: ${SDKMAN_DIR}/${candidate}"
             OLD_CURRENT_DIR=$(readlink "${SDKMAN_DIR}/${candidate}/current")
             NEW_CURRENT_DIR=$(echo "${OLD_CURRENT_DIR}" | sed "s_${SDKMAN_DIR}_${SDKMAN_DIR}/candidates_g")
             unlink "${SDKMAN_DIR}/${candidate}/current"
@@ -206,27 +199,27 @@ for candidate in "${SDKMAN_CANDIDATES[@]}"; do
 done
 
 # extract new distribution
-sdkman_echo_debug "Extract script archive..."
-sdkman_echo_debug "Unziping scripts to: ${sdkman_stage_folder}"
+__sdkman_echo_debug "Extract script archive..."
+__sdkman_echo_debug "Unziping scripts to: ${sdkman_stage_folder}"
 if [[ "${cygwin}" == 'true' ]]; then
-	sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
+	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
 	unzip -qo $(cygpath -w "${sdkman_tmp_zip}") -d $(cygpath -w "${sdkman_stage_folder}")
 else
 	unzip -qo "${sdkman_tmp_zip}" -d "${sdkman_stage_folder}"
 fi
 
-sdkman_echo_debug "Moving sdkman-init file to bin folder..."
+__sdkman_echo_debug "Moving sdkman-init file to bin folder..."
 mv "${sdkman_stage_folder}/sdkman-init.sh" "${sdkman_bin_folder}"
 
-sdkman_echo_debug "Move remaining module scripts to src folder: ${sdkman_src_folder}"
+__sdkman_echo_debug "Move remaining module scripts to src folder: ${sdkman_src_folder}"
 mv "${sdkman_stage_folder}"/sdkman-* "${sdkman_src_folder}"
 
-sdkman_echo_debug "Clean up staging folder..."
+__sdkman_echo_debug "Clean up staging folder..."
 rm -rf "${sdkman_stage_folder}"
 
 
 # prime config file
-sdkman_echo_debug "Prime the config file..."
+__sdkman_echo_debug "Prime the config file..."
 sdkman_config_file="${SDKMAN_DIR}/etc/config"
 touch "${sdkman_config_file}"
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_answer') ]]; then

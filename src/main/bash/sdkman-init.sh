@@ -139,7 +139,7 @@ if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$(
     SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_TOKEN")
 
 else
-    SDKMAN_REMOTE_VERSION=$(curl_with_timeouts "${SDKMAN_SERVICE}/app/version")
+    SDKMAN_REMOTE_VERSION=$(__sdkman_curl_with_timeouts "${SDKMAN_SERVICE}/app/version")
 	DETECT_HTML="$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')"
     if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$DETECT_HTML" ]]; then
         SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
@@ -150,14 +150,14 @@ fi
 
 # Build _HOME environment variables and prefix them all to PATH
 
-function sdkman_export_candidate_home {
+function __sdkman_export_candidate_home {
 	local candidate_name="$1"
 	local candidate_dir="$2"
 	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
 	export $(echo "${candidate_home_var}")="$candidate_dir"
 }
 
-function sdkman_set_candidate_bin_dir {
+function __sdkman_set_candidate_bin_dir {
 	local candidate_dir="$1"
 	if [[ -d "${candidate_dir}/bin" ]]; then
 		CANDIDATE_BIN_DIR="${candidate_dir}/bin"
@@ -166,9 +166,9 @@ function sdkman_set_candidate_bin_dir {
 	fi
 }
 
-function sdkman_prepend_candidate_to_path {
+function __sdkman_prepend_candidate_to_path {
 	local candidate_dir="$1"
-	sdkman_set_candidate_bin_dir "${candidate_dir}"
+	__sdkman_set_candidate_bin_dir "${candidate_dir}"
 	echo "$PATH" | grep -q "${candidate_dir}" || PATH="${CANDIDATE_BIN_DIR}:${PATH}"
 	unset CANDIDATE_BIN_DIR
 }
@@ -181,8 +181,8 @@ for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 	CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
 	CANDIDATE_DIR="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE_NAME}/current"
 	if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
-		sdkman_export_candidate_home "${CANDIDATE_NAME}" "${CANDIDATE_DIR}"
-		sdkman_prepend_candidate_to_path "${CANDIDATE_DIR}"
+		__sdkman_export_candidate_home "${CANDIDATE_NAME}" "${CANDIDATE_DIR}"
+		__sdkman_prepend_candidate_to_path "${CANDIDATE_DIR}"
 	fi
 	unset CANDIDATE_NAME CANDIDATE_DIR
 done
