@@ -16,6 +16,38 @@
 #   limitations under the License.
 #
 
+function __sdk_list {
+    local candidate="$1"
+
+    if [[ -z "$candidate" ]]; then
+        __sdkman_list_candidates
+    else
+        __sdkman_list_versions "$candidate"
+    fi
+}
+
+function __sdkman_list_candidates {
+	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
+		echo "This command is not available while offline."
+	else
+		echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")" | ${PAGER-less}
+	fi
+}
+
+function __sdkman_list_versions {
+	local candidate versions_csv
+
+	candidate="$1"
+	versions_csv="$(__sdkman_build_version_csv "${candidate}")"
+	__sdkman_determine_current_version "${candidate}"
+
+	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
+		__sdkman_offline_list "$candidate" "$versions_csv"
+	else
+        echo "$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
+	fi
+}
+
 function __sdkman_build_version_csv {
 	local candidate versions_csv
 
@@ -63,36 +95,4 @@ function __sdkman_offline_list {
 	echo "* - installed                                               "
 	echo "> - currently in use                                        "
 	echo "------------------------------------------------------------"
-}
-
-function __sdk_list {
-    local candidate="$1"
-
-    if [[ -z "$candidate" ]]; then
-        __sdkman_list_candidates
-    else
-        __sdkman_list_versions "$candidate"
-    fi
-}
-
-function __sdkman_list_candidates {
-	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
-		echo "This command is not available while offline."
-	else
-		echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")" | ${PAGER-less}
-	fi
-}
-
-function __sdkman_list_versions {
-	local candidate versions_csv
-
-	candidate="$1"
-	versions_csv="$(__sdkman_build_version_csv "${candidate}")"
-	__sdkman_determine_current_version "${candidate}"
-
-	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
-		__sdkman_offline_list "$candidate" "$versions_csv"
-	else
-        echo "$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
-	fi
 }

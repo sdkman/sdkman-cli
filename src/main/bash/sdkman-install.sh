@@ -16,44 +16,6 @@
 #   limitations under the License.
 #
 
-function __sdkman_download {
-	local candidate version
-
-	candidate="$1"
-	version="$2"
-	mkdir -p "${SDKMAN_DIR}/archives"
-	if [ ! -f "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" ]; then
-		echo ""
-		echo "Downloading: ${candidate} ${version}"
-		echo ""
-		local download_url="${SDKMAN_SERVICE}/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
-		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
-		if [[ "$sdkman_insecure_ssl" == "true" ]]; then
-			curl -k -L "${download_url}" > "${zip_archive}"
-		else
-			curl -L "${download_url}" > "${zip_archive}"
-		fi
-	else
-		echo ""
-		echo "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
-	fi
-	__sdkman_validate_zip "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" || return 1
-	echo ""
-}
-
-function __sdkman_validate_zip {
-	local zip_archive zip_ok
-
-	zip_archive="$1"
-	zip_ok=$(unzip -t "${zip_archive}" | grep 'No errors detected in compressed data')
-	if [ -z "${zip_ok}" ]; then
-		rm "${zip_archive}"
-		echo ""
-		echo "Stop! The archive was corrupt and has been removed! Please try installing again."
-		return 1
-	fi
-}
-
 function __sdk_install {
 	local candidate version folder
 
@@ -95,21 +57,6 @@ function __sdk_install {
 	fi
 }
 
-function __sdkman_install_local_version {
-	local candidate version folder
-
-	candidate="$1"
-	version="$2"
-	folder="$3"
-
-	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
-
-	echo "Linking ${candidate} ${version} to ${folder}"
-	ln -s "${folder}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
-	echo "Done installing!"
-	echo ""
-}
-
 function __sdkman_install_candidate_version {
 	local candidate version
 
@@ -126,4 +73,57 @@ function __sdkman_install_candidate_version {
 	mv "${SDKMAN_DIR}"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	echo "Done installing!"
 	echo ""
+}
+
+function __sdkman_install_local_version {
+	local candidate version folder
+
+	candidate="$1"
+	version="$2"
+	folder="$3"
+
+	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
+
+	echo "Linking ${candidate} ${version} to ${folder}"
+	ln -s "${folder}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	echo "Done installing!"
+	echo ""
+}
+
+function __sdkman_download {
+	local candidate version
+
+	candidate="$1"
+	version="$2"
+	mkdir -p "${SDKMAN_DIR}/archives"
+	if [ ! -f "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" ]; then
+		echo ""
+		echo "Downloading: ${candidate} ${version}"
+		echo ""
+		local download_url="${SDKMAN_SERVICE}/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
+		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
+		if [[ "$sdkman_insecure_ssl" == "true" ]]; then
+			curl -k -L "${download_url}" > "${zip_archive}"
+		else
+			curl -L "${download_url}" > "${zip_archive}"
+		fi
+	else
+		echo ""
+		echo "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
+	fi
+	__sdkman_validate_zip "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" || return 1
+	echo ""
+}
+
+function __sdkman_validate_zip {
+	local zip_archive zip_ok
+
+	zip_archive="$1"
+	zip_ok=$(unzip -t "${zip_archive}" | grep 'No errors detected in compressed data')
+	if [ -z "${zip_ok}" ]; then
+		rm "${zip_archive}"
+		echo ""
+		echo "Stop! The archive was corrupt and has been removed! Please try installing again."
+		return 1
+	fi
 }
