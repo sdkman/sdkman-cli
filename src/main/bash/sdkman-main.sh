@@ -67,7 +67,7 @@ function sdk {
 
  	# no command provided
 	if [[ -z "$COMMAND" ]]; then
-		__sdkman_help
+		__sdk_help
 		return 1
 	fi
 
@@ -87,7 +87,7 @@ function sdk {
 	# couldn't find the command
 	if [[ -z "$CMD_FOUND" ]]; then
 		echo "Invalid command: $COMMAND"
-		__sdkman_help
+		__sdk_help
 	fi
 
 	# Check whether the candidate exists
@@ -111,7 +111,7 @@ function sdk {
 	# Execute the requested command
 	if [ -n "$CMD_FOUND" ]; then
 		# It's available as a shell function
-		__sdkman_"$CONVERTED_CMD_NAME" "$QUALIFIER" "$3" "$4"
+		__sdk_"$CONVERTED_CMD_NAME" "$QUALIFIER" "$3" "$4"
 	fi
 
 	# Attempt upgrade after all is done

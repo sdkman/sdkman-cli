@@ -38,7 +38,7 @@ function __sdkman_determine_current_version {
 	fi
 }
 
-function __sdkman_current {
+function __sdk_current {
 	local candidate="$1"
 
 	if [ -n "$candidate" ]; then

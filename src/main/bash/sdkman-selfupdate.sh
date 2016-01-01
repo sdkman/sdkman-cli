@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdkman_selfupdate {
+function __sdk_selfupdate {
     local force_selfupdate
 
     force_selfupdate="$1"
@@ -55,7 +55,7 @@ function __sdkman_auto_update {
         if [[ -z "$upgrade" ]]; then upgrade="Y"; fi
 
         if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
-            __sdkman_selfupdate
+            __sdk_selfupdate
             unset upgrade
         else
             echo "Not upgrading today..."

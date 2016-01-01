@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdkman_uninstall {
+function __sdk_uninstall {
 	local candidate version current
 
 	candidate="$1"

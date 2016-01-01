@@ -26,7 +26,7 @@ function __sdkman_check_candidate_present {
 
 	if [ -z "$candidate" ]; then
 		echo -e "\nNo candidate provided."
-		__sdkman_help
+		__sdk_help
 		return 1
 	fi
 }
@@ -36,7 +36,7 @@ function __sdkman_check_version_present {
 
 	if [ -z "$version" ]; then
 		echo -e "\nNo candidate version provided."
-		__sdkman_help
+		__sdk_help
 		return 1
 	fi
 }

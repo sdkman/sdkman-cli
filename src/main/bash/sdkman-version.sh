@@ -16,6 +16,6 @@
 #   limitations under the License.
 #
 
-function __sdkman_version {
+function __sdk_version {
 	echo "SDKMAN ${SDKMAN_VERSION}"
 }

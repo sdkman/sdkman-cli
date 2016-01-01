@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdkman_offline {
+function __sdk_offline {
 	local mode="$1"
 	if [[ -z "$mode" || "$mode" == "enable" ]]; then
 		SDKMAN_OFFLINE_MODE="true"

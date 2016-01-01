@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdkman_use {
+function __sdk_use {
 	local candidate version install
 
 	candidate="$1"

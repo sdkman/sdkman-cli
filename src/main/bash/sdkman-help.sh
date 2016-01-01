@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdkman_help {
+function __sdk_help {
 	echo ""
 	echo "Usage: sdk <command> [candidate] [version]"
 	echo "       sdk offline <enable|disable>"

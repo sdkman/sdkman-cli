@@ -23,7 +23,7 @@ function __sdkman_determine_outdated_version {
     fi
 }
 
-function __sdkman_outdated {
+function __sdk_outdated {
     local all candidates candidate outdated installed_count outdated_count
     if [ -n "$1" ]; then
         all=false

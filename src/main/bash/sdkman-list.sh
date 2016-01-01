@@ -65,7 +65,7 @@ function __sdkman_offline_list {
 	echo "------------------------------------------------------------"
 }
 
-function __sdkman_list {
+function __sdk_list {
     local candidate="$1"
 
     if [[ -z "$candidate" ]]; then

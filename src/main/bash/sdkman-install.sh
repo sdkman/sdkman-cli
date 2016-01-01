@@ -54,7 +54,7 @@ function __sdkman_validate_zip {
 	fi
 }
 
-function __sdkman_install {
+function __sdk_install {
 	local candidate version folder
 
 	candidate="$1"

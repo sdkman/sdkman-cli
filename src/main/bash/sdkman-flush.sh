@@ -28,7 +28,7 @@ function __sdkman_cleanup_folder {
 	echo "${sdkman_cleanup_count} archive(s) flushed, freeing ${sdkman_cleanup_disk_usage}."
 }
 
-function __sdkman_flush {
+function __sdk_flush {
 	local qualifier="$1"
 
 	case "$qualifier" in
