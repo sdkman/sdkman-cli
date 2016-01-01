@@ -54,7 +54,6 @@ function __sdkman_validate_zip {
 	fi
 }
 
-#todo: fix leaking state
 function __sdkman_install {
 	local candidate version folder
 

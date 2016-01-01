@@ -16,7 +16,6 @@
 #   limitations under the License.
 #
 
-#todo: fix leaking state
 function __sdkman_default {
 	local candidate version
 
