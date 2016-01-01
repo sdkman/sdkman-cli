@@ -16,21 +16,24 @@
 #   limitations under the License.
 #
 
+#todo: fix leaking state
 function __sdkman_default {
-	#todo: fix leaking state
-	CANDIDATE="$1"
+	local candidate version
 
-	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
-	__sdkman_determine_version "$2" || return 1
+	candidate="$1"
+	version="$2"
 
-	if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" ]; then
+	__sdkman_check_candidate_present "$candidate" || return 1
+	__sdkman_determine_version "$candidate" "$version" || return 1
+
+	if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]; then
 		echo ""
-		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
+		echo "Stop! ${candidate} ${VERSION} is not installed."
 		return 1
 	fi
 
-	__sdkman_link_candidate_version "${CANDIDATE}" "${VERSION}"
+	__sdkman_link_candidate_version "${candidate}" "${VERSION}"
 
 	echo ""
-	echo "Default ${CANDIDATE} version set to ${VERSION}"
+	echo "Default ${candidate} version set to ${VERSION}"
 }

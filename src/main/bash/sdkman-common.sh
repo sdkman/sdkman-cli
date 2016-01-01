@@ -42,16 +42,20 @@ function __sdkman_check_version_present {
 }
 
 function __sdkman_determine_version {
-	local version="$1"
+	local candidate version folder
 
-	if [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$version" && -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$version" ]]; then
+	candidate="$1"
+	version="$2"
+	folder="$3"
+
+	if [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$version" && -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/$version" ]]; then
 		VERSION="$version"
 
-	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -z "$version" && -L "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" ]]; then
-		VERSION=$(readlink "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/!!g")
+	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -z "$version" && -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]]; then
+		VERSION=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
 
 	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -n "$version" ]]; then
-		echo "Stop! ${CANDIDATE} ${1} is not available while offline."
+		echo "Stop! ${candidate} ${version} is not available while offline."
 		return 1
 
 	elif [[ "${SDKMAN_AVAILABLE}" == "false" && -z "$version" ]]; then
@@ -60,22 +64,22 @@ function __sdkman_determine_version {
 
 	elif [[ "${SDKMAN_AVAILABLE}" == "true" && -z "$version" ]]; then
 		VERSION_VALID='valid'
-		VERSION=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/default")
+		VERSION=$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/default")
 
 	else
-		VERSION_VALID=$(curl -s "${SDKMAN_SERVICE}/candidates/${CANDIDATE}/$version")
-		if [[ "${VERSION_VALID}" == 'valid' || "${VERSION_VALID}" == 'invalid' && -n "$2" ]]; then
+		VERSION_VALID=$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/$version")
+		if [[ "${VERSION_VALID}" == 'valid' || "${VERSION_VALID}" == 'invalid' && -n "$folder" ]]; then
 			VERSION="$version"
 
-		elif [[ "${VERSION_VALID}" == 'invalid' && -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$version" ]]; then
+		elif [[ "${VERSION_VALID}" == 'invalid' && -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/$version" ]]; then
 			VERSION="$version"
 
-		elif [[ "${VERSION_VALID}" == 'invalid' && -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/$version" ]]; then
+		elif [[ "${VERSION_VALID}" == 'invalid' && -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/$version" ]]; then
 			VERSION="$version"
 
 		else
 			echo ""
-			echo "Stop! $version is not a valid ${CANDIDATE} version."
+			echo "Stop! $version is not a valid ${candidate} version."
 			return 1
 		fi
 	fi

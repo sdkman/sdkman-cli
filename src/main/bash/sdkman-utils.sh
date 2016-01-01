@@ -38,10 +38,13 @@ function __sdkman_add_to_path {
 }
 
 function __sdkman_set_candidate_home {
-	local upper_candidate
+	local candidate version upper_candidate
 
-	upper_candidate=$(echo "${CANDIDATE}" | tr '[:lower:]' '[:upper:]')
-	export "${upper_candidate}_HOME"="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}"
+	candidate="$1"
+	version="$2"
+
+	upper_candidate=$(echo "${candidate}" | tr '[:lower:]' '[:upper:]')
+	export "${upper_candidate}_HOME"="${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 }
 
 function __sdkman_echo_debug {

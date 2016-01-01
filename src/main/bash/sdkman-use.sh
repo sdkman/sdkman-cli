@@ -16,49 +16,49 @@
 #   limitations under the License.
 #
 
+#todo: fix leaking state
 function __sdkman_use {
-	#todo: fix leaking state of CANDIDATE
-	local CANDIDATE version
+	local candidate version install
 
-	CANDIDATE="$1"
+	candidate="$1"
 	version="$2"
-	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
-	__sdkman_determine_version "$version" || return 1
+	__sdkman_check_candidate_present "$candidate" || return 1
+	__sdkman_determine_version "$candidate" "$version" || return 1
 
-	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" ]]; then
+	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
 		echo ""
-		echo "Stop! ${CANDIDATE} ${VERSION} is not installed."
+		echo "Stop! ${candidate} ${VERSION} is not installed."
 		if [[ "${sdkman_auto_answer}" != 'true' ]]; then
 			echo -n "Do you want to install it now? (Y/n): "
-			read INSTALL
+			read install
 		fi
-		if [[ -z "${INSTALL}" || "${INSTALL}" == "y" || "${INSTALL}" == "Y" ]]; then
-			__sdkman_install_candidate_version "${CANDIDATE}" "${VERSION}"
-			__sdkman_add_to_path "${CANDIDATE}"
+		if [[ -z "${install}" || "${install}" == "y" || "${install}" == "Y" ]]; then
+			__sdkman_install_candidate_version "${candidate}" "${VERSION}"
+			__sdkman_add_to_path "${candidate}"
 		else
 			return 1
 		fi
 	fi
 
 	# Just update the *_HOME and PATH for this shell.
-	__sdkman_set_candidate_home "${CANDIDATE}" "${VERSION}"
+	__sdkman_set_candidate_home "${candidate}" "${VERSION}"
 
 	# Replace the current path for the candidate with the selected version.
 	if [[ "${solaris}" == true ]]; then
-		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}!g")
+		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
 
 	elif [[ "${darwin}" == true ]]; then
-		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}!g")
+		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
 
 	else
-		export PATH=$(echo $PATH | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}!g")
+		export PATH=$(echo $PATH | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
 	fi
 
-	if [[ ! -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/current" ]]; then
-	    echo "Setting ${CANDIDATE} version ${VERSION} as default."
-		__sdkman_link_candidate_version "${CANDIDATE}" "${VERSION}"
+	if [[ ! -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]]; then
+	    echo "Setting ${candidate} version ${VERSION} as default."
+		__sdkman_link_candidate_version "${candidate}" "${VERSION}"
 	fi
 
 	echo ""
-	echo "Using ${CANDIDATE} version ${VERSION} in this shell."
+	echo "Using ${candidate} version ${VERSION} in this shell."
 }

@@ -54,43 +54,44 @@ function __sdkman_validate_zip {
 	fi
 }
 
+#todo: fix leaking state
 function __sdkman_install {
-	local CANDIDATE LOCAL_FOLDER
+	local candidate version folder
 
-	#todo: fix leaking state
-	CANDIDATE="$1"
-	LOCAL_FOLDER="$3"
+	candidate="$1"
+	version="$2"
+	folder="$3"
 
-	__sdkman_check_candidate_present "${CANDIDATE}" || return 1
-	__sdkman_determine_version "$2" "$3" || return 1
+	__sdkman_check_candidate_present "$candidate" || return 1
+	__sdkman_determine_version "$candidate" "$version" "$folder" || return 1
 
-	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" || -h "${SDKMAN_CANDIDATES_DIR}/${CANDIDATE}/${VERSION}" ]]; then
+	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" || -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
 		echo ""
-		echo "Stop! ${CANDIDATE} ${VERSION} is already installed."
+		echo "Stop! ${candidate} ${VERSION} is already installed."
 		return 0
 	fi
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
-		__sdkman_install_candidate_version "${CANDIDATE}" "${VERSION}" || return 1
+		__sdkman_install_candidate_version "${candidate}" "${VERSION}" || return 1
 
 		if [[ "${sdkman_auto_answer}" != 'true' ]]; then
-			echo -n "Do you want ${CANDIDATE} ${VERSION} to be set as default? (Y/n): "
+			echo -n "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
 		if [[ -z "${USE}" || "${USE}" == "y" || "${USE}" == "Y" ]]; then
 			echo ""
-			echo "Setting ${CANDIDATE} ${VERSION} as default."
-			__sdkman_link_candidate_version "${CANDIDATE}" "${VERSION}"
-			__sdkman_add_to_path "${CANDIDATE}"
+			echo "Setting ${candidate} ${VERSION} as default."
+			__sdkman_link_candidate_version "${candidate}" "${VERSION}"
+			__sdkman_add_to_path "${candidate}"
 		fi
 		return 0
 
-	elif [[ "${VERSION_VALID}" == 'invalid' && -n "${LOCAL_FOLDER}" ]]; then
-		__sdkman_install_local_version "${CANDIDATE}" "${VERSION}" "${LOCAL_FOLDER}" || return 1
+	elif [[ "${VERSION_VALID}" == 'invalid' && -n "${folder}" ]]; then
+		__sdkman_install_local_version "${candidate}" "${VERSION}" "${folder}" || return 1
 
     else
         echo ""
-		echo "Stop! $1 is not a valid ${CANDIDATE} version."
+		echo "Stop! $1 is not a valid ${candidate} version."
 		return 1
 	fi
 }
