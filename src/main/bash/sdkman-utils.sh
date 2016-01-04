@@ -16,66 +16,12 @@
 #   limitations under the License.
 #
 
-function __sdkman_path_contains {
-	local candidate exists
-
-    candidate="$1"
-    exists="$(echo "$PATH" | grep "$candidate")"
-    if [[ -n "$exists" ]]; then
-        echo 'true'
-    else
-        echo 'false'
-    fi
-}
-
-function __sdkman_add_to_path {
-    local candidate present
-
-    candidate="$1"
-
-    present=$(__sdkman_path_contains "$candidate")
-    if [[ "$present" == 'false' ]]; then
-        PATH="$SDKMAN_CANDIDATES_DIR/$candidate/current/bin:$PATH"
-    fi
-}
-
-function __sdkman_set_candidate_home {
-	local candidate version upper_candidate
-
-	candidate="$1"
-	version="$2"
-
-	upper_candidate=$(echo "$candidate" | tr '[:lower:]' '[:upper:]')
-	export "${upper_candidate}_HOME"="${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
-}
-
 function __sdkman_echo_debug {
 	if [[ "$SDKMAN_DEBUG_MODE" == 'true' ]]; then
 		echo "$1"
 	fi
 }
 
-function __sdkman_export_candidate_home {
-	local candidate_name="$1"
-	local candidate_dir="$2"
-	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
-	export $(echo "$candidate_home_var")="$candidate_dir"
-}
-
-function __sdkman_determine_candidate_bin_dir {
-	local candidate_dir="$1"
-	if [[ -d "${candidate_dir}/bin" ]]; then
-		echo "${candidate_dir}/bin"
-	else
-		echo "$candidate_dir"
-	fi
-}
-
-function __sdkman_prepend_candidate_to_path {
-	local candidate_dir candidate_bin_dir
-
-	candidate_dir="$1"
-	candidate_bin_dir=$(__sdkman_determine_candidate_bin_dir "$candidate_dir")
-	echo "$PATH" | grep -q "$candidate_dir" || PATH="${candidate_bin_dir}:${PATH}"
-	unset CANDIDATE_BIN_DIR
+function __sdkman_curl_with_timeouts {
+	curl -s "$1" --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time}
 }

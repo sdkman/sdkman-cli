@@ -16,11 +16,6 @@
 #   limitations under the License.
 #
 
-
-#
-# common internal function definitions
-#
-
 function __sdkman_check_candidate_present {
 	local candidate="$1"
 
@@ -83,21 +78,4 @@ function __sdkman_determine_version {
 			return 1
 		fi
 	fi
-}
-
-function __sdkman_link_candidate_version {
-	local candidate version
-
-	candidate="$1"
-	version="$2"
-
-	# Change the 'current' symlink for the candidate, hence affecting all shells.
-	if [ -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]; then
-		unlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
-	fi
-	ln -s "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
-}
-
-function __sdkman_curl_with_timeouts {
-	curl -s "$1" --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time}
 }
