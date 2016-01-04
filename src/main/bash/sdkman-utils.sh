@@ -54,3 +54,26 @@ function __sdkman_echo_debug {
 		echo "$1"
 	fi
 }
+
+function __sdkman_export_candidate_home {
+	local candidate_name="$1"
+	local candidate_dir="$2"
+	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
+	export $(echo "$candidate_home_var")="$candidate_dir"
+}
+
+function __sdkman_set_candidate_bin_dir {
+	local candidate_dir="$1"
+	if [[ -d "${candidate_dir}/bin" ]]; then
+		CANDIDATE_BIN_DIR="${candidate_dir}/bin"
+	else
+		CANDIDATE_BIN_DIR="$candidate_dir"
+	fi
+}
+
+function __sdkman_prepend_candidate_to_path {
+	local candidate_dir="$1"
+	__sdkman_set_candidate_bin_dir "$candidate_dir"
+	echo "$PATH" | grep -q "$candidate_dir" || PATH="${CANDIDATE_BIN_DIR}:${PATH}"
+	unset CANDIDATE_BIN_DIR
+}

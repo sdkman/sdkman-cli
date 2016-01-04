@@ -68,35 +68,6 @@ if ${cygwin} ; then
     [ -n "$CP" ] && CP=$(cygpath --path --unix "$CP")
 fi
 
-# fabricate list of candidates
-if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
-	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
-else
-	SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates")
-	echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
-fi
-
-
-
-# Set the candidate array
-OLD_IFS="$IFS"
-IFS=","
-SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
-IFS="$OLD_IFS"
-
-# Source sdkman module scripts.
-for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
-    source "${SDKMAN_DIR}/src/${f}"
-done
-
-# Source extension files prefixed with 'sdkman-' and found in the ext/ folder
-# Use this if extensions are written with the functional approach and want
-# to use functions in the main sdkman script.
-for f in $(find "${SDKMAN_DIR}/ext" -type f -name 'sdkman-*' -exec basename {} \;); do
-    source "${SDKMAN_DIR}/ext/${f}"
-done
-unset f
-
 # Attempt to set JAVA_HOME if it's not already set.
 if [ -z "$JAVA_HOME" ] ; then
     if ${darwin} ; then
@@ -118,6 +89,33 @@ if [ -z "$JAVA_HOME" ] ; then
         export JAVA_HOME
     fi
 fi
+
+# fabricate list of candidates
+if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
+	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
+else
+	SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates")
+	echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
+fi
+
+# Set the candidate array
+OLD_IFS="$IFS"
+IFS=","
+SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
+IFS="$OLD_IFS"
+
+# Source sdkman module scripts.
+for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
+    source "${SDKMAN_DIR}/src/${f}"
+done
+
+# Source extension files prefixed with 'sdkman-' and found in the ext/ folder
+# Use this if extensions are written with the functional approach and want
+# to use functions in the main sdkman script.
+for f in $(find "${SDKMAN_DIR}/ext" -type f -name 'sdkman-*' -exec basename {} \;); do
+    source "${SDKMAN_DIR}/ext/${f}"
+done
+unset f
 
 # Load the sdkman config if it exists.
 if [ -f "${SDKMAN_DIR}/etc/config" ]; then
@@ -147,31 +145,6 @@ else
         echo ${SDKMAN_REMOTE_VERSION} > "$SDKMAN_VERSION_TOKEN"
     fi
 fi
-
-# Build _HOME environment variables and prefix them all to PATH
-
-function __sdkman_export_candidate_home {
-	local candidate_name="$1"
-	local candidate_dir="$2"
-	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
-	export $(echo "$candidate_home_var")="$candidate_dir"
-}
-
-function __sdkman_set_candidate_bin_dir {
-	local candidate_dir="$1"
-	if [[ -d "${candidate_dir}/bin" ]]; then
-		CANDIDATE_BIN_DIR="${candidate_dir}/bin"
-	else
-		CANDIDATE_BIN_DIR="$candidate_dir"
-	fi
-}
-
-function __sdkman_prepend_candidate_to_path {
-	local candidate_dir="$1"
-	__sdkman_set_candidate_bin_dir "$candidate_dir"
-	echo "$PATH" | grep -q "$candidate_dir" || PATH="${CANDIDATE_BIN_DIR}:${PATH}"
-	unset CANDIDATE_BIN_DIR
-}
 
 # The candidates are assigned to an array for zsh compliance, a list of words is not iterable
 # Arrays are the only way, but unfortunately zsh arrays are not backward compatible with bash
