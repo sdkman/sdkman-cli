@@ -33,22 +33,22 @@ function __sdk_install {
 	fi
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
-		__sdkman_install_candidate_version "${candidate}" "${VERSION}" || return 1
+		__sdkman_install_candidate_version "$candidate" "$VERSION" || return 1
 
-		if [[ "${sdkman_auto_answer}" != 'true' ]]; then
+		if [[ "$sdkman_auto_answer" != 'true' ]]; then
 			echo -n "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
-		if [[ -z "${USE}" || "${USE}" == "y" || "${USE}" == "Y" ]]; then
+		if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
 			echo ""
 			echo "Setting ${candidate} ${VERSION} as default."
-			__sdkman_link_candidate_version "${candidate}" "${VERSION}"
-			__sdkman_add_to_path "${candidate}"
+			__sdkman_link_candidate_version "$candidate" "$VERSION"
+			__sdkman_add_to_path "$candidate"
 		fi
 		return 0
 
-	elif [[ "${VERSION_VALID}" == 'invalid' && -n "${folder}" ]]; then
-		__sdkman_install_local_version "${candidate}" "${VERSION}" "${folder}" || return 1
+	elif [[ "$VERSION_VALID" == 'invalid' && -n "$folder" ]]; then
+		__sdkman_install_local_version "$candidate" "$VERSION" "$folder" || return 1
 
     else
         echo ""
@@ -63,14 +63,14 @@ function __sdkman_install_candidate_version {
 	candidate="$1"
 	version="$2"
 
-	__sdkman_download "${candidate}" "${version}" || return 1
+	__sdkman_download "$candidate" "$version" || return 1
 	echo "Installing: ${candidate} ${version}"
 
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
 	rm -rf "${SDKMAN_DIR}/tmp/out"
 	unzip -oq "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
-	mv "${SDKMAN_DIR}"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	mv "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	echo "Done installing!"
 	echo ""
 }
@@ -85,7 +85,7 @@ function __sdkman_install_local_version {
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
 	echo "Linking ${candidate} ${version} to ${folder}"
-	ln -s "${folder}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	echo "Done installing!"
 	echo ""
 }
@@ -103,9 +103,9 @@ function __sdkman_download {
 		local download_url="${SDKMAN_SERVICE}/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
 		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 		if [[ "$sdkman_insecure_ssl" == "true" ]]; then
-			curl -k -L "${download_url}" > "${zip_archive}"
+			curl -k -L "$download_url" > "$zip_archive"
 		else
-			curl -L "${download_url}" > "${zip_archive}"
+			curl -L "$download_url" > "$zip_archive"
 		fi
 	else
 		echo ""
@@ -119,9 +119,9 @@ function __sdkman_validate_zip {
 	local zip_archive zip_ok
 
 	zip_archive="$1"
-	zip_ok=$(unzip -t "${zip_archive}" | grep 'No errors detected in compressed data')
-	if [ -z "${zip_ok}" ]; then
-		rm "${zip_archive}"
+	zip_ok=$(unzip -t "$zip_archive" | grep 'No errors detected in compressed data')
+	if [ -z "$zip_ok" ]; then
+		rm "$zip_archive"
 		echo ""
 		echo "Stop! The archive was corrupt and has been removed! Please try installing again."
 		return 1

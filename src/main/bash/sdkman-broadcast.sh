@@ -17,9 +17,9 @@
 #
 
 function __sdk_broadcast {
-	if [ "${BROADCAST_OLD_TEXT}" ]; then
-		echo "${BROADCAST_OLD_TEXT}"
+	if [ "$BROADCAST_OLD_TEXT" ]; then
+		echo "$BROADCAST_OLD_TEXT"
 	else
-		echo "${BROADCAST_LIVE_TEXT}"
+		echo "$BROADCAST_LIVE_TEXT"
 	fi
 }

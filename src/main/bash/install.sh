@@ -20,7 +20,7 @@ SDKMAN_SERVICE="@SDKMAN_SERVICE@"
 SDKMAN_BROKER_SERVICE="@SDKMAN_BROKER_SERVICE@"
 SDKMAN_VERSION="@SDKMAN_VERSION@"
 
-if [ -z "${SDKMAN_DIR}" ]; then
+if [ -z "$SDKMAN_DIR" ]; then
     SDKMAN_DIR="$HOME/.sdkman"
 fi
 
@@ -110,7 +110,7 @@ echo '                                                                          
 # Sanity checks
 
 echo "Looking for a previous installation of SDKMAN..."
-if [ -d "${SDKMAN_DIR}" ]; then
+if [ -d "$SDKMAN_DIR" ]; then
 	echo "SDKMAN found."
 	echo ""
 	echo "======================================================================================================"
@@ -153,7 +153,7 @@ if [ -z $(which curl) ]; then
 	exit 0
 fi
 
-if [[ "${solaris}" == true ]]; then
+if [[ "$solaris" == true ]]; then
 	echo "Looking for gsed..."
 	if [ -z $(which gsed) ]; then
 		echo "Not found."
@@ -190,43 +190,43 @@ echo "Installing SDKMAN scripts..."
 # Create directory structure
 
 echo "Create distribution directories..."
-mkdir -p "${sdkman_bin_folder}"
-mkdir -p "${sdkman_src_folder}"
-mkdir -p "${sdkman_tmp_folder}"
-mkdir -p "${sdkman_stage_folder}"
-mkdir -p "${sdkman_ext_folder}"
-mkdir -p "${sdkman_etc_folder}"
-mkdir -p "${sdkman_var_folder}"
-mkdir -p "${sdkman_candidates_folder}"
+mkdir -p "$sdkman_bin_folder"
+mkdir -p "$sdkman_src_folder"
+mkdir -p "$sdkman_tmp_folder"
+mkdir -p "$sdkman_stage_folder"
+mkdir -p "$sdkman_ext_folder"
+mkdir -p "$sdkman_etc_folder"
+mkdir -p "$sdkman_var_folder"
+mkdir -p "$sdkman_candidates_folder"
 
 echo "Getting available candidates..."
 SDKMAN_CANDIDATES_CSV=$(curl -s "${SDKMAN_SERVICE}/candidates")
 echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 
 echo "Prime the config file..."
-touch "${sdkman_config_file}"
-echo "sdkman_auto_answer=false" >> "${sdkman_config_file}"
-echo "sdkman_auto_selfupdate=false" >> "${sdkman_config_file}"
-echo "sdkman_insecure_ssl=false" >> "${sdkman_config_file}"
-echo "sdkman_disable_gvm_alias=false" >> "${sdkman_config_file}"
-echo "sdkman_curl_connect_timeout=5" >> "${sdkman_config_file}"
-echo "sdkman_curl_max_time=4" >> "${sdkman_config_file}"
+touch "$sdkman_config_file"
+echo "sdkman_auto_answer=false" >> "$sdkman_config_file"
+echo "sdkman_auto_selfupdate=false" >> "$sdkman_config_file"
+echo "sdkman_insecure_ssl=false" >> "$sdkman_config_file"
+echo "sdkman_disable_gvm_alias=false" >> "$sdkman_config_file"
+echo "sdkman_curl_connect_timeout=5" >> "$sdkman_config_file"
+echo "sdkman_curl_max_time=4" >> "$sdkman_config_file"
 
 echo "Download script archive..."
-curl -s "${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=install" > "${sdkman_zip_file}"
+curl -s "${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=install" > "$sdkman_zip_file"
 
 echo "Extract script archive..."
-if [[ "${cygwin}" == 'true' ]]; then
+if [[ "$cygwin" == 'true' ]]; then
 	echo "Cygwin detected - normalizing paths for unzip..."
-	sdkman_zip_file=$(cygpath -w "${sdkman_zip_file}")
-	sdkman_stage_folder=$(cygpath -w "${sdkman_stage_folder}")
+	sdkman_zip_file=$(cygpath -w "$sdkman_zip_file")
+	sdkman_stage_folder=$(cygpath -w "$sdkman_stage_folder")
 fi
-unzip -qo "${sdkman_zip_file}" -d "${sdkman_stage_folder}"
+unzip -qo "$sdkman_zip_file" -d "$sdkman_stage_folder"
 
 
 echo "Install scripts..."
-mv "${sdkman_stage_folder}/sdkman-init.sh" "${sdkman_bin_folder}"
-mv "${sdkman_stage_folder}"/sdkman-* "${sdkman_src_folder}"
+mv "${sdkman_stage_folder}/sdkman-init.sh" "$sdkman_bin_folder"
+mv "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
 
 
 echo "Set version to $SDKMAN_VERSION ..."
@@ -234,44 +234,44 @@ echo "$SDKMAN_VERSION" > "${SDKMAN_DIR}/var/version"
 
 
 echo "Attempt update of bash profiles..."
-if [ ! -f "${sdkman_bash_profile}" -a ! -f "${sdkman_profile}" ]; then
-	echo "#!/bin/bash" > "${sdkman_bash_profile}"
-	echo "${sdkman_init_snippet}" >> "${sdkman_bash_profile}"
+if [ ! -f "$sdkman_bash_profile" -a ! -f "$sdkman_profile" ]; then
+	echo "#!/bin/bash" > "$sdkman_bash_profile"
+	echo "$sdkman_init_snippet" >> "$sdkman_bash_profile"
 	echo "Created and initialised ${sdkman_bash_profile}"
 else
-	if [ -f "${sdkman_bash_profile}" ]; then
-		if [[ -z `grep 'sdkman-init.sh' "${sdkman_bash_profile}"` ]]; then
-			echo -e "\n${sdkman_init_snippet}" >> "${sdkman_bash_profile}"
+	if [ -f "$sdkman_bash_profile" ]; then
+		if [[ -z `grep 'sdkman-init.sh' "$sdkman_bash_profile"` ]]; then
+			echo -e "\n$sdkman_init_snippet" >> "$sdkman_bash_profile"
 			echo "Updated existing ${sdkman_bash_profile}"
 		fi
 	fi
 
-	if [ -f "${sdkman_profile}" ]; then
-		if [[ -z `grep 'sdkman-init.sh' "${sdkman_profile}"` ]]; then
-			echo -e "\n${sdkman_init_snippet}" >> "${sdkman_profile}"
+	if [ -f "$sdkman_profile" ]; then
+		if [[ -z `grep 'sdkman-init.sh' "$sdkman_profile"` ]]; then
+			echo -e "\n$sdkman_init_snippet" >> "$sdkman_profile"
 			echo "Updated existing ${sdkman_profile}"
 		fi
 	fi
 fi
 
-if [ ! -f "${sdkman_bashrc}" ]; then
-	echo "#!/bin/bash" > "${sdkman_bashrc}"
-	echo "${sdkman_init_snippet}" >> "${sdkman_bashrc}"
+if [ ! -f "$sdkman_bashrc" ]; then
+	echo "#!/bin/bash" > "$sdkman_bashrc"
+	echo "$sdkman_init_snippet" >> "$sdkman_bashrc"
 	echo "Created and initialised ${sdkman_bashrc}"
 else
-	if [[ -z `grep 'sdkman-init.sh' "${sdkman_bashrc}"` ]]; then
-		echo -e "\n${sdkman_init_snippet}" >> "${sdkman_bashrc}"
+	if [[ -z `grep 'sdkman-init.sh' "$sdkman_bashrc"` ]]; then
+		echo -e "\n$sdkman_init_snippet" >> "$sdkman_bashrc"
 		echo "Updated existing ${sdkman_bashrc}"
 	fi
 fi
 
 echo "Attempt update of zsh profiles..."
-if [ ! -f "${sdkman_zshrc}" ]; then
-	echo "${sdkman_init_snippet}" >> "${sdkman_zshrc}"
+if [ ! -f "$sdkman_zshrc" ]; then
+	echo "$sdkman_init_snippet" >> "$sdkman_zshrc"
 	echo "Created and initialised ${sdkman_zshrc}"
 else
-	if [[ -z `grep 'sdkman-init.sh' "${sdkman_zshrc}"` ]]; then
-		echo -e "\n${sdkman_init_snippet}" >> "${sdkman_zshrc}"
+	if [[ -z `grep 'sdkman-init.sh' "$sdkman_zshrc"` ]]; then
+		echo -e "\n$sdkman_init_snippet" >> "$sdkman_zshrc"
 		echo "Updated existing ${sdkman_zshrc}"
 	fi
 fi

@@ -20,8 +20,8 @@ function __sdk_current {
 	local candidate="$1"
 
 	if [ -n "$candidate" ]; then
-		__sdkman_determine_current_version "${candidate}"
-		if [ -n "${CURRENT}" ]; then
+		__sdkman_determine_current_version "$candidate"
+		if [ -n "$CURRENT" ]; then
 			echo "Using ${candidate} version ${CURRENT}"
 		else
 			echo "Not using any version of ${candidate}"
@@ -32,7 +32,7 @@ function __sdk_current {
 			# Eliminate empty entries due to incompatibility
 			if [[ -n ${SDKMAN_CANDIDATES[${i}]} ]]; then
 				__sdkman_determine_current_version "${SDKMAN_CANDIDATES[${i}]}"
-				if [ -n "${CURRENT}" ]; then
+				if [ -n "$CURRENT" ]; then
 					if [ ${installed_count} -eq 0 ]; then
 						echo 'Using:'
 					fi
@@ -53,15 +53,15 @@ function __sdkman_determine_current_version {
 	candidate="$1"
 	present=$(__sdkman_path_contains "$candidate")
 	if [[  "$present" == 'true' ]]; then
-		if [[ "${solaris}" == true ]]; then
+		if [[ "$solaris" == true ]]; then
 			CURRENT=$(echo $PATH | gsed -r "s|${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
-		elif [[ "${darwin}" == true ]]; then
+		elif [[ "$darwin" == true ]]; then
 			CURRENT=$(echo $PATH | sed -E "s|${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin|!!\1!!|1" | sed -E "s|^.*!!(.+)!!.*$|\1|g")
 		else
 			CURRENT=$(echo $PATH | sed -r "s|${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin|!!\1!!|1" | sed -r "s|^.*!!(.+)!!.*$|\1|g")
 		fi
 
-		if [[ "${CURRENT}" == "current" ]]; then
+		if [[ "$CURRENT" == "current" ]]; then
 			CURRENT=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
 		fi
 	else

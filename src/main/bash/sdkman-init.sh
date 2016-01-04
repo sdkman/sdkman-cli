@@ -19,19 +19,19 @@
 export SDKMAN_VERSION="@SDKMAN_VERSION@"
 export SDKMAN_PLATFORM=$(uname)
 
-if [ -z "${SDKMAN_SERVICE}" ]; then
+if [ -z "$SDKMAN_SERVICE" ]; then
     export SDKMAN_SERVICE="@SDKMAN_SERVICE@"
 fi
 
-if [ -z "${SDKMAN_BROADCAST_SERVICE}" ]; then
+if [ -z "$SDKMAN_BROADCAST_SERVICE" ]; then
     export SDKMAN_BROADCAST_SERVICE="@SDKMAN_BROADCAST_SERVICE@"
 fi
 
-if [ -z "${SDKMAN_BROKER_SERVICE}" ]; then
+if [ -z "$SDKMAN_BROKER_SERVICE" ]; then
     export SDKMAN_BROKER_SERVICE="@SDKMAN_BROKER_SERVICE@"
 fi
 
-if [ -z "${SDKMAN_DIR}" ]; then
+if [ -z "$SDKMAN_DIR" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
 
@@ -63,9 +63,9 @@ esac
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched.
 if ${cygwin} ; then
-    [ -n "${JAVACMD}" ] && JAVACMD=$(cygpath --unix "${JAVACMD}")
-    [ -n "${JAVA_HOME}" ] && JAVA_HOME=$(cygpath --unix "${JAVA_HOME}")
-    [ -n "${CP}" ] && CP=$(cygpath --path --unix "${CP}")
+    [ -n "$JAVACMD" ] && JAVACMD=$(cygpath --unix "$JAVACMD")
+    [ -n "$JAVA_HOME" ] && JAVA_HOME=$(cygpath --unix "$JAVA_HOME")
+    [ -n "$CP" ] && CP=$(cygpath --path --unix "$CP")
 fi
 
 # fabricate list of candidates
@@ -98,23 +98,23 @@ done
 unset f
 
 # Attempt to set JAVA_HOME if it's not already set.
-if [ -z "${JAVA_HOME}" ] ; then
+if [ -z "$JAVA_HOME" ] ; then
     if ${darwin} ; then
-        [ -z "${JAVA_HOME}" -a -f "/usr/libexec/java_home" ] && export JAVA_HOME=$(/usr/libexec/java_home)
-        [ -z "${JAVA_HOME}" -a -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
-        [ -z "${JAVA_HOME}" -a -d "/System/Library/Frameworks/JavaVM.framework/Home" ] && export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
+        [ -z "$JAVA_HOME" -a -f "/usr/libexec/java_home" ] && export JAVA_HOME=$(/usr/libexec/java_home)
+        [ -z "$JAVA_HOME" -a -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
+        [ -z "$JAVA_HOME" -a -d "/System/Library/Frameworks/JavaVM.framework/Home" ] && export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
     else
         javaExecutable="$(which javac 2> /dev/null)"
-        [[ -z "${javaExecutable}" ]] && echo "SDKMAN: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME." && return
+        [[ -z "$javaExecutable" ]] && echo "SDKMAN: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME." && return
 
         readLink="$(which readlink 2> /dev/null)"
-        [[ -z "${readLink}" ]] && echo "SDKMAN: JAVA_HOME not set and readlink not available, please set JAVA_HOME." && return
+        [[ -z "$readLink" ]] && echo "SDKMAN: JAVA_HOME not set and readlink not available, please set JAVA_HOME." && return
 
-        javaExecutable="$(readlink -f "${javaExecutable}")"
-        javaHome="$(dirname "${javaExecutable}")"
-        javaHome=$(expr "${javaHome}" : '\(.*\)/bin')
-        JAVA_HOME="${javaHome}"
-        [[ -z "${JAVA_HOME}" ]] && echo "SDKMAN: could not find java, please set JAVA_HOME" && return
+        javaExecutable="$(readlink -f "$javaExecutable")"
+        javaHome="$(dirname "$javaExecutable")"
+        javaHome=$(expr "$javaHome" : '\(.*\)/bin')
+        JAVA_HOME="$javaHome"
+        [[ -z "$JAVA_HOME" ]] && echo "SDKMAN: could not find java, please set JAVA_HOME" && return
         export JAVA_HOME
     fi
 fi
@@ -154,7 +154,7 @@ function __sdkman_export_candidate_home {
 	local candidate_name="$1"
 	local candidate_dir="$2"
 	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
-	export $(echo "${candidate_home_var}")="$candidate_dir"
+	export $(echo "$candidate_home_var")="$candidate_dir"
 }
 
 function __sdkman_set_candidate_bin_dir {
@@ -162,14 +162,14 @@ function __sdkman_set_candidate_bin_dir {
 	if [[ -d "${candidate_dir}/bin" ]]; then
 		CANDIDATE_BIN_DIR="${candidate_dir}/bin"
 	else
-		CANDIDATE_BIN_DIR="${candidate_dir}"
+		CANDIDATE_BIN_DIR="$candidate_dir"
 	fi
 }
 
 function __sdkman_prepend_candidate_to_path {
 	local candidate_dir="$1"
-	__sdkman_set_candidate_bin_dir "${candidate_dir}"
-	echo "$PATH" | grep -q "${candidate_dir}" || PATH="${CANDIDATE_BIN_DIR}:${PATH}"
+	__sdkman_set_candidate_bin_dir "$candidate_dir"
+	echo "$PATH" | grep -q "$candidate_dir" || PATH="${CANDIDATE_BIN_DIR}:${PATH}"
 	unset CANDIDATE_BIN_DIR
 }
 
@@ -180,9 +180,9 @@ for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 	# Eliminate empty entries due to incompatibility
 	CANDIDATE_NAME="${SDKMAN_CANDIDATES[${i}]}"
 	CANDIDATE_DIR="${SDKMAN_CANDIDATES_DIR}/${CANDIDATE_NAME}/current"
-	if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
-		__sdkman_export_candidate_home "${CANDIDATE_NAME}" "${CANDIDATE_DIR}"
-		__sdkman_prepend_candidate_to_path "${CANDIDATE_DIR}"
+	if [[ -n "$CANDIDATE_NAME" && -h "$CANDIDATE_DIR" ]]; then
+		__sdkman_export_candidate_home "$CANDIDATE_NAME" "$CANDIDATE_DIR"
+		__sdkman_prepend_candidate_to_path "$CANDIDATE_DIR"
 	fi
 	unset CANDIDATE_NAME CANDIDATE_DIR
 done

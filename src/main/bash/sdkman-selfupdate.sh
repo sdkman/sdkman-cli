@@ -61,7 +61,7 @@ function __sdkman_auto_update {
             echo "Not upgrading today..."
         fi
 
-        touch "${delay_upgrade}"
+        touch "$delay_upgrade"
     fi
 
 }

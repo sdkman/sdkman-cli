@@ -28,7 +28,7 @@ function __sdk_outdated {
     installed_count=0
     outdated_count=0
     for candidate in ${candidates}; do
-        outdated="$(__sdkman_determine_outdated_version "${candidate}")"
+        outdated="$(__sdkman_determine_outdated_version "$candidate")"
         case $? in
             1)
                 $all || echo "Not using any version of ${candidate}"
@@ -39,9 +39,9 @@ function __sdk_outdated {
                 return 1
                 ;;
             *)
-                if [ -n "${outdated}" ]; then
+                if [ -n "$outdated" ]; then
                     [ ${outdated_count} -eq 0 ] && echo "Outdated:"
-                    echo "${outdated}"
+                    echo "$outdated"
                     (( outdated_count += 1 ))
                 fi
                 (( installed_count += 1 ))

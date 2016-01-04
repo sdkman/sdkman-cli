@@ -34,7 +34,7 @@ function __sdkman_add_to_path {
     candidate="$1"
 
     present=$(__sdkman_path_contains "$candidate")
-    if [[ "${present}" == 'false' ]]; then
+    if [[ "$present" == 'false' ]]; then
         PATH="$SDKMAN_CANDIDATES_DIR/$candidate/current/bin:$PATH"
     fi
 }
@@ -45,7 +45,7 @@ function __sdkman_set_candidate_home {
 	candidate="$1"
 	version="$2"
 
-	upper_candidate=$(echo "${candidate}" | tr '[:lower:]' '[:upper:]')
+	upper_candidate=$(echo "$candidate" | tr '[:lower:]' '[:upper:]')
 	export "${upper_candidate}_HOME"="${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 }
 

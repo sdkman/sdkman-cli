@@ -31,7 +31,7 @@ function __sdk_default {
 		return 1
 	fi
 
-	__sdkman_link_candidate_version "${candidate}" "${VERSION}"
+	__sdkman_link_candidate_version "$candidate" "$VERSION"
 
 	echo ""
 	echo "Default ${candidate} version set to ${VERSION}"

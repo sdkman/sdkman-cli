@@ -82,13 +82,13 @@ function __sdkman_update_broadcast {
 		BROADCAST_OLD_TEXT=$(cat "$broadcast_text_file");
 	fi
 
-	if [[ "${SDKMAN_AVAILABLE}" == "true" && "$broadcast_live_id" != "${broadcast_old_id}" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then
+	if [[ "$SDKMAN_AVAILABLE" == "true" && "$broadcast_live_id" != "$broadcast_old_id" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then
 		mkdir -p "${SDKMAN_DIR}/var"
 
-		echo "${broadcast_live_id}" > "$broadcast_id_file"
+		echo "$broadcast_live_id" > "$broadcast_id_file"
 
 		BROADCAST_LIVE_TEXT=$(curl -s "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest")
-		echo "${BROADCAST_LIVE_TEXT}" > "${broadcast_text_file}"
-		echo "${BROADCAST_LIVE_TEXT}"
+		echo "$BROADCAST_LIVE_TEXT" > "$broadcast_text_file"
+		echo "$BROADCAST_LIVE_TEXT"
 	fi
 }

@@ -50,7 +50,7 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
 
     read continue < /dev/tty
 
-    if [[ -z "${continue}" || "${continue}" == "y" || "${continue}" == "Y" ]]; then
+    if [[ -z "$continue" || "$continue" == "y" || "$continue" == "Y" ]]; then
         echo ''
         echo '                                                               		         '
         echo 'Thanks for upgrading to...                                       		         '
@@ -95,13 +95,13 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
         mv "$GVM_DIR" "$SDKMAN_DIR"
         ln -s "$SDKMAN_DIR" "$GVM_DIR"
 
-        if [[ "${darwin}" == "true" ]]; then
+        if [[ "$darwin" == "true" ]]; then
             [[ -s "$HOME/.bashrc" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.bashrc" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.bashrc"
             [[ -s "$HOME/.profile" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.profile" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.profile"
             [[ -s "$HOME/.bash_profile" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.bash_profile" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.bash_profile"
             [[ -s "$HOME/.zshrc" ]] && sed -i '' 's/gvm/sdkman/g' "$HOME/.zshrc" && sed -i '' 's/GVM/SDKMAN/g' "$HOME/.zshrc"
             [[ -s "$SDKMAN/etc/config" ]] && sed -i '' 's/gvm/sdkman/g' "$SDKMAN/etc/config"
-        elif [[ "${solaris}" == true ]]; then
+        elif [[ "$solaris" == true ]]; then
             [[ -s "$HOME/.bashrc" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.bashrc" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.bashrc"
             [[ -s "$HOME/.profile" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.profile" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.profile"
             [[ -s "$HOME/.bash_profile" ]] && gsed -i 's/gvm/sdkman/g' "$HOME/.bash_profile" && gsed -i 's/GVM/SDKMAN/g' "$HOME/.bash_profile"
@@ -130,7 +130,7 @@ echo ""
 echo "Updating SDKMAN..."
 
 SDKMAN_VERSION="@SDKMAN_VERSION@"
-if [ -z "${SDKMAN_DIR}" ]; then
+if [ -z "$SDKMAN_DIR" ]; then
 	SDKMAN_DIR="$HOME/.sdkman"
 fi
 
@@ -145,9 +145,9 @@ sdkman_src_folder="${SDKMAN_DIR}/src"
 download_url="${SDKMAN_SERVICE}/res?platform=${sdkman_platform}&purpose=selfupdate"
 __sdkman_echo_debug "Download new scripts from: ${download_url}"
 __sdkman_echo_debug "Download new scripts to: ${sdkman_tmp_zip}"
-curl -s "${download_url}" > "${sdkman_tmp_zip}"
+curl -s "$download_url" > "$sdkman_tmp_zip"
 
-ARCHIVE_OK=$(unzip -qt "${sdkman_tmp_zip}" | grep 'No errors detected in compressed data')
+ARCHIVE_OK=$(unzip -qt "$sdkman_tmp_zip" | grep 'No errors detected in compressed data')
 if [[ -z "$ARCHIVE_OK" ]]; then
 	echo "Downloaded zip archive corrupt. Are you connected to the internet?"
 	echo ""
@@ -158,8 +158,8 @@ fi
 
 # prepare file system
 __sdkman_echo_debug "Purge existing scripts..."
-rm -rf "${sdkman_bin_folder}"
-rm -rf "${sdkman_src_folder}"
+rm -rf "$sdkman_bin_folder"
+rm -rf "$sdkman_src_folder"
 
 __sdkman_echo_debug "Refresh directory structure..."
 mkdir -p "${SDKMAN_DIR}/bin"
@@ -189,10 +189,10 @@ for candidate in "${SDKMAN_CANDIDATES[@]}"; do
         else
             __sdkman_echo_debug "Moving this ${candidate} into dir: ${SDKMAN_DIR}/candidates/${candidate} and symlinking into dir: ${SDKMAN_DIR}/${candidate}"
             OLD_CURRENT_DIR=$(readlink "${SDKMAN_DIR}/${candidate}/current")
-            NEW_CURRENT_DIR=$(echo "${OLD_CURRENT_DIR}" | sed "s_${SDKMAN_DIR}_${SDKMAN_DIR}/candidates_g")
+            NEW_CURRENT_DIR=$(echo "$OLD_CURRENT_DIR" | sed "s_${SDKMAN_DIR}_${SDKMAN_DIR}/candidates_g")
             unlink "${SDKMAN_DIR}/${candidate}/current"
             mv "${SDKMAN_DIR}/${candidate}" "${SDKMAN_DIR}/candidates/${candidate}"
-            ln -s "${NEW_CURRENT_DIR}" "${SDKMAN_DIR}/candidates/groovy/current"
+            ln -s "$NEW_CURRENT_DIR" "${SDKMAN_DIR}/candidates/groovy/current"
             ln -s "${SDKMAN_DIR}/candidates/${candidate}" "${SDKMAN_DIR}/${candidate}"
         fi
     fi
@@ -201,49 +201,49 @@ done
 # extract new distribution
 __sdkman_echo_debug "Extract script archive..."
 __sdkman_echo_debug "Unziping scripts to: ${sdkman_stage_folder}"
-if [[ "${cygwin}" == 'true' ]]; then
+if [[ "$cygwin" == 'true' ]]; then
 	__sdkman_echo_debug "Cygwin detected - normalizing paths for unzip..."
-	unzip -qo $(cygpath -w "${sdkman_tmp_zip}") -d $(cygpath -w "${sdkman_stage_folder}")
+	unzip -qo $(cygpath -w "$sdkman_tmp_zip") -d $(cygpath -w "$sdkman_stage_folder")
 else
-	unzip -qo "${sdkman_tmp_zip}" -d "${sdkman_stage_folder}"
+	unzip -qo "$sdkman_tmp_zip" -d "$sdkman_stage_folder"
 fi
 
 __sdkman_echo_debug "Moving sdkman-init file to bin folder..."
-mv "${sdkman_stage_folder}/sdkman-init.sh" "${sdkman_bin_folder}"
+mv "${sdkman_stage_folder}/sdkman-init.sh" "$sdkman_bin_folder"
 
 __sdkman_echo_debug "Move remaining module scripts to src folder: ${sdkman_src_folder}"
-mv "${sdkman_stage_folder}"/sdkman-* "${sdkman_src_folder}"
+mv "$sdkman_stage_folder"/sdkman-* "$sdkman_src_folder"
 
 __sdkman_echo_debug "Clean up staging folder..."
-rm -rf "${sdkman_stage_folder}"
+rm -rf "$sdkman_stage_folder"
 
 
 # prime config file
 __sdkman_echo_debug "Prime the config file..."
 sdkman_config_file="${SDKMAN_DIR}/etc/config"
-touch "${sdkman_config_file}"
+touch "$sdkman_config_file"
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_answer') ]]; then
-	echo "sdkman_auto_answer=false" >> "${sdkman_config_file}"
+	echo "sdkman_auto_answer=false" >> "$sdkman_config_file"
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_auto_selfupdate') ]]; then
-	echo "sdkman_auto_selfupdate=false" >> "${sdkman_config_file}"
+	echo "sdkman_auto_selfupdate=false" >> "$sdkman_config_file"
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_insecure_ssl') ]]; then
-	echo "sdkman_insecure_ssl=false" >> "${sdkman_config_file}"
+	echo "sdkman_insecure_ssl=false" >> "$sdkman_config_file"
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_disable_gvm_alias') ]]; then
-	echo "sdkman_disable_gvm_alias=false" >> "${sdkman_config_file}"
+	echo "sdkman_disable_gvm_alias=false" >> "$sdkman_config_file"
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_curl_connect_timeout') ]]; then
-	echo "sdkman_curl_connect_timeout=5" >> "${sdkman_config_file}"
+	echo "sdkman_curl_connect_timeout=5" >> "$sdkman_config_file"
 fi
 
 if [[ -z $(cat ${sdkman_config_file} | grep 'sdkman_curl_max_time') ]]; then
-	echo "sdkman_curl_max_time=4" >> "${sdkman_config_file}"
+	echo "sdkman_curl_max_time=4" >> "$sdkman_config_file"
 fi
 
 

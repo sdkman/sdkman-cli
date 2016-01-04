@@ -27,7 +27,7 @@ function __sdk_list {
 }
 
 function __sdkman_list_candidates {
-	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
+	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "This command is not available while offline."
 	else
 		echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")" | ${PAGER-less}
@@ -38,10 +38,10 @@ function __sdkman_list_versions {
 	local candidate versions_csv
 
 	candidate="$1"
-	versions_csv="$(__sdkman_build_version_csv "${candidate}")"
-	__sdkman_determine_current_version "${candidate}"
+	versions_csv="$(__sdkman_build_version_csv "$candidate")"
+	__sdkman_determine_current_version "$candidate"
 
-	if [[ "${SDKMAN_AVAILABLE}" == "false" ]]; then
+	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_offline_list "$candidate" "$versions_csv"
 	else
         echo "$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
@@ -56,7 +56,7 @@ function __sdkman_build_version_csv {
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}" ]]; then
 		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do
-			if [[ "${version}" != 'current' ]]; then
+			if [[ "$version" != 'current' ]]; then
 				versions_csv="${version},${versions_csv}"
 			fi
 		done
@@ -79,7 +79,7 @@ function __sdkman_offline_list {
 	local versions=($(echo ${versions_csv//,/ }))
 	for (( i=0 ; i <= ${#versions} ; i++ )); do
 		if [[ -n "${versions[${i}]}" ]]; then
-			if [[ "${versions[${i}]}" == "${CURRENT}" ]]; then
+			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
 				echo -e " > ${versions[${i}]}"
 			else
 				echo -e " * ${versions[${i}]}"
