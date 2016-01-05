@@ -89,6 +89,8 @@ function __sdkman_update_broadcast {
 
 		BROADCAST_LIVE_TEXT=$(curl -s "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest")
 		echo "$BROADCAST_LIVE_TEXT" > "$broadcast_text_file"
-		echo "$BROADCAST_LIVE_TEXT"
+		if [[ "$COMMAND" != "broadcast" ]]; then
+			echo "$BROADCAST_LIVE_TEXT"
+		fi
 	fi
 }
