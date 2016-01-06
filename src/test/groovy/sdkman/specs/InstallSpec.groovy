@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import sdkman.env.CleanBashEnvBuilder
 import sdkman.support.BashEnvSpecification
 import sdkman.support.WireMockServerProvider
+import spock.util.concurrent.PollingConditions
 
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -18,6 +19,8 @@ class InstallSpec extends BashEnvSpecification {
     WireMockServer wireMockServer
 
     File sdkmanBaseDirectory
+
+    def pollingConditions = new PollingConditions()
 
     void setup() {
         sdkmanBaseDirectory = prepareBaseDir()
@@ -41,8 +44,10 @@ class InstallSpec extends BashEnvSpecification {
         bash.execute("curl -s ${service} | bash")
 
         then:
-        sdkmanBinFolder.exists()
-        sdkmanInitScript.exists()
+        pollingConditions.eventually {
+            assert sdkmanBinFolder.exists()
+            assert sdkmanInitScript.exists()
+        }
     }
 
     void "should skip installation if SDKMAN has been already installed"() {
