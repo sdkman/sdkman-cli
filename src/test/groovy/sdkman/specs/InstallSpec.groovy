@@ -20,7 +20,7 @@ class InstallSpec extends BashEnvSpecification {
 
     File sdkmanBaseDirectory
 
-    def pollingConditions = new PollingConditions()
+    def pollingConditions = new PollingConditions(timeout: 10, delay: 1)
 
     void setup() {
         sdkmanBaseDirectory = prepareBaseDir()
