@@ -1,6 +1,7 @@
 package sdkman.steps
 
 import com.github.tomakehurst.wiremock.client.WireMock
+import sdkman.support.FilesystemUtils
 import sdkman.support.UnixUtils
 import sdkman.support.WireMockServerProvider
 
@@ -23,7 +24,7 @@ localGroovyCandidate = "/tmp/groovy-core" as File
 sdkmanVersion = "x.y.z"
 sdkmanVersionOutdated = "x.y.y"
 
-sdkmanBaseEnv = "/tmp/sdkman-$counter"
+sdkmanBaseEnv = FilesystemUtils.prepareBaseDir().absolutePath
 sdkmanBaseDir = sdkmanBaseEnv as File
 
 sdkmanDirEnv = "$sdkmanBaseEnv/.sdkman"

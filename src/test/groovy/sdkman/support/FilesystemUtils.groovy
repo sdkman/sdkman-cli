@@ -22,8 +22,7 @@ class FilesystemUtils {
     }
 
     static prepareBaseDir() {
-        def counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
-        def baseDir = "$DEFAULT_BASE_DIR/sdkman-$counter" as File
+        def baseDir = "$DEFAULT_BASE_DIR/${UUID.randomUUID()}" as File
         baseDir.mkdirs()
         baseDir
     }
