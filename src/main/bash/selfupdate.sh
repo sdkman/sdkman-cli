@@ -123,6 +123,11 @@ if [[ -n "$GVM_DIR" && -d "$GVM_DIR" ]]; then
     fi
 fi
 
+function __sdkman_echo_debug {
+    if [[ "$SDKMAN_DEBUG_MODE" == 'true' ]]; then
+        echo "$1"
+    fi
+}
 
 # setup
 
