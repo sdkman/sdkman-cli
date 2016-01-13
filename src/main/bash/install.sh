@@ -110,7 +110,7 @@ echo '                                                                          
 # Sanity checks
 
 echo "Looking for a previous installation of SDKMAN..."
-if [ -d "$SDKMAN_DIR" ]; then
+if [ -d "$sdkman_bin_folder" ]; then
 	echo "SDKMAN found."
 	echo ""
 	echo "======================================================================================================"
