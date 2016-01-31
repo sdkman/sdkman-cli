@@ -273,8 +273,10 @@ def validationHandler = { req ->
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
 		addPlainTextHeader req
 		if(msg.body.results) {
+			req.response.statusCode = 200
 			req.response.end 'valid'
 		} else {
+			req.response.statusCode = 404
 			req.response.end 'invalid'
 		}
 	}
