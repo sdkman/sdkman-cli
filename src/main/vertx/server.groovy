@@ -187,6 +187,16 @@ rm.get("/candidates/:candidate/default") { req ->
 	}
 }
 
+rm.get("/candidates/:candidate/template") { req ->
+	def candidate = req.params['candidate']
+	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate], keys:["templateUrl":1]]
+	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
+		addPlainTextHeader req
+		def templateUrl = msg.body.results.templateUrl
+		req.response.end (templateUrl ?: "")
+	}
+}
+
 rm.get("/candidates/:candidate/list") { req ->
 	def candidate = req.params['candidate']
 	def currentVersion = req.params['current'] ?: ''
