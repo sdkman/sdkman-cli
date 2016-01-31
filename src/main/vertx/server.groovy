@@ -15,6 +15,7 @@
  *
  */
 
+import groovy.json.JsonOutput
 import groovy.text.SimpleTemplateEngine
 import org.vertx.groovy.core.http.RouteMatcher
 
@@ -187,13 +188,26 @@ rm.get("/candidates/:candidate/default") { req ->
 	}
 }
 
-rm.get("/candidates/:candidate/template") { req ->
+rm.get("/candidates/:candidate/details") { req ->
 	def candidate = req.params['candidate']
-	def cmd = [action:"find", collection:"candidates", matcher:[candidate:candidate], keys:["templateUrl":1]]
+	def cmd = [
+			action:"find",
+			collection:"candidates",
+			matcher:[candidate:candidate],
+			keys:[
+                    "candidate":1,
+					"default":1,
+                    "templateUrl":1,
+                    "broadcast":1,
+                    "release":1]]
 	vertx.eventBus.send("mongo-persistor", cmd){ msg ->
-		addPlainTextHeader req
-		def templateUrl = msg.body.results.templateUrl
-		req.response.end (templateUrl ?: "")
+		req.response.putHeader("Content-Type", "application/json")
+		req.response.end JsonOutput.toJson(
+				candidate: msg.body.results.candidate[0],
+				default: msg.body.results.default[0],
+				templateUrl: msg.body.results.templateUrl[0],
+				broadcast: msg.body.results.broadcast[0],
+				release: msg.body.results.release[0])
 	}
 }
 
