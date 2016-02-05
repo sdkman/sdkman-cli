@@ -162,6 +162,6 @@ done
 unset i
 export PATH
 
-if [[ "$sdkman_disable_gvm_alias" == "true" ]]; then
+if [[ "$sdkman_disable_gvm_alias" != "true" ]]; then
 	alias gvm="sdk"
 fi
