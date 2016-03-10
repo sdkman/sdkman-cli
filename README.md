@@ -34,14 +34,14 @@ Mac users can add the following line to their `~/.bash_profile` file to set this
 
 ### Using Docker for tests
 
-You can run the tests in the docker container guaranteeing a clean test environment.
+You can run the tests in a Docker container to guarantee a clean test environment.
 
-    $ docker build -t sdkman-cli/testing .
-    $ docker run --rm sdkman-cli/testing
+    $ docker build --tag=sdkman-cli/gradle .
+    $ docker run --rm -it sdkman-cli/gradle
 
 By running the following command, you don't need to wait for downloading Gradle wrapper and other dependencies. The test reports can be found under the local `build` directory.
 
-    $ docker run --rm -v $PWD:/usr/src/app -v $HOME/.gradle:/root/.gradle sdkman-cli/testing
+    $ docker run --rm -it -v $PWD:/usr/src/app -v $HOME/.gradle:/root/.gradle sdkman-cli/gradle
 
 ## Running the Server Locally
 

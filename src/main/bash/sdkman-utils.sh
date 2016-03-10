@@ -25,3 +25,13 @@ function __sdkman_echo_debug {
 function __sdkman_curl_with_timeouts {
 	curl -s "$1" --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time}
 }
+
+function __sdkman_page {
+    local PAGER="${PAGER-$(which less)}"
+
+    if [[ -n "$PAGER" ]]; then
+        "$@" | "$PAGER"
+    else
+        "$@"
+    fi
+}

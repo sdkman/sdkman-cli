@@ -30,7 +30,7 @@ function __sdkman_list_candidates {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "This command is not available while offline."
 	else
-		echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")" | ${PAGER-less}
+		__sdkman_page echo "$(curl -s "${SDKMAN_SERVICE}/candidates/list")"
 	fi
 }
 
