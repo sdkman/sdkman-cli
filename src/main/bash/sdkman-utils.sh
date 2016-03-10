@@ -27,9 +27,9 @@ function __sdkman_curl_with_timeouts {
 }
 
 function __sdkman_page {
-    local PAGER="${PAGER-$(which less)}"
+    local pager="${PAGER-$(which less)}"
 
-    if [[ -n "$PAGER" ]]; then
+    if [[ -n "$pager" ]]; then
         "$@" | "$PAGER"
     else
         "$@"
