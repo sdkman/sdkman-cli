@@ -30,7 +30,7 @@ function __sdkman_page {
     local PAGER="${PAGER-$(which less)}"
 
     if [[ -n "$PAGER" ]]; then
-        "$@" | "$PAGER"
+        "$@" | $PAGER
     else
         "$@"
     fi
