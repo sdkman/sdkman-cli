@@ -1,3 +1,4 @@
+@manual
 Feature: Self Update
 
   Background:

@@ -10,8 +10,6 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-defaultTasks 'clean', 'prepareTestScripts', 'prepareScripts', 'prepareServer', 'prepareTemplates', 'assembleArchive', 'test'
-
 def userHome = System.getProperty('user.home')
 ext.installBinDir = "${userHome}/.sdkman/bin"
 ext.installSrcDir = "${userHome}/.sdkman/src"
@@ -49,19 +47,6 @@ def loadConfiguration() {
     ext.config = config
 }
 
-task prepareTemplates(type: Copy) {
-	from "src/main/templates"
-	into "build/templates"
-	include "*.gtpl"
-}
-
-task prepareServer(type: Copy){
-	from 'src/main/vertx'
-	into 'build/server'
-	include 'server.groovy'
-	filter(ReplaceTokens, tokens: [SDKMAN_VERSION:config.sdkmanVersion ?: defaultSdkManVersion, VERTX_VERSION:config.vertxVersion])
-}
-
 task prepareTestScripts(type: Copy) {
     from 'src/main/bash'
     into 'build/testScripts'
@@ -75,6 +60,8 @@ task prepareTestScripts(type: Copy) {
         ]
     )
 }
+
+test.dependsOn prepareTestScripts
 
 task prepareScripts(type: Copy) {
     from 'src/main/bash'
@@ -90,11 +77,13 @@ task prepareScripts(type: Copy) {
     )
 }
 
-task assembleArchive(type: Zip) {
+task assembleArchive(type: Zip, dependsOn: [test, prepareScripts]) {
 	classifier = 'scripts'
 	from "build/scripts"
 	include "sdkman*"
 }
+
+assemble.dependsOn assembleArchive
 
 task cleanInstallInit(type: Delete) {
 	delete installBinDir
