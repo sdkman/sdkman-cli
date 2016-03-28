@@ -44,7 +44,7 @@ function __sdkman_list_versions {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_offline_list "$candidate" "$versions_csv"
 	else
-        echo "$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
+        echo "$(curl -s "${SDKMAN_SERVICE}/candidates/${candidate}/list?current=${CURRENT}&installed=${versions_csv}")"
 	fi
 }
 
