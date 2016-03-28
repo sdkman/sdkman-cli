@@ -6,9 +6,11 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.6"
+}
+
 apply plugin: 'groovy'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
 
 def userHome = System.getProperty('user.home')
 ext.installBinDir = "${userHome}/.sdkman/bin"
@@ -78,9 +80,10 @@ task prepareScripts(type: Copy) {
 }
 
 task assembleArchive(type: Zip, dependsOn: [test, prepareScripts]) {
-	classifier = 'scripts'
+  appendix = "cli"
+  version = config.sdkmanCliVersion ?: defaultSdkManVersion
 	from "build/scripts"
-	include "sdkman*"
+	include "*.sh*"
 }
 
 assemble.dependsOn assembleArchive
@@ -107,3 +110,25 @@ task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]
 }
 
 task install(dependsOn: [installInit, installModules])
+
+bintray {
+    user = System.getenv('BINTRAY_USERNAME')
+    key = System.getenv('BINTRAY_API_KEY')
+		filesSpec {
+			from 'build/distributions'
+			into 'sdkman-cli/sdkman-cli'
+		}
+		pkg {
+			repo = 'sdkman-cli'
+			name = 'sdkman-cli'
+			userOrg = 'sdkman'
+			licenses = ['Apache-2.0']
+			vcsUrl = 'https://github.com/sdkman/sdkman-cli.git'
+		}
+		version {
+			name = config.sdkmanVersion ?: defaultSdkManVersion
+			desc = 'Binary zip distribution of SDKMAN bash client.'
+			released  = new Date()
+		}
+}
+
