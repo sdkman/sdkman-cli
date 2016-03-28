@@ -16,9 +16,20 @@ def userHome = System.getProperty('user.home')
 ext.installBinDir = "${userHome}/.sdkman/bin"
 ext.installSrcDir = "${userHome}/.sdkman/src"
 
-ext.defaultSdkManVersion = '1.0.0-SNAPSHOT'
+def loadConfiguration() {
+    def environment = hasProperty('env') ? env : 'local'
+    ext.environment = environment
+    println "Environment is set to: $environment"
+    
+    def configFile = file('config.groovy')
+    def config = new ConfigSlurper(environment).parse(configFile.toURL())
+    ext.config = config
+}
 
 loadConfiguration()
+
+ext.buildNumber = System.getenv("TRAVIS_BUILD_NUMBER") ?: '0'
+ext.sdkmanCliBuildVersion = "${config.sdkmanCliVersion}.${buildNumber}".toString()
 
 repositories {
     jcenter()
@@ -38,16 +49,6 @@ dependencies {
 }
 
 test.testLogging.exceptionFormat = 'full'
-
-def loadConfiguration() {
-    def environment = hasProperty('env') ? env : 'local'
-    ext.environment = environment
-    println "Environment is set to: $environment"
-    
-    def configFile = file('config.groovy')
-    def config = new ConfigSlurper(environment).parse(configFile.toURL())
-    ext.config = config
-}
 
 task prepareTestScripts(type: Copy) {
     from 'src/main/bash'
@@ -71,7 +72,7 @@ task prepareScripts(type: Copy) {
     include '**/*'
     filter(ReplaceTokens, tokens:
         [
-            SDKMAN_VERSION          : config.sdkmanVersion ?: defaultSdkManVersion,
+            SDKMAN_VERSION          : sdkmanCliBuildVersion,
             SDKMAN_SERVICE          : config.sdkmanService,
             SDKMAN_BROKER_SERVICE   : config.sdkmanBrokerService,
             SDKMAN_BROADCAST_SERVICE: config.sdkmanBroadcastService
@@ -79,9 +80,9 @@ task prepareScripts(type: Copy) {
     )
 }
 
-task assembleArchive(type: Zip, dependsOn: [test, prepareScripts]) {
+task assembleArchive(type: Zip, dependsOn: prepareScripts) {
   appendix = "cli"
-  version = config.sdkmanCliVersion ?: defaultSdkManVersion
+  version = sdkmanCliBuildVersion
 	from "build/scripts"
 	include "*.sh*"
 }
@@ -126,7 +127,7 @@ bintray {
 			vcsUrl = 'https://github.com/sdkman/sdkman-cli.git'
 		}
 		version {
-			name = config.sdkmanVersion ?: defaultSdkManVersion
+			name = sdkmanCliBuildVersion
 			desc = 'Binary zip distribution of SDKMAN bash client.'
 			released  = new Date()
 		}
