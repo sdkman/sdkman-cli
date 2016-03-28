@@ -39,7 +39,7 @@ And(~/^the candidate "(.*?)" has a version list available$/) { String candidate 
     def current = readCurrentFromCandidateFolder(candidatesDir, candidate)
     def versions = readVersionsCsvFromCandidateFolder(candidatesDir, candidate)
     def url = "/candidates/${candidate}/list?platform=${PLATFORM}&current=${current}&installed=${versions}"
-
+    println("Priming url: $url")
     primeEndpointWithString(url, "Candidate: $candidate; Versions: $versions; Current: $current")
 }
 
