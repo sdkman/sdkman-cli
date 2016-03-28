@@ -12,7 +12,7 @@ class FilesystemUtils {
 
     static readVersionsCsvFromCandidateFolder(File baseDir, String candidate) {
         def versionFiles = new File(baseDir, candidate).listFiles()
-        versionFiles?.findAll { it.name != "current" }?.collect { it.name }?.join(",") ?: ""
+        versionFiles?.findAll { it.name != "current" }?.sort()?.collect { it.name }?.join(",") ?: ""
     }
 
     static readCurrentFromCandidateFolder(File baseDir, String candidate) {
