@@ -83,14 +83,14 @@ task prepareScripts(type: Copy) {
 task assembleArchive(type: Zip, dependsOn: prepareScripts) {
   appendix = "cli"
   version = sdkmanCliBuildVersion
-	from "build/scripts"
-	include "*.sh*"
+    from "build/scripts"
+    include "*.sh*"
 }
 
 assemble.dependsOn assembleArchive
 
 task cleanInstallInit(type: Delete) {
-	delete installBinDir
+    delete installBinDir
 }
 
 task cleanInstallModules(type: Delete) {
@@ -98,9 +98,9 @@ task cleanInstallModules(type: Delete) {
 }
 
 task installInit(type: Copy, dependsOn: [cleanInstallInit, prepareScripts]) {
-	from "build/scripts"
-	into installBinDir
-	include "sdkman-init.sh"
+    from "build/scripts"
+    into installBinDir
+    include "sdkman-init.sh"
 }
 
 task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]) {
@@ -115,21 +115,21 @@ task install(dependsOn: [installInit, installModules])
 bintray {
     user = System.getenv('BINTRAY_USERNAME')
     key = System.getenv('BINTRAY_API_KEY')
-		filesSpec {
-			from 'build/distributions'
-			into 'sdkman-cli/sdkman-cli'
-		}
-		pkg {
-			repo = 'sdkman-cli'
-			name = 'sdkman-cli'
-			userOrg = 'sdkman'
-			licenses = ['Apache-2.0']
-			vcsUrl = 'https://github.com/sdkman/sdkman-cli.git'
-		}
-		version {
-			name = sdkmanCliBuildVersion
-			desc = 'Binary zip distribution of SDKMAN bash client.'
-			released  = new Date()
-		}
+    filesSpec {
+        from 'build/distributions'
+        into '.'
+    }
+    pkg {
+        repo = 'generic'
+        name = 'sdkman-cli'
+        userOrg = 'sdkman'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/sdkman/sdkman-cli.git'
+        version {
+            name = sdkmanCliBuildVersion
+            desc = 'Binary zip distribution of SDKMAN bash client.'
+            released  = new Date()
+        }
+    }
 }
 
