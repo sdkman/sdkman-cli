@@ -32,7 +32,7 @@ class CurrentCommandSpec extends SdkmanEnvSpecification {
                 "vertx"
         ]
 
-        curlStub.primeWith("http://localhost:8080/app/version", "echo x.y.z").build()
+        curlStub.primeWith("http://localhost:8080/app/cliversion", "echo x.y.z").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withOfflineMode(false)
