@@ -128,8 +128,8 @@ if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
 fi
 
 # set curl connect-timeout and max-time
-if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=5; fi
-if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=4; fi
+if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=7; fi
+if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=10; fi
 
 # determine if up to date
 SDKMAN_VERSION_TOKEN="${SDKMAN_DIR}/var/version"
