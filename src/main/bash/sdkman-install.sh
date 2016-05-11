@@ -100,6 +100,8 @@ function __sdkman_download {
 		echo ""
 		echo "Downloading: ${candidate} ${version}"
 		echo ""
+		echo "Hang tight, this could take a while..."
+		echo ""
 		local download_url="${SDKMAN_SERVICE}/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
 		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 		__sdkman_secure_curl "$download_url" > "$zip_archive"
