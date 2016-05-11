@@ -102,11 +102,7 @@ function __sdkman_download {
 		echo ""
 		local download_url="${SDKMAN_SERVICE}/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
 		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
-		if [[ "$sdkman_insecure_ssl" == "true" ]]; then
-			curl -k -L "$download_url" > "$zip_archive"
-		else
-			curl -L "$download_url" > "$zip_archive"
-		fi
+		__sdkman_secure_curl "$download_url" > "$zip_archive"
 	else
 		echo ""
 		echo "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."

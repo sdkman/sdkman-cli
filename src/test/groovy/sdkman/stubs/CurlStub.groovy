@@ -23,8 +23,8 @@ class CurlStub {
 
     void build(){
         commands.each { request, snippet ->
-            //use second arg because we use curl with -s
-            file << 'if [[ "$2" == "'
+            //use last arg because we use curl with options
+            file << 'if [[ "${@: -1}" == "'
             file << "$request"
             file << '" ]]; then\n'
             file << "    $snippet\n"

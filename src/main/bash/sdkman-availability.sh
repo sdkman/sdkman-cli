@@ -26,7 +26,7 @@ function __sdkman_determine_broadcast_id {
 	if [[ "$SDKMAN_OFFLINE_MODE" == "true" || "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ]]; then
 		echo ""
 	else
-		echo $(__sdkman_curl_with_timeouts "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id")
+		echo $(__sdkman_secure_curl_with_timeouts "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest/id")
 	fi
 }
 
@@ -87,7 +87,7 @@ function __sdkman_update_broadcast {
 
 		echo "$broadcast_live_id" > "$broadcast_id_file"
 
-		BROADCAST_LIVE_TEXT=$(curl -s "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest")
+		BROADCAST_LIVE_TEXT=$(__sdkman_secure_curl "${SDKMAN_BROADCAST_SERVICE}/broadcast/latest")
 		echo "$BROADCAST_LIVE_TEXT" > "$broadcast_text_file"
 		if [[ "$COMMAND" != "broadcast" ]]; then
 			echo "$BROADCAST_LIVE_TEXT"

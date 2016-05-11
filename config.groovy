@@ -5,13 +5,8 @@ environments {
 		sdkmanBroadcastService = 'http://localhost:8080'
 		sdkmanBrokerService = 'http://localhost:8080'
 	}
-	master {
-		sdkmanService = 'http://dev.sdkman.io'
-		sdkmanBroadcastService = 'http://cast-dev.sdkman.io'
-		sdkmanBrokerService = 'http://broker-dev.sdkman.io'
-	}
 	production {
-		sdkmanService = 'http://api.sdkman.io'
+		sdkmanService = 'https://api.sdkman.io'
 		sdkmanBroadcastService = 'http://cast.sdkman.io'
 		sdkmanBrokerService = 'http://broker.sdkman.io'
 	}
