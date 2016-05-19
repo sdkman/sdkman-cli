@@ -90,20 +90,6 @@ if [ -z "$JAVA_HOME" ] ; then
     fi
 fi
 
-# fabricate list of candidates
-if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
-	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
-else
-	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_SERVICE}/candidates")
-	echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
-fi
-
-# Set the candidate array
-OLD_IFS="$IFS"
-IFS=","
-SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
-IFS="$OLD_IFS"
-
 # Source sdkman module scripts.
 for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
     source "${SDKMAN_DIR}/src/${f}"
@@ -126,6 +112,20 @@ fi
 if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
 	touch "${SDKMAN_DIR}/var/delay_upgrade"
 fi
+
+# fabricate list of candidates
+if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
+	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
+else
+	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_SERVICE}/candidates")
+	echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
+fi
+
+# Set the candidate array
+OLD_IFS="$IFS"
+IFS=","
+SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
+IFS="$OLD_IFS"
 
 # set curl connect-timeout and max-time
 if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=7; fi
