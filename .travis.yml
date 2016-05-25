@@ -14,7 +14,3 @@ cache:
   directories:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
-env:
-  global:
-  - secure: Pj9krGs5nKgyqUB2jlRTA1vuGLgRGlB2ADfbCeqCigiu5BxdJeBRFbsm9Qq95lu503eT/81CvbKUPBCmd/BwNt0ifGzRVNIRqEUZAU3OgRhthc47bu+qUNRli9ZSo5FgLSwaARSElyoy9QJUFfVxIpOUTnq62xlj9fyRh5/BLfY=
-  - secure: ooLnOq8QklJgn1A3ymlBJfTRwGn3rpt0sXZTzRf7Tffs+EpfyNkBTAAeOoXdErgHOR5X2erij2t/Eaf5GD9pZnFZbfI9AhfKxzTUyjaW7r3j7QHt/WNyt23EN9cFP7MagFoLCRPr0MJ6NGYnSKpnHFbmN25AilAIPlrpFCquTYE=
