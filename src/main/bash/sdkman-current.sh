@@ -51,7 +51,7 @@ function __sdkman_determine_current_version {
 	local candidate present
 
 	candidate="$1"
-	present=$(__sdkman_path_contains "$candidate")
+	present=$(__sdkman_path_contains "${SDKMAN_CANDIDATES_DIR}/${candidate}")
 	if [[  "$present" == 'true' ]]; then
 		if [[ "$solaris" == true ]]; then
 			CURRENT=$(echo $PATH | gsed -r "s|${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin|!!\1!!|1" | gsed -r "s|^.*!!(.+)!!.*$|\1|g")
