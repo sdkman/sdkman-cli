@@ -50,6 +50,10 @@ if(!binding.hasVariable("wireMock")) {
     wireMock = WireMockServerProvider.wireMockServer()
 }
 
+addShutdownHook {
+    wireMock.stop()
+}
+
 Before(){
     WireMock.reset()
     cleanUp()
