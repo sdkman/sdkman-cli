@@ -30,6 +30,14 @@ function __sdkman_secure_curl {
 	fi
 }
 
+function __sdkman_secure_curl_download {
+	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
+		curl --insecure --progress-bar --location "$1"
+	else
+		curl --progress-bar --location "$1"
+	fi
+}
+
 function __sdkman_secure_curl_with_timeouts {
 	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
 		curl --insecure --silent --location --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time} "$1"
