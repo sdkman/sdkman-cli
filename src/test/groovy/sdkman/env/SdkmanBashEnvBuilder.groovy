@@ -4,7 +4,7 @@ import sdkman.stubs.CurlStub
 
 class SdkmanBashEnvBuilder {
 
-    final TEST_SCRIPT_BUILD_DIR = "build/testScripts" as File
+    final TEST_SCRIPT_BUILD_DIR = "build/scripts" as File
 
     //mandatory fields
     private final File baseFolder

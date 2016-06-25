@@ -32,7 +32,7 @@ Feature: Flush
     Then I see "No prior broadcast found so not flushed."
 
   Scenario: Clean up the last known Remote Version
-    Given a prior version "x.y.z" was detected
+    Given a prior version "4.0.0" was detected
     When I enter "sdk flush version"
     Then no version token can be found
     And I see "Version Token has been flushed."

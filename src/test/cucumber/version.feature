@@ -7,4 +7,4 @@ Feature: Version
 
   Scenario: Show the current version of sdkman
     When I enter "sdk version"
-    Then I see "SDKMAN x.y.z"
+    Then I see "SDKMAN 4.0.0"

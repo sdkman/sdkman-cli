@@ -56,22 +56,6 @@ dependencies {
 
 test.testLogging.exceptionFormat = 'full'
 
-task prepareTestScripts(type: Copy) {
-    from 'src/main/bash'
-    into 'build/testScripts'
-    include '**/*'
-    filter(ReplaceTokens, tokens:
-        [
-            SDKMAN_VERSION          : "x.y.z",
-            SDKMAN_SERVICE          : config.sdkmanService,
-            SDKMAN_BROKER_SERVICE   : config.sdkmanBrokerService,
-            SDKMAN_BROADCAST_SERVICE: config.sdkmanBroadcastService
-        ]
-    )
-}
-
-test.dependsOn prepareTestScripts
-
 task prepareScripts(type: Copy) {
     from 'src/main/bash'
     into 'build/scripts'
