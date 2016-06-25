@@ -18,6 +18,7 @@ class SdkmanBashEnvBuilder {
     String service = "http://localhost:8080"
     String broadcastService = "http://localhost:8080"
     String brokerService = "http://localhost:8080"
+    String sdkmanVersion = "5.0.0"
     String jdkHome = "/path/to/my/jdk"
     String httpProxy
     String versionToken
@@ -96,6 +97,11 @@ class SdkmanBashEnvBuilder {
         this
     }
 
+    SdkmanBashEnvBuilder withSdkmanVersion(String version){
+        this.sdkmanVersion = version
+        this
+    }
+
     BashEnv build() {
         sdkmanDir = prepareDirectory(baseFolder, ".sdkman")
         sdkmanBinDir = prepareDirectory(sdkmanDir, "bin")
@@ -123,6 +129,7 @@ class SdkmanBashEnvBuilder {
                 SDKMAN_SERVICE: service,
                 SDKMAN_BROADCAST_SERVICE: broadcastService,
                 SDKMAN_BROKER_SERVICE: brokerService,
+                SDKMAN_VERSION: sdkmanVersion,
                 JAVA_HOME: jdkHome
         ]
 

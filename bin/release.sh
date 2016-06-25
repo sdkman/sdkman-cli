@@ -15,7 +15,7 @@ git branch -D "$BRANCH"
 git checkout -b "$BRANCH"
 
 #update version
-sed -i "s/1.0.0-SNAPSHOT/$VERSION/g" config.groovy
+sed -i "s/5.0.0-SNAPSHOT/$VERSION/g" config.groovy
 git add config.groovy
 git commit -m "Update version of $BRANCH to $VERSION"
 

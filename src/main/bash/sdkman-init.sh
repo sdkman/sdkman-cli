@@ -16,8 +16,11 @@
 #   limitations under the License.
 #
 
-export SDKMAN_VERSION="@SDKMAN_VERSION@"
 export SDKMAN_PLATFORM=$(uname)
+
+if [ -z "$SDKMAN_VERSION" ]; then
+    export SDKMAN_VERSION="@SDKMAN_VERSION@"
+fi
 
 if [ -z "$SDKMAN_SERVICE" ]; then
     export SDKMAN_SERVICE="@SDKMAN_SERVICE@"

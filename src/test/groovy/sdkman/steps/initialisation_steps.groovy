@@ -83,6 +83,7 @@ And(~'^an initialised environment$') {->
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
         .withVersionToken(sdkmanVersion)
+        .withSdkmanVersion(sdkmanVersion)
         .build()
 }
 
@@ -94,6 +95,7 @@ And(~'^an outdated initialised environment$') {->
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
         .withVersionToken(sdkmanVersionOutdated)
+        .withSdkmanVersion(sdkmanVersionOutdated)
         .build()
 
     def twoDaysAgoInMillis = System.currentTimeMillis() - 172800000
@@ -116,4 +118,8 @@ And(~'^the system is bootstrapped$') {->
 
 And(~'^the system is bootstrapped again$') {->
     bash.execute("source $sdkmanDirEnv/bin/sdkman-init.sh")
+}
+
+And(~/^the sdkman version is "([^"]*)"$/) { String version ->
+    sdkmanVersion = version
 }

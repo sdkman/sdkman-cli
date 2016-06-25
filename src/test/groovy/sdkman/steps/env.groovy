@@ -21,8 +21,8 @@ counter = "${(Math.random() * 10000).toInteger()}".padLeft(4, "0")
 
 localGroovyCandidate = "/tmp/groovy-core" as File
 
-sdkmanVersion = "4.0.0"
-sdkmanVersionOutdated = "3.2.1"
+sdkmanVersion = "5.0.0"
+sdkmanVersionOutdated = "4.0.0"
 
 sdkmanBaseEnv = FilesystemUtils.prepareBaseDir().absolutePath
 sdkmanBaseDir = sdkmanBaseEnv as File

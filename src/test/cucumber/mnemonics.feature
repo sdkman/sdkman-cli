@@ -75,7 +75,7 @@ Feature: Mnemonics
   Scenario: Shortcut for showing the current Version of sdkman
     Given the system is bootstrapped
     When I enter "sdk v"
-    Then I see "SDKMAN 4.0.0"
+    Then I see "SDKMAN 5.0.0"
 
   Scenario: Shortcut for using a candidate version that is installed
     Given the candidate "grails" version "2.1.0" is already installed and default

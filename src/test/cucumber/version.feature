@@ -1,10 +1,9 @@
 Feature: Version
 
-  Background:
+  Scenario: Show the current version of sdkman
     Given the internet is reachable
+    And the sdkman version is "3.2.1"
     And an initialised environment
     And the system is bootstrapped
-
-  Scenario: Show the current version of sdkman
     When I enter "sdk version"
-    Then I see "SDKMAN 4.0.0"
+    Then I see "SDKMAN 3.2.1"
