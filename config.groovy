@@ -1,4 +1,4 @@
-sdkmanCliVersion = '5.0.0-SNAPSHOT'
+sdkmanCliVersion = '5.0.0'
 environments {
 	local {
 		sdkmanService = 'http://localhost:8080'
