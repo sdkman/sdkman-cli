@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 #
 #   Copyright 2012 Marco Vermeulen
 #
@@ -49,7 +48,7 @@ function sdk {
 	#
 	# Various sanity checks and default settings
 	#
-	mkdir -p "$SDKMAN_DIR"
+	/usr/bin/env mkdir -p "$SDKMAN_DIR"
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"

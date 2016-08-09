@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 #
 #   Copyright 2012 Marco Vermeulen
 #

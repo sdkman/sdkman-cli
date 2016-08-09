@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 CANDIDATE="$1"
 VERSION="$2"
 
@@ -23,12 +22,12 @@ function download_archive {
 
 if [ -d "$TMP_DIR" ]; then
     echo "Cleaning up temporary folder..."
-    rm -rf "$TMP_DIR"
+    /usr/bin/env rm -rf "$TMP_DIR"
 fi
 
-mkdir -p "$BASE_DIR"
-mkdir -p "$ARCHIVE_DIR"
-mkdir "$TMP_DIR"
+/usr/bin/env mkdir -p "$BASE_DIR"
+/usr/bin/env mkdir -p "$ARCHIVE_DIR"
+/usr/bin/env mkdir "$TMP_DIR"
 
 if [ -d "$DESTINATION_DIR" ]; then
     echo "Version $VERSION of $CANDIDATE already found, skipping installation."
@@ -49,7 +48,7 @@ fi
 
 echo "Extracting archive to: $DESTINATION_DIR"
 unzip -oq "$ARCHIVE" -d "$TMP_DIR"
-mkdir "$DESTINATION_DIR"
-mv "$TMP_DIR"/**/* "$DESTINATION_DIR"
+/usr/bin/env mkdir "$DESTINATION_DIR"
+/usr/bin/env mv "$TMP_DIR"/**/* "$DESTINATION_DIR"
 
-rm -rf "$TMP_DIR"
+/usr/bin/env rm -rf "$TMP_DIR"

@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 #
 #   Copyright 2012 Marco Vermeulen
 #
@@ -66,11 +65,11 @@ function __sdkman_install_candidate_version {
 	__sdkman_download "$candidate" "$version" || return 1
 	echo "Installing: ${candidate} ${version}"
 
-	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
+	/usr/bin/env mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
-	rm -rf "${SDKMAN_DIR}/tmp/out"
+	/usr/bin/env rm -rf "${SDKMAN_DIR}/tmp/out"
 	unzip -oq "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
-	mv "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	/usr/bin/env mv "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	echo "Done installing!"
 	echo ""
 }
@@ -82,10 +81,10 @@ function __sdkman_install_local_version {
 	version="$2"
 	folder="$3"
 
-	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
+	/usr/bin/env mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
 	echo "Linking ${candidate} ${version} to ${folder}"
-	ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	/usr/bin/env ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	echo "Done installing!"
 	echo ""
 }
@@ -95,7 +94,7 @@ function __sdkman_download {
 
 	candidate="$1"
 	version="$2"
-	mkdir -p "${SDKMAN_DIR}/archives"
+	/usr/bin/env mkdir -p "${SDKMAN_DIR}/archives"
 	if [ ! -f "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" ]; then
 		echo ""
 		echo "Downloading: ${candidate} ${version}"
@@ -119,7 +118,7 @@ function __sdkman_validate_zip {
 	zip_archive="$1"
 	zip_ok=$(unzip -t "$zip_archive" | grep 'No errors detected in compressed data')
 	if [ -z "$zip_ok" ]; then
-		rm "$zip_archive"
+		/usr/bin/env rm "$zip_archive"
 		echo ""
 		echo "Stop! The archive was corrupt and has been removed! Please try installing again."
 		return 1

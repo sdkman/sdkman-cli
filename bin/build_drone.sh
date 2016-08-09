@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 RELEASE=$(grep 'sdkmanVersion' config.groovy | sed 's_sdkmanVersion = __g' | tr -d "'")
 
 if [[ "$RELEASE" == "1.0.0-SNAPSHOT" ]]; then

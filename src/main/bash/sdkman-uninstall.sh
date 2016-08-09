@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 #
 #   Copyright 2012 Marco Vermeulen
 #
@@ -33,7 +32,7 @@ function __sdk_uninstall {
 	echo ""
 	if [ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]; then
 		echo "Uninstalling ${candidate} ${version}..."
-		rm -rf "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+		/usr/bin/env rm -rf "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	else
 		echo "${candidate} ${version} is not installed."
 	fi
