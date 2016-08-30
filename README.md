@@ -14,7 +14,7 @@ Please report any bugs and feature request on the [GitHub Issue Tracker](https:/
 
 Open your favourite terminal and enter the following:
 
-    $ curl -s api.sdkman.io | bash
+    $ curl -s https://api.sdkman.io | bash
 
 If the environment needs tweaking for SDKMAN to be installed, the installer will prompt you accordingly and ask you to restart.
 

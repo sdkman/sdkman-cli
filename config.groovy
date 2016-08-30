@@ -7,7 +7,7 @@ environments {
 	}
 	production {
 		sdkmanService = 'https://api.sdkman.io'
-		sdkmanBroadcastService = 'http://cast.sdkman.io'
-		sdkmanBrokerService = 'http://broker.sdkman.io'
+		sdkmanBroadcastService = 'https://cast.sdkman.io'
+		sdkmanBrokerService = 'https://broker.sdkman.io'
 	}
 }
