@@ -15,9 +15,8 @@ class SdkmanBashEnvBuilder {
     List availableCandidates = candidates
     boolean offlineMode = false
     String broadcast = "This is a LIVE broadcast!"
-    String service = "http://localhost:8080"
-    String broadcastService = "http://localhost:8080"
-    String brokerService = "http://localhost:8080"
+    String legacyService = "http://localhost:8080"
+    String currentService = "http://localhost:8080"
     String sdkmanVersion = "5.0.0"
     String jdkHome = "/path/to/my/jdk"
     String httpProxy
@@ -67,18 +66,13 @@ class SdkmanBashEnvBuilder {
         this
     }
 
-    SdkmanBashEnvBuilder withService(String service){
-        this.service = service
+    SdkmanBashEnvBuilder withLegacyService(String service){
+        this.legacyService = service
         this
     }
 
-    SdkmanBashEnvBuilder withBroadcastService(String broadcastService){
-        this.broadcastService = broadcastService
-        this
-    }
-
-    SdkmanBashEnvBuilder withBrokerService(String brokerService){
-        this.brokerService = brokerService
+    SdkmanBashEnvBuilder withCurrentService(String service){
+        this.currentService = service
         this
     }
 
@@ -126,9 +120,8 @@ class SdkmanBashEnvBuilder {
                 SDKMAN_DIR: sdkmanDir.absolutePath,
                 SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
                 SDKMAN_OFFLINE_MODE: "$offlineMode",
-                SDKMAN_SERVICE: service,
-                SDKMAN_BROADCAST_SERVICE: broadcastService,
-                SDKMAN_BROKER_SERVICE: brokerService,
+                SDKMAN_LEGACY_API: legacyService,
+                SDKMAN_CURRENT_API: currentService,
                 SDKMAN_VERSION: sdkmanVersion,
                 JAVA_HOME: jdkHome
         ]

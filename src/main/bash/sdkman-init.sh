@@ -22,16 +22,12 @@ if [ -z "$SDKMAN_VERSION" ]; then
     export SDKMAN_VERSION="@SDKMAN_VERSION@"
 fi
 
-if [ -z "$SDKMAN_SERVICE" ]; then
-    export SDKMAN_SERVICE="@SDKMAN_SERVICE@"
+if [ -z "$SDKMAN_LEGACY_API" ]; then
+    export SDKMAN_LEGACY_API="@SDKMAN_LEGACY_API@"
 fi
 
-if [ -z "$SDKMAN_BROADCAST_SERVICE" ]; then
-    export SDKMAN_BROADCAST_SERVICE="@SDKMAN_BROADCAST_SERVICE@"
-fi
-
-if [ -z "$SDKMAN_BROKER_SERVICE" ]; then
-    export SDKMAN_BROKER_SERVICE="@SDKMAN_BROKER_SERVICE@"
+if [ -z "$SDKMAN_CURRENT_API" ]; then
+    export SDKMAN_CURRENT_API="@SDKMAN_CURRENT_API@"
 fi
 
 if [ -z "$SDKMAN_DIR" ]; then
@@ -120,7 +116,7 @@ fi
 if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
 	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
 else
-	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_SERVICE}/candidates")
+	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates")
 	echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
 fi
 
@@ -140,7 +136,7 @@ if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$(
     SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_TOKEN")
 
 else
-    SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "${SDKMAN_SERVICE}/app/cliversion")
+    SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "${SDKMAN_LEGACY_API}/app/cliversion")
 	DETECT_HTML="$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')"
     if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$DETECT_HTML" ]]; then
         SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"

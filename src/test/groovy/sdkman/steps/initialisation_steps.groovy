@@ -78,8 +78,8 @@ And(~'^offline mode is enabled with unreachable internet$') {->
 And(~'^an initialised environment$') {->
     bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
         .withOfflineMode(offlineMode)
-        .withService(serviceUrlEnv)
-        .withBroadcastService(serviceUrlEnv)
+        .withLegacyService(serviceUrlEnv)
+        .withCurrentService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
         .withVersionToken(sdkmanVersion)
@@ -90,8 +90,8 @@ And(~'^an initialised environment$') {->
 And(~'^an outdated initialised environment$') {->
     bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
         .withOfflineMode(offlineMode)
-        .withService(serviceUrlEnv)
-        .withBroadcastService(serviceUrlEnv)
+        .withLegacyService(serviceUrlEnv)
+        .withCurrentService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
         .withVersionToken(sdkmanVersionOutdated)

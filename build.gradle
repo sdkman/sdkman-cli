@@ -61,12 +61,11 @@ task prepareScripts(type: Copy) {
     into 'build/scripts'
     include '**/*'
     filter(ReplaceTokens, tokens:
-        [
-            SDKMAN_VERSION          : sdkmanCliBuildVersion,
-            SDKMAN_SERVICE          : config.sdkmanService,
-            SDKMAN_BROKER_SERVICE   : config.sdkmanBrokerService,
-            SDKMAN_BROADCAST_SERVICE: config.sdkmanBroadcastService
-        ]
+            [
+                    SDKMAN_VERSION       : sdkmanCliBuildVersion,
+                    SDKMAN_LEGACY_API: config.sdkmanLegacyApi,
+                    SDKMAN_CURRENT_API       : config.sdkmanCurrentApi
+            ]
     )
 }
 

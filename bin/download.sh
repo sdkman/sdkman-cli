@@ -8,7 +8,7 @@ if [ -z "$1" -o -z "$2" ]; then
     exit 0
 fi
 
-API="http://api.gvmtool.net"
+API="https://api.sdkman.io"
 BASE_DIR="${HOME}/sdkman"
 ARCHIVE_DIR="${BASE_DIR}/archives"
 TMP_DIR="${BASE_DIR}/tmp"
