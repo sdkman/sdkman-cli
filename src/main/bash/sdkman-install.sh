@@ -102,7 +102,7 @@ function __sdkman_download {
 		echo ""
 		echo "In progress..."
 		echo ""
-		local download_url="${SDKMAN_CURRENT_SERVICE}/broker/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
+		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
 		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 		__sdkman_secure_curl_download "$download_url" > "$zip_archive"
 	else
