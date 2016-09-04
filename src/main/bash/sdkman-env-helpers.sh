@@ -59,10 +59,10 @@ function __sdkman_determine_version {
 
 	elif [[ "$SDKMAN_AVAILABLE" == "true" && -z "$version" ]]; then
 		VERSION_VALID='valid'
-		VERSION=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/default")
+		VERSION=$(__sdkman_secure_curl "${SDKMAN_SERVICE}/candidates/${candidate}/default")
 
 	else
-		VERSION_VALID=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/${version}")
+		VERSION_VALID=$(__sdkman_secure_curl "${SDKMAN_SERVICE}/candidates/${candidate}/${version}")
 		if [[ "$VERSION_VALID" == 'valid' || "$VERSION_VALID" == 'invalid' && -n "$folder" ]]; then
 			VERSION="$version"
 

@@ -120,8 +120,8 @@ class SdkmanBashEnvBuilder {
                 SDKMAN_DIR: sdkmanDir.absolutePath,
                 SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
                 SDKMAN_OFFLINE_MODE: "$offlineMode",
-                SDKMAN_LEGACY_API: legacyService,
-                SDKMAN_CURRENT_API: currentService,
+                SDKMAN_SERVICE: legacyService,
+                SDKMAN_CURRENT_SERVICE: currentService,
                 SDKMAN_VERSION: sdkmanVersion,
                 JAVA_HOME: jdkHome
         ]
