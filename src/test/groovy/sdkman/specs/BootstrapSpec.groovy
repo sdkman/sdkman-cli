@@ -4,6 +4,8 @@ import sdkman.support.SdkmanEnvSpecification
 
 class BootstrapSpec extends SdkmanEnvSpecification {
 
+    static final CLI_VERSION_ENDPOINT = "http://localhost:8080/candidates/app/cliversion"
+
     File versionFile
 
     def setup(){
@@ -13,7 +15,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
     void "should store version token if does not exist"() {
 
         given: 'a working sdkman installation without version token'
-        curlStub.primeWith("http://localhost:8080/app/cliversion", "echo x.y.b").build()
+        curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo x.y.b").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .build()
@@ -48,7 +50,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
 
     void "should query server for version and refresh if token is older than a day"() {
         given: 'a working sdkman installation with expired version token'
-        curlStub.primeWith("http://localhost:8080/app/cliversion", "echo x.y.b").build()
+        curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo x.y.b").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withVersionToken("x.y.a")
@@ -70,7 +72,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
     void "should ignore version if api is offline"(){
         given: 'a working sdkman installation with api down'
         def sdkmanVersion = "x.y.z"
-        curlStub.primeWith("http://localhost:8080/app/cliversion", "echo ''").build()
+        curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo ''").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withVersionToken(sdkmanVersion)
@@ -88,7 +90,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
 
     void "should not go offline if curl times out"(){
         given: 'a working sdkman installation with api down'
-        curlStub.primeWith("http://localhost:8080/app/cliversion", "echo ''").build()
+        curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo ''").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .build()
@@ -106,7 +108,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
     void "should ignore version if api returns garbage"(){
         given: 'a working sdkman installation with garbled api'
         def sdkmanVersion = "x.y.z"
-        curlStub.primeWith("http://localhost:8080/app/cliversion", "echo '<html><title>sorry</title></html>'").build()
+        curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo '<html><title>sorry</title></html>'").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withVersionToken(sdkmanVersion)
