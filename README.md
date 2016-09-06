@@ -2,6 +2,7 @@
 ### The Software Development Kit Manager Command Line Interface
 
 [![Build Status](https://travis-ci.org/sdkman/sdkman-cli.svg?branch=master)](https://travis-ci.org/sdkman/sdkman-cli)
+[![Latest Version](https://api.bintray.com/packages/sdkman/generic/sdkman-cli/images/download.svg) ](https://bintray.com/sdkman/generic/sdkman-cli/_latestVersion)
 [![Gitter](https://badges.gitter.im/sdkman/user-issues.png)](https://gitter.im/sdkman/user-issues)
 
 SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
