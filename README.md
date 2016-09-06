@@ -49,3 +49,8 @@ To install SDKMAN locally running against your local server, run the following c
 
 	$ ./gradlew install
 	$ source ~/.sdkman/bin/sdkman-init.sh
+
+Or run install locally with Production configuration:
+
+	$ ./gradlew -Penv=production install
+	$ source ~/.sdkman/bin/sdkman-init.sh
