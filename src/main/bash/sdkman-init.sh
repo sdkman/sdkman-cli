@@ -136,8 +136,8 @@ if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$(
     SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_TOKEN")
 
 else
-    SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "${SDKMAN_LEGACY_API}/app/cliversion")
-	DETECT_HTML="$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+    SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "${SDKMAN_LEGACY_API}/candidates/app/cliversion")
+    DETECT_HTML="$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')"
     if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$DETECT_HTML" ]]; then
         SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
     else
