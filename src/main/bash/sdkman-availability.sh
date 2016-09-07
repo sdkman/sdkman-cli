@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 #
 #   Copyright 2012 Marco Vermeulen
 #
@@ -17,8 +16,8 @@
 #
 
 function __sdkman_update_broadcast_and_service_availability {
-    local broadcast_live_id=$(__sdkman_determine_broadcast_id)
-    __sdkman_set_availability "$broadcast_live_id"
+	local broadcast_live_id=$(__sdkman_determine_broadcast_id)
+	__sdkman_set_availability "$broadcast_live_id"
 	__sdkman_update_broadcast "$broadcast_live_id"
 }
 
@@ -31,7 +30,7 @@ function __sdkman_determine_broadcast_id {
 }
 
 function __sdkman_set_availability {
-    local broadcast_id="$1"
+	local broadcast_id="$1"
 	local detect_html="$(echo "$broadcast_id" | tr '[:upper:]' '[:lower:]' | grep 'html')"
 	if [[ -z "$broadcast_id" ]]; then
 		SDKMAN_AVAILABLE="false"
@@ -47,15 +46,15 @@ function __sdkman_set_availability {
 function __sdkman_display_offline_warning {
 	local broadcast_id="$1"
 	if [[ -z "$broadcast_id" && "$COMMAND" != "offline" && "$SDKMAN_OFFLINE_MODE" != "true" ]]; then
-        echo "==== INTERNET NOT REACHABLE! ==============================="
-        echo ""
-        echo " Some functionality is disabled or only partially available."
-        echo " If this persists, please enable the offline mode:"
-        echo ""
-        echo "   $ sdk offline"
-        echo ""
-        echo "============================================================"
-        echo ""
+		echo "==== INTERNET NOT REACHABLE! ==============================="
+		echo ""
+		echo " Some functionality is disabled or only partially available."
+		echo " If this persists, please enable the offline mode:"
+		echo ""
+		echo "   $ sdk offline"
+		echo ""
+		echo "============================================================"
+		echo ""
 	fi
 }
 
@@ -63,7 +62,7 @@ function __sdkman_display_proxy_warning {
 	echo "==== PROXY DETECTED! ======================================="
 	echo "Please ensure you have open internet access to continue."
 	echo "============================================================"
-    echo ""
+	echo ""
 }
 
 function __sdkman_update_broadcast {
@@ -83,7 +82,7 @@ function __sdkman_update_broadcast {
 	fi
 
 	if [[ "$SDKMAN_AVAILABLE" == "true" && "$broadcast_live_id" != "$broadcast_old_id" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then
-		mkdir -p "${SDKMAN_DIR}/var"
+		/usr/bin/env mkdir -p "${SDKMAN_DIR}/var"
 
 		echo "$broadcast_live_id" > "$broadcast_id_file"
 

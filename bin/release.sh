@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 VERSION="$1"
 BRANCH="production"
 

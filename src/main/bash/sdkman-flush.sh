@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 #
 #   Copyright 2012 Marco Vermeulen
 #
@@ -22,7 +21,7 @@ function __sdk_flush {
 	case "$qualifier" in
 		candidates)
 			if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
-		        rm "${SDKMAN_DIR}/var/candidates"
+		        /usr/bin/env rm "${SDKMAN_DIR}/var/candidates"
 		        echo "Candidates have been flushed."
 		    else
 		        echo "No candidate list found so not flushed."
@@ -30,7 +29,7 @@ function __sdk_flush {
 		    ;;
 		broadcast)
 			if [[ -f "${SDKMAN_DIR}/var/broadcast" ]]; then
-		        rm "${SDKMAN_DIR}/var/broadcast"
+		        /usr/bin/env rm "${SDKMAN_DIR}/var/broadcast"
 		        echo "Broadcast has been flushed."
 		    else
 		        echo "No prior broadcast found so not flushed."
@@ -38,7 +37,7 @@ function __sdk_flush {
 		    ;;
 		version)
 			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
-		        rm "${SDKMAN_DIR}/var/version"
+		        /usr/bin/env rm "${SDKMAN_DIR}/var/version"
 		        echo "Version Token has been flushed."
 		    else
 		        echo "No prior Remote Version found so not flushed."
@@ -65,8 +64,8 @@ function __sdkman_cleanup_folder {
 	sdkman_cleanup_disk_usage=$(du -sh "$sdkman_cleanup_dir")
 	sdkman_cleanup_count=$(ls -1 "$sdkman_cleanup_dir" | wc -l)
 
-	rm -rf "${SDKMAN_DIR}/${folder}"
-	mkdir "${SDKMAN_DIR}/${folder}"
+	/usr/bin/env rm -rf "${SDKMAN_DIR}/${folder}"
+	/usr/bin/env mkdir "${SDKMAN_DIR}/${folder}"
 
 	echo "${sdkman_cleanup_count} archive(s) flushed, freeing ${sdkman_cleanup_disk_usage}."
 }

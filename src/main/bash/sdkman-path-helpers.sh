@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 #
 #   Copyright 2012 Marco Vermeulen
 #
@@ -82,7 +81,7 @@ function __sdkman_link_candidate_version {
 
 	# Change the 'current' symlink for the candidate, hence affecting all shells.
 	if [[ -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]]; then
-		rm -f "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+		/usr/bin/env rm -f "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 	fi
 
 	function cygwin_ln(){
@@ -95,6 +94,6 @@ function __sdkman_link_candidate_version {
 	if [[ "$OSTYPE" == "cygwin" ]]; then
 		cygwin_ln "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	else
-		ln -s "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+		/usr/bin/env ln -s "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 	fi
 }
