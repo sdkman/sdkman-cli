@@ -36,7 +36,7 @@ function __sdk_help {
 	echo "       selfupdate        [force]"
 	echo "       flush             <candidates|broadcast|archives|temp>"
 	echo ""
-	echo "   candidate  :  the SDK to install: groovy, scala, grails, akka, etc."
+	echo "   candidate  :  the SDK to install: groovy, scala, grails, gradle, etc."
 	echo "                 use list command for comprehensive list of candidates"
 	echo "                 eg: \$ sdk list"
 	echo ""
