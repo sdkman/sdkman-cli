@@ -113,11 +113,12 @@ if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
 fi
 
 # fabricate list of candidates
-if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
-	SDKMAN_CANDIDATES_CSV=$(cat "${SDKMAN_DIR}/var/candidates")
+SDKMAN_CANDIDATES_FILE="${SDKMAN_DIR}/var/candidates"
+if [[ -f "$SDKMAN_CANDIDATES_FILE" && -z "$(find "$SDKMAN_CANDIDATES_FILE" -mmin +$((60*24)))" ]]; then
+	SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_FILE")
 else
 	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates")
-	echo "$SDKMAN_CANDIDATES_CSV" > "${SDKMAN_DIR}/var/candidates"
+	echo "$SDKMAN_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_FILE"
 fi
 
 # Set the candidate array
