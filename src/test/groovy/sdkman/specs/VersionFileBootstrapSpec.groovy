@@ -60,7 +60,7 @@ class VersionFileBootstrapSpec extends SdkmanEnvSpecification {
                 .withLegacyService(LEGACY_API)
                 .withVersionFile("x.y.a")
                 .build()
-        def twoDaysAgo = System.currentTimeMillis() - 172800000
+        def twoDaysAgo = System.currentTimeMillis() - (24 * 61 * 60 * 1000)
         versionFile.setLastModified(twoDaysAgo)
 
         and:
@@ -129,6 +129,6 @@ class VersionFileBootstrapSpec extends SdkmanEnvSpecification {
         bash.execute("source $bootstrapScript")
 
         then:
-        versionFile.text.contains sdkmanVersion
+        versionFile.text.contains(sdkmanVersion)
     }
 }
