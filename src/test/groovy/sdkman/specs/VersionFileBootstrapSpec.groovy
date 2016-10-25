@@ -5,7 +5,7 @@ import sdkman.support.SdkmanEnvSpecification
 class VersionFileBootstrapSpec extends SdkmanEnvSpecification {
 
     static final LEGACY_API = "http://localhost:8080"
-    static final CLI_VERSION_ENDPOINT = "$LEGACY_API/candidates/app/version"
+    static final CLI_VERSION_ENDPOINT = "$LEGACY_API/candidates/app/stable"
 
     File versionFile
     File candidatesFile
@@ -16,7 +16,6 @@ class VersionFileBootstrapSpec extends SdkmanEnvSpecification {
     }
 
     void "should store version file if does not exist"() {
-
         given: 'a working sdkman installation without version file'
         curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo x.y.b").build()
         bash = sdkmanBashEnvBuilder

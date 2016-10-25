@@ -23,7 +23,8 @@ class SdkmanBashEnvBuilder {
     private String versionFile
 
     Map config = [
-            sdkman_auto_answer: 'false'
+            sdkman_auto_answer : 'false',
+            sdkman_beta_channel: 'false'
     ]
 
     File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir, sdkmanTmpDir, sdkmanCandidatesDir
