@@ -39,7 +39,7 @@ function __sdk_flush {
 		version)
 			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
 		        rm "${SDKMAN_DIR}/var/version"
-		        echo "Version Token has been flushed."
+		        echo "Version file has been flushed."
 		    else
 		        echo "No prior Remote Version found so not flushed."
 		    fi

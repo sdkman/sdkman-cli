@@ -107,7 +107,7 @@ if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 	source "${SDKMAN_DIR}/etc/config"
 fi
 
-# Create upgrade delay token if it doesn't exist
+# Create upgrade delay file if it doesn't exist
 if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
 	touch "${SDKMAN_DIR}/var/delay_upgrade"
 fi
@@ -131,9 +131,9 @@ if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=7; 
 if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=10; fi
 
 # determine if up to date
-SDKMAN_VERSION_TOKEN="${SDKMAN_DIR}/var/version"
-if [[ -f "$SDKMAN_VERSION_TOKEN" && -z "$(find "$SDKMAN_VERSION_TOKEN" -mmin +$((60*24)))" ]]; then
-    SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_TOKEN")
+SDKMAN_VERSION_FILE="${SDKMAN_DIR}/var/version"
+if [[ -f "$SDKMAN_VERSION_FILE" && -z "$(find "$SDKMAN_VERSION_FILE" -mmin +$((60*24)))" ]]; then
+    SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_FILE")
 
 else
     SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "${SDKMAN_LEGACY_API}/candidates/app/cliversion")
@@ -141,7 +141,7 @@ else
     if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$DETECT_HTML" ]]; then
         SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
     else
-        echo ${SDKMAN_REMOTE_VERSION} > "$SDKMAN_VERSION_TOKEN"
+        echo ${SDKMAN_REMOTE_VERSION} > "$SDKMAN_VERSION_FILE"
     fi
 fi
 

@@ -38,7 +38,7 @@ class CurrentCommandSpec extends SdkmanEnvSpecification {
                 .withOfflineMode(false)
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(installedCandidates.keySet().toList())
-                .withVersionToken("x.y.z")
+                .withVersionFile("x.y.z")
                 .build()
 
         prepareFoldersFor(installedCandidates)

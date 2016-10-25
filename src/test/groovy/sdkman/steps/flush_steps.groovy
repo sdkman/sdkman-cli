@@ -36,14 +36,14 @@ And(~'^the broadcast has been flushed$') {->
 }
 
 And(~'^a prior version "([^"]*)" was detected$') { String version ->
-    assert versionTokenFile.exists()
-    assert versionTokenFile.text.contains(version)
+    assert versionFile.exists()
+    assert versionFile.text.contains(version)
 }
 
-And(~'^no version token can be found$') {->
-    assert ! versionTokenFile.exists()
+And(~'^no version file can be found$') {->
+    assert ! versionFile.exists()
 }
 
 And(~'^the Remote Version has been flushed$') {->
-    assert versionTokenFile.delete()
+    assert versionFile.delete()
 }

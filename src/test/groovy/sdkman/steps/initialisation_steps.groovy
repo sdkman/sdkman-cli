@@ -82,7 +82,7 @@ And(~'^an initialised environment$') {->
         .withCurrentService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
-        .withVersionToken(sdkmanVersion)
+        .withVersionFile(sdkmanVersion)
         .withSdkmanVersion(sdkmanVersion)
         .build()
 }
@@ -94,18 +94,18 @@ And(~'^an outdated initialised environment$') {->
         .withCurrentService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
-        .withVersionToken(sdkmanVersionOutdated)
+        .withVersionFile(sdkmanVersionOutdated)
         .withSdkmanVersion(sdkmanVersionOutdated)
         .build()
 
     def twoDaysAgoInMillis = System.currentTimeMillis() - 172800000
 
-    def upgradeToken = "$sdkmanDir/var/delay_upgrade" as File
-    upgradeToken.createNewFile()
-    upgradeToken.setLastModified(twoDaysAgoInMillis)
+    def upgradeFile = "$sdkmanDir/var/delay_upgrade" as File
+    upgradeFile.createNewFile()
+    upgradeFile.setLastModified(twoDaysAgoInMillis)
 
-    def versionToken = "$sdkmanDir/var/version" as File
-    versionToken.setLastModified(twoDaysAgoInMillis)
+    def versionFile = "$sdkmanDir/var/version" as File
+    versionFile.setLastModified(twoDaysAgoInMillis)
 
     def initFile = "$sdkmanDir/bin/sdkman-init.sh" as File
     initFile.text = initFile.text.replace(sdkmanVersion, sdkmanVersionOutdated)

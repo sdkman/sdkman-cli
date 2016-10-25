@@ -15,7 +15,7 @@ class InitialisationSpec extends SdkmanEnvSpecification {
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
                 .withCurlStub(curlStub)
-                .withVersionToken("x.y.z")
+                .withVersionFile("x.y.z")
                 .build()
         prepareCandidateDirectories(allCandidates)
     }

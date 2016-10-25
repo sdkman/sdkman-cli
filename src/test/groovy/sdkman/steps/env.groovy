@@ -41,7 +41,7 @@ tmpDir = "${sdkmanDir}/tmp" as File
 broadcastFile = new File(varDir, "broadcast")
 broadcastIdFile = new File(varDir, "broadcast_id")
 candidatesFile = new File(varDir, "candidates")
-versionTokenFile = new File(varDir, "version")
+versionFile = new File(varDir, "version")
 initScript = new File(binDir, "sdkman-init.sh")
 
 bash = null

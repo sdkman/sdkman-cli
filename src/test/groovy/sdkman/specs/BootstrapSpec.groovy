@@ -15,9 +15,9 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         candidatesFile = new File("${sdkmanDotDirectory}/var", "candidates")
     }
 
-    void "should store version token if does not exist"() {
+    void "should store version file if does not exist"() {
 
-        given: 'a working sdkman installation without version token'
+        given: 'a working sdkman installation without version file'
         curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo x.y.b").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
@@ -34,11 +34,11 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         versionFile.exists()
     }
 
-    void "should not query server if token is found"() {
-        given: 'a working sdkman installation with version token'
+    void "should not query server if version file is found"() {
+        given: 'a working sdkman installation with version file'
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
-                .withVersionToken("x.y.z")
+                .withVersionFile("x.y.z")
                 .build()
 
         and:
@@ -52,13 +52,13 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         versionFile.text.contains("x.y.z")
     }
 
-    void "should query server for version and refresh if token is older than a day"() {
-        given: 'a working sdkman installation with expired version token'
+    void "should query server for version and refresh if file is older than a day"() {
+        given: 'a working sdkman installation with expired version file'
         curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo x.y.b").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
-                .withVersionToken("x.y.a")
+                .withVersionFile("x.y.a")
                 .build()
         def twoDaysAgo = System.currentTimeMillis() - 172800000
         versionFile.setLastModified(twoDaysAgo)
@@ -81,7 +81,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
-                .withVersionToken(sdkmanVersion)
+                .withVersionFile(sdkmanVersion)
                 .build()
 
         and:
@@ -119,7 +119,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
-                .withVersionToken(sdkmanVersion)
+                .withVersionFile(sdkmanVersion)
                 .build()
 
         and:

@@ -20,7 +20,7 @@ class SdkmanBashEnvBuilder {
     String sdkmanVersion = "5.0.0"
     String jdkHome = "/path/to/my/jdk"
     String httpProxy
-    String versionToken
+    String versionFile
 
     Map config = [
             sdkman_auto_answer:'false'
@@ -86,8 +86,8 @@ class SdkmanBashEnvBuilder {
         this
     }
 
-    SdkmanBashEnvBuilder withVersionToken(String version){
-        this.versionToken = version
+    SdkmanBashEnvBuilder withVersionFile(String version){
+        this.versionFile = version
         this
     }
 
@@ -111,7 +111,7 @@ class SdkmanBashEnvBuilder {
         initializeAvailableCandidates(sdkmanVarDir, availableCandidates)
         initializeBroadcast(sdkmanVarDir, broadcast)
         initializeConfiguration(sdkmanEtcDir, config)
-        initializeVersionToken(sdkmanVarDir, versionToken)
+        initializeVersionFile(sdkmanVarDir, versionFile)
 
         primeInitScript(sdkmanBinDir)
         primeModuleScripts(sdkmanSrcDir)
@@ -139,7 +139,7 @@ class SdkmanBashEnvBuilder {
         directory
     }
 
-    private initializeVersionToken(File folder, String version) {
+    private initializeVersionFile(File folder, String version) {
         if(version) {
             new File(folder, "version") << version
         }

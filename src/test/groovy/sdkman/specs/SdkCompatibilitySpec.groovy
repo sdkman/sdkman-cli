@@ -13,7 +13,7 @@ class SdkCompatibilitySpec extends SdkmanEnvSpecification {
         bash = sdkmanBashEnvBuilder
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
-                .withVersionToken("x.y.z")
+                .withVersionFile("x.y.z")
                 .build()
     }
 

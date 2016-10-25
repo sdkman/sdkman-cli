@@ -34,8 +34,8 @@ Feature: Flush
   Scenario: Clean up the last known Remote Version
     Given a prior version "5.0.0" was detected
     When I enter "sdk flush version"
-    Then no version token can be found
-    And I see "Version Token has been flushed."
+    Then no version file can be found
+    And I see "Version file has been flushed."
 
   Scenario: Clean up an uninitialised last known Remote Version
     Given the Remote Version has been flushed
