@@ -4,12 +4,15 @@ import sdkman.support.SdkmanEnvSpecification
 
 class BootstrapSpec extends SdkmanEnvSpecification {
 
-    static final CLI_VERSION_ENDPOINT = "http://localhost:8080/candidates/app/cliversion"
+    static final LEGACY_API = "http://localhost:8080"
+    static final CLI_VERSION_ENDPOINT = "$LEGACY_API/candidates/app/cliversion"
 
     File versionFile
+    File candidatesFile
 
-    def setup(){
+    def setup() {
         versionFile = new File("${sdkmanDotDirectory}/var", "version")
+        candidatesFile = new File("${sdkmanDotDirectory}/var", "candidates")
     }
 
     void "should store version token if does not exist"() {
@@ -18,6 +21,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo x.y.b").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
+                .withLegacyService(LEGACY_API)
                 .build()
 
         and:
@@ -53,6 +57,7 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo x.y.b").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
+                .withLegacyService(LEGACY_API)
                 .withVersionToken("x.y.a")
                 .build()
         def twoDaysAgo = System.currentTimeMillis() - 172800000
@@ -69,12 +74,13 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         versionFile.text.contains("x.y.b")
     }
 
-    void "should ignore version if api is offline"(){
+    void "should ignore version if api is offline"() {
         given: 'a working sdkman installation with api down'
         def sdkmanVersion = "x.y.z"
         curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo ''").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
+                .withLegacyService(LEGACY_API)
                 .withVersionToken(sdkmanVersion)
                 .build()
 
@@ -88,11 +94,12 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         versionFile.text.contains(sdkmanVersion)
     }
 
-    void "should not go offline if curl times out"(){
+    void "should not go offline if curl times out"() {
         given: 'a working sdkman installation with api down'
         curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo ''").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
+                .withLegacyService(LEGACY_API)
                 .build()
 
         and:
@@ -102,15 +109,16 @@ class BootstrapSpec extends SdkmanEnvSpecification {
         bash.execute("source $bootstrapScript")
 
         then:
-        ! bash.output.contains("SDKMAN can't reach the internet so going offline.")
+        !bash.output.contains("SDKMAN can't reach the internet so going offline.")
     }
 
-    void "should ignore version if api returns garbage"(){
+    void "should ignore version if api returns garbage"() {
         given: 'a working sdkman installation with garbled api'
         def sdkmanVersion = "x.y.z"
         curlStub.primeWith(CLI_VERSION_ENDPOINT, "echo '<html><title>sorry</title></html>'").build()
         bash = sdkmanBashEnvBuilder
                 .withCurlStub(curlStub)
+                .withLegacyService(LEGACY_API)
                 .withVersionToken(sdkmanVersion)
                 .build()
 
