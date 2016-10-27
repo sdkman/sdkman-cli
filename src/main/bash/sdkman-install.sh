@@ -91,25 +91,38 @@ function __sdkman_install_local_version {
 }
 
 function __sdkman_download {
-	local candidate version
+	local candidate version archives_folder
 
 	candidate="$1"
 	version="$2"
-	mkdir -p "${SDKMAN_DIR}/archives"
-	if [ ! -f "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" ]; then
+
+	archives_folder="${SDKMAN_DIR}/archives"
+	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
+
+		#TODO: pre installation hook here
+
 		echo ""
 		echo "Downloading: ${candidate} ${version}"
 		echo ""
 		echo "In progress..."
 		echo ""
 		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
+
+		local download_binary="${SDKMAN_DIR}/tmp/$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1).bin"
+		__sdkman_secure_curl_download "$download_url" > "$download_binary"
+		echo ""
+		__sdkman_echo_debug "Downloaded binary to: $download_binary"
+
+		#TODO: post installation hook here
+
 		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
-		__sdkman_secure_curl_download "$download_url" > "$zip_archive"
+		mv "$download_binary" "$zip_archive"
+		__sdkman_echo_debug "Renamed $download_binary to $zip_archive"
 	else
 		echo ""
 		echo "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
 	fi
-	__sdkman_validate_zip "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" || return 1
+	__sdkman_validate_zip "${archives_folder}/${candidate}-${version}.zip" || return 1
 	echo ""
 }
 
