@@ -117,7 +117,7 @@ function __sdkman_download {
 
 		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 		mv "$download_binary" "$zip_archive"
-		__sdkman_echo_debug "Renamed $download_binary to $zip_archive"
+		__sdkman_echo_debug "Moved to archive folder: $zip_archive"
 	else
 		echo ""
 		echo "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
