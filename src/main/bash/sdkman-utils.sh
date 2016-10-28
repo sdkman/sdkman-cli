@@ -17,7 +17,7 @@
 #
 
 function __sdkman_echo_debug {
-	if [[ "$SDKMAN_DEBUG_MODE" == 'true' ]]; then
+	if [[ "$sdkman_debug_mode" == 'true' ]]; then
 		echo "$1"
 	fi
 }
