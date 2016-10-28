@@ -51,7 +51,9 @@ dependencies {
     testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
         exclude module: 'groovy-all'
     }
-    testCompile 'com.github.tomakehurst:wiremock:1.46'
+    testCompile('com.github.tomakehurst:wiremock:2.2.2') {
+        exclude module: 'junit'
+    }
 }
 
 test.testLogging.exceptionFormat = 'full'
