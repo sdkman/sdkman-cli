@@ -15,9 +15,8 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
 
     void "should store candidates if does not exist"() {
         given: 'a working sdkman installation without candidates'
-        curlStub.primeWith(CANDIDATES_ENDPOINT, "echo groovy,scala").build()
+        curlStub.primeWith(CANDIDATES_ENDPOINT, "echo groovy,scala")
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withAvailableCandidates([])
                 .withLegacyService(LEGACY_API)
                 .build()
@@ -35,7 +34,6 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
     void "should not query server if candidates file is found"() {
         given: 'a working sdkman installation with candidates file'
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withAvailableCandidates(['gradle', 'sbt'])
                 .build()
 
@@ -53,9 +51,7 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
     void "should query server for candidates and refresh if older than a day"() {
         given: 'a working sdkman installation with expired candidates'
         curlStub.primeWith(CANDIDATES_ENDPOINT, "echo groovy,scala")
-                .build()
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
                 .withAvailableCandidates(['groovy'])
                 .build()
@@ -76,9 +72,8 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
     void "should ignore candidates if api is offline"() {
         given: 'a working sdkman installation with api down'
         def candidates = ['groovy', 'scala']
-        curlStub.primeWith(CANDIDATES_ENDPOINT, "echo ''").build()
+        curlStub.primeWith(CANDIDATES_ENDPOINT, "echo ''")
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
                 .withAvailableCandidates(candidates)
                 .build()
@@ -95,9 +90,8 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
 
     void "should not go offline if curl times out"() {
         given: 'a working sdkman installation with api down'
-        curlStub.primeWith(CANDIDATES_ENDPOINT, "echo ''").build()
+        curlStub.primeWith(CANDIDATES_ENDPOINT, "echo ''")
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
                 .build()
 
@@ -114,9 +108,8 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
     void "should ignore candidates if api returns garbage"() {
         given: 'a working sdkman installation with garbled api'
         def candidates = ['groovy', 'scala']
-        curlStub.primeWith(CANDIDATES_ENDPOINT, "echo '<html><title>sorry</title></html>'").build()
+        curlStub.primeWith(CANDIDATES_ENDPOINT, "echo '<html><title>sorry</title></html>'")
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
                 .withAvailableCandidates(candidates)
                 .build()

@@ -10,7 +10,7 @@ class SdkmanBashEnvBuilder {
     private final File baseFolder
 
     //optional fields with sensible defaults
-    private CurlStub curlStub
+    private Optional<CurlStub> curlStub = Optional.empty()
     private List candidates = ['groovy', 'grails', 'java']
     private List availableCandidates = candidates
     private boolean offlineMode = false
@@ -38,7 +38,7 @@ class SdkmanBashEnvBuilder {
     }
 
     SdkmanBashEnvBuilder withCurlStub(CurlStub curlStub) {
-        this.curlStub = curlStub
+        this.curlStub = Optional.of(curlStub)
         this
     }
 
@@ -107,6 +107,8 @@ class SdkmanBashEnvBuilder {
         sdkmanArchivesDir = prepareDirectory(sdkmanDir, "archives")
         sdkmanTmpDir = prepareDirectory(sdkmanDir, "tmp")
         sdkmanCandidatesDir = prepareDirectory(sdkmanDir, "candidates")
+
+        curlStub.map { cs -> cs.build() }
 
         initializeCandidates(sdkmanCandidatesDir, candidates)
         initializeAvailableCandidates(sdkmanVarDir, availableCandidates)

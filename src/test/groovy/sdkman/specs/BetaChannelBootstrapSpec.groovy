@@ -18,9 +18,8 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
     void "should attempt upgrade of stable to beta version if beta channel is first enabled"() {
         given:
         def betaVersion = "x.y.c"
-        curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $betaVersion").build()
+        curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $betaVersion")
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
                 .withConfiguration("sdkman_beta_channel", "true")
                 .withVersionFile("x.y.b")
@@ -41,9 +40,8 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
     void "should attempt downgrade of beta to stable version if beta channel is first disabled"() {
         given:
         def stableVersion = "x.y.b"
-        curlStub.primeWith(CLI_STABLE_ENDPOINT, "echo $stableVersion").build()
+        curlStub.primeWith(CLI_STABLE_ENDPOINT, "echo $stableVersion")
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
                 .withConfiguration("sdkman_beta_channel", "false")
                 .withVersionFile("x.y.c")
@@ -64,9 +62,8 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
     void "should attempt upgrade to new version of beta channel if available"() {
         given:
         def newerBetaVersion = "x.y.d"
-        curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $newerBetaVersion").build()
+        curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $newerBetaVersion")
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
                 .withConfiguration("sdkman_beta_channel", "true")
                 .withVersionFile("x.y.c")
@@ -87,9 +84,8 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
     void "should attempt upgrade to new version of stable channel if available"() {
         given:
         def newerStableVersion = "x.y.d"
-        curlStub.primeWith(CLI_STABLE_ENDPOINT, "echo $newerStableVersion").build()
+        curlStub.primeWith(CLI_STABLE_ENDPOINT, "echo $newerStableVersion")
         bash = sdkmanBashEnvBuilder
-                .withCurlStub(curlStub)
                 .withLegacyService(LEGACY_API)
                 .withConfiguration("sdkman_beta_channel", "false")
                 .withVersionFile("x.y.c")

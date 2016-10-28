@@ -1,7 +1,6 @@
 package sdkman.steps
 
 import sdkman.stubs.UnameStub
-import sdkman.support.UnixUtils
 
 import java.util.zip.ZipException
 import java.util.zip.ZipFile
