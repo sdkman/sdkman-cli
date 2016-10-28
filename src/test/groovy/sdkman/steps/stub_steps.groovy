@@ -10,6 +10,7 @@ import static sdkman.support.FilesystemUtils.readVersionsCsvFromCandidateFolder
 And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
     primeEndpointWithString("/candidates/${candidate}/default", version)
     primeDownloadFor(SERVICE_UP_URL, candidate, version, PLATFORM)
+    primeEndpointWithString("/hooks/post/${candidate}/${version}/${PLATFORM}", 'mv $binary_input $zip_output') //bash command
 }
 
 And(~'^an available selfupdate$') { ->
@@ -19,6 +20,7 @@ And(~'^an available selfupdate$') { ->
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { String candidate, String version ->
     primeEndpointWithString("/candidates/${candidate}/${version}/${PLATFORM}", "valid")
     primeDownloadFor(SERVICE_UP_URL, candidate, version, PLATFORM)
+    primeEndpointWithString("/hooks/post/${candidate}/${version}/${PLATFORM}", 'mv $binary_input $zip_output') //bash command
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$') { String candidate, String version ->
