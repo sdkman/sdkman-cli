@@ -12,16 +12,9 @@ class WebServiceStub {
                         .withBody(body)))
     }
 
-    static primeEndpointWithBinary(String endpoint, byte[] body) {
-        stubFor(get(urlEqualTo(endpoint)).willReturn(
-                aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type", "application/octet-stream")
-                        .withBody(body)))
-    }
 
     static primeDownloadFor(String host, String candidate, String version, String platform) {
-        stubFor(get(urlEqualTo("/broker/download/${candidate}/${version}?platform=${platform}")).willReturn(
+        stubFor(get(urlEqualTo("/broker/download/${candidate}/${version}/${platform}")).willReturn(
                 aResponse()
                         .withHeader("Location", "${host}/${candidate}-${version}.zip")
                         .withStatus(302)))

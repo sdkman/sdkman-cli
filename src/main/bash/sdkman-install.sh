@@ -106,7 +106,7 @@ function __sdkman_download {
 		echo ""
 		echo "In progress..."
 		echo ""
-		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
+		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}/$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 
 		local download_binary="${SDKMAN_DIR}/tmp/$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1).bin"
 		__sdkman_secure_curl_download "$download_url" > "$download_binary"

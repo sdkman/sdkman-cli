@@ -11,7 +11,7 @@ class SdkmanBashEnvBuilder {
 
     //optional fields with sensible defaults
     private CurlStub curlStub
-    private List candidates = ['groovy', 'grails']
+    private List candidates = ['groovy', 'grails', 'java']
     private List availableCandidates = candidates
     private boolean offlineMode = false
     private String broadcast = "This is a LIVE broadcast!"
