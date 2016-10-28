@@ -78,7 +78,9 @@ function __sdkman_determine_version {
 
 		else
 			echo ""
-			echo "Stop! $candidate $version is not available on this platform."
+			echo "Stop! $candidate $version is not available. Possible causes:"
+			echo " * $version is an invalid version"
+			echo " * $candidate binaries are incompatible with $SDKMAN_PLATFORM"
 			return 1
 		fi
 	fi

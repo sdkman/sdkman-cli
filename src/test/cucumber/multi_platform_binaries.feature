@@ -17,5 +17,7 @@ Feature: Multi Platform Binary Distribution
 		And the system is bootstrapped
 		And the candidate "java" version "8u101" is not available for download on "FreeBSD"
 		When I enter "sdk install java 8u101"
-		Then I see "Stop! java 8u101 is not available on this platform."
+		Then I see "Stop! java 8u101 is not available. Possible causes:"
+		Then I see " * 8u101 is an invalid version"
+		Then I see " * java binaries are incompatible with FreeBSD"
 		And the candidate "java" version "8u101" is not installed
