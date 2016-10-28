@@ -106,18 +106,24 @@ function __sdkman_download {
 		echo ""
 		echo "In progress..."
 		echo ""
-		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}/$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 
-		local download_binary="${SDKMAN_DIR}/tmp/$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1).bin"
-		__sdkman_secure_curl_download "$download_url" > "$download_binary"
-		echo ""
-		__sdkman_echo_debug "Downloaded binary to: $download_binary"
+		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
+		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}/${platform_parameter}"
+		local base_name="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 
-		#TODO: post installation hook here
+		export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
+		export local zip_output="${SDKMAN_DIR}/tmp/$base_name.zip"
 
-		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
-		mv "$download_binary" "$zip_archive"
-		__sdkman_echo_debug "Moved to archive folder: $zip_archive"
+		__sdkman_secure_curl_download "$download_url" > "$binary_input"
+		__sdkman_echo_debug "Downloaded binary to: $binary_input"
+
+		#responsible for taking `binary_input` and producing `zip_output`
+		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/post/${candidate}/${version}/${platform_parameter}" | bash
+		__sdkman_echo_debug "Processed binary as: $zip_output"
+
+		mv "$zip_output" "$zip_archive_target"
+		__sdkman_echo_debug "Moved to archive folder: $zip_archive_target"
 	else
 		echo ""
 		echo "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."

@@ -28,11 +28,13 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$'
 And(~/^the candidate "(.*?)" version "(.*?)" is available for download on "(.*?)"$/) { String candidate, String version, String platform ->
     String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
     primeEndpointWithString("/candidates/${candidate}/${version}/${lowerCaseUname}", "valid")
+    primeEndpointWithString("/hooks/post/${candidate}/${version}/${lowerCaseUname}", 'mv $binary_input $zip_output') //bash command
     primeDownloadFor(SERVICE_UP_URL, candidate, version, lowerCaseUname)
 }
 
 And(~/^the candidate "(.*?)" version "(.*?)" is not available for download on "(.*?)"$/) { String candidate, String version, String platform ->
-    primeEndpointWithString("/candidates/${candidate}/${version}/${UnixUtils.asUname(platform).toLowerCase()}", "invalid")
+    String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
+    primeEndpointWithString("/candidates/${candidate}/${version}/${lowerCaseUname}", "invalid")
 }
 
 And(~'^a "([^"]*)" list view is available for consumption$') { String candidate ->

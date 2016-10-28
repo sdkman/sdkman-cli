@@ -126,7 +126,7 @@ class SdkmanBashEnvBuilder {
                 SDKMAN_LEGACY_API    : legacyService,
                 SDKMAN_CURRENT_API   : currentService,
                 SDKMAN_VERSION       : sdkmanVersion,
-                SDKMAN_DEBUG_MODE    : "true",
+                sdkman_debug_mode    : 'true',
                 JAVA_HOME            : jdkHome
         ]
 
