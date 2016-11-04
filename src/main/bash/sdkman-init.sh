@@ -114,7 +114,7 @@ fi
 
 # fabricate list of candidates
 SDKMAN_CANDIDATES_FILE="${SDKMAN_DIR}/var/candidates"
-if [[ -f "$SDKMAN_CANDIDATES_FILE" && -z "$(find "$SDKMAN_CANDIDATES_FILE" -mmin +$((60*24)))" ]]; then
+if [[ "$sdkman_beta_channel" != "true" && -f "$SDKMAN_CANDIDATES_FILE" && -z "$(find "$SDKMAN_CANDIDATES_FILE" -mmin +$((60*24)))" ]]; then
 	SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_FILE")
 else
 	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates")
