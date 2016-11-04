@@ -15,7 +15,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
         versionFile = new File("${sdkmanDotDirectory}/var", "version")
     }
 
-    void "should attempt upgrade of stable to beta version if beta channel is first enabled"() {
+    void "should attempt immediate upgrade of stable to beta version if beta channel is first enabled"() {
         given:
         def betaVersion = "x.y.c"
         curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $betaVersion")
@@ -24,7 +24,6 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
                 .withConfiguration("sdkman_beta_channel", "true")
                 .withVersionFile("x.y.b")
                 .build()
-        versionFile.setLastModified(TWO_DAYS_AGO)
 
         and:
         bash.start()
@@ -59,7 +58,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
         versionFile.text.contains(stableVersion)
     }
 
-    void "should attempt upgrade to new version of beta channel if available"() {
+    void "should attempt immediate upgrade to new version of beta channel if available"() {
         given:
         def newerBetaVersion = "x.y.d"
         curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $newerBetaVersion")
@@ -68,7 +67,6 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
                 .withConfiguration("sdkman_beta_channel", "true")
                 .withVersionFile("x.y.c")
                 .build()
-        versionFile.setLastModified(TWO_DAYS_AGO)
 
         and:
         bash.start()
@@ -102,5 +100,4 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
         versionFile.exists()
         versionFile.text.contains(newerStableVersion)
     }
-
 }

@@ -133,7 +133,7 @@ if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=10; fi
 
 # determine if up to date
 SDKMAN_VERSION_FILE="${SDKMAN_DIR}/var/version"
-if [[ -f "$SDKMAN_VERSION_FILE" && -z "$(find "$SDKMAN_VERSION_FILE" -mmin +$((60*24)))" ]]; then
+if [[ "$sdkman_beta_channel" != "true" && -f "$SDKMAN_VERSION_FILE" && -z "$(find "$SDKMAN_VERSION_FILE" -mmin +$((60*24)))" ]]; then
     SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_FILE")
 
 else
