@@ -27,7 +27,8 @@ function __sdk_selfupdate {
 		echo "No update available at this time."
 
 	else
-		__sdkman_secure_curl "${SDKMAN_LEGACY_API}/selfupdate" | bash
+		export sdkman_debug_mode
+		__sdkman_secure_curl "${SDKMAN_LEGACY_API}/selfupdate?beta=${sdkman_beta_channel}" | bash
 	fi
 	unset SDKMAN_FORCE_SELFUPDATE
 }

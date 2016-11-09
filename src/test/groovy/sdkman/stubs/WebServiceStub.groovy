@@ -35,7 +35,7 @@ class WebServiceStub {
     }
 
     static primeSelfupdate() {
-        stubFor(get(urlEqualTo("/selfupdate")).willReturn(
+        stubFor(get(urlEqualTo("/selfupdate?beta=false")).willReturn(
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
