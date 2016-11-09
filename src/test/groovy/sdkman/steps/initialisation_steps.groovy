@@ -1,5 +1,7 @@
 package sdkman.steps
 
+import sdkman.stubs.UnameStub
+
 import java.util.zip.ZipException
 import java.util.zip.ZipFile
 
@@ -8,6 +10,8 @@ import static sdkman.stubs.WebServiceStub.primeEndpointWithString
 import static sdkman.stubs.WebServiceStub.primeSelfupdate
 
 import sdkman.env.SdkmanBashEnvBuilder
+
+import static sdkman.support.UnixUtils.asUname
 
 And(~'^the sdkman work folder is created$') { ->
     assert sdkmanDir.isDirectory(), "The SDKMAN directory does not exist."
@@ -73,6 +77,13 @@ And(~'^offline mode is enabled with unreachable internet$') {->
     offlineMode = true
     serviceUrlEnv = SERVICE_DOWN_URL
     javaHome = FAKE_JDK_PATH
+}
+
+And(~'^a machine with "(.*)" installed$') { String platform ->
+    def binFolder = "$sdkmanBaseDir/bin" as File
+    UnameStub.prepareIn(binFolder)
+            .forPlatform(asUname(platform))
+            .build()
 }
 
 And(~'^an initialised environment$') {->

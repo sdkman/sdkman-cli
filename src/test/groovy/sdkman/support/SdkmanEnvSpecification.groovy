@@ -19,12 +19,14 @@ abstract class SdkmanEnvSpecification extends BashEnvSpecification {
 
     def setup() {
         sdkmanBaseDirectory = prepareBaseDir()
-        sdkmanBashEnvBuilder = SdkmanBashEnvBuilder.create(sdkmanBaseDirectory)
+        curlStub = CurlStub.prepareIn(new File(sdkmanBaseDirectory, "bin"))
+        sdkmanBashEnvBuilder = SdkmanBashEnvBuilder
+                .create(sdkmanBaseDirectory)
+                .withCurlStub(curlStub)
 
         sdkmanDotDirectory = new File(sdkmanBaseDirectory, ".sdkman")
         candidatesDirectory = new File(sdkmanDotDirectory, "candidates")
         bootstrapScript = "${sdkmanDotDirectory}/bin/sdkman-init.sh"
-        curlStub = CurlStub.prepareIn(new File(sdkmanBaseDirectory, "bin"))
     }
 
     def cleanup() {

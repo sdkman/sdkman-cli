@@ -30,4 +30,4 @@ Feature: Default Version
 		Given the candidate "groovy" version "2.9.9" is not available for download
 		And the system is bootstrapped
 		When I enter "sdk default groovy 2.9.9"
-		Then I see "Stop! 2.9.9 is not a valid groovy version."
+		Then I see "Stop! groovy 2.9.9 is not available."

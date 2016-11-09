@@ -62,7 +62,11 @@ function __sdkman_determine_version {
 		VERSION=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/default")
 
 	else
-		VERSION_VALID=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/${version}")
+		local validation_url="${SDKMAN_CURRENT_API}/candidates/validate/${candidate}/${version}/$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
+		VERSION_VALID=$(__sdkman_secure_curl "$validation_url")
+		__sdkman_echo_debug "Validate $candidate $version for $SDKMAN_PLATFORM: $VERSION_VALID"
+		__sdkman_echo_debug "Validation URL: $validation_url"
+
 		if [[ "$VERSION_VALID" == 'valid' || "$VERSION_VALID" == 'invalid' && -n "$folder" ]]; then
 			VERSION="$version"
 
@@ -74,7 +78,9 @@ function __sdkman_determine_version {
 
 		else
 			echo ""
-			echo "Stop! $version is not a valid ${candidate} version."
+			echo "Stop! $candidate $version is not available. Possible causes:"
+			echo " * $version is an invalid version"
+			echo " * $candidate binaries are incompatible with $SDKMAN_PLATFORM"
 			return 1
 		fi
 	fi

@@ -10,8 +10,8 @@ class SdkmanBashEnvBuilder {
     private final File baseFolder
 
     //optional fields with sensible defaults
-    private CurlStub curlStub
-    private List candidates = ['groovy', 'grails']
+    private Optional<CurlStub> curlStub = Optional.empty()
+    private List candidates = ['groovy', 'grails', 'java']
     private List availableCandidates = candidates
     private boolean offlineMode = false
     private String broadcast = "This is a LIVE broadcast!"
@@ -38,7 +38,7 @@ class SdkmanBashEnvBuilder {
     }
 
     SdkmanBashEnvBuilder withCurlStub(CurlStub curlStub) {
-        this.curlStub = curlStub
+        this.curlStub = Optional.of(curlStub)
         this
     }
 
@@ -108,6 +108,8 @@ class SdkmanBashEnvBuilder {
         sdkmanTmpDir = prepareDirectory(sdkmanDir, "tmp")
         sdkmanCandidatesDir = prepareDirectory(sdkmanDir, "candidates")
 
+        curlStub.map { cs -> cs.build() }
+
         initializeCandidates(sdkmanCandidatesDir, candidates)
         initializeAvailableCandidates(sdkmanVarDir, availableCandidates)
         initializeBroadcast(sdkmanVarDir, broadcast)
@@ -124,6 +126,7 @@ class SdkmanBashEnvBuilder {
                 SDKMAN_LEGACY_API    : legacyService,
                 SDKMAN_CURRENT_API   : currentService,
                 SDKMAN_VERSION       : sdkmanVersion,
+                sdkman_debug_mode    : 'true',
                 JAVA_HOME            : jdkHome
         ]
 
