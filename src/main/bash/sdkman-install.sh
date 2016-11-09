@@ -91,44 +91,25 @@ function __sdkman_install_local_version {
 }
 
 function __sdkman_download {
-	local candidate version archives_folder
+	local candidate version
 
 	candidate="$1"
 	version="$2"
-
-	archives_folder="${SDKMAN_DIR}/archives"
-	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
-
-		#TODO: pre installation hook here
-
+	mkdir -p "${SDKMAN_DIR}/archives"
+	if [ ! -f "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" ]; then
 		echo ""
 		echo "Downloading: ${candidate} ${version}"
 		echo ""
 		echo "In progress..."
 		echo ""
-
-		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
-		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}/${platform_parameter}"
-		local base_name="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
-		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
-
-		export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
-		export local zip_output="${SDKMAN_DIR}/tmp/$base_name.zip"
-
-		__sdkman_secure_curl_download "$download_url" > "$binary_input"
-		__sdkman_echo_debug "Downloaded binary to: $binary_input"
-
-		#responsible for taking `binary_input` and producing `zip_output`
-		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/post/${candidate}/${version}/${platform_parameter}" | bash
-		__sdkman_echo_debug "Processed binary as: $zip_output"
-
-		mv "$zip_output" "$zip_archive_target"
-		__sdkman_echo_debug "Moved to archive folder: $zip_archive_target"
+		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}?platform=${SDKMAN_PLATFORM}"
+		local zip_archive="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
+		__sdkman_secure_curl_download "$download_url" > "$zip_archive"
 	else
 		echo ""
 		echo "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
 	fi
-	__sdkman_validate_zip "${archives_folder}/${candidate}-${version}.zip" || return 1
+	__sdkman_validate_zip "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" || return 1
 	echo ""
 }
 

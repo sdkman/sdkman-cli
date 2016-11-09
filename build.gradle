@@ -42,18 +42,16 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy:2.4.7'
-    compile 'org.codehaus.groovy:groovy-templates:2.4.7'
-    compile 'org.codehaus.groovy:groovy-json:2.4.7'
+    compile 'org.codehaus.groovy:groovy:2.4.5'
+    compile 'org.codehaus.groovy:groovy-templates:2.4.5'
+    compile 'org.codehaus.groovy:groovy-json:2.4.5'
     testCompile 'junit:junit:4.11'
-    testCompile 'info.cukes:cucumber-groovy:1.2.4'
-    testCompile 'info.cukes:cucumber-junit:1.2.4'
+    testCompile 'info.cukes:cucumber-groovy:1.1.8'
+    testCompile 'info.cukes:cucumber-junit:1.1.8'
     testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
         exclude module: 'groovy-all'
     }
-    testCompile('com.github.tomakehurst:wiremock:2.2.2') {
-        exclude module: 'junit'
-    }
+    testCompile 'com.github.tomakehurst:wiremock:1.46'
 }
 
 test.testLogging.exceptionFormat = 'full'

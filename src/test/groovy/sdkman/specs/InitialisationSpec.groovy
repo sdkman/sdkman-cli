@@ -14,6 +14,7 @@ class InitialisationSpec extends SdkmanEnvSpecification {
         bash = sdkmanBashEnvBuilder
                 .withAvailableCandidates(allCandidates)
                 .withCandidates(allCandidates)
+                .withCurlStub(curlStub)
                 .withVersionFile("x.y.z")
                 .build()
         prepareCandidateDirectories(allCandidates)

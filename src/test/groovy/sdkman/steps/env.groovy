@@ -9,7 +9,7 @@ import static cucumber.api.groovy.Hooks.After
 import static cucumber.api.groovy.Hooks.Before
 
 HTTP_PROXY = System.getProperty("httpProxy") ?: ""
-PLATFORM = UnixUtils.platform.toLowerCase()
+PLATFORM = UnixUtils.platform
 
 FAKE_JDK_PATH = "/path/to/my/openjdk"
 SERVICE_UP_HOST="localhost"
