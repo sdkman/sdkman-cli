@@ -1,5 +1,7 @@
 package sdkman.stubs
 
+import sdkman.support.UnixUtils
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 
 class WebServiceStub {
@@ -10,6 +12,15 @@ class WebServiceStub {
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
                         .withBody(body)))
+    }
+
+    static primeHookFor(String phase, String candidate, String version, String platform) {
+        String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
+        stubFor(get(urlEqualTo("/hooks/$phase/$candidate/$version/$lowerCaseUname")).willReturn(
+                aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "text/plain")
+                        .withBodyFile("hooks/$phase/$candidate/$version/$lowerCaseUname/${phase}_hook.sh")))
     }
 
     static primeDownloadFor(String host, String candidate, String version, String platform) {
