@@ -5,19 +5,22 @@ Feature: Multi Platform Binary Distribution
 		And an initialised environment
 
 	Scenario: A compatible binary is installed
-		And a machine with "Mac OSX" installed
+		And a machine with "Linux" installed
 		And the system is bootstrapped
-		And the candidate "java" version "8u101" is available for download on "Mac OSX"
-		When I enter "sdk install java 8u101" and answer "Y"
-		Then I see "Done installing!"
-		And the candidate "java" version "8u101" is installed
+		And the candidate "java" version "8u111" is available for download on "Linux"
+		And a cookie is required for installing "java" "8u111" on "Linux"
+		When I enter "sdk install java 8u111" and answer "Y"
+		Then a download request was made for "java" "8u111" on "Linux" with cookie "oraclelicense=accept-securebackup-cookie"
+		And I see "Done installing!"
+		And the candidate "java" version "8u111" is installed
+		And the cookie-jar has been cleaned up
 
 	Scenario: Platform is not supported
 		And a machine with "FreeBSD" installed
 		And the system is bootstrapped
-		And the candidate "java" version "8u101" is not available for download on "FreeBSD"
-		When I enter "sdk install java 8u101"
-		Then I see "Stop! java 8u101 is not available. Possible causes:"
-		Then I see " * 8u101 is an invalid version"
+		And the candidate "java" version "8u111" is not available for download on "FreeBSD"
+		When I enter "sdk install java 8u111"
+		Then I see "Stop! java 8u111 is not available. Possible causes:"
+		Then I see " * 8u111 is an invalid version"
 		Then I see " * java binaries are incompatible with FreeBSD"
-		And the candidate "java" version "8u101" is not installed
+		And the candidate "java" version "8u111" is not installed
