@@ -36,25 +36,16 @@ And(~/^the candidate "(.*?)" version "(.*?)" is available for download on "(.*?)
     String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
     primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lowerCaseUname}", "valid")
     primeDownloadFor(SERVICE_UP_URL, candidate, version, lowerCaseUname)
-    if (candidate == "java") {
-        primeEndpointWithString("/hooks/post/$candidate/${version}/${lowerCaseUname}", '''
-#!/bin/bash
-echo "Inside post-install hook..."
-mkdir -p "$SDKMAN_DIR/tmp/out"
-tar zxvf "$binary_input" -C "${SDKMAN_DIR}/tmp/out"
-cd "${SDKMAN_DIR}/tmp/out"
-zip -r "$zip_output" .
-rm "$SDKMAN_DIR/var/cookie"
-echo "Leaving post-install hook..."''')
+    if (candidate == "java")
+        primePlatformSpecificHookFor("post", candidate, version, lowerCaseUname)
+    else
+        primeUniversalHookFor("post", candidate, version, lowerCaseUname)
 
-    } else {
-        primeEndpointWithString("/hooks/post/${candidate}/${version}/${lowerCaseUname}", 'mv $binary_input $zip_output')
-    }
 }
 
 And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String candidate, String version, String platform ->
     String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
-    primeHookFor("pre", candidate, version, lowerCaseUname)
+    primePlatformSpecificHookFor("pre", candidate, version, lowerCaseUname)
 }
 
 And(~/^the candidate "(.*?)" version "(.*?)" is not available for download on "(.*?)"$/) { String candidate, String version, String platform ->

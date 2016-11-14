@@ -14,13 +14,21 @@ class WebServiceStub {
                         .withBody(body)))
     }
 
-    static primeHookFor(String phase, String candidate, String version, String platform) {
+    static primeUniversalHookFor(String phase, String candidate, String version, String platform) {
+        primeHookFor(phase, candidate, version, platform, true)
+    }
+
+    static primePlatformSpecificHookFor(String phase, String candidate, String version, String platform) {
+        primeHookFor(phase, candidate, version, platform, false)
+    }
+
+    private static primeHookFor(String phase, String candidate, String version, String platform, boolean universal = true) {
         String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
         stubFor(get(urlEqualTo("/hooks/$phase/$candidate/$version/$lowerCaseUname")).willReturn(
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
-                        .withBodyFile("hooks/${phase}_hook_${candidate}_${version}_${lowerCaseUname}.sh")))
+                        .withBodyFile("hooks/${phase}_hook_${candidate}_${version}_${universal ? 'universal' : lowerCaseUname}.sh")))
     }
 
     static primeDownloadFor(String host, String candidate, String version, String platform) {
