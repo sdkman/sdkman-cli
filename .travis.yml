@@ -4,7 +4,6 @@ services:
   - docker
 install: true
 script:
-  - sudo apt-get update && sudo apt-get -y install zip
   - docker build --tag=sdkman/sdkman-cli .
   - docker run --rm -v $PWD:/usr/src/app -v $HOME/.gradle:/root/.gradle sdkman/sdkman-cli clean test -Dscan --info
 after_success:
