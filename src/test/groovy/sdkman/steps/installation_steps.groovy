@@ -8,15 +8,15 @@ import static sdkman.support.FilesystemUtils.prepareCandidateWithVersionFolder
 import static sdkman.support.FilesystemUtils.prepareLocalCandidateWithVersionFolder
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candidate, String version ->
-	def file = "${candidatesDir}/${candidate}/${version}" as File
-	if (!file.exists()) println bash.output
-	assert file.exists()
+    def file = "${candidatesDir}/${candidate}/${version}" as File
+    if (!file.exists()) println bash.output
+    assert file.exists()
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String candidate, String version ->
-	def directory = FileSystems.default.getPath("$candidatesDir/$candidate/$version")
-	if (Files.exists(directory)) println bash.output
-	assert ! Files.exists(directory)
+    def directory = FileSystems.default.getPath("$candidatesDir/$candidate/$version")
+    if (Files.exists(directory)) println bash.output
+    assert !Files.exists(directory)
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and default$') { String candidate, String version ->
@@ -38,13 +38,13 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is already installed but not de
 
 And(~'^I do not have a "([^"]*)" candidate installed$') { String candidate ->
     def candidateDir = FileSystems.default.getPath("${candidatesDir}/${candidate}")
-    assert ! candidateDir.toFile().listFiles()
+    assert !candidateDir.toFile().listFiles()
 }
 
 And(~'^the candidate "([^"]*)" does not exist locally$') { String candidate ->
     def candidateDir = "${candidatesDir}/${candidate}" as File
     candidateDir.deleteDir()
-    assert ! candidateDir.exists()
+    assert !candidateDir.exists()
 }
 
 And(~'^I have a local candidate "([^"]*)" version "([^"]*)" at "([^"]*)"$') { String candidate, String version, String directory ->
@@ -78,4 +78,9 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is already linked to "([^"]*)"$
 And(~'^I have configured "([^"]*)" to "([^"]*)"$') { String configName, String flag ->
     def configFile = new File("$sdkmanDir/etc/config")
     configFile.write "${configName}=${flag}"
+}
+
+And(~/^the cookie-jar has been cleaned up$/) { ->
+    def cookie = new File("$sdkmanDir/var/cookie")
+    assert !cookie.exists()
 }

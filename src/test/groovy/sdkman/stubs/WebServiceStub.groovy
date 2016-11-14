@@ -12,19 +12,23 @@ class WebServiceStub {
                         .withBody(body)))
     }
 
-
     static primeDownloadFor(String host, String candidate, String version, String platform) {
+        def binary = (candidate == "java") ? "jdk-${version}-linux-x64.tar.gz" : "${candidate}-${version}.zip"
         stubFor(get(urlEqualTo("/broker/download/${candidate}/${version}/${platform}")).willReturn(
                 aResponse()
-                        .withHeader("Location", "${host}/${candidate}-${version}.zip")
+                        .withHeader("Location", "${host}/${binary}")
                         .withStatus(302)))
 
-        def binary = "${candidate}-${version}.zip"
         stubFor(get(urlEqualTo("/$binary")).willReturn(
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/zip")
                         .withBodyFile(binary)))
+    }
+
+    static verifyDownloadFor(String candidate, String version, String platform, String cookieName, String cookieValue) {
+        verify(getRequestedFor(urlEqualTo("/broker/download/${candidate}/${version}/${platform}"))
+                .withCookie(cookieName, matching(cookieValue)))
     }
 
     static primeSelfupdate() {

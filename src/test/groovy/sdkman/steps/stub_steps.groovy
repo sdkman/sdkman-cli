@@ -1,5 +1,6 @@
 package sdkman.steps
 
+import cucumber.api.PendingException
 import sdkman.support.UnixUtils
 
 import static cucumber.api.groovy.EN.And
@@ -27,11 +28,41 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$'
     primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "invalid")
 }
 
+And(~/^the candidate java version "([^"]*)" is available for download on "([^"]*)"$/) { String version, String platform ->
+    String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
+    primeEndpointWithString("/candidates/validate/java/${version}/${lowerCaseUname}", "valid")
+}
+
 And(~/^the candidate "(.*?)" version "(.*?)" is available for download on "(.*?)"$/) { String candidate, String version, String platform ->
     String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
     primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lowerCaseUname}", "valid")
-    primeEndpointWithString("/hooks/post/${candidate}/${version}/${lowerCaseUname}", 'mv $binary_input $zip_output') //bash command
+    if (candidate == "java") {
+        primeEndpointWithString("/hooks/post/$candidate/${version}/${lowerCaseUname}", '''
+#!/bin/bash
+echo "Inside post-install hook..."
+mkdir -p "$SDKMAN_DIR/tmp/out"
+tar zxvf "$binary_input" -C "${SDKMAN_DIR}/tmp/out"
+cd "${SDKMAN_DIR}/tmp/out"
+zip -r "$zip_output" .
+rm "$SDKMAN_DIR/var/cookie"
+echo "Leaving post-install hook..."''')
+    } else {
+        //bash command
+        primeEndpointWithString("/hooks/post/${candidate}/${version}/${lowerCaseUname}", 'mv $binary_input $zip_output')
+    }
     primeDownloadFor(SERVICE_UP_URL, candidate, version, lowerCaseUname)
+}
+
+And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String candidate, String version, String platform ->
+    String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
+    primeEndpointWithString("/hooks/pre/${candidate}/${version}/${lowerCaseUname}", """
+#!/bin/bash
+echo "Inside pre-install hook..."
+cookie="\$SDKMAN_DIR/var/cookie"
+if [[ -f "\$cookie" ]]; then rm "\$cookie"; fi
+echo "oraclelicense=accept-securebackup-cookie" > "\$cookie"
+echo "Dropped cookie..."
+""")
 }
 
 And(~/^the candidate "(.*?)" version "(.*?)" is not available for download on "(.*?)"$/) { String candidate, String version, String platform ->
@@ -61,4 +92,11 @@ And(~/^the candidate "(.*?)" has a version list available$/) { String candidate 
 
 And(~/^The candidate list is available$/) { ->
     primeEndpointWithString("/candidates/list", "Candidate List")
+}
+
+And(~/^a download request was made for "(.*)" "(.*)" on "(.*)" with cookie "(.*)"$/) { String candidate, String version, String platform, String cookie ->
+    String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
+    def cookieName = cookie.tokenize("=").first()
+    def cookieValue = cookie.tokenize("=").last()
+    verifyDownloadFor(candidate, version, lowerCaseUname, cookieName, cookieValue)
 }

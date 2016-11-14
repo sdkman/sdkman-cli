@@ -112,6 +112,8 @@ function __sdkman_download {
 		local base_name="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
 		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 
+		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/pre/${candidate}/${version}/${platform_parameter}" | bash
+
 		export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
 		export local zip_output="${SDKMAN_DIR}/tmp/$base_name.zip"
 

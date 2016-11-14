@@ -31,11 +31,19 @@ function __sdkman_secure_curl {
 }
 
 function __sdkman_secure_curl_download {
+    local curl_params="--progress-bar --location"
 	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
-		curl --insecure --progress-bar --location "$1"
-	else
-		curl --progress-bar --location "$1"
+		curl_params="$curl_params --insecure"
 	fi
+
+	local cookie_file="${SDKMAN_DIR}/var/cookie"
+
+	if [[ -f "$cookie_file" ]]; then
+	    local cookie=$(cat "$cookie_file")
+		curl_params="$curl_params --cookie $cookie"
+	fi
+
+	curl ${curl_params} "$1"
 }
 
 function __sdkman_secure_curl_with_timeouts {
