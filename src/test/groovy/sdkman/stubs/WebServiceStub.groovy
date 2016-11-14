@@ -20,7 +20,7 @@ class WebServiceStub {
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
-                        .withBodyFile("hooks/$phase/$candidate/$version/$lowerCaseUname/${phase}_hook.sh")))
+                        .withBodyFile("hooks/${phase}_hook_${candidate}_${version}_${lowerCaseUname}.sh")))
     }
 
     static primeDownloadFor(String host, String candidate, String version, String platform) {
