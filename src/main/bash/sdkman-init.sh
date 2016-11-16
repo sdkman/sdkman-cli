@@ -117,7 +117,11 @@ SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
 if [[ -f "$SDKMAN_CANDIDATES_CACHE" && -z "$(find "$SDKMAN_CANDIDATES_CACHE" -mmin +$((60*24)))" ]]; then
 	SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_CACHE")
 else
-	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates")
+    if [[ "$sdkman_beta_channel" == 'true' ]]; then
+        SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_CURRENT_API}/candidates/all")
+    else
+        SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates")
+    fi
 	echo "$SDKMAN_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_CACHE"
 fi
 
