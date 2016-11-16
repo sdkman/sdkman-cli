@@ -99,8 +99,6 @@ function __sdkman_download {
 	archives_folder="${SDKMAN_DIR}/archives"
 	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
 
-		#TODO: pre installation hook here
-
 		echo ""
 		echo "Downloading: ${candidate} ${version}"
 		echo ""
