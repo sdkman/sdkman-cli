@@ -1,8 +1,8 @@
 sdkmanCliVersion = '5.0.0-SNAPSHOT'
 environments {
     local {
-        sdkmanLegacyApi = 'http://localhost:8080'
-        sdkmanCurrentApi = 'http://localhost:8080'
+        sdkmanLegacyApi = 'http://localhost:8080/1'
+        sdkmanCurrentApi = 'http://localhost:8080/2'
     }
     production {
         sdkmanLegacyApi = 'https://api.sdkman.io/1'

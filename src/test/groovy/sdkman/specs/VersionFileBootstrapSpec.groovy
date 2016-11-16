@@ -4,7 +4,7 @@ import sdkman.support.SdkmanEnvSpecification
 
 class VersionFileBootstrapSpec extends SdkmanEnvSpecification {
 
-    static final LEGACY_API = "http://localhost:8080"
+    static final LEGACY_API = "http://localhost:8080/1"
     static final CLI_VERSION_ENDPOINT = "$LEGACY_API/candidates/app/stable"
 
     File versionFile

@@ -6,10 +6,10 @@ class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
 
     static final TWO_DAYS_IN_MILLIS = 24 * 61 * 60 * 1000
 
-    static final LEGACY_API = "http://localhost:8080"
+    static final LEGACY_API = "http://localhost:8080/1"
     static final LEGACY_CANDIDATES_ENDPOINT = "$LEGACY_API/candidates"
 
-    static final CURRENT_API = "http://localhost:8080"
+    static final CURRENT_API = "http://localhost:8080/2"
     static final CURRENT_CANDIDATES_ENDPOINT = "$CURRENT_API/candidates/all"
 
     File candidatesFile

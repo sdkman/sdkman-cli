@@ -15,8 +15,8 @@ class SdkmanBashEnvBuilder {
     private List availableCandidates = candidates
     private boolean offlineMode = false
     private String broadcast = "This is a LIVE broadcast!"
-    private String legacyService = "http://localhost:8080"
-    private String currentService = "http://localhost:8080"
+    private String legacyService = "http://localhost:8080/1"
+    private String currentService = "http://localhost:8080/2"
     private String sdkmanVersion = "5.0.0"
     private String jdkHome = "/path/to/my/jdk"
     private String httpProxy
