@@ -4,11 +4,8 @@ import sdkman.support.SdkmanEnvSpecification
 
 class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
 
-    static final LEGACY_API = "http://localhost:8080"
+    static final LEGACY_API = "http://localhost:8080/1"
     static final LEGACY_CANDIDATES_ENDPOINT = "$LEGACY_API/candidates"
-
-    static final CURRENT_API = "http://localhost:8080"
-    static final CURRENT_CANDIDATES_ENDPOINT = "$CURRENT_API/candidates"
 
     File candidatesFile
 
@@ -16,7 +13,7 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
         candidatesFile = new File("${sdkmanDotDirectory}/var", "candidates")
     }
 
-    void "should store candidates if does not exist"() {
+    void "should store candidates in cache if not present"() {
         given: 'a working sdkman installation without candidates'
         curlStub.primeWith(LEGACY_CANDIDATES_ENDPOINT, "echo groovy,scala")
         bash = sdkmanBashEnvBuilder
@@ -34,7 +31,7 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
         candidatesFile.exists()
     }
 
-    void "should not query server if fresh candidates file is found"() {
+    void "should not query server if unexpired candidates cache is found"() {
         given: 'a working sdkman installation with candidates file'
         bash = sdkmanBashEnvBuilder
                 .withAvailableCandidates(['gradle', 'sbt'])
@@ -51,7 +48,7 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
         candidatesFile.text.contains("gradle,sbt")
     }
 
-    void "should query server for candidates and refresh if older than a day"() {
+    void "should query server for candidates and refresh cache if older than a day"() {
         given: 'a working sdkman installation with expired candidates'
         curlStub.primeWith(LEGACY_CANDIDATES_ENDPOINT, "echo groovy,scala")
         bash = sdkmanBashEnvBuilder
@@ -70,27 +67,6 @@ class CandidatesFileBootstrapSpec extends SdkmanEnvSpecification {
         then:
         candidatesFile.exists()
         candidatesFile.text.contains('groovy,scala')
-    }
-
-    void "should always query server for candidates and refresh if subscribed to beta channel"() {
-        given: 'a working sdkman installation with expired candidates'
-        curlStub.primeWith(CURRENT_CANDIDATES_ENDPOINT, "echo groovy,java,scala")
-        bash = sdkmanBashEnvBuilder
-                .withLegacyService(LEGACY_API)
-                .withCurrentService(CURRENT_API)
-                .withConfiguration("sdkman_beta_channel", "true")
-                .withAvailableCandidates(['groovy'])
-                .build()
-
-        and:
-        bash.start()
-
-        when: 'bootstrap the system'
-        bash.execute("source $bootstrapScript")
-
-        then:
-        candidatesFile.exists()
-        candidatesFile.text.contains('groovy,java,scala')
     }
 
     void "should ignore candidates if api is offline"() {
