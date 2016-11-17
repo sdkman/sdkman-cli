@@ -34,3 +34,13 @@ Feature: Multi Platform Binary Distribution
 		Then I see "Returning non-zero code from pre-install hook..."
 		And I do not see "Downloaded binary"
 		And I see "Can not install java 8u92 at this time."
+
+	Scenario: Post-install Hook returns a non-zero code
+		And a machine with "Linux" installed
+		And the system is bootstrapped
+		And the candidate "java" version "8u92" is available for download on "Linux"
+		And a "post" install hook is served for "java" "8u92" on "Linux" that returns a non-zero code
+		When I enter "sdk install java 8u92"
+		Then I see "Returning non-zero code from post-install hook..."
+		And I do not see "Downloaded binary"
+		And I see "Can not install java 8u92 at this time."
