@@ -110,7 +110,12 @@ function __sdkman_download {
 		local base_name="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
 		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 
-		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/pre/${candidate}/${version}/${platform_parameter}" | bash
+		#pre-installation hook: implements function __sdkman_pre_installation_hook
+		local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
+		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/pre/${candidate}/${version}/${platform_parameter}" > "$pre_installation_hook"
+		__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
+		source "$pre_installation_hook"
+		__sdkman_pre_installation_hook || return 1
 
 		export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
 		export local zip_output="${SDKMAN_DIR}/tmp/$base_name.zip"
@@ -118,7 +123,7 @@ function __sdkman_download {
 		__sdkman_secure_curl_download "$download_url" > "$binary_input"
 		__sdkman_echo_debug "Downloaded binary to: $binary_input"
 
-		#responsible for taking `binary_input` and producing `zip_output`
+		#post-installation hook - responsible for taking `binary_input` and producing `zip_output`
 		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/post/${candidate}/${version}/${platform_parameter}" | bash
 		__sdkman_echo_debug "Processed binary as: $zip_output"
 

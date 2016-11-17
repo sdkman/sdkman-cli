@@ -48,6 +48,10 @@ And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String c
     primePlatformSpecificHookFor("pre", candidate, version, lowerCaseUname)
 }
 
+And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns a non-zero code$/) { String phase, String candidate, String version, String platform ->
+    primeHookFor(phase, candidate, version, platform, false)
+}
+
 And(~/^the candidate "(.*?)" version "(.*?)" is not available for download on "(.*?)"$/) { String candidate, String version, String platform ->
     String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
     primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lowerCaseUname}", "invalid")
