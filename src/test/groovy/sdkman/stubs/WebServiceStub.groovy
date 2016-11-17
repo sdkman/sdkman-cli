@@ -6,6 +6,21 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*
 
 class WebServiceStub {
 
+    static preInstallationHookSuccess() {
+        '''#!/bin/bash
+function __sdkman_pre_installation_hook {
+    echo "In pre-installation hook..."
+}'''
+    }
+
+    static postInstallationHookSuccess() {
+        '''#!/bin/bash
+function __sdkman_post_installation_hook {
+    echo "In post-installation hook..."
+    mv $binary_input $zip_output
+}'''
+    }
+
     static primeEndpointWithString(String endpoint, String body) {
         stubFor(get(urlEqualTo(endpoint)).willReturn(
                 aResponse()
