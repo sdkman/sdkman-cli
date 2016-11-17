@@ -117,15 +117,29 @@ function __sdkman_download {
 		source "$pre_installation_hook"
 		__sdkman_pre_installation_hook || return 1
 
+        echo ""
+        echo "Completed post-install hook..."
+        echo ""
+
 		export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
 		export local zip_output="${SDKMAN_DIR}/tmp/$base_name.zip"
 
 		__sdkman_secure_curl_download "$download_url" > "$binary_input"
 		__sdkman_echo_debug "Downloaded binary to: $binary_input"
 
-		#post-installation hook - responsible for taking `binary_input` and producing `zip_output`
-		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/post/${candidate}/${version}/${platform_parameter}" | bash
+		#post-installation hook: implements function __sdkman_post_installation_hook
+		#responsible for taking `binary_input` and producing `zip_output`
+		local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
+		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/post/${candidate}/${version}/${platform_parameter}" > "$post_installation_hook"
+		__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
+		source "$post_installation_hook"
+		__sdkman_post_installation_hook || return 1
+
 		__sdkman_echo_debug "Processed binary as: $zip_output"
+
+        echo ""
+        echo "Completed post-install hook..."
+        echo ""
 
 		mv "$zip_output" "$zip_archive_target"
 		__sdkman_echo_debug "Moved to archive folder: $zip_archive_target"
