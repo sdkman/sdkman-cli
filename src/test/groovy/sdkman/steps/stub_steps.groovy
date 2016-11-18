@@ -3,6 +3,7 @@ package sdkman.steps
 import sdkman.support.UnixUtils
 
 import static cucumber.api.groovy.EN.And
+import static sdkman.stubs.HookResponses.*
 import static sdkman.stubs.WebServiceStub.*
 import static sdkman.support.FilesystemUtils.readCurrentFromCandidateFolder
 import static sdkman.support.FilesystemUtils.readVersionsCsvFromCandidateFolder
@@ -25,6 +26,18 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { 
     primeEndpointWithString("/hooks/post/${candidate}/${version}/${PLATFORM}", postInstallationHookSuccess())
 }
 
+And(~/^the appropriate universal hooks are available for "([^"]*)" version "([^"]*)" on "([^"]*)"$/) { String candidate, String version, String platform ->
+    String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
+    primeUniversalHookFor("pre", candidate, version, lowerCaseUname)
+    primeUniversalHookFor("post", candidate, version, lowerCaseUname)
+}
+
+And(~/^the appropriate multi-platform hooks are available for "([^"]*)" version "([^"]*)" on "([^"]*)"$/) { String candidate, String version, String platform ->
+    String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
+    primePlatformSpecificHookFor("pre", candidate, version, lowerCaseUname)
+    primePlatformSpecificHookFor("post", candidate, version, lowerCaseUname)
+}
+
 And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$') { String candidate, String version ->
     primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "invalid")
 }
@@ -38,14 +51,6 @@ And(~/^the candidate "(.*?)" version "(.*?)" is available for download on "(.*?)
     String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
     primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lowerCaseUname}", "valid")
     primeDownloadFor(SERVICE_UP_URL, candidate, version, lowerCaseUname)
-    if (candidate == "java") {
-        primePlatformSpecificHookFor("pre", candidate, version, lowerCaseUname)
-        primePlatformSpecificHookFor("post", candidate, version, lowerCaseUname)
-    } else {
-        primeUniversalHookFor("pre", candidate, version, lowerCaseUname)
-        primeUniversalHookFor("post", candidate, version, lowerCaseUname)
-    }
-
 }
 
 And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String candidate, String version, String platform ->
@@ -53,12 +58,12 @@ And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String c
     primePlatformSpecificHookFor("pre", candidate, version, lowerCaseUname)
 }
 
-And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns normally$/) { String phase, String candidate, String version, String platform ->
-    primeEndpointWithString("/hooks/pre/${candidate}/${version}/${PLATFORM}", preInstallationHookSuccess())
+And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns successfully$/) { String phase, String candidate, String version, String platform ->
+    primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${PLATFORM}", phase == "pre" ? preInstallationHookSuccess() : postInstallationHookSuccess())
 }
 
-And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns a non-zero code$/) { String phase, String candidate, String version, String platform ->
-    primeHookFor(phase, candidate, version, platform, false)
+And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns a failure$/) { String phase, String candidate, String version, String platform ->
+    primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${PLATFORM}", phase == "pre" ? preInstallationHookFailure() : postInstallationHookFailure())
 }
 
 And(~/^the candidate "(.*?)" version "(.*?)" is not available for download on "(.*?)"$/) { String candidate, String version, String platform ->
