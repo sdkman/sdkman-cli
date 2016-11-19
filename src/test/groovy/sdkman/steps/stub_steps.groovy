@@ -1,5 +1,6 @@
 package sdkman.steps
 
+import cucumber.api.PendingException
 import sdkman.support.UnixUtils
 
 import static cucumber.api.groovy.EN.And
@@ -53,11 +54,6 @@ And(~/^the candidate "(.*?)" version "(.*?)" is available for download on "(.*?)
     primeDownloadFor(SERVICE_UP_URL, candidate, version, lowerCaseUname)
 }
 
-And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String candidate, String version, String platform ->
-    String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
-    primePlatformSpecificHookFor("pre", candidate, version, lowerCaseUname)
-}
-
 And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns successfully$/) { String phase, String candidate, String version, String platform ->
     primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${PLATFORM}", phase == "pre" ? preInstallationHookSuccess() : postInstallationHookSuccess())
 }
@@ -100,4 +96,8 @@ And(~/^a download request was made for "(.*)" "(.*)" on "(.*)" with cookie "(.*)
     def cookieName = cookie.tokenize("=").first()
     def cookieValue = cookie.tokenize("=").last()
     verifyDownloadFor(candidate, version, lowerCaseUname, cookieName, cookieValue)
+}
+
+And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String candidate, String version, String platform ->
+    //handled by the hook in subsequent step
 }

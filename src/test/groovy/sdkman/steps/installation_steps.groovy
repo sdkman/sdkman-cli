@@ -80,7 +80,7 @@ And(~'^I have configured "([^"]*)" to "([^"]*)"$') { String configName, String f
     configFile.write "${configName}=${flag}"
 }
 
-And(~/^the cookie-jar has been cleaned up$/) { ->
+And(~/^the cookie has been removed$/) { ->
     def cookie = new File("$sdkmanDir/var/cookie")
     assert !cookie.exists()
 }
