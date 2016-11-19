@@ -111,10 +111,7 @@ function __sdkman_download {
 		__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
 		source "$pre_installation_hook"
 		__sdkman_pre_installation_hook || return 1
-
-        echo ""
-        echo "Completed pre-installation hook..."
-        echo ""
+        __sdkman_echo_debug "Completed pre-installation hook..."
 
 		export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
 		export local zip_output="${SDKMAN_DIR}/tmp/$base_name.zip"
@@ -125,6 +122,7 @@ function __sdkman_download {
 		echo "In progress..."
 		echo ""
 
+        #download binary
 		__sdkman_secure_curl_download "$download_url" > "$binary_input"
 		__sdkman_echo_debug "Downloaded binary to: $binary_input"
 
@@ -139,9 +137,7 @@ function __sdkman_download {
 
 		__sdkman_echo_debug "Processed binary as: $zip_output"
 
-        echo ""
-        echo "Completed post-installation hook..."
-        echo ""
+        __sdkman_echo_debug "Completed post-installation hook..."
 
 		mv "$zip_output" "$zip_archive_target"
 		__sdkman_echo_debug "Moved to archive folder: $zip_archive_target"
