@@ -10,7 +10,7 @@ import static sdkman.support.FilesystemUtils.readCurrentFromCandidateFolder
 import static sdkman.support.FilesystemUtils.readVersionsCsvFromCandidateFolder
 
 And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
-    primeEndpointWithString("/candidates/${candidate}/default", version)
+    primeEndpointWithString("/candidates/default/${candidate}", version)
     primeDownloadFor(SERVICE_UP_URL, candidate, version, PLATFORM)
     primeEndpointWithString("/hooks/pre/${candidate}/${version}/${PLATFORM}", preInstallationHookSuccess())
     primeEndpointWithString("/hooks/post/${candidate}/${version}/${PLATFORM}", postInstallationHookSuccess())

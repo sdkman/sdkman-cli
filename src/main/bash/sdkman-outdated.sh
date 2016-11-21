@@ -71,7 +71,7 @@ function __sdkman_determine_outdated_version {
     fi
 
     # Resolve remote default version
-    remote_default_version="$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/default")"
+    remote_default_version="$(__sdkman_secure_curl "${SDKMAN_CURRENT_API}/candidates/default/${candidate}")"
     if [ -z "$remote_default_version" ]; then
         return 2
     fi

@@ -59,7 +59,7 @@ function __sdkman_determine_version {
 
 	elif [[ "$SDKMAN_AVAILABLE" == "true" && -z "$version" ]]; then
 		VERSION_VALID='valid'
-		VERSION=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/default")
+		VERSION=$(__sdkman_secure_curl "${SDKMAN_CURRENT_API}/candidates/default/${candidate}")
 
 	else
 		local validation_url="${SDKMAN_CURRENT_API}/candidates/validate/${candidate}/${version}/$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
