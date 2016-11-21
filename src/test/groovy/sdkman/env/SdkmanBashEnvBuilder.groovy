@@ -157,8 +157,11 @@ class SdkmanBashEnvBuilder {
     }
 
     private initializeAvailableCandidates(File folder, List candidates) {
+        def candidatesCache = new File(folder, "candidates")
         if (candidates) {
-            new File(folder, "candidates") << candidates.join(",")
+            candidatesCache << candidates.join(",")
+        } else {
+            candidatesCache << ""
         }
     }
 
