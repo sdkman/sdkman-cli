@@ -20,8 +20,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not installed$') { String ca
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is already installed and default$') { String candidate, String version ->
-    def candidateVersion =
-            prepareCandidateWithVersionFolder("$candidatesDir", candidate, version)
+    def candidateVersion = prepareCandidateWithVersionFolder("$candidatesDir", candidate, version)
     def currentLink = FileSystems.default.getPath("$candidatesDir/$candidate/current")
     Files.createSymbolicLink currentLink, candidateVersion
 }

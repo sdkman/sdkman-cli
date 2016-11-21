@@ -1,6 +1,5 @@
 package sdkman.steps
 
-import cucumber.api.PendingException
 import sdkman.support.UnixUtils
 
 import static cucumber.api.groovy.EN.And
