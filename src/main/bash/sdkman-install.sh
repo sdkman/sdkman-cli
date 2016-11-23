@@ -101,7 +101,7 @@ function __sdkman_download {
 
 		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}/${platform_parameter}"
-		local base_name="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+		local base_name="$(cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
 		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 
 		#pre-installation hook: implements function __sdkman_pre_installation_hook
