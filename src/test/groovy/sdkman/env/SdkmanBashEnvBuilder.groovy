@@ -12,7 +12,7 @@ class SdkmanBashEnvBuilder {
     //optional fields with sensible defaults
     private Optional<CurlStub> curlStub = Optional.empty()
     private List candidates = ['groovy', 'grails', 'java']
-    private List availableCandidates = candidates
+    private List candidatesCache = candidates
     private boolean offlineMode = false
     private String broadcast = "This is a LIVE broadcast!"
     private String legacyService = "http://localhost:8080/1"
@@ -20,7 +20,7 @@ class SdkmanBashEnvBuilder {
     private String sdkmanVersion = "5.0.0"
     private String jdkHome = "/path/to/my/jdk"
     private String httpProxy
-    private String versionFile
+    private String versionCache
 
     Map config = [
             sdkman_auto_answer : 'false',
@@ -47,8 +47,8 @@ class SdkmanBashEnvBuilder {
         this
     }
 
-    SdkmanBashEnvBuilder withAvailableCandidates(List candidates) {
-        this.availableCandidates = candidates
+    SdkmanBashEnvBuilder withCandidatesCache(List candidates) {
+        this.candidatesCache = candidates
         this
     }
 
@@ -87,8 +87,8 @@ class SdkmanBashEnvBuilder {
         this
     }
 
-    SdkmanBashEnvBuilder withVersionFile(String version) {
-        this.versionFile = version
+    SdkmanBashEnvBuilder withVersionCache(String version) {
+        this.versionCache = version
         this
     }
 
@@ -111,10 +111,10 @@ class SdkmanBashEnvBuilder {
         curlStub.map { cs -> cs.build() }
 
         initializeCandidates(sdkmanCandidatesDir, candidates)
-        initializeAvailableCandidates(sdkmanVarDir, availableCandidates)
+        initializeCandidatesCache(sdkmanVarDir, candidatesCache)
         initializeBroadcast(sdkmanVarDir, broadcast)
         initializeConfiguration(sdkmanEtcDir, config)
-        initializeVersionFile(sdkmanVarDir, versionFile)
+        initializeVersionCache(sdkmanVarDir, versionCache)
 
         primeInitScript(sdkmanBinDir)
         primeModuleScripts(sdkmanSrcDir)
@@ -143,7 +143,7 @@ class SdkmanBashEnvBuilder {
         directory
     }
 
-    private initializeVersionFile(File folder, String version) {
+    private initializeVersionCache(File folder, String version) {
         if (version) {
             new File(folder, "version") << version
         }
@@ -156,7 +156,7 @@ class SdkmanBashEnvBuilder {
         }
     }
 
-    private initializeAvailableCandidates(File folder, List candidates) {
+    private initializeCandidatesCache(File folder, List candidates) {
         def candidatesCache = new File(folder, "candidates")
         if (candidates) {
             candidatesCache << candidates.join(",")

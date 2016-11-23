@@ -93,7 +93,7 @@ And(~'^an initialised environment$') {->
         .withCurrentService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
-        .withVersionFile(sdkmanVersion)
+        .withVersionCache(sdkmanVersion)
         .withSdkmanVersion(sdkmanVersion)
         .build()
 }
@@ -105,7 +105,7 @@ And(~'^an outdated initialised environment$') {->
         .withCurrentService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
-        .withVersionFile(sdkmanVersionOutdated)
+        .withVersionCache(sdkmanVersionOutdated)
         .withSdkmanVersion(sdkmanVersionOutdated)
         .build()
 

@@ -2,9 +2,11 @@ package sdkman.specs
 
 import sdkman.support.SdkmanEnvSpecification
 
+import static java.lang.System.currentTimeMillis
+
 class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
 
-    static final DAY_AND_MINUTE_IN_MILLIS = 24 * 61 * 60 * 1000
+    static final MORE_THAN_A_DAY_IN_MILLIS = 24 * 61 * 60 * 1000
 
     static final LEGACY_API = "http://localhost:8080/1"
     static final LEGACY_CANDIDATES_ENDPOINT = "$LEGACY_API/candidates"
@@ -14,167 +16,162 @@ class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
     static final CURRENT_API = "http://localhost:8080/2"
     static final CURRENT_CANDIDATES_ENDPOINT = "$CURRENT_API/candidates/all"
 
-    File candidatesFile
+    File candidatesCache
 
     def setup() {
-        candidatesFile = new File("${sdkmanDotDirectory}/var", "candidates")
+        candidatesCache = new File("${sdkmanDotDirectory}/var", "candidates")
         curlStub.primeWith(LEGACY_VERSIONS_STABLE_ENDPOINT, "echo x.y.y")
                 .primeWith(LEGACY_VERSIONS_BETA_ENDPOINT, "echo x.y.z")
         sdkmanBashEnvBuilder.withConfiguration("sdkman_debug_mode", "true")
     }
 
     void "should not query server if unexpired candidates cache is found"() {
-        given: 'a working sdkman installation with candidates file'
+        given:
         bash = sdkmanBashEnvBuilder
-                .withAvailableCandidates(['gradle', 'sbt'])
+                .withCandidatesCache(['gradle', 'sbt'])
                 .build()
 
         and:
         bash.start()
 
-        when: 'bootstrap the system'
+        when:
         bash.execute("source $bootstrapScript")
 
         then:
-        candidatesFile.exists()
-        candidatesFile.text.contains("gradle,sbt")
+        candidatesCache.exists()
+        candidatesCache.text.contains("gradle,sbt")
     }
 
     void "legacy should fetch and store candidates in cache if cache is empty"() {
-        given: 'a working sdkman installation without candidates'
+        given:
         curlStub.primeWith(LEGACY_CANDIDATES_ENDPOINT, "echo groovy,scala")
         bash = sdkmanBashEnvBuilder
-                .withAvailableCandidates([])
+                .withCandidatesCache([])
                 .withLegacyService(LEGACY_API)
                 .build()
 
         and:
         bash.start()
 
-        when: 'bootstrap the system'
+        when:
         bash.execute("source $bootstrapScript")
 
         then:
-        candidatesFile.exists()
-        candidatesFile.text.contains("groovy,scala")
+        candidatesCache.exists()
+        candidatesCache.text.contains("groovy,scala")
     }
 
     void "legacy should fetch candidates and refresh cache if older than a day"() {
-        given: 'a working sdkman installation with expired candidates'
+        given:
         curlStub.primeWith(LEGACY_CANDIDATES_ENDPOINT, "echo groovy,scala")
         bash = sdkmanBashEnvBuilder
                 .withLegacyService(LEGACY_API)
-                .withAvailableCandidates(['groovy'])
+                .withCandidatesCache(['groovy'])
                 .build()
 
         and:
-        def twoDaysAgo = System.currentTimeMillis() - DAY_AND_MINUTE_IN_MILLIS
-        candidatesFile.setLastModified(twoDaysAgo)
+        candidatesCache.setLastModified(currentTimeMillis() - MORE_THAN_A_DAY_IN_MILLIS)
 
         and:
         bash.start()
 
-        when: 'bootstrap the system'
+        when:
         bash.execute("source $bootstrapScript")
 
         then:
-        candidatesFile.exists()
-        candidatesFile.text.contains('groovy,scala')
+        candidatesCache.exists()
+        candidatesCache.text.contains('groovy,scala')
     }
 
     void "legacy should ignore candidates if api is offline"() {
-        given: 'a working sdkman installation with api down'
+        given:
         def candidates = ['groovy', 'scala']
         curlStub.primeWith(LEGACY_CANDIDATES_ENDPOINT, "echo ''")
         bash = sdkmanBashEnvBuilder
                 .withLegacyService(LEGACY_API)
-                .withAvailableCandidates(candidates)
+                .withCandidatesCache(candidates)
                 .build()
 
         and:
-        def twoDaysAgo = System.currentTimeMillis() - DAY_AND_MINUTE_IN_MILLIS
-        candidatesFile.setLastModified(twoDaysAgo)
+        candidatesCache.setLastModified(currentTimeMillis() - MORE_THAN_A_DAY_IN_MILLIS)
 
         and:
         bash.start()
 
-        when: 'bootstrap the system'
+        when:
         bash.execute("source $bootstrapScript")
 
         then:
-        candidatesFile.text.contains(candidates.join(','))
+        candidatesCache.text.contains(candidates.join(','))
     }
 
     void "legacy should ignore candidates if api returns garbage"() {
-        given: 'a working sdkman installation with garbled api'
+        given:
         def candidates = ['groovy', 'scala']
         curlStub.primeWith(LEGACY_CANDIDATES_ENDPOINT, "echo '<html><title>sorry</title></html>'")
         bash = sdkmanBashEnvBuilder
                 .withLegacyService(LEGACY_API)
-                .withAvailableCandidates(candidates)
+                .withCandidatesCache(candidates)
                 .build()
 
         and:
-        def twoDaysAgo = System.currentTimeMillis() - DAY_AND_MINUTE_IN_MILLIS
-        candidatesFile.setLastModified(twoDaysAgo)
+        candidatesCache.setLastModified(currentTimeMillis() - MORE_THAN_A_DAY_IN_MILLIS)
 
         and:
         bash.start()
 
-        when: 'bootstrap the system'
+        when:
         bash.execute("source $bootstrapScript")
 
         then:
-        candidatesFile.text.contains(candidates.join(','))
+        candidatesCache.text.contains(candidates.join(','))
     }
 
     void "legacy should query legacy api if not subscribed to beta channel"() {
-        given: 'a working sdkman installation with expired candidates'
+        given:
         curlStub.primeWith(LEGACY_CANDIDATES_ENDPOINT, "echo groovy,scala")
         bash = sdkmanBashEnvBuilder
                 .withLegacyService(LEGACY_API)
                 .withCurrentService(CURRENT_API)
                 .withConfiguration("sdkman_beta_channel", "false")
-                .withAvailableCandidates(['groovy'])
+                .withCandidatesCache(['groovy'])
                 .build()
 
         and:
-        def twoDaysAgo = System.currentTimeMillis() - DAY_AND_MINUTE_IN_MILLIS
-        candidatesFile.setLastModified(twoDaysAgo)
+        candidatesCache.setLastModified(currentTimeMillis() - MORE_THAN_A_DAY_IN_MILLIS)
 
         and:
         bash.start()
 
-        when: 'bootstrap the system'
+        when:
         bash.execute("source $bootstrapScript")
 
         then:
-        candidatesFile.exists()
-        candidatesFile.text.contains('groovy,scala')
+        candidatesCache.exists()
+        candidatesCache.text.contains('groovy,scala')
     }
 
     void "current should query current api if subscribed to beta channel"() {
-        given: 'a working sdkman installation with expired candidates'
+        given:
         curlStub.primeWith(CURRENT_CANDIDATES_ENDPOINT, "echo groovy,java,scala")
         bash = sdkmanBashEnvBuilder
                 .withLegacyService(LEGACY_API)
                 .withCurrentService(CURRENT_API)
                 .withConfiguration("sdkman_beta_channel", "true")
-                .withAvailableCandidates(['groovy'])
+                .withCandidatesCache(['groovy'])
                 .build()
 
         and:
-        def twoDaysAgo = System.currentTimeMillis() - DAY_AND_MINUTE_IN_MILLIS
-        candidatesFile.setLastModified(twoDaysAgo)
+        candidatesCache.setLastModified(currentTimeMillis() - MORE_THAN_A_DAY_IN_MILLIS)
 
         and:
         bash.start()
 
-        when: 'bootstrap the system'
+        when:
         bash.execute("source $bootstrapScript")
 
         then:
-        candidatesFile.exists()
-        candidatesFile.text.contains('groovy,java,scala')
+        candidatesCache.exists()
+        candidatesCache.text.contains('groovy,java,scala')
     }
 }

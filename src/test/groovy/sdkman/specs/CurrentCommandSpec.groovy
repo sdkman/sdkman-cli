@@ -34,7 +34,7 @@ class CurrentCommandSpec extends SdkmanEnvSpecification {
 
         bash = sdkmanBashEnvBuilder
                 .withOfflineMode(false)
-                .withAvailableCandidates(allCandidates)
+                .withCandidatesCache(allCandidates)
                 .withCandidates(installedCandidates.keySet().toList())
                 .build()
 
