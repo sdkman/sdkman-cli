@@ -114,15 +114,24 @@ fi
 
 # fabricate list of candidates
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
-if [[ -f "$SDKMAN_CANDIDATES_CACHE" && -z "$(find "$SDKMAN_CANDIDATES_CACHE" -mmin +$((60*24)))" ]]; then
+if [[ -f "$SDKMAN_CANDIDATES_CACHE" && -n "$(cat "$SDKMAN_CANDIDATES_CACHE")" && -z "$(find "$SDKMAN_CANDIDATES_CACHE" -mmin +$((60*24)))" ]]; then
+	__sdkman_echo_debug "Using existing candidates cache: $SDKMAN_CANDIDATES_CACHE"
 	SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_CACHE")
 else
     if [[ "$sdkman_beta_channel" == 'true' ]]; then
-        SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_CURRENT_API}/candidates/all")
+        CANDIDATES_URI="${SDKMAN_CURRENT_API}/candidates/all"
     else
-        SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates")
+        CANDIDATES_URI="${SDKMAN_LEGACY_API}/candidates"
     fi
-	echo "$SDKMAN_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_CACHE"
+    __sdkman_echo_debug "Using candidates endpoint: $CANDIDATES_URI"
+    SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl_with_timeouts "$CANDIDATES_URI")
+    __sdkman_echo_debug "Fetched candidates csv: $SDKMAN_CANDIDATES_CSV"
+    DETECT_HTML="$(echo "$SDKMAN_CANDIDATES_CSV" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	if [[ -n "$SDKMAN_CANDIDATES_CSV" && -z "$DETECT_HTML" ]]; then
+	    __sdkman_echo_debug "Overwriting candidates cache with: $SDKMAN_CANDIDATES_CSV"
+        echo "$SDKMAN_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_CACHE"
+        unset CANDIDATES_URI
+	fi
 fi
 
 # Set the candidate array
