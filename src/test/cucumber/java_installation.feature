@@ -64,7 +64,7 @@ Feature: Java Multi Platform Binary Distribution
   Scenario: Platform is not supported for default version and user is notified
     And a machine with "FreeBSD" installed
     And the system is bootstrapped
-    And the default "java" candidate is "8u111"
+    And the default "java" version is "8u111"
     And the candidate "java" version "8u111" is not available for download on "FreeBSD"
     When I enter "sdk install java"
     Then I see "Stop! java 8u111 is not available. Possible causes:"

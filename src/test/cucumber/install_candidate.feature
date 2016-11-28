@@ -7,7 +7,7 @@ Feature: Install Candidate
 
   Scenario: Install a default Candidate
     Given the candidate "grails" version "2.1.0" is a valid candidate version
-    And the default "grails" candidate is "2.1.0"
+    And the default "grails" version is "2.1.0"
     When I enter "sdk install grails" and answer "Y"
     Then I see "Done installing!"
     Then the candidate "grails" version "2.1.0" is installed

@@ -40,7 +40,7 @@ Feature: Mnemonics
 
   Scenario: Shortcut for displaying outdated Candidate Version in use
     Given the candidate "grails" version "1.3.9" is already installed and default
-    And the default "grails" candidate is "2.4.4"
+    And the default "grails" version is "2.4.4"
     And the system is bootstrapped
     When I enter "sdk o grails"
     Then I see "Outdated:"
@@ -48,9 +48,9 @@ Feature: Mnemonics
 
   Scenario: Shortcut for displaying outdated Candidate Versions
     Given  the candidate "grails" version "1.3.9" is already installed and default
-    And the default "grails" candidate is "2.4.4"
+    And the default "grails" version is "2.4.4"
     And the candidate "groovy" version "2.0.5" is already installed and default
-    And the default "groovy" candidate is "2.4.1"
+    And the default "groovy" version is "2.4.1"
     And the system is bootstrapped
     When I enter "sdk o"
     Then I see "Outdated:"

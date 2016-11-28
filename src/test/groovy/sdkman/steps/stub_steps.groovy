@@ -8,7 +8,7 @@ import static sdkman.stubs.WebServiceStub.*
 import static sdkman.support.FilesystemUtils.readCurrentFromCandidateFolder
 import static sdkman.support.FilesystemUtils.readVersionsCsvFromCandidateFolder
 
-And(~'^the default "([^"]*)" candidate is "([^"]*)"$') { String candidate, String version ->
+And(~'^the default "([^"]*)" version is "([^"]*)"$') { String candidate, String version ->
     primeEndpointWithString("/candidates/default/${candidate}", version)
     primeDownloadFor(SERVICE_UP_URL, candidate, version, PLATFORM)
     primeEndpointWithString("/hooks/pre/${candidate}/${version}/${PLATFORM}", preInstallationHookSuccess())
