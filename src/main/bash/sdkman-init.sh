@@ -60,35 +60,6 @@ case "$(uname)" in
         freebsd=true
 esac
 
-# For Cygwin, ensure paths are in UNIX format before anything is touched.
-if ${cygwin} ; then
-    [ -n "$JAVACMD" ] && JAVACMD=$(cygpath --unix "$JAVACMD")
-    [ -n "$JAVA_HOME" ] && JAVA_HOME=$(cygpath --unix "$JAVA_HOME")
-    [ -n "$CP" ] && CP=$(cygpath --path --unix "$CP")
-fi
-
-# Attempt to set JAVA_HOME if it's not already set.
-if [ -z "$JAVA_HOME" ] ; then
-    if ${darwin} ; then
-        [ -z "$JAVA_HOME" -a -f "/usr/libexec/java_home" ] && export JAVA_HOME=$(/usr/libexec/java_home)
-        [ -z "$JAVA_HOME" -a -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
-        [ -z "$JAVA_HOME" -a -d "/System/Library/Frameworks/JavaVM.framework/Home" ] && export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
-    else
-        javaExecutable="$(which javac 2> /dev/null)"
-        [[ -z "$javaExecutable" ]] && echo "SDKMAN: JAVA_HOME not set and cannot find javac to deduce location, please set JAVA_HOME." && return
-
-        readLink="$(which readlink 2> /dev/null)"
-        [[ -z "$readLink" ]] && echo "SDKMAN: JAVA_HOME not set and readlink not available, please set JAVA_HOME." && return
-
-        javaExecutable="$(readlink -f "$javaExecutable")"
-        javaHome="$(dirname "$javaExecutable")"
-        javaHome=$(expr "$javaHome" : '\(.*\)/bin')
-        JAVA_HOME="$javaHome"
-        [[ -z "$JAVA_HOME" ]] && echo "SDKMAN: could not find java, please set JAVA_HOME" && return
-        export JAVA_HOME
-    fi
-fi
-
 # Source sdkman module scripts.
 for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
     source "${SDKMAN_DIR}/src/${f}"
