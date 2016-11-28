@@ -15,13 +15,26 @@ Feature: Java Multi Platform Binary Distribution
     Given the internet is reachable
     And an initialised environment
 
-  Scenario: Platform is supported and a compatible binary is installed
+  Scenario: Platform is supported and a specific version of compatible binary is installed
     Given a machine with "Linux" installed
     And the system is bootstrapped
     And the candidate "java" version "8u111" is available for download on "Linux"
     And a cookie is required for installing "java" "8u111" on "Linux"
     And the appropriate multi-platform hooks are available for "java" version "8u111" on "Linux"
     When I enter "sdk install java 8u111", accept the license agreement and confirm to make this the default installation
+    Then a download request was made for "java" "8u111" on "Linux" with cookie "oraclelicense=accept-securebackup-cookie"
+    And I see "Done installing!"
+    And the candidate "java" version "8u111" is installed
+    And the cookie has been removed
+
+  Scenario: Platform is supported and a default version of compatible binary is installed
+    Given a machine with "Linux" installed
+    And the system is bootstrapped
+    And the default "java" version is "8u111"
+    And the candidate "java" version "8u111" is available for download on "Linux"
+    And a cookie is required for installing "java" "8u111" on "Linux"
+    And the appropriate multi-platform hooks are available for "java" version "8u111" on "Linux"
+    When I enter "sdk install java", accept the license agreement and confirm to make this the default installation
     Then a download request was made for "java" "8u111" on "Linux" with cookie "oraclelicense=accept-securebackup-cookie"
     And I see "Done installing!"
     And the candidate "java" version "8u111" is installed
