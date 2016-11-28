@@ -51,11 +51,22 @@ Feature: Java Multi Platform Binary Distribution
     And I see "Can not install java 8u101 at this time..."
     And the cookie has been removed
 
-  Scenario: Platform is not supported and user is notified
+  Scenario: Platform is not supported for specific version and user is notified
     And a machine with "FreeBSD" installed
     And the system is bootstrapped
     And the candidate "java" version "8u111" is not available for download on "FreeBSD"
     When I enter "sdk install java 8u111"
+    Then I see "Stop! java 8u111 is not available. Possible causes:"
+    Then I see " * 8u111 is an invalid version"
+    Then I see " * java binaries are incompatible with FreeBSD"
+    And the candidate "java" version "8u111" is not installed
+
+  Scenario: Platform is not supported for default version and user is notified
+    And a machine with "FreeBSD" installed
+    And the system is bootstrapped
+    And the default "java" candidate is "8u111"
+    And the candidate "java" version "8u111" is not available for download on "FreeBSD"
+    When I enter "sdk install java"
     Then I see "Stop! java 8u111 is not available. Possible causes:"
     Then I see " * 8u111 is an invalid version"
     Then I see " * java binaries are incompatible with FreeBSD"
