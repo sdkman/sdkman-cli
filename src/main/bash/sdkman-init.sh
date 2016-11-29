@@ -89,11 +89,7 @@ if [[ -f "$SDKMAN_CANDIDATES_CACHE" && -n "$(cat "$SDKMAN_CANDIDATES_CACHE")" &&
 	__sdkman_echo_debug "Using existing candidates cache: $SDKMAN_CANDIDATES_CACHE"
 	SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_CACHE")
 else
-    if [[ "$sdkman_beta_channel" == 'true' ]]; then
-        CANDIDATES_URI="${SDKMAN_CURRENT_API}/candidates/all"
-    else
-        CANDIDATES_URI="${SDKMAN_LEGACY_API}/candidates"
-    fi
+    CANDIDATES_URI="${SDKMAN_CURRENT_API}/candidates/all"
     __sdkman_echo_debug "Using candidates endpoint: $CANDIDATES_URI"
     SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl_with_timeouts "$CANDIDATES_URI")
     __sdkman_echo_debug "Fetched candidates csv: $SDKMAN_CANDIDATES_CSV"
