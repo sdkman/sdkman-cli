@@ -52,14 +52,15 @@ class InitialisationSpec extends SdkmanEnvSpecification {
         bash.execute("source $bootstrapScript")
         bash.resetOutput()
 
-        when:
+        and:
         def originalPath = bash.env.grep { it =~ /^PATH=/ }.first() as String
         bash.execute(originalPath)
 
-        and:
+        when:
         bash.execute("source $bootstrapScript")
         bash.execute('echo "$PATH"')
 
+        then:
         def pathParts = bash.output.split(':')
         def pathElementMatcher = ~/$candidatesDirectory\/([^\/]+)\/.*/
         def includedCandidates = pathParts
@@ -72,10 +73,7 @@ class InitialisationSpec extends SdkmanEnvSpecification {
         println("Available: $allCandidates")
         println("Included : $includedCandidates")
 
-        and:
         def missingCandidates = allCandidates - includedCandidates
-
-        then:
         missingCandidates.isEmpty()
     }
 
