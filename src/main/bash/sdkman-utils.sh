@@ -55,10 +55,10 @@ function __sdkman_secure_curl_with_timeouts {
 }
 
 function __sdkman_page {
-    local PAGER="${PAGER-$(which less)}"
-
     if [[ -n "$PAGER" ]]; then
-        "$@" | "$PAGER"
+        "$@" | $PAGER
+    elif command -v less >& /dev/null; then
+        "$@" | less
     else
         "$@"
     fi
