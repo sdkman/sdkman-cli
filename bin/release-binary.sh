@@ -1,6 +1,7 @@
 #!/bin/bash
 
 BRANCH="$1"
+BUILD_NUMBER="$2"
 if [[ "$BRANCH" != 'master' ]]; then
     FIELD="cliVersion"
     VERSION="$BRANCH+$BUILD_NUMBER"
