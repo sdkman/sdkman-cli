@@ -15,5 +15,4 @@ fi
 
 echo "Release: $FIELD $VERSION"
 
-mongo "$MONGO_URL" --username="$MONGO_USERNAME" --password="$MONGO_PASSWORD" \\
-    -eval "db.application.updateOne({}, { $set: { \"$FIELD\": \"$VERSION\"}});"
+mongo "$MONGO_URL" --username="$MONGO_USERNAME" --password="$MONGO_PASSWORD" -eval "db.application.updateOne({}, { $set: { \"$FIELD\": \"$VERSION\"}});"
