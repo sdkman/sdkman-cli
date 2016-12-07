@@ -2,15 +2,18 @@
 
 BRANCH="$1"
 BUILD_NUMBER="$2"
-if [[ "$BRANCH" != 'master' ]]; then
-    FIELD="cliVersion"
-    VERSION="$BRANCH+$BUILD_NUMBER"
-else
+MONGO_URL="$3"
+MONGO_USERNAME="$4"
+MONGO_PASSWORD="$5"
+VERSION="$BRANCH+$BUILD_NUMBER"
+
+if [[ "$BRANCH" == 'master' ]]; then
     FIELD="betaCliVersion"
-    VERSION="master+$BUILD_NUMBER"
+else
+    FIELD="cliVersion"
 fi
 
-echo "Release: $FIELD $VERSION for $BRANCH"
+echo "Release: $FIELD $VERSION"
 
-#mongo $MONGO_URL --username=$MONGO_USERNAME --password=$MONGO_PASSWORD \\
-#    -eval "db.application.updateOne({}, { $set: { \"$FIELD\": \"$VERSION\"}});"
+mongo "$MONGO_URL" --username="$MONGO_USERNAME" --password="$MONGO_PASSWORD" \\
+    -eval "db.application.updateOne({}, { $set: { \"$FIELD\": \"$VERSION\"}});"
