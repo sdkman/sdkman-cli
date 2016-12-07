@@ -19,9 +19,6 @@ sed -i "s/master/$VERSION/g" config.groovy
 git add config.groovy
 git commit -m "Update version of $BRANCH to $VERSION"
 
-#push branch
-git push -f origin "$BRANCH:$BRANCH"
-
 #push tag
 git tag "$VERSION"
 git push origin "$VERSION"
