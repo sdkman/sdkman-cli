@@ -108,6 +108,7 @@ task install(dependsOn: [installInit, installModules])
 bintray {
     user = System.getenv('BINTRAY_USERNAME')
     key = System.getenv('BINTRAY_API_KEY')
+    publish = true
     filesSpec {
         from 'build/distributions'
         into '.'
