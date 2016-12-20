@@ -58,3 +58,51 @@ Feature: Outdated Candidate
     And the system is bootstrapped
     When I enter "sdk outdated"
     Then I see "All candidates are up-to-date"
+
+  Scenario: Update all outdated candidates versions and set them as default when none is specified and one is in use
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the default "grails" version is "2.1.0"
+    And the candidate "grails" version "2.1.0" is available for download
+    And the system is bootstrapped
+    When I enter "sdk outdated" and answer "Y"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.1.0)"
+    And I see "Do you want to update all candidates and set latest versions as default? (Y/n)"
+    And I see "Do you want grails 2.1.0 to be set as default? (Y/n)"
+    And I see "Setting grails 2.1.0 as default."
+    Then the candidate "grails" version "2.1.0" should be the default
+
+  Scenario: Don't update all outdated candidates versions and set them as default when none is specified and one is in use
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the default "grails" version is "2.1.0"
+    And the candidate "grails" version "2.1.0" is available for download
+    And the system is bootstrapped
+    When I enter "sdk outdated" and answer "N"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.1.0)"
+    And I see "Do you want to update all candidates and set latest versions as default? (Y/n)"
+    Then the candidate "grails" version "1.3.9" should be the default
+
+  Scenario: Update outdated candidate version and set it as default when is in use
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the default "grails" version is "2.1.0"
+    And the candidate "grails" version "2.1.0" is available for download
+    And the system is bootstrapped
+    When I enter "sdk outdated grails" and answer "Y"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.1.0)"
+    And I see "Do you want to update all candidates and set latest versions as default? (Y/n)"
+    And I see "Do you want grails 2.1.0 to be set as default? (Y/n)"
+    And I see "Setting grails 2.1.0 as default."
+    Then the candidate "grails" version "2.1.0" should be the default
+
+  Scenario: Don't update outdated candidate version and set it as default when is in use
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the default "grails" version is "2.1.0"
+    And the candidate "grails" version "2.1.0" is available for download
+    And the system is bootstrapped
+    When I enter "sdk outdated grails" and answer "N"
+    Then I see "Outdated:"
+    And I see "grails (1.3.9 < 2.1.0)"
+    And I see "Do you want to update all candidates and set latest versions as default? (Y/n)"
+    Then the candidate "grails" version "1.3.9" should be the default

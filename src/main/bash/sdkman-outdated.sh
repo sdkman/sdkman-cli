@@ -17,7 +17,7 @@
 #
 
 function __sdk_outdated {
-    local all candidates candidate outdated installed_count outdated_count
+    local all candidates candidate outdated installed_count outdated_count outdated_candidates
     if [ -n "$1" ]; then
         all=false
         candidates=$1
@@ -43,6 +43,7 @@ function __sdk_outdated {
                     [ ${outdated_count} -eq 0 ] && echo "Outdated:"
                     echo "$outdated"
                     (( outdated_count += 1 ))
+                    outdated_candidates=(${outdated_candidates[@]} $candidate)
                 fi
                 (( installed_count += 1 ))
                 ;;
@@ -56,6 +57,15 @@ function __sdk_outdated {
         fi
     elif [ ${outdated_count} -eq 0 ]; then
         echo "${candidate} is up-to-date"
+    fi
+    if [ ${outdated_count} -gt 0 ]; then
+        echo -n "Do you want to update all candidates and set latest versions as default? (Y/n): "
+        read UPDATE_ALL
+        if [[ -z "$UPDATE_ALL" || "$UPDATE_ALL" == "y" || "$UPDATE_ALL" == "Y" ]]; then
+        for outdated_candidate in ${outdated_candidates}; do
+            echo "Y" | __sdk_install $outdated_candidate
+        done
+        fi
     fi
 }
 
