@@ -59,13 +59,16 @@ function __sdk_outdated {
         echo "${candidate} is up-to-date"
     fi
     if [ ${outdated_count} -gt 0 ]; then
-        echo -n "Do you want to update all candidates and set latest versions as default? (Y/n): "
+        echo -n "Update candidate(s) and set latest version(s) as default? (Y/n): "
         read UPDATE_ALL
+        local auto_answer_backup="$sdkman_auto_answer"
+        export sdkman_auto_answer='true'
         if [[ -z "$UPDATE_ALL" || "$UPDATE_ALL" == "y" || "$UPDATE_ALL" == "Y" ]]; then
-        for outdated_candidate in ${outdated_candidates}; do
-            echo "Y" | __sdk_install $outdated_candidate
-        done
+            for outdated_candidate in ${outdated_candidates}; do
+                __sdk_install $outdated_candidate
+            done
         fi
+        sdkman_auto_answer="$auto_answer_backup"
     fi
 }
 
