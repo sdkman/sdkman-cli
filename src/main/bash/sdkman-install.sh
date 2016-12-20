@@ -35,7 +35,7 @@ function __sdk_install {
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
 		__sdkman_install_candidate_version "$candidate" "$VERSION" || return 1
 
-		if [[ "$sdkman_auto_answer" != 'true' ]]; then
+		if [[ "$sdkman_auto_answer" != 'true' && "$auto_answer_outdated" != 'true' ]]; then
 			echo -n "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
