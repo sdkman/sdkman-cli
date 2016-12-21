@@ -43,6 +43,7 @@ Feature: Install Candidate
     And I have configured "sdkman_auto_answer" to "true"
     When I enter "sdk install grails 2.1.0"
     Then the candidate "grails" version "2.1.0" is installed
+    And I do not see "Do you want grails 2.1.0 to be set as default?"
     And I see "Done installing!"
     And I see "Setting grails 2.1.0 as default."
     Then the candidate "grails" version "2.1.0" should be the default
