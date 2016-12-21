@@ -33,9 +33,10 @@ function __sdk_install {
 	fi
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
+		__sdkman_determine_current_version "$candidate"
 		__sdkman_install_candidate_version "$candidate" "$VERSION" || return 1
 
-		if [[ "$sdkman_auto_answer" != 'true' && "$auto_answer_outdated" != 'true' ]]; then
+		if [[ "$sdkman_auto_answer" != 'true' && "$auto_answer_outdated" != 'true' && -n "$CURRENT"]]; then
 			echo -n "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
