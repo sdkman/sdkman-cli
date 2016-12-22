@@ -38,24 +38,21 @@ Feature: Mnemonics
     And I see "grails: 2.1.0"
     And I see "groovy: 2.0.5"
 
-  Scenario: Shortcut for displaying outdated Candidate Version in use
+  Scenario: Shortcut for displaying upgradable Candidate Version in use
+    Given the candidate "grails" version "1.3.9" is already installed and default
+    And the default "grails" version is "2.4.4"
+    And the system is bootstrapped
+    When I enter "sdk ug grails"
+    Then I see "Upgrade:"
+    And I see "grails (1.3.9 < 2.4.4)"
+
+  Scenario: Deprecated shortcut for displaying upgradable Candidate Version in use, supported for backwards compatibility
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" version is "2.4.4"
     And the system is bootstrapped
     When I enter "sdk o grails"
-    Then I see "Outdated:"
+    Then I see "Upgrade:"
     And I see "grails (1.3.9 < 2.4.4)"
-
-  Scenario: Shortcut for displaying outdated Candidate Versions
-    Given  the candidate "grails" version "1.3.9" is already installed and default
-    And the default "grails" version is "2.4.4"
-    And the candidate "groovy" version "2.0.5" is already installed and default
-    And the default "groovy" version is "2.4.1"
-    And the system is bootstrapped
-    When I enter "sdk o"
-    Then I see "Outdated:"
-    And I see "grails (1.3.9 < 2.4.4)"
-    And I see "groovy (2.0.5 < 2.4.1)"
 
   Scenario: Shortcut for installing a Candidate Version
     Given the candidate "grails" version "2.1.0" is not installed
@@ -102,4 +99,3 @@ Feature: Mnemonics
     And the system is bootstrapped
     When I enter "sdk b"
     Then I see "This is a LIVE Broadcast!"
-
