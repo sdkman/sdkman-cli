@@ -28,7 +28,7 @@ function __sdk_list {
 
 function __sdkman_list_candidates {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
-		echo "This command is not available while offline."
+		__sdkman_echo_red "This command is not available while offline."
 	else
 		__sdkman_page echo "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/list")"
 	fi
@@ -44,7 +44,7 @@ function __sdkman_list_versions {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_offline_list "$candidate" "$versions_csv"
 	else
-        echo "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
+        __sdkman_echo_white "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
 	fi
 }
 
@@ -71,28 +71,28 @@ function __sdkman_offline_list {
 	candidate="$1"
 	versions_csv="$2"
 
-	echo "------------------------------------------------------------"
-	echo "Offline: only showing installed ${candidate} versions"
-	echo "------------------------------------------------------------"
-	echo "                                                            "
+	__sdkman_echo_white "------------------------------------------------------------"
+	__sdkman_echo_yellow "Offline: only showing installed ${candidate} versions"
+	__sdkman_echo_white "------------------------------------------------------------"
+	echo ""
 
 	local versions=($(echo ${versions_csv//,/ }))
 	for (( i=0 ; i <= ${#versions} ; i++ )); do
 		if [[ -n "${versions[${i}]}" ]]; then
 			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
-				echo -e " > ${versions[${i}]}"
+				__sdkman_echo_white " > ${versions[${i}]}"
 			else
-				echo -e " * ${versions[${i}]}"
+				__sdkman_echo_white " * ${versions[${i}]}"
 			fi
 		fi
 	done
 
 	if [[ -z "${versions[@]}" ]]; then
-		echo "   None installed!"
+		__sdkman_echo_yellow "   None installed!"
 	fi
 
-	echo "------------------------------------------------------------"
-	echo "* - installed                                               "
-	echo "> - currently in use                                        "
-	echo "------------------------------------------------------------"
+	__sdkman_echo_white "------------------------------------------------------------"
+	__sdkman_echo_white "* - installed                                               "
+	__sdkman_echo_white "> - currently in use                                        "
+	__sdkman_echo_white "------------------------------------------------------------"
 }

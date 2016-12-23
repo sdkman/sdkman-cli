@@ -27,21 +27,22 @@ function __sdk_outdated {
     fi
     installed_count=0
     outdated_count=0
+    echo ""
     for candidate in ${candidates}; do
         outdated="$(__sdkman_determine_outdated_version "$candidate")"
         case $? in
             1)
-                $all || echo "Not using any version of ${candidate}"
+                $all || __sdkman_echo_red "Not using any version of ${candidate}"
                 ;;
             2)
                 echo ""
-                echo "Stop! Could not get remote version of ${candidate}"
+                __sdkman_echo_red "Stop! Could not get remote version of ${candidate}"
                 return 1
                 ;;
             *)
                 if [ -n "$outdated" ]; then
-                    [ ${outdated_count} -eq 0 ] && echo "Outdated:"
-                    echo "$outdated"
+                    [ ${outdated_count} -eq 0 ] && __sdkman_echo_white "Outdated:"
+                    __sdkman_echo_white "$outdated"
                     (( outdated_count += 1 ))
                     outdated_candidates=(${outdated_candidates[@]} $candidate)
                 fi
@@ -51,16 +52,16 @@ function __sdk_outdated {
     done
     if $all; then
         if [ ${installed_count} -eq 0 ]; then
-            echo 'No candidates are in use'
+            __sdkman_echo_white 'No candidates are in use'
         elif [ ${outdated_count} -eq 0 ]; then
-            echo "All candidates are up-to-date"
+            __sdkman_echo_white "All candidates are up-to-date"
         fi
     elif [ ${outdated_count} -eq 0 ]; then
-        echo "${candidate} is up-to-date"
+        __sdkman_echo_white "${candidate} is up-to-date"
     fi
     if [ ${outdated_count} -gt 0 ]; then
         echo ""
-        echo -n "Update candidate(s) and set latest version(s) as default? (Y/n): "
+        __sdkman_echo_confirm "Update candidate(s) and set latest version(s) as default? (Y/n): "
         read UPDATE_ALL
         export auto_answer_outdated='true'
         if [[ -z "$UPDATE_ALL" || "$UPDATE_ALL" == "y" || "$UPDATE_ALL" == "Y" ]]; then
@@ -91,6 +92,6 @@ function __sdkman_determine_outdated_version {
 
     # Check outdated or not
     if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${remote_default_version}" ]; then
-        echo "${candidate} (${local_versions} < ${remote_default_version})"
+        __sdkman_echo_yellow "${candidate} (${local_versions} < ${remote_default_version})"
     fi
 }

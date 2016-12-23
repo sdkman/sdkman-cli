@@ -23,25 +23,25 @@ function __sdk_flush {
 		candidates)
 			if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
 		        rm "${SDKMAN_DIR}/var/candidates"
-		        echo "Candidates have been flushed."
+		        __sdkman_echo_green "Candidates have been flushed."
 		    else
-		        echo "No candidate list found so not flushed."
+		        __sdkman_echo_white "No candidate list found so not flushed."
 		    fi
 		    ;;
 		broadcast)
 			if [[ -f "${SDKMAN_DIR}/var/broadcast" ]]; then
 		        rm "${SDKMAN_DIR}/var/broadcast"
-		        echo "Broadcast has been flushed."
+		        __sdkman_echo_green "Broadcast has been flushed."
 		    else
-		        echo "No prior broadcast found so not flushed."
+		        __sdkman_echo_white "No prior broadcast found so not flushed."
 		    fi
 		    ;;
 		version)
 			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
 		        rm "${SDKMAN_DIR}/var/version"
-		        echo "Version file has been flushed."
+		        __sdkman_echo_green "Version file has been flushed."
 		    else
-		        echo "No prior Remote Version found so not flushed."
+		        __sdkman_echo_white "No prior Remote Version found so not flushed."
 		    fi
 		    ;;
 		archives)
@@ -54,7 +54,7 @@ function __sdk_flush {
 			__sdkman_cleanup_folder "tmp"
 		    ;;
 		*)
-			echo "Stop! Please specify what you want to flush."
+			__sdkman_echo_red "Stop! Please specify what you want to flush."
 			;;
 	esac
 }
@@ -68,5 +68,5 @@ function __sdkman_cleanup_folder {
 	rm -rf "${SDKMAN_DIR}/${folder}"
 	mkdir "${SDKMAN_DIR}/${folder}"
 
-	echo "${sdkman_cleanup_count} archive(s) flushed, freeing ${sdkman_cleanup_disk_usage}."
+	__sdkman_echo_green "${sdkman_cleanup_count} archive(s) flushed, freeing ${sdkman_cleanup_disk_usage}."
 }

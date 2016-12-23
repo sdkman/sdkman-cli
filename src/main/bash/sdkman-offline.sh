@@ -20,10 +20,10 @@ function __sdk_offline {
 	local mode="$1"
 	if [[ -z "$mode" || "$mode" == "enable" ]]; then
 		SDKMAN_OFFLINE_MODE="true"
-		echo "Offline mode enabled."
+		__sdkman_echo_green "Offline mode enabled."
 	fi
 	if [[ "$mode" == "disable" ]]; then
 		SDKMAN_OFFLINE_MODE="false"
-		echo "Online mode re-enabled!"
+		__sdkman_echo_green "Online mode re-enabled!"
 	fi
 }

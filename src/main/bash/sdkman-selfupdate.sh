@@ -44,13 +44,13 @@ function __sdkman_auto_update {
     if [[ -n "$(find "$delay_upgrade" -mtime +1)" && "$remote_version" != "$version" ]]; then
         echo ""
         echo ""
-        echo "ATTENTION: A new version of SDKMAN is available..."
+        __sdkman_echo_yellow "ATTENTION: A new version of SDKMAN is available..."
         echo ""
-        echo "The current version is $remote_version, but you have $version."
+        __sdkman_echo_white "The current version is $remote_version, but you have $version."
         echo ""
 
         if [[ "$sdkman_auto_selfupdate" != "true" ]]; then
-            echo -n "Would you like to upgrade now? (Y/n)"
+            __sdkman_echo_confirm "Would you like to upgrade now? (Y/n)"
             read upgrade
         fi
 
@@ -60,7 +60,7 @@ function __sdkman_auto_update {
             __sdk_selfupdate
             unset upgrade
         else
-            echo "Not upgrading today..."
+            __sdkman_echo_white "Not upgrading today..."
         fi
 
         touch "$delay_upgrade"

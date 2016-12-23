@@ -18,8 +18,8 @@
 
 function __sdk_broadcast {
 	if [ "$BROADCAST_OLD_TEXT" ]; then
-		echo "$BROADCAST_OLD_TEXT"
+		__sdkman_echo_cyan "$BROADCAST_OLD_TEXT"
 	else
-		echo "$BROADCAST_LIVE_TEXT"
+		__sdkman_echo_cyan "$BROADCAST_LIVE_TEXT"
 	fi
 }

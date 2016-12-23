@@ -93,13 +93,15 @@ function sdk {
 	# Check whether the candidate exists
 	local sdkman_valid_candidate=$(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER")
 	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && -z "$sdkman_valid_candidate" ]]; then
-		echo -e "\nStop! $QUALIFIER is not a valid candidate."
+		echo ""
+		__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
 		return 1
 	fi
 
 	# Validate offline qualifier
 	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && -z $(echo "enable disable" | grep -w "$QUALIFIER") ]]; then
-		echo -e "\nStop! $QUALIFIER is not a valid offline mode."
+		echo ""
+		__sdkman_echo_red "Stop! $QUALIFIER is not a valid offline mode."
 	fi
 
 	# Check whether the command exists as an internal function...

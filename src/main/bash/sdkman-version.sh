@@ -17,5 +17,6 @@
 #
 
 function __sdk_version {
-	echo "SDKMAN ${SDKMAN_VERSION}"
+	echo ""
+	__sdkman_echo_yellow "SDKMAN ${SDKMAN_VERSION}"
 }

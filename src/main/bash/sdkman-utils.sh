@@ -63,3 +63,31 @@ function __sdkman_page {
         "$@"
     fi
 }
+
+function __sdkman_echo {
+    echo -e "\e[1;$1$2\e[0m"
+}
+
+function __sdkman_echo_red {
+    __sdkman_echo "31m" "$1"
+}
+
+function __sdkman_echo_white {
+    __sdkman_echo "37m" "$1"
+}
+
+function __sdkman_echo_yellow {
+    __sdkman_echo "33m" "$1"
+}
+
+function __sdkman_echo_green {
+    __sdkman_echo "32m" "$1"
+}
+
+function __sdkman_echo_cyan {
+    __sdkman_echo "36m" "$1"
+}
+
+function __sdkman_echo_confirm {
+    echo -n "\e[1;33m$1\e[0m"
+}

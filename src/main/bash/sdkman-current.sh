@@ -19,12 +19,13 @@
 function __sdk_current {
 	local candidate="$1"
 
+    echo ""
 	if [ -n "$candidate" ]; then
 		__sdkman_determine_current_version "$candidate"
 		if [ -n "$CURRENT" ]; then
-			echo "Using ${candidate} version ${CURRENT}"
+			__sdkman_echo_white "Using ${candidate} version ${CURRENT}"
 		else
-			echo "Not using any version of ${candidate}"
+			__sdkman_echo_red "Not using any version of ${candidate}"
 		fi
 	else
 		local installed_count=0
@@ -34,15 +35,16 @@ function __sdk_current {
 				__sdkman_determine_current_version "${SDKMAN_CANDIDATES[${i}]}"
 				if [ -n "$CURRENT" ]; then
 					if [ ${installed_count} -eq 0 ]; then
-						echo 'Using:'
+						__sdkman_echo_white 'Using:'
+						echo ""
 					fi
-					echo "${SDKMAN_CANDIDATES[${i}]}: ${CURRENT}"
+					__sdkman_echo_white "${SDKMAN_CANDIDATES[${i}]}: ${CURRENT}"
 					(( installed_count += 1 ))
 				fi
 			fi
 		done
 		if [ ${installed_count} -eq 0 ]; then
-			echo 'No candidates are in use'
+			__sdkman_echo_white 'No candidates are in use'
 		fi
 	fi
 }

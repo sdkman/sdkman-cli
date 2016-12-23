@@ -20,7 +20,8 @@ function __sdkman_check_candidate_present {
 	local candidate="$1"
 
 	if [ -z "$candidate" ]; then
-		echo -e "\nNo candidate provided."
+		echo ""
+		__sdkman_echo_red "No candidate provided."
 		__sdk_help
 		return 1
 	fi
@@ -30,7 +31,8 @@ function __sdkman_check_version_present {
 	local version="$1"
 
 	if [ -z "$version" ]; then
-		echo -e "\nNo candidate version provided."
+	    echo ""
+		__sdkman_echo_red "No candidate version provided."
 		__sdk_help
 		return 1
 	fi
@@ -50,11 +52,11 @@ function __sdkman_determine_version {
 		VERSION=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
 
 	elif [[ "$SDKMAN_AVAILABLE" == "false" && -n "$version" ]]; then
-		echo "Stop! ${candidate} ${version} is not available while offline."
+		__sdkman_echo_red "Stop! ${candidate} ${version} is not available while offline."
 		return 1
 
 	elif [[ "$SDKMAN_AVAILABLE" == "false" && -z "$version" ]]; then
-        echo "This command is not available while offline."
+        __sdkman_echo_red "This command is not available while offline."
         return 1
 
 	else
@@ -78,9 +80,9 @@ function __sdkman_determine_version {
 
 		else
 			echo ""
-			echo "Stop! $candidate $version is not available. Possible causes:"
-			echo " * $version is an invalid version"
-			echo " * $candidate binaries are incompatible with $SDKMAN_PLATFORM"
+			__sdkman_echo_red "Stop! $candidate $version is not available. Possible causes:"
+			__sdkman_echo_red " * $version is an invalid version"
+			__sdkman_echo_red " * $candidate binaries are incompatible with $SDKMAN_PLATFORM"
 			return 1
 		fi
 	fi
