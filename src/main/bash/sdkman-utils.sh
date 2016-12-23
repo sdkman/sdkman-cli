@@ -65,7 +65,11 @@ function __sdkman_page {
 }
 
 function __sdkman_echo {
-    echo -e "\e[1;$1$2\e[0m"
+    if [[ "$sdkman_colour_enable" == 'false' ]]; then
+        echo -e "$2"
+    else
+        echo -e "\e[1;$1$2\e[0m"
+    fi
 }
 
 function __sdkman_echo_red {
@@ -89,5 +93,9 @@ function __sdkman_echo_cyan {
 }
 
 function __sdkman_echo_confirm {
-    echo -n "\e[1;33m$1\e[0m"
+    if [[ "$sdkman_colour_enable" == 'false' ]]; then
+        echo -n "$1"
+    else
+        echo -n "\e[1;33m$1\e[0m"
+    fi
 }
