@@ -31,7 +31,7 @@ function __sdkman_secure_curl {
 }
 
 function __sdkman_secure_curl_download {
-    local curl_params="--progress-bar --location"
+	local curl_params="--progress-bar --location"
 	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
 		curl_params="$curl_params --insecure"
 	fi
@@ -39,7 +39,7 @@ function __sdkman_secure_curl_download {
 	local cookie_file="${SDKMAN_DIR}/var/cookie"
 
 	if [[ -f "$cookie_file" ]]; then
-	    local cookie=$(cat "$cookie_file")
+		local cookie=$(cat "$cookie_file")
 		curl_params="$curl_params --cookie $cookie"
 	fi
 
@@ -55,47 +55,47 @@ function __sdkman_secure_curl_with_timeouts {
 }
 
 function __sdkman_page {
-    if [[ -n "$PAGER" ]]; then
-        "$@" | $PAGER
-    elif command -v less >& /dev/null; then
-        "$@" | less
-    else
-        "$@"
-    fi
+	if [[ -n "$PAGER" ]]; then
+		"$@" | $PAGER
+	elif command -v less >& /dev/null; then
+		"$@" | less
+	else
+		"$@"
+	fi
 }
 
 function __sdkman_echo {
-    if [[ "$sdkman_colour_enable" == 'false' ]]; then
-        echo -e "$2"
-    else
-        echo -e "\033[1;$1$2\033[0m"
-    fi
+	if [[ "$sdkman_colour_enable" == 'false' ]]; then
+		echo -e "$2"
+	else
+		echo -e "\033[1;$1$2\033[0m"
+	fi
 }
 
 function __sdkman_echo_red {
-    __sdkman_echo "31m" "$1"
+	__sdkman_echo "31m" "$1"
 }
 
 function __sdkman_echo_white {
-    __sdkman_echo "37m" "$1"
+	__sdkman_echo "37m" "$1"
 }
 
 function __sdkman_echo_yellow {
-    __sdkman_echo "33m" "$1"
+	__sdkman_echo "33m" "$1"
 }
 
 function __sdkman_echo_green {
-    __sdkman_echo "32m" "$1"
+	__sdkman_echo "32m" "$1"
 }
 
 function __sdkman_echo_cyan {
-    __sdkman_echo "36m" "$1"
+	__sdkman_echo "36m" "$1"
 }
 
 function __sdkman_echo_confirm {
-    if [[ "$sdkman_colour_enable" == 'false' ]]; then
-        echo -n "$1"
-    else
-        echo -n "\033[1;33m$1\033[0m"
-    fi
+	if [[ "$sdkman_colour_enable" == 'false' ]]; then
+		echo -n "$1"
+	else
+		echo -n "\033[1;33m$1\033[0m"
+	fi
 }

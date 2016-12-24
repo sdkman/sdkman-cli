@@ -17,8 +17,8 @@
 #
 
 function __sdkman_update_broadcast_and_service_availability {
-    local broadcast_live_id=$(__sdkman_determine_broadcast_id)
-    __sdkman_set_availability "$broadcast_live_id"
+	local broadcast_live_id=$(__sdkman_determine_broadcast_id)
+	__sdkman_set_availability "$broadcast_live_id"
 	__sdkman_update_broadcast "$broadcast_live_id"
 }
 
@@ -31,7 +31,7 @@ function __sdkman_determine_broadcast_id {
 }
 
 function __sdkman_set_availability {
-    local broadcast_id="$1"
+	local broadcast_id="$1"
 	local detect_html="$(echo "$broadcast_id" | tr '[:upper:]' '[:lower:]' | grep 'html')"
 	if [[ -z "$broadcast_id" ]]; then
 		SDKMAN_AVAILABLE="false"
@@ -47,15 +47,15 @@ function __sdkman_set_availability {
 function __sdkman_display_offline_warning {
 	local broadcast_id="$1"
 	if [[ -z "$broadcast_id" && "$COMMAND" != "offline" && "$SDKMAN_OFFLINE_MODE" != "true" ]]; then
-        __sdkman_echo_red "==== INTERNET NOT REACHABLE! ==============================="
-        __sdkman_echo_red ""
-        __sdkman_echo_red " Some functionality is disabled or only partially available."
-        __sdkman_echo_red " If this persists, please enable the offline mode:"
-        __sdkman_echo_red ""
-        __sdkman_echo_red "   $ sdk offline"
-        __sdkman_echo_red ""
-        __sdkman_echo_red "============================================================"
-        echo ""
+		__sdkman_echo_red "==== INTERNET NOT REACHABLE! ==============================="
+		__sdkman_echo_red ""
+		__sdkman_echo_red " Some functionality is disabled or only partially available."
+		__sdkman_echo_red " If this persists, please enable the offline mode:"
+		__sdkman_echo_red ""
+		__sdkman_echo_red "   $ sdk offline"
+		__sdkman_echo_red ""
+		__sdkman_echo_red "============================================================"
+		echo ""
 	fi
 }
 
@@ -63,7 +63,7 @@ function __sdkman_display_proxy_warning {
 	__sdkman_echo_red "==== PROXY DETECTED! ======================================="
 	__sdkman_echo_red "Please ensure you have open internet access to continue."
 	__sdkman_echo_red "============================================================"
-    echo ""
+	echo ""
 }
 
 function __sdkman_update_broadcast {

@@ -17,13 +17,13 @@
 #
 
 function __sdk_list {
-    local candidate="$1"
+	local candidate="$1"
 
-    if [[ -z "$candidate" ]]; then
-        __sdkman_list_candidates
-    else
-        __sdkman_list_versions "$candidate"
-    fi
+	if [[ -z "$candidate" ]]; then
+		__sdkman_list_candidates
+	else
+		__sdkman_list_versions "$candidate"
+	fi
 }
 
 function __sdkman_list_candidates {
@@ -44,7 +44,7 @@ function __sdkman_list_versions {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_offline_list "$candidate" "$versions_csv"
 	else
-        __sdkman_echo_white "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
+		__sdkman_echo_white "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
 	fi
 }
 
@@ -52,7 +52,7 @@ function __sdkman_build_version_csv {
 	local candidate versions_csv
 
 	candidate="$1"
-    versions_csv=""
+	versions_csv=""
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}" ]]; then
 		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do

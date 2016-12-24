@@ -19,7 +19,7 @@
 function __sdk_current {
 	local candidate="$1"
 
-    echo ""
+	echo ""
 	if [ -n "$candidate" ]; then
 		__sdkman_determine_current_version "$candidate"
 		if [ -n "$CURRENT" ]; then

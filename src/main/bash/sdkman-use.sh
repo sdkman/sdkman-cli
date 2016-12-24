@@ -28,7 +28,7 @@ function __sdk_use {
 		echo ""
 		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is not installed."
 		if [[ "$sdkman_auto_answer" != 'true' ]]; then
-		    echo ""
+			echo ""
 			__sdkman_echo_confirm "Do you want to install it now? (Y/n): "
 			read install
 		fi
@@ -55,7 +55,7 @@ function __sdk_use {
 	fi
 
 	if [[ ! ( -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ) ]]; then
-	    __sdkman_echo_green "Setting ${candidate} version ${VERSION} as default."
+		__sdkman_echo_green "Setting ${candidate} version ${VERSION} as default."
 		__sdkman_link_candidate_version "$candidate" "$VERSION"
 	fi
 

@@ -18,37 +18,37 @@
 
 function sdk {
 
-    COMMAND="$1"
-    QUALIFIER="$2"
+	COMMAND="$1"
+	QUALIFIER="$2"
 
-    case "$COMMAND" in
-        l)
-            COMMAND="list";;
-        ls)
-            COMMAND="list";;
-        h)
-            COMMAND="help";;
-        v)
-            COMMAND="version";;
-        u)
-            COMMAND="use";;
-        i)
-            COMMAND="install";;
-        rm)
-            COMMAND="uninstall";;
-        c)
-            COMMAND="current";;
-        ug)
-            COMMAND="upgrade";;
-        outdated)
-            COMMAND="upgrade";;
-        o)
-            COMMAND="upgrade";;
-        d)
-            COMMAND="default";;
-        b)
-            COMMAND="broadcast";;
-    esac
+	case "$COMMAND" in
+		l)
+			COMMAND="list";;
+		ls)
+			COMMAND="list";;
+		h)
+			COMMAND="help";;
+		v)
+			COMMAND="version";;
+		u)
+			COMMAND="use";;
+		i)
+			COMMAND="install";;
+		rm)
+			COMMAND="uninstall";;
+		c)
+			COMMAND="current";;
+		ug)
+			COMMAND="upgrade";;
+		outdated)
+			COMMAND="upgrade";;
+		o)
+			COMMAND="upgrade";;
+		d)
+			COMMAND="default";;
+		b)
+			COMMAND="broadcast";;
+	esac
 
 	#
 	# Various sanity checks and default settings
@@ -62,14 +62,14 @@ function sdk {
 	fi
 
 	# ...unless proven otherwise
-    __sdkman_update_broadcast_and_service_availability
+	__sdkman_update_broadcast_and_service_availability
 
 	# Load the sdkman config if it exists.
 	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 		source "${SDKMAN_DIR}/etc/config"
 	fi
 
- 	# no command provided
+	# no command provided
 	if [[ -z "$COMMAND" ]]; then
 		__sdk_help
 		return 1
@@ -122,6 +122,6 @@ function sdk {
 
 	# Attempt upgrade after all is done
 	if [[ "$COMMAND" != "selfupdate" ]]; then
-	    __sdkman_auto_update "$SDKMAN_REMOTE_VERSION" "$SDKMAN_VERSION"
+		__sdkman_auto_update "$SDKMAN_REMOTE_VERSION" "$SDKMAN_VERSION"
 	fi
 }

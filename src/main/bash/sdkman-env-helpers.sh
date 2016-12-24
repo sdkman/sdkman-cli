@@ -31,7 +31,7 @@ function __sdkman_check_version_present {
 	local version="$1"
 
 	if [ -z "$version" ]; then
-	    echo ""
+		echo ""
 		__sdkman_echo_red "No candidate version provided."
 		__sdk_help
 		return 1
@@ -56,13 +56,13 @@ function __sdkman_determine_version {
 		return 1
 
 	elif [[ "$SDKMAN_AVAILABLE" == "false" && -z "$version" ]]; then
-        __sdkman_echo_red "This command is not available while offline."
-        return 1
+		__sdkman_echo_red "This command is not available while offline."
+		return 1
 
 	else
-	    if [[ -z "$version" ]]; then
-            version=$(__sdkman_secure_curl "${SDKMAN_CURRENT_API}/candidates/default/${candidate}")
-	    fi
+		if [[ -z "$version" ]]; then
+			version=$(__sdkman_secure_curl "${SDKMAN_CURRENT_API}/candidates/default/${candidate}")
+		fi
 
 		local validation_url="${SDKMAN_CURRENT_API}/candidates/validate/${candidate}/${version}/$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 		VERSION_VALID=$(__sdkman_secure_curl "$validation_url")

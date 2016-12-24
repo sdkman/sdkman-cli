@@ -51,8 +51,8 @@ function __sdk_install {
 	elif [[ "$VERSION_VALID" == 'invalid' && -n "$folder" ]]; then
 		__sdkman_install_local_version "$candidate" "$VERSION" "$folder" || return 1
 
-    else
-        echo ""
+	else
+		echo ""
 		__sdkman_echo_red "Stop! $1 is not a valid ${candidate} version."
 		return 1
 	fi
@@ -112,7 +112,7 @@ function __sdkman_download {
 		__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
 		source "$pre_installation_hook"
 		__sdkman_pre_installation_hook || return 1
-        __sdkman_echo_debug "Completed pre-installation hook..."
+		__sdkman_echo_debug "Completed pre-installation hook..."
 
 		export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
 		export local zip_output="${SDKMAN_DIR}/tmp/$base_name.zip"
@@ -123,7 +123,7 @@ function __sdkman_download {
 		__sdkman_echo_white "In progress..."
 		echo ""
 
-        #download binary
+		#download binary
 		__sdkman_secure_curl_download "$download_url" > "$binary_input"
 		__sdkman_echo_debug "Downloaded binary to: $binary_input"
 
@@ -138,7 +138,7 @@ function __sdkman_download {
 
 		__sdkman_echo_debug "Processed binary as: $zip_output"
 
-        __sdkman_echo_debug "Completed post-installation hook..."
+		__sdkman_echo_debug "Completed post-installation hook..."
 
 		mv "$zip_output" "$zip_archive_target"
 		__sdkman_echo_debug "Moved to archive folder: $zip_archive_target"

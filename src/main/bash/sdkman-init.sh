@@ -19,15 +19,15 @@
 export SDKMAN_PLATFORM=$(uname)
 
 if [ -z "$SDKMAN_VERSION" ]; then
-    export SDKMAN_VERSION="@SDKMAN_VERSION@"
+	export SDKMAN_VERSION="@SDKMAN_VERSION@"
 fi
 
 if [ -z "$SDKMAN_LEGACY_API" ]; then
-    export SDKMAN_LEGACY_API="@SDKMAN_LEGACY_API@"
+	export SDKMAN_LEGACY_API="@SDKMAN_LEGACY_API@"
 fi
 
 if [ -z "$SDKMAN_CURRENT_API" ]; then
-    export SDKMAN_CURRENT_API="@SDKMAN_CURRENT_API@"
+	export SDKMAN_CURRENT_API="@SDKMAN_CURRENT_API@"
 fi
 
 if [ -z "$SDKMAN_DIR" ]; then
@@ -47,29 +47,29 @@ darwin=false;
 solaris=false;
 freebsd=false;
 case "$(uname)" in
-    CYGWIN*)
-        cygwin=true
-        ;;
-    Darwin*)
-        darwin=true
-        ;;
-    SunOS*)
-        solaris=true
-        ;;
-    FreeBSD*)
-        freebsd=true
+	CYGWIN*)
+		cygwin=true
+		;;
+	Darwin*)
+		darwin=true
+		;;
+	SunOS*)
+		solaris=true
+		;;
+	FreeBSD*)
+		freebsd=true
 esac
 
 # Source sdkman module scripts.
 for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
-    source "${SDKMAN_DIR}/src/${f}"
+	source "${SDKMAN_DIR}/src/${f}"
 done
 
 # Source extension files prefixed with 'sdkman-' and found in the ext/ folder
 # Use this if extensions are written with the functional approach and want
 # to use functions in the main sdkman script.
 for f in $(find "${SDKMAN_DIR}/ext" -type f -name 'sdkman-*' -exec basename {} \;); do
-    source "${SDKMAN_DIR}/ext/${f}"
+	source "${SDKMAN_DIR}/ext/${f}"
 done
 unset f
 
@@ -93,15 +93,15 @@ if [[ -f "$SDKMAN_CANDIDATES_CACHE" && -n "$(cat "$SDKMAN_CANDIDATES_CACHE")" &&
 	__sdkman_echo_debug "Using existing candidates cache: $SDKMAN_CANDIDATES_CACHE"
 	SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_CACHE")
 else
-    CANDIDATES_URI="${SDKMAN_CURRENT_API}/candidates/all"
-    __sdkman_echo_debug "Using candidates endpoint: $CANDIDATES_URI"
-    SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl_with_timeouts "$CANDIDATES_URI")
-    __sdkman_echo_debug "Fetched candidates csv: $SDKMAN_CANDIDATES_CSV"
-    DETECT_HTML="$(echo "$SDKMAN_CANDIDATES_CSV" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	CANDIDATES_URI="${SDKMAN_CURRENT_API}/candidates/all"
+	__sdkman_echo_debug "Using candidates endpoint: $CANDIDATES_URI"
+	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl_with_timeouts "$CANDIDATES_URI")
+	__sdkman_echo_debug "Fetched candidates csv: $SDKMAN_CANDIDATES_CSV"
+	DETECT_HTML="$(echo "$SDKMAN_CANDIDATES_CSV" | tr '[:upper:]' '[:lower:]' | grep 'html')"
 	if [[ -n "$SDKMAN_CANDIDATES_CSV" && -z "$DETECT_HTML" ]]; then
-	    __sdkman_echo_debug "Overwriting candidates cache with: $SDKMAN_CANDIDATES_CSV"
-        echo "$SDKMAN_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_CACHE"
-        unset CANDIDATES_URI
+		__sdkman_echo_debug "Overwriting candidates cache with: $SDKMAN_CANDIDATES_CSV"
+		echo "$SDKMAN_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_CACHE"
+		unset CANDIDATES_URI
 	fi
 fi
 
@@ -113,28 +113,28 @@ unset IFS
 # determine if up to date
 SDKMAN_VERSION_FILE="${SDKMAN_DIR}/var/version"
 if [[ "$sdkman_beta_channel" != "true" && -f "$SDKMAN_VERSION_FILE" && -z "$(find "$SDKMAN_VERSION_FILE" -mmin +$((60*24)))" ]]; then
-    __sdkman_echo_debug "Not refreshing version cache now..."
-    SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_FILE")
+	__sdkman_echo_debug "Not refreshing version cache now..."
+	SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_FILE")
 
 else
-    __sdkman_echo_debug "Version cache needs updating..."
+	__sdkman_echo_debug "Version cache needs updating..."
 	if [[ "$sdkman_beta_channel" == "true" ]]; then
-	    __sdkman_echo_debug "Refreshing version cache with BETA version."
-	    VERSION_URL="${SDKMAN_LEGACY_API}/candidates/app/beta"
+		__sdkman_echo_debug "Refreshing version cache with BETA version."
+		VERSION_URL="${SDKMAN_LEGACY_API}/candidates/app/beta"
 	else
-	    __sdkman_echo_debug "Refreshing version cache with STABLE version."
-	    VERSION_URL="${SDKMAN_LEGACY_API}/candidates/app/stable"
+		__sdkman_echo_debug "Refreshing version cache with STABLE version."
+		VERSION_URL="${SDKMAN_LEGACY_API}/candidates/app/stable"
 	fi
 
-    SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "$VERSION_URL")
-    if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')" ]]; then
-        __sdkman_echo_debug "Version information corrupt or empty! Ignoring: $SDKMAN_REMOTE_VERSION"
-        SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
+	SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "$VERSION_URL")
+	if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')" ]]; then
+		__sdkman_echo_debug "Version information corrupt or empty! Ignoring: $SDKMAN_REMOTE_VERSION"
+		SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
 
-    else
-        __sdkman_echo_debug "Overwriting version cache with: $SDKMAN_REMOTE_VERSION"
-        echo "${SDKMAN_REMOTE_VERSION}" > "$SDKMAN_VERSION_FILE"
-    fi
+	else
+		__sdkman_echo_debug "Overwriting version cache with: $SDKMAN_REMOTE_VERSION"
+		echo "${SDKMAN_REMOTE_VERSION}" > "$SDKMAN_VERSION_FILE"
+	fi
 fi
 
 # The candidates are assigned to an array for zsh compliance, a list of words is not iterable
