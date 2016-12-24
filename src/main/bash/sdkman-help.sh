@@ -28,7 +28,7 @@ function __sdk_help {
 	__sdkman_echo_white "       use       or u    <candidate> [version]"
 	__sdkman_echo_white "       default   or d    <candidate> [version]"
 	__sdkman_echo_white "       current   or c    [candidate]"
-	__sdkman_echo_white "       upgrade   or ug    [candidate]"
+	__sdkman_echo_white "       upgrade   or ug   [candidate]"
 	__sdkman_echo_white "       version   or v"
 	__sdkman_echo_white "       broadcast or b"
 	__sdkman_echo_white "       help      or h"
