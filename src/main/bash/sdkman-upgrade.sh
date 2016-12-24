@@ -16,8 +16,8 @@
 #   limitations under the License.
 #
 
-function __sdk_outdated {
-    local all candidates candidate outdated installed_count outdated_count outdated_candidates
+function __sdk_upgrade {
+    local all candidates candidate upgradable installed_count upgradable_count upgradable_candidates
     if [ -n "$1" ]; then
         all=false
         candidates=$1
@@ -26,10 +26,10 @@ function __sdk_outdated {
         candidates=${SDKMAN_CANDIDATES[@]}
     fi
     installed_count=0
-    outdated_count=0
+    upgradable_count=0
     echo ""
     for candidate in ${candidates}; do
-        outdated="$(__sdkman_determine_outdated_version "$candidate")"
+        upgradable="$(__sdkman_determine_upgradable_version "$candidate")"
         case $? in
             1)
                 $all || __sdkman_echo_red "Not using any version of ${candidate}"
@@ -40,11 +40,11 @@ function __sdk_outdated {
                 return 1
                 ;;
             *)
-                if [ -n "$outdated" ]; then
-                    [ ${outdated_count} -eq 0 ] && __sdkman_echo_white "Outdated:"
-                    __sdkman_echo_white "$outdated"
-                    (( outdated_count += 1 ))
-                    outdated_candidates=(${outdated_candidates[@]} $candidate)
+                if [ -n "$upgradable" ]; then
+                    [ ${upgradable_count} -eq 0 ] && __sdkman_echo_white "Upgrade:"
+                    __sdkman_echo_white "$upgradable"
+                    (( upgradable_count += 1 ))
+                    upgradable_candidates=(${upgradable_candidates[@]} $candidate)
                 fi
                 (( installed_count += 1 ))
                 ;;
@@ -53,27 +53,27 @@ function __sdk_outdated {
     if $all; then
         if [ ${installed_count} -eq 0 ]; then
             __sdkman_echo_white 'No candidates are in use'
-        elif [ ${outdated_count} -eq 0 ]; then
+        elif [ ${upgradable_count} -eq 0 ]; then
             __sdkman_echo_white "All candidates are up-to-date"
         fi
-    elif [ ${outdated_count} -eq 0 ]; then
+    elif [ ${upgradable_count} -eq 0 ]; then
         __sdkman_echo_white "${candidate} is up-to-date"
     fi
-    if [ ${outdated_count} -gt 0 ]; then
+    if [ ${upgradable_count} -gt 0 ]; then
         echo ""
-        __sdkman_echo_confirm "Update candidate(s) and set latest version(s) as default? (Y/n): "
-        read UPDATE_ALL
-        export auto_answer_outdated='true'
-        if [[ -z "$UPDATE_ALL" || "$UPDATE_ALL" == "y" || "$UPDATE_ALL" == "Y" ]]; then
-            for outdated_candidate in ${outdated_candidates}; do
-                __sdk_install $outdated_candidate
+        __sdkman_echo_confirm "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "
+        read UPGRADE_ALL
+        export auto_answer_upgrade='true'
+        if [[ -z "$UPGRADE_ALL" || "$UPGRADE_ALL" == "y" || "$UPGRADE_ALL" == "Y" ]]; then
+            for upgradable_candidate in ${upgradable_candidates}; do
+                __sdk_install $upgradable_candidate
             done
         fi
-        unset auto_answer_outdated
+        unset auto_answer_upgrade
     fi
 }
 
-function __sdkman_determine_outdated_version {
+function __sdkman_determine_upgradable_version {
     local candidate local_versions remote_default_version
 
     candidate="$1"
@@ -90,7 +90,7 @@ function __sdkman_determine_outdated_version {
         return 2
     fi
 
-    # Check outdated or not
+    # Check upgradable or not
     if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${remote_default_version}" ]; then
         __sdkman_echo_yellow "${candidate} (${local_versions} < ${remote_default_version})"
     fi

@@ -38,8 +38,12 @@ function sdk {
             COMMAND="uninstall";;
         c)
             COMMAND="current";;
+        ug)
+            COMMAND="upgrade";;
+        outdated)
+            COMMAND="upgrade";;
         o)
-            COMMAND="outdated";;
+            COMMAND="upgrade";;
         d)
             COMMAND="default";;
         b)
