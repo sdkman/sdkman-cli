@@ -74,10 +74,9 @@ function __sdkman_offline_list {
 	__sdkman_echo_white "--------------------------------------------------------------------------------"
 	__sdkman_echo_yellow "Offline: only showing installed ${candidate} versions"
 	__sdkman_echo_white "--------------------------------------------------------------------------------"
-	echo ""
 
 	local versions=($(echo ${versions_csv//,/ }))
-	for (( i=0 ; i <= ${#versions} ; i++ )); do
+	for (( i=${#versions} - 1 ; i >= 0  ; i-- )); do
 		if [[ -n "${versions[${i}]}" ]]; then
 			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
 				__sdkman_echo_white " > ${versions[${i}]}"
