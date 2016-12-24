@@ -47,22 +47,22 @@ function __sdkman_set_availability {
 function __sdkman_display_offline_warning {
 	local broadcast_id="$1"
 	if [[ -z "$broadcast_id" && "$COMMAND" != "offline" && "$SDKMAN_OFFLINE_MODE" != "true" ]]; then
-		__sdkman_echo_red "==== INTERNET NOT REACHABLE! ==============================="
+		__sdkman_echo_red "==== INTERNET NOT REACHABLE! ==================================================="
 		__sdkman_echo_red ""
 		__sdkman_echo_red " Some functionality is disabled or only partially available."
 		__sdkman_echo_red " If this persists, please enable the offline mode:"
 		__sdkman_echo_red ""
 		__sdkman_echo_red "   $ sdk offline"
 		__sdkman_echo_red ""
-		__sdkman_echo_red "============================================================"
+		__sdkman_echo_red "================================================================================"
 		echo ""
 	fi
 }
 
 function __sdkman_display_proxy_warning {
-	__sdkman_echo_red "==== PROXY DETECTED! ======================================="
+	__sdkman_echo_red "==== PROXY DETECTED! ==========================================================="
 	__sdkman_echo_red "Please ensure you have open internet access to continue."
-	__sdkman_echo_red "============================================================"
+	__sdkman_echo_red "================================================================================"
 	echo ""
 }
 

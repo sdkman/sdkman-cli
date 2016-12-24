@@ -71,9 +71,9 @@ function __sdkman_offline_list {
 	candidate="$1"
 	versions_csv="$2"
 
-	__sdkman_echo_white "------------------------------------------------------------"
+	__sdkman_echo_white "--------------------------------------------------------------------------------"
 	__sdkman_echo_yellow "Offline: only showing installed ${candidate} versions"
-	__sdkman_echo_white "------------------------------------------------------------"
+	__sdkman_echo_white "--------------------------------------------------------------------------------"
 	echo ""
 
 	local versions=($(echo ${versions_csv//,/ }))
@@ -91,8 +91,8 @@ function __sdkman_offline_list {
 		__sdkman_echo_yellow "   None installed!"
 	fi
 
-	__sdkman_echo_white "------------------------------------------------------------"
-	__sdkman_echo_white "* - installed                                               "
-	__sdkman_echo_white "> - currently in use                                        "
-	__sdkman_echo_white "------------------------------------------------------------"
+	__sdkman_echo_white "--------------------------------------------------------------------------------"
+	__sdkman_echo_white "* - installed                                                                   "
+	__sdkman_echo_white "> - currently in use                                                            "
+	__sdkman_echo_white "--------------------------------------------------------------------------------"
 }
