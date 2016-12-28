@@ -106,9 +106,10 @@ else
 fi
 
 # Set the candidate array
+OLD_IFS="$IFS"
 IFS=","
 SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
-unset IFS
+IFS="$OLD_IFS"
 
 # determine if up to date
 SDKMAN_VERSION_FILE="${SDKMAN_DIR}/var/version"
