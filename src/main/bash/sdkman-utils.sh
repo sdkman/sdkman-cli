@@ -43,7 +43,10 @@ function __sdkman_secure_curl_download {
 		curl_params="$curl_params --cookie $cookie"
 	fi
 
-	curl ${curl_params} "$1"
+	# credit to http://superuser.com/questions/272265/getting-curl-to-output-http-status-code/862395#862395
+	exec 3>&1
+	local http_status=$(curl -w "%{http_code}" -o >(cat >&3) ${curl_params} "$1")
+	if [[ $http_status == 2* ]]; then return 0; else return 1; fi
 }
 
 function __sdkman_secure_curl_with_timeouts {

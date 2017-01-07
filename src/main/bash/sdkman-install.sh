@@ -125,6 +125,12 @@ function __sdkman_download {
 
 		#download binary
 		__sdkman_secure_curl_download "$download_url" > "$binary_input"
+		local download_exit=$?
+		if [ $download_exit -ne 0 ]; then
+			echo ""
+			__sdkman_echo_red "Failed to download ${candidate} from $download_url"
+			return 1
+		fi
 		__sdkman_echo_debug "Downloaded binary to: $binary_input"
 
 		#post-installation hook: implements function __sdkman_post_installation_hook
