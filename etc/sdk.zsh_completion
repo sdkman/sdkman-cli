@@ -1,0 +1,115 @@
+#compdef sdk
+#autoload
+
+# sdk zsh completion, based on gvm completion by yerinle https://github.com/yerinle/oh-my-zsh/commit/74526e64dc57ffdfa264319c59ffd502de6fc014
+
+local -a commands
+commands=(
+  'install:install a candidate version'
+  'i:install a candidate version'
+  'uninstall:uninstall a candidate version'
+  'rm:uninstall a candidate version'
+  'list:list available candidate versions'
+  'ls:list available candidate versions'
+  'use:use a candidate version in current shell'
+  'u:use a candidate version in current shell'
+  'default:set the default candidate version for every shell'
+  'd:set the default candidate version for every shell'
+  'current:display current candidate version'
+  'c:display current candidate version'
+  'upgrade:upgrade outdated candidate version'
+  'ug:upgrade outdated candidate version'
+  'version:display the current version of sdk'
+  'v:display the current version of sdk'
+  'broadcast:display the last broadcast message'
+  'b:display the last broadcast message'
+  'help:show the sdk help message'
+  'h:show the sdk help message'
+  'offline:enable or disable offline mode'
+  'selfupdate:update the sdk'
+  'flush:flush sdk local state'
+)
+
+local -a candidates
+candidates=(
+  'activator:Activator'
+  'ant:Ant'
+  'asciidoctorj:AsciidoctorJ'
+  'ceylon:Ceylon'
+  'crash:CRaSH'
+  'gaiden:Gaiden'
+  'glide:Glide'
+  'gradle:Gradle'
+  'grails:Grails'
+  'griffon:Griffon'
+  'groovy:Groovy'
+  'groovyserv:GroovyServ'
+  'java:Java'
+  'jbake:JBake'
+  'jbossforge:JBoss Forge'
+  'kobalt:Kobalt'
+  'kotlin:Kotlin'
+  'lazybones:Lazybones'
+  'leiningen:Leiningen'
+  'maven:Maven'
+  'sbt:sbt'
+  'scala:Scala'
+  'springboot:Spring Boot'
+  'sshoogr:Sshoogr'
+  'vertx:Vert.x'
+)
+
+local -a offline_modes
+offline_modes=(
+  'enable:Enable offline mode'
+  'disable:Disable offline mode'
+)
+
+local -a selfupdate_options
+selfupdate_options=(
+  'force:Force sdk self update'
+)
+
+local -a flush_options
+flush_options=(
+  'candidates:Clears out the Candidate list'
+  'broadcast:Clears out the Broadcast cache'
+  'archives:Cleans the cache containing all downloaded SDK binaries'
+  'temp:Clears out the staging work folder'
+)
+
+local expl
+
+_arguments \
+  '*:: :->subcmds' && return 0
+
+case $CURRENT in
+  1)
+    _describe -t commands "sdk subcommand" commands
+    return
+  ;;
+
+  2)
+    case "$words[1]" in
+      install|i|uninstall|rm|list|ls|use|u|default|d|current|c|upgrade|ug)
+        _describe -t commands "sdk subcommand" candidates
+        return
+      ;;
+
+      offline)
+        _describe -t commands "sdk subcommand" offline_modes
+        return
+      ;;
+
+      selfupdate)
+        _describe -t commands "sdk subcommand" selfupdate_options
+        return
+      ;;
+
+      flush)
+        _describe -t commands "sdk subcommand" flush_options
+        return
+      ;;
+    esac
+  ;;
+esac
