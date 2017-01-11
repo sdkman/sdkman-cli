@@ -44,7 +44,7 @@ function __sdkman_list_versions {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_offline_list "$candidate" "$versions_csv"
 	else
-		__sdkman_echo_white "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
+		__sdkman_echo_no_colour "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
 	fi
 }
 
@@ -71,17 +71,17 @@ function __sdkman_offline_list {
 	candidate="$1"
 	versions_csv="$2"
 
-	__sdkman_echo_white "--------------------------------------------------------------------------------"
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 	__sdkman_echo_yellow "Offline: only showing installed ${candidate} versions"
-	__sdkman_echo_white "--------------------------------------------------------------------------------"
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 
 	local versions=($(echo ${versions_csv//,/ }))
 	for (( i=${#versions} - 1 ; i >= 0  ; i-- )); do
 		if [[ -n "${versions[${i}]}" ]]; then
 			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
-				__sdkman_echo_white " > ${versions[${i}]}"
+				__sdkman_echo_no_colour " > ${versions[${i}]}"
 			else
-				__sdkman_echo_white " * ${versions[${i}]}"
+				__sdkman_echo_no_colour " * ${versions[${i}]}"
 			fi
 		fi
 	done
@@ -90,8 +90,8 @@ function __sdkman_offline_list {
 		__sdkman_echo_yellow "   None installed!"
 	fi
 
-	__sdkman_echo_white "--------------------------------------------------------------------------------"
-	__sdkman_echo_white "* - installed                                                                   "
-	__sdkman_echo_white "> - currently in use                                                            "
-	__sdkman_echo_white "--------------------------------------------------------------------------------"
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
+	__sdkman_echo_no_colour "* - installed                                                                   "
+	__sdkman_echo_no_colour "> - currently in use                                                            "
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 }

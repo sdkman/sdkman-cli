@@ -46,7 +46,7 @@ function __sdkman_auto_update {
 		echo ""
 		__sdkman_echo_yellow "ATTENTION: A new version of SDKMAN is available..."
 		echo ""
-		__sdkman_echo_white "The current version is $remote_version, but you have $version."
+		__sdkman_echo_no_colour "The current version is $remote_version, but you have $version."
 		echo ""
 
 		if [[ "$sdkman_auto_selfupdate" != "true" ]]; then
@@ -60,7 +60,7 @@ function __sdkman_auto_update {
 			__sdk_selfupdate
 			unset upgrade
 		else
-			__sdkman_echo_white "Not upgrading today..."
+			__sdkman_echo_no_colour "Not upgrading today..."
 		fi
 
 		touch "$delay_upgrade"

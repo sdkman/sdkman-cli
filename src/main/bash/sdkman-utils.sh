@@ -76,8 +76,8 @@ function __sdkman_echo_red {
 	__sdkman_echo "31m" "$1"
 }
 
-function __sdkman_echo_white {
-	__sdkman_echo "37m" "$1"
+function __sdkman_echo_no_colour {
+	echo "$1"
 }
 
 function __sdkman_echo_yellow {

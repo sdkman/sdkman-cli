@@ -25,7 +25,7 @@ function __sdk_flush {
 				rm "${SDKMAN_DIR}/var/candidates"
 				__sdkman_echo_green "Candidates have been flushed."
 			else
-				__sdkman_echo_white "No candidate list found so not flushed."
+				__sdkman_echo_no_colour "No candidate list found so not flushed."
 			fi
 			;;
 		broadcast)
@@ -33,7 +33,7 @@ function __sdk_flush {
 				rm "${SDKMAN_DIR}/var/broadcast"
 				__sdkman_echo_green "Broadcast has been flushed."
 			else
-				__sdkman_echo_white "No prior broadcast found so not flushed."
+				__sdkman_echo_no_colour "No prior broadcast found so not flushed."
 			fi
 			;;
 		version)
@@ -41,7 +41,7 @@ function __sdk_flush {
 				rm "${SDKMAN_DIR}/var/version"
 				__sdkman_echo_green "Version file has been flushed."
 			else
-				__sdkman_echo_white "No prior Remote Version found so not flushed."
+				__sdkman_echo_no_colour "No prior Remote Version found so not flushed."
 			fi
 			;;
 		archives)

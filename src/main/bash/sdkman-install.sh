@@ -118,9 +118,9 @@ function __sdkman_download {
 		export local zip_output="${SDKMAN_DIR}/tmp/$base_name.zip"
 
 		echo ""
-		__sdkman_echo_white "Downloading: ${candidate} ${version}"
+		__sdkman_echo_no_colour "Downloading: ${candidate} ${version}"
 		echo ""
-		__sdkman_echo_white "In progress..."
+		__sdkman_echo_no_colour "In progress..."
 		echo ""
 
 		#download binary
@@ -144,7 +144,7 @@ function __sdkman_download {
 		__sdkman_echo_debug "Moved to archive folder: $zip_archive_target"
 	else
 		echo ""
-		__sdkman_echo_white "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
+		__sdkman_echo_no_colour "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
 	fi
 	__sdkman_validate_zip "${archives_folder}/${candidate}-${version}.zip" || return 1
 	echo ""

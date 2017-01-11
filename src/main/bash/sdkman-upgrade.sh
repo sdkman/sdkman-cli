@@ -41,8 +41,8 @@ function __sdk_upgrade {
 				;;
 			*)
 				if [ -n "$upgradable" ]; then
-					[ ${upgradable_count} -eq 0 ] && __sdkman_echo_white "Upgrade:"
-					__sdkman_echo_white "$upgradable"
+					[ ${upgradable_count} -eq 0 ] && __sdkman_echo_no_colour "Upgrade:"
+					__sdkman_echo_no_colour "$upgradable"
 					(( upgradable_count += 1 ))
 					upgradable_candidates=(${upgradable_candidates[@]} $candidate)
 				fi
@@ -52,12 +52,12 @@ function __sdk_upgrade {
 	done
 	if $all; then
 		if [ ${installed_count} -eq 0 ]; then
-			__sdkman_echo_white 'No candidates are in use'
+			__sdkman_echo_no_colour 'No candidates are in use'
 		elif [ ${upgradable_count} -eq 0 ]; then
-			__sdkman_echo_white "All candidates are up-to-date"
+			__sdkman_echo_no_colour "All candidates are up-to-date"
 		fi
 	elif [ ${upgradable_count} -eq 0 ]; then
-		__sdkman_echo_white "${candidate} is up-to-date"
+		__sdkman_echo_no_colour "${candidate} is up-to-date"
 	fi
 	if [ ${upgradable_count} -gt 0 ]; then
 		echo ""
