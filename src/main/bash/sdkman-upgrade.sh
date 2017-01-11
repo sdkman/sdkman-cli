@@ -65,8 +65,13 @@ function __sdk_upgrade {
 		read UPGRADE_ALL
 		export auto_answer_upgrade='true'
 		if [[ -z "$UPGRADE_ALL" || "$UPGRADE_ALL" == "y" || "$UPGRADE_ALL" == "Y" ]]; then
-			for upgradable_candidate in ${upgradable_candidates}; do
-				__sdk_install $upgradable_candidate
+			# Using array for bash & zsh compatibility
+			for (( i=0; i <= ${#upgradable_candidates[*]}; i++ )); do
+				upgradable_candidate="${upgradable_candidates[${i}]}"
+				# Filter empty elements (in bash arrays are zero index based, in zsh they are 1 based)
+				if [[ -n "$upgradable_candidate" ]]; then
+					__sdk_install $upgradable_candidate
+				fi
 			done
 		fi
 		unset auto_answer_upgrade

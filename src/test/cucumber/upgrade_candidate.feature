@@ -63,14 +63,21 @@ Feature: Upgrade Candidate
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" version is "2.1.0"
     And the candidate "grails" version "2.1.0" is available for download
+    And the candidate "groovy" version "2.0.5" is already installed and default
+    And the default "groovy" version is "2.4.1"
+    And the candidate "groovy" version "2.4.1" is available for download
     And the system is bootstrapped
     When I enter "sdk upgrade" and answer "Y"
     Then I see "Upgrade:"
     And I see "grails (1.3.9 < 2.1.0)"
+    And I see "groovy (2.0.5 < 2.4.1)"
     And I see "Upgrade candidate(s) and set latest version(s) as default? (Y/n)"
     And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
     And I see "Setting grails 2.1.0 as default."
+    And I do not see "Do you want groovy 2.4.1 to be set as default? (Y/n)"
+    And I see "Setting groovy 2.4.1 as default."
     Then the candidate "grails" version "2.1.0" should be the default
+    And the candidate "groovy" version "2.4.1" should be the default
 
   Scenario: Don't update all upgradable candidates versions and set them as default
     Given the candidate "grails" version "1.3.9" is already installed and default
