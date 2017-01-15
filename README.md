@@ -9,7 +9,10 @@ SDKMAN is a tool for managing parallel Versions of multiple Software Development
 
 See documentation on the [SDKMAN! website](http://sdkman.io).
 
-Please report any bugs and feature request on the [GitHub Issue Tracker](https://github.com/sdkman/sdkman-cli/issues).
+User issues can be raised on our [Gitter Channel](https://gitter.im/sdkman/user-issues).
+After confirming that indeed a new bug was found, an Issue may be raised (as well as any new feature requests) on 
+the [GitHub Issue Tracker](https://github.com/sdkman/sdkman-cli/issues).
+Unfortunately we will close any Github Issues that have not followed this process.
 
 ## Installation
 
