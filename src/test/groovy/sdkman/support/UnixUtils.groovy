@@ -2,7 +2,7 @@ package sdkman.support
 
 class UnixUtils {
     static getPlatform() {
-        asUname(System.getProperty("os.name"))
+        asUname(System.getProperty("os.name")+arch())
     }
 
     static asUname(platform) {
@@ -12,7 +12,7 @@ class UnixUtils {
                 result = "Darwin"
                 break
             case "Linux":
-                result = "Linux"
+                result = "Linux${arch()}"
                 break
             case "FreeBSD":
                 result = "FreeBSD"
@@ -21,5 +21,9 @@ class UnixUtils {
                 result = platform
         }
         result
+    }
+
+    private static arch = {
+        System.getProperty("os.arch")?.endsWith("86") ? "32" : "64"
     }
 }
