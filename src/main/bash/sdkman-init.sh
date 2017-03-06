@@ -16,13 +16,7 @@
 #   limitations under the License.
 #
 
-SDKMAN_PLATFORM=$(uname)
-if [[ "$SDKMAN_PLATFORM" == 'Linux' && "$(uname -m)" == 'i686' ]]; then
-    SDKMAN_PLATFORM="${SDKMAN_PLATFORM}32"
-elif [[ "$SDKMAN_PLATFORM" == 'Linux' ]]; then
-    SDKMAN_PLATFORM="${SDKMAN_PLATFORM}64"
-fi
-export SDKMAN_PLATFORM
+export SDKMAN_PLATFORM=$(uname)
 
 if [ -z "$SDKMAN_VERSION" ]; then
 	export SDKMAN_VERSION="@SDKMAN_VERSION@"
