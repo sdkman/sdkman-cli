@@ -23,16 +23,15 @@ class WebServiceStub {
     }
 
     private static primeHookFor(String phase, String candidate, String version, String platform, boolean universal = true) {
-        String lowerCaseUname = UnixUtils.asUname(platform).toLowerCase()
-        stubFor(get(urlEqualTo("/hooks/$phase/$candidate/$version/$lowerCaseUname")).willReturn(
+        stubFor(get(urlEqualTo("/hooks/$phase/$candidate/$version/$platform")).willReturn(
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
-                        .withBodyFile("hooks/${phase}_hook_${candidate}_${version}_${universal ? 'universal' : lowerCaseUname}.sh")))
+                        .withBodyFile("hooks/${phase}_hook_${candidate}_${version}_${universal ? 'universal' : platform}.sh")))
     }
 
     static primeDownloadFor(String host, String candidate, String version, String platform) {
-        def binary = (candidate == "java") ? "jdk-${version}-linux-x64.tar.gz" : "${candidate}-${version}.zip"
+        def binary = (candidate == "java") ? "jdk-${version}-${platform}.tar.gz" : "${candidate}-${version}.zip"
         stubFor(get(urlEqualTo("/broker/download/${candidate}/${version}/${platform}")).willReturn(
                 aResponse()
                         .withHeader("Location", "${host}/${binary}")

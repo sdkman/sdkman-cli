@@ -2,17 +2,23 @@ package sdkman.support
 
 class UnixUtils {
     static getPlatform() {
-        asUname(System.getProperty("os.name"))
+        asSdkmanPlatform(System.getProperty("os.name"))
     }
 
-    static asUname(platform) {
+    static asSdkmanPlatform(platform) {
         def result
         switch (platform) {
             case "Mac OSX":
                 result = "Darwin"
                 break
             case "Linux":
-                result = "Linux"
+                result = "Linux64"
+                break
+            case "Linux 64":
+                result = "Linux64"
+                break
+            case "Linux 32":
+                result = "Linux32"
                 break
             case "FreeBSD":
                 result = "FreeBSD"
