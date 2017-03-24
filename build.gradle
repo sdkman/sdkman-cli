@@ -45,7 +45,7 @@ dependencies {
     compile 'org.codehaus.groovy:groovy:2.4.7'
     compile 'org.codehaus.groovy:groovy-templates:2.4.7'
     compile 'org.codehaus.groovy:groovy-json:2.4.7'
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
     testCompile 'info.cukes:cucumber-groovy:1.2.5'
     testCompile 'info.cukes:cucumber-junit:1.2.5'
     testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
