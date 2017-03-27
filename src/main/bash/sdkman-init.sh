@@ -42,11 +42,6 @@ fi
 
 export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
 
-# force zsh to behave well
-if [[ -n "$ZSH_VERSION" ]]; then
-	setopt shwordsplit
-fi
-
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
 darwin=false;
@@ -65,6 +60,16 @@ case "$(uname)" in
 	FreeBSD*)
 		freebsd=true
 esac
+
+# Determine shell
+zsh_shell=false;
+bash_shell=false;
+
+if [[ -n "$ZSH_VERSION" ]]; then
+    zsh_shell=true
+else
+    bash_shell=true
+fi
 
 # Source sdkman module scripts.
 for f in $(find "${SDKMAN_DIR}/src" -type f -name 'sdkman-*' -exec basename {} \;); do
@@ -111,12 +116,6 @@ else
 	fi
 fi
 
-# Set the candidate array
-OLD_IFS="$IFS"
-IFS=","
-SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
-IFS="$OLD_IFS"
-
 # determine if up to date
 SDKMAN_VERSION_FILE="${SDKMAN_DIR}/var/version"
 if [[ "$sdkman_beta_channel" != "true" && -f "$SDKMAN_VERSION_FILE" && -z "$(find "$SDKMAN_VERSION_FILE" -mmin +$((60*24)))" ]]; then
@@ -142,6 +141,16 @@ else
 		__sdkman_echo_debug "Overwriting version cache with: $SDKMAN_REMOTE_VERSION"
 		echo "${SDKMAN_REMOTE_VERSION}" > "$SDKMAN_VERSION_FILE"
 	fi
+fi
+
+# Set the candidate array
+if [[ "$zsh_shell" == 'true' ]]; then
+    SDKMAN_CANDIDATES=( ${(s:,:)SDKMAN_CANDIDATES_CSV} )
+else
+    OLD_IFS="$IFS"
+    IFS=","
+    SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
+    IFS="$OLD_IFS"
 fi
 
 # The candidates are assigned to an array for zsh compliance, a list of words is not iterable
