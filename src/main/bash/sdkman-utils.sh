@@ -43,7 +43,11 @@ function __sdkman_secure_curl_download {
 		curl_params="$curl_params --cookie $cookie"
 	fi
 
-	curl ${curl_params} "$1"
+	if [[ "$zsh_shell" == 'true' ]]; then
+		curl ${=curl_params} "$1"
+	else
+		curl ${curl_params} "$1"
+	fi
 }
 
 function __sdkman_secure_curl_with_timeouts {
