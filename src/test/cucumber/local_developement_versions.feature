@@ -50,3 +50,11 @@ Feature: Local Development Versions
     When I enter "sdk use groovy 2.1-SNAPSHOT"
     Then I see "Using groovy version 2.1-SNAPSHOT in this shell"
     And the candidate "groovy" version "2.1-SNAPSHOT" should be in use
+
+  @review
+  Scenario: Install a local development version from a relative path
+    Given the candidate "groovy" version "2.1-SNAPSHOT" is not available for download
+    And the system is bootstrapped
+    When I enter "sdk install groovy 2.1-SNAPSHOT groovy-core/target"
+    Then I see "Not linking groovy 2.1.-SNAPSHOT. Only absolute paths permitted"
+    And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
