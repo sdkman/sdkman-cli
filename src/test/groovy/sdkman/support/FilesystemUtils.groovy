@@ -32,12 +32,7 @@ class FilesystemUtils {
         prepareCandidateBinFolder directory, candidate, version
     }
 
-    @Deprecated
-    static prepareLocalCandidateWithVersionFolder(String baseDir, String candidate, String version){
-        prepareCandidateBinFolder baseDir, candidate, version
-    }
-
-    private static prepareCandidateBinFolder(String folder, String candidate, String version) {
+    static prepareCandidateBinFolder(String folder, String candidate, String version) {
         def fileSystem = FileSystems.default
 
         def binFolderPath = fileSystem.getPath("$folder/bin")

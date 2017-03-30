@@ -4,8 +4,8 @@ import java.nio.file.FileSystems
 import java.nio.file.Files
 
 import static cucumber.api.groovy.EN.And
+import static sdkman.support.FilesystemUtils.prepareCandidateBinFolder
 import static sdkman.support.FilesystemUtils.prepareCandidateWithVersionFolder
-import static sdkman.support.FilesystemUtils.prepareLocalCandidateWithVersionFolder
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is installed$') { String candidate, String version ->
     def file = "${candidatesDir}/${candidate}/${version}" as File
@@ -47,7 +47,7 @@ And(~'^the candidate "([^"]*)" does not exist locally$') { String candidate ->
 }
 
 And(~'^I have a local candidate "([^"]*)" version "([^"]*)" at "([^"]*)"$') { String candidate, String version, String directory ->
-    prepareLocalCandidateWithVersionFolder directory, candidate, version
+    prepareCandidateBinFolder directory, candidate, version
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is linked to "([^"]*)"$') { String candidate, String version, String directory ->
@@ -69,7 +69,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is already linked to "([^"]*)"$
     candidateFolder.mkdirs()
 
     def link = fileSystem.getPath("$candidatesDir/$candidate/$version")
-    def target = prepareLocalCandidateWithVersionFolder(folder, candidate, version)
+    def target = prepareCandidateBinFolder(folder, candidate, version)
 
     Files.createSymbolicLink(link, target)
 }
