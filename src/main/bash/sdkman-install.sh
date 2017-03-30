@@ -90,9 +90,15 @@ function __sdkman_install_local_version {
 		folder="$(pwd)/$folder"
 	fi
 
-	__sdkman_echo_green "Linking ${candidate} ${version} to ${folder}"
-	ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
-	__sdkman_echo_green "Done installing!"
+	if [[ -d "$folder" ]]; then
+        __sdkman_echo_green "Linking ${candidate} ${version} to ${folder}"
+        ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+        __sdkman_echo_green "Done installing!"
+
+	else
+	    __sdkman_echo_red "Invalid path! Refusing to link ${candidate} ${version} to ${folder}."
+	fi
+
 	echo ""
 }
 

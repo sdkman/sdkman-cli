@@ -51,10 +51,17 @@ Feature: Local Development Versions
     Then I see "Using groovy version 2.1-SNAPSHOT in this shell"
     And the candidate "groovy" version "2.1-SNAPSHOT" should be in use
 
-  Scenario: Install a local development version from a relative path
+  Scenario: Install a local development version from a valid relative path
     Given the candidate "groovy" version "2.1-SNAPSHOT" is not available for download
     And I have a local candidate "groovy" version "2.1-SNAPSHOT" at relative path "some/relative/path/to/groovy"
     And the system is bootstrapped
     When I enter "sdk install groovy 2.1-SNAPSHOT some/relative/path/to/groovy"
     Then I see "Linking groovy 2.1-SNAPSHOT"
     And the candidate "groovy" version "2.1-SNAPSHOT" is linked to the relative path "some/relative/path/to/groovy"
+
+  Scenario: Prevent installation of a local development version for an invalid path
+    Given the candidate "groovy" version "2.1-SNAPSHOT" is not available for download
+    And the system is bootstrapped
+    When I enter "sdk install groovy 2.1-SNAPSHOT /some/bogus/path/to/groovy"
+    Then I see "Invalid path! Refusing to link groovy 2.1-SNAPSHOT to /some/bogus/path/to/groovy."
+    And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
