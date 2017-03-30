@@ -50,7 +50,21 @@ And(~'^I have a local candidate "([^"]*)" version "([^"]*)" at "([^"]*)"$') { St
     prepareCandidateBinFolder directory, candidate, version
 }
 
+And(~'^I have a local candidate "([^"]*)" version "([^"]*)" at relative path "([^"]*)"$') { String candidate, String version, String relativePath ->
+    def fullPath = new File(sdkmanBaseDir.absolutePath, relativePath)
+    prepareCandidateBinFolder fullPath.absolutePath, candidate, version
+}
+
+And(~'^the candidate "([^"]*)" version "([^"]*)" is linked to the relative path "([^"]*)"$') { String candidate, String version, String relativePath ->
+    def fullPath = new File(sdkmanBaseDir.absolutePath, relativePath)
+    assertLinkedCandidate(fullPath.absolutePath, candidate, version)
+}
+
 And(~'^the candidate "([^"]*)" version "([^"]*)" is linked to "([^"]*)"$') { String candidate, String version, String directory ->
+    assertLinkedCandidate(directory, candidate, version)
+}
+
+def assertLinkedCandidate(String directory, String candidate, String version) {
     def fileSystem = FileSystems.default
 
     def versionLocation = "$candidatesDir/$candidate/$version"
