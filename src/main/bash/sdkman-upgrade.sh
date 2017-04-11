@@ -23,7 +23,11 @@ function __sdk_upgrade {
 		candidates=$1
 	else
 		all=true
-		candidates=${SDKMAN_CANDIDATES[@]}
+		if [[ "$zsh_shell" == 'true' ]]; then
+			candidates=( ${SDKMAN_CANDIDATES[@]} )
+		else
+			candidates=${SDKMAN_CANDIDATES[@]}
+		fi
 	fi
 	installed_count=0
 	upgradable_count=0
