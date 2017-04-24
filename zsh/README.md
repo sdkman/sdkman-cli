@@ -1,6 +1,6 @@
-# Installation instructions
+# Completions plugin for zsh
 
-## zsh
+## Install
 
 Create a new folder for completions:
 
@@ -8,10 +8,10 @@ Create a new folder for completions:
 mkdir -p ~/.zsh/completions
 ```
 
-Copy the file `/etc/_sdk` from the location where `sdk` is installed to the folder `~/.zsh/completions/`:
+Copy the file `/sdk/_sdk` from the location where `sdk` is installed to the folder `~/.zsh/completions/`:
 
 ```sh
-cp /path/to/etc/sdk.zsh_completion ~/.zsh/completions/
+cp /path/to/zsh/_sdk ~/.zsh/completions/
 ```
 
 Then add the following lines to your `.zshrc` file:
@@ -21,7 +21,7 @@ fpath=(~/.zsh/completions $fpath)
 autoload -U compinit && compinit
 ```
 
-### Using antigen
+### Install using antigen
 
 ```sh
 antigen bundle sdkman/sdkman-cli zsh
