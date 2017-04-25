@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_post_installation_hook {
     echo "Download has failed, aborting!"
     echo ""

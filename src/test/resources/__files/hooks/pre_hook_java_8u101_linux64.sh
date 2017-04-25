@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_pre_installation_hook {
     echo -n "Do you agree to the terms of this agreement? (Y/n)"
     read agree

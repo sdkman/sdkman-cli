@@ -10,7 +10,7 @@ class CurlStub {
 
         def file = new File(folder, "curl")
         file.createNewFile()
-        file.write "#!/bin/bash\n"
+        file.write "#!/usr/bin/env bash\n"
         file.executable = true
 
         new CurlStub(file:file)

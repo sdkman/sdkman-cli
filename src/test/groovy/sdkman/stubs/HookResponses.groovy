@@ -3,7 +3,7 @@ package sdkman.stubs
 class HookResponses {
     static preInstallationHookSuccess() {
         '''
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_pre_installation_hook {
     echo "Pre-installation hook success"
     return 0
@@ -12,7 +12,7 @@ function __sdkman_pre_installation_hook {
 
     static preInstallationHookFailure() {
         '''
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_pre_installation_hook {
     echo "Pre-installation hook failure"
     return 1
@@ -21,7 +21,7 @@ function __sdkman_pre_installation_hook {
 
     static postInstallationHookSuccess() {
         '''
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_post_installation_hook {
     mv $binary_input $zip_output
     echo "Post-installation hook success"
@@ -31,7 +31,7 @@ function __sdkman_post_installation_hook {
 
     static postInstallationHookFailure() {
         '''
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_post_installation_hook {
     echo "Post-installation hook failure"
     return 1

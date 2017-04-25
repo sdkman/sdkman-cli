@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_pre_installation_hook {
     echo "Inside pre-install hook..."
     cookie="$SDKMAN_DIR/var/cookie"
