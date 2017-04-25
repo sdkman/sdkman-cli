@@ -10,7 +10,7 @@ class UnameStub {
 
         def file = new File(folder, "uname")
         file.createNewFile()
-        file.write "#!/bin/bash\n"
+        file.write "#!/usr/bin/env bash\n"
         file.executable = true
 
         new UnameStub(file:file)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 RELEASE=$(grep 'sdkmanVersion' config.groovy | sed 's_sdkmanVersion = __g' | tr -d "'")
 

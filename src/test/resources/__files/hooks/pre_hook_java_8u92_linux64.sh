@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_pre_installation_hook {
     echo "Oracle requires that you agree with the Oracle Binary Code License Agreement"
     echo "prior to installation. The license agreement can be found at:"

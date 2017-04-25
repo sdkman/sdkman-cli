@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 function __sdkman_post_installation_hook {
     echo "Inside post-install hook..."
     mkdir -p "$SDKMAN_DIR/tmp/out"
