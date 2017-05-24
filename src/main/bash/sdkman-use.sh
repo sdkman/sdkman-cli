@@ -51,7 +51,7 @@ function __sdk_use {
 		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
 
 	else
-		export PATH=$(echo $PATH | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
+		export PATH=$(echo "$PATH" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
 	fi
 
 	if [[ ! ( -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ) ]]; then
