@@ -98,23 +98,25 @@ fi
 if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=7; fi
 if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=10; fi
 
-# fabricate list of candidates
+# maintain candidates cache
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
 if [[ -f "$SDKMAN_CANDIDATES_CACHE" && -n "$(cat "$SDKMAN_CANDIDATES_CACHE")" && -z "$(find "$SDKMAN_CANDIDATES_CACHE" -mmin +$((60*24)))" ]]; then
 	__sdkman_echo_debug "Using existing candidates cache: $SDKMAN_CANDIDATES_CACHE"
-	SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_CACHE")
 else
 	CANDIDATES_URI="${SDKMAN_CURRENT_API}/candidates/all"
 	__sdkman_echo_debug "Using candidates endpoint: $CANDIDATES_URI"
-	SDKMAN_CANDIDATES_CSV=$(__sdkman_secure_curl_with_timeouts "$CANDIDATES_URI")
-	__sdkman_echo_debug "Fetched candidates csv: $SDKMAN_CANDIDATES_CSV"
-	DETECT_HTML="$(echo "$SDKMAN_CANDIDATES_CSV" | tr '[:upper:]' '[:lower:]' | grep 'html')"
-	if [[ -n "$SDKMAN_CANDIDATES_CSV" && -z "$DETECT_HTML" ]]; then
-		__sdkman_echo_debug "Overwriting candidates cache with: $SDKMAN_CANDIDATES_CSV"
-		echo "$SDKMAN_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_CACHE"
-		unset CANDIDATES_URI
+	SDKMAN_FRESH_CANDIDATES_CSV=$(__sdkman_secure_curl_with_timeouts "$CANDIDATES_URI")
+	__sdkman_echo_debug "Fetched candidates csv: $SDKMAN_FRESH_CANDIDATES_CSV"
+	DETECT_HTML="$(echo "$SDKMAN_FRESH_CANDIDATES_CSV" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	if [[ -n "$SDKMAN_FRESH_CANDIDATES_CSV" && -z "$DETECT_HTML" ]]; then
+		__sdkman_echo_debug "Overwriting candidates cache with: $SDKMAN_FRESH_CANDIDATES_CSV"
+		echo "$SDKMAN_FRESH_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_CACHE"
 	fi
+	unset CANDIDATES_URI SDKMAN_FRESH_CANDIDATES_CSV DETECT_HTML
 fi
+
+# fabricate list of candidates - now cache is as good as possible - let's have it as list of candidates
+SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_CACHE")
 
 # determine if up to date
 SDKMAN_VERSION_FILE="${SDKMAN_DIR}/var/version"
