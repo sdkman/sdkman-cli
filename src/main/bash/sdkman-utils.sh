@@ -72,7 +72,7 @@ function __sdkman_echo {
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
 		echo -e "$2"
 	else
-		echo -e "\033[1;$1$2\033[0m"
+		echo -e "\033[${sdkman_colour_style:-1};$1$2\033[0m"
 	fi
 }
 
@@ -100,6 +100,6 @@ function __sdkman_echo_confirm {
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
 		echo -n "$1"
 	else
-		echo -e -n "\033[1;33m$1\033[0m"
+		echo -e -n "\033[${sdkman_colour_style:-1};33m$1\033[0m"
 	fi
 }
