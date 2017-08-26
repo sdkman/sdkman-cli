@@ -9,11 +9,6 @@ SDKMAN is a tool for managing parallel Versions of multiple Software Development
 
 See documentation on the [SDKMAN! website](http://sdkman.io).
 
-User issues can be raised on our [Gitter Channel](https://gitter.im/sdkman/user-issues).
-After confirming that indeed a new bug was found, an Issue may be raised (as well as any new feature requests) on 
-the [GitHub Issue Tracker](https://github.com/sdkman/sdkman-cli/issues).
-Unfortunately we will close any Github Issues that have not followed this process.
-
 ## Installation
 
 Open your favourite terminal and enter the following:
@@ -22,19 +17,29 @@ Open your favourite terminal and enter the following:
 
 If the environment needs tweaking for SDKMAN to be installed, the installer will prompt you accordingly and ask you to restart.
 
+## Contributions
+
+### Bugs and New Features
+
+User Issues can be raised in our [Gitter Room for User Issues](https://gitter.im/sdkman/user-issues). Similarly, new features can be discussed in our [CLI Development Room](https://gitter.im/sdkman/cli-dev).
+
+After accepting a new feature or confirming that a bug was found, an Issue may be raised filling in the provided Issue Template on the [GitHub Issue Tracker](https://github.com/sdkman/sdkman-cli/issues).
+
+**Unfortunately we will close any Github Issues that have not followed this process.**
+
+### Pull Requests
+
+Pull requests are always very welcome, but require an initial discussion on Gitter followed by a Github Issue as described above. Once this has been completed, _a PR can be raised and linked to the Github Issue_. All PRs should be accompanied by a passing test(s) proving it's validity (where feasible). The feasibility of the test will emerge in the initial discussions on Gitter and in the Github Issue.
+
 ## Running the Cucumber Features
 
-All SDKMAN's BDD tests are written in Cucumber and can be found under `src/test/cucumber/sdkman`.
-These can be run with Gradle by running the following command:
+All SDKMAN's BDD tests describing the CLI behaviour are written in Cucumber and can be found under `src/test/cucumber/sdkman`. These can be run with Gradle by running the following command:
 
     $ ./gradlew test
 
+To perform development, you will need to have a JDK 8 or higher installed which can be obtained by running the following after installing SDKMAN:
 
-__Please ensure that the JAVA_HOME environment variable is set to JDK 1.8 on your system!__
-
-Mac users can add the following line to their `~/.bash_profile` file to set this variable:
-
-	export JAVA_HOME=$(/usr/libexec/java_home -v1.8)
+    $ sdk install java
 
 ### Using Docker for tests
 
