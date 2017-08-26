@@ -2,7 +2,6 @@ To raise a new Pull Request, the following prerequisites need to be met. Please 
 
 - [ ] a conversation was held in the appropriate Gitter Room.
 - [ ] a Github Issue was opened for this feature / bug.
+- [ ] test coverage was added (Cucumber or Spock as appropriate).
 
-Please link to a Github Issue by replacing XXX appropriately:
-
-Issue #XXX
+This addresses Issue #XXX
