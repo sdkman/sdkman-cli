@@ -88,6 +88,7 @@ unset f
 if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 	source "${SDKMAN_DIR}/etc/config"
 fi
+[[ "$sdkman_colour_style" == "dark" ]] && sdkman_colour_style_code=2 || sdkman_colour_style_code=1
 
 # Create upgrade delay file if it doesn't exist
 if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
