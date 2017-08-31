@@ -60,7 +60,7 @@ function __sdkman_secure_curl_with_timeouts {
 
 function __sdkman_page {
 	if [[ -n "$PAGER" ]]; then
-		"$@" | $PAGER
+		"$@" | eval $PAGER
 	elif command -v less >& /dev/null; then
 		"$@" | less
 	else
