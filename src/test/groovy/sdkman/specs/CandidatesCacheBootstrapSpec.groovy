@@ -35,10 +35,14 @@ class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute('echo $SDKMAN_CANDIDATES_CSV')
 
         then:
         candidatesCache.exists()
         candidatesCache.text.contains("gradle,sbt")
+
+        and:
+        bash.output.contains "gradle,sbt"
     }
 
     void "should fetch and store candidates in cache if cache is empty"() {
@@ -54,10 +58,14 @@ class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute('echo $SDKMAN_CANDIDATES_CSV')
 
         then:
         candidatesCache.exists()
         candidatesCache.text.contains("groovy,scala")
+
+        and:
+        bash.output.contains("groovy,scala")
     }
 
     void "should fetch candidates and refresh cache if older than a day"() {
@@ -76,10 +84,14 @@ class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute('echo $SDKMAN_CANDIDATES_CSV')
 
         then:
         candidatesCache.exists()
         candidatesCache.text.contains('groovy,scala')
+
+        and:
+        bash.output.contains("groovy,scala")
     }
 
     void "should ignore candidates if api is offline"() {
@@ -99,9 +111,13 @@ class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute('echo $SDKMAN_CANDIDATES_CSV')
 
         then:
-        candidatesCache.text.contains(candidates.join(','))
+        candidatesCache.text.contains('groovy,scala')
+
+        and:
+        bash.output.contains("groovy,scala")
     }
 
     void "should ignore candidates if api returns garbage"() {
@@ -121,9 +137,13 @@ class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute('echo $SDKMAN_CANDIDATES_CSV')
 
         then:
-        candidatesCache.text.contains(candidates.join(','))
+        candidatesCache.text.contains('groovy,scala')
+
+        and:
+        bash.output.contains("groovy,scala")
     }
 
     void "should query api if not subscribed to beta channel"() {
@@ -144,9 +164,13 @@ class CandidatesCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute('echo $SDKMAN_CANDIDATES_CSV')
 
         then:
         candidatesCache.exists()
         candidatesCache.text.contains('groovy,scala')
+
+        and:
+        bash.output.contains("groovy,scala")
     }
 }

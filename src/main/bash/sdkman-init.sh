@@ -113,6 +113,8 @@ else
 		__sdkman_echo_debug "Overwriting candidates cache with: $SDKMAN_CANDIDATES_CSV"
 		echo "$SDKMAN_CANDIDATES_CSV" > "$SDKMAN_CANDIDATES_CACHE"
 		unset CANDIDATES_URI
+	else
+	    SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_CACHE")
 	fi
 fi
 
