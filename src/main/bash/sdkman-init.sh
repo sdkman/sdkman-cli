@@ -169,7 +169,3 @@ for (( i=0; i <= ${#SDKMAN_CANDIDATES[*]}; i++ )); do
 done
 unset i
 export PATH
-
-if [[ "$sdkman_disable_gvm_alias" != "true" ]]; then
-	alias gvm="sdk"
-fi
