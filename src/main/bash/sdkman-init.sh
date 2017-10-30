@@ -127,10 +127,10 @@ else
 	__sdkman_echo_debug "Version cache needs updating..."
 	if [[ "$sdkman_beta_channel" == "true" ]]; then
 		__sdkman_echo_debug "Refreshing version cache with BETA version."
-		VERSION_URL="${SDKMAN_LEGACY_API}/candidates/app/beta"
+		VERSION_URL="${SDKMAN_CURRENT_API}/broker/download/sdkman/version/beta"
 	else
 		__sdkman_echo_debug "Refreshing version cache with STABLE version."
-		VERSION_URL="${SDKMAN_LEGACY_API}/candidates/app/stable"
+		VERSION_URL="${SDKMAN_CURRENT_API}/broker/download/sdkman/version/stable"
 	fi
 
 	SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "$VERSION_URL")
