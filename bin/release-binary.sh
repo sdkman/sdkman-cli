@@ -15,7 +15,7 @@ fi
 if [[ "$BRANCH" == 'master' ]]; then
     FIELD="betaCliVersion"
 else
-    FIELD="cliVersion"
+    FIELD="stableCliVersion"
 fi
 
 echo "Release: $FIELD $VERSION"
