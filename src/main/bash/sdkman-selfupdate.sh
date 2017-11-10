@@ -50,7 +50,7 @@ function __sdkman_auto_update {
 		echo ""
 
 		if [[ "$sdkman_auto_selfupdate" != "true" ]]; then
-			__sdkman_echo_confirm "Would you like to upgrade now? (Y/n)"
+			__sdkman_echo_confirm "Would you like to upgrade now? (Y/n): "
 			read upgrade
 		fi
 
