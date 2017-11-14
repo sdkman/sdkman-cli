@@ -7,7 +7,7 @@ import java.nio.file.Paths
 
 class SdkCompatibilitySpec extends SdkmanEnvSpecification {
 
-    def allCandidates = ["groovy", "grails", "scala", "activator"]
+    def allCandidates = ["groovy", "grails", "scala", "sbt"]
 
     def setup() {
         bash = sdkmanBashEnvBuilder
@@ -37,7 +37,7 @@ class SdkCompatibilitySpec extends SdkmanEnvSpecification {
 
     void "should add candidate base folder to the path if no bin folder present"() {
         given:
-        def candidateFolder = prepareCandidateFolder("activator", "1.3.6", false)
+        def candidateFolder = prepareCandidateFolder("sbt", "1.0.3", false)
 
         and:
         bash.start()

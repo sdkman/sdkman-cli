@@ -32,7 +32,6 @@ commands=(
 
 local -a candidates
 candidates=(
-  'activator:Activator'
   'ant:Ant'
   'asciidoctorj:AsciidoctorJ'
   'ceylon:Ceylon'
