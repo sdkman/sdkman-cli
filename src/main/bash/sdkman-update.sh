@@ -75,7 +75,7 @@ function ___sdkman_check_candidates_cache {
         __sdkman_echo_no_colour '  $ sdk update'
         return 1
     else
-        __sdkman_echo_debug "SDKMAN: No update needed. Using existing candidates cache: $SDKMAN_CANDIDATES_CACHE"
+        __sdkman_echo_debug "SDKMAN: No update needed. Using existing candidates cache: $SDKMAN_CANDIDATES_CSV"
         return 0
     fi
 
