@@ -1,7 +1,9 @@
 package sdkman.env
 
+import groovy.transform.ToString
 import sdkman.stubs.CurlStub
 
+@ToString(includeNames = true)
 class SdkmanBashEnvBuilder {
 
     final TEST_SCRIPT_BUILD_DIR = "build/scripts" as File
@@ -12,7 +14,6 @@ class SdkmanBashEnvBuilder {
     //optional fields with sensible defaults
     private Optional<CurlStub> curlStub = Optional.empty()
     private List candidates = ['groovy', 'grails', 'java']
-    private List candidatesCache = candidates
     private boolean offlineMode = false
     private String broadcast = "This is a LIVE broadcast!"
     private String legacyService = "http://localhost:8080/1"
@@ -44,11 +45,6 @@ class SdkmanBashEnvBuilder {
 
     SdkmanBashEnvBuilder withCandidates(List candidates) {
         this.candidates = candidates
-        this
-    }
-
-    SdkmanBashEnvBuilder withCandidatesCache(List candidates) {
-        this.candidatesCache = candidates
         this
     }
 
@@ -111,7 +107,7 @@ class SdkmanBashEnvBuilder {
         curlStub.map { cs -> cs.build() }
 
         initializeCandidates(sdkmanCandidatesDir, candidates)
-        initializeCandidatesCache(sdkmanVarDir, candidatesCache)
+        initializeCandidatesCache(sdkmanVarDir, candidates)
         initializeBroadcast(sdkmanVarDir, broadcast)
         initializeConfiguration(sdkmanEtcDir, config)
         initializeVersionCache(sdkmanVarDir, versionCache)
@@ -134,7 +130,10 @@ class SdkmanBashEnvBuilder {
             env.put("http_proxy", httpProxy)
         }
 
-        new BashEnv(baseFolder.absolutePath, env)
+        def bashEnv = new BashEnv(baseFolder.absolutePath, env)
+        println("\nSdkmanBashEnvBuilder: $this")
+        println("\nBashEnv: $bashEnv")
+        bashEnv
     }
 
     private prepareDirectory(File target, String directoryName) {

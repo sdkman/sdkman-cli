@@ -1,5 +1,7 @@
 package sdkman.env
 
+import groovy.transform.ToString
+
 /**
  * <p>As part of the sdkman test suite we need to launch a bash shell and execute
  * multiple commands in it. This is tricky to do using Java's support for
@@ -9,6 +11,7 @@ package sdkman.env
  * in an external bash process in a fairly reliable manner and to retrieve the
  * output of those commands.</p>
  */
+@ToString(includeNames = true)
 class BashEnv {
 
     static final PROMPT = ""
