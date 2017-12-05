@@ -1,7 +1,5 @@
 package sdkman.stubs
 
-import sdkman.support.UnixUtils
-
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 
 class WebServiceStub {

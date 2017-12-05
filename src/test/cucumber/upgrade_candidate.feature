@@ -2,6 +2,7 @@ Feature: Upgrade Candidate
 
   Background:
     Given the internet is reachable
+    And the candidates cache is initialised with "grails"
     And an initialised environment
 
   Scenario: Display upgradable candidate version in use when it is upgradable

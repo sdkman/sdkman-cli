@@ -44,6 +44,8 @@ candidatesFile = new File(varDir, "candidates")
 versionFile = new File(varDir, "version")
 initScript = new File(binDir, "sdkman-init.sh")
 
+localCandidates = ['groovy', 'grails', 'java', 'kotlin', 'scala']
+
 bash = null
 
 if(!binding.hasVariable("wireMock")) {

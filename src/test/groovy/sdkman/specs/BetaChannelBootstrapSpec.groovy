@@ -13,7 +13,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 
     def setup() {
         versionCache = new File("${sdkmanDotDirectory}/var", "version")
-        sdkmanBashEnvBuilder.withCandidatesCache(["groovy"])
+        sdkmanBashEnvBuilder.withCandidates(["groovy"])
     }
 
     void "should attempt immediate upgrade of stable to beta version if beta channel is first enabled"() {

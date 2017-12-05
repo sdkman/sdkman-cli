@@ -94,6 +94,7 @@ And(~'^an initialised environment$') {->
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
         .withVersionCache(sdkmanVersion)
+        .withCandidates(localCandidates)
         .withSdkmanVersion(sdkmanVersion)
         .build()
 }
@@ -133,4 +134,8 @@ And(~'^the system is bootstrapped again$') {->
 
 And(~/^the sdkman version is "([^"]*)"$/) { String version ->
     sdkmanVersion = version
+}
+
+And(~/^the candidates cache is initialised with "(.*)"$/) { String candidate ->
+    localCandidates << candidate
 }

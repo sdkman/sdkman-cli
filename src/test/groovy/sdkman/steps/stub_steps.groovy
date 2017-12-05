@@ -1,5 +1,6 @@
 package sdkman.steps
 
+import cucumber.api.DataTable
 import sdkman.support.UnixUtils
 
 import static cucumber.api.groovy.EN.And
@@ -99,4 +100,8 @@ And(~/^a download request was made for "(.*)" "(.*)" on "(.*)" with cookie "(.*)
 
 And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String candidate, String version, String platform ->
     //handled by the hook in subsequent step
+}
+
+And(~/^the following candidates are currently available from remote API:$/) { DataTable dt ->
+    primeEndpointWithString("/candidates/all", dt.asList(String).drop(1).join(","))
 }

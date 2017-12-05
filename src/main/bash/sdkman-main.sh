@@ -53,7 +53,9 @@ function sdk {
 	#
 	# Various sanity checks and default settings
 	#
-	mkdir -p "$SDKMAN_DIR"
+
+    # Check candidates cache
+    ___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"
