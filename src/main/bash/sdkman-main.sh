@@ -55,7 +55,9 @@ function sdk {
 	#
 
     # Check candidates cache
-    ___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1
+    if [[ "$COMMAND" != "update" ]]; then
+        ___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1
+    fi
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"
