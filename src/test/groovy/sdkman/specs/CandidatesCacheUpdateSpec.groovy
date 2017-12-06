@@ -23,7 +23,7 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
         sdkmanBashEnvBuilder.withConfiguration("sdkman_debug_mode", "true")
     }
 
-    void "should issue a warning if cache is empty"() {
+    void "should issue a warning and escape if cache is empty"() {
         given:
         bash = sdkmanBashEnvBuilder
                 .withCandidates([])
@@ -106,7 +106,7 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
         bash.execute("sdk update")
 
         then:
-        bash.output.contains('New candidates(s) found: groovy,scala')
+        bash.output.contains('Adding new candidates(s): groovy,scala')
 
         and:
         candidatesCache.text.trim() == "groovy,scala"

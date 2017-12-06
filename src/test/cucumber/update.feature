@@ -4,7 +4,7 @@ Feature: Update
     Given the internet is reachable
     And the following candidates are available for installation in local cache:
       | candidate |
-      | ceylon    |
+      | activator |
       | groovy    |
       | scala     |
     And an initialised environment
@@ -13,13 +13,13 @@ Feature: Update
   Scenario: A new candidate is available
     And the following candidates are currently available from remote API:
       | candidate |
-      | ceylon    |
+      | activator |
       | groovy    |
       | kotlin    |
       | scala     |
     When I enter "sdk update"
-    Then I see "New candidates(s) found: kotlin"
-    And the Candidates cache should contain "ceylon,groovy,kotlin,scala"
+    Then I see "Adding new candidates(s): kotlin"
+    And the Candidates cache should contain "activator,groovy,kotlin,scala"
 
   Scenario: A candidate has been removed
     And the following candidates are currently available from remote API:
@@ -27,17 +27,15 @@ Feature: Update
       | groovy    |
       | scala     |
     When I enter "sdk update"
-    Then I see "Retired candidates(s) removed: ceylon"
+    Then I see "Removing obsolete candidates(s): activator"
     And the Candidates cache should contain "groovy,scala"
 
   Scenario: No new candidate is available
     And the following candidates are currently available from remote API:
       | candidate |
-      | ceylon    |
+      | activator |
       | groovy    |
       | scala     |
     When I enter "sdk update"
     Then I see "No new candidates found at this time."
-    And the Candidates cache should contain "ceylon,groovy,scala"
-
-  Scenario:
+    And the Candidates cache should contain "activator,groovy,scala"
