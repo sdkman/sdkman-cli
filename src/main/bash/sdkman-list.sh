@@ -55,7 +55,7 @@ function __sdkman_build_version_csv {
 	versions_csv=""
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}" ]]; then
-		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -type d -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do
+		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" \( -type l -o -type d \) -maxdepth 1 -mindepth 1 -exec basename '{}' \; | sort -r); do
 			if [[ "$version" != 'current' ]]; then
 				versions_csv="${version},${versions_csv}"
 			fi
