@@ -98,33 +98,6 @@ fi
 if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=7; fi
 if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=10; fi
 
-# determine if up to date
-SDKMAN_VERSION_FILE="${SDKMAN_DIR}/var/version"
-if [[ "$sdkman_beta_channel" != "true" && -f "$SDKMAN_VERSION_FILE" && -z "$(find "$SDKMAN_VERSION_FILE" -mmin +$((60*24)))" ]]; then
-	__sdkman_echo_debug "Not refreshing version cache now..."
-	SDKMAN_REMOTE_VERSION=$(cat "$SDKMAN_VERSION_FILE")
-
-else
-	__sdkman_echo_debug "Version cache needs updating..."
-	if [[ "$sdkman_beta_channel" == "true" ]]; then
-		__sdkman_echo_debug "Refreshing version cache with BETA version."
-		VERSION_URL="${SDKMAN_CURRENT_API}/broker/download/sdkman/version/beta"
-	else
-		__sdkman_echo_debug "Refreshing version cache with STABLE version."
-		VERSION_URL="${SDKMAN_CURRENT_API}/broker/download/sdkman/version/stable"
-	fi
-
-	SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "$VERSION_URL")
-	if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')" ]]; then
-		__sdkman_echo_debug "Version information corrupt or empty! Ignoring: $SDKMAN_REMOTE_VERSION"
-		SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
-
-	else
-		__sdkman_echo_debug "Overwriting version cache with: $SDKMAN_REMOTE_VERSION"
-		echo "${SDKMAN_REMOTE_VERSION}" > "$SDKMAN_VERSION_FILE"
-	fi
-fi
-
 # Read list of candidates and set array
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
 SDKMAN_CANDIDATES_CSV=$(cat "$SDKMAN_CANDIDATES_CACHE")

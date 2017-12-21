@@ -32,6 +32,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.exists()
@@ -50,6 +51,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.exists()
@@ -72,6 +74,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.exists()
@@ -94,6 +97,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.text.contains("x.y.z")
@@ -115,6 +119,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         !bash.output.contains("SDKMAN can't reach the internet so going offline.")
@@ -137,6 +142,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.text.contains(sdkmanVersion)
@@ -156,6 +162,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.exists()

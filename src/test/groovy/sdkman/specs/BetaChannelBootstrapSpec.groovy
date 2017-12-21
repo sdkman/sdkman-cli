@@ -31,6 +31,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.exists()
@@ -53,6 +54,8 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
+
 
         then:
         versionCache.exists()
@@ -74,6 +77,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.exists()
@@ -96,6 +100,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 
         when:
         bash.execute("source $bootstrapScript")
+        bash.execute("sdk version")
 
         then:
         versionCache.exists()
