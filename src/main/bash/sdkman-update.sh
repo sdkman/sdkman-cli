@@ -67,22 +67,3 @@ function __sdk_update {
 	fi
 
 }
-
-function ___sdkman_check_candidates_cache {
-    local candidates_cache="$1"
-    if [[ -f "$candidates_cache" && -n "$(cat "$candidates_cache")" && -n "$(find "$candidates_cache" -mmin +$((24*60*30)))" ]]; then
-        __sdkman_echo_red 'Warning! SDKMAN out-of-date and requires an update.'
-        __sdkman_echo_no_colour ''
-        __sdkman_echo_no_colour '  $ sdk update'
-        return 0
-    elif [[ -f "$candidates_cache" && -z "$(cat "$candidates_cache")" ]]; then
-        __sdkman_echo_red 'Warning! Cache is corrupt. SDKMAN can not be used until updated. Please run:'
-        __sdkman_echo_no_colour ''
-        __sdkman_echo_no_colour '  $ sdk update'
-        return 1
-    else
-        __sdkman_echo_debug "SDKMAN: No update needed. Using existing candidates cache: $SDKMAN_CANDIDATES_CSV"
-        return 0
-    fi
-
-}
