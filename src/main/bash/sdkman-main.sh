@@ -40,10 +40,6 @@ function sdk {
 			COMMAND="current";;
 		ug)
 			COMMAND="upgrade";;
-		outdated)
-			COMMAND="upgrade";;
-		o)
-			COMMAND="upgrade";;
 		d)
 			COMMAND="default";;
 		b)

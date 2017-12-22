@@ -46,14 +46,6 @@ Feature: Mnemonics
     Then I see "Upgrade:"
     And I see "grails (1.3.9 < 2.4.4)"
 
-  Scenario: Deprecated shortcut for displaying upgradable Candidate Version in use, supported for backwards compatibility
-    Given the candidate "grails" version "1.3.9" is already installed and default
-    And the default "grails" version is "2.4.4"
-    And the system is bootstrapped
-    When I enter "sdk o grails" and answer "n"
-    Then I see "Upgrade:"
-    And I see "grails (1.3.9 < 2.4.4)"
-
   Scenario: Shortcut for installing a Candidate Version
     Given the candidate "grails" version "2.1.0" is not installed
     And the candidate "grails" version "2.1.0" is available for download
