@@ -42,7 +42,7 @@ Feature: Mnemonics
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" version is "2.4.4"
     And the system is bootstrapped
-    When I enter "sdk ug grails"
+    When I enter "sdk ug grails" and answer "n"
     Then I see "Upgrade:"
     And I see "grails (1.3.9 < 2.4.4)"
 
@@ -50,7 +50,7 @@ Feature: Mnemonics
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" version is "2.4.4"
     And the system is bootstrapped
-    When I enter "sdk o grails"
+    When I enter "sdk o grails" and answer "n"
     Then I see "Upgrade:"
     And I see "grails (1.3.9 < 2.4.4)"
 

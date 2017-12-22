@@ -9,7 +9,7 @@ Feature: Upgrade Candidate
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" version is "2.4.4"
     And the system is bootstrapped
-    When I enter "sdk upgrade grails"
+    When I enter "sdk upgrade grails" and answer "n"
     Then I see "Upgrade:"
     And I see "grails (1.3.9 < 2.4.4)"
 
@@ -36,7 +36,7 @@ Feature: Upgrade Candidate
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the default "grails" version is "2.4.4"
     And the system is bootstrapped
-    When I enter "sdk upgrade"
+    When I enter "sdk upgrade" and answer "n"
     Then I see "Upgrade:"
     And I see "grails (1.3.9 < 2.4.4)"
 
@@ -46,7 +46,7 @@ Feature: Upgrade Candidate
     And the candidate "groovy" version "2.0.5" is already installed and default
     And the default "groovy" version is "2.4.1"
     And the system is bootstrapped
-    When I enter "sdk upgrade"
+    When I enter "sdk upgrade" and answer "n"
     Then I see "Upgrade:"
     And I see "grails (1.3.9 < 2.4.4)"
     And I see "groovy (2.0.5 < 2.4.1)"
