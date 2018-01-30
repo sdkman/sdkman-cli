@@ -62,6 +62,7 @@ function __sdk_update {
             __sdkman_echo_yellow "Please open a new terminal now..."
 
         else
+            touch "$SDKMAN_CANDIDATES_CACHE"
             __sdkman_echo_green "No new candidates found at this time."
 		fi
 	fi
