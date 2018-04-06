@@ -50,6 +50,9 @@ function sdk {
 	# Various sanity checks and default settings
 	#
 
+    # Check bash version
+    __sdkman_check_legacy_bash || return 1
+
     # Check version and candidates cache
     if [[ "$COMMAND" != "update" ]]; then
         ___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1

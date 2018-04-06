@@ -103,3 +103,19 @@ function __sdkman_echo_confirm {
 		echo -e -n "\033[1;33m$1\033[0m"
 	fi
 }
+
+function __sdkman_check_legacy_bash {
+    if [[ -z $(bash --version | grep 'GNU bash, version 4..*') ]]; then
+        local legacy="false"
+    else local
+        legacy="true"
+    fi
+    if [[ "$bash_shell" == 'true' && -z "$(bash --version | grep 'GNU bash, version 4..*')" ]]; then
+        __sdkman_echo_red "An outdated version of bash was detected on your system:"
+        echo ""
+        __sdkman_echo_yellow "  $(bash --version | grep 'GNU bash, version')"
+        echo ""
+        __sdkman_echo_red "We recommend you upgrade to bash 4.x"
+        echo ""
+    fi
+}
