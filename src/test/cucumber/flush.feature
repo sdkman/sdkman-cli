@@ -9,17 +9,6 @@ Feature: Flush
     When I enter "sdk flush"
     Then I see "Stop! Please specify what you want to flush."
 
-  Scenario: Clear out the Candidate List
-    Given the candidate "grails" is known locally
-    When I enter "sdk flush candidates"
-    Then no candidates are know locally
-    And I see "Candidates have been flushed."
-
-  Scenario: Clear out an uninitialised Candidate List
-    Given I enter "sdk flush candidates"
-    When I enter "sdk flush candidates"
-    Then I see "No candidate list found so not flushed."
-
   Scenario: Clean up the current Broadcast
     Given a prior Broadcast "This is an old broadcast" with id "12344" was issued
     When I enter "sdk flush broadcast"

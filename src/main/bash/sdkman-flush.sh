@@ -20,14 +20,6 @@ function __sdk_flush {
 	local qualifier="$1"
 
 	case "$qualifier" in
-		candidates)
-			if [[ -f "${SDKMAN_DIR}/var/candidates" ]]; then
-				rm "${SDKMAN_DIR}/var/candidates"
-				__sdkman_echo_green "Candidates have been flushed."
-			else
-				__sdkman_echo_no_colour "No candidate list found so not flushed."
-			fi
-			;;
 		broadcast)
 			if [[ -f "${SDKMAN_DIR}/var/broadcast" ]]; then
 				rm "${SDKMAN_DIR}/var/broadcast"
