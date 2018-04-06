@@ -104,12 +104,7 @@ function __sdkman_echo_confirm {
 	fi
 }
 
-function __sdkman_check_legacy_bash {
-    if [[ -z $(bash --version | grep 'GNU bash, version 4..*') ]]; then
-        local legacy="false"
-    else local
-        legacy="true"
-    fi
+function __sdkman_legacy_bash_message {
     if [[ "$bash_shell" == 'true' && -z "$(bash --version | grep 'GNU bash, version 4..*')" ]]; then
         __sdkman_echo_red "An outdated version of bash was detected on your system:"
         echo ""

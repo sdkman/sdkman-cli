@@ -21,6 +21,8 @@ function __sdk_update {
 	__sdkman_echo_debug "Using candidates endpoint: $candidates_uri"
 
 	local fresh_candidates_csv=$(__sdkman_secure_curl_with_timeouts "$candidates_uri")
+	local detect_html="$(echo "$fresh_candidates" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+    if [[ -n $(bash --version | grep 'GNU bash, version 4..*') ]]; then legacy="false"; else legacy="true"; fi
 
 	local fresh_candidates=("")
     local cached_candidates=("")
@@ -39,8 +41,16 @@ function __sdk_update {
     __sdkman_echo_debug "Local candidates: $SDKMAN_CANDIDATES_CSV"
 	__sdkman_echo_debug "Fetched candidates: $fresh_candidates_csv"
 
-	local detect_html="$(echo "$fresh_candidates" | tr '[:upper:]' '[:lower:]' | grep 'html')"
 	if [[ -n "$fresh_candidates_csv" && -z "$detect_html" ]]; then
+
+        # legacy bash workaround
+        if [[ "$bash_shell" == 'true' && "$legacy" == 'true' && -z "$detect_html" ]]; then
+            __sdkman_legacy_bash_message
+            __sdkman_echo_yellow "Now using brute force to replace candidates..."
+            echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
+            return 0
+        fi
+
 		local fresh_candidates_length=${#fresh_candidates_csv}
 		local cached_candidates_length=${#SDKMAN_CANDIDATES_CSV}
 		__sdkman_echo_debug "Fresh and cached candidate lengths: $fresh_candidates_length $cached_candidates_length"
