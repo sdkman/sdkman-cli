@@ -44,7 +44,7 @@ function __sdkman_list_versions {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_offline_list "$candidate" "$versions_csv"
 	else
-		__sdkman_echo_no_colour "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
+		__sdkman_echo_versions_no_colour "$(__sdkman_secure_curl "${SDKMAN_LEGACY_API}/candidates/${candidate}/list?platform=${SDKMAN_PLATFORM}&current=${CURRENT}&installed=${versions_csv}")"
 	fi
 }
 

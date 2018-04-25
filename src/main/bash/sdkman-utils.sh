@@ -84,6 +84,15 @@ function __sdkman_echo_no_colour {
 	echo "$1"
 }
 
+function __sdkman_echo_versions_no_colour {
+	local input header versions footer
+	input="${1}"
+	header=$(echo "${input}" | head -n4)
+	versions=$(echo "${input}" | grep "[0-9]" | sort -r --version-sort)
+	footer=$(echo "${input}" | tail -n5)
+	echo -e "${header}\n${versions}\n${footer}"
+}
+
 function __sdkman_echo_yellow {
 	__sdkman_echo "33m" "$1"
 }
