@@ -70,8 +70,9 @@ Feature: Java Multi Platform Binary Distribution
     And the candidate "java" version "8u111" is not available for download on "FreeBSD"
     When I enter "sdk install java 8u111"
     Then I see "Stop! java 8u111 is not available. Possible causes:"
-    Then I see " * 8u111 is an invalid version"
-    Then I see " * java binaries are incompatible with FreeBSD"
+    And I see " * 8u111 is an invalid version"
+    And I see " * java binaries are incompatible with FreeBSD"
+    And I see " * java has not been released yet"
     And the candidate "java" version "8u111" is not installed
 
   Scenario: Platform is not supported for default version and user is notified
@@ -81,6 +82,7 @@ Feature: Java Multi Platform Binary Distribution
     And the candidate "java" version "8u111" is not available for download on "FreeBSD"
     When I enter "sdk install java"
     Then I see "Stop! java 8u111 is not available. Possible causes:"
-    Then I see " * 8u111 is an invalid version"
-    Then I see " * java binaries are incompatible with FreeBSD"
+    And I see " * 8u111 is an invalid version"
+    And I see " * java binaries are incompatible with FreeBSD"
+    And I see " * java has not been released yet"
     And the candidate "java" version "8u111" is not installed
