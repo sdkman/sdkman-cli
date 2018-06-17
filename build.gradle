@@ -7,13 +7,7 @@ buildscript {
 }
 
 plugins {
-    id "com.gradle.build-scan" version "1.1.1"
     id "com.jfrog.bintray" version "1.7"
-}
-
-buildScan {
-    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
-    licenseAgree = 'yes'
 }
 
 apply plugin: 'groovy'
