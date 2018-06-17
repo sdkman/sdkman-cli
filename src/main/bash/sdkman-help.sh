@@ -35,7 +35,7 @@ function __sdk_help {
 	__sdkman_echo_no_colour "       offline           [enable|disable]"
 	__sdkman_echo_no_colour "       selfupdate        [force]"
 	__sdkman_echo_no_colour "       update"
-	__sdkman_echo_no_colour "       flush             <candidates|broadcast|archives|temp>"
+	__sdkman_echo_no_colour "       flush             <broadcast|archives|temp>"
 	__sdkman_echo_no_colour ""
 	__sdkman_echo_no_colour "   candidate  :  the SDK to install: groovy, scala, grails, gradle, kotlin, etc."
 	__sdkman_echo_no_colour "                 use list command for comprehensive list of candidates"
