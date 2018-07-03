@@ -106,7 +106,7 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
         bash.execute("sdk update")
 
         then:
-        bash.output.contains('Adding new candidates(s): groovy,scala')
+        bash.output.contains('Adding new candidates(s): groovy scala')
 
         and:
         candidatesCache.text.trim() == "groovy,scala"

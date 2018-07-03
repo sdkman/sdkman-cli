@@ -53,21 +53,17 @@ function __sdk_update {
 		local cached_candidates_length=${#SDKMAN_CANDIDATES_CSV}
 		__sdkman_echo_debug "Fresh and cached candidate lengths: $fresh_candidates_length $cached_candidates_length"
 
-		local diff_candidates=$(echo ${fresh_candidates[@]} ${cached_candidates[@]} | tr ' ' '\n' | sort | uniq -u | tr '\n' ',')
-		local diff_len=${#diff_candidates}
-		local diff_endindex=$(expr $diff_len - 1)
-		local diff_result=$(echo $diff_candidates | cut -c 1-$diff_endindex)
-
+		local diff_candidates=$(echo ${fresh_candidates[@]} ${cached_candidates[@]} | tr ' ' '\n' | sort | uniq -u | tr '\n' ' ')
 		if (( fresh_candidates_length > cached_candidates_length )); then
 			echo ""
-			__sdkman_echo_green "Adding new candidates(s): $diff_result"
+			__sdkman_echo_green "Adding new candidates(s): $diff_candidates"
 			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
 			echo ""
 			__sdkman_echo_yellow "Please open a new terminal now..."
 
 		elif (( fresh_candidates_length < cached_candidates_length )); then
 			echo ""
-			__sdkman_echo_green "Removing obsolete candidates(s): $diff_result"
+			__sdkman_echo_green "Removing obsolete candidates(s): $diff_candidates"
 			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
 			echo ""
 			__sdkman_echo_yellow "Please open a new terminal now..."
