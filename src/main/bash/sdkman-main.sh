@@ -50,11 +50,11 @@ function sdk {
 	# Various sanity checks and default settings
 	#
 
-    # Check version and candidates cache
-    if [[ "$COMMAND" != "update" ]]; then
-        ___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1
-        ___sdkman_check_version_cache
-    fi
+	# Check version and candidates cache
+	if [[ "$COMMAND" != "update" ]]; then
+		___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1
+		___sdkman_check_version_cache
+	fi
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"

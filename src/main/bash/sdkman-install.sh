@@ -85,18 +85,18 @@ function __sdkman_install_local_version {
 
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
-    # handle relative paths
+	# handle relative paths
 	if [[ "$folder" != /* ]]; then
 		folder="$(pwd)/$folder"
 	fi
 
 	if [[ -d "$folder" ]]; then
-        __sdkman_echo_green "Linking ${candidate} ${version} to ${folder}"
-        ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
-        __sdkman_echo_green "Done installing!"
+		__sdkman_echo_green "Linking ${candidate} ${version} to ${folder}"
+		ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+		__sdkman_echo_green "Done installing!"
 
 	else
-	    __sdkman_echo_red "Invalid path! Refusing to link ${candidate} ${version} to ${folder}."
+		__sdkman_echo_red "Invalid path! Refusing to link ${candidate} ${version} to ${folder}."
 	fi
 
 	echo ""
