@@ -105,12 +105,11 @@ function __sdkman_echo_confirm {
 }
 
 function __sdkman_legacy_bash_message {
-    if [[ "$bash_shell" == 'true' && "$BASH_VERSINFO" -lt 4 ]]; then
-        __sdkman_echo_red "An outdated version of bash was detected on your system!"
-        echo ""
-        __sdkman_echo_red "We recommend upgrading to bash 4.x, you have:"
-        echo ""
-        __sdkman_echo_yellow "  $(bash --version | head -n1)"
-        echo ""
-    fi
+    __sdkman_echo_red "An outdated version of bash was detected on your system!"
+    echo ""
+    __sdkman_echo_red "We recommend upgrading to bash 4.x, you have:"
+    echo ""
+    __sdkman_echo_yellow "  $(bash --version | head -n1)"
+    echo ""
+    __sdkman_echo_yellow "Need to use brute force to replace candidates..."
 }

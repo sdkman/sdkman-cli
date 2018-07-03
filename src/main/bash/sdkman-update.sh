@@ -22,7 +22,6 @@ function __sdk_update {
 
 	local fresh_candidates_csv=$(__sdkman_secure_curl_with_timeouts "$candidates_uri")
 	local detect_html="$(echo "$fresh_candidates" | tr '[:upper:]' '[:lower:]' | grep 'html')"
-    if [[ -n $(bash --version | grep 'GNU bash, version 4..*') ]]; then legacy="false"; else legacy="true"; fi
 
 	local fresh_candidates=("")
     local cached_candidates=("")
@@ -44,9 +43,8 @@ function __sdk_update {
 	if [[ -n "$fresh_candidates_csv" && -z "$detect_html" ]]; then
 
         # legacy bash workaround
-        if [[ "$bash_shell" == 'true' && "$legacy" == 'true' && -z "$detect_html" ]]; then
+        if [[ "$bash_shell" == 'true' && "$BASH_VERSINFO" -lt 4 ]]; then
             __sdkman_legacy_bash_message
-            __sdkman_echo_yellow "Need to use brute force to replace candidates..."
             echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
             return 0
         fi
