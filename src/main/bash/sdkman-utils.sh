@@ -109,7 +109,7 @@ function __sdkman_legacy_bash_message {
 	echo ""
 	__sdkman_echo_red "We recommend upgrading to bash 4.x, you have:"
 	echo ""
-	__sdkman_echo_yellow "  $(bash --version | head -n1)"
+	__sdkman_echo_yellow "  $BASH_VERSION"
 	echo ""
 	__sdkman_echo_yellow "Need to use brute force to replace candidates..."
 }
