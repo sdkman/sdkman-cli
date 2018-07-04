@@ -1,4 +1,4 @@
-sdkmanCliVersion = 'master'
+sdkmanCliVersion = '5.6.5'
 environments {
     local {
         sdkmanLegacyApi = 'http://localhost:8080/1'
