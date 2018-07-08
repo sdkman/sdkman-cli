@@ -65,3 +65,11 @@ Feature: Local Development Versions
     When I enter "sdk install groovy 2.1-SNAPSHOT /some/bogus/path/to/groovy"
     Then I see "Invalid path! Refusing to link groovy 2.1-SNAPSHOT to /some/bogus/path/to/groovy."
     And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
+
+  Scenario: Prevent installation of a local development version for an invalid version
+    Given the candidate "groovy" version "2.1-SNAPSHOT-LONG" is not available for download
+    And I have a local candidate "groovy" version "2.1-SNAPSHOT-LONG" at relative path "some/relative/path/to/groovy"
+    And the system is bootstrapped
+    When I enter "sdk install groovy 2.1-SNAPSHOT-LONG some/relative/path/to/groovy"
+    Then I see "Invalid version! 2.1-SNAPSHOT-LONG with length 17 exceeds max of 15!"
+    And the candidate "groovy" version "2.1-SNAPSHOT-LONG" is not installed

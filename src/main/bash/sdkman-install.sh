@@ -77,11 +77,21 @@ function __sdkman_install_candidate_version {
 }
 
 function __sdkman_install_local_version {
-	local candidate version folder
+	local candidate version folder version_length version_length_max
+
+	version_length_max=15
 
 	candidate="$1"
 	version="$2"
 	folder="$3"
+
+	#Validate max length of version
+	version_length=${#version}
+
+	if [[ $version_length > $version_length_max ]]; then
+		__sdkman_echo_red "Invalid version! ${version} with length ${version_length} exceeds max of ${version_length_max}!"
+		return 1
+	fi
 
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
@@ -97,6 +107,7 @@ function __sdkman_install_local_version {
 
 	else
 		__sdkman_echo_red "Invalid path! Refusing to link ${candidate} ${version} to ${folder}."
+		return 1
 	fi
 
 	echo ""
