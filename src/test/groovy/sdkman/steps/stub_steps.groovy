@@ -68,7 +68,7 @@ And(~/^the candidate "(.*?)" version "(.*?)" is not available for download on "(
 }
 
 And(~'^a "([^"]*)" list view is available for consumption$') { String candidate ->
-    primeEndpointWithString("/candidates/${candidate}/list?platform=${UnixUtils.platform}&current=&installed=", "Available ${candidate.capitalize()} Versions")
+    primeEndpointWithString("/candidates/${candidate}/${UnixUtils.platform}/versions/list?current=&installed=", "Available ${candidate.capitalize()} Versions")
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is a valid candidate version$') { String candidate, String version ->
@@ -82,7 +82,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not a valid candidate versio
 And(~/^the candidate "(.*?)" has a version list available$/) { String candidate ->
     def current = readCurrentFromCandidateFolder(candidatesDir, candidate)
     def versions = readVersionsCsvFromCandidateFolder(candidatesDir, candidate)
-    def url = "/candidates/${candidate}/list?platform=${UnixUtils.platform}&current=${current}&installed=${versions}"
+    def url = "/candidates/${candidate}/${UnixUtils.platform}/versions/list?current=${current}&installed=${versions}"
     println("Priming url: $url")
     primeEndpointWithString(url, "Candidate: $candidate; Versions: $versions; Current: $current; Platform: ${UnixUtils.platform}")
 }
