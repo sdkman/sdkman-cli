@@ -30,10 +30,6 @@ if [ -z "$SDKMAN_VERSION" ]; then
 	export SDKMAN_VERSION="@SDKMAN_VERSION@"
 fi
 
-if [ -z "$SDKMAN_LEGACY_API" ]; then
-	export SDKMAN_LEGACY_API="@SDKMAN_LEGACY_API@"
-fi
-
 if [ -z "$SDKMAN_CURRENT_API" ]; then
 	export SDKMAN_CURRENT_API="@SDKMAN_CURRENT_API@"
 fi

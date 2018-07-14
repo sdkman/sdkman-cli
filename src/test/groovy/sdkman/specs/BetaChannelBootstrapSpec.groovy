@@ -21,7 +21,6 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
         def betaVersion = "x.y.c"
         curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $betaVersion")
         bash = sdkmanBashEnvBuilder
-                .withLegacyService(CURRENT_API)
                 .withConfiguration("sdkman_beta_channel", "true")
                 .withVersionCache("x.y.b")
                 .build()
@@ -43,7 +42,6 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
         def stableVersion = "x.y.b"
         curlStub.primeWith(CLI_STABLE_ENDPOINT, "echo $stableVersion")
         bash = sdkmanBashEnvBuilder
-                .withLegacyService(CURRENT_API)
                 .withConfiguration("sdkman_beta_channel", "false")
                 .withVersionCache("x.y.c")
                 .build()
@@ -67,7 +65,6 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
         def newerBetaVersion = "x.y.d"
         curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $newerBetaVersion")
         bash = sdkmanBashEnvBuilder
-                .withLegacyService(CURRENT_API)
                 .withConfiguration("sdkman_beta_channel", "true")
                 .withVersionCache("x.y.c")
                 .build()
@@ -89,7 +86,6 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
         def newerStableVersion = "x.y.d"
         curlStub.primeWith(CLI_STABLE_ENDPOINT, "echo $newerStableVersion")
         bash = sdkmanBashEnvBuilder
-                .withLegacyService(CURRENT_API)
                 .withConfiguration("sdkman_beta_channel", "false")
                 .withVersionCache("x.y.c")
                 .build()

@@ -16,7 +16,6 @@ class SdkmanBashEnvBuilder {
     private List candidates = ['groovy', 'grails', 'java']
     private boolean offlineMode = false
     private String broadcast = "This is a LIVE broadcast!"
-    private String legacyService = "http://localhost:8080/1"
     private String currentService = "http://localhost:8080/2"
     private String sdkmanVersion = "5.0.0"
     private String jdkHome = "/path/to/my/jdk"
@@ -60,11 +59,6 @@ class SdkmanBashEnvBuilder {
 
     SdkmanBashEnvBuilder withOfflineMode(boolean offlineMode) {
         this.offlineMode = offlineMode
-        this
-    }
-
-    SdkmanBashEnvBuilder withLegacyService(String service) {
-        this.legacyService = service
         this
     }
 
@@ -119,7 +113,6 @@ class SdkmanBashEnvBuilder {
                 SDKMAN_DIR           : sdkmanDir.absolutePath,
                 SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
                 SDKMAN_OFFLINE_MODE  : "$offlineMode",
-                SDKMAN_LEGACY_API    : legacyService,
                 SDKMAN_CURRENT_API   : currentService,
                 SDKMAN_VERSION       : sdkmanVersion,
                 sdkman_debug_mode    : 'true',

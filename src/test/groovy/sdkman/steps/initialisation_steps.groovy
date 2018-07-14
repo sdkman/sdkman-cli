@@ -91,7 +91,6 @@ And(~'^a machine with "(.*)" installed$') { String platform ->
 And(~'^an initialised environment$') {->
     bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
         .withOfflineMode(offlineMode)
-        .withLegacyService(serviceUrlEnv)
         .withCurrentService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
@@ -104,7 +103,6 @@ And(~'^an initialised environment$') {->
 And(~'^an outdated initialised environment$') {->
     bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
         .withOfflineMode(offlineMode)
-        .withLegacyService(serviceUrlEnv)
         .withCurrentService(serviceUrlEnv)
         .withJdkHome(javaHome)
         .withHttpProxy(HTTP_PROXY)
