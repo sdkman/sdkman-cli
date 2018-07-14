@@ -30,8 +30,8 @@ if [ -z "$SDKMAN_VERSION" ]; then
 	export SDKMAN_VERSION="@SDKMAN_VERSION@"
 fi
 
-if [ -z "$SDKMAN_CURRENT_API" ]; then
-	export SDKMAN_CURRENT_API="@SDKMAN_CURRENT_API@"
+if [ -z "$SDKMAN_CANDIDATES_API" ]; then
+	export SDKMAN_CANDIDATES_API="@SDKMAN_CANDIDATES_API@"
 fi
 
 if [ -z "$SDKMAN_DIR" ]; then

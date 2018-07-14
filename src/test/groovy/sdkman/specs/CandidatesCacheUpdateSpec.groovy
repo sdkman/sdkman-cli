@@ -4,10 +4,10 @@ import sdkman.support.SdkmanEnvSpecification
 
 class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
 
-    static final CURRENT_API = "http://localhost:8080/2"
+    static final CANDIDATES_API = "http://localhost:8080/2"
 
-    static final BROADCAST_API_LATEST_ID_ENDPOINT = "$CURRENT_API/broadcast/latest/id"
-    static final CANDIDATES_ALL_ENDPOINT = "$CURRENT_API/candidates/all"
+    static final BROADCAST_API_LATEST_ID_ENDPOINT = "$CANDIDATES_API/broadcast/latest/id"
+    static final CANDIDATES_ALL_ENDPOINT = "$CANDIDATES_API/candidates/all"
 
     File candidatesCache
 

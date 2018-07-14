@@ -48,10 +48,10 @@ function ___sdkman_check_version_cache {
 		__sdkman_echo_debug "Version cache needs updating..."
 		if [[ "$sdkman_beta_channel" == "true" ]]; then
 			__sdkman_echo_debug "Refreshing version cache with BETA version."
-			version_url="${SDKMAN_CURRENT_API}/broker/download/sdkman/version/beta"
+			version_url="${SDKMAN_CANDIDATES_API}/broker/download/sdkman/version/beta"
 		else
 			__sdkman_echo_debug "Refreshing version cache with STABLE version."
-			version_url="${SDKMAN_CURRENT_API}/broker/download/sdkman/version/stable"
+			version_url="${SDKMAN_CANDIDATES_API}/broker/download/sdkman/version/stable"
 		fi
 
 		SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "$version_url")

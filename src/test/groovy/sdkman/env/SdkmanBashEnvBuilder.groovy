@@ -16,7 +16,7 @@ class SdkmanBashEnvBuilder {
     private List candidates = ['groovy', 'grails', 'java']
     private boolean offlineMode = false
     private String broadcast = "This is a LIVE broadcast!"
-    private String currentService = "http://localhost:8080/2"
+    private String candidatesApi = "http://localhost:8080/2"
     private String sdkmanVersion = "5.0.0"
     private String jdkHome = "/path/to/my/jdk"
     private String httpProxy
@@ -62,8 +62,8 @@ class SdkmanBashEnvBuilder {
         this
     }
 
-    SdkmanBashEnvBuilder withCurrentService(String service) {
-        this.currentService = service
+    SdkmanBashEnvBuilder withCandidatesApi(String service) {
+        this.candidatesApi = service
         this
     }
 
@@ -113,7 +113,7 @@ class SdkmanBashEnvBuilder {
                 SDKMAN_DIR           : sdkmanDir.absolutePath,
                 SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
                 SDKMAN_OFFLINE_MODE  : "$offlineMode",
-                SDKMAN_CURRENT_API   : currentService,
+                SDKMAN_CANDIDATES_API           : candidatesApi,
                 SDKMAN_VERSION       : sdkmanVersion,
                 sdkman_debug_mode    : 'true',
                 JAVA_HOME            : jdkHome

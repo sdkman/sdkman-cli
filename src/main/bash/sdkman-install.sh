@@ -123,14 +123,14 @@ function __sdkman_download {
 	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
 
 		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
-		local download_url="${SDKMAN_CURRENT_API}/broker/download/${candidate}/${version}/${platform_parameter}"
+		local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 		local base_name="$(head /dev/urandom | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
 		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 
 		#pre-installation hook: implements function __sdkman_pre_installation_hook
 		local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
-		__sdkman_echo_debug "Get pre-installation hook: ${SDKMAN_CURRENT_API}/hooks/pre/${candidate}/${version}/${platform_parameter}"
-		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/pre/${candidate}/${version}/${platform_parameter}" > "$pre_installation_hook"
+		__sdkman_echo_debug "Get pre-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/pre/${candidate}/${version}/${platform_parameter}"
+		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/pre/${candidate}/${version}/${platform_parameter}" > "$pre_installation_hook"
 		__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
 		source "$pre_installation_hook"
 		__sdkman_pre_installation_hook || return 1
@@ -152,8 +152,8 @@ function __sdkman_download {
 		#post-installation hook: implements function __sdkman_post_installation_hook
 		#responsible for taking `binary_input` and producing `zip_output`
 		local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
-		__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CURRENT_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
-		__sdkman_secure_curl "${SDKMAN_CURRENT_API}/hooks/post/${candidate}/${version}/${platform_parameter}" > "$post_installation_hook"
+		__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
+		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}" > "$post_installation_hook"
 		__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
 		source "$post_installation_hook"
 		__sdkman_post_installation_hook || return 1

@@ -58,8 +58,8 @@ task prepareScripts(type: Copy) {
     include '**/*'
     filter(ReplaceTokens, tokens:
             [
-                    SDKMAN_VERSION    : sdkmanCliBuildVersion,
-                    SDKMAN_CURRENT_API: config.sdkmanCurrentApi
+                    SDKMAN_VERSION: sdkmanCliBuildVersion,
+                    SDKMAN_CANDIDATES_API: config.candidatesApi
             ]
     )
 }

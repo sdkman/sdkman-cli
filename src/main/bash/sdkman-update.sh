@@ -17,7 +17,7 @@
 #
 
 function __sdk_update {
-	local candidates_uri="${SDKMAN_CURRENT_API}/candidates/all"
+	local candidates_uri="${SDKMAN_CANDIDATES_API}/candidates/all"
 	__sdkman_echo_debug "Using candidates endpoint: $candidates_uri"
 
 	local fresh_candidates_csv=$(__sdkman_secure_curl_with_timeouts "$candidates_uri")
