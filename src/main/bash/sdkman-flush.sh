@@ -21,7 +21,8 @@ function __sdk_flush {
 
 	case "$qualifier" in
 		broadcast)
-			if [[ -f "${SDKMAN_DIR}/var/broadcast" ]]; then
+			if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
+				rm "${SDKMAN_DIR}/var/broadcast_id"
 				rm "${SDKMAN_DIR}/var/broadcast"
 				__sdkman_echo_green "Broadcast has been flushed."
 			else

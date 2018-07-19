@@ -10,10 +10,6 @@ And(~'^no candidates are know locally$') {->
     assert ! candidatesFile.exists()
 }
 
-And(~'^no broadcast message can be found$') {->
-    assert ! (broadcastFile.exists() && broadcastIdFile.exists())
-}
-
 And(~'^the archive "([^"]*)" has been cached$') { String archive ->
     new File(archiveDir, archive).createNewFile()
 }
@@ -28,11 +24,6 @@ And(~'^the file "([^"]*)" in temporary storage$') { String fileName ->
 
 And(~'^no "([^"]*)" file is present in temporary storage$') { String fileName ->
     assert ! new File(tmpDir, fileName).exists()
-}
-
-And(~'^the broadcast has been flushed$') {->
-    broadcastIdFile.delete()
-    broadcastFile.delete()
 }
 
 And(~'^a prior version "([^"]*)" was detected$') { String version ->

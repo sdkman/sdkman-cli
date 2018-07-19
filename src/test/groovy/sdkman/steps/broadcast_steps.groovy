@@ -17,3 +17,13 @@ And(~'^a prior Broadcast "(.*)" with id "(.*)" was issued$') { String broadcast,
     broadcastIdFile.write id
     broadcastFile.write broadcast
 }
+
+And(~'^no broadcast message can be found$') {->
+    assert !broadcastIdFile.exists()
+    assert !broadcastFile.exists()
+}
+
+And(~'^the broadcast has been flushed$') { ->
+    broadcastIdFile.delete()
+    broadcastFile.delete()
+}
