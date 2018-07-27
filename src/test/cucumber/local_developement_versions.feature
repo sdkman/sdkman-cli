@@ -66,10 +66,26 @@ Feature: Local Development Versions
     Then I see "Invalid path! Refusing to link groovy 2.1-SNAPSHOT to /some/bogus/path/to/groovy."
     And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
 
-  Scenario: Prevent installation of a local development version for an invalid version
-    Given the candidate "groovy" version "2.1-SNAPSHOT-LONG" is not available for download
-    And I have a local candidate "groovy" version "2.1-SNAPSHOT-LONG" at relative path "some/relative/path/to/groovy"
+  Scenario: Prevent installation of a local development version for a long version
+    Given the candidate "groovy" version "2.1-SNAPSHOTLONG" is not available for download
+    And I have a local candidate "groovy" version "2.1-SNAPSHOTLONG" at relative path "some/relative/path/to/groovy"
     And the system is bootstrapped
-    When I enter "sdk install groovy 2.1-SNAPSHOT-LONG some/relative/path/to/groovy"
-    Then I see "Invalid version! 2.1-SNAPSHOT-LONG with length 17 exceeds max of 15!"
-    And the candidate "groovy" version "2.1-SNAPSHOT-LONG" is not installed
+    When I enter "sdk install groovy 2.1-SNAPSHOTLONG some/relative/path/to/groovy"
+    Then I see "Invalid version! 2.1-SNAPSHOTLONG with length 16 exceeds max of 15!"
+    And the candidate "groovy" version "2.1-SNAPSHOTLONG" is not installed
+
+  Scenario: Allow installation of a local development version for longest possible version
+    Given the candidate "groovy" version "2.1-SNAPSHOT-XX" is not available for download
+    And I have a local candidate "groovy" version "2.1-SNAPSHOT-XX" at "/tmp/groovy-core"
+    And the system is bootstrapped
+    When I enter "sdk install groovy 2.1-SNAPSHOT-XX /tmp/groovy-core"
+    Then I see "Linking groovy 2.1-SNAPSHOT-XX to /tmp/groovy-core"
+    And the candidate "groovy" version "2.1-SNAPSHOT-XX" is linked to "/tmp/groovy-core"
+
+  Scenario: Allow installation of a local development version for a short version
+    Given the candidate "java" version "graal" is not available for download
+    And I have a local candidate "java" version "graal" at "/tmp/graalvm-1.0.0-rc4-graal"
+    And the system is bootstrapped
+    When I enter "sdk install java graal /tmp/graalvm-1.0.0-rc4-graal"
+    Then I see "Linking java graal to /tmp/graalvm-1.0.0-rc4-graal"
+    And the candidate "java" version "graal" is linked to "/tmp/graalvm-1.0.0-rc4-graal"

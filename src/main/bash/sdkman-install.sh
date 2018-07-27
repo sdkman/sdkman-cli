@@ -87,8 +87,9 @@ function __sdkman_install_local_version {
 
 	#Validate max length of version
 	version_length=${#version}
+	__sdkman_echo_debug "Validating that actual version length ($version_length) does not exceed max ($version_length_max)"
 
-	if [[ $version_length > $version_length_max ]]; then
+	if [[ $version_length -gt $version_length_max ]]; then
 		__sdkman_echo_red "Invalid version! ${version} with length ${version_length} exceeds max of ${version_length_max}!"
 		return 1
 	fi
