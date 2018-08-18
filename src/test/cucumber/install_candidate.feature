@@ -26,6 +26,7 @@ Feature: Install Candidate
     And the candidate "grails" version "1.4.4" is not available for download
     When I enter "sdk install grails 1.4.4"
     Then I see "Stop! grails 1.4.4 is not available."
+    And the exit code is 1
 
   Scenario: Install a Candidate version that is already installed
     Given the system is bootstrapped
