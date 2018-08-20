@@ -98,6 +98,15 @@ fi
 if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=7; fi
 if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=10; fi
 
+# set curl retry
+if [[ -z "${sdkman_curl_retry}" ]]; then sdkman_curl_retry=0; fi
+
+# set curl retry max time in seconds
+if [[ -z "${sdkman_curl_retry_max_time}" ]]; then sdkman_curl_retry_max_time=60; fi
+
+# set curl to continue downloading automatically
+if [[ -z "${sdkman_curl_continue_automatically}" ]]; then sdkman_curl_continue_automatically=true; fi
+
 # Read list of candidates and set array
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
 SDKMAN_CANDIDATES_CSV=$(<"$SDKMAN_CANDIDATES_CACHE")

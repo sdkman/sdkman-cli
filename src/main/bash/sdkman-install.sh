@@ -147,8 +147,8 @@ function __sdkman_download {
 		echo ""
 
 		#download binary
-		__sdkman_secure_curl_download "$download_url" > "$binary_input"
-		__sdkman_echo_debug "Downloaded binary to: $binary_input"
+		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}"
+		__sdkman_echo_debug "Downloaded binary to: ${binary_input}"
 
 		#post-installation hook: implements function __sdkman_post_installation_hook
 		#responsible for taking `binary_input` and producing `zip_output`
