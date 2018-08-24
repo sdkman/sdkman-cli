@@ -51,7 +51,7 @@ function __sdkman_secure_curl_download {
 		curl_params="--retry-max-time ${sdkman_curl_retry_max_time} ${curl_params}"
 	fi
 
-	if [[ "${sdkman_curl_continue_automatically}" == 'true' ]]; then
+	if [[ "${sdkman_curl_continue}" == 'true' ]]; then
 		curl_params="-C - ${curl_params}"
 	fi
 
