@@ -85,10 +85,10 @@ function __sdkman_update_broadcast {
 	if [[ "$SDKMAN_AVAILABLE" == "true" && "$broadcast_live_id" != "$broadcast_old_id" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then
 		mkdir -p "${SDKMAN_DIR}/var"
 
-		echo "$broadcast_live_id" >| "$broadcast_id_file"
+		echo "$broadcast_live_id" | tee "$broadcast_id_file" > /dev/null
 
 		BROADCAST_LIVE_TEXT=$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/broadcast/latest")
-		echo "$BROADCAST_LIVE_TEXT" >| "$broadcast_text_file"
+		echo "$BROADCAST_LIVE_TEXT" | tee "$broadcast_text_file" > /dev/null
 		if [[ "$COMMAND" != "broadcast" ]]; then
 			__sdkman_echo_cyan "$BROADCAST_LIVE_TEXT"
 		fi

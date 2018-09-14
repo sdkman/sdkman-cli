@@ -61,7 +61,7 @@ function ___sdkman_check_version_cache {
 
 		else
 			__sdkman_echo_debug "Overwriting version cache with: $SDKMAN_REMOTE_VERSION"
-			echo "${SDKMAN_REMOTE_VERSION}" >| "$version_file"
+			echo "${SDKMAN_REMOTE_VERSION}" | tee "$version_file" > /dev/null
 		fi
 	fi
 
