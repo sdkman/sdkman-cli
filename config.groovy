@@ -1,4 +1,4 @@
-sdkmanCliVersion = 'master'
+sdkmanCliVersion = '5.7.3'
 environments {
     local {
         candidatesApi = 'http://localhost:8080/2'
