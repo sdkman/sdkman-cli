@@ -16,16 +16,7 @@
 #   limitations under the License.
 #
 
-SDKMAN_PLATFORM="$(uname)"
-if [[ "$SDKMAN_PLATFORM" == 'Linux' ]]; then
-	if [[ "$(uname -m)" == 'i686' ]]; then
-		SDKMAN_PLATFORM+='32'
-	else
-		SDKMAN_PLATFORM+='64'
-	fi
-fi
-export SDKMAN_PLATFORM
-
+# set env vars if not set
 if [ -z "$SDKMAN_VERSION" ]; then
 	export SDKMAN_VERSION="@SDKMAN_VERSION@"
 fi
@@ -38,7 +29,16 @@ if [ -z "$SDKMAN_DIR" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
 
-export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
+# infer platform
+SDKMAN_PLATFORM="$(uname)"
+if [[ "$SDKMAN_PLATFORM" == 'Linux' ]]; then
+	if [[ "$(uname -m)" == 'i686' ]]; then
+		SDKMAN_PLATFORM+='32'
+	else
+		SDKMAN_PLATFORM+='64'
+	fi
+fi
+export SDKMAN_PLATFORM
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false
@@ -116,9 +116,12 @@ if [[ "$zsh_shell" == 'true' ]]; then
 else
 	OLD_IFS="$IFS"
 	IFS=","
-	SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
+        SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
 	IFS="$OLD_IFS"
 fi
+
+export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
+
 for candidate_name in "${SDKMAN_CANDIDATES[@]}"; do
 	candidate_dir="${SDKMAN_CANDIDATES_DIR}/${candidate_name}/current"
 	if [[ -h "$candidate_dir" || -d "${candidate_dir}" ]]; then
