@@ -22,7 +22,7 @@ function __sdk_help {
 	__sdkman_echo_no_colour "       sdk offline <enable|disable>"
 	__sdkman_echo_no_colour ""
 	__sdkman_echo_no_colour "   commands:"
-	__sdkman_echo_no_colour "       install   or i    <candidate> [version]"
+	__sdkman_echo_no_colour "       install   or i    <candidate> [version] [local-installation-path]"
 	__sdkman_echo_no_colour "       uninstall or rm   <candidate> <version>"
 	__sdkman_echo_no_colour "       list      or ls   [candidate]"
 	__sdkman_echo_no_colour "       use       or u    <candidate> [version]"
@@ -43,5 +43,7 @@ function __sdk_help {
 	__sdkman_echo_no_colour ""
 	__sdkman_echo_no_colour "   version    :  where optional, defaults to latest stable if not provided"
 	__sdkman_echo_no_colour "                 eg: \$ sdk install groovy"
+	__sdkman_echo_no_colour "   local-installation-path :  optional path to an existing local installation"
+	__sdkman_echo_no_colour "                 eg: \$ sdk install groovy 2.4.13-local /usr/local/src/groovy-2.4.13"
 	__sdkman_echo_no_colour ""
 }
