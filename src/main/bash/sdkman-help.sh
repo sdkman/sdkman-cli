@@ -40,7 +40,6 @@ function __sdk_help {
 	__sdkman_echo_no_colour "   candidate  :  the SDK to install: groovy, scala, grails, gradle, kotlin, etc."
 	__sdkman_echo_no_colour "                 use list command for comprehensive list of candidates"
 	__sdkman_echo_no_colour "                 eg: \$ sdk list"
-	__sdkman_echo_no_colour ""
 	__sdkman_echo_no_colour "   version    :  where optional, defaults to latest stable if not provided"
 	__sdkman_echo_no_colour "                 eg: \$ sdk install groovy"
 	__sdkman_echo_no_colour "   local-path :  optional path to an existing local installation"
