@@ -60,7 +60,7 @@ This project exists thanks to all the people who contribute.
 
 ## Backers
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/sdkman#backer)]
+Thank you to all our backers! [[Become a backer](https://opencollective.com/sdkman#backer)]
 
 <a href="https://opencollective.com/sdkman#backers" target="_blank"><img src="https://opencollective.com/sdkman/backers.svg?width=890"></a>
 
