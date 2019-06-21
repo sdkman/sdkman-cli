@@ -4,7 +4,7 @@ We greatly value the feedback and contributions of our users. We have a simple p
 
 ### Bugs and New Features
 
-We keep a distinction between New Features and Bugs/Issues. We try to minimise the noise in our Github Issues stream by first having a conversation in one of the following [Slack](https://sdkman.slack.com) channels:
+We keep a distinction between New Features and Bugs/Issues. We try to minimise the noise in our Github Issues stream by first having a conversation on [SDKMAN Slack](https://slack.sdkman.io). Simply sign up and join one of the following channels:
 
 - User Issues can be raised in our [User Issues channel](https://sdkman.slack.com/app_redirect?channel=user-issues).
 - New Features or Enhancements can be discussed in our [CLI Development channel](https://sdkman.slack.com/app_redirect?channel=cli-development).
