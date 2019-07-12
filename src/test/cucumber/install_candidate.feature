@@ -12,14 +12,16 @@ Feature: Install Candidate
     Then I see "Done installing!"
     And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
     And the candidate "grails" version "2.1.0" is installed
+    And the exit code is 0
 
   Scenario: Install a specific Candidate and set to default
     Given the system is bootstrapped
     And the candidate "grails" version "1.3.9" is available for download
     When I enter "sdk install grails 1.3.9"
     Then I see "Done installing!"
-    And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
+    And I do not see "Do you want grails 1.3.9 to be set as default? (Y/n)"
     And the candidate "grails" version "1.3.9" is installed
+    And the exit code is 0
 
   Scenario: Install a Candidate version that does not exist
     Given the system is bootstrapped
@@ -34,6 +36,7 @@ Feature: Install Candidate
     And the candidate "grails" version "1.3.9" is already installed and default
     When I enter "sdk install grails 1.3.9"
     Then I see "Stop! grails 1.3.9 is already installed."
+    And the exit code is 1
 
   Scenario: Install a candidate and auto-answer to make it default
     Given the system is bootstrapped
@@ -45,6 +48,7 @@ Feature: Install Candidate
     And I see "Done installing!"
     And I see "Setting grails 2.1.0 as default."
     And the candidate "grails" version "2.1.0" should be the default
+    And the exit code is 0
 
   Scenario: Install a candidate and choose to make it default
     Given the candidate "grails" version "1.3.9" is already installed and default
@@ -57,6 +61,7 @@ Feature: Install Candidate
     And I see "Setting grails 2.1.0 as default."
     And the candidate "grails" version "2.1.0" should be the default
     And the candidate "grails" version "1.3.9" should not be the default
+    And the exit code is 0
 
   Scenario: Install a candidate and choose not to make it default
     Given the candidate "grails" version "1.3.9" is already installed and default
@@ -69,6 +74,7 @@ Feature: Install Candidate
     And I do not see "Setting grails 2.1.0 as default."
     And the candidate "grails" version "2.1.0" should not be the default
     And the candidate "grails" version "1.3.9" should be the default
+    And the exit code is 0
 
   #revisit to redownload automatically
   Scenario: Abort installation on download of a corrupt Candidate archive
@@ -79,3 +85,4 @@ Feature: Install Candidate
     Then I see "Stop! The archive was corrupt and has been removed! Please try installing again."
     And the candidate "grails" version "1.3.6" is not installed
     And the archive for candidate "grails" version "1.3.6" is removed
+    And the exit code is 1
