@@ -17,15 +17,15 @@
 #
 
 # set env vars if not set
-if [ -z "$SDKMAN_VERSION" ]; then
+if [ -z "${SDKMAN_VERSION:-}" ]; then
 	export SDKMAN_VERSION="@SDKMAN_VERSION@"
 fi
 
-if [ -z "$SDKMAN_CANDIDATES_API" ]; then
+if [ -z "${SDKMAN_CANDIDATES_API:-}" ]; then
 	export SDKMAN_CANDIDATES_API="@SDKMAN_CANDIDATES_API@"
 fi
 
-if [ -z "$SDKMAN_DIR" ]; then
+if [ -z "${SDKMAN_DIR:-}" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
 
