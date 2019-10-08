@@ -69,7 +69,7 @@ function __sdkman_install_candidate_version {
 
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
-	rm -rf "${SDKMAN_DIR}/tmp/out"
+	\rm -rf "${SDKMAN_DIR}/tmp/out"
 	unzip -oq "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
 	mv "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	__sdkman_echo_green "Done installing!"
@@ -179,7 +179,7 @@ function __sdkman_validate_zip {
 	zip_archive="$1"
 	zip_ok=$(unzip -t "$zip_archive" | grep 'No errors detected in compressed data')
 	if [ -z "$zip_ok" ]; then
-		rm "$zip_archive"
+		\rm "$zip_archive"
 		echo ""
 		__sdkman_echo_red "Stop! The archive was corrupt and has been removed! Please try installing again."
 		return 1

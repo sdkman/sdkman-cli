@@ -22,8 +22,8 @@ function __sdk_flush {
 	case "$qualifier" in
 		broadcast)
 			if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
-				rm "${SDKMAN_DIR}/var/broadcast_id"
-				rm "${SDKMAN_DIR}/var/broadcast"
+				\rm "${SDKMAN_DIR}/var/broadcast_id"
+				\rm "${SDKMAN_DIR}/var/broadcast"
 				__sdkman_echo_green "Broadcast has been flushed."
 			else
 				__sdkman_echo_no_colour "No prior broadcast found so not flushed."
@@ -31,7 +31,7 @@ function __sdk_flush {
 			;;
 		version)
 			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
-				rm "${SDKMAN_DIR}/var/version"
+				\rm "${SDKMAN_DIR}/var/version"
 				__sdkman_echo_green "Version file has been flushed."
 			else
 				__sdkman_echo_no_colour "No prior Remote Version found so not flushed."
@@ -58,7 +58,7 @@ function __sdkman_cleanup_folder {
 	sdkman_cleanup_disk_usage=$(du -sh "$sdkman_cleanup_dir")
 	sdkman_cleanup_count=$(ls -1 "$sdkman_cleanup_dir" | wc -l)
 
-	rm -rf "${SDKMAN_DIR}/${folder}"
+	\rm -rf "${SDKMAN_DIR}/${folder}"
 	mkdir "${SDKMAN_DIR}/${folder}"
 
 	__sdkman_echo_green "${sdkman_cleanup_count} archive(s) flushed, freeing ${sdkman_cleanup_disk_usage}."

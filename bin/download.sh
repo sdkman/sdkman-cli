@@ -23,7 +23,7 @@ function download_archive {
 
 if [ -d "$TMP_DIR" ]; then
     echo "Cleaning up temporary folder..."
-    rm -rf "$TMP_DIR"
+    \rm -rf "$TMP_DIR"
 fi
 
 mkdir -p "$BASE_DIR"
@@ -52,4 +52,4 @@ unzip -oq "$ARCHIVE" -d "$TMP_DIR"
 mkdir "$DESTINATION_DIR"
 mv "$TMP_DIR"/**/* "$DESTINATION_DIR"
 
-rm -rf "$TMP_DIR"
+\rm -rf "$TMP_DIR"
