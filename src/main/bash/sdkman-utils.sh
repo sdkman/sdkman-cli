@@ -55,6 +55,10 @@ function __sdkman_secure_curl_download {
 		curl_params="-C - ${curl_params}"
 	fi
 
+	if [[ "${sdkman_debug_mode}" == 'true' ]]; then
+		curl_params="--verbose ${curl_params}"
+	fi
+
 	if [[ "$zsh_shell" == 'true' ]]; then
 		curl ${=curl_params} "$@"
 	else
