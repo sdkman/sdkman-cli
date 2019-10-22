@@ -4,10 +4,10 @@ import sdkman.support.SdkmanEnvSpecification
 
 class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
 
-    static final CANDIDATES_API = "http://localhost:8080/2"
+    static final String CANDIDATES_API = "http://localhost:8080/2"
 
-    static final BROADCAST_API_LATEST_ID_ENDPOINT = "$CANDIDATES_API/broadcast/latest/id"
-    static final CANDIDATES_ALL_ENDPOINT = "$CANDIDATES_API/candidates/all"
+    static final String BROADCAST_API_LATEST_ID_ENDPOINT = "$CANDIDATES_API/broadcast/latest/id"
+    static final String CANDIDATES_ALL_ENDPOINT = "$CANDIDATES_API/candidates/all"
 
     File candidatesCache
 
@@ -56,7 +56,7 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
         bash.execute("sdk version")
 
         then:
-        bash.output.contains('WARNING: SDKMAN is out-of-date and requires an update. Please run:')
+        bash.output.contains('We periodically need to update the local cache.')
         bash.output.contains('$ sdk update')
 
         and:
@@ -77,7 +77,7 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
         bash.execute("sdk version")
 
         then:
-        bash.output.contains('No update needed. Using existing candidates cache')
+        bash.output.contains('No update at this time. Using existing cache')
 
         and:
         bash.output.contains('SDKMAN 5.0.0')
