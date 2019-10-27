@@ -28,19 +28,12 @@ Feature: Service Unavailable
 
 # use command
 
-  Scenario: Use the default candidate version while Offline
-    Given the candidate "grails" version "2.1.0" is already installed and default
-    And the candidate "grails" version "1.3.9" is already installed but not default
-    And the system is bootstrapped
-    When I enter "sdk use grails"
-    Then I see "Using grails version 2.1.0 in this shell."
-
   Scenario: Use the default candidate version when non selected while Offline
     Given the candidate "grails" version "1.3.9" is already installed but not default
     And the candidate "grails" version "2.1.0" is already installed but not default
     And the system is bootstrapped
     When I enter "sdk use grails"
-    Then I see "This command is not available while offline."
+    Then I see "No candidate version provided."
 
   Scenario: Use an uninstalled candidate version while Offline
     Given the candidate "grails" version "1.3.9" is already installed and default

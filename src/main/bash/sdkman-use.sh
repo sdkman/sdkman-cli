@@ -21,23 +21,14 @@ function __sdk_use {
 
 	candidate="$1"
 	version="$2"
+	__sdkman_check_version_present "$version" || return 1
 	__sdkman_check_candidate_present "$candidate" || return 1
 	__sdkman_determine_version "$candidate" "$version" || return 1
 
 	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
 		echo ""
 		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is not installed."
-		if [[ "$sdkman_auto_answer" != 'true' ]]; then
-			echo ""
-			__sdkman_echo_confirm "Do you want to install it now? (Y/n): "
-			read install
-		fi
-		if [[ -z "$install" || "$install" == "y" || "$install" == "Y" ]]; then
-			__sdkman_install_candidate_version "$candidate" "$VERSION"
-			__sdkman_add_to_path "$candidate"
-		else
-			return 1
-		fi
+		return 1
 	fi
 
 	# Just update the *_HOME and PATH for this shell.
