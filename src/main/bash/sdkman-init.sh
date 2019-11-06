@@ -25,9 +25,11 @@ if [ -z "$SDKMAN_CANDIDATES_API" ]; then
 	export SDKMAN_CANDIDATES_API="@SDKMAN_CANDIDATES_API@"
 fi
 
-if [ -z "$SDKMAN_DIR" ] || [ $(ls -ld "${SDKMAN_DIR}" | awk '{ print $3 }') != $(whoami) ]; then
+sdkman_owner=$(ls -ld "${SDKMAN_DIR}" | awk '{ print $3 }')
+if [ -z "$SDKMAN_DIR" ] || [ "${sdkman_owner}" != "$(whoami)" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
+unset sdkman_owner
 
 # infer platform
 SDKMAN_PLATFORM="$(uname)"
