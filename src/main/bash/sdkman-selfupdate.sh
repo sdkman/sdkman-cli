@@ -30,6 +30,7 @@ function __sdk_selfupdate {
 		export sdkman_debug_mode
 		export sdkman_beta_channel
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate?beta=${sdkman_beta_channel}" | bash
+		export SDKMAN_VERSION="$(cat "${SDKMAN_DIR}"/var/version)"
 	fi
 	unset SDKMAN_FORCE_SELFUPDATE
 }
