@@ -26,7 +26,7 @@ if [ -z "$SDKMAN_CANDIDATES_API" ]; then
 fi
 
 sdkman_owner=$(ls -ld "${SDKMAN_DIR}" | awk '{ print $3 }')
-if [ -z "$SDKMAN_DIR" ] || [ "${sdkman_owner}" != "$(whoami)" ]; then
+if [[ -z "$SDKMAN_DIR" || "${sdkman_owner}" != "$(whoami)" ]]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
 unset sdkman_owner
