@@ -25,7 +25,7 @@ if [ -z "$SDKMAN_CANDIDATES_API" ]; then
 	export SDKMAN_CANDIDATES_API="@SDKMAN_CANDIDATES_API@"
 fi
 
-if [ -z "$SDKMAN_DIR" ]; then
+if [ -z "$SDKMAN_DIR" ] || [ $(ls -ld "${SDKMAN_DIR}" | awk '{ print $3 }') != $(whoami) ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
 
