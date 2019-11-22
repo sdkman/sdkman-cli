@@ -33,8 +33,6 @@ function __sdk_flush {
 			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
 				rm "${SDKMAN_DIR}/var/version"
 				__sdkman_echo_green "Version file has been flushed."
-			else
-				__sdkman_echo_no_colour "No prior Remote Version found so not flushed."
 			fi
 			;;
 		archives)
