@@ -45,18 +45,3 @@ And(~'the "(.*)" variable is not set') { String home ->
     bash.execute("echo \$$home")
     assert ! bash.output.contains(".sdkman/")
 }
-
-And(~/^I enter "(.*)", accept the license agreement and confirm to make this the default installation$/) { String command ->
-    bash.execute(command, ["Y", "Y"])
-    result = bash.output
-}
-
-And(~/^I enter "(.*)" and do not accept the license agreement$/) { String command ->
-    bash.execute(command, ["n"])
-    result = bash.output
-}
-
-And(~/^I enter "([^"]*)" and accept the license agreement$/) { String command ->
-    bash.execute(command, ["Y"])
-    result = bash.output
-}

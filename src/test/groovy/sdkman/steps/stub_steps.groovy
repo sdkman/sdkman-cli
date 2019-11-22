@@ -91,17 +91,6 @@ And(~/^The candidate list is available$/) { ->
     primeEndpointWithString("/candidates/list", "Candidate List")
 }
 
-And(~/^a download request was made for "(.*)" "(.*)" on "(.*)" with cookie "(.*)"$/) { String candidate, String version, String platform, String cookie ->
-    String lowerCaseUname = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
-    def cookieName = cookie.tokenize("=").first()
-    def cookieValue = cookie.tokenize("=").last()
-    verifyDownloadFor(candidate, version, lowerCaseUname, cookieName, cookieValue)
-}
-
-And(~/^a cookie is required for installing "(.*)" "(.*)" on "(.*)"$/) { String candidate, String version, String platform ->
-    //handled by the hook in subsequent step
-}
-
 And(~/^the following candidates are currently available from remote API:$/) { DataTable dt ->
     primeEndpointWithString("/candidates/all", dt.asList(String).drop(1).join(","))
 }

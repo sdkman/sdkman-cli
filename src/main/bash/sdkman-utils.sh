@@ -36,13 +36,6 @@ function __sdkman_secure_curl_download {
 		curl_params="$curl_params --insecure"
 	fi
 
-	local cookie_file="${SDKMAN_DIR}/var/cookie"
-
-	if [[ -f "$cookie_file" ]]; then
-		local cookie=$(cat "$cookie_file")
-		curl_params="$curl_params --cookie $cookie"
-	fi
-
 	if [[ ! -z "${sdkman_curl_retry}" ]]; then
 		curl_params="--retry ${sdkman_curl_retry} ${curl_params}"
 	fi

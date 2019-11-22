@@ -21,11 +21,12 @@ class WebServiceStub {
     }
 
     private static primeHookFor(String phase, String candidate, String version, String platform, boolean universal = true) {
+        def hookFile = "hooks/${phase}_hook_${candidate}_${version}_${universal ? 'universal' : platform}.sh"
         stubFor(get(urlEqualTo("/hooks/$phase/$candidate/$version/$platform")).willReturn(
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
-                        .withBodyFile("hooks/${phase}_hook_${candidate}_${version}_${universal ? 'universal' : platform}.sh")))
+                        .withBodyFile(hookFile)))
     }
 
     static primeDownloadFor(String host, String candidate, String version, String platform) {
@@ -40,11 +41,6 @@ class WebServiceStub {
                         .withStatus(200)
                         .withHeader("Content-Type", "application/zip")
                         .withBodyFile(binary)))
-    }
-
-    static verifyDownloadFor(String candidate, String version, String platform, String cookieName, String cookieValue) {
-        verify(getRequestedFor(urlEqualTo("/broker/download/${candidate}/${version}/${platform}"))
-                .withCookie(cookieName, matching(cookieValue)))
     }
 
     static primeSelfupdate() {

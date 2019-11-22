@@ -93,11 +93,6 @@ And(~'^I have configured "([^"]*)" to "([^"]*)"$') { String configName, String f
     configFile.write "${configName}=${flag}"
 }
 
-And(~/^the cookie has been removed$/) { ->
-    def cookie = new File("$sdkmanDir/var/cookie")
-    assert !cookie.exists()
-}
-
 And(~/^the exit code is (\d+)$/) { Integer rc ->
     assert bash.getStatus() == rc
 }
