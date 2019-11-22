@@ -1,6 +1,6 @@
 package sdkman.steps
 
-import cucumber.api.DataTable
+import io.cucumber.datatable.DataTable
 import sdkman.support.UnixUtils
 
 import static cucumber.api.groovy.EN.And
