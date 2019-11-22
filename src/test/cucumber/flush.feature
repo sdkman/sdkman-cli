@@ -26,11 +26,6 @@ Feature: Flush
     Then no version file can be found
     And I see "Version file has been flushed."
 
-  Scenario: Clean up an uninitialised last known Remote Version
-    Given the Remote Version has been flushed
-    When I enter "sdk flush version"
-    Then I see "No prior Remote Version found so not flushed."
-
   Scenario: Clear out the cached Archives
     Given the archive "grails-1.3.9.zip" has been cached
     When I enter "sdk flush archives"
