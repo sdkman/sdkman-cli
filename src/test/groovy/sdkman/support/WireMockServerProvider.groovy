@@ -20,6 +20,4 @@ class WireMockServerProvider {
         WireMock.configureFor(SERVICE_UP_HOST, SERVICE_UP_PORT)
         wireMockServer
     }
-
-
 }
