@@ -8,7 +8,7 @@ class UnixUtils {
     static asSdkmanPlatform(platform) {
         def result
         switch (platform) {
-            case "Mac OSX":
+            case "Mac OS X":
                 result = "Darwin"
                 break
             case "Linux":
