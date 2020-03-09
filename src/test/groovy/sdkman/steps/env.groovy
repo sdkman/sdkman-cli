@@ -48,7 +48,7 @@ localCandidates = ['groovy', 'grails', 'java', 'kotlin', 'scala']
 
 bash = null
 
-if(!binding.hasVariable("wireMock")) {
+if (!binding.hasVariable("wireMock")) {
     wireMock = WireMockServerProvider.wireMockServer()
 }
 
@@ -56,17 +56,17 @@ addShutdownHook {
     wireMock.stop()
 }
 
-Before(){
+Before() {
     WireMock.reset()
     cleanUp()
 }
 
-private cleanUp(){
+private cleanUp() {
     sdkmanBaseDir.deleteDir()
     localGroovyCandidate.deleteDir()
 }
 
-After(){ scenario ->
+After() { scenario ->
     def output = bash?.output
     if (output) {
         scenario.write("\nOutput: \n${output}")

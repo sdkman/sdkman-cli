@@ -20,7 +20,7 @@ def loadConfiguration() {
     def environment = hasProperty('env') ? env : 'local'
     ext.environment = environment
     println "Environment is set to: $environment"
-    
+
     def configFile = file('config.groovy')
     def config = new ConfigSlurper(environment).parse(configFile.toURL())
     ext.config = config
@@ -122,4 +122,3 @@ bintray {
         }
     }
 }
-

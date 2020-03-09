@@ -11,5 +11,4 @@ abstract class BashEnvSpecification extends Specification {
         println bash.output
         bash.stop()
     }
-
 }

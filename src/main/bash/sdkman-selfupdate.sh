@@ -22,15 +22,14 @@ function __sdk_selfupdate {
 	force_selfupdate="$1"
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "This command is not available while offline."
-
 	elif [[ "$SDKMAN_REMOTE_VERSION" == "$SDKMAN_VERSION" && "$force_selfupdate" != "force" ]]; then
 		echo "No update available at this time."
-
 	else
 		export sdkman_debug_mode
 		export sdkman_beta_channel
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate?beta=${sdkman_beta_channel}" | bash
 	fi
+
 	unset SDKMAN_FORCE_SELFUPDATE
 }
 
@@ -65,5 +64,4 @@ function __sdkman_auto_update {
 
 		touch "$delay_upgrade"
 	fi
-
 }

@@ -27,8 +27,7 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { Str
 	try {
 		new ZipFile(new File("src/test/resources/__files/${candidate}-${version}.zip"))
 		assert false, "Archive was not corrupt!"
-
-	} catch (ZipException ze){
+	} catch (ZipException ze) {
 		//expected behaviour
 	}
 }

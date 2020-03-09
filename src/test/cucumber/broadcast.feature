@@ -34,4 +34,3 @@ Feature: Broadcast
     And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
     When I enter "sdk broadcast"
     Then I see "This is a LIVE Broadcast!"
-

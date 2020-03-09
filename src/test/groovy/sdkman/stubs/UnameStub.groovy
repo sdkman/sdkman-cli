@@ -21,7 +21,7 @@ class UnameStub {
         this
     }
 
-    void build(){
+    void build() {
         file << "echo $uname"
     }
 }

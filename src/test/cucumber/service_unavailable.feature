@@ -26,7 +26,7 @@ Feature: Service Unavailable
     When I enter "sdk list"
     Then I see "This command is not available while offline."
 
-# use command
+  # use command
 
   Scenario: Use the default candidate version when non selected while Offline
     Given the candidate "grails" version "1.3.9" is already installed but not default
@@ -77,6 +77,7 @@ Feature: Service Unavailable
     Then I see "Default grails version set to 1.3.9"
 
   # install command
+
   Scenario: Install a candidate version that is not installed while Offline
     Given the candidate "grails" version "2.1.0" is not installed
     And the system is bootstrapped
@@ -90,6 +91,7 @@ Feature: Service Unavailable
     Then I see "Stop! grails 2.1.0 is already installed."
 
   # uninstall command
+
   Scenario: Uninstall a candidate version while Offline
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the system is bootstrapped
@@ -106,6 +108,7 @@ Feature: Service Unavailable
     Then I see "grails 2.1.0 is not installed."
 
   # current command
+
   Scenario: Display the current version of a candidate while Offline
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the system is bootstrapped
@@ -122,12 +125,14 @@ Feature: Service Unavailable
 	And I see "groovy: 2.0.5"
 
   # version command
+
   Scenario: Determine the sdkman version when Offline
     Given the system is bootstrapped
     When I enter "sdk version"
     Then I see the current sdkman version
 
   # broadcast command
+
   Scenario: Recall a broadcast while Offline
     Given a prior Broadcast "This is an OLD Broadcast!" with id "12344" was issued
     And the system is bootstrapped
@@ -135,14 +140,15 @@ Feature: Service Unavailable
     Then I see "This is an OLD Broadcast!"
 
   # help command
+
   Scenario: Request help while Offline
     Given the system is bootstrapped
     When I enter "sdk help"
     Then I see "Usage: sdk <command> [candidate] [version]"
 
   # selfupdate command
+
   Scenario: Attempt self-update while Offline
     Given the system is bootstrapped
     When I enter "sdk selfupdate"
     Then I see "This command is not available while offline."
-

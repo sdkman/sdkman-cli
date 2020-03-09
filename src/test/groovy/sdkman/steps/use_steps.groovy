@@ -8,7 +8,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is in use$') { String candidate
 	def directory = FileSystems.default.getPath("$candidatesDir/$candidate/$version")
 	def current = FileSystems.default.getPath("$candidatesDir/$candidate/current")
 	def symlinkFile = current.toFile()
-	if(!symlinkFile.exists()){
+	if (!symlinkFile.exists()) {
 		assert Files.createSymbolicLink(current, directory)
 	}
 }
@@ -17,7 +17,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not in use$') { String candi
 	def directory = FileSystems.default.getPath("$candidatesDir/$candidate/$version")
 	def current = FileSystems.default.getPath("$candidatesDir/$candidate/current")
 	def symlinkFile = current.toFile()
-	if(symlinkFile.exists()){ 
+	if (symlinkFile.exists()) {
 		assert ! Files.isSameFile(current, directory)
 	}
 }

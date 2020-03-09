@@ -1,6 +1,7 @@
 package sdkman.stubs
 
 class HookResponses {
+
     static preInstallationHookSuccess() {
         '''
 #!/usr/bin/env bash
@@ -37,5 +38,4 @@ function __sdkman_post_installation_hook {
     return 1
 }'''
     }
-
 }
