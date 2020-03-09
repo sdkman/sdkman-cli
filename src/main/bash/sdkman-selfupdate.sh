@@ -53,7 +53,9 @@ function __sdkman_auto_update {
 			read upgrade
 		fi
 
-		if [[ -z "$upgrade" ]]; then upgrade="Y"; fi
+		if [[ -z "$upgrade" ]]; then
+			upgrade="Y"
+		fi
 
 		if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
 			__sdk_selfupdate

@@ -7,8 +7,22 @@ import java.nio.file.Paths
 
 class InitialisationSpec extends SdkmanEnvSpecification {
 
-    static final allCandidates = ["asciidoctorj", "crash", "gaiden", "glide", "gradle", "grails", "griffon", "groovy",
-                                  "groovyserv", "jbake", "jbossforge", "lazybones", "springboot", "vertx"]
+    static final allCandidates = [
+        "asciidoctorj",
+        "crash",
+        "gaiden",
+        "glide",
+        "gradle",
+        "grails",
+        "griffon",
+        "groovy",
+        "groovyserv",
+        "jbake",
+        "jbossforge",
+        "lazybones",
+        "springboot",
+        "vertx"
+    ]
 
     def setup() {
         bash = sdkmanBashEnvBuilder

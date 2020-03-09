@@ -79,7 +79,9 @@ function __sdkman_determine_version {
 			VERSION="$version"
 
 		else
-			if [[ -z "$version" ]]; then version="\b"; fi
+			if [[ -z "$version" ]]; then
+				version="\b"
+			fi
 			echo ""
 			__sdkman_echo_red "Stop! $candidate $version is not available. Possible causes:"
 			__sdkman_echo_red " * $version is an invalid version"
