@@ -38,7 +38,7 @@ Feature: Java Multi Platform Binary Distribution
 		When I enter "sdk install java 8.0.101"
 		And I see "Download has failed, aborting!"
 		And the candidate "java" version "8.0.101" is not installed
-		And I see "Can not install java 8.0.101 at this time..."
+		And I see "Cannot install java 8.0.101 at this time..."
 
 	Scenario: Platform is not supported for specific version and user is notified
 		And a machine with "FreeBSD" installed
