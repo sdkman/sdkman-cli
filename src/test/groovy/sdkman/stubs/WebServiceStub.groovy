@@ -9,7 +9,8 @@ class WebServiceStub {
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
-                        .withBody(body)))
+                        .withBody(body)
+        ))
     }
 
     static primeUniversalHookFor(String phase, String candidate, String version, String platform) {
@@ -26,7 +27,8 @@ class WebServiceStub {
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
-                        .withBodyFile(hookFile)))
+                        .withBodyFile(hookFile)
+        ))
     }
 
     static primeDownloadFor(String host, String candidate, String version, String platform) {
@@ -34,13 +36,15 @@ class WebServiceStub {
         stubFor(get(urlEqualTo("/broker/download/${candidate}/${version}/${platform}")).willReturn(
                 aResponse()
                         .withHeader("Location", "${host}/${binary}")
-                        .withStatus(302)))
+                        .withStatus(302)
+        ))
 
         stubFor(get(urlEqualTo("/$binary")).willReturn(
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/zip")
-                        .withBodyFile(binary)))
+                        .withBodyFile(binary)
+        ))
     }
 
     static primeSelfupdate() {
@@ -48,6 +52,7 @@ class WebServiceStub {
                 aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "text/plain")
-                        .withBodyFile("selfupdate.sh")))
+                        .withBodyFile("selfupdate.sh")
+        ))
     }
 }
