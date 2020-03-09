@@ -147,7 +147,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 		curlStub.primeWith(CLI_VERSION_BETA_ENDPOINT, "echo x.y.z")
 		bash = sdkmanBashEnvBuilder
 			.withVersionCache("x.y.w")
-			.withConfiguration("sdkman_beta_channel", "true")
+			.withConfiguration("sdkman_channel", "BETA")
 			.build()
 
 		and:
