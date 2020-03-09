@@ -45,3 +45,8 @@ And(~'the "(.*)" variable is not set') { String home ->
     bash.execute("echo \$$home")
     assert ! bash.output.contains(".sdkman/")
 }
+
+And(~'^the home path ends with \"([^\"]*)\"$') { String suffix ->
+    def path = sdkmanBaseDir.absolutePath + "/" + suffix
+    assert result.trim().equals(path)
+}
