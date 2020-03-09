@@ -2,7 +2,7 @@ Feature: Print home path
 
 * Print home directory
 * Printing the home directory does not require reaching out to the internet.
-* Printing the home directory also has the hard requirment of not printing
+* Printing the home directory also has the hard requirement of not printing
 anything else unless it is an actual error.
 
 	Background:

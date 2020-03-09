@@ -25,7 +25,7 @@ function ___sdkman_check_candidates_cache() {
 		echo ''
 		return 0
 	elif [[ -f "$candidates_cache" && -z "$(cat "$candidates_cache")" ]]; then
-		__sdkman_echo_red 'WARNING: Cache is corrupt. SDKMAN can not be used until updated.'
+		__sdkman_echo_red 'WARNING: Cache is corrupt. SDKMAN cannot be used until updated.'
 		echo ''
 		__sdkman_echo_no_colour '  $ sdk update'
 		echo ''
