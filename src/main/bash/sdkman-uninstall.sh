@@ -27,7 +27,7 @@ function __sdk_uninstall {
 	current=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
 	if [[ -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" && "$version" == "$current" ]]; then
 		echo ""
-		__sdkman_echo_green "Unselecting ${candidate} ${version}..."
+		__sdkman_echo_green "Deselecting ${candidate} ${version}..."
 		unlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 	fi
 

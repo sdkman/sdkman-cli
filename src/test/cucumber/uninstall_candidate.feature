@@ -8,7 +8,7 @@ Feature: Uninstall Candidate
     Given the candidate "grails" version "2.1.0" is already installed but not default
     And the system is bootstrapped
     When I enter "sdk uninstall grails 2.1.0"
-    Then I do not see "Unselecting grails 2.1.0"
+    Then I do not see "Deselecting grails 2.1.0"
     Then I see "Uninstalling grails 2.1.0"
     And the candidate "grails" version "2.1.0" is not installed
 
@@ -16,7 +16,7 @@ Feature: Uninstall Candidate
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the system is bootstrapped
     When I enter "sdk uninstall grails 2.1.0"
-    Then I see "Unselecting grails 2.1.0"
+    Then I see "Deselecting grails 2.1.0"
     And I see "Uninstalling grails 2.1.0"
     And the candidate "grails" version "2.1.0" is not installed
     And the candidate "grails" is no longer selected

@@ -94,7 +94,7 @@ Feature: Service Unavailable
     Given the candidate "grails" version "2.1.0" is already installed and default
     And the system is bootstrapped
     When I enter "sdk uninstall grails 2.1.0"
-    Then I see "Unselecting grails 2.1.0..."
+    Then I see "Deselecting grails 2.1.0..."
     And I see "Uninstalling grails 2.1.0..."
     And the candidate "grails" version "2.1.0" is not in use
     And the candidate "grails" version "2.1.0" is not installed

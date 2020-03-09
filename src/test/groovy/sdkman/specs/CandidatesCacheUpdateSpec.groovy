@@ -32,7 +32,7 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
         bash.execute("sdk version")
 
         then:
-        bash.output.contains('WARNING: Cache is corrupt. SDKMAN can not be used until updated.')
+        bash.output.contains('WARNING: Cache is corrupt. SDKMAN cannot be used until updated.')
         bash.output.contains('$ sdk update')
 
         and:
