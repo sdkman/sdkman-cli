@@ -44,7 +44,20 @@ function sdk {
 			COMMAND="default";;
 		b)
 			COMMAND="broadcast";;
+		ho)
+			COMMAND="home";;
 	esac
+
+	#
+	# Print home directory - special case
+	# Printing the home directory does not require reaching out to the internet.
+	# Printing the home directory also has the hard requirment of not printing
+	# anything else unless it is an actual error
+	#
+	if [[ "$COMMAND" == "home" ]]; then
+		__sdk_home "$QUALIFIER" "$3"
+		return $?
+	fi
 
 	#
 	# Various sanity checks and default settings

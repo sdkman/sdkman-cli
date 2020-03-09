@@ -100,6 +100,19 @@ And(~'^an initialised environment$') {->
         .build()
 }
 
+And(~'^an initialised environment without debug prints$') {->
+    bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
+            .withOfflineMode(offlineMode)
+            .withCandidatesApi(serviceUrlEnv)
+            .withJdkHome(javaHome)
+            .withHttpProxy(HTTP_PROXY)
+            .withVersionCache(sdkmanVersion)
+            .withCandidates(localCandidates)
+            .withSdkmanVersion(sdkmanVersion)
+            .withDebugMode(false)
+            .build()
+}
+
 And(~'^an outdated initialised environment$') {->
     bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
         .withOfflineMode(offlineMode)
