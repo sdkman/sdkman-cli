@@ -27,6 +27,7 @@ function __sdk_help {
 	__sdkman_echo_no_colour "       list      or ls   [candidate]"
 	__sdkman_echo_no_colour "       use       or u    <candidate> <version>"
 	__sdkman_echo_no_colour "       default   or d    <candidate> [version]"
+	__sdkman_echo_no_colour "       home      or ho   <candidate> <version>"
 	__sdkman_echo_no_colour "       current   or c    [candidate]"
 	__sdkman_echo_no_colour "       upgrade   or ug   [candidate]"
 	__sdkman_echo_no_colour "       version   or v"

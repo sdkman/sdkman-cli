@@ -21,6 +21,7 @@ class SdkmanBashEnvBuilder {
     private String jdkHome = "/path/to/my/jdk"
     private String httpProxy
     private String versionCache
+    private boolean debugMode = true
 
     Map config = [
             sdkman_auto_answer : 'false',
@@ -87,6 +88,11 @@ class SdkmanBashEnvBuilder {
         this
     }
 
+    SdkmanBashEnvBuilder withDebugMode(boolean debugMode) {
+        this.debugMode = debugMode
+        this
+    }
+
     BashEnv build() {
         sdkmanDir = prepareDirectory(baseFolder, ".sdkman")
         sdkmanBinDir = prepareDirectory(sdkmanDir, "bin")
@@ -115,7 +121,7 @@ class SdkmanBashEnvBuilder {
                 SDKMAN_OFFLINE_MODE  : "$offlineMode",
                 SDKMAN_CANDIDATES_API: candidatesApi,
                 SDKMAN_VERSION       : sdkmanVersion,
-                sdkman_debug_mode    : 'true',
+                sdkman_debug_mode    : Boolean.toString(debugMode),
                 JAVA_HOME            : jdkHome
         ]
 
