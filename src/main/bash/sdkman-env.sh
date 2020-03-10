@@ -25,12 +25,7 @@ function __sdk_env {
 
   local candidate version
 
-  while IFS='=' read -r candidate version; do
+  while IFS='=' read -r candidate version || [[ -n $candidate ]]; do
     __sdk_use "$candidate" "$version"
   done < .sdkmanrc
-
-  # if the last line is not terminated by a newline character, `candidate` and
-  # `version` will be set but `read` will return a non-zero status code,
-  # resulting in the loop body not being executed
-  [[ -n $candidate ]] && __sdk_use "$candidate" "$version"
 }
