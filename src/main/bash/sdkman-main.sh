@@ -17,121 +17,114 @@
 #
 
 function sdk {
-	COMMAND="$1"
-	QUALIFIER="$2"
+	COMMAND="${1}"
 
-	case "$COMMAND" in
-		l)
-			COMMAND="list";;
-		ls)
-			COMMAND="list";;
-		v)
-			COMMAND="version";;
-		u)
-			COMMAND="use";;
-		i)
-			COMMAND="install";;
-		rm)
-			COMMAND="uninstall";;
-		c)
-			COMMAND="current";;
-		ug)
-			COMMAND="upgrade";;
-		d)
-			COMMAND="default";;
-		b)
-			COMMAND="broadcast";;
-		h)
-			COMMAND="home";;
-	esac
-
-	if [[ "$COMMAND" == "home" ]]; then
-		__sdk_home "$QUALIFIER" "$3"
-		return $?
+	# Check if <command> is missing
+	if [[ -z "${COMMAND}" ]]; then
+		__sdk_help
+		return 1
 	fi
+
+	QUALIFIER="${2}"
 
 	#
 	# Various sanity checks and default settings
 	#
 
-	# Check version and candidates cache
-	if [[ "$COMMAND" != "update" ]]; then
-		___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1
+	if [[ "${COMMAND}" != 'update' ]]; then
+		# map aliases to full command names
+		case "${COMMAND}" in
+		l|ls)
+			COMMAND='list';;
+		v)
+			COMMAND='version';;
+		u)
+			COMMAND='use';;
+		i)
+			COMMAND='install';;
+		rm)
+			COMMAND='uninstall';;
+		c)
+			COMMAND='current';;
+		ug)
+			COMMAND='upgrade';;
+		d)
+			COMMAND='default';;
+		b)
+			COMMAND='broadcast';;
+		h)
+			COMMAND='home';;
+		esac
+
+		if [[ "${COMMAND}" == 'home' ]]; then
+			__sdk_home "${QUALIFIER}" "${3}"
+			return ${?}
+		fi
+
+		# Validate candidate and version caches
+		___sdkman_check_candidates_cache "${SDKMAN_CANDIDATES_CACHE}" || return 1
 		___sdkman_check_version_cache
 	fi
 
-	# Always presume internet availability
-	SDKMAN_AVAILABLE="true"
-	if [ -z "$SDKMAN_OFFLINE_MODE" ]; then
-		SDKMAN_OFFLINE_MODE="false"
+	# Always presume internet is available
+	SDKMAN_AVAILABLE='true'
+	if [ -z "${SDKMAN_OFFLINE_MODE}" ]; then
+		SDKMAN_OFFLINE_MODE='false'
 	fi
 
-	# ...unless proven otherwise
+	# ... Unless proven otherwise
 	__sdkman_update_broadcast_and_service_availability
 
-	# Load the sdkman config if it exists.
+	# Load the sdkman config if it exists
 	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 		source "${SDKMAN_DIR}/etc/config"
 	fi
 
-	# no command provided
-	if [[ -z "$COMMAND" ]]; then
+	# Validate command as builtin or extension
+	if [[ ! -f "${SDKMAN_DIR}/src/sdkman-${COMMAND}.sh" && ! -f "${SDKMAN_DIR}/ext/sdkman-${COMMAND}.sh" ]]; then
+		__sdkman_echo_red "\nStop! Invalid command: ${COMMAND}"
 		__sdk_help
 		return 1
 	fi
 
-	# Check if it is a valid command
-	CMD_FOUND=""
-	CMD_TARGET="${SDKMAN_DIR}/src/sdkman-${COMMAND}.sh"
-	if [[ -f "$CMD_TARGET" ]]; then
-		CMD_FOUND="$CMD_TARGET"
+	# Validate qualifier
+	if [[ -n "${QUALIFIER}" ]]; then
+		case "${COMMAND}" in
+		offline)
+			# Validate offline mode
+			case "${QUALIFIER}" in
+			enable|disable)
+				;;
+			*)
+				__sdkman_echo_red "\nStop! Invalid offline mode: ${QUALIFIER}"
+				;;
+			esac
+			;;
+		flush|selfupdate)
+			# Validated in command function
+			;;
+		*)
+			# Validate candidate
+			grep -wq "${QUALIFIER}" <<< "${SDKMAN_CANDIDATES[@]}"
+			if [[ ${?} -ne 0 ]]; then
+				__sdkman_echo_red "\nStop! Invalid candidate: ${QUALIFIER}"
+				return 1
+			fi
+			;;
+		esac
 	fi
-
-	# Check if it is a sourced function
-	CMD_TARGET="${SDKMAN_DIR}/ext/sdkman-${COMMAND}.sh"
-	if [[ -f "$CMD_TARGET" ]]; then
-		CMD_FOUND="$CMD_TARGET"
-	fi
-
-	# couldn't find the command
-	if [[ -z "$CMD_FOUND" ]]; then
-		echo "Invalid command: $COMMAND"
-		__sdk_help
-	fi
-
-	# Check whether the candidate exists
-	local sdkman_valid_candidate=$(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER")
-	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && -z "$sdkman_valid_candidate" ]]; then
-		echo ""
-		__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
-		return 1
-	fi
-
-	# Validate offline qualifier
-	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && -z $(echo "enable disable" | grep -w "$QUALIFIER") ]]; then
-		echo ""
-		__sdkman_echo_red "Stop! $QUALIFIER is not a valid offline mode."
-	fi
-
-	# Check whether the command exists as an internal function...
-	#
-	# NOTE Internal commands use underscores rather than hyphens,
-	# hence the name conversion as the first step here.
-	CONVERTED_CMD_NAME=$(echo "$COMMAND" | tr '-' '_')
-
-	# Store the return code of the requested command
-	local final_rc=0
 
 	# Execute the requested command
-	if [ -n "$CMD_FOUND" ]; then
-		# It's available as a shell function
-		__sdk_"$CONVERTED_CMD_NAME" "$QUALIFIER" "$3" "$4"
-		final_rc=$?
+	# NOTE: Function names use underscores rather than hyphens, so must convert the command name
+	local command_function="__sdk_${COMMAND//-/_}"
+	shift
+	"${command_function}" "${@}"
+	local result=${?}
+
+	# Attempt upgrade after command finished
+	if [[ "${COMMAND}" != 'selfupdate' ]]; then
+		__sdkman_auto_update "${SDKMAN_REMOTE_VERSION}" "${SDKMAN_VERSION}"
 	fi
 
-	# Attempt upgrade after all is done
-	if [[ "$COMMAND" != "selfupdate" ]]; then
-		__sdkman_auto_update "$SDKMAN_REMOTE_VERSION" "$SDKMAN_VERSION"
-	fi
-	return $final_rc
+	return ${result}
 }

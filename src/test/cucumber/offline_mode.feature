@@ -7,7 +7,7 @@ Feature: Offline Mode
 		And an initialised environment
 		And the system is bootstrapped
 		When I enter "sdk offline grails"
-		Then I see "Stop! grails is not a valid offline mode."
+		Then I see "Stop! Invalid offline mode: grails"
 
 	Scenario: Issue Offline command without qualification
 		Given offline mode is disabled with reachable internet

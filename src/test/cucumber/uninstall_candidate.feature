@@ -35,7 +35,7 @@ Feature: Uninstall Candidate
 	Scenario: Attempt uninstalling with an invalid Candidate specified
 		Given the system is bootstrapped
 		When I enter "sdk uninstall groffle"
-		Then I see "Stop! groffle is not a valid candidate."
+		Then I see "Stop! Invalid candidate: groffle"
 
 	Scenario: Attempt uninstalling without a version provided
 		Given the system is bootstrapped

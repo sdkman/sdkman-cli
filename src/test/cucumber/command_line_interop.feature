@@ -21,4 +21,4 @@ Feature: Command Line Interop
 
 	Scenario: Enter an invalid Candidate
 		When I enter "sdk install groffle"
-		Then I see "Stop! groffle is not a valid candidate."
+		Then I see "Stop! Invalid candidate: groffle"
