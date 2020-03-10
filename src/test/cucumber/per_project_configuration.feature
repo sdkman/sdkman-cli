@@ -4,7 +4,7 @@ Feature: Per-project configuration
     Given the internet is reachable
     And an initialised environment
 
-  Scenario: Env without providing an .sdkmanrc file
+  Scenario: The env command is issued without an sdkman project configuration present
     Given the system is bootstrapped
     When I enter "sdk env"
     Then I see ".sdkmanrc not found."
