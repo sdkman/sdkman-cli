@@ -30,6 +30,17 @@ Feature: Update
 		Then I see "Removing obsolete candidates(s): activator"
 		And the Candidates cache should contain "groovy,scala"
 
+	Scenario: A new candidate is available and a candidate has been removed
+		And the following candidates are currently available from remote API:
+			| candidate |
+			| groovy    |
+			| kotlin    |
+			| scala     |
+		When I enter "sdk update"
+		Then I see "Removing obsolete candidates(s): activator"
+		And I see "Adding new candidates(s): kotlin"
+		And the Candidates cache should contain "groovy,kotlin,scala"
+
 	Scenario: No new candidate is available
 		And the following candidates are currently available from remote API:
 			| candidate |

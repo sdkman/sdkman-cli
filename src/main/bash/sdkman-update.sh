@@ -48,26 +48,34 @@ function __sdk_update() {
 			return 0
 		fi
 
-		local fresh_candidates_length=${#fresh_candidates_csv}
-		local cached_candidates_length=${#SDKMAN_CANDIDATES_CSV}
-		__sdkman_echo_debug "Fresh and cached candidate lengths: $fresh_candidates_length $cached_candidates_length"
+		__sdkman_echo_debug "Fresh and cached candidate lengths: ${#fresh_candidates_csv} ${#SDKMAN_CANDIDATES_CSV}"
 
-		local diff_candidates=$(echo ${fresh_candidates[@]} ${cached_candidates[@]} | tr ' ' '\n' | sort | uniq -u | tr '\n' ' ')
-		if (( fresh_candidates_length > cached_candidates_length )); then
-			echo ""
-			__sdkman_echo_green "Adding new candidates(s): $diff_candidates"
-			echo "$fresh_candidates_csv" >| "$SDKMAN_CANDIDATES_CACHE"
-			echo ""
-			__sdkman_echo_yellow "Please open a new terminal now..."
-		elif (( fresh_candidates_length < cached_candidates_length )); then
-			echo ""
-			__sdkman_echo_green "Removing obsolete candidates(s): $diff_candidates"
-			echo "$fresh_candidates_csv" >| "$SDKMAN_CANDIDATES_CACHE"
-			echo ""
-			__sdkman_echo_yellow "Please open a new terminal now..."
+		local combined_candidates diff_candidates
+
+		combined_candidates=("${fresh_candidates[@]}" "${cached_candidates[@]}")
+
+		diff_candidates=($(printf $'%s\n' "${combined_candidates[@]}" | sort | uniq -u))
+
+		if ((${#diff_candidates[@]})); then
+			local delta
+
+			delta=("${fresh_candidates[@]}" "${diff_candidates[@]}")
+			delta=($(printf $'%s\n' "${delta[@]}" | sort | uniq -d))
+			if ((${#delta[@]})); then
+				__sdkman_echo_green "\nAdding new candidates(s): ${delta[*]}"
+			fi
+
+			delta=("${cached_candidates[@]}" "${diff_candidates[@]}")
+			delta=($(printf $'%s\n' "${delta[@]}" | sort | uniq -d))
+			if ((${#delta[@]})); then
+				__sdkman_echo_green "\nRemoving obsolete candidates(s): ${delta[*]}"
+			fi
+
+			echo "${fresh_candidates_csv}" >| "${SDKMAN_CANDIDATES_CACHE}"
+			__sdkman_echo_yellow $'\nPlease open a new terminal now...'
 		else
-			touch "$SDKMAN_CANDIDATES_CACHE"
-			__sdkman_echo_green "No new candidates found at this time."
+			touch "${SDKMAN_CANDIDATES_CACHE}"
+			__sdkman_echo_green $'\nNo new candidates found at this time.'
 		fi
 	fi
 }
