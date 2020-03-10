@@ -16,6 +16,12 @@
 #   limitations under the License.
 #
 
+#
+# Print home directory
+# Printing the home directory does not require reaching out to the internet.
+# Printing the home directory also has the hard requirment of not printing
+# anything else unless it is an actual error.
+#
 function __sdk_home {
 	local candidate version
 
