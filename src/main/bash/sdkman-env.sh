@@ -17,15 +17,15 @@
 #
 
 function __sdk_env {
-  if [[ ! -f .sdkmanrc ]]; then
-    __sdkman_echo_red '.sdkmanrc not found.'
+  readonly sdkmanrc='.sdkmanrc'
+
+  if [[ ! -f "$sdkmanrc" ]]; then
+    __sdkman_echo_red "$sdkmanrc not found."
 
     return 1
   fi
 
-  local candidate version
-
-  while IFS='=' read -r candidate version || [[ -n $candidate ]]; do
+  while IFS='=' read -r candidate version || [[ -n "$candidate" ]]; do
     __sdk_use "$candidate" "$version"
-  done < .sdkmanrc
+  done < "$sdkmanrc"
 }
