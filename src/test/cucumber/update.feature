@@ -18,7 +18,7 @@ Feature: Update
 			| kotlin    |
 			| scala     |
 		When I enter "sdk update"
-		Then I see "Adding new candidates(s): kotlin"
+		Then I see "Setting candidate list to: activator groovy kotlin scala"
 		And the Candidates cache should contain "activator,groovy,kotlin,scala"
 
 	Scenario: A candidate has been removed
@@ -27,7 +27,7 @@ Feature: Update
 			| groovy    |
 			| scala     |
 		When I enter "sdk update"
-		Then I see "Removing obsolete candidates(s): activator"
+		Then I see "Setting candidate list to: groovy scala"
 		And the Candidates cache should contain "groovy,scala"
 
 	Scenario: No new candidate is available
