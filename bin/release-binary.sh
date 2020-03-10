@@ -8,14 +8,14 @@ MONGO_PASSWORD="$5"
 VERSION="$BRANCH+$BUILD_NUMBER"
 
 if [[ -z "$MONGO_USERNAME" || -z "$MONGO_PASSWORD" ]]; then
-    echo "No mongo credentials so doing nothing..."
-    return 0
+	echo "No mongo credentials so doing nothing..."
+	return 0
 fi
 
 if [[ "$BRANCH" == 'master' ]]; then
-    FIELD="betaCliVersion"
+	FIELD="betaCliVersion"
 else
-    FIELD="stableCliVersion"
+	FIELD="stableCliVersion"
 fi
 
 echo "Release: $FIELD $VERSION"

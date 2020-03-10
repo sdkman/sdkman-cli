@@ -34,9 +34,9 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" should be the default$') { Stri
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" should not be the default$') { String candidate, String version ->
-    def directory = FileSystems.default.getPath("$candidatesDir/$candidate/$version")
-    def current = FileSystems.default.getPath("$candidatesDir/$candidate/current")
-    assert (!Files.isSymbolicLink(current) || (Files.isSymbolicLink(current) && !Files.isSameFile(current, directory)))
+	def directory = FileSystems.default.getPath("$candidatesDir/$candidate/$version")
+	def current = FileSystems.default.getPath("$candidatesDir/$candidate/current")
+	assert (!Files.isSymbolicLink(current) || (Files.isSymbolicLink(current) && !Files.isSameFile(current, directory)))
 }
 
 And(~'^the candidate "([^"]*)" is no longer selected$') { String candidate ->
