@@ -10,84 +10,84 @@ import static sdkman.support.FilesystemUtils.readCurrentFromCandidateFolder
 import static sdkman.support.FilesystemUtils.readVersionsCsvFromCandidateFolder
 
 And(~'^the default "([^"]*)" version is "([^"]*)"$') { String candidate, String version ->
-    primeEndpointWithString("/candidates/default/${candidate}", version)
-    primeDownloadFor(SERVICE_UP_URL, candidate, version, PLATFORM)
-    primeEndpointWithString("/hooks/pre/${candidate}/${version}/${PLATFORM}", preInstallationHookSuccess())
-    primeEndpointWithString("/hooks/post/${candidate}/${version}/${PLATFORM}", postInstallationHookSuccess())
+	primeEndpointWithString("/candidates/default/${candidate}", version)
+	primeDownloadFor(SERVICE_UP_URL, candidate, version, PLATFORM)
+	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${PLATFORM}", preInstallationHookSuccess())
+	primeEndpointWithString("/hooks/post/${candidate}/${version}/${PLATFORM}", postInstallationHookSuccess())
 }
 
 And(~'^an available selfupdate$') { ->
-    primeEndpointWithString("/selfupdate?beta=false", 'echo "Successfully upgraded SDKMAN."')
+	primeEndpointWithString("/selfupdate?beta=false", 'echo "Successfully upgraded SDKMAN."')
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { String candidate, String version ->
-    primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "valid")
-    primeDownloadFor(SERVICE_UP_URL, candidate, version, PLATFORM)
-    primeEndpointWithString("/hooks/pre/${candidate}/${version}/${PLATFORM}", preInstallationHookSuccess())
-    primeEndpointWithString("/hooks/post/${candidate}/${version}/${PLATFORM}", postInstallationHookSuccess())
+	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "valid")
+	primeDownloadFor(SERVICE_UP_URL, candidate, version, PLATFORM)
+	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${PLATFORM}", preInstallationHookSuccess())
+	primeEndpointWithString("/hooks/post/${candidate}/${version}/${PLATFORM}", postInstallationHookSuccess())
 }
 
 And(~/^the appropriate universal hooks are available for "([^"]*)" version "([^"]*)" on "([^"]*)"$/) { String candidate, String version, String platform ->
-    String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
-    primeUniversalHookFor("pre", candidate, version, lcPlatform)
-    primeUniversalHookFor("post", candidate, version, lcPlatform)
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+	primeUniversalHookFor("pre", candidate, version, lcPlatform)
+	primeUniversalHookFor("post", candidate, version, lcPlatform)
 }
 
 And(~/^the appropriate multi-platform hooks are available for "([^"]*)" version "([^"]*)" on "([^"]*)"$/) { String candidate, String version, String platform ->
-    String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
-    primePlatformSpecificHookFor("pre", candidate, version, lcPlatform)
-    primePlatformSpecificHookFor("post", candidate, version, lcPlatform)
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+	primePlatformSpecificHookFor("pre", candidate, version, lcPlatform)
+	primePlatformSpecificHookFor("post", candidate, version, lcPlatform)
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$') { String candidate, String version ->
-    primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "invalid")
+	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "invalid")
 }
 
 And(~/^the candidate "(.*)" version "(.*)" is available for download on "(.*)"$/) { String candidate, String version, String platform ->
-    String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
-    primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lcPlatform}", "valid")
-    primeDownloadFor(SERVICE_UP_URL, candidate, version, lcPlatform)
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lcPlatform}", "valid")
+	primeDownloadFor(SERVICE_UP_URL, candidate, version, lcPlatform)
 }
 
 And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns successfully$/) { String phase, String candidate, String version, String platform ->
-    String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
-    primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookSuccess() : postInstallationHookSuccess())
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+	primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookSuccess() : postInstallationHookSuccess())
 }
 
 And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns a failure$/) { String phase, String candidate, String version, String platform ->
-    String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
-    primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookFailure() : postInstallationHookFailure())
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+	primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookFailure() : postInstallationHookFailure())
 }
 
 And(~/^the candidate "(.*?)" version "(.*?)" is not available for download on "(.*?)"$/) { String candidate, String version, String platform ->
-    String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
-    primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lcPlatform}", "invalid")
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lcPlatform}", "invalid")
 }
 
 And(~'^a "([^"]*)" list view is available for consumption$') { String candidate ->
-    primeEndpointWithString("/candidates/${candidate}/${UnixUtils.platform}/versions/list?current=&installed=", "Available ${candidate.capitalize()} Versions")
+	primeEndpointWithString("/candidates/${candidate}/${UnixUtils.platform}/versions/list?current=&installed=", "Available ${candidate.capitalize()} Versions")
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is a valid candidate version$') { String candidate, String version ->
-    primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "valid")
+	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "valid")
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is not a valid candidate version$') { String candidate, String version ->
-    primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "invalid")
+	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "invalid")
 }
 
 And(~/^the candidate "(.*?)" has a version list available$/) { String candidate ->
-    def current = readCurrentFromCandidateFolder(candidatesDir, candidate)
-    def versions = readVersionsCsvFromCandidateFolder(candidatesDir, candidate)
-    def url = "/candidates/${candidate}/${UnixUtils.platform}/versions/list?current=${current}&installed=${versions}"
-    println("Priming url: $url")
-    primeEndpointWithString(url, "Candidate: $candidate; Versions: $versions; Current: $current; Platform: ${UnixUtils.platform}")
+	def current = readCurrentFromCandidateFolder(candidatesDir, candidate)
+	def versions = readVersionsCsvFromCandidateFolder(candidatesDir, candidate)
+	def url = "/candidates/${candidate}/${UnixUtils.platform}/versions/list?current=${current}&installed=${versions}"
+	println("Priming url: $url")
+	primeEndpointWithString(url, "Candidate: $candidate; Versions: $versions; Current: $current; Platform: ${UnixUtils.platform}")
 }
 
 And(~/^The candidate list is available$/) { ->
-    primeEndpointWithString("/candidates/list", "Candidate List")
+	primeEndpointWithString("/candidates/list", "Candidate List")
 }
 
 And(~/^the following candidates are currently available from remote API:$/) { DataTable dt ->
-    primeEndpointWithString("/candidates/all", dt.asList(String).drop(1).join(","))
+	primeEndpointWithString("/candidates/all", dt.asList(String).drop(1).join(","))
 }

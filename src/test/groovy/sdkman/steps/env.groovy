@@ -49,27 +49,27 @@ localCandidates = ['groovy', 'grails', 'java', 'kotlin', 'scala']
 bash = null
 
 if (!binding.hasVariable("wireMock")) {
-    wireMock = WireMockServerProvider.wireMockServer()
+	wireMock = WireMockServerProvider.wireMockServer()
 }
 
 addShutdownHook {
-    wireMock.stop()
+	wireMock.stop()
 }
 
 Before() {
-    WireMock.reset()
-    cleanUp()
+	WireMock.reset()
+	cleanUp()
 }
 
 private cleanUp() {
-    sdkmanBaseDir.deleteDir()
-    localGroovyCandidate.deleteDir()
+	sdkmanBaseDir.deleteDir()
+	localGroovyCandidate.deleteDir()
 }
 
 After() { scenario ->
-    def output = bash?.output
-    if (output) {
-        scenario.write("\nOutput: \n${output}")
-    }
+	def output = bash?.output
+	if (output) {
+		scenario.write("\nOutput: \n${output}")
+	}
 	bash?.stop()
 }
