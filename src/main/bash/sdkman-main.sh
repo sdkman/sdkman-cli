@@ -26,8 +26,6 @@ function sdk {
 			COMMAND="list";;
 		ls)
 			COMMAND="list";;
-		h)
-			COMMAND="help";;
 		v)
 			COMMAND="version";;
 		u)
@@ -44,7 +42,7 @@ function sdk {
 			COMMAND="default";;
 		b)
 			COMMAND="broadcast";;
-		ho)
+		h)
 			COMMAND="home";;
 	esac
 

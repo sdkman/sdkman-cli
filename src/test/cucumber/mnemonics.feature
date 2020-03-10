@@ -18,11 +18,6 @@ Feature: Mnemonics
     When I enter "sdk ls grails"
     Then I see "Available Grails Versions"
 
-  Scenario: Shortcut for asking help
-    Given the system is bootstrapped
-    When I enter "sdk h"
-    Then I see "Usage: sdk <command> [candidate] [version]"
-
   Scenario: Shortcut for displaying current Candidate Version in use
     Given the candidate "grails" version "1.3.9" is already installed and default
     And the system is bootstrapped
@@ -91,3 +86,9 @@ Feature: Mnemonics
     And the system is bootstrapped
     When I enter "sdk b"
     Then I see "This is a LIVE Broadcast!"
+
+  Scenario: Shortcut for displaying Home directory
+    Given the candidate "grails" version "2.1.0" is already installed and default
+    And the system is bootstrapped
+    When I enter "sdk h grails 1.3.9"
+    Then the home path ends with ".sdkman/candidates/grails/1.3.9"
