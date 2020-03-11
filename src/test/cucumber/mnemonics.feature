@@ -88,7 +88,9 @@ Feature: Mnemonics
     Then I see "This is a LIVE Broadcast!"
 
   Scenario: Shortcut for displaying Home directory
-    Given the candidate "grails" version "2.1.0" is already installed and default
+    Given an initialised environment without debug prints
+    And the candidate "grails" version "2.1.0" is already installed and default
+    And the candidate "grails" version "2.1.0" is a valid candidate version
     And the system is bootstrapped
-    When I enter "sdk h grails 1.3.9"
-    Then the home path ends with ".sdkman/candidates/grails/1.3.9"
+    When I enter "sdk h grails 2.1.0"
+    Then the home path ends with ".sdkman/candidates/grails/2.1.0"
