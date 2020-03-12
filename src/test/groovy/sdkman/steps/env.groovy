@@ -1,12 +1,12 @@
 package sdkman.steps
 
 import com.github.tomakehurst.wiremock.client.WireMock
-import sdkman.support.FilesystemUtils
 import sdkman.support.UnixUtils
 import sdkman.support.WireMockServerProvider
 
 import static cucumber.api.groovy.Hooks.After
 import static cucumber.api.groovy.Hooks.Before
+import static sdkman.support.FilesystemUtils.prepareBaseDir
 
 HTTP_PROXY = System.getProperty("httpProxy") ?: ""
 PLATFORM = UnixUtils.platform.toLowerCase()
@@ -24,7 +24,7 @@ localGroovyCandidate = "/tmp/groovy-core" as File
 sdkmanVersion = "5.0.0"
 sdkmanVersionOutdated = "4.0.0"
 
-sdkmanBaseEnv = FilesystemUtils.prepareBaseDir().absolutePath
+sdkmanBaseEnv = prepareBaseDir().absolutePath
 sdkmanBaseDir = sdkmanBaseEnv as File
 
 sdkmanDirEnv = "$sdkmanBaseEnv/.sdkman"

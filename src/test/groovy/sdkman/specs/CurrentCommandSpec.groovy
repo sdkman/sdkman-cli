@@ -1,9 +1,9 @@
 package sdkman.specs
 
+import java.nio.file.Path
 import sdkman.support.SdkmanEnvSpecification
 
-import java.nio.file.Paths
-
+import static java.nio.file.Files.createDirectories
 import static java.nio.file.Files.createSymbolicLink
 
 class CurrentCommandSpec extends SdkmanEnvSpecification {
@@ -62,12 +62,9 @@ class CurrentCommandSpec extends SdkmanEnvSpecification {
 
 	private prepareFoldersFor(Map installedCandidates) {
 		installedCandidates.forEach { candidate, version ->
-			def candidateVersionDirectory = "$candidatesDirectory/$candidate/$version"
-			def candidateVersionBinDirectory = "$candidateVersionDirectory/bin"
-			new File(candidateVersionBinDirectory).mkdirs()
-			def candidateVersionPath = Paths.get(candidateVersionDirectory)
-			def symlink = Paths.get("$candidatesDirectory/$candidate/current")
-			createSymbolicLink(symlink, candidateVersionPath)
+			Path candidateVersionPath = candidatesDirectory.toPath().resolve("${candidate}/${version}")
+			createDirectories(candidateVersionPath.resolve('bin'))
+			createSymbolicLink(candidatesDirectory.toPath().resolve("${candidate}/current"), candidateVersionPath)
 		}
 	}
 }

@@ -1,13 +1,14 @@
 package sdkman.specs
 
+import java.util.regex.Pattern
 import sdkman.support.SdkmanEnvSpecification
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import static java.nio.file.Files.createDirectory
+import static java.nio.file.Files.createSymbolicLink
 
 class InitialisationSpec extends SdkmanEnvSpecification {
 
-	static final allCandidates = [
+	static final List<String> allCandidates = [
 		"asciidoctorj",
 		"crash",
 		"gaiden",
@@ -40,11 +41,11 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 
 		when:
 		bash.execute('echo "$PATH"')
-		def pathParts = bash.output.split(':')
-		def pathElementMatcher = ~/$candidatesDirectory\/([^\/]+)\/.*/
-		def includedCandidates = pathParts
+		final String[] pathParts = bash.output.split(':')
+		final Pattern pathElementPattern = ~/$candidatesDirectory\/([^\/]+)\/.*/
+		final List<String> includedCandidates = pathParts
 			.collect { it.replace("\n", "") }
-			.collect { it =~ pathElementMatcher }
+			.collect { it =~ pathElementPattern }
 			.findAll { it }
 			.collect { it[0][1] }
 			.sort()
@@ -53,10 +54,10 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 		println("Included : $includedCandidates")
 
 		and:
-		def missingCandidates = allCandidates - includedCandidates
+		final List<String> missingCandidates = allCandidates - includedCandidates
 
 		then:
-		missingCandidates.isEmpty()
+		missingCandidates.empty
 	}
 
 	void "should reinitialize candidates in PATH if necessary"() {
@@ -66,7 +67,7 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 		bash.resetOutput()
 
 		and:
-		def originalPath = bash.env.grep { it =~ /^PATH=/ }.first() as String
+		final String originalPath = bash.env.grep { it =~ /^PATH=/ }.first()
 		bash.execute(originalPath)
 
 		when:
@@ -74,11 +75,11 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 		bash.execute('echo "$PATH"')
 
 		then:
-		def pathParts = bash.output.split(':')
-		def pathElementMatcher = ~/$candidatesDirectory\/([^\/]+)\/.*/
-		def includedCandidates = pathParts
+		final String[] pathParts = bash.output.split(':')
+		final Pattern pathElementPattern = ~/$candidatesDirectory\/([^\/]+)\/.*/
+		final List<String> includedCandidates = pathParts
 			.collect { it.replace("\n", "") }
-			.collect { it =~ pathElementMatcher }
+			.collect { it =~ pathElementPattern }
 			.findAll { it }
 			.collect { it[0][1] }
 			.sort()
@@ -86,8 +87,8 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 		println("Available: $allCandidates")
 		println("Included : $includedCandidates")
 
-		def missingCandidates = allCandidates - includedCandidates
-		missingCandidates.isEmpty()
+		final List<String> missingCandidates = allCandidates - includedCandidates
+		missingCandidates.empty
 	}
 
 	void "should not duplicate PATH entries if re-sourced"() {
@@ -100,11 +101,11 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 		bash.execute("source $bootstrapScript")
 		bash.execute('echo "$PATH"')
 
-		def pathParts = bash.output.split(':')
-		def pathElementMatcher = ~/$candidatesDirectory\/([^\/]+)\/.*/
-		def includedCandidates = pathParts
+		final String[] pathParts = bash.output.split(':')
+		final Pattern pathElementPattern = ~/$candidatesDirectory\/([^\/]+)\/.*/
+		final List<String> includedCandidates = pathParts
 			.collect { it.replace("\n", "") }
-			.collect { it =~ pathElementMatcher }
+			.collect { it =~ pathElementPattern }
 			.findAll { it }
 			.collect { it[0][1] }
 			.sort()
@@ -113,21 +114,18 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 		println("Included : $includedCandidates")
 
 		and:
-		def duplicateCandidates = includedCandidates - allCandidates
+		final List<String> duplicateCandidates = includedCandidates - allCandidates
 
 		then:
-		duplicateCandidates.isEmpty()
+		duplicateCandidates.empty
 	}
 
-	private prepareCandidateDirectories(List candidates) {
+	private void prepareCandidateDirectories(final List<String> candidates) {
 		candidates.forEach {
-			def current = Paths.get("$candidatesDirectory/$it/current")
-			def targetFilename = "$candidatesDirectory/$it/xxx"
-
-			new File(targetFilename).mkdirs()
-			def target = Paths.get(targetFilename)
-
-			Files.createSymbolicLink(current, target)
+			createSymbolicLink(
+				candidatesDirectory.toPath().resolve("${it}/current"),
+				createDirectory(candidatesDirectory.toPath().resolve("${it}/xxx"))
+			)
 		}
 	}
 }

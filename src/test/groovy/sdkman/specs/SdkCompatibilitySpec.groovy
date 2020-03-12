@@ -1,13 +1,15 @@
 package sdkman.specs
 
+import java.nio.file.Path
 import sdkman.support.SdkmanEnvSpecification
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import static java.nio.file.Files.createDirectories
+import static java.nio.file.Files.createFile
+import static java.nio.file.Files.createSymbolicLink
 
 class SdkCompatibilitySpec extends SdkmanEnvSpecification {
 
-	def allCandidates = ["groovy", "grails", "scala", "sbt"]
+	List<String> allCandidates = ["groovy", "grails", "scala", "sbt"]
 
 	def setup() {
 		bash = sdkmanBashEnvBuilder
@@ -18,58 +20,57 @@ class SdkCompatibilitySpec extends SdkmanEnvSpecification {
 
 	void "should add candidate bin folder to the path if present"() {
 		given:
-		def candidateFolder = prepareCandidateFolder("scala", "2.11.7", true)
+		final String currentLink = prepareCandidateFolder("scala", "2.11.7", true)
 
 		and:
 		bash.start()
-		bash.execute("source $bootstrapScript")
+		bash.execute("source ${bootstrapScript}")
 		bash.resetOutput()
 
 		when:
-		bash.execute('echo $PATH')
-		def pathEntries = bash.output.split(':')
-		def firstPathEntry = pathEntries.first()
+		bash.execute('echo "${PATH}"')
+		final String[] pathEntries = bash.output.split(':')
+		final String firstPathEntry = pathEntries.first()
 
 		then:
-		firstPathEntry.contains("$candidateFolder/bin")
+		firstPathEntry.contains("${currentLink}/bin")
 	}
 
 	void "should add candidate base folder to the path if no bin folder present"() {
 		given:
-		def candidateFolder = prepareCandidateFolder("sbt", "1.0.3", false)
+		final String currentLink = prepareCandidateFolder("sbt", "1.0.3", false)
 
 		and:
 		bash.start()
-		bash.execute("source $bootstrapScript")
+		bash.execute("source ${bootstrapScript}")
 		bash.resetOutput()
 
 		when:
-		bash.execute('echo $PATH')
-		def pathEntries = bash.output.split(':')
-		def firstPathEntry = pathEntries.first()
+		bash.execute('echo "${PATH}"')
+		final String[] pathEntries = bash.output.split(':')
+		final String firstPathEntry = pathEntries.first()
 
 		then:
-		firstPathEntry.contains("$candidateFolder")
+		firstPathEntry.contains("${currentLink}")
 
 		and:
-		!firstPathEntry.contains("$candidateFolder/bin")
+		!firstPathEntry.contains("${currentLink}/bin")
 	}
 
-	private prepareCandidateFolder(String candidate, String version, boolean hasBinFolder) {
-		def candidateBaseDir = "${candidatesDirectory.absolutePath}/$candidate"
-		def candidateCurrentDir = Paths.get("$candidateBaseDir/current")
-
-		def candidateLocation = "${candidatesDirectory.absolutePath}/$candidate/$version"
-		def candidatePath = Paths.get(candidateLocation)
-
-		def binLocation = hasBinFolder ? "$candidateLocation/bin/" : "$candidateLocation"
-		def executableFilename = "run.sh"
-		def executableFile = "$binLocation/$executableFilename" as File
-
-		new File(binLocation).mkdirs()
-		executableFile.createNewFile()
-
-		Files.createSymbolicLink(candidateCurrentDir, candidatePath)
-		candidateCurrentDir.toString()
+	private String prepareCandidateFolder(final String candidate, final String version, final boolean hasBinFolder) {
+		final Path candidateDir = candidatesDirectory.toPath().toAbsolutePath().resolve(candidate)
+		final Path candidateVersionDir = candidateDir.resolve(version)
+		createFile(
+			createDirectories(
+				hasBinFolder
+					? candidateVersionDir.resolve('bin')
+					: candidateVersionDir
+			)
+			.resolve('run.sh')
+		)
+		createSymbolicLink(
+			candidateDir.resolve('current'),
+			candidateVersionDir
+		).toString()
 	}
 }
