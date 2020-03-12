@@ -153,12 +153,10 @@ function __sdkman_download {
 		local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
 		__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}" > "$post_installation_hook"
-		__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
+		__sdkman_echo_debug "Copy remote post-installation hook: $post_installation_hook"
 		source "$post_installation_hook"
 		__sdkman_post_installation_hook || return 1
-
 		__sdkman_echo_debug "Processed binary as: $zip_output"
-
 		__sdkman_echo_debug "Completed post-installation hook..."
 
 		mv "$zip_output" "$zip_archive_target"
