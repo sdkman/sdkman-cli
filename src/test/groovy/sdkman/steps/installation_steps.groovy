@@ -2,8 +2,12 @@ package sdkman.steps
 
 import java.nio.file.FileSystems
 import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 import static cucumber.api.groovy.EN.And
+import static java.nio.file.Files.isSameFile
+import static java.nio.file.Files.isSymbolicLink
 import static sdkman.support.FilesystemUtils.prepareCandidateBinFolder
 import static sdkman.support.FilesystemUtils.prepareCandidateWithVersionFolder
 
@@ -65,15 +69,11 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is linked to "([^"]*)"$') { Str
 }
 
 def assertLinkedCandidate(String directory, String candidate, String version) {
-    def fileSystem = FileSystems.default
+    Path versionFolder = Paths.get("$candidatesDir/$candidate/$version")
 
-    def versionLocation = "$candidatesDir/$candidate/$version"
-    def versionFolder = fileSystem.getPath(versionLocation)
+    assert isSymbolicLink(versionFolder)
 
-    assert Files.isSymbolicLink(versionFolder)
-
-    def link = Files.readSymbolicLink(versionFolder).toString()
-    assert link == directory
+    assert isSameFile(versionFolder, Paths.get(directory))
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is already linked to "([^"]*)"$') { String candidate, String version, String folder ->
