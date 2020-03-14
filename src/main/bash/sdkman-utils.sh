@@ -16,9 +16,25 @@
 #   limitations under the License.
 #
 
-function __sdkman_echo_debug {
-	if [[ "$sdkman_debug_mode" == 'true' ]]; then
-		echo -e "$1"
+function __sdkman_join_by {
+	if [[ "${#}" -gt 1 ]]; then
+		local delimiter firstElement
+		delimiter="${1}"
+		firstElement="${2}"
+		shift 2
+		printf '%b%b' "${firstElement}" "${@/#/${delimiter}}"
+	fi
+}
+
+function __sdkman_join_bookended_by {
+	if [[ "${#}" -gt 3 ]]; then
+		local delimiter prefix suffix firstElement
+		delimiter="${1}"
+		prefix="${2}"
+		suffix="${3}"
+		firstElement="${4}"
+		shift 4
+		printf '%b%b%b%b' "${prefix}" "${firstElement}" "${@/#/${delimiter}}" "${suffix}"
 	fi
 }
 
@@ -77,6 +93,28 @@ function __sdkman_page {
 	fi
 }
 
+
+function __sdkman_print_error {
+	if [[ "${sdkman_colour_enable}" == 'false' ]]; then
+		printf $'%b\n' "${@}" 1>&2
+	else
+		printf $'\033[1;31m%b\033[0m\n' "${@}" 1>&2
+	fi
+}
+
+function __sdkman_print_option_error {
+	if [[ "${1}" == '?' ]]; then
+		__sdkman_print_error "\nStop! Unknown option: -${2}"
+	else
+		__sdkman_print_error "\nStop! Missing value for option: -${2}"
+	fi
+}
+
+
+function __sdkman_echo_no_colour {
+	echo -e "$1"
+}
+
 function __sdkman_echo {
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
 		echo -e "$2"
@@ -89,10 +127,6 @@ function __sdkman_echo_red {
 	__sdkman_echo "31m" "$1"
 }
 
-function __sdkman_echo_no_colour {
-	echo -e "$1"
-}
-
 function __sdkman_echo_yellow {
 	__sdkman_echo "33m" "$1"
 }
@@ -103,6 +137,12 @@ function __sdkman_echo_green {
 
 function __sdkman_echo_cyan {
 	__sdkman_echo "36m" "$1"
+}
+
+function __sdkman_echo_debug {
+	if [[ "$sdkman_debug_mode" == 'true' ]]; then
+		echo -e "$1"
+	fi
 }
 
 function __sdkman_echo_confirm {
