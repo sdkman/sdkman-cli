@@ -47,7 +47,8 @@ function ___sdkman_check_version_cache {
 
 		SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "${version_url}")
 
-		if [[ -z "${SDKMAN_REMOTE_VERSION}" || -n "$(echo "${SDKMAN_REMOTE_VERSION}" | tr '[:upper:]' '[:lower:]' | grep 'html')" ]]; then
+		grep -iq 'html' <<< "${SDKMAN_REMOTE_VERSION}"
+		if [[ ${?} -eq 0 || -z "${SDKMAN_REMOTE_VERSION}" ]]; then
 			__sdkman_echo_debug "Version information corrupt or empty! Ignoring: ${SDKMAN_REMOTE_VERSION}"
 			SDKMAN_REMOTE_VERSION="${SDKMAN_VERSION}"
 		else

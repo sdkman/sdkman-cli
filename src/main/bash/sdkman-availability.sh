@@ -32,7 +32,7 @@ function __sdkman_determine_broadcast_id {
 
 function __sdkman_set_availability {
 	local broadcast_id="$1"
-	local detect_html="$(echo "$broadcast_id" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	local detect_html="$(echo "$broadcast_id" | grep -i 'html')"
 	if [[ -z "$broadcast_id" ]]; then
 		SDKMAN_AVAILABLE="false"
 		__sdkman_display_offline_warning "$broadcast_id"

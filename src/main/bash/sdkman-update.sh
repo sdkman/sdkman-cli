@@ -21,7 +21,7 @@ function __sdk_update {
 	__sdkman_echo_debug "Using candidates endpoint: $candidates_uri"
 
 	local fetched_candidates_csv=$(__sdkman_secure_curl_with_timeouts "$candidates_uri")
-	local detect_html="$(echo "$fetched_candidates" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	local detect_html="$(echo "$fetched_candidates" | grep -i 'html')"
 
 	local fetched_candidates=("")
 	local cached_candidates=("")
