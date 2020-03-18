@@ -75,11 +75,11 @@ function __sdkman_update_broadcast {
 	broadcast_old_id=""
 
 	if [[ -f "$broadcast_id_file" ]]; then
-		broadcast_old_id=$(cat "$broadcast_id_file");
+		broadcast_old_id=$(< "$broadcast_id_file");
 	fi
 
 	if [[ -f "$broadcast_text_file" ]]; then
-		BROADCAST_OLD_TEXT=$(cat "$broadcast_text_file");
+		BROADCAST_OLD_TEXT=$(< "$broadcast_text_file");
 	fi
 
 	if [[ "$SDKMAN_AVAILABLE" == "true" && "$broadcast_live_id" != "$broadcast_old_id" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then

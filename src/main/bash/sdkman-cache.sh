@@ -40,7 +40,7 @@ function ___sdkman_check_version_cache {
 
 	if [[ "${sdkman_channel}" != "BETA" && -f "${version_file}" && -z "$(find "${version_file}" -mmin +$((60*24)))" ]]; then
 		__sdkman_echo_debug "Not refreshing version cache now..."
-		SDKMAN_REMOTE_VERSION=$(cat "${version_file}")
+		SDKMAN_REMOTE_VERSION=$(< "${version_file}")
 	else
 		__sdkman_echo_debug "Refreshing version cache with ${sdkman_channel} version..."
 		version_url="${SDKMAN_CANDIDATES_API}/broker/download/sdkman/version/$(echo "${sdkman_channel}" | tr '[:upper:]' '[:lower:]')"
