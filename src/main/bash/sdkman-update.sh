@@ -18,33 +18,32 @@
 
 function __sdk_update {
 	local candidates_uri="${SDKMAN_CANDIDATES_API}/candidates/all"
-	__sdkman_echo_debug "Using candidates endpoint: $candidates_uri"
+	__sdkman_echo_debug "Using candidates endpoint: ${candidates_uri}"
 
-	local fetched_candidates_csv=$(__sdkman_secure_curl_with_timeouts "$candidates_uri")
-	local detect_html="$(echo "$fetched_candidates" | grep -i 'html')"
+	local fetched_candidates_csv=$(__sdkman_secure_curl_with_timeouts "${candidates_uri}")
+	local detect_html="$(echo "${fetched_candidates}" | grep -i 'html')"
 
-	local fetched_candidates=("")
-	local cached_candidates=("")
+	local fetched_candidates cached_candidates
 
-	if [[ "$zsh_shell" == 'true' ]]; then
+	if [[ "${zsh_shell}" == 'true' ]]; then
 		fetched_candidates=(${(s:,:)fetched_candidates_csv})
 		cached_candidates=(${(s:,:)SDKMAN_CANDIDATES_CSV})
 	else
-		OLD_IFS="$IFS"
-		IFS=","
+		OLD_IFS="${IFS}"
+		IFS=','
 		fetched_candidates=(${fetched_candidates_csv})
 		cached_candidates=(${SDKMAN_CANDIDATES_CSV})
-		IFS="$OLD_IFS"
+		IFS="${OLD_IFS}"
 	fi
 
-	__sdkman_echo_debug "Local candidates:   $SDKMAN_CANDIDATES_CSV"
-	__sdkman_echo_debug "Fetched candidates: $fetched_candidates_csv"
+	__sdkman_echo_debug "Local candidates:   ${SDKMAN_CANDIDATES_CSV}"
+	__sdkman_echo_debug "Fetched candidates: ${fetched_candidates_csv}"
 
-	if [[ -n "$fetched_candidates_csv" && -z "$detect_html" ]]; then
+	if [[ -n "${fetched_candidates_csv}" && -z "${detect_html}" ]]; then
 		# legacy bash workaround
-		if [[ "$bash_shell" == 'true' && "$BASH_VERSINFO" -lt 4 ]]; then
+		if [[ "${bash_shell}" == 'true' && "${BASH_VERSINFO}" -lt 4 ]]; then
 			__sdkman_legacy_bash_message
-			echo "$fetched_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
+			echo "${fetched_candidates_csv}" > "${SDKMAN_CANDIDATES_CACHE}"
 			return 0
 		fi
 
@@ -55,14 +54,12 @@ function __sdk_update {
 		local diff_candidates=($(printf $'%s\n' "${combined_candidates[@]}" | sort | uniq -u))
 
 		if ((${#diff_candidates[@]})); then
-			echo ""
-			__sdkman_echo_green "Setting candidate list to: ${fetched_candidates_csv//,/ }"
-			echo "$fetched_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
-			echo ""
-			__sdkman_echo_yellow "Please open a new terminal now..."
+			__sdkman_echo_green "\nSetting candidate list to: ${fetched_candidates_csv//,/ }"
+			echo "${fetched_candidates_csv}" > "${SDKMAN_CANDIDATES_CACHE}"
+			__sdkman_echo_yellow $'\nPlease open a new terminal now...'
 		else
-			touch "$SDKMAN_CANDIDATES_CACHE"
-			__sdkman_echo_green "No new candidates found at this time."
+			touch "${SDKMAN_CANDIDATES_CACHE}"
+			__sdkman_echo_green 'No new candidates found at this time.'
 		fi
 	fi
 }
