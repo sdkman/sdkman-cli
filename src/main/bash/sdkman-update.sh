@@ -22,17 +22,13 @@ function __sdk_update() {
 
 	local fresh_candidates_csv=$(__sdkman_secure_curl_with_timeouts "$candidates_uri")
 
-	local fresh_candidates=("")
-	local cached_candidates=("")
-
+	local fresh_candidates
 	if [[ "$zsh_shell" == 'true' ]]; then
-		fresh_candidates=( ${(s:,:)fresh_candidates_csv} )
-		cached_candidates=( ${(s:,:)SDKMAN_CANDIDATES_CSV} )
+		fresh_candidates=(${(s:,:)fresh_candidates_csv})
 	else
 		OLD_IFS="$IFS"
 		IFS=","
 		fresh_candidates=(${fresh_candidates_csv})
-		cached_candidates=(${SDKMAN_CANDIDATES_CSV})
 		IFS="$OLD_IFS"
 	fi
 
@@ -51,7 +47,7 @@ function __sdk_update() {
 
 		local combined_candidates diff_candidates
 
-		combined_candidates=("${fresh_candidates[@]}" "${cached_candidates[@]}")
+		combined_candidates=("${fresh_candidates[@]}" "${SDKMAN_CANDIDATES[@]}")
 
 		diff_candidates=($(printf $'%s\n' "${combined_candidates[@]}" | sort | uniq -u))
 
@@ -64,7 +60,7 @@ function __sdk_update() {
 				__sdkman_echo_green "\nAdding new candidates(s): ${delta[*]}"
 			fi
 
-			delta=("${cached_candidates[@]}" "${diff_candidates[@]}")
+			delta=("${SDKMAN_CANDIDATES[@]}" "${diff_candidates[@]}")
 			delta=($(printf $'%s\n' "${delta[@]}" | sort | uniq -d))
 			if ((${#delta[@]})); then
 				__sdkman_echo_green "\nRemoving obsolete candidates(s): ${delta[*]}"
