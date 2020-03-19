@@ -26,10 +26,7 @@ function __sdk_update {
 	if [[ "${zsh_shell}" == 'true' ]]; then
 		fetched_candidates=(${(s:,:)fetched_candidates_csv})
 	else
-		OLD_IFS="${IFS}"
-		IFS=','
-		fetched_candidates=(${fetched_candidates_csv})
-		IFS="${OLD_IFS}"
+		IFS=',' read -a fetched_candidates <<< "${fetched_candidates_csv}"
 	fi
 
 	__sdkman_echo_debug "Local candidates:   ${SDKMAN_CANDIDATES_CSV}"
