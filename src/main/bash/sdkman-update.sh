@@ -21,25 +21,22 @@ function __sdk_update {
 	__sdkman_echo_debug "Using candidates endpoint: ${candidates_uri}"
 
 	local fetched_candidates_csv=$(__sdkman_secure_curl_with_timeouts "${candidates_uri}")
-	local detect_html="$(echo "${fetched_candidates}" | grep -i 'html')"
 
-	local fetched_candidates cached_candidates
-
+	local fetched_candidates
 	if [[ "${zsh_shell}" == 'true' ]]; then
 		fetched_candidates=(${(s:,:)fetched_candidates_csv})
-		cached_candidates=(${(s:,:)SDKMAN_CANDIDATES_CSV})
 	else
 		OLD_IFS="${IFS}"
 		IFS=','
 		fetched_candidates=(${fetched_candidates_csv})
-		cached_candidates=(${SDKMAN_CANDIDATES_CSV})
 		IFS="${OLD_IFS}"
 	fi
 
 	__sdkman_echo_debug "Local candidates:   ${SDKMAN_CANDIDATES_CSV}"
 	__sdkman_echo_debug "Fetched candidates: ${fetched_candidates_csv}"
 
-	if [[ -n "${fetched_candidates_csv}" && -z "${detect_html}" ]]; then
+	grep -iq 'html' <<< "${fetched_candidates_csv}"
+	if [[ "${?}" -eq 1 && -n "${fetched_candidates_csv}" ]]; then
 		# legacy bash workaround
 		if [[ "${bash_shell}" == 'true' && "${BASH_VERSINFO}" -lt 4 ]]; then
 			__sdkman_legacy_bash_message
@@ -49,7 +46,7 @@ function __sdk_update {
 
 		__sdkman_echo_debug "Fetched and cached candidate lengths: ${#fetched_candidates_csv} ${#SDKMAN_CANDIDATES_CSV}"
 
-		local combined_candidates=("${fetched_candidates[@]}" "${cached_candidates[@]}")
+		local combined_candidates=("${fetched_candidates[@]}" "${SDKMAN_CANDIDATES[@]}")
 
 		local diff_candidates=($(printf $'%s\n' "${combined_candidates[@]}" | sort | uniq -u))
 
