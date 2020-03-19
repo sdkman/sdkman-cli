@@ -29,7 +29,7 @@ function __sdk_env {
 
   while IFS= read -r line || [[ -n $line ]]; do
     if [[ ! $line =~ ^([[:lower:]]+)=(.+)$ ]]; then
-      __sdkman_echo_red "${sdkmanrc}:${line_number}: Invalid candidate entry! Expected 'candidate=version' but found '$line'"
+      __sdkman_echo_red "${sdkmanrc}:${line_number}: Invalid candidate entry format! Expected 'candidate=version' but found '$line'"
 
       return 1
     fi
