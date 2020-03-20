@@ -1,7 +1,6 @@
 package sdkman.specs
 
 import sdkman.support.SdkmanEnvSpecification
-import spock.lang.Unroll
 
 class EnvCommandSpec extends SdkmanEnvSpecification {
     def setup() {
