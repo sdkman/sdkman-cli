@@ -22,13 +22,6 @@ function __sdk_update() {
 
 	local fresh_candidates_csv=$(__sdkman_secure_curl_with_timeouts "$candidates_uri")
 
-	local fresh_candidates
-	if [[ "$zsh_shell" == 'true' ]]; then
-		fresh_candidates=(${(s:,:)fresh_candidates_csv})
-	else
-		IFS=',' read -a fresh_candidates <<< "${fresh_candidates_csv}"
-	fi
-
 	__sdkman_echo_debug "Local candidates: $SDKMAN_CANDIDATES_CSV"
 	__sdkman_echo_debug "Fetched candidates: $fresh_candidates_csv"
 
@@ -42,7 +35,13 @@ function __sdk_update() {
 
 		__sdkman_echo_debug "Fresh and cached candidate lengths: ${#fresh_candidates_csv} ${#SDKMAN_CANDIDATES_CSV}"
 
-		local combined_candidates diff_candidates
+		local fresh_candidates combined_candidates diff_candidates
+
+		if [[ "${zsh_shell}" == 'true' ]]; then
+			fresh_candidates=(${(s:,:)fresh_candidates_csv})
+		else
+			IFS=',' read -a fresh_candidates <<< "${fresh_candidates_csv}"
+		fi
 
 		combined_candidates=("${fresh_candidates[@]}" "${SDKMAN_CANDIDATES[@]}")
 
