@@ -17,18 +17,18 @@ class CurlStub {
 	}
 
 	CurlStub primeWith(String request, String snippet) {
-		commands.put request, snippet
+		commands[request] = snippet
 		this
 	}
 
 	void build() {
 		commands.each { request, snippet ->
 			//use last arg because we use curl with options
-			file << 'if [[ "${@: -1}" == "'
-			file << "$request"
-			file << '" ]]; then\n'
-			file << "    $snippet\n"
-			file << 'fi\n'
+			file << """\
+if [[ "\${@: -1}" == '$request' ]]; then
+    $snippet
+fi
+"""
 		}
 	}
 }
