@@ -17,13 +17,15 @@
 #
 
 function __sdk_install {
+	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 1 2 'candidate' 'version' 'local_path' "${@}" || return 1
+
 	local candidate version folder
 
 	candidate="$1"
+	__sdkman_validate_candidate "${candidate}" || return 1
+
 	version="$2"
 	folder="$3"
-
-	__sdkman_check_candidate_present "$candidate" || return 1
 	__sdkman_determine_version "$candidate" "$version" "$folder" || return 1
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" || -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then

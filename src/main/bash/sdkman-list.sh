@@ -17,6 +17,8 @@
 #
 
 function __sdk_list {
+	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 0 1 'candidate' "${@}" || return 1
+
 	local candidate="$1"
 
 	if [[ -z "$candidate" ]]; then
@@ -38,6 +40,7 @@ function __sdkman_list_versions {
 	local candidate versions
 
 	candidate="$1"
+	__sdkman_validate_candidate "${candidate}" || return 1
 
 	__sdkman_determine_current_version "$candidate"
 

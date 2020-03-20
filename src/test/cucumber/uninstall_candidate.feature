@@ -30,14 +30,14 @@ Feature: Uninstall Candidate
 	Scenario: Attempt uninstalling with no Candidate specified
 		Given the system is bootstrapped
 		When I enter "sdk uninstall"
-		Then I see "No candidate provided."
+		Then I see "Stop! Missing candidate."
 
 	Scenario: Attempt uninstalling with an invalid Candidate specified
 		Given the system is bootstrapped
-		When I enter "sdk uninstall groffle"
+		When I enter "sdk uninstall groffle 1.0"
 		Then I see "Stop! Invalid candidate: groffle"
 
 	Scenario: Attempt uninstalling without a version provided
 		Given the system is bootstrapped
 		When I enter "sdk uninstall grails"
-		Then I see "No candidate version provided."
+		Then I see "Stop! Missing version."

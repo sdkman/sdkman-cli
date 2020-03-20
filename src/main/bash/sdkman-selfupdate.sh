@@ -17,12 +17,19 @@
 #
 
 function __sdk_selfupdate {
-	local force_selfupdate
+	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 0 1 'force' "${@}" || return 1
 
+	local force_selfupdate
 	force_selfupdate="$1"
+
+	if [[ -n "${force_selfupdate}" && "${force_selfupdate}" != 'force' ]]; then
+		__sdkman_echo_red "\nStop! Invalid selfupdate argument: ${force_selfupdate}"
+		return 1
+	fi
+
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "This command is not available while offline."
-	elif [[ "$SDKMAN_REMOTE_VERSION" == "$SDKMAN_VERSION" && "$force_selfupdate" != "force" ]]; then
+	elif [[ "$SDKMAN_REMOTE_VERSION" == "$SDKMAN_VERSION" && -z "$force_selfupdate" ]]; then
 		echo "No update available at this time."
 	else
 		export sdkman_debug_mode

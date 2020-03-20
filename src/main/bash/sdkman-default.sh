@@ -17,12 +17,14 @@
 #
 
 function __sdk_default {
+	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 1 1 'candidate' 'version' "${@}" || return 1
+
 	local candidate version
 
 	candidate="$1"
-	version="$2"
+	__sdkman_validate_candidate "${candidate}" || return 1
 
-	__sdkman_check_candidate_present "$candidate" || return 1
+	version="$2"
 	__sdkman_determine_version "$candidate" "$version" || return 1
 
 	if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]; then

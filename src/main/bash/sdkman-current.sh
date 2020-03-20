@@ -17,10 +17,13 @@
 #
 
 function __sdk_current {
+	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 0 1 'candidate' "${@}" || return 1
+
 	local candidate="$1"
 
 	echo ""
 	if [ -n "$candidate" ]; then
+		__sdkman_validate_candidate "${candidate}" || return 1
 		__sdkman_determine_current_version "$candidate"
 		if [ -n "$CURRENT" ]; then
 			__sdkman_echo_no_colour "Using ${candidate} version ${CURRENT}"

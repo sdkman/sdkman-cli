@@ -17,6 +17,8 @@
 #
 
 function __sdk_version {
+	__sdkman_validate_no_arguments "sdk ${COMMAND}" "${@}" || return 1
+
 	echo ""
 	__sdkman_echo_yellow "SDKMAN ${SDKMAN_VERSION}"
 }

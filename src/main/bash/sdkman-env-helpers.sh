@@ -16,28 +16,6 @@
 #   limitations under the License.
 #
 
-function __sdkman_check_candidate_present {
-	local candidate="$1"
-
-	if [ -z "$candidate" ]; then
-		echo ""
-		__sdkman_echo_red "No candidate provided."
-		__sdk_help
-		return 1
-	fi
-}
-
-function __sdkman_check_version_present {
-	local version="$1"
-
-	if [ -z "$version" ]; then
-		echo ""
-		__sdkman_echo_red "No candidate version provided."
-		__sdk_help
-		return 1
-	fi
-}
-
 function __sdkman_determine_version {
 	local candidate version folder
 

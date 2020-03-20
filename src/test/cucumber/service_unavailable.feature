@@ -33,7 +33,7 @@ Feature: Service Unavailable
 		And the candidate "grails" version "2.1.0" is already installed but not default
 		And the system is bootstrapped
 		When I enter "sdk use grails"
-		Then I see "No candidate version provided."
+		Then I see "Stop! Missing version."
 
 	Scenario: Use an uninstalled candidate version while Offline
 		Given the candidate "grails" version "1.3.9" is already installed and default
@@ -144,7 +144,7 @@ Feature: Service Unavailable
 	Scenario: Request help while Offline
 		Given the system is bootstrapped
 		When I enter "sdk help"
-		Then I see "Usage: sdk <command> [candidate] [version]"
+		Then I see "COMMAND    ALIAS ARGUMENTS"
 
 	# selfupdate command
 

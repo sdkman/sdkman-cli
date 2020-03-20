@@ -7,7 +7,7 @@ Feature: Flush
 
 	Scenario: Flush omitting the Qualifier
 		When I enter "sdk flush"
-		Then I see "Stop! Please specify what you want to flush."
+		Then I see "Stop! Missing flush_target."
 
 	Scenario: Clean up the current Broadcast
 		Given a prior Broadcast "This is an old broadcast" with id "12344" was issued

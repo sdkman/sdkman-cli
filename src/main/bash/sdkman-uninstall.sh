@@ -17,12 +17,14 @@
 #
 
 function __sdk_uninstall {
+	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 2 0 'candidate' 'version' "${@}" || return 1
+
 	local candidate version current
 
 	candidate="$1"
+	__sdkman_validate_candidate "${candidate}" || return 1
+
 	version="$2"
-	__sdkman_check_candidate_present "$candidate" || return 1
-	__sdkman_check_version_present "$version" || return 1
 
 	current=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
 	if [[ -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" && "$version" == "$current" ]]; then

@@ -12,7 +12,7 @@ Feature: Print home path
 	Scenario: Home without providing a Candidate
 		Given the system is bootstrapped
 		When I enter "sdk home"
-		Then I see "Usage: sdk <command> [candidate] [version]"
+		Then I see "Stop! Missing candidate."
 
 	Scenario: Home for a candidate version that is installed
 		Given the candidate "grails" version "2.1.0" is already installed and default

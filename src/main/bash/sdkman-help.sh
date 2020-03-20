@@ -17,33 +17,47 @@
 #
 
 function __sdk_help {
-	__sdkman_echo_no_colour ""
-	__sdkman_echo_no_colour "Usage: sdk <command> [candidate] [version]"
-	__sdkman_echo_no_colour "       sdk offline <enable|disable>"
-	__sdkman_echo_no_colour ""
-	__sdkman_echo_no_colour "   commands:"
-	__sdkman_echo_no_colour "       install   or i    <candidate> [version] [local-path]"
-	__sdkman_echo_no_colour "       uninstall or rm   <candidate> <version>"
-	__sdkman_echo_no_colour "       list      or ls   [candidate]"
-	__sdkman_echo_no_colour "       use       or u    <candidate> <version>"
-	__sdkman_echo_no_colour "       default   or d    <candidate> [version]"
-	__sdkman_echo_no_colour "       home      or h    <candidate> <version>"
-	__sdkman_echo_no_colour "       current   or c    [candidate]"
-	__sdkman_echo_no_colour "       upgrade   or ug   [candidate]"
-	__sdkman_echo_no_colour "       version   or v"
-	__sdkman_echo_no_colour "       broadcast or b"
-	__sdkman_echo_no_colour "       help"
-	__sdkman_echo_no_colour "       offline           [enable|disable]"
-	__sdkman_echo_no_colour "       selfupdate        [force]"
-	__sdkman_echo_no_colour "       update"
-	__sdkman_echo_no_colour "       flush             <broadcast|archives|temp>"
-	__sdkman_echo_no_colour ""
-	__sdkman_echo_no_colour "   candidate  :  the SDK to install: groovy, scala, grails, gradle, kotlin, etc."
-	__sdkman_echo_no_colour "                 use list command for comprehensive list of candidates"
-	__sdkman_echo_no_colour "                 eg: \$ sdk list"
-	__sdkman_echo_no_colour "   version    :  where optional, defaults to latest stable if not provided"
-	__sdkman_echo_no_colour "                 eg: \$ sdk install groovy"
-	__sdkman_echo_no_colour "   local-path :  optional path to an existing local installation"
-	__sdkman_echo_no_colour "                 eg: \$ sdk install groovy 2.4.13-local /opt/groovy-2.4.13"
-	__sdkman_echo_no_colour ""
+	__sdkman_validate_no_arguments "sdk ${COMMAND}" "${@}" || return 1
+
+	__sdkman_command_usage 'sdk' '' '1*' 'command_or_alias' 'argument'
+
+	printf '
+    COMMAND    ALIAS ARGUMENTS
+    ========== ===== ======================================'
+	__sdkman_color_usage '
+    install    i      <candidate>  [<version>] [<local_path>]
+    uninstall  rm     <candidate>   <version>
+    list       ls    [<candidate>]
+    use        u      <candidate>   <version>
+    default    d      <candidate>  [<version>]
+    home       h      <candidate>   <version>
+    current    c     [<candidate>]
+    upgrade    ug    [<candidate>]
+    version    v
+    broadcast  b
+    help
+    offline          [enable|disable]
+    selfupdate       [force]
+    update
+    flush            (archives|broadcast|temp|version)'
+	printf '
+
+    VARIABLE ARGUMENTS:
+    '
+    __sdkman_color_usage '<candidate>'
+    printf ':  SDK to install, eg: groovy, scala, grails, gradle, kotlin, etc.
+                  use list command without arguments for complete candidates list
+                  eg: $ sdk list
+
+    '
+    __sdkman_color_usage '<version>'
+    printf ':    version to install
+                  if not provided when optional, defaults to latest stable version
+                  eg: $ sdk install groovy
+
+    '
+    __sdkman_color_usage '<local_path>'
+    printf ': path to an existing local installation
+                  eg: $ sdk install groovy 2.4.13-local /opt/groovy-2.4.13
+'
 }

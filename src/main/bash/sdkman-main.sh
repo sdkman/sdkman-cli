@@ -21,11 +21,10 @@ function sdk {
 
 	# Check if <command> is missing
 	if [[ -z "${COMMAND}" ]]; then
-		__sdk_help
+		__sdkman_print_error $'\nStop! Missing command.'
+		__sdk_help 1>&2
 		return 1
 	fi
-
-	QUALIFIER="${2}"
 
 	#
 	# Various sanity checks and default settings
@@ -57,8 +56,9 @@ function sdk {
 		esac
 
 		if [[ "${COMMAND}" == 'home' ]]; then
-			__sdk_home "${QUALIFIER}" "${3}"
-			return ${?}
+			shift
+			__sdk_home "${@}"
+			return "${?}"
 		fi
 
 		# Validate candidate and version caches
@@ -73,7 +73,7 @@ function sdk {
 	fi
 
 	# ... Unless proven otherwise
-	__sdkman_update_broadcast_and_service_availability
+	__sdkman_update_broadcast_and_service_availability "${2}"
 
 	# Load the sdkman config if it exists
 	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
@@ -82,36 +82,9 @@ function sdk {
 
 	# Validate command as builtin or extension
 	if [[ ! -f "${SDKMAN_DIR}/src/sdkman-${COMMAND}.sh" && ! -f "${SDKMAN_DIR}/ext/sdkman-${COMMAND}.sh" ]]; then
-		__sdkman_echo_red "\nStop! Invalid command: ${COMMAND}"
-		__sdk_help
+		__sdkman_print_error "\nStop! Invalid command: ${COMMAND}"
+		__sdk_help 1>&2
 		return 1
-	fi
-
-	# Validate qualifier
-	if [[ -n "${QUALIFIER}" ]]; then
-		case "${COMMAND}" in
-		offline)
-			# Validate offline mode
-			case "${QUALIFIER}" in
-			enable|disable)
-				;;
-			*)
-				__sdkman_echo_red "\nStop! Invalid offline mode: ${QUALIFIER}"
-				;;
-			esac
-			;;
-		flush|selfupdate)
-			# Validated in command function
-			;;
-		*)
-			# Validate candidate
-			grep -wq "${QUALIFIER}" <<< "${SDKMAN_CANDIDATES[@]}"
-			if [[ ${?} -ne 0 ]]; then
-				__sdkman_echo_red "\nStop! Invalid candidate: ${QUALIFIER}"
-				return 1
-			fi
-			;;
-		esac
 	fi
 
 	# Execute the requested command
@@ -119,12 +92,12 @@ function sdk {
 	local command_function="__sdk_${COMMAND//-/_}"
 	shift
 	"${command_function}" "${@}"
-	local result=${?}
+	local result="${?}"
 
 	# Attempt upgrade after command finished
 	if [[ "${COMMAND}" != 'selfupdate' ]]; then
 		__sdkman_auto_update "${SDKMAN_REMOTE_VERSION}" "${SDKMAN_VERSION}"
 	fi
 
-	return ${result}
+	return "${result}"
 }

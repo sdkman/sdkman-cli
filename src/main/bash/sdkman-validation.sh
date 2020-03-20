@@ -16,6 +16,17 @@
 #   limitations under the License.
 #
 
+function __sdkman_validate_no_arguments {
+	local command
+	command="${1}"
+	shift
+
+	if ((${#})); then
+		__sdkman_print_error "\nStop! ${command} does not accept arguments."
+		return 1
+	fi
+}
+
 function __sdkman_validate_options_and_argument_counts {
 	local command options requiredArgCount optionalArgCount acceptedArgCount requiredParamNames optionalParamNames
 	command="${1}"
@@ -40,6 +51,53 @@ function __sdkman_validate_options_and_argument_counts {
 		__sdkman_command_usage "${command}" "${options}" "${requiredArgCount}" "${requiredParamNames[@]}" "${optionalParamNames[@]}" 1>&2
 		return 1
 	fi
+}
+
+function __sdkman_validate_non_blank_argument_counts {
+	local command requiredArgCount optionalArgCount acceptedArgCount requiredParamNames optionalParamNames
+	command="${1}"
+	requiredArgCount="${2}"
+	optionalArgCount="${3}"
+	acceptedArgCount=$((requiredArgCount + optionalArgCount))
+
+	requiredParamNames=(${@:4:${requiredArgCount}})
+	optionalParamNames=(${@:((4 + requiredArgCount)):${optionalArgCount}})
+
+	shift $((3 + acceptedArgCount))
+
+	if [[ "${#}" -lt requiredArgCount ]]; then
+		__sdkman_print_error "\nStop! Missing ${requiredParamNames[@]:${#}:1}."
+		__sdkman_command_usage "${command}" '' "${requiredArgCount}" "${requiredParamNames[@]}" "${optionalParamNames[@]}" 1>&2
+		return 1
+	fi
+
+	if [[ "${#}" -gt "${acceptedArgCount}" ]]; then
+		__sdkman_print_error "\nStop! ${command} accepts at most ${acceptedArgCount} argument(s)."
+		__sdkman_command_usage "${command}" '' "${requiredArgCount}" "${requiredParamNames[@]}" "${optionalParamNames[@]}" 1>&2
+		return 1
+	fi
+
+	local paramNames
+	paramNames=("${requiredParamNames[@]}")
+	if ! __sdkman_validate_non_blank_arguments "${@:1:${requiredArgCount}}"; then
+		__sdkman_command_usage "${command}" '' "${requiredArgCount}" "${requiredParamNames[@]}" "${optionalParamNames[@]}" 1>&2
+		return 1
+	fi
+
+	paramNames=("${optionalParamNames[@]}")
+	if ! __sdkman_validate_non_blank_arguments "${@:((requiredArgCount + 1))}"; then
+		__sdkman_command_usage "${command}" '' "${requiredArgCount}" "${requiredParamNames[@]}" "${optionalParamNames[@]}" 1>&2
+		return 1
+	fi
+}
+
+function __sdkman_validate_non_blank_arguments {
+	for ((i = 1; i <= ${#}; i++)); do
+		if grep -q '^\s*$' <<<"${@:${i}:1}"; then
+			__sdkman_print_error "\nStop! ${paramNames[@]:((i - 1)):1} cannot be blank."
+			return 1
+		fi
+	done
 }
 
 function __sdkman_validate_number {

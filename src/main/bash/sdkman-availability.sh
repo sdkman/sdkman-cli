@@ -19,7 +19,7 @@
 function __sdkman_update_broadcast_and_service_availability {
 	local broadcast_id
 	#TODO: handle offline without qualifier
-	if [[ "${SDKMAN_OFFLINE_MODE}" == 'true' || "${COMMAND}" == 'offline' && "${QUALIFIER}" == 'enable' ]]; then
+	if [[ "${SDKMAN_OFFLINE_MODE}" == 'true' || "${COMMAND}" == 'offline' && "${1}" == 'enable' ]]; then
 		broadcast_id=''
 		SDKMAN_AVAILABLE='false'
 	else

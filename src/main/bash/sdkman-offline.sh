@@ -17,14 +17,22 @@
 #
 
 function __sdk_offline {
-	local mode="$1"
-	if [[ -z "$mode" || "$mode" == "enable" ]]; then
-		SDKMAN_OFFLINE_MODE="true"
-		__sdkman_echo_green "Offline mode enabled."
-	fi
+	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 0 1 'offline_mode' "${@}" || return 1
 
-	if [[ "$mode" == "disable" ]]; then
-		SDKMAN_OFFLINE_MODE="false"
-		__sdkman_echo_green "Online mode re-enabled!"
-	fi
+	local mode="${1}"
+
+	case "${mode}" in
+	''|'enable')
+		SDKMAN_OFFLINE_MODE='true'
+		__sdkman_echo_green 'Offline mode enabled.'
+		;;
+	'disable')
+		SDKMAN_OFFLINE_MODE='false'
+		__sdkman_echo_green 'Online mode re-enabled!'
+		;;
+	*)
+		__sdkman_echo_red "\nStop! Invalid offline mode: ${mode}"
+		return 1
+		;;
+	esac
 }

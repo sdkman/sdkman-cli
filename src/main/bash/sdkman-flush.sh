@@ -17,9 +17,9 @@
 #
 
 function __sdk_flush {
-	local qualifier="$1"
+	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 1 0 'flush_target' "${@}" || return 1
 
-	case "$qualifier" in
+	case "${1}" in
 		broadcast)
 			if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
 				rm "${SDKMAN_DIR}/var/broadcast_id"
@@ -38,14 +38,12 @@ function __sdk_flush {
 		archives)
 			__sdkman_cleanup_folder "archives"
 			;;
-		temp)
-			__sdkman_cleanup_folder "tmp"
-			;;
-		tmp)
+		temp|tmp)
 			__sdkman_cleanup_folder "tmp"
 			;;
 		*)
-			__sdkman_echo_red "Stop! Please specify what you want to flush."
+			__sdkman_echo_red "\nStop! Invalid flush target: ${1}"
+			return 1
 			;;
 	esac
 }

@@ -134,7 +134,7 @@ Feature: Offline Mode
 		And an initialised environment
 		And the system is bootstrapped
 		When I enter "sdk help"
-		Then I see "Usage: sdk <command> [candidate] [version]"
+		Then I see "COMMAND    ALIAS ARGUMENTS"
 
 	# selfupdate command
 

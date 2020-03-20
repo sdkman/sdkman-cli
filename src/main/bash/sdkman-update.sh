@@ -17,6 +17,8 @@
 #
 
 function __sdk_update {
+	__sdkman_validate_no_arguments "sdk ${COMMAND}" "${@}" || return 1
+
 	local candidates_uri="${SDKMAN_CANDIDATES_API}/candidates/all"
 	__sdkman_echo_debug "Using candidates endpoint: ${candidates_uri}"
 
