@@ -17,53 +17,40 @@
 #
 
 function __sdkman_update_broadcast_and_service_availability {
-	local broadcast_live_id=$(__sdkman_determine_broadcast_id)
-	__sdkman_set_availability "${broadcast_live_id}"
-	__sdkman_update_broadcast "${broadcast_live_id}"
-}
-
-function __sdkman_determine_broadcast_id {
+	local broadcast_id
+	#TODO: handle offline without qualifier
 	if [[ "${SDKMAN_OFFLINE_MODE}" == 'true' || "${COMMAND}" == 'offline' && "${QUALIFIER}" == 'enable' ]]; then
-		echo ''
-	else
-		echo $(__sdkman_secure_curl_with_timeouts "${SDKMAN_CANDIDATES_API}/broadcast/latest/id")
-	fi
-}
-
-function __sdkman_set_availability {
-	local broadcast_id="${1}"
-	local detect_html="$(echo "${broadcast_id}" | grep -i 'html')"
-	if [[ -z "${broadcast_id}" ]]; then
+		broadcast_id=''
 		SDKMAN_AVAILABLE='false'
-		__sdkman_display_offline_warning "${broadcast_id}"
-	elif [[ -n "${detect_html}" ]]; then
-		SDKMAN_AVAILABLE='false'
-		__sdkman_display_proxy_warning
 	else
-		SDKMAN_AVAILABLE='true'
-	fi
-}
+		local httpStatusCode
+		broadcast_id=$(__sdkman_secure_curl_with_timeouts "${SDKMAN_CANDIDATES_API}/broadcast/latest/id")
+		httpStatusCode="${?}"
 
-function __sdkman_display_offline_warning {
-	local broadcast_id="${1}"
-	if [[ -z "${broadcast_id}" && "${COMMAND}" != 'offline' && "${SDKMAN_OFFLINE_MODE}" != 'true' ]]; then
-		__sdkman_echo_red '==== INTERNET NOT REACHABLE! ==================================================='
-		__sdkman_echo_red ''
-		__sdkman_echo_red ' Some functionality is disabled or only partially available.'
-		__sdkman_echo_red ' If this persists, please enable the offline mode:'
-		__sdkman_echo_red ''
-		__sdkman_echo_red '   $ sdk offline'
-		__sdkman_echo_red ''
-		__sdkman_echo_red '================================================================================'
-		echo ''
+		if [[ -z "${broadcast_id}" ]]; then
+			SDKMAN_AVAILABLE='false'
+			#TODO: DIFFERENCE: below is now output (but wasn't before change) if command is offline, either with no qualifier, or with disable qualifier
+			__sdkman_echo_red '==== INTERNET NOT REACHABLE! ==================================================='
+			__sdkman_echo_red ''
+			__sdkman_echo_red ' Some functionality is disabled or only partially available.'
+			__sdkman_echo_red ' If this persists, please enable the offline mode:'
+			__sdkman_echo_red ''
+			__sdkman_echo_red '   $ sdk offline'
+			__sdkman_echo_red ''
+			__sdkman_echo_red '================================================================================'
+			echo ''
+		elif ((httpStatusCode)); then
+			SDKMAN_AVAILABLE='false'
+			__sdkman_echo_red '==== PROXY DETECTED! ==========================================================='
+			__sdkman_echo_red 'Please ensure you have open internet access to continue.'
+			__sdkman_echo_red '================================================================================'
+			echo ''
+		else
+			SDKMAN_AVAILABLE='true'
+		fi
 	fi
-}
 
-function __sdkman_display_proxy_warning {
-	__sdkman_echo_red '==== PROXY DETECTED! ==========================================================='
-	__sdkman_echo_red 'Please ensure you have open internet access to continue.'
-	__sdkman_echo_red '================================================================================'
-	echo ''
+	__sdkman_update_broadcast "${broadcast_id}"
 }
 
 function __sdkman_update_broadcast {
@@ -72,10 +59,11 @@ function __sdkman_update_broadcast {
 	broadcast_live_id="${1}"
 	broadcast_id_file="${SDKMAN_DIR}/var/broadcast_id"
 	broadcast_text_file="${SDKMAN_DIR}/var/broadcast"
-	broadcast_old_id=''
 
 	if [[ -f "${broadcast_id_file}" ]]; then
 		broadcast_old_id=$(< "${broadcast_id_file}")
+	else
+		broadcast_old_id=''
 	fi
 
 	if [[ -f "${broadcast_text_file}" ]]; then

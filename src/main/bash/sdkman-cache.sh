@@ -45,10 +45,7 @@ function ___sdkman_check_version_cache {
 		__sdkman_echo_debug "Refreshing version cache with ${sdkman_channel} version..."
 		version_url="${SDKMAN_CANDIDATES_API}/broker/download/sdkman/version/$(echo "${sdkman_channel}" | tr '[:upper:]' '[:lower:]')"
 
-		SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "${version_url}")
-
-		grep -iq 'html' <<< "${SDKMAN_REMOTE_VERSION}"
-		if [[ ${?} -eq 0 || -z "${SDKMAN_REMOTE_VERSION}" ]]; then
+		if ! SDKMAN_REMOTE_VERSION="$(__sdkman_secure_curl_with_timeouts "${version_url}")" || [[ -z "${SDKMAN_REMOTE_VERSION}" ]]; then
 			__sdkman_echo_debug "Version information corrupt or empty! Ignoring: ${SDKMAN_REMOTE_VERSION}"
 			SDKMAN_REMOTE_VERSION="${SDKMAN_VERSION}"
 		else

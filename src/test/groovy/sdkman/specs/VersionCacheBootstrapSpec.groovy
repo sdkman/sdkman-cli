@@ -123,7 +123,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 	void "should ignore version if api returns garbage"() {
 		given:
 		def sdkmanVersion = "x.y.z"
-		curlStub.primeWith(CLI_VERSION_STABLE_ENDPOINT, "echo '<html><title>sorry</title></html>'")
+		curlStub.primeWith(CLI_VERSION_STABLE_ENDPOINT, 'echo \'<html><title>sorry</title></html>\'; return 404')
 		bash = sdkmanBashEnvBuilder
 			.withVersionCache(sdkmanVersion)
 			.build()

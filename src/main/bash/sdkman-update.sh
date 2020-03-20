@@ -20,13 +20,11 @@ function __sdk_update {
 	local candidates_uri="${SDKMAN_CANDIDATES_API}/candidates/all"
 	__sdkman_echo_debug "Using candidates endpoint: ${candidates_uri}"
 
-	local fetched_candidates_csv=$(__sdkman_secure_curl_with_timeouts "${candidates_uri}")
+	local fetched_candidates_csv
+	if fetched_candidates_csv="$(__sdkman_secure_curl_with_timeouts "${candidates_uri}")" && [[ -n "${fetched_candidates_csv}" ]]; then
+		__sdkman_echo_debug "Local candidates:   ${SDKMAN_CANDIDATES_CSV}"
+		__sdkman_echo_debug "Fetched candidates: ${fetched_candidates_csv}"
 
-	__sdkman_echo_debug "Local candidates:   ${SDKMAN_CANDIDATES_CSV}"
-	__sdkman_echo_debug "Fetched candidates: ${fetched_candidates_csv}"
-
-	grep -iq 'html' <<< "${fetched_candidates_csv}"
-	if [[ "${?}" -eq 1 && -n "${fetched_candidates_csv}" ]]; then
 		# legacy bash workaround
 		if [[ "${bash_shell}" == 'true' && "${BASH_VERSINFO}" -lt 4 ]]; then
 			__sdkman_legacy_bash_message
