@@ -18,7 +18,7 @@
 
 function __sdkman_echo_debug {
 	if [[ "$sdkman_debug_mode" == 'true' ]]; then
-		echo "$1"
+		echo -e "$1"
 	fi
 }
 
@@ -90,7 +90,7 @@ function __sdkman_echo_red {
 }
 
 function __sdkman_echo_no_colour {
-	echo "$1"
+	echo -e "$1"
 }
 
 function __sdkman_echo_yellow {
@@ -107,7 +107,7 @@ function __sdkman_echo_cyan {
 
 function __sdkman_echo_confirm {
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
-		echo -n "$1"
+		echo -e -n "$1"
 	else
 		echo -e -n "\033[1;33m$1\033[0m"
 	fi
