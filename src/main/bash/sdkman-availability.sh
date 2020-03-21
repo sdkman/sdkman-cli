@@ -20,7 +20,7 @@ function __sdkman_update_broadcast_and_service_availability {
 	local broadcast_id
 	#TODO: handle offline without qualifier
 	if [[ "${SDKMAN_OFFLINE_MODE}" == 'true' || "${COMMAND}" == 'offline' && "${1}" == 'enable' ]]; then
-		broadcast_id=''
+		broadcast_id=
 		SDKMAN_AVAILABLE='false'
 	else
 		local httpStatusCode
@@ -30,21 +30,20 @@ function __sdkman_update_broadcast_and_service_availability {
 		if [[ -z "${broadcast_id}" ]]; then
 			SDKMAN_AVAILABLE='false'
 			#TODO: DIFFERENCE: below is now output (but wasn't before change) if command is offline, either with no qualifier, or with disable qualifier
-			__sdkman_echo_red '==== INTERNET NOT REACHABLE! ==================================================='
-			__sdkman_echo_red ''
-			__sdkman_echo_red ' Some functionality is disabled or only partially available.'
-			__sdkman_echo_red ' If this persists, please enable the offline mode:'
-			__sdkman_echo_red ''
-			__sdkman_echo_red '   $ sdk offline'
-			__sdkman_echo_red ''
-			__sdkman_echo_red '================================================================================'
-			echo ''
+			__sdkman_echo_red '==== INTERNET NOT REACHABLE! ===================================================
+
+ Some functionality is disabled or only partially available.
+ If this persists, please enable the offline mode:
+
+   $ sdk offline
+================================================================================
+'
 		elif ((httpStatusCode)); then
 			SDKMAN_AVAILABLE='false'
-			__sdkman_echo_red '==== PROXY DETECTED! ==========================================================='
-			__sdkman_echo_red 'Please ensure you have open internet access to continue.'
-			__sdkman_echo_red '================================================================================'
-			echo ''
+			__sdkman_echo_red '==== PROXY DETECTED! ===========================================================
+Please ensure you have open internet access to continue.
+================================================================================
+'
 		else
 			SDKMAN_AVAILABLE='true'
 		fi
@@ -63,7 +62,7 @@ function __sdkman_update_broadcast {
 	if [[ -f "${broadcast_id_file}" ]]; then
 		broadcast_old_id=$(< "${broadcast_id_file}")
 	else
-		broadcast_old_id=''
+		broadcast_old_id=
 	fi
 
 	if [[ -f "${broadcast_text_file}" ]]; then

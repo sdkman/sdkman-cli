@@ -19,9 +19,9 @@
 function __sdk_broadcast {
 	__sdkman_validate_no_arguments "sdk ${COMMAND}" "${@}" || return 1
 
-	if [ "$BROADCAST_OLD_TEXT" ]; then
-		__sdkman_echo_cyan "$BROADCAST_OLD_TEXT"
+	if [ "${BROADCAST_OLD_TEXT}" ]; then
+		__sdkman_echo_cyan "${BROADCAST_OLD_TEXT}"
 	else
-		__sdkman_echo_cyan "$BROADCAST_LIVE_TEXT"
+		__sdkman_echo_cyan "${BROADCAST_LIVE_TEXT}"
 	fi
 }

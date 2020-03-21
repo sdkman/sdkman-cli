@@ -34,12 +34,11 @@ function __sdk_upgrade {
 
 	installed_count=0
 
-	echo ''
 	for candidate in "${candidates[@]}"; do
 		upgradable="$(__sdkman_determine_upgradable_version "${candidate}")"
 		case "${?}" in
 			1)
-				"${all}" || __sdkman_echo_red "Not using any version of ${candidate}"
+				"${all}" || __sdkman_echo_red "\nNot using any version of ${candidate}"
 				;;
 			2)
 				__sdkman_echo_red "\nStop! Could not get remote version of ${candidate}"
@@ -47,7 +46,7 @@ function __sdk_upgrade {
 				;;
 			*)
 				if [ -n "${upgradable}" ]; then
-					[ "${#upgradable_candidates[@]}" -eq 0 ] && __sdkman_echo_no_colour 'Upgrade:'
+					[ "${#upgradable_candidates[@]}" -eq 0 ] && __sdkman_echo_no_colour $'\nUpgrade:'
 					__sdkman_echo_no_colour "${upgradable}"
 					upgradable_candidates+=("${candidate}")
 				fi

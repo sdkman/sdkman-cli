@@ -19,17 +19,17 @@
 function __sdk_list {
 	__sdkman_validate_non_blank_argument_counts "sdk ${COMMAND}" 0 1 'candidate' "${@}" || return 1
 
-	local candidate="$1"
+	local candidate="${1}"
 
-	if [[ -z "$candidate" ]]; then
+	if [[ -z "${candidate}" ]]; then
 		__sdkman_list_candidates
 	else
-		__sdkman_list_versions "$candidate"
+		__sdkman_list_versions "${candidate}"
 	fi
 }
 
 function __sdkman_list_candidates {
-	if [[ "$SDKMAN_AVAILABLE" == 'false' ]]; then
+	if [[ "${SDKMAN_AVAILABLE}" == 'false' ]]; then
 		__sdkman_echo_red 'This command is not available while offline.'
 	else
 		__sdkman_page echo "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/list")"
@@ -39,13 +39,13 @@ function __sdkman_list_candidates {
 function __sdkman_list_versions {
 	local candidate versions
 
-	candidate="$1"
+	candidate="${1}"
 	__sdkman_validate_candidate "${candidate}" || return 1
 
-	__sdkman_determine_current_version "$candidate"
+	__sdkman_determine_current_version "${candidate}"
 
-	if [[ "$SDKMAN_AVAILABLE" == 'false' ]]; then
-		__sdkman_offline_list "$candidate"
+	if [[ "${SDKMAN_AVAILABLE}" == 'false' ]]; then
+		__sdkman_offline_list "${candidate}"
 	else
 		versions="$(__sdkman_installed_versions_of "${candidate}" ',')"
 		__sdkman_echo_no_colour "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/${candidate}/${SDKMAN_PLATFORM}/versions/list?current=${CURRENT}&installed=${versions}")"
@@ -55,19 +55,19 @@ function __sdkman_list_versions {
 function __sdkman_offline_list {
 	local candidate versions
 
-	candidate="$1"
+	candidate="${1}"
 
 	__sdkman_echo_no_colour '--------------------------------------------------------------------------------'
 	__sdkman_echo_yellow    "Offline: only showing installed ${candidate} versions"
 	__sdkman_echo_no_colour '--------------------------------------------------------------------------------'
 
 	versions=($(__sdkman_installed_versions_of -r "${candidate}"))
-	if [[ ${#versions[@]} -eq 0 ]]; then
+	if [[ "${#versions[@]}" -eq 0 ]]; then
 		__sdkman_echo_yellow '   None installed!'
 	else
 		for version in ${versions[@]}; do
 			if [[ -n "${version}" ]]; then
-				if [[ "${version}" == "$CURRENT" ]]; then
+				if [[ "${version}" == "${CURRENT}" ]]; then
 					__sdkman_echo_no_colour " > ${version}"
 				else
 					__sdkman_echo_no_colour " * ${version}"

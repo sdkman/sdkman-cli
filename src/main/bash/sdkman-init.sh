@@ -18,11 +18,11 @@
 
 # set env vars if not set
 if [ -z "${SDKMAN_VERSION}" ]; then
-	export SDKMAN_VERSION="@SDKMAN_VERSION@"
+	export SDKMAN_VERSION='@SDKMAN_VERSION@'
 fi
 
 if [ -z "${SDKMAN_CANDIDATES_API}" ]; then
-	export SDKMAN_CANDIDATES_API="@SDKMAN_CANDIDATES_API@"
+	export SDKMAN_CANDIDATES_API='@SDKMAN_CANDIDATES_API@'
 fi
 
 if [ -z "${SDKMAN_DIR}" ]; then

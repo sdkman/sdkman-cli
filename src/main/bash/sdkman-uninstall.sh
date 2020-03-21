@@ -21,24 +21,21 @@ function __sdk_uninstall {
 
 	local candidate version current
 
-	candidate="$1"
+	candidate="${1}"
 	__sdkman_validate_candidate "${candidate}" || return 1
 
-	version="$2"
+	version="${2}"
 
 	current=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
-	if [[ -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" && "$version" == "$current" ]]; then
-		echo ""
-		__sdkman_echo_green "Deselecting ${candidate} ${version}..."
+	if [[ -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" && "${version}" == "${current}" ]]; then
+		__sdkman_echo_green "\nDeselecting ${candidate} ${version}..."
 		unlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 	fi
 
-	echo ""
-
 	if [ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]; then
-		__sdkman_echo_green "Uninstalling ${candidate} ${version}..."
+		__sdkman_echo_green "\nUninstalling ${candidate} ${version}..."
 		rm -rf "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	else
-		__sdkman_echo_red "${candidate} ${version} is not installed."
+		__sdkman_echo_red "\n${candidate} ${version} is not installed."
 	fi
 }

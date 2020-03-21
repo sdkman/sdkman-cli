@@ -21,20 +21,18 @@ function __sdk_default {
 
 	local candidate version
 
-	candidate="$1"
+	candidate="${1}"
 	__sdkman_validate_candidate "${candidate}" || return 1
 
-	version="$2"
-	__sdkman_determine_version "$candidate" "$version" || return 1
+	version="${2}"
+	__sdkman_determine_version "${candidate}" "${version}" || return 1
 
 	if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]; then
-		echo ""
-		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is not installed."
+		__sdkman_echo_red "\nStop! ${candidate} ${VERSION} is not installed."
 		return 1
 	fi
 
-	__sdkman_link_candidate_version "$candidate" "$VERSION"
+	__sdkman_link_candidate_version "${candidate}" "${VERSION}"
 
-	echo ""
-	__sdkman_echo_green "Default ${candidate} version set to ${VERSION}"
+	__sdkman_echo_green "\nDefault ${candidate} version set to ${VERSION}"
 }

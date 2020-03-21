@@ -24,22 +24,22 @@ function __sdk_flush {
 			if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
 				rm "${SDKMAN_DIR}/var/broadcast_id"
 				rm "${SDKMAN_DIR}/var/broadcast"
-				__sdkman_echo_green "Broadcast has been flushed."
+				__sdkman_echo_green 'Broadcast has been flushed.'
 			else
-				__sdkman_echo_no_colour "No prior broadcast found so not flushed."
+				__sdkman_echo_no_colour 'No prior broadcast found so not flushed.'
 			fi
 			;;
 		version)
 			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
 				rm "${SDKMAN_DIR}/var/version"
-				__sdkman_echo_green "Version file has been flushed."
+				__sdkman_echo_green 'Version file has been flushed.'
 			fi
 			;;
 		archives)
-			__sdkman_cleanup_folder "archives"
+			__sdkman_cleanup_folder 'archives'
 			;;
 		temp|tmp)
-			__sdkman_cleanup_folder "tmp"
+			__sdkman_cleanup_folder 'tmp'
 			;;
 		*)
 			__sdkman_echo_red "\nStop! Invalid flush target: ${1}"
@@ -49,10 +49,10 @@ function __sdk_flush {
 }
 
 function __sdkman_cleanup_folder {
-	local folder="$1"
+	local folder="${1}"
 	sdkman_cleanup_dir="${SDKMAN_DIR}/${folder}"
-	sdkman_cleanup_disk_usage=$(du -sh "$sdkman_cleanup_dir")
-	sdkman_cleanup_count=$(ls -1 "$sdkman_cleanup_dir" | wc -l)
+	sdkman_cleanup_disk_usage=$(du -sh "${sdkman_cleanup_dir}")
+	sdkman_cleanup_count=$(ls -1 "${sdkman_cleanup_dir}" | wc -l)
 
 	rm -rf "${SDKMAN_DIR}/${folder}"
 	mkdir "${SDKMAN_DIR}/${folder}"

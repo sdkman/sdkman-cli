@@ -21,15 +21,14 @@ function __sdk_home {
 
 	local candidate version
 
-	candidate="$1"
+	candidate="${1}"
 	__sdkman_validate_candidate "${candidate}" || return 1
 
-	version="$2"
-	__sdkman_determine_version "$candidate" "$version" || return 1
+	version="${2}"
+	__sdkman_determine_version "${candidate}" "${version}" || return 1
 
 	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
-		echo ""
-		__sdkman_echo_red "Stop! ${candidate} ${version} is not installed."
+		__sdkman_echo_red "\nStop! ${candidate} ${version} is not installed."
 		return 1
 	fi
 

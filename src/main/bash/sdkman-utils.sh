@@ -40,16 +40,16 @@ function __sdkman_join_bookended_by {
 
 function __sdkman_secure_curl {
 	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
-		curl --insecure --silent --location "$1"
+		curl --insecure --silent --location "${1}"
 	else
-		curl --silent --location "$1"
+		curl --silent --location "${1}"
 	fi
 }
 
 function __sdkman_secure_curl_download {
 	local curl_params="--progress-bar --location"
 	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
-		curl_params="$curl_params --insecure"
+		curl_params="${curl_params} --insecure"
 	fi
 
 	if [[ ! -z "${sdkman_curl_retry}" ]]; then
@@ -68,28 +68,28 @@ function __sdkman_secure_curl_download {
 		curl_params="--verbose ${curl_params}"
 	fi
 
-	if [[ "$zsh_shell" == 'true' ]]; then
-		curl ${=curl_params} "$@"
+	if [[ "${zsh_shell}" == 'true' ]]; then
+		curl ${=curl_params} "${@}"
 	else
-		curl ${curl_params} "$@"
+		curl ${curl_params} "${@}"
 	fi
 }
 
 function __sdkman_secure_curl_with_timeouts {
 	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
-		curl --insecure --silent --location --fail --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time} "$1"
+		curl --insecure --silent --location --fail --connect-timeout "${sdkman_curl_connect_timeout}" --max-time "${sdkman_curl_max_time}" "${1}"
 	else
-		curl --silent --location --fail --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time} "$1"
+		curl --silent --location --fail --connect-timeout "${sdkman_curl_connect_timeout}" --max-time "${sdkman_curl_max_time}" "${1}"
 	fi
 }
 
 function __sdkman_page {
-	if [[ -n "$PAGER" ]]; then
-		"$@" | eval $PAGER
+	if [[ -n "${PAGER}" ]]; then
+		"${@}" | eval "${PAGER}"
 	elif command -v less >& /dev/null; then
-		"$@" | less
+		"${@}" | less
 	else
-		"$@"
+		"${@}"
 	fi
 }
 
@@ -112,53 +112,50 @@ function __sdkman_print_option_error {
 
 
 function __sdkman_echo_no_colour {
-	echo -e "$1"
+	echo -e "${1}"
 }
 
 function __sdkman_echo {
-	if [[ "$sdkman_colour_enable" == 'false' ]]; then
-		echo -e "$2"
+	if [[ "${sdkman_colour_enable}" == 'false' ]]; then
+		echo -e "${2}"
 	else
-		echo -e "\033[1;$1$2\033[0m"
+		echo -e "\033[1;${1}${2}\033[0m"
 	fi
 }
 
 function __sdkman_echo_red {
-	__sdkman_echo "31m" "$1"
+	__sdkman_echo '31m' "${1}"
 }
 
 function __sdkman_echo_yellow {
-	__sdkman_echo "33m" "$1"
+	__sdkman_echo '33m' "${1}"
 }
 
 function __sdkman_echo_green {
-	__sdkman_echo "32m" "$1"
+	__sdkman_echo '32m' "${1}"
 }
 
 function __sdkman_echo_cyan {
-	__sdkman_echo "36m" "$1"
+	__sdkman_echo '36m' "${1}"
 }
 
 function __sdkman_echo_debug {
-	if [[ "$sdkman_debug_mode" == 'true' ]]; then
-		echo -e "$1"
+	if [[ "${sdkman_debug_mode}" == 'true' ]]; then
+		echo -e "${1}"
 	fi
 }
 
 function __sdkman_echo_confirm {
-	if [[ "$sdkman_colour_enable" == 'false' ]]; then
-		echo -e -n "$1"
+	if [[ "${sdkman_colour_enable}" == 'false' ]]; then
+		echo -e -n "${1}"
 	else
-		echo -e -n "\033[1;33m$1\033[0m"
+		echo -e -n "\033[1;33m${1}\033[0m"
 	fi
 }
 
 function __sdkman_legacy_bash_message {
-	__sdkman_echo_red "An outdated version of bash was detected on your system!"
-	echo ""
-	__sdkman_echo_red "We recommend upgrading to bash 4.x, you have:"
-	echo ""
-	__sdkman_echo_yellow "  $BASH_VERSION"
-	echo ""
-	__sdkman_echo_yellow "Need to use brute force to replace candidates..."
+	__sdkman_echo_red    $'An outdated version of bash was detected on your system!\n'
+	__sdkman_echo_red    $'We recommend upgrading to bash 4.x, you have:\n'
+	__sdkman_echo_yellow  "  ${BASH_VERSION}\n"
+	__sdkman_echo_yellow  'Need to use brute force to replace candidates...'
 }
