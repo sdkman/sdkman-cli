@@ -71,5 +71,5 @@ After(){ scenario ->
     if (output) {
         scenario.write("\nOutput: \n${output}")
     }
-	bash?.stop()
+    bash?.stop()
 }

@@ -18,6 +18,7 @@
 
 function __sdk_upgrade {
 	local all candidates candidate upgradable installed_count upgradable_count upgradable_candidates
+
 	if [ -n "$1" ]; then
 		all=false
 		candidates=$1
@@ -29,9 +30,11 @@ function __sdk_upgrade {
 			candidates=${SDKMAN_CANDIDATES[@]}
 		fi
 	fi
+
 	installed_count=0
 	upgradable_count=0
 	echo ""
+
 	for candidate in ${candidates}; do
 		upgradable="$(__sdkman_determine_upgradable_version "$candidate")"
 		case $? in
@@ -54,6 +57,7 @@ function __sdk_upgrade {
 				;;
 		esac
 	done
+
 	if $all; then
 		if [ ${installed_count} -eq 0 ]; then
 			__sdkman_echo_no_colour 'No candidates are in use'
@@ -63,6 +67,7 @@ function __sdk_upgrade {
 	elif [ ${upgradable_count} -eq 0 ]; then
 		__sdkman_echo_no_colour "${candidate} is up-to-date"
 	fi
+
 	if [ ${upgradable_count} -gt 0 ]; then
 		echo ""
 		__sdkman_echo_confirm "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "

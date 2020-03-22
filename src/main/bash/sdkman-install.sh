@@ -40,17 +40,17 @@ function __sdk_install {
 			__sdkman_echo_confirm "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
+
 		if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
 			echo ""
 			__sdkman_echo_green "Setting ${candidate} ${VERSION} as default."
 			__sdkman_link_candidate_version "$candidate" "$VERSION"
 			__sdkman_add_to_path "$candidate"
 		fi
-		return 0
 
+		return 0
 	elif [[ "$VERSION_VALID" == 'invalid' && -n "$folder" ]]; then
 		__sdkman_install_local_version "$candidate" "$VERSION" "$folder" || return 1
-
 	else
 		echo ""
 		__sdkman_echo_red "Stop! $1 is not a valid ${candidate} version."
@@ -105,7 +105,6 @@ function __sdkman_install_local_version {
 		__sdkman_echo_green "Linking ${candidate} ${version} to ${folder}"
 		ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 		__sdkman_echo_green "Done installing!"
-
 	else
 		__sdkman_echo_red "Invalid path! Refusing to link ${candidate} ${version} to ${folder}."
 		return 1
@@ -122,7 +121,6 @@ function __sdkman_download {
 
 	archives_folder="${SDKMAN_DIR}/archives"
 	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
-
 		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 		local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 		local base_name="${candidate}-${version}"

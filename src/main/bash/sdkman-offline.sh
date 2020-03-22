@@ -22,6 +22,7 @@ function __sdk_offline {
 		SDKMAN_OFFLINE_MODE="true"
 		__sdkman_echo_green "Offline mode enabled."
 	fi
+
 	if [[ "$mode" == "disable" ]]; then
 		SDKMAN_OFFLINE_MODE="false"
 		__sdkman_echo_green "Online mode re-enabled!"

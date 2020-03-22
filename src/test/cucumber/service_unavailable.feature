@@ -26,7 +26,7 @@ Feature: Service Unavailable
     When I enter "sdk list"
     Then I see "This command is not available while offline."
 
-# use command
+  # use command
 
   Scenario: Use the default candidate version when non selected while Offline
     Given the candidate "grails" version "1.3.9" is already installed but not default
@@ -117,9 +117,9 @@ Feature: Service Unavailable
     And the candidate "groovy" version "2.0.5" is already installed and default
     And the system is bootstrapped
     When I enter "sdk current"
-	Then I see "Using:"
-	And I see "grails: 2.1.0"
-	And I see "groovy: 2.0.5"
+    Then I see "Using:"
+    And I see "grails: 2.1.0"
+    And I see "groovy: 2.0.5"
 
   # version command
   Scenario: Determine the sdkman version when Offline
@@ -145,4 +145,3 @@ Feature: Service Unavailable
     Given the system is bootstrapped
     When I enter "sdk selfupdate"
     Then I see "This command is not available while offline."
-

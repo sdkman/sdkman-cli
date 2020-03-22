@@ -3,7 +3,7 @@ package sdkman.stubs
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 
 class WebServiceStub {
-    
+
     static primeEndpointWithString(String endpoint, String body) {
         stubFor(get(urlEqualTo(endpoint)).willReturn(
                 aResponse()
@@ -50,5 +50,4 @@ class WebServiceStub {
                         .withHeader("Content-Type", "text/plain")
                         .withBodyFile("selfupdate.sh")))
     }
-
 }

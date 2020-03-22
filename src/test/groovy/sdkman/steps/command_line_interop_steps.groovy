@@ -3,12 +3,12 @@ package sdkman.steps
 import static cucumber.api.groovy.EN.And
 
 And(~'^I enter \"([^\"]*)\"$') { String command ->
-	bash.execute(command)
+    bash.execute(command)
     result = bash.output
 }
 
 And(~'^I enter "([^"]*)" and answer "([^"]*)"$') { String command, String answer ->
-	bash.execute(command, [answer])
+    bash.execute(command, [answer])
     result = bash.output
 }
 
@@ -17,7 +17,7 @@ And(~'^I see \"([^\"]*)\"$') { String output ->
 }
 
 And(~'^I do not see "([^"]*)"$') { String output ->
-	assert ! result.contains(output)
+    assert ! result.contains(output)
 }
 
 And(~'^I see only \"([^\"]*)\"$') { String output ->

@@ -43,6 +43,7 @@ function __sdk_current {
 				fi
 			fi
 		done
+
 		if [ ${installed_count} -eq 0 ]; then
 			__sdkman_echo_no_colour 'No candidates are in use'
 		fi

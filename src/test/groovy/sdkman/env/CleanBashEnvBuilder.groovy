@@ -1,6 +1,7 @@
 package sdkman.env
 
 class CleanBashEnvBuilder {
+
     private final File baseFolder
     String httpProxy
 

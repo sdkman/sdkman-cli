@@ -54,7 +54,6 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
         bash.execute("source $bootstrapScript")
         bash.execute("sdk version")
 
-
         then:
         versionCache.exists()
         versionCache.text.contains(stableVersion)

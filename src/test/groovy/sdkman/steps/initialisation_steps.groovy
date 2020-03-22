@@ -24,18 +24,17 @@ And(~'^the "([^"]*)" folder exists in user home$') { String arg1 ->
 }
 
 And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { String candidate, String version ->
-	try {
-		new ZipFile(new File("src/test/resources/__files/${candidate}-${version}.zip"))
-		assert false, "Archive was not corrupt!"
-
-	} catch (ZipException ze){
-		//expected behaviour
-	}
+    try {
+        new ZipFile(new File("src/test/resources/__files/${candidate}-${version}.zip"))
+        assert false, "Archive was not corrupt!"
+    } catch (ZipException ze) {
+        //expected behaviour
+    }
 }
 
 And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { String candidate, String version ->
-	def archive = new File("${sdkmanDir}/archives/${candidate}-${version}.zip")
-	assert ! archive.exists()
+    def archive = new File("${sdkmanDir}/archives/${candidate}-${version}.zip")
+    assert ! archive.exists()
 }
 
 And(~'^the internet is reachable$') {->
