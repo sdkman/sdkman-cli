@@ -19,14 +19,14 @@ class BashEnv {
     static final EXIT_CODE_PATTERN = ~/Exit code is: (\d+)\s*${PROMPT}?$/
 
     private final Object outputLock = new Object()
-    
+
     def exitCode
     def process
     def processOutput = new StringBuilder()
     def commandOutput
 
     // Command timeout in milliseconds
-    def timeout = 5000
+    def timeout = 60_000
     def workDir
     def env
 
@@ -41,7 +41,7 @@ class BashEnv {
         env = env + [PS1: PROMPT, PATH: modifiedPath]
         this.env = env.collect { k, v -> k + '=' + v }
     }
-    
+
     /**
      * Starts the external bash process.
      */
@@ -51,7 +51,7 @@ class BashEnv {
         consumeProcessStream(process.inputStream)
         consumeProcessStream(process.errorStream)
     }
-    
+
     /**
      * Stops the external bash process and waits for it to finish.
      */
@@ -59,7 +59,7 @@ class BashEnv {
         execute("exit")
         process.waitFor()
     }
-    
+
     /**
      * Sends a command line to the external bash process and returns once the
      * command has finished executing. If the command is interactive and requires
@@ -83,11 +83,11 @@ class BashEnv {
             process.outputStream << EXIT_CODE_CMD << "\n"
             process.outputStream.flush()
         }
-        
+
         def start = System.currentTimeMillis()
         while (cmdline != "exit") {
             Thread.sleep 100
-            
+
             synchronized (outputLock) {
                 // Remove all the extraneous text that's not related to the
                 // command's output. This includes the command string itself,
@@ -115,7 +115,7 @@ class BashEnv {
             }
         }
     }
-    
+
     /**
      * Returns the exit code of the last command that was executed.
      */
@@ -123,7 +123,7 @@ class BashEnv {
         if (!exitCode) throw new IllegalStateException("Did you run execute() before getting the status?")
         return exitCode.toInteger()
     }
-    
+
     /**
      * Returns the text output (both stdout and stderr) of the last command
      * that was executed.
@@ -131,7 +131,7 @@ class BashEnv {
     String getOutput() {
         return commandOutput
     }
-    
+
     /**
      * Clears the saved command output.
      */
