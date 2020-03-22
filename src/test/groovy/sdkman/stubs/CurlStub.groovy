@@ -21,7 +21,7 @@ class CurlStub {
         this
     }
 
-    void build(){
+    void build() {
         commands.each { request, snippet ->
             //use last arg because we use curl with options
             file << 'if [[ "${@: -1}" == "'

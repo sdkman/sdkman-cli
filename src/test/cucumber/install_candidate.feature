@@ -76,7 +76,8 @@ Feature: Install Candidate
     And the candidate "grails" version "1.3.9" should be the default
     And the exit code is 0
 
-  #revisit to redownload automatically
+  # revisit to redownload automatically
+
   Scenario: Abort installation on download of a corrupt Candidate archive
     Given the system is bootstrapped
     And the candidate "grails" version "1.3.6" is available for download

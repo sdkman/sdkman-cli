@@ -47,10 +47,10 @@ function __sdk_upgrade {
 				if [ -n "$upgradable" ]; then
 					[ ${upgradable_count} -eq 0 ] && __sdkman_echo_no_colour "Upgrade:"
 					__sdkman_echo_no_colour "$upgradable"
-					(( upgradable_count += 1 ))
+					((upgradable_count += 1))
 					upgradable_candidates=(${upgradable_candidates[@]} $candidate)
 				fi
-				(( installed_count += 1 ))
+				((installed_count += 1))
 				;;
 		esac
 	done
@@ -63,6 +63,7 @@ function __sdk_upgrade {
 	elif [ ${upgradable_count} -eq 0 ]; then
 		__sdkman_echo_no_colour "${candidate} is up-to-date"
 	fi
+
 	if [ ${upgradable_count} -gt 0 ]; then
 		echo ""
 		__sdkman_echo_confirm "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "
@@ -70,7 +71,7 @@ function __sdk_upgrade {
 		export auto_answer_upgrade='true'
 		if [[ -z "$UPGRADE_ALL" || "$UPGRADE_ALL" == "y" || "$UPGRADE_ALL" == "Y" ]]; then
 			# Using array for bash & zsh compatibility
-			for (( i=0; i <= ${#upgradable_candidates[*]}; i++ )); do
+			for ((i=0; i <= ${#upgradable_candidates[*]}; i++)); do
 				upgradable_candidate="${upgradable_candidates[${i}]}"
 				# Filter empty elements (in bash arrays are zero index based, in zsh they are 1 based)
 				if [[ -n "$upgradable_candidate" ]]; then

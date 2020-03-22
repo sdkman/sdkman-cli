@@ -37,10 +37,8 @@ function __sdk_use {
 	# Replace the current path for the candidate with the selected version.
 	if [[ "$solaris" == true ]]; then
 		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
-
 	elif [[ "$darwin" == true ]]; then
 		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
-
 	else
 		export PATH=$(echo "$PATH" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
 	fi

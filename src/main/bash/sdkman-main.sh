@@ -17,7 +17,6 @@
 #
 
 function sdk {
-
 	COMMAND="$1"
 	QUALIFIER="$2"
 

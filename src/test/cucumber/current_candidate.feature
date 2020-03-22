@@ -37,4 +37,3 @@ Feature: Current Candidate
     Then I see "Using:"
     And I see "grails: 2.1.0"
     And I see "groovy: 2.0.5"
-

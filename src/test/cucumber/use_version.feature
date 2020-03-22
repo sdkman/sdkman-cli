@@ -39,7 +39,7 @@ Feature: Use Version
     When I enter "sdk use grails 2.0.0.M1"
     Then I see "Using grails version 2.0.0.M1 in this shell."
 
-  #scenarios related to updating _HOME variable
+  # scenarios related to updating _HOME variable
 
   Scenario: Use an installed version of an installed candidate updates the candidate _HOME variable
     Given the candidate "grails" version "1.3.9" is already installed and default

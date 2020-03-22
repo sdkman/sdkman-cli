@@ -70,5 +70,4 @@ class CurrentCommandSpec extends SdkmanEnvSpecification {
             createSymbolicLink(symlink, candidateVersionPath)
         }
     }
-
 }

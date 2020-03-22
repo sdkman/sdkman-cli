@@ -30,7 +30,9 @@ function __sdk_uninstall {
 		__sdkman_echo_green "Unselecting ${candidate} ${version}..."
 		unlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 	fi
+
 	echo ""
+
 	if [ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]; then
 		__sdkman_echo_green "Uninstalling ${candidate} ${version}..."
 		rm -rf "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
