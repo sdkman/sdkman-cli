@@ -1,6 +1,8 @@
 package sdkman.env
 
 import groovy.transform.ToString
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 /**
  * <p>As part of the sdkman test suite we need to launch a bash shell and execute
@@ -14,33 +16,36 @@ import groovy.transform.ToString
 @ToString(includeNames = true)
 class BashEnv {
 
-	static final PROMPT = ""
-	static final EXIT_CODE_CMD = 'echo "Exit code is: $?"'
-	static final EXIT_CODE_PATTERN = ~/Exit code is: (\d+)\s*${PROMPT}?$/
+	static final String  PROMPT            = ""
+	static final String  EXIT_CODE_CMD     = 'echo "Exit code is: $?"'
+	static final Pattern EXIT_CODE_PATTERN = ~/Exit code is: (\d+)\s*${PROMPT}?$/
+
 
 	private final Object outputLock = new Object()
 
-	def exitCode
-	def process
-	def processOutput = new StringBuilder()
-	def commandOutput
+
+	String        exitCode
+	Process       process
+	StringBuilder processOutput = new StringBuilder()
+	String        commandOutput
 
 	// Command timeout in milliseconds
-	def timeout = 60_000
-	def workDir
-	def env
+	long     timeout = 60_000
+	File     workDir
+	String[] env
 
-	BashEnv(workDir, Map env) {
+
+	BashEnv(final workDir, final Map env) {
 		this.workDir = workDir as File
 
-		def basicPath = "/usr/sbin:/usr/bin:/sbin:/bin"
-		def localBinDir = "${workDir}/bin"
+		final String basicPath = "/usr/sbin:/usr/bin:/sbin:/bin"
+		final String localBinDir = "${workDir}/bin"
 
-		def modifiedPath = "$localBinDir:$basicPath"
+		final String modifiedPath = "$localBinDir:$basicPath"
 
-		env = env + [PS1: PROMPT, PATH: modifiedPath]
-		this.env = env.collect { k, v -> k + '=' + v }
+		this.env = (env + [PS1: PROMPT, PATH: modifiedPath]).collect {final k, final v -> k + '=' + v}
 	}
+
 
 	/**
 	 * Starts the external bash process.
@@ -66,26 +71,29 @@ class BashEnv {
 	 * input during it's execution (for example a y/n answer to a question) you
 	 * can provide that input as a list of strings.
 	 */
-	void execute(String cmdline, List inputs = []) {
+	void execute(final String cmdline, final List inputs = []) {
 		resetOutput()
 
-		if (cmdline != "exit") {
-			exitCode = null
+		if (cmdline == "exit") {
+			process.outputStream << cmdline << "\n"
+			process.outputStream.flush()
+			return
 		}
+
+		exitCode = null
 
 		process.outputStream << cmdline << "\n"
 		process.outputStream.flush()
 
-		if (cmdline != "exit") {
-			for (input in inputs) {
-				process.outputStream << input << "\n"
-			}
-			process.outputStream << EXIT_CODE_CMD << "\n"
-			process.outputStream.flush()
+		for (final input in inputs) {
+			process.outputStream << input << "\n"
 		}
 
-		def start = System.currentTimeMillis()
-		while (cmdline != "exit") {
+		process.outputStream << EXIT_CODE_CMD << "\n"
+		process.outputStream.flush()
+
+		final long start = System.currentTimeMillis()
+		while (timeout >= System.currentTimeMillis() - start) {
 			Thread.sleep 100
 
 			synchronized (outputLock) {
@@ -96,31 +104,28 @@ class BashEnv {
 				removeFromOutput(cmdline + "\n")
 				removeFromOutput(PROMPT + EXIT_CODE_CMD + "\n")
 
-				def str = processOutput.toString()
-				def m = EXIT_CODE_PATTERN.matcher(str)
+				final Matcher m = EXIT_CODE_PATTERN.matcher(processOutput.toString())
 				if (m) {
 					exitCode = m[0][1]
 
 					// Remove this exit code line from the output.
 					commandOutput = m.replaceAll('')
-					break
-				}
-
-				// If the command times out, we should break out of the loop and
-				// display whatever output has already been produced.
-				if (System.currentTimeMillis() - start > timeout) {
-					commandOutput = "ALERT! Command timed out. Last output was:\n\n${processOutput}"
-					break
+					return
 				}
 			}
 		}
+
+		// If the command timed out, display whatever output has already been produced.
+		commandOutput = "ALERT! Command timed out. Last output was:\n\n${processOutput}"
 	}
 
 	/**
 	 * Returns the exit code of the last command that was executed.
 	 */
 	int getStatus() {
-		if (!exitCode) throw new IllegalStateException("Did you run execute() before getting the status?")
+		if (!exitCode) {
+			throw new IllegalStateException("Did you run execute() before getting the status?")
+		}
 		return exitCode.toInteger()
 	}
 
@@ -129,7 +134,7 @@ class BashEnv {
 	 * that was executed.
 	 */
 	String getOutput() {
-		return commandOutput
+		commandOutput
 	}
 
 	/**
@@ -142,10 +147,10 @@ class BashEnv {
 	}
 
 	private void consumeProcessStream(final InputStream stream) {
-		char[] buffer = new char[256]
+		final char[] buffer = new char[256]
 		Thread.start {
-			def reader = new InputStreamReader(stream)
-			def charsRead = 0
+			final InputStreamReader reader = new InputStreamReader(stream)
+			int charsRead = 0
 			while (charsRead != -1) {
 				charsRead = reader.read(buffer, 0, 256)
 				if (charsRead > 0) {
@@ -157,9 +162,9 @@ class BashEnv {
 		}
 	}
 
-	private void removeFromOutput(String line) {
+	private void removeFromOutput(final String line) {
 		synchronized (outputLock) {
-			def pos = processOutput.indexOf(line)
+			final int pos = processOutput.indexOf(line)
 			if (pos != -1) {
 				processOutput.delete(pos, pos + line.size() - 1)
 			}
