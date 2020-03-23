@@ -120,7 +120,7 @@ export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
 
 for candidate_name in "${SDKMAN_CANDIDATES[@]}"; do
 	candidate_dir="${SDKMAN_CANDIDATES_DIR}/${candidate_name}/current"
-	if [[ -h "${candidate_dir}" || -d "${candidate_dir}" ]]; then
+	if [[ -d "${candidate_dir}" ]]; then
 		__sdkman_export_candidate_home "${candidate_name}" "${candidate_dir}"
 		__sdkman_prepend_candidate_to_path "${candidate_dir}"
 	fi

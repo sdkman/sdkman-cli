@@ -28,7 +28,7 @@ function __sdk_install {
 	folder="${3}"
 	__sdkman_determine_version "${candidate}" "${version}" "${folder}" || return 1
 
-	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" || -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
+	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
 		__sdkman_echo_red "\nStop! ${candidate} ${VERSION} is already installed."
 		return 1
 	fi

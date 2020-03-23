@@ -52,7 +52,6 @@ function __sdkman_determine_version {
 			"${VERSION_VALID}" == 'valid' ||
 			(
 				-n "${folder}" ||
-				-h "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ||
 				-d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 			)
 		]]; then

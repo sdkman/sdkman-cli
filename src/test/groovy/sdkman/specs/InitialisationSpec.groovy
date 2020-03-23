@@ -124,7 +124,7 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 			def current = Paths.get("$candidatesDirectory/$it/current")
 			def targetFilename = "$candidatesDirectory/$it/xxx"
 
-			new File(targetFilename).createNewFile()
+			new File(targetFilename).mkdirs()
 			def target = Paths.get(targetFilename)
 
 			Files.createSymbolicLink(current, target)
