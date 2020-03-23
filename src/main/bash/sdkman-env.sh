@@ -34,10 +34,7 @@ function __sdk_env {
       return 1
     fi
 
-    local candidate=${BASH_REMATCH[1]}
-    local version=${BASH_REMATCH[2]}
-
-    __sdk_use "$candidate" "$version"
+    __sdk_use "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
 
     ((line_number++))
   done < "$sdkmanrc"
