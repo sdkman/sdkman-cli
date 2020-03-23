@@ -150,8 +150,8 @@ function __sdkman_echo_confirm {
 }
 
 function __sdkman_legacy_bash_message {
-	__sdkman_echo_red    $'An outdated version of bash was detected on your system!\n'
-	__sdkman_echo_red    $'We recommend upgrading to bash 4.x, you have:\n'
+	__sdkman_echo_red    $'The following outdated version of bash was detected on your system:\n'
 	__sdkman_echo_yellow  "  ${BASH_VERSION}\n"
-	__sdkman_echo_yellow  'Need to use brute force to replace candidates...'
+	__sdkman_echo_red    $'We recommend upgrading bash to the latest version.\n'
+	__sdkman_echo_yellow  'Using brute force to replace candidates...'
 }
