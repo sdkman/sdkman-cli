@@ -26,13 +26,6 @@ function __sdk_update() {
 	__sdkman_echo_debug "Fetched candidates: $fresh_candidates_csv"
 
 	if [[ -n "${fresh_candidates_csv}" ]] && ! grep -iq 'html' <<< "${fresh_candidates_csv}"; then
-		# legacy bash workaround
-		if [[ "$bash_shell" == 'true' && "$BASH_VERSINFO" -lt 4 ]]; then
-			__sdkman_legacy_bash_message
-			echo "$fresh_candidates_csv" >| "$SDKMAN_CANDIDATES_CACHE"
-			return 0
-		fi
-
 		__sdkman_echo_debug "Fresh and cached candidate lengths: ${#fresh_candidates_csv} ${#SDKMAN_CANDIDATES_CSV}"
 
 		local fresh_candidates combined_candidates diff_candidates
