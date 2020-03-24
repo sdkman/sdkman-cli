@@ -32,7 +32,7 @@ function __sdkman_determine_version {
 			VERSION="${version}"
 			return 0
 		elif [[ -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]]; then
-			VERSION=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
+			VERSION="$(basename "$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current")")"
 			return 0
 		else
 			__sdkman_echo_red 'This command is not available while offline.'
