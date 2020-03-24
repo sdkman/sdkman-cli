@@ -17,24 +17,15 @@
 #
 
 function __sdkman_path_contains {
-	local candidate exists
-
-	candidate="${1}"
-	exists="$(echo "${PATH}" | grep "${candidate}")"
-	if [[ -n "${exists}" ]]; then
-		echo 'true'
-	else
-		echo 'false'
-	fi
+	[[ "${PATH}" =~ "${1}" ]]
+	return "${?}"
 }
 
 function __sdkman_add_to_path {
-	local candidate present
-
+	local candidate
 	candidate="${1}"
 
-	present=$(__sdkman_path_contains "${candidate}")
-	if [[ "${present}" == 'false' ]]; then
+	if ! __sdkman_path_contains "${candidate}"; then
 		PATH="${SDKMAN_CANDIDATES_DIR}/${candidate}/current/bin:${PATH}"
 	fi
 }

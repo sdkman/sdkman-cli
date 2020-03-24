@@ -52,11 +52,10 @@ function __sdk_current {
 }
 
 function __sdkman_determine_current_version {
-	local candidate present
-
+	local candidate
 	candidate="${1}"
-	present=$(__sdkman_path_contains "${SDKMAN_CANDIDATES_DIR}/${candidate}")
-	if [[ "${present}" == 'true' ]]; then
+
+	if __sdkman_path_contains "${SDKMAN_CANDIDATES_DIR}/${candidate}"; then
 		if [[ "${solaris}" == 'true' ]]; then
 			CURRENT=$(echo "${PATH}" | gsed -r "s|${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin|!!\1!!|1" | gsed -r 's|^.*!!(.+)!!.*$|\1|g')
 		elif [[ "${darwin}" == 'true' ]]; then
