@@ -21,15 +21,6 @@ function __sdkman_path_contains {
 	return "${?}"
 }
 
-function __sdkman_add_to_path {
-	local candidate
-	candidate="${1}"
-
-	if ! __sdkman_path_contains "${candidate}"; then
-		PATH="${SDKMAN_CANDIDATES_DIR}/${candidate}/current/bin:${PATH}"
-	fi
-}
-
 function __sdkman_set_candidate_home {
 	local candidate version upper_candidate
 
@@ -47,6 +38,12 @@ function __sdkman_export_candidate_home {
 	export $(echo "${candidate_home_var}")="${candidate_dir}"
 }
 
+function __sdkman_prepend_candidate_to_path {
+	local candidate_bin_dir
+	candidate_bin_dir="$(__sdkman_determine_candidate_bin_dir "${SDKMAN_CANDIDATES_DIR}/${1}/current")"
+	__sdkman_path_contains "${candidate_bin_dir}" || PATH="${candidate_bin_dir}:${PATH}"
+}
+
 function __sdkman_determine_candidate_bin_dir {
 	local candidate_dir="${1}"
 	if [[ -d "${candidate_dir}/bin" ]]; then
@@ -54,15 +51,6 @@ function __sdkman_determine_candidate_bin_dir {
 	else
 		echo "${candidate_dir}"
 	fi
-}
-
-function __sdkman_prepend_candidate_to_path {
-	local candidate_dir candidate_bin_dir
-
-	candidate_dir="${1}"
-	candidate_bin_dir=$(__sdkman_determine_candidate_bin_dir "${candidate_dir}")
-	echo "${PATH}" | grep -q "${candidate_dir}" || PATH="${candidate_bin_dir}:${PATH}"
-	unset CANDIDATE_BIN_DIR
 }
 
 function __sdkman_link_candidate_version {

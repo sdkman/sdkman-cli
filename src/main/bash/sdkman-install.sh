@@ -45,7 +45,7 @@ function __sdk_install {
 		if [[ -z "${USE}" || "${USE}" == 'y' || "${USE}" == 'Y' ]]; then
 			__sdkman_echo_green "\nSetting ${candidate} ${VERSION} as default."
 			__sdkman_link_candidate_version "${candidate}" "${VERSION}"
-			__sdkman_add_to_path "${candidate}"
+			__sdkman_prepend_candidate_to_path "${candidate}"
 		fi
 
 		return 0
