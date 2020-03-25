@@ -60,13 +60,8 @@ case "${SDKMAN_PLATFORM}" in
 esac
 
 # Determine shell
-if [[ -n "${ZSH_VERSION}" ]]; then
-	bash_shell='false'
-	zsh_shell='true'
-else
-	bash_shell='true'
-	zsh_shell='false'
-fi
+shell_name="$(ps -o comm= -p $$)"
+shell_name="${shell_name##*[[:cntrl:][:punct:][:space:]]}"
 
 # Source sdkman module scripts and extension files.
 #
@@ -110,11 +105,12 @@ if [[ -z "${sdkman_curl_continue}" ]]; then sdkman_curl_continue='true'; fi
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
 SDKMAN_CANDIDATES_CSV=$(< "${SDKMAN_CANDIDATES_CACHE}")
 __sdkman_echo_debug "Setting candidates csv: ${SDKMAN_CANDIDATES_CSV}"
-if [[ "${zsh_shell}" == 'true' ]]; then
-	SDKMAN_CANDIDATES=(${(s:,:)SDKMAN_CANDIDATES_CSV})
+if [[ "${shell_name}" == 'zsh' ]]; then
+	READ_ARRAY_OPT='-A'
 else
-	IFS=, read -a SDKMAN_CANDIDATES <<< "${SDKMAN_CANDIDATES_CSV}"
+	READ_ARRAY_OPT='-a'
 fi
+IFS=',' read "${READ_ARRAY_OPT}" SDKMAN_CANDIDATES <<< "${SDKMAN_CANDIDATES_CSV}"
 
 export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
 

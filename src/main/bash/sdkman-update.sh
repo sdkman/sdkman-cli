@@ -28,7 +28,7 @@ function __sdk_update {
 		__sdkman_echo_debug "Fetched candidates: ${fetched_candidates_csv}"
 
 		# legacy bash workaround
-		if [[ "${bash_shell}" == 'true' && "${BASH_VERSINFO}" -lt 4 ]]; then
+		if [[ "${shell_name}" == 'bash' && "${BASH_VERSINFO}" -lt 4 ]]; then
 			__sdkman_legacy_bash_message
 			echo "${fetched_candidates_csv}" > "${SDKMAN_CANDIDATES_CACHE}"
 			return 0
@@ -37,11 +37,7 @@ function __sdk_update {
 		__sdkman_echo_debug "Fetched and cached candidate lengths: ${#fetched_candidates_csv} ${#SDKMAN_CANDIDATES_CSV}"
 
 		local fetched_candidates
-		if [[ "${zsh_shell}" == 'true' ]]; then
-			fetched_candidates=(${(s:,:)fetched_candidates_csv})
-		else
-			IFS=',' read -a fetched_candidates <<< "${fetched_candidates_csv}"
-		fi
+		IFS=',' read "${READ_ARRAY_OPT}" fetched_candidates <<< "${fetched_candidates_csv}"
 
 		local combined_candidates=("${fetched_candidates[@]}" "${SDKMAN_CANDIDATES[@]}")
 
