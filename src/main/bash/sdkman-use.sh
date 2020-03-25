@@ -36,13 +36,11 @@ function __sdk_use {
 	__sdkman_set_candidate_home "${candidate}" "${VERSION}"
 
 	# Replace the current path for the candidate with the selected version.
-	if [[ "${solaris}" == 'true' ]]; then
-		export PATH=$(echo "${PATH}" | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
-	elif [[ "${darwin}" == 'true' ]]; then
-		export PATH=$(echo "${PATH}" | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
-	else
-		export PATH=$(echo "${PATH}" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
-	fi
+	case "${platform}" in
+	solaris) export PATH=$(echo "${PATH}" | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g") ;;
+	darwin)  export PATH=$(echo "${PATH}" |  sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g") ;;
+	*)       export PATH=$(echo "${PATH}" |  sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g") ;;
+	esac
 
 	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]]; then
 		__sdkman_echo_green "Setting ${candidate} version ${VERSION} as default."

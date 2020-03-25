@@ -40,23 +40,22 @@ if [[ "${SDKMAN_PLATFORM}" == 'Linux' ]]; then
 fi
 export SDKMAN_PLATFORM
 
-# OS specific support (must be 'true' or 'false').
-cygwin='false'
-darwin='false'
-solaris='false'
-freebsd='false'
 case "${SDKMAN_PLATFORM}" in
-	CYGWIN*)
-		cygwin='true'
-		;;
-	Darwin*)
-		darwin='true'
-		;;
-	SunOS*)
-		solaris='true'
-		;;
-	FreeBSD*)
-		freebsd='true'
+CYGWIN*)
+	platform='cygwin'
+	;;
+Darwin*)
+	platform='darwin'
+	;;
+SunOS*)
+	platform='solaris'
+	;;
+FreeBSD*)
+	platform='freebsd'
+	;;
+*)
+	platform="${SDKMAN_PLATFORM}"
+	;;
 esac
 
 # Determine shell
