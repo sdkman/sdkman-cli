@@ -47,32 +47,28 @@ function __sdkman_secure_curl {
 }
 
 function __sdkman_secure_curl_download {
-	local curl_params="--progress-bar --location"
+	local curl_params=('--progress-bar' '--location')
 	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
-		curl_params="${curl_params} --insecure"
+		curl_params+=('--insecure')
 	fi
 
-	if [[ ! -z "${sdkman_curl_retry}" ]]; then
-		curl_params="--retry ${sdkman_curl_retry} ${curl_params}"
+	if [[ -n "${sdkman_curl_retry}" ]]; then
+		curl_params+=('--retry' "${sdkman_curl_retry}")
 	fi
 
-	if [[ ! -z "${sdkman_curl_retry_max_time}" ]]; then
-		curl_params="--retry-max-time ${sdkman_curl_retry_max_time} ${curl_params}"
+	if [[ -n "${sdkman_curl_retry_max_time}" ]]; then
+		curl_params+=('--retry-max-time' "${sdkman_curl_retry_max_time}")
 	fi
 
 	if [[ "${sdkman_curl_continue}" == 'true' ]]; then
-		curl_params="-C - ${curl_params}"
+		curl_params+=('-C' '-')
 	fi
 
 	if [[ "${sdkman_debug_mode}" == 'true' ]]; then
-		curl_params="--verbose ${curl_params}"
+		curl_params+=('--verbose')
 	fi
 
-	if [[ "${zsh_shell}" == 'true' ]]; then
-		curl ${=curl_params} "${@}"
-	else
-		curl ${curl_params} "${@}"
-	fi
+	curl "${curl_params[@]}" "${@}"
 }
 
 function __sdkman_secure_curl_with_timeouts {
