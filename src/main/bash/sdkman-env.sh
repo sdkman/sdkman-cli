@@ -28,13 +28,13 @@ function __sdk_env {
   local line_number=0
 
   while IFS= read -r line || [[ -n $line ]]; do
-    if [[ ! $line =~ ^([[:lower:]]+)=(.+)$ ]]; then
+    if [[ ! $line =~ ^[[:lower:]]+=.+$ ]]; then
       __sdkman_echo_red "${sdkmanrc}:${line_number}: Invalid candidate format! Expected 'candidate=version' but found '$line'"
 
       return 1
     fi
 
-    __sdk_use "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
+    __sdk_use "${line%*=}" "${line#=*}"
 
     ((line_number++))
   done < "$sdkmanrc"
