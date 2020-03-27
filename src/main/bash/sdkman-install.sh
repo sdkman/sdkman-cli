@@ -42,11 +42,13 @@ function __sdk_install {
 			read USE
 		fi
 
-		if [[ -z "${USE}" || "${USE}" == 'y' || "${USE}" == 'Y' ]]; then
+		case "${USE}" in
+		''|'y'|'Y')
 			__sdkman_echo_green "\nSetting ${candidate} ${VERSION} as default."
 			__sdkman_link_candidate_version "${candidate}" "${VERSION}"
 			__sdkman_prepend_candidate_to_path "${candidate}"
-		fi
+			;;
+		esac
 
 		return 0
 	elif [[ "${VERSION_VALID}" == 'invalid' && -n "${folder}" ]]; then

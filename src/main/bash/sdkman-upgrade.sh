@@ -70,14 +70,15 @@ function __sdk_upgrade {
 	else
 		__sdkman_echo_confirm $'\nUpgrade candidate(s) and set latest version(s) as default? (Y/n): '
 		read UPGRADE_ALL
-		export auto_answer_upgrade='true'
-		if [[ -z "${UPGRADE_ALL}" || "${UPGRADE_ALL}" == 'y' || "${UPGRADE_ALL}" == 'Y' ]]; then
-			# Using array for bash & zsh compatibility
+		case "${UPGRADE_ALL}" in
+		''|'y'|'Y')
+			export auto_answer_upgrade='true'
 			for candidate in "${upgradable_candidates[@]}"; do
 				__sdk_install "${candidate}"
 			done
-		fi
-		unset auto_answer_upgrade
+			unset auto_answer_upgrade
+			;;
+		esac
 	fi
 }
 

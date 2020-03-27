@@ -63,16 +63,15 @@ function __sdkman_auto_update {
 			read upgrade
 		fi
 
-		if [[ -z "${upgrade}" ]]; then
-			upgrade='Y'
-		fi
-
-		if [[ "${upgrade}" == 'Y' || "${upgrade}" == 'y' ]]; then
+		case "${upgrade}" in
+		''|'y'|'Y')
 			__sdk_selfupdate
-			unset upgrade
-		else
+			;;
+		*)
 			__sdkman_echo_no_colour 'Not upgrading today...'
-		fi
+			;;
+		esac
+		unset upgrade
 
 		touch "${delay_upgrade}"
 	fi
