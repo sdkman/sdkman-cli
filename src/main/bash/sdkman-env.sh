@@ -34,7 +34,7 @@ function __sdk_env {
       return 1
     fi
 
-    __sdk_use "${line%*=}" "${line#=*}"
+    __sdk_use "${line%=*}" "${line#*=}"
 
     ((line_number++))
   done < "$sdkmanrc"
