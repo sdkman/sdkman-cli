@@ -12,8 +12,8 @@ HTTP_PROXY = System.getProperty("httpProxy") ?: ""
 PLATFORM = UnixUtils.platform.toLowerCase()
 
 FAKE_JDK_PATH = "/path/to/my/openjdk"
-SERVICE_UP_HOST="localhost"
-SERVICE_UP_PORT=8080
+SERVICE_UP_HOST = "localhost"
+SERVICE_UP_PORT = 8080
 SERVICE_UP_URL = "http://$SERVICE_UP_HOST:$SERVICE_UP_PORT"
 SERVICE_DOWN_URL = "http://localhost:0"
 
@@ -48,28 +48,28 @@ localCandidates = ['groovy', 'grails', 'java', 'kotlin', 'scala']
 
 bash = null
 
-if(!binding.hasVariable("wireMock")) {
-    wireMock = WireMockServerProvider.wireMockServer()
+if (!binding.hasVariable("wireMock")) {
+	wireMock = WireMockServerProvider.wireMockServer()
 }
 
 addShutdownHook {
-    wireMock.stop()
+	wireMock.stop()
 }
 
-Before(){
-    WireMock.reset()
-    cleanUp()
+Before() {
+	WireMock.reset()
+	cleanUp()
 }
 
-private cleanUp(){
-    sdkmanBaseDir.deleteDir()
-    localGroovyCandidate.deleteDir()
+private cleanUp() {
+	sdkmanBaseDir.deleteDir()
+	localGroovyCandidate.deleteDir()
 }
 
-After(){ scenario ->
-    def output = bash?.output
-    if (output) {
-        scenario.write("\nOutput: \n${output}")
-    }
+After() { scenario ->
+	def output = bash?.output
+	if (output) {
+		scenario.write("\nOutput: \n${output}")
+	}
 	bash?.stop()
 }
