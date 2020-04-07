@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdk_update {
+function __sdk_update() {
 	local candidates_uri="${SDKMAN_CANDIDATES_API}/candidates/all"
 	__sdkman_echo_debug "Using candidates endpoint: $candidates_uri"
 
