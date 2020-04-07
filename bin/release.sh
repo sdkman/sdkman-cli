@@ -3,25 +3,25 @@
 VERSION="$1"
 BRANCH="production"
 
-#sanity
+# sanity
 if [[ -z "$VERSION" ]]; then
 	echo "Usage: release.sh <version>"
 	exit 0
 fi
 
-#prepare branch
+# prepare branch
 git checkout master
 git branch -D "$BRANCH"
 git checkout -b "$BRANCH"
 
-#update version
+# update version
 sed -i "s/master/$VERSION/g" config.groovy
 git add config.groovy
 git commit -m "Update version of $BRANCH to $VERSION"
 
-#push tag
+# push tag
 git tag "$VERSION"
 git push origin "$VERSION"
 
-#bach to master branch
+# bach to master branch
 git checkout master

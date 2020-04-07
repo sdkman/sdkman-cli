@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdk_broadcast {
+function __sdk_broadcast() {
 	if [ "$BROADCAST_OLD_TEXT" ]; then
 		__sdkman_echo_cyan "$BROADCAST_OLD_TEXT"
 	else

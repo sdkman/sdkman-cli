@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdk_use {
+function __sdk_use() {
 	local candidate version install
 
 	candidate="$1"
@@ -45,7 +45,7 @@ function __sdk_use {
 		export PATH=$(echo "$PATH" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
 	fi
 
-	if [[ ! ( -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ) ]]; then
+	if [[ ! (-L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current") ]]; then
 		__sdkman_echo_green "Setting ${candidate} version ${VERSION} as default."
 		__sdkman_link_candidate_version "$candidate" "$VERSION"
 	fi

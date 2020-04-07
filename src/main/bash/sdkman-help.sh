@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdk_help {
+function __sdk_help() {
 	__sdkman_echo_no_colour ""
 	__sdkman_echo_no_colour "Usage: sdk <command> [candidate] [version]"
 	__sdkman_echo_no_colour "       sdk offline <enable|disable>"

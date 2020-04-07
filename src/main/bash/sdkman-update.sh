@@ -41,7 +41,6 @@ function __sdk_update {
 	__sdkman_echo_debug "Fetched candidates: $fresh_candidates_csv"
 
 	if [[ -n "$fresh_candidates_csv" && -z "$detect_html" ]]; then
-
 		# legacy bash workaround
 		if [[ "$bash_shell" == 'true' && "$BASH_VERSINFO" -lt 4 ]]; then
 			__sdkman_legacy_bash_message
@@ -60,18 +59,15 @@ function __sdk_update {
 			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
 			echo ""
 			__sdkman_echo_yellow "Please open a new terminal now..."
-
 		elif (( fresh_candidates_length < cached_candidates_length )); then
 			echo ""
 			__sdkman_echo_green "Removing obsolete candidates(s): $diff_candidates"
 			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
 			echo ""
 			__sdkman_echo_yellow "Please open a new terminal now..."
-
 		else
 			touch "$SDKMAN_CANDIDATES_CACHE"
 			__sdkman_echo_green "No new candidates found at this time."
 		fi
 	fi
-
 }

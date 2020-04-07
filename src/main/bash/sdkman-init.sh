@@ -116,7 +116,7 @@ if [[ "$zsh_shell" == 'true' ]]; then
 else
 	OLD_IFS="$IFS"
 	IFS=","
-        SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
+	SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
 	IFS="$OLD_IFS"
 fi
 
