@@ -3,52 +3,53 @@ package sdkman.specs
 import sdkman.support.SdkmanEnvSpecification
 
 class EnvCommandSpec extends SdkmanEnvSpecification {
-    def setup() {
-        bash = sdkmanBashEnvBuilder
-                .withVersionCache("x.y.z")
-                .withOfflineMode(true)
-                .build()
-        bash.start()
-        bash.execute("source $bootstrapScript")
-    }
 
-    def "should use the candidates contained in .sdkmanrc"() {
-        given:
-        new FileTreeBuilder(candidatesDirectory).with {
-            "grails" {
-                "2.1.0" {}
-            }
-            "groovy" {
-                "2.4.1" {}
-            }
-        }
+	def setup() {
+		bash = sdkmanBashEnvBuilder
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.build()
+		bash.start()
+		bash.execute("source $bootstrapScript")
+	}
 
-        new File(bash.workDir, '.sdkmanrc').text = sdkmanrc
+	def "should use the candidates contained in .sdkmanrc"() {
+		given:
+		new FileTreeBuilder(candidatesDirectory).with {
+			"grails" {
+				"2.1.0" {}
+			}
+			"groovy" {
+				"2.4.1" {}
+			}
+		}
 
-        when:
-        bash.execute("sdk env")
+		new File(bash.workDir, '.sdkmanrc').text = sdkmanrc
 
-        then:
-        verifyAll(bash.output) {
-            contains("Using groovy version 2.4.1 in this shell.")
-            contains("Using grails version 2.1.0 in this shell.")
-        }
+		when:
+		bash.execute("sdk env")
 
-        where:
-        sdkmanrc << ["grails=2.1.0\ngroovy=2.4.1", "grails=2.1.0\ngroovy=2.4.1\n"]
-    }
+		then:
+		verifyAll(bash.output) {
+			contains("Using groovy version 2.4.1 in this shell.")
+			contains("Using grails version 2.1.0 in this shell.")
+		}
 
-    def "should issue an error if .sdkmanrc contains malformed candidate entries"() {
-        given:
-        new File(bash.workDir, '.sdkmanrc').text = "groovy 2.4.1"
+		where:
+		sdkmanrc << ["grails=2.1.0\ngroovy=2.4.1", "grails=2.1.0\ngroovy=2.4.1\n"]
+	}
 
-        when:
-        bash.execute("sdk env")
+	def "should issue an error if .sdkmanrc contains malformed candidate entries"() {
+		given:
+		new File(bash.workDir, '.sdkmanrc').text = "groovy 2.4.1"
 
-        then:
-        verifyAll(bash) {
-            status > 0
-            output.contains("Invalid candidate format!")
-        }
-    }
+		when:
+		bash.execute("sdk env")
+
+		then:
+		verifyAll(bash) {
+			status > 0
+			output.contains("Invalid candidate format!")
+		}
+	}
 }
