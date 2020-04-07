@@ -16,13 +16,13 @@
 #   limitations under the License.
 #
 
-function __sdkman_update_broadcast_and_service_availability {
+function __sdkman_update_broadcast_and_service_availability() {
 	local broadcast_live_id=$(__sdkman_determine_broadcast_id)
 	__sdkman_set_availability "$broadcast_live_id"
 	__sdkman_update_broadcast "$broadcast_live_id"
 }
 
-function __sdkman_determine_broadcast_id {
+function __sdkman_determine_broadcast_id() {
 	if [[ "$SDKMAN_OFFLINE_MODE" == "true" || "$COMMAND" == "offline" && "$QUALIFIER" == "enable" ]]; then
 		echo ""
 	else
@@ -30,7 +30,7 @@ function __sdkman_determine_broadcast_id {
 	fi
 }
 
-function __sdkman_set_availability {
+function __sdkman_set_availability() {
 	local broadcast_id="$1"
 	local detect_html="$(echo "$broadcast_id" | tr '[:upper:]' '[:lower:]' | grep 'html')"
 	if [[ -z "$broadcast_id" ]]; then
@@ -44,7 +44,7 @@ function __sdkman_set_availability {
 	fi
 }
 
-function __sdkman_display_offline_warning {
+function __sdkman_display_offline_warning() {
 	local broadcast_id="$1"
 	if [[ -z "$broadcast_id" && "$COMMAND" != "offline" && "$SDKMAN_OFFLINE_MODE" != "true" ]]; then
 		__sdkman_echo_red "==== INTERNET NOT REACHABLE! ==================================================="
@@ -59,14 +59,14 @@ function __sdkman_display_offline_warning {
 	fi
 }
 
-function __sdkman_display_proxy_warning {
+function __sdkman_display_proxy_warning() {
 	__sdkman_echo_red "==== PROXY DETECTED! ==========================================================="
 	__sdkman_echo_red "Please ensure you have open internet access to continue."
 	__sdkman_echo_red "================================================================================"
 	echo ""
 }
 
-function __sdkman_update_broadcast {
+function __sdkman_update_broadcast() {
 	local broadcast_live_id broadcast_id_file broadcast_text_file broadcast_old_id
 
 	broadcast_live_id="$1"
@@ -75,11 +75,11 @@ function __sdkman_update_broadcast {
 	broadcast_old_id=""
 
 	if [[ -f "$broadcast_id_file" ]]; then
-		broadcast_old_id=$(cat "$broadcast_id_file");
+		broadcast_old_id=$(cat "$broadcast_id_file")
 	fi
 
 	if [[ -f "$broadcast_text_file" ]]; then
-		BROADCAST_OLD_TEXT=$(cat "$broadcast_text_file");
+		BROADCAST_OLD_TEXT=$(cat "$broadcast_text_file")
 	fi
 
 	if [[ "$SDKMAN_AVAILABLE" == "true" && "$broadcast_live_id" != "$broadcast_old_id" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then

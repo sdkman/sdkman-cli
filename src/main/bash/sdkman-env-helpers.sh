@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdkman_check_candidate_present {
+function __sdkman_check_candidate_present() {
 	local candidate="$1"
 
 	if [ -z "$candidate" ]; then
@@ -27,7 +27,7 @@ function __sdkman_check_candidate_present {
 	fi
 }
 
-function __sdkman_check_version_present {
+function __sdkman_check_version_present() {
 	local version="$1"
 
 	if [ -z "$version" ]; then
@@ -38,7 +38,7 @@ function __sdkman_check_version_present {
 	fi
 }
 
-function __sdkman_determine_version {
+function __sdkman_determine_version() {
 	local candidate version folder
 
 	candidate="$1"
@@ -72,14 +72,17 @@ function __sdkman_determine_version {
 		if [[ "$VERSION_VALID" == 'valid' || "$VERSION_VALID" == 'invalid' && -n "$folder" ]]; then
 			VERSION="$version"
 
-		elif [[ "$VERSION_VALID" == 'invalid' && -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
+		elif [[ "$VERSION_VALID" == 'invalid' && -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
 			VERSION="$version"
 
 		elif [[ "$VERSION_VALID" == 'invalid' && -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
 			VERSION="$version"
 
 		else
-	  if [[ -z "$version" ]]; then version="\b"; fi
+			if [[ -z "$version" ]]; then
+				version="\b"
+			fi
+
 			echo ""
 			__sdkman_echo_red "Stop! $candidate $version is not available. Possible causes:"
 			__sdkman_echo_red " * $version is an invalid version"

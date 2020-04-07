@@ -16,41 +16,41 @@
 #   limitations under the License.
 #
 
-function __sdk_flush {
+function __sdk_flush() {
 	local qualifier="$1"
 
 	case "$qualifier" in
-		broadcast)
-			if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
-				rm "${SDKMAN_DIR}/var/broadcast_id"
-				rm "${SDKMAN_DIR}/var/broadcast"
-				__sdkman_echo_green "Broadcast has been flushed."
-			else
-				__sdkman_echo_no_colour "No prior broadcast found so not flushed."
-			fi
-			;;
-		version)
-			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
-				rm "${SDKMAN_DIR}/var/version"
-				__sdkman_echo_green "Version file has been flushed."
-			fi
-			;;
-		archives)
-			__sdkman_cleanup_folder "archives"
-			;;
-		temp)
-			__sdkman_cleanup_folder "tmp"
-			;;
-		tmp)
-			__sdkman_cleanup_folder "tmp"
-			;;
-		*)
-			__sdkman_echo_red "Stop! Please specify what you want to flush."
-			;;
+	broadcast)
+		if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
+			rm "${SDKMAN_DIR}/var/broadcast_id"
+			rm "${SDKMAN_DIR}/var/broadcast"
+			__sdkman_echo_green "Broadcast has been flushed."
+		else
+			__sdkman_echo_no_colour "No prior broadcast found so not flushed."
+		fi
+		;;
+	version)
+		if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
+			rm "${SDKMAN_DIR}/var/version"
+			__sdkman_echo_green "Version file has been flushed."
+		fi
+		;;
+	archives)
+		__sdkman_cleanup_folder "archives"
+		;;
+	temp)
+		__sdkman_cleanup_folder "tmp"
+		;;
+	tmp)
+		__sdkman_cleanup_folder "tmp"
+		;;
+	*)
+		__sdkman_echo_red "Stop! Please specify what you want to flush."
+		;;
 	esac
 }
 
-function __sdkman_cleanup_folder {
+function __sdkman_cleanup_folder() {
 	local folder="$1"
 	sdkman_cleanup_dir="${SDKMAN_DIR}/${folder}"
 	sdkman_cleanup_disk_usage=$(du -sh "$sdkman_cleanup_dir")

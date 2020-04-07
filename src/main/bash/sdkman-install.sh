@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdk_install {
+function __sdk_install() {
 	local candidate version folder
 
 	candidate="$1"
@@ -26,7 +26,7 @@ function __sdk_install {
 	__sdkman_check_candidate_present "$candidate" || return 1
 	__sdkman_determine_version "$candidate" "$version" "$folder" || return 1
 
-	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" || -h "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
+	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" || -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
 		echo ""
 		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is already installed."
 		return 1
@@ -40,17 +40,17 @@ function __sdk_install {
 			__sdkman_echo_confirm "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
+
 		if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
 			echo ""
 			__sdkman_echo_green "Setting ${candidate} ${VERSION} as default."
 			__sdkman_link_candidate_version "$candidate" "$VERSION"
 			__sdkman_add_to_path "$candidate"
 		fi
-		return 0
 
+		return 0
 	elif [[ "$VERSION_VALID" == 'invalid' && -n "$folder" ]]; then
 		__sdkman_install_local_version "$candidate" "$VERSION" "$folder" || return 1
-
 	else
 		echo ""
 		__sdkman_echo_red "Stop! $1 is not a valid ${candidate} version."
@@ -58,7 +58,7 @@ function __sdk_install {
 	fi
 }
 
-function __sdkman_install_candidate_version {
+function __sdkman_install_candidate_version() {
 	local candidate version
 
 	candidate="$1"
@@ -76,7 +76,7 @@ function __sdkman_install_candidate_version {
 	echo ""
 }
 
-function __sdkman_install_local_version {
+function __sdkman_install_local_version() {
 	local candidate version folder version_length version_length_max
 
 	version_length_max=15
@@ -85,7 +85,7 @@ function __sdkman_install_local_version {
 	version="$2"
 	folder="$3"
 
-	#Validate max length of version
+	# Validate max length of version
 	version_length=${#version}
 	__sdkman_echo_debug "Validating that actual version length ($version_length) does not exceed max ($version_length_max)"
 
@@ -105,7 +105,6 @@ function __sdkman_install_local_version {
 		__sdkman_echo_green "Linking ${candidate} ${version} to ${folder}"
 		ln -s "$folder" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 		__sdkman_echo_green "Done installing!"
-
 	else
 		__sdkman_echo_red "Invalid path! Refusing to link ${candidate} ${version} to ${folder}."
 		return 1
@@ -114,7 +113,7 @@ function __sdkman_install_local_version {
 	echo ""
 }
 
-function __sdkman_download {
+function __sdkman_download() {
 	local candidate version archives_folder
 
 	candidate="$1"
@@ -122,13 +121,12 @@ function __sdkman_download {
 
 	archives_folder="${SDKMAN_DIR}/archives"
 	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
-
 		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 		local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 		local base_name="${candidate}-${version}"
 		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 
-		#pre-installation hook: implements function __sdkman_pre_installation_hook
+		# pre-installation hook: implements function __sdkman_pre_installation_hook
 		local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
 		__sdkman_echo_debug "Get pre-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/pre/${candidate}/${version}/${platform_parameter}"
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/pre/${candidate}/${version}/${platform_parameter}" > "$pre_installation_hook"
@@ -146,12 +144,12 @@ function __sdkman_download {
 		__sdkman_echo_no_colour "In progress..."
 		echo ""
 
-		#download binary
+		# download binary
 		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}"
 		__sdkman_echo_debug "Downloaded binary to: ${binary_input}"
 
-		#post-installation hook: implements function __sdkman_post_installation_hook
-		#responsible for taking `binary_input` and producing `zip_output`
+		# post-installation hook: implements function __sdkman_post_installation_hook
+		# responsible for taking `binary_input` and producing `zip_output`
 		local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
 		__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}" > "$post_installation_hook"
@@ -173,7 +171,7 @@ function __sdkman_download {
 	echo ""
 }
 
-function __sdkman_validate_zip {
+function __sdkman_validate_zip() {
 	local zip_archive zip_ok
 
 	zip_archive="$1"
