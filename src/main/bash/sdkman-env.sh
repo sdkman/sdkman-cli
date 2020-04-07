@@ -16,26 +16,26 @@
 #   limitations under the License.
 #
 
-function __sdk_env {
-  readonly sdkmanrc='.sdkmanrc'
+function __sdk_env() {
+	readonly sdkmanrc='.sdkmanrc'
 
-  if [[ ! -f "$sdkmanrc" ]]; then
-    __sdkman_echo_red "$sdkmanrc not found."
+	if [[ ! -f "$sdkmanrc" ]]; then
+		__sdkman_echo_red "$sdkmanrc not found."
 
-    return 1
-  fi
+		return 1
+	fi
 
-  local line_number=0
+	local line_number=0
 
-  while IFS= read -r line || [[ -n $line ]]; do
-    if [[ ! $line =~ ^[[:lower:]]+=.+$ ]]; then
-      __sdkman_echo_red "${sdkmanrc}:${line_number}: Invalid candidate format! Expected 'candidate=version' but found '$line'"
+	while IFS= read -r line || [[ -n $line ]]; do
+		if [[ ! $line =~ ^[[:lower:]]+=.+$ ]]; then
+			__sdkman_echo_red "${sdkmanrc}:${line_number}: Invalid candidate format! Expected 'candidate=version' but found '$line'"
 
-      return 1
-    fi
+			return 1
+		fi
 
-    __sdk_use "${line%=*}" "${line#*=}"
+		__sdk_use "${line%=*}" "${line#*=}"
 
-    ((line_number++))
-  done < "$sdkmanrc"
+		((line_number++))
+	done < "$sdkmanrc"
 }

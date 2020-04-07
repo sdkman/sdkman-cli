@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdk_list {
+function __sdk_list() {
 	local candidate="$1"
 
 	if [[ -z "$candidate" ]]; then
@@ -26,7 +26,7 @@ function __sdk_list {
 	fi
 }
 
-function __sdkman_list_candidates {
+function __sdkman_list_candidates() {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_echo_red "This command is not available while offline."
 	else
@@ -34,7 +34,7 @@ function __sdkman_list_candidates {
 	fi
 }
 
-function __sdkman_list_versions {
+function __sdkman_list_versions() {
 	local candidate versions_csv
 
 	candidate="$1"
@@ -48,7 +48,7 @@ function __sdkman_list_versions {
 	fi
 }
 
-function __sdkman_build_version_csv {
+function __sdkman_build_version_csv() {
 	local candidate versions_csv
 
 	candidate="$1"
@@ -65,7 +65,7 @@ function __sdkman_build_version_csv {
 	echo "$versions_csv"
 }
 
-function __sdkman_offline_list {
+function __sdkman_offline_list() {
 	local candidate versions_csv
 
 	candidate="$1"
@@ -76,7 +76,7 @@ function __sdkman_offline_list {
 	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 
 	local versions=($(echo ${versions_csv//,/ }))
-	for (( i=${#versions} - 1 ; i >= 0  ; i-- )); do
+	for ((i = ${#versions} - 1; i >= 0; i--)); do
 		if [[ -n "${versions[${i}]}" ]]; then
 			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
 				__sdkman_echo_no_colour " > ${versions[${i}]}"

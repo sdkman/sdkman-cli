@@ -16,9 +16,9 @@
 #   limitations under the License.
 #
 
-function ___sdkman_check_candidates_cache {
+function ___sdkman_check_candidates_cache() {
 	local candidates_cache="$1"
-	if [[ -f "$candidates_cache" && -n "$(cat "$candidates_cache")" && -n "$(find "$candidates_cache" -mmin +$((24*60*30)))" ]]; then
+	if [[ -f "$candidates_cache" && -n "$(cat "$candidates_cache")" && -n "$(find "$candidates_cache" -mmin +$((24 * 60 * 30)))" ]]; then
 		__sdkman_echo_yellow 'We periodically need to update the local cache. Please run:'
 		echo ''
 		__sdkman_echo_no_colour '  $ sdk update'
@@ -36,14 +36,13 @@ function ___sdkman_check_candidates_cache {
 	fi
 }
 
-function ___sdkman_check_version_cache {
+function ___sdkman_check_version_cache() {
 	local version_url
 	local version_file="${SDKMAN_DIR}/var/version"
 
-	if [[ "$sdkman_beta_channel" != "true" && -f "$version_file" && -z "$(find "$version_file" -mmin +$((60*24)))" ]]; then
+	if [[ "$sdkman_beta_channel" != "true" && -f "$version_file" && -z "$(find "$version_file" -mmin +$((60 * 24)))" ]]; then
 		__sdkman_echo_debug "Not refreshing version cache now..."
 		SDKMAN_REMOTE_VERSION=$(cat "$version_file")
-
 	else
 		__sdkman_echo_debug "Version cache needs updating..."
 		if [[ "$sdkman_beta_channel" == "true" ]]; then
@@ -58,11 +57,9 @@ function ___sdkman_check_version_cache {
 		if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')" ]]; then
 			__sdkman_echo_debug "Version information corrupt or empty! Ignoring: $SDKMAN_REMOTE_VERSION"
 			SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
-
 		else
 			__sdkman_echo_debug "Overwriting version cache with: $SDKMAN_REMOTE_VERSION"
 			echo "${SDKMAN_REMOTE_VERSION}" | tee "$version_file" > /dev/null
 		fi
 	fi
-
 }

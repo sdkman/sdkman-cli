@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdk_home {
+function __sdk_home() {
 	local candidate version
 
 	candidate="$1"

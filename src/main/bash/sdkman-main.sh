@@ -16,34 +16,45 @@
 #   limitations under the License.
 #
 
-function sdk {
+function sdk() {
 
 	COMMAND="$1"
 	QUALIFIER="$2"
 
 	case "$COMMAND" in
-		l)
-			COMMAND="list";;
-		ls)
-			COMMAND="list";;
-		v)
-			COMMAND="version";;
-		u)
-			COMMAND="use";;
-		i)
-			COMMAND="install";;
-		rm)
-			COMMAND="uninstall";;
-		c)
-			COMMAND="current";;
-		ug)
-			COMMAND="upgrade";;
-		d)
-			COMMAND="default";;
-		b)
-			COMMAND="broadcast";;
-		h)
-			COMMAND="home";;
+	l)
+		COMMAND="list"
+		;;
+	ls)
+		COMMAND="list"
+		;;
+	v)
+		COMMAND="version"
+		;;
+	u)
+		COMMAND="use"
+		;;
+	i)
+		COMMAND="install"
+		;;
+	rm)
+		COMMAND="uninstall"
+		;;
+	c)
+		COMMAND="current"
+		;;
+	ug)
+		COMMAND="upgrade"
+		;;
+	d)
+		COMMAND="default"
+		;;
+	b)
+		COMMAND="broadcast"
+		;;
+	h)
+		COMMAND="home"
+		;;
 	esac
 
 	if [[ "$COMMAND" == "home" ]]; then
