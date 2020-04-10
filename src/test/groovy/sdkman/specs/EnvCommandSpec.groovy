@@ -1,7 +1,6 @@
 package sdkman.specs
 
 import sdkman.support.SdkmanEnvSpecification
-import spock.lang.Unroll
 
 import java.nio.file.Paths
 
@@ -16,14 +15,14 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 	def "should generate .sdkmanrc when called with 'init'"() {
 		given:
 		curlStub.primeWith(BROADCAST_API_LATEST_ID_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")
-			    .primeWith(CANDIDATES_DEFAULT_JAVA, "echo 11.0.6.hs-adpt")
+				.primeWith(CANDIDATES_DEFAULT_JAVA, "echo 11.0.6.hs-adpt")
 
 		setupCandidates(candidatesDirectory)
 
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
-			.withVersionCache("x.y.z")
-			.build()
+				.withOfflineMode(true)
+				.withVersionCache("x.y.z")
+				.build()
 
 		bash.start()
 		bash.execute("source $bootstrapScript")
@@ -36,18 +35,18 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		where:
 		setupCandidates << [
-			{ directory ->
-				new FileTreeBuilder(directory).with {
-					"java" {
-						"8.0.252.hs" {
-							"bin" {}
+				{ directory ->
+					new FileTreeBuilder(directory).with {
+						"java" {
+							"8.0.252.hs" {
+								"bin" {}
+							}
 						}
 					}
-				}
 
-				createSymbolicLink(Paths.get("$directory/java/current"), Paths.get("$directory/java/8.0.252.hs"))
-			},
-			{} // NOOP
+					createSymbolicLink(Paths.get("$directory/java/current"), Paths.get("$directory/java/8.0.252.hs"))
+				},
+				{} // NOOP
 		]
 		expected << ["java=8.0.252.hs\n", "java=11.0.6.hs-adpt\n"]
 	}
@@ -61,12 +60,15 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 			"groovy" {
 				"2.4.1" {}
 			}
+			"Plan-9" {
+				"9=0" {}
+			}
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withVersionCache("x.y.z")
-			.withOfflineMode(true)
-			.build()
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.build()
 
 		new File(bash.workDir, '.sdkmanrc').text = sdkmanrc
 
@@ -80,15 +82,16 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		verifyAll(bash.output) {
 			contains("Using groovy version 2.4.1 in this shell.")
 			contains("Using grails version 2.1.0 in this shell.")
+			contains("Using Plan-9 version 9=0 in this shell.")
 		}
 
 		where:
 		sdkmanrc << [
-			"grails=2.1.0\ngroovy=2.4.1",
-			"grails=2.1.0\ngroovy=2.4.1\n",
-			"  grails=2.1.0\ngroovy=2.4.1\n",
-			"grails=2.1.0	\ngroovy=2.4.1\n",
-			"grails=2.1.0\ngroovy = 2.4.1\n",
+				"grails=2.1.0\ngroovy=2.4.1\nPlan-9=9=0",
+				"grails=2.1.0\ngroovy=2.4.1\nPlan-9=9=0\n",
+				"  grails=2.1.0\ngroovy=2.4.1\nPlan-9=9=0\n",
+				"grails=2.1.0	\ngroovy=2.4.1\nPlan-9=9=0\n",
+				"grails=2.1.0\ngroovy = 2.4.1\nPlan-9=9=0\n",
 		]
 	}
 
@@ -108,12 +111,12 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		new FileTreeBuilder(bash.workDir).with {
 			"project" {
-				".sdkmanrc"("groovy=2.4.1\n")	
+				".sdkmanrc"("groovy=2.4.1\n")
 			}
 		}
 
 		bash.start()
-		bash.execute("source $bootstrapScript")		
+		bash.execute("source $bootstrapScript")
 
 		when:
 		bash.execute("cd project")
@@ -123,16 +126,16 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		where:
 		sdkmanAutoEnv | verifyOutput
-		'true'		  | { it.contains("Using groovy version 2.4.1 in this shell") }
+		'true'        | { it.contains("Using groovy version 2.4.1 in this shell") }
 		'false'       | { !it.contains("Using groovy version 2.4.1 in this shell") }
 	}
 
 	def "should issue an error if .sdkmanrc contains a malformed candidate version"() {
 		given:
 		bash = sdkmanBashEnvBuilder
-			.withVersionCache("x.y.z")
-			.withOfflineMode(true)
-			.build()
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.build()
 
 		new File(bash.workDir, ".sdkmanrc").text = "groovy 2.4.1"
 
@@ -158,9 +161,9 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withVersionCache("x.y.z")
-			.withOfflineMode(true)
-			.build()
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.build()
 
 		new File(bash.workDir, ".sdkmanrc").text = sdkmanrc
 
@@ -175,9 +178,9 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		where:
 		sdkmanrc << [
-			"\ngroovy=2.4.1\n",
-			"# this is a comment\ngroovy=2.4.1\n",
-			"groovy=2.4.1 # this is a comment too\n"
+				"\ngroovy=2.4.1\n",
+				"# this is a comment\ngroovy=2.4.1\n",
+				"groovy=2.4.1 # this is a comment too\n"
 		]
 	}
 }

@@ -34,21 +34,22 @@ function __sdk_env() {
 		return 1
 	fi
 
-	local normalised_line
+	local line normalised_line
 	while IFS= read -r line || [[ -n "$line" ]]; do
 		normalised_line="$(__sdkman_normalise "$line")"
 
 		__sdkman_is_blank_line "$normalised_line" && continue
 
 		if ! __sdkman_matches_candidate_format "$normalised_line"; then
-			__sdkman_echo_red "Invalid candidate format!"
-			echo ""
-			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
+			__sdkman_echo_red $'\nInvalid candidate format!'
+			__sdkman_echo_yellow "\nExpected '<candidate>=<version>' but found '${normalised_line}'"
 
 			return 1
 		fi
 
-		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}"
+		if ! __sdk_use "${normalised_line%%=*}" "${normalised_line#*=}"; then
+			return 1
+		fi
 	done < "$sdkmanrc"
 }
 
@@ -78,11 +79,11 @@ function __sdkman_is_blank_line() {
 }
 
 function __sdkman_normalise() {
-	local -r line_without_comments="${1/\#*/}"
+	local -r line_without_comments="${1/\#*}"
 
-	echo "${line_without_comments//[[:space:]]/}"
+	echo "${line_without_comments//[[:space:]]}"
 }
 
 function __sdkman_matches_candidate_format() {
-	[[ "$1" =~ ^[[:lower:]]+\=.+$ ]]
+	[[ "${1}" =~ ^[^\=]+\=.+$ ]]
 }
