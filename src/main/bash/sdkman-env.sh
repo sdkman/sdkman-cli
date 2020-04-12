@@ -20,7 +20,9 @@ function __sdk_env() {
 	readonly sdkmanrc='.sdkmanrc'
 
 	if [[ ! -f "$sdkmanrc" ]]; then
-		__sdkman_echo_red "$sdkmanrc not found."
+		__sdkman_echo_red "No $sdkmanrc file found."
+		echo ""
+		__sdkman_echo_yellow "Please create one before using this command."
 
 		return 1
 	fi
