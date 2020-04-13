@@ -70,8 +70,12 @@ function __sdk_upgrade() {
 
 	if [ ${upgradable_count} -gt 0 ]; then
 		echo ""
-		__sdkman_echo_confirm "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "
-		read UPGRADE_ALL
+
+		if [[ "$sdkman_auto_answer" != 'true' ]]; then
+			__sdkman_echo_confirm "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "
+			read UPGRADE_ALL
+		fi
+
 		export auto_answer_upgrade='true'
 		if [[ -z "$UPGRADE_ALL" || "$UPGRADE_ALL" == "y" || "$UPGRADE_ALL" == "Y" ]]; then
 			# Using array for bash & zsh compatibility
