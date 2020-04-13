@@ -104,6 +104,20 @@ Feature: Upgrade Candidate
 		And I see "Setting grails 2.1.0 as default."
 		Then the candidate "grails" version "2.1.0" should be the default
 
+	Scenario: Update upgradable candidate version and auto-answer to make it default
+		Given the candidate "grails" version "1.3.9" is already installed and default
+		And the default "grails" version is "2.1.0"
+		And the candidate "grails" version "2.1.0" is available for download
+		And I have configured "sdkman_auto_answer" to "true"
+		And the system is bootstrapped
+		When I enter "sdk upgrade grails"
+		Then I see "Upgrade:"
+		And I see "grails (1.3.9 < 2.1.0)"
+		And I do not see "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "
+		And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
+		And I see "Setting grails 2.1.0 as default."
+		Then the candidate "grails" version "2.1.0" should be the default
+
 	Scenario: Don't update upgradable candidate version and set it as default
 		Given the candidate "grails" version "1.3.9" is already installed and default
 		And the default "grails" version is "2.1.0"
