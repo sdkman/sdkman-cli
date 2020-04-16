@@ -44,7 +44,7 @@ function __sdk_update() {
 		# legacy bash workaround
 		if [[ "$bash_shell" == 'true' && "$BASH_VERSINFO" -lt 4 ]]; then
 			__sdkman_legacy_bash_message
-			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
+			echo "$fresh_candidates_csv" >| "$SDKMAN_CANDIDATES_CACHE"
 			return 0
 		fi
 
@@ -56,13 +56,13 @@ function __sdk_update() {
 		if (( fresh_candidates_length > cached_candidates_length )); then
 			echo ""
 			__sdkman_echo_green "Adding new candidates(s): $diff_candidates"
-			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
+			echo "$fresh_candidates_csv" >| "$SDKMAN_CANDIDATES_CACHE"
 			echo ""
 			__sdkman_echo_yellow "Please open a new terminal now..."
 		elif (( fresh_candidates_length < cached_candidates_length )); then
 			echo ""
 			__sdkman_echo_green "Removing obsolete candidates(s): $diff_candidates"
-			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
+			echo "$fresh_candidates_csv" >| "$SDKMAN_CANDIDATES_CACHE"
 			echo ""
 			__sdkman_echo_yellow "Please open a new terminal now..."
 		else
