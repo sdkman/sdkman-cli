@@ -30,7 +30,7 @@ function __sdk_env() {
 	local line_number=0
 
 	while IFS= read -r line || [[ -n $line ]]; do
-		__sdkman_is_blank_or_comment "$line" && continue
+		__sdkman_is_blank_line_or_comment_line "$line" && continue
 
 		if ! __sdkman_matches_candidate_format "$line"; then
 			__sdkman_echo_red "${sdkrc}:${line_number}: Invalid candidate format! Expected 'candidate version' but found '$line'"
@@ -38,18 +38,18 @@ function __sdk_env() {
 			return 1
 		fi
 
-		local candidate version
-		IFS=' \t' read -r candidate version <<< "$line"
+		local candidate version rest
+		IFS=' \t' read -r candidate version rest <<< "$line"
 		__sdk_use "$candidate" "$version"
 
 		((line_number++))
 	done < "$sdkrc"
 }
 
-function __sdkman_is_blank_or_comment() {
-	[[ $1 =~ ^[[:blank:]]*|\#.*$ ]]
+function __sdkman_is_blank_line_or_comment_line() {
+	[[ $1 =~ ^([[:blank:]]*|\#.*)$ ]]
 }
 
 function __sdkman_matches_candidate_format() {
-	[[ $1 =~ ^[[:lower:]]+[[:blank:]]+.+$ ]]
+	[[ $1 =~ ^[[:lower:]]+[[:blank:]]+[^[:blank:]]+.*$ ]]
 }
