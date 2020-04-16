@@ -53,7 +53,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 	}
 
-	def "should allow blank lines, comment lines and inline comments"() {
+	def "should support blank lines, comment lines and inline comments"() {
 		given:
 		new FileTreeBuilder(candidatesDirectory).with {
 			"groovy" {
