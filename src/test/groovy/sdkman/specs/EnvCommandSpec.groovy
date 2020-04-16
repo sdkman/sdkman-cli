@@ -13,7 +13,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		bash.execute("source $bootstrapScript")
 	}
 
-	def "should use the candidates contained in .sdkmanrc"() {
+	def "should use the candidates contained in .sdkrc"() {
 		given:
 		new FileTreeBuilder(candidatesDirectory).with {
 			"grails" {
@@ -24,7 +24,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 			}
 		}
 
-		new File(bash.workDir, '.sdkmanrc').text = sdkmanrc
+		new File(bash.workDir, '.sdkrc').text = sdkrc
 
 		when:
 		bash.execute("sdk env")
@@ -36,12 +36,12 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		where:
-		sdkmanrc << ["grails=2.1.0\ngroovy=2.4.1", "grails=2.1.0\ngroovy=2.4.1\n"]
+		sdkrc << ["grails 2.1.0\ngroovy 2.4.1", "grails 2.1.0\ngroovy 2.4.1\n"]
 	}
 
-	def "should issue an error if .sdkmanrc contains malformed candidate entries"() {
+	def "should issue an error if .sdkrc contains malformed candidate entries"() {
 		given:
-		new File(bash.workDir, '.sdkmanrc').text = "groovy 2.4.1"
+		new File(bash.workDir, ".sdkrc").text = "groovy=2.4.1"
 
 		when:
 		bash.execute("sdk env")
@@ -51,5 +51,29 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 			status > 0
 			output.contains("Invalid candidate format!")
 		}
+	}
+
+	def "should allow blank lines, comment lines and inline comments"() {
+		given:
+		new FileTreeBuilder(candidatesDirectory).with {
+			"groovy" {
+				"2.4.1" {}
+			}
+		}
+
+		new File(bash.workDir, ".sdkrc").text = sdkrc
+
+		when:
+		bash.execute("sdk env")
+		
+		then:
+		bash.output.contains("Using groovy version 2.4.1 in this shell.")
+
+		where:
+		sdkrc << [
+			"\ngroovy 2.4.1",
+			"# this is a comment line\ngroovy 2.4.1",
+			"groovy 2.4.1 # this is an inline comment"
+		]
 	}
 }
