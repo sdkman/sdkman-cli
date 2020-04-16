@@ -33,24 +33,25 @@ function __sdkman_secure_curl() {
 function __sdkman_secure_curl_download() {
 	local curl_params
 	curl_params=('--progress-bar' '--location')
-	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
-		curl_params+=('--insecure')
-	fi
 
-	if [[ -n "${sdkman_curl_retry}" ]]; then
-		curl_params+=('--retry' "${sdkman_curl_retry}")
-	fi
-
-	if [[ -n "${sdkman_curl_retry_max_time}" ]]; then
-		curl_params+=('--retry-max-time' "${sdkman_curl_retry_max_time}")
+	if [[ "${sdkman_debug_mode}" == 'true' ]]; then
+		curl_params+=('--verbose')
 	fi
 
 	if [[ "${sdkman_curl_continue}" == 'true' ]]; then
 		curl_params+=('-C' '-')
 	fi
 
-	if [[ "${sdkman_debug_mode}" == 'true' ]]; then
-		curl_params+=('--verbose')
+	if [[ -n "${sdkman_curl_retry_max_time}" ]]; then
+		curl_params+=('--retry-max-time' "${sdkman_curl_retry_max_time}")
+	fi
+
+	if [[ -n "${sdkman_curl_retry}" ]]; then
+		curl_params+=('--retry' "${sdkman_curl_retry}")
+	fi
+
+	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
+		curl_params+=('--insecure')
 	fi
 
 	curl "${curl_params[@]}" "${@}"
