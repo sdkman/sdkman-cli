@@ -72,6 +72,9 @@ function __sdkman_install_candidate_version() {
 	rm -rf "${SDKMAN_DIR}/tmp/out"
 	unzip -oq "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
 	mv "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+ 	major_version="$(echo ${version} | cut -d'.' -f1)"
+ 	__sdkman_echo_green "Linking major version: ${major_version}"
+ 	ln -sf "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/${major_version}"
 	__sdkman_echo_green "Done installing!"
 	echo ""
 }
