@@ -17,10 +17,10 @@
 #
 
 function __sdk_env() {
-	readonly sdkrc='.sdkrc'
+	readonly sdkmanrc='.sdkmanrc'
 
-	if [[ ! -f "$sdkrc" ]]; then
-		__sdkman_echo_red "No $sdkrc file found."
+	if [[ ! -f "$sdkmanrc" ]]; then
+		__sdkman_echo_red "No $sdkmanrc file found."
 		echo ""
 		__sdkman_echo_yellow "Please create one before using this command."
 
@@ -30,26 +30,26 @@ function __sdk_env() {
 	local line_number=0
 
 	while IFS= read -r line || [[ -n $line ]]; do
-		__sdkman_is_blank_line_or_comment_line "$line" && continue
+		__sdkman_is_blank_line_or_comment "$line" && continue
 
 		if ! __sdkman_matches_candidate_format "$line"; then
-			__sdkman_echo_red "${sdkrc}:${line_number}: Invalid candidate format! Expected 'candidate version' but found '$line'"
+			__sdkman_echo_red "${sdkmanrc}:${line_number}: Invalid candidate format! Expected 'candidate version' but found '$line'"
 
 			return 1
 		fi
 
-		local candidate version rest
-		IFS=' \t' read -r candidate version rest <<< "$line"
+		local candidate version
+		IFS=$' \t' read -r candidate version <<< "$line"
 		__sdk_use "$candidate" "$version"
 
 		((line_number++))
-	done < "$sdkrc"
+	done < "$sdkmanrc"
 }
 
-function __sdkman_is_blank_line_or_comment_line() {
-	[[ $1 =~ ^([[:blank:]]*|\#.*)$ ]]
+function __sdkman_is_blank_line_or_comment() {
+	[[ $1 =~ ^[[:blank:]]*(\#|$) ]]
 }
 
 function __sdkman_matches_candidate_format() {
-	[[ $1 =~ ^[[:lower:]]+[[:blank:]]+[^[:blank:]]+.*$ ]]
+	[[ $1 =~ ^[[:lower:]]+[[:blank:]]+[^[:blank:]]+[[:blank:]]*$ ]]
 }
