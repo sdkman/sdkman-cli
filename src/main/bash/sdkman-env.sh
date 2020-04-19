@@ -19,30 +19,35 @@
 function __sdk_env() {
 	readonly sdkmanrc='.sdkmanrc'
 
+	if [[ $1 == 'init' ]]; then
+		cat <<- EOF > "$sdkmanrc"
+		# This file was created by SDKMAN.
+		# 
+		# java=8.0.252-zulu 
+		EOF
+	fi
+
 	if [[ ! -f "$sdkmanrc" ]]; then
-		__sdkman_echo_red "No $sdkmanrc file found."
+		__sdkman_echo_red "SDKMAN can't find an .sdkmanrc file in your current directory."
 		echo ""
-		__sdkman_echo_yellow "Please create one before using this command."
+		__sdkman_echo_yellow "We recommend creating one by entering 'sdk env init'."
 
 		return 1
 	fi
-
-	local line_number=0
 
 	while IFS= read -r line || [[ -n $line ]]; do
 		__sdkman_is_blank_line_or_comment "$line" && continue
 
 		if ! __sdkman_matches_candidate_format "$line"; then
-			__sdkman_echo_red "${sdkmanrc}:${line_number}: Invalid candidate format! Expected 'candidate version' but found '$line'"
+			__sdkman_echo_red "Invalid candidate format! Expected '<candidate> <version>' but found '$line'"
 
 			return 1
 		fi
 
-		local candidate version
-		IFS=$' \t' read -r candidate version <<< "$line"
-		__sdk_use "$candidate" "$version"
+		local candidate version rest
+		IFS=$' \t' read -r candidate version rest <<< "$line"
 
-		((line_number++))
+		__sdk_use "$candidate" "$version"
 	done < "$sdkmanrc"
 }
 
@@ -51,5 +56,5 @@ function __sdkman_is_blank_line_or_comment() {
 }
 
 function __sdkman_matches_candidate_format() {
-	[[ $1 =~ ^[[:lower:]]+[[:blank:]]+[^[:blank:]]+[[:blank:]]*$ ]]
+	[[ $1 =~ ^[[:blank:]]*[[:lower:]]+[[:blank:]]+[^[:blank:]]+ ]]
 }
