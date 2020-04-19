@@ -39,6 +39,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		sdkrc << [
 			"grails 2.1.0\ngroovy 2.4.1",
 			"grails 2.1.0\ngroovy 2.4.1\n",
+			"  grails 2.1.0\ngroovy 2.4.1\n",
 			"grails 2.1.0  \ngroovy 2.4.1\n",
 			"grails 2.1.0\ngroovy	2.4.1\n",
 		]
@@ -46,7 +47,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 	def "should issue an error if .sdkmanrc contains malformed candidate entries"() {
 		given:
-		new File(bash.workDir, ".sdkmanrc").text = "groovy=2.4.1"
+		new File(bash.workDir, ".sdkmanrc").text = "Groovy 2.4.1"
 
 		when:
 		bash.execute("sdk env")
@@ -58,7 +59,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 	}
 
-	def "should support blank lines and comments"() {
+	def "should support blank lines, comments and inline comments"() {
 		given:
 		new FileTreeBuilder(candidatesDirectory).with {
 			"groovy" {
@@ -70,14 +71,15 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		when:
 		bash.execute("sdk env")
-		
+
 		then:
 		bash.output.contains("Using groovy version 2.4.1 in this shell.")
 
 		where:
 		sdkrc << [
 			"\ngroovy 2.4.1\n",
-			"# this is a comment\ngroovy 2.4.1\n"
+			"# this is a comment\ngroovy 2.4.1\n",
+			"groovy 2.4.1 # this is a comment too\n"
 		]
 	}
 }
