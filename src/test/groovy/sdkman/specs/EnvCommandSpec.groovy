@@ -1,7 +1,9 @@
 package sdkman.specs
 
 import sdkman.support.SdkmanEnvSpecification
+import spock.lang.Unroll
 
+@Unroll
 class EnvCommandSpec extends SdkmanEnvSpecification {
 
 	def setup() {
@@ -37,17 +39,17 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		where:
 		sdkrc << [
-			"grails 2.1.0\ngroovy 2.4.1",
-			"grails 2.1.0\ngroovy 2.4.1\n",
-			"  grails 2.1.0\ngroovy 2.4.1\n",
-			"grails 2.1.0  \ngroovy 2.4.1\n",
-			"grails 2.1.0\ngroovy	2.4.1\n",
+			"grails=2.1.0\ngroovy=2.4.1",
+			"grails=2.1.0\ngroovy=2.4.1\n",
+			"  grails=2.1.0\ngroovy=2.4.1\n",
+			"grails=2.1.0	\ngroovy=2.4.1\n",
+			"grails=2.1.0\ngroovy = 2.4.1\n",
 		]
 	}
 
 	def "should issue an error if .sdkmanrc contains malformed candidate entries"() {
 		given:
-		new File(bash.workDir, ".sdkmanrc").text = "Groovy 2.4.1"
+		new File(bash.workDir, ".sdkmanrc").text = "groovy 2.4.1"
 
 		when:
 		bash.execute("sdk env")
@@ -77,9 +79,9 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		where:
 		sdkrc << [
-			"\ngroovy 2.4.1\n",
-			"# this is a comment\ngroovy 2.4.1\n",
-			"groovy 2.4.1 # this is a comment too\n"
+			"\ngroovy=2.4.1\n",
+			"# this is a comment\ngroovy=2.4.1\n",
+			"groovy=2.4.1 # this is a comment too\n"
 		]
 	}
 }

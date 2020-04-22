@@ -17,7 +17,7 @@
 #
 
 function __sdk_env() {
-	readonly sdkmanrc='.sdkmanrc'
+	readonly sdkmanrc=".sdkmanrc"
 
 	if [[ $1 == 'init' ]]; then
 		cat <<- EOF > "$sdkmanrc"
@@ -28,33 +28,38 @@ function __sdk_env() {
 	fi
 
 	if [[ ! -f "$sdkmanrc" ]]; then
-		__sdkman_echo_red "SDKMAN can't find an .sdkmanrc file in your current directory."
+		__sdkman_echo_red "Could not find .sdkmanrc file in current directory."
 		echo ""
-		__sdkman_echo_yellow "We recommend creating one by entering 'sdk env init'."
+		__sdkman_echo_yellow "Run 'sdk env init' to create it."
 
 		return 1
 	fi
 
 	while IFS= read -r line || [[ -n $line ]]; do
-		__sdkman_is_blank_line_or_comment "$line" && continue
+		local normalised_line=$(__sdkman_normalise "$line")
 
-		if ! __sdkman_matches_candidate_format "$line"; then
-			__sdkman_echo_red "Invalid candidate format! Expected '<candidate> <version>' but found '$line'"
+		[[ -z $normalised_line ]] && continue
+
+		if ! __sdkman_matches_candidate_format "$normalised_line"; then
+			__sdkman_echo_red 'Invalid candidate format!'
+			echo ""
+			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
 
 			return 1
 		fi
 
-		local candidate version rest
-		IFS=$' \t' read -r candidate version rest <<< "$line"
-
-		__sdk_use "$candidate" "$version"
+		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}"
 	done < "$sdkmanrc"
 }
 
-function __sdkman_is_blank_line_or_comment() {
-	[[ $1 =~ ^[[:blank:]]*(\#|$) ]]
+function __sdkman_normalise() {
+	# strip comments
+	local result="${1/\#*/}"
+
+	# strip whitespace
+	printf '%s\n' "${result//[[:space:]]/}"
 }
 
 function __sdkman_matches_candidate_format() {
-	[[ $1 =~ ^[[:blank:]]*[[:lower:]]+[[:blank:]]+[^[:blank:]]+ ]]
+	[[ $1 =~ ^[[:lower:]]+\=.+$ ]]
 }
