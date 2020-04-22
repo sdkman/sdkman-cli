@@ -41,7 +41,7 @@ function __sdk_env() {
 		[[ -z $normalised_line ]] && continue
 
 		if ! __sdkman_matches_candidate_format "$normalised_line"; then
-			__sdkman_echo_red 'Invalid candidate format!'
+			__sdkman_echo_red "Invalid candidate format!"
 			echo ""
 			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
 
@@ -53,11 +53,9 @@ function __sdk_env() {
 }
 
 function __sdkman_normalise() {
-	# strip comments
-	local result="${1/\#*/}"
+	local line_without_comments="${1/\#*/}"
 
-	# strip whitespace
-	printf '%s\n' "${result//[[:space:]]/}"
+	printf '%s\n' "${line_without_comments//[[:space:]]/}"
 }
 
 function __sdkman_matches_candidate_format() {
