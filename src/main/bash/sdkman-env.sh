@@ -17,18 +17,26 @@
 #
 
 function __sdk_env() {
-	readonly sdkmanrc=".sdkmanrc"
+	local sdkmanrc=".sdkmanrc"
 
-	if [[ $1 == 'init' ]]; then
-		cat <<- EOF > "$sdkmanrc"
-		# This file was created by SDKMAN.
-		# 
-		# java=8.0.252-zulu 
-		EOF
+	if [[ "$1" == 'init' ]]; then
+		if [[ -f $sdkmanrc ]]; then
+			__sdkman_echo_red "$sdkmanrc already exists!"
+
+			return 1
+		fi
+
+		__sdkman_determine_current_version "java"
+
+		echo "java=${CURRENT:-11.0.7.hs-adpt}" > "$sdkmanrc"
+
+		__sdkman_echo_green "$sdkmanrc created."
+
+		return 0
 	fi
 
 	if [[ ! -f "$sdkmanrc" ]]; then
-		__sdkman_echo_red "Could not find .sdkmanrc file in current directory."
+		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
 		echo ""
 		__sdkman_echo_yellow "Run 'sdk env init' to create it."
 
@@ -36,12 +44,13 @@ function __sdk_env() {
 	fi
 
 	while IFS= read -r line || [[ -n $line ]]; do
-		local normalised_line=$(__sdkman_normalise "$line")
+		local normalised_line
+		normalised_line=$(__sdkman_normalise "$line")
 
-		[[ -z $normalised_line ]] && continue
+		__sdkman_is_blank_line "$normalised_line" && continue
 
 		if ! __sdkman_matches_candidate_format "$normalised_line"; then
-			__sdkman_echo_red "Invalid candidate format!"
+			__sdkman_echo_red "Invalid candidate version!"
 			echo ""
 			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
 
@@ -52,10 +61,14 @@ function __sdk_env() {
 	done < "$sdkmanrc"
 }
 
+function __sdkman_is_blank_line() {
+	[[ -z $1 ]]
+}
+
 function __sdkman_normalise() {
 	local line_without_comments="${1/\#*/}"
 
-	printf '%s\n' "${line_without_comments//[[:space:]]/}"
+	echo "${line_without_comments//[[:space:]]/}"
 }
 
 function __sdkman_matches_candidate_format() {
