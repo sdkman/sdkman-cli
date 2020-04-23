@@ -16,21 +16,11 @@
 #   limitations under the License.
 #
 
+readonly sdkmanrc=".sdkmanrc"
+
 function __sdk_env() {
-	local sdkmanrc=".sdkmanrc"
-
 	if [[ "$1" == "init" ]]; then
-		if [[ -f "$sdkmanrc" ]]; then
-			__sdkman_echo_red "$sdkmanrc already exists!"
-
-			return 1
-		fi
-
-		__sdkman_determine_current_version "java"
-
-		echo "java=${CURRENT:-11.0.7.hs-adpt}" > "$sdkmanrc"
-
-		__sdkman_echo_green "$sdkmanrc created."
+		__sdkman_generate_sdkmanrc
 
 		return 0
 	fi
@@ -59,6 +49,20 @@ function __sdk_env() {
 
 		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}"
 	done < "$sdkmanrc"
+}
+
+function __sdkman_generate_sdkmanrc() {
+	if [[ -f "$sdkmanrc" ]]; then
+		__sdkman_echo_red "$sdkmanrc already exists!"
+
+		return 1
+	fi
+
+	__sdkman_determine_current_version "java"
+
+	echo "java=${CURRENT:-11.0.7.hs-adpt}" > "$sdkmanrc"
+
+	__sdkman_echo_green "$sdkmanrc created."
 }
 
 function __sdkman_is_blank_line() {

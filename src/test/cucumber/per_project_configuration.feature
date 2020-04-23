@@ -4,7 +4,7 @@ Feature: Per-project configuration
 		Given the internet is reachable
 		And an initialised environment
 
-	Scenario: An sdkman project configuration is created
+	Scenario: An sdkman project configuration is generated
 		Given the system is bootstrapped
 		When I enter "sdk env init"
 		Then I see ".sdkmanrc created."
