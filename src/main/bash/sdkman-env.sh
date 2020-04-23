@@ -17,6 +17,7 @@
 #
 
 readonly sdkmanrc=".sdkmanrc"
+readonly java_fallback_version="11.0.7.hs-adpt"
 
 function __sdk_env() {
 	if [[ "$1" == "init" ]]; then
@@ -60,7 +61,7 @@ function __sdkman_generate_sdkmanrc() {
 
 	__sdkman_determine_current_version "java"
 
-	echo "java=${CURRENT:-11.0.7.hs-adpt}" > "$sdkmanrc"
+	echo "java=${CURRENT:-${java_fallback_version}}" > "$sdkmanrc"
 
 	__sdkman_echo_green "$sdkmanrc created."
 }
