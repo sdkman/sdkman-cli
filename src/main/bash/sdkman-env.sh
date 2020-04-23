@@ -19,8 +19,8 @@
 function __sdk_env() {
 	local sdkmanrc=".sdkmanrc"
 
-	if [[ "$1" == 'init' ]]; then
-		if [[ -f $sdkmanrc ]]; then
+	if [[ "$1" == "init" ]]; then
+		if [[ -f "$sdkmanrc" ]]; then
 			__sdkman_echo_red "$sdkmanrc already exists!"
 
 			return 1
@@ -43,7 +43,7 @@ function __sdk_env() {
 		return 1
 	fi
 
-	while IFS= read -r line || [[ -n $line ]]; do
+	while IFS= read -r line || [[ -n "$line" ]]; do
 		local normalised_line
 		normalised_line=$(__sdkman_normalise "$line")
 
@@ -62,7 +62,7 @@ function __sdk_env() {
 }
 
 function __sdkman_is_blank_line() {
-	[[ -z $1 ]]
+	[[ -z "$1" ]]
 }
 
 function __sdkman_normalise() {
@@ -72,5 +72,5 @@ function __sdkman_normalise() {
 }
 
 function __sdkman_is_candidate_version() {
-	[[ $1 =~ ^[[:lower:]]+\=.+$ ]]
+	[[ "$1" =~ ^[[:lower:]]+\=.+$ ]]
 }
