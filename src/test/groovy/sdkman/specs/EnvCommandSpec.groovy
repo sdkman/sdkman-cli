@@ -62,7 +62,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		then:
 		verifyAll(bash) {
 			status == 1
-			output.contains("Invalid candidate version!")
+			output.contains("Invalid candidate format!")
 		}
 	}
 
