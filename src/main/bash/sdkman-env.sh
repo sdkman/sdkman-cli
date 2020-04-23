@@ -40,8 +40,8 @@ function __sdk_env() {
 
 		__sdkman_is_blank_line "$normalised_line" && continue
 
-		if ! __sdkman_is_candidate_version "$normalised_line"; then
-			__sdkman_echo_red "Invalid candidate version!"
+		if ! __sdkman_matches_candidate_format "$normalised_line"; then
+			__sdkman_echo_red "Invalid candidate format!"
 			echo ""
 			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
 
@@ -76,6 +76,6 @@ function __sdkman_normalise() {
 	echo "${line_without_comments//[[:space:]]/}"
 }
 
-function __sdkman_is_candidate_version() {
+function __sdkman_is_matches_candidate_format() {
 	[[ "$1" =~ ^[[:lower:]]+\=.+$ ]]
 }
