@@ -76,6 +76,6 @@ function __sdkman_normalise() {
 	echo "${line_without_comments//[[:space:]]/}"
 }
 
-function __sdkman_is_matches_candidate_format() {
+function __sdkman_matches_candidate_format() {
 	[[ "$1" =~ ^[[:lower:]]+\=.+$ ]]
 }
