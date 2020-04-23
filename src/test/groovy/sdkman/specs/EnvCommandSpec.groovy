@@ -1,9 +1,7 @@
 package sdkman.specs
 
 import sdkman.support.SdkmanEnvSpecification
-import spock.lang.Unroll
 
-@Unroll
 class EnvCommandSpec extends SdkmanEnvSpecification {
 
 	def setup() {
@@ -13,6 +11,13 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 				.build()
 		bash.start()
 		bash.execute("source $bootstrapScript")
+	}
+
+	def "should create an .sdkmanrc when called with 'init'"() {
+		when:
+		bash.execute("sdk env init")
+		then:
+		new File(bash.workDir,'.sdkmanrc').text == "java=11.0.7.hs-adpt\n"
 	}
 
 	def "should use the candidates contained in .sdkmanrc"() {
@@ -47,7 +52,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		]
 	}
 
-	def "should issue an error if .sdkmanrc contains malformed candidate entries"() {
+	def "should issue an error if .sdkmanrc contains malformed candidate versions"() {
 		given:
 		new File(bash.workDir, ".sdkmanrc").text = "groovy 2.4.1"
 
@@ -57,7 +62,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		then:
 		verifyAll(bash) {
 			status == 1
-			output.contains("Invalid candidate format!")
+			output.contains("Invalid candidate version!")
 		}
 	}
 

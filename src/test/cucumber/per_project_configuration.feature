@@ -4,11 +4,16 @@ Feature: Per-project configuration
 		Given the internet is reachable
 		And an initialised environment
 
+	Scenario: An sdkman project configuration is created
+		Given the system is bootstrapped
+		When I enter "sdk env init"
+		Then I see ".sdkmanrc created."
+
 	Scenario: The env command is issued without an sdkman project configuration present
 		Given the system is bootstrapped
 		When I enter "sdk env"
-		Then I see "No .sdkmanrc file found."
-		And I see "Please create one before using this command."
+		Then I see "Could not find .sdkmanrc in the current directory."
+		And I see "Run 'sdk env init' to create it."
 		And the exit code is 1
 
 	Scenario: The env command is issued with an sdkman project configuration present
