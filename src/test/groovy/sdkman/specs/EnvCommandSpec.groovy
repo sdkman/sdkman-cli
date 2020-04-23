@@ -13,7 +13,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		bash.execute("source $bootstrapScript")
 	}
 
-	def "should create an .sdkmanrc when called with 'init'"() {
+	def "should generate an .sdkmanrc when called with 'init'"() {
 		when:
 		bash.execute("sdk env init")
 		then:
