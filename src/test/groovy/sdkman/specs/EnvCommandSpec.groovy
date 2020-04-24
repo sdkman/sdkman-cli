@@ -3,21 +3,28 @@ package sdkman.specs
 import sdkman.support.SdkmanEnvSpecification
 
 class EnvCommandSpec extends SdkmanEnvSpecification {
+	static final String CANDIDATES_API = "http://localhost:8080/2"
 
-	def setup() {
-		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
-				.withOfflineMode(true)
-				.build()
-		bash.start()
-		bash.execute("source $bootstrapScript")
-	}
+	static final String BROADCAST_API_LATEST_ID_ENDPOINT = "$CANDIDATES_API/broadcast/latest/id"
+	static final String CANDIDATES_DEFAULT_JAVA = "$CANDIDATES_API/candidates/default/java"
 
 	def "should generate an .sdkmanrc when called with 'init'"() {
+		given:
+		curlStub.primeWith(BROADCAST_API_LATEST_ID_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")
+				.primeWith(CANDIDATES_DEFAULT_JAVA, "echo 11.0.6.hs-adpt")
+
+		bash = sdkmanBashEnvBuilder
+			.withVersionCache("x.y.z")
+			.build()
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+
 		when:
 		bash.execute("sdk env init")
+
 		then:
-		new File(bash.workDir,'.sdkmanrc').text == "java=11.0.7.hs-adpt\n"
+		new File(bash.workDir, '.sdkmanrc').text == "java=11.0.6.hs-adpt\n"
 	}
 
 	def "should use the candidates contained in .sdkmanrc"() {
@@ -31,8 +38,16 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 			}
 		}
 
-		new File(bash.workDir, '.sdkmanrc').text = sdkrc
+		bash = sdkmanBashEnvBuilder
+			.withVersionCache("x.y.z")
+			.withOfflineMode(true)
+			.build()
 
+		new File(bash.workDir, '.sdkmanrc').text = sdkmanrc
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+		
 		when:
 		bash.execute("sdk env")
 
@@ -43,7 +58,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		where:
-		sdkrc << [
+		sdkmanrc << [
 			"grails=2.1.0\ngroovy=2.4.1",
 			"grails=2.1.0\ngroovy=2.4.1\n",
 			"  grails=2.1.0\ngroovy=2.4.1\n",
@@ -52,9 +67,17 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		]
 	}
 
-	def "should issue an error if .sdkmanrc contains malformed candidate versions"() {
+	def "should issue an error if .sdkmanrc contains a malformed candidate version"() {
 		given:
+		bash = sdkmanBashEnvBuilder
+			.withVersionCache("x.y.z")
+			.withOfflineMode(true)
+			.build()
+
 		new File(bash.workDir, ".sdkmanrc").text = "groovy 2.4.1"
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
 
 		when:
 		bash.execute("sdk env")
@@ -74,7 +97,15 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 			}
 		}
 
-		new File(bash.workDir, ".sdkmanrc").text = sdkrc
+		bash = sdkmanBashEnvBuilder
+			.withVersionCache("x.y.z")
+			.withOfflineMode(true)
+			.build()
+
+		new File(bash.workDir, ".sdkmanrc").text = sdkmanrc
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
 
 		when:
 		bash.execute("sdk env")
@@ -83,7 +114,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		bash.output.contains("Using groovy version 2.4.1 in this shell.")
 
 		where:
-		sdkrc << [
+		sdkmanrc << [
 			"\ngroovy=2.4.1\n",
 			"# this is a comment\ngroovy=2.4.1\n",
 			"groovy=2.4.1 # this is a comment too\n"

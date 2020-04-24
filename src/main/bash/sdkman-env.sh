@@ -16,18 +16,17 @@
 #   limitations under the License.
 #
 
-readonly sdkmanrc=".sdkmanrc"
-readonly java_fallback_version="11.0.7.hs-adpt"
-
 function __sdk_env() {
+	SDKMANRC=".sdkmanrc"
+
 	if [[ "$1" == "init" ]]; then
 		__sdkman_generate_sdkmanrc
 
 		return 0
 	fi
 
-	if [[ ! -f "$sdkmanrc" ]]; then
-		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
+	if [[ ! -f "$SDKMANRC" ]]; then
+		__sdkman_echo_red "Could not find $SDKMANRC in the current directory."
 		echo ""
 		__sdkman_echo_yellow "Run 'sdk env init' to create it."
 
@@ -36,7 +35,7 @@ function __sdk_env() {
 
 	while IFS= read -r line || [[ -n "$line" ]]; do
 		local normalised_line
-		normalised_line=$(__sdkman_normalise "$line")
+		normalised_line="$(__sdkman_normalise "$line")"
 
 		__sdkman_is_blank_line "$normalised_line" && continue
 
@@ -49,21 +48,24 @@ function __sdk_env() {
 		fi
 
 		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}"
-	done < "$sdkmanrc"
+	done < "$SDKMANRC"
 }
 
 function __sdkman_generate_sdkmanrc() {
-	if [[ -f "$sdkmanrc" ]]; then
-		__sdkman_echo_red "$sdkmanrc already exists!"
+	if [[ -f "$SDKMANRC" ]]; then
+		__sdkman_echo_red "$SDKMANRC already exists!"
 
 		return 1
 	fi
 
 	__sdkman_determine_current_version "java"
 
-	echo "java=${CURRENT:-${java_fallback_version}}" > "$sdkmanrc"
+	local version
+	[[ -n "$CURRENT" ]] && version="$CURRENT" || version="$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/default/java")"
 
-	__sdkman_echo_green "$sdkmanrc created."
+	echo "java=$version" > "$SDKMANRC"
+
+	__sdkman_echo_green "$SDKMANRC created."
 }
 
 function __sdkman_is_blank_line() {

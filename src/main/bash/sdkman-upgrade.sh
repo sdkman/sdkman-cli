@@ -103,7 +103,7 @@ function __sdkman_determine_upgradable_version() {
 	fi
 
 	# Resolve remote default version
-	remote_default_version="$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/default/${candidate}")"
+	remote_default_version=x
 	if [ -z "$remote_default_version" ]; then
 		return 2
 	fi
