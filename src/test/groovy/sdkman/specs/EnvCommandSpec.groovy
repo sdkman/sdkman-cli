@@ -2,6 +2,10 @@ package sdkman.specs
 
 import sdkman.support.SdkmanEnvSpecification
 
+import java.nio.file.Paths
+
+import static java.nio.file.Files.createSymbolicLink
+
 class EnvCommandSpec extends SdkmanEnvSpecification {
 	static final String CANDIDATES_API = "http://localhost:8080/2"
 
@@ -11,7 +15,44 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 	def "should generate an .sdkmanrc when called with 'init'"() {
 		given:
 		curlStub.primeWith(BROADCAST_API_LATEST_ID_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")
-				.primeWith(CANDIDATES_DEFAULT_JAVA, "echo 11.0.6.hs-adpt")
+			    .primeWith(CANDIDATES_DEFAULT_JAVA, "echo 11.0.6.hs-adpt")
+
+		setupCandidates(candidatesDirectory)
+
+		bash = sdkmanBashEnvBuilder
+			.withOfflineMode(true)
+			.withVersionCache("x.y.z")
+			.build()
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+
+		when:
+		bash.execute("sdk env init")
+
+		then:
+		new File(bash.workDir, '.sdkmanrc').text == expected
+
+		where:
+		setupCandidates << [
+			{ directory ->
+				new FileTreeBuilder(directory).with {
+					"java" {
+						"8.0.252.hs" {
+							"bin" {}
+						}
+					}
+				}
+
+				createSymbolicLink(Paths.get("$directory/java/current"), Paths.get("$directory/java/8.0.252.hs"))
+			},
+			{}
+		]
+		expected << ["java=8.0.252.hs\n", "java=11.0.6.hs-adpt\n"]
+	}
+
+	def "should generate an .sdkmanrc with the default Java version when called with 'init'"() {
+		given:
 
 		bash = sdkmanBashEnvBuilder
 			.withVersionCache("x.y.z")
@@ -47,7 +88,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		bash.start()
 		bash.execute("source $bootstrapScript")
-		
+
 		when:
 		bash.execute("sdk env")
 
