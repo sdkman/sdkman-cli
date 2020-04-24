@@ -51,23 +51,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		expected << ["java=8.0.252.hs\n", "java=11.0.6.hs-adpt\n"]
 	}
 
-	def "should generate an .sdkmanrc with the default Java version when called with 'init'"() {
-		given:
-
-		bash = sdkmanBashEnvBuilder
-			.withVersionCache("x.y.z")
-			.build()
-
-		bash.start()
-		bash.execute("source $bootstrapScript")
-
-		when:
-		bash.execute("sdk env init")
-
-		then:
-		new File(bash.workDir, '.sdkmanrc').text == "java=11.0.6.hs-adpt\n"
-	}
-
 	def "should use the candidates contained in .sdkmanrc"() {
 		given:
 		new FileTreeBuilder(candidatesDirectory).with {
