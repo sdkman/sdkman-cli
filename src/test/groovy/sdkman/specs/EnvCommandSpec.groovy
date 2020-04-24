@@ -46,7 +46,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 				createSymbolicLink(Paths.get("$directory/java/current"), Paths.get("$directory/java/8.0.252.hs"))
 			},
-			{}
+			{} // NOOP
 		]
 		expected << ["java=8.0.252.hs\n", "java=11.0.6.hs-adpt\n"]
 	}
