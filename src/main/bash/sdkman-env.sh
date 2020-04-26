@@ -17,16 +17,17 @@
 #
 
 function __sdk_env() {
-	SDKMANRC=".sdkmanrc"
+	local -r sdkmanrc=".sdkmanrc"
+	local sub_command="$1"
 
-	if [[ "$1" == "init" ]]; then
-		__sdkman_generate_sdkmanrc
+	if [[ "$sub_command" == "init" ]]; then
+		__sdkman_generate_sdkmanrc "$sdkmanrc"
 
 		return 0
 	fi
 
-	if [[ ! -f "$SDKMANRC" ]]; then
-		__sdkman_echo_red "Could not find $SDKMANRC in the current directory."
+	if [[ ! -f "$sdkmanrc" ]]; then
+		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
 		echo ""
 		__sdkman_echo_yellow "Run 'sdk env init' to create it."
 
@@ -48,12 +49,14 @@ function __sdk_env() {
 		fi
 
 		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}"
-	done < "$SDKMANRC"
+	done < "$sdkmanrc"
 }
 
 function __sdkman_generate_sdkmanrc() {
-	if [[ -f "$SDKMANRC" ]]; then
-		__sdkman_echo_red "$SDKMANRC already exists!"
+	local -r sdkmanrc="$1"
+
+	if [[ -f "$sdkmanrc" ]]; then
+		__sdkman_echo_red "$sdkmanrc already exists!"
 
 		return 1
 	fi
@@ -63,9 +66,9 @@ function __sdkman_generate_sdkmanrc() {
 	local version
 	[[ -n "$CURRENT" ]] && version="$CURRENT" || version="$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/default/java")"
 
-	echo "java=$version" > "$SDKMANRC"
+	echo "java=$version" > "$sdkmanrc"
 
-	__sdkman_echo_green "$SDKMANRC created."
+	__sdkman_echo_green "$sdkmanrc created."
 }
 
 function __sdkman_is_blank_line() {
