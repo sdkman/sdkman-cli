@@ -132,4 +132,10 @@ done
 unset OLD_IFS candidate_name candidate_dir
 export PATH
 
-PROMPT_COMMAND=${PROMPT_COMMAND%,}:__sdkman_auto_env
+function sdkman_auto_env() {
+	[[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]] && sdk env
+
+	export SDKMAN_OLD_PWD="$PWD"
+}
+
+PROMPT_COMMAND=${PROMPT_COMMAND%,}:sdkman_auto_env
