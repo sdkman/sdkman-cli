@@ -18,7 +18,7 @@
 
 function __sdk_env() {
 	local -r sdkmanrc=".sdkmanrc"
-	local sub_command="$1"
+	local -r sub_command="$1"
 
 	if [[ "$sub_command" == "init" ]]; then
 		__sdkman_generate_sdkmanrc "$sdkmanrc"
