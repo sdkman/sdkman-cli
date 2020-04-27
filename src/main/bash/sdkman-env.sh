@@ -76,7 +76,7 @@ function __sdkman_is_blank_line() {
 }
 
 function __sdkman_normalise() {
-	local line_without_comments="${1/\#*/}"
+	local -r line_without_comments="${1/\#*/}"
 
 	echo "${line_without_comments//[[:space:]]/}"
 }
