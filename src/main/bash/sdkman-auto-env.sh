@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function sdkman_auto_env() {
+function ___sdkman_auto_env() {
 	[[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]] && sdk env
 
 	export SDKMAN_OLD_PWD="$PWD"

@@ -131,3 +131,5 @@ for candidate_name in "${SDKMAN_CANDIDATES[@]}"; do
 done
 unset OLD_IFS candidate_name candidate_dir
 export PATH
+
+PROMPT_COMMAND=${PROMPT_COMMAND%,}:__sdkman_auto_env
