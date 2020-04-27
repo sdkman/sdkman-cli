@@ -145,5 +145,5 @@ else
 		export SDKMAN_OLD_PWD="$PWD"
 	}
 
-	PROMPT_COMMAND=${PROMPT_COMMAND%,}:sdkman_auto_env
+	PROMPT_COMMAND=${PROMPT_COMMAND%;}:sdkman_auto_env
 fi
