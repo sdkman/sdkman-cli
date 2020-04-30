@@ -84,5 +84,6 @@ function __sdkman_link_candidate_version() {
 	if [[ -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]]; then
 		rm -f "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 	fi
-	ln -s "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+
+	ln -s "${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 }
