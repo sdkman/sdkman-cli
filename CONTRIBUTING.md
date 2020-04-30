@@ -1,20 +1,18 @@
 ## Contributing
 
-We greatly value the feedback and contributions of our users. We have a simple process in place to facilitate this:
+We greatly value the feedback and contributions of our users.
 
-### Bugs and New Features
-
-We keep a distinction between New Features and Bugs/Issues. We try to minimise the noise in our Github Issues stream by first having a conversation on [SDKMAN Slack](https://slack.sdkman.io). Simply sign up and join one of the following channels:
+We keep a distinction between Bugs/Issues, New Features and Support Requests. We also try to minimise the noise in our GitHub Issues stream and prefer having a conversation on [SDKMAN Slack](https://slack.sdkman.io) before creating new issues, if you are not fully sure how to categorize your request. Simply sign up and join one of the following channels:
 
 - User Issues can be raised in our [User Issues channel](https://sdkman.slack.com/app_redirect?channel=user-issues).
 - New Features or Enhancements can be discussed in our [CLI Development channel](https://sdkman.slack.com/app_redirect?channel=cli-development).
 
-After accepting a new feature or confirming that a bug was found, an Issue may be raised filling in the provided Issue Template on the [GitHub Issue Tracker](https://github.com/sdkman/sdkman-cli/issues/new).
+The [GitHub Issue Tracker](https://github.com/sdkman/sdkman-cli/issues/new) provides templates for required informations.
 
-**Unfortunately we will close any Github Issues that have not followed this process of prior discussion.**
+**Unfortunately we might simply close any Github Issues that has not followed the requested template.**
 
 ### Pull Requests
 
-Pull Requests are _always_ very welcome, but require the initial discussion on Slack followed by a Github Issue as described above. The PR template is to be filled in before submission, ensuring that it is _linked back_ to the Github Issue number by replacing `#XXX` with the appropriate Issue reference.
+Pull Requests are _always_ very welcome, but require a valid GitHub Issue as decribed above. The PR template is to be filled in before submission, ensuring that it is _linked back_ to the Github Issue number by replacing `#XXX` with the appropriate issue reference.
 
-Each PR should also be accompanied by a passing test(s) proving it's validity (where feasible). The feasibility of the test will emerge in the initial discussions on Slack and in the Github Issue.
+Each PR should also be accompanied by a passing test(s) proving it's validity (where feasible). The feasibility of the test will emerge in the initial discussions of the issue.
