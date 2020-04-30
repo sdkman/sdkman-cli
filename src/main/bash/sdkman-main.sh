@@ -55,6 +55,9 @@ function sdk() {
 	h)
 		COMMAND="home"
 		;;
+	e)
+		COMMAND="env"
+		;;
 	esac
 
 	if [[ "$COMMAND" == "home" ]]; then
@@ -113,7 +116,7 @@ function sdk() {
 
 	# Check whether the candidate exists
 	local sdkman_valid_candidate=$(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER")
-	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && -z "$sdkman_valid_candidate" ]]; then
+	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && -z "$sdkman_valid_candidate" ]]; then
 		echo ""
 		__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
 		return 1

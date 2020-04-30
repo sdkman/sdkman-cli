@@ -21,53 +21,52 @@ function __sdk_update() {
 	__sdkman_echo_debug "Using candidates endpoint: $candidates_uri"
 
 	local fresh_candidates_csv=$(__sdkman_secure_curl_with_timeouts "$candidates_uri")
-	local detect_html="$(echo "$fresh_candidates" | tr '[:upper:]' '[:lower:]' | grep 'html')"
-
-	local fresh_candidates=("")
-	local cached_candidates=("")
-
-	if [[ "$zsh_shell" == 'true' ]]; then
-		fresh_candidates=( ${(s:,:)fresh_candidates_csv} )
-		cached_candidates=( ${(s:,:)SDKMAN_CANDIDATES_CSV} )
-	else
-		OLD_IFS="$IFS"
-		IFS=","
-		fresh_candidates=(${fresh_candidates_csv})
-		cached_candidates=(${SDKMAN_CANDIDATES_CSV})
-		IFS="$OLD_IFS"
-	fi
 
 	__sdkman_echo_debug "Local candidates: $SDKMAN_CANDIDATES_CSV"
 	__sdkman_echo_debug "Fetched candidates: $fresh_candidates_csv"
 
-	if [[ -n "$fresh_candidates_csv" && -z "$detect_html" ]]; then
+	if [[ -n "${fresh_candidates_csv}" ]] && ! grep -iq 'html' <<< "${fresh_candidates_csv}"; then
 		# legacy bash workaround
 		if [[ "$bash_shell" == 'true' && "$BASH_VERSINFO" -lt 4 ]]; then
 			__sdkman_legacy_bash_message
-			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
+			echo "$fresh_candidates_csv" >| "$SDKMAN_CANDIDATES_CACHE"
 			return 0
 		fi
 
-		local fresh_candidates_length=${#fresh_candidates_csv}
-		local cached_candidates_length=${#SDKMAN_CANDIDATES_CSV}
-		__sdkman_echo_debug "Fresh and cached candidate lengths: $fresh_candidates_length $cached_candidates_length"
+		__sdkman_echo_debug "Fresh and cached candidate lengths: ${#fresh_candidates_csv} ${#SDKMAN_CANDIDATES_CSV}"
 
-		local diff_candidates=$(echo ${fresh_candidates[@]} ${cached_candidates[@]} | tr ' ' '\n' | sort | uniq -u | tr '\n' ' ')
-		if (( fresh_candidates_length > cached_candidates_length )); then
-			echo ""
-			__sdkman_echo_green "Adding new candidates(s): $diff_candidates"
-			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
-			echo ""
-			__sdkman_echo_yellow "Please open a new terminal now..."
-		elif (( fresh_candidates_length < cached_candidates_length )); then
-			echo ""
-			__sdkman_echo_green "Removing obsolete candidates(s): $diff_candidates"
-			echo "$fresh_candidates_csv" > "$SDKMAN_CANDIDATES_CACHE"
-			echo ""
-			__sdkman_echo_yellow "Please open a new terminal now..."
+		local fresh_candidates combined_candidates diff_candidates
+
+		if [[ "${zsh_shell}" == 'true' ]]; then
+			fresh_candidates=(${(s:,:)fresh_candidates_csv})
 		else
-			touch "$SDKMAN_CANDIDATES_CACHE"
-			__sdkman_echo_green "No new candidates found at this time."
+			IFS=',' read -a fresh_candidates <<< "${fresh_candidates_csv}"
+		fi
+
+		combined_candidates=("${fresh_candidates[@]}" "${SDKMAN_CANDIDATES[@]}")
+
+		diff_candidates=($(printf $'%s\n' "${combined_candidates[@]}" | sort | uniq -u))
+
+		if ((${#diff_candidates[@]})); then
+			local delta
+
+			delta=("${fresh_candidates[@]}" "${diff_candidates[@]}")
+			delta=($(printf $'%s\n' "${delta[@]}" | sort | uniq -d))
+			if ((${#delta[@]})); then
+				__sdkman_echo_green "\nAdding new candidates(s): ${delta[*]}"
+			fi
+
+			delta=("${SDKMAN_CANDIDATES[@]}" "${diff_candidates[@]}")
+			delta=($(printf $'%s\n' "${delta[@]}" | sort | uniq -d))
+			if ((${#delta[@]})); then
+				__sdkman_echo_green "\nRemoving obsolete candidates(s): ${delta[*]}"
+			fi
+
+			echo "${fresh_candidates_csv}" >| "${SDKMAN_CANDIDATES_CACHE}"
+			__sdkman_echo_yellow $'\nPlease open a new terminal now...'
+		else
+			touch "${SDKMAN_CANDIDATES_CACHE}"
+			__sdkman_echo_green $'\nNo new candidates found at this time.'
 		fi
 	fi
 }
