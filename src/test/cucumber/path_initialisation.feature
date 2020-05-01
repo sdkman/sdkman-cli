@@ -17,7 +17,7 @@ Feature: Path Initialisation
 		And I enter "echo $PATH"
 		Then I see a single occurrence of "grails"
 
-	Scenario: Install a candidate and see it on the PATH
+	Scenario: sdkman is initialised without candidates
 		Given the system is bootstrapped
 		When I enter "echo $PATH"
 		Then I see no occurrences of "grails"
