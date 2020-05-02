@@ -31,7 +31,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		bash.execute("sdk env init")
 
 		then:
-		new File(bash.workDir, '.sdkmanrc').text == expected
+		new File(bash.workDir, '.sdkmanrc').text.contains(expected)
 
 		where:
 		setupCandidates << [
