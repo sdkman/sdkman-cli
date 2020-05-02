@@ -66,7 +66,9 @@ function __sdkman_generate_sdkmanrc() {
 	local version
 	[[ -n "$CURRENT" ]] && version="$CURRENT" || version="$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/default/java")"
 
-	echo "java=$version" > "$sdkmanrc"
+	echo "# Enable auto-env through the sdkman_auto_env config" > "$sdkmanrc"
+	echo "# Add key=value pairs of SDKs to use below" >> "$sdkmanrc"
+	echo "java=$version" >> "$sdkmanrc"
 
 	__sdkman_echo_green "$sdkmanrc created."
 }
