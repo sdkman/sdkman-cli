@@ -82,7 +82,7 @@ for f in "${scripts[@]}"; do
 	source "$f"
 done
 IFS="$OLD_IFS"
-unset scripts f
+unset OLD_IFS scripts f
 
 # Load the sdkman config if it exists.
 if [ -f "${SDKMAN_DIR}/etc/config" ]; then
@@ -114,10 +114,7 @@ __sdkman_echo_debug "Setting candidates csv: $SDKMAN_CANDIDATES_CSV"
 if [[ "$zsh_shell" == 'true' ]]; then
 	SDKMAN_CANDIDATES=(${(s:,:)SDKMAN_CANDIDATES_CSV})
 else
-	OLD_IFS="$IFS"
-	IFS=","
-	SDKMAN_CANDIDATES=(${SDKMAN_CANDIDATES_CSV})
-	IFS="$OLD_IFS"
+	IFS=',' read -a SDKMAN_CANDIDATES <<< "${SDKMAN_CANDIDATES_CSV}"
 fi
 
 export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
@@ -129,5 +126,5 @@ for candidate_name in "${SDKMAN_CANDIDATES[@]}"; do
 		__sdkman_prepend_candidate_to_path "$candidate_dir"
 	fi
 done
-unset OLD_IFS candidate_name candidate_dir
+unset candidate_name candidate_dir
 export PATH
