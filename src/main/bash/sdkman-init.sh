@@ -132,18 +132,20 @@ done
 unset OLD_IFS candidate_name candidate_dir
 export PATH
 
-if [[ "$zsh_shell" == "true" ]]; then
-	function sdkman_auto_env() {
-		[[ -f ".sdkmanrc" ]] && sdk env
-	}
+if [[ "$sdkman_auto_env" == "true" ]]; then
+	if [[ "$zsh_shell" == "true" ]]; then
+		function sdkman_auto_env() {
+			 [[ -f ".sdkmanrc" ]] && sdk env
+		}
 
-	chpwd_functions+=(sdkman_auto_env)
-else
-	function sdkman_auto_env() {
-		[[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]] && sdk env
+		chpwd_functions+=(sdkman_auto_env)
+	else
+		function sdkman_auto_env() {
+			[[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]] && sdk env
 
-		export SDKMAN_OLD_PWD="$PWD"
-	}
+			export SDKMAN_OLD_PWD="$PWD"
+		}
 
-	PROMPT_COMMAND="${PROMPT_COMMAND%\;};sdkman_auto_env"
+		[[ -z "$PROMPT_COMMAND" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${PROMPT_COMMAND%\;};sdkman_auto_env"
+	fi
 fi
