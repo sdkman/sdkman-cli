@@ -34,8 +34,8 @@ function __sdk_env() {
 		return 1
 	fi
 
+	local normalised_line
 	while IFS= read -r line || [[ -n "$line" ]]; do
-		local normalised_line
 		normalised_line="$(__sdkman_normalise "$line")"
 
 		__sdkman_is_blank_line "$normalised_line" && continue
