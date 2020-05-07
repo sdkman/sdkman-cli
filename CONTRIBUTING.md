@@ -9,7 +9,7 @@ We keep a distinction between Bugs/Issues, New Features and Support Requests. We
 
 The [GitHub Issue Tracker](https://github.com/sdkman/sdkman-cli/issues/new) provides templates for required informations.
 
-**Unfortunately we might simply close any Github Issues that has not followed the requested template.**
+**Unfortunately we might simply close any Github Issues that have not followed the requested template.**
 
 ### Pull Requests
 

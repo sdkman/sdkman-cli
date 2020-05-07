@@ -18,4 +18,8 @@ Please consider the following things. Note, that ignoring all of these might lea
 <!-- A clear and concise description of the issue you are encountering -->
 
 **System info**
-<!-- Please add relevant information about your system, e.g. Win/Linux, OS version, (WSL?), etc. Please also include the output of `sdk version` -->
+<!-- Please add relevant information about your system:
+- OS (e.g. Windows, Linux, Mac, Cygwin, WSL, etc.) and version
+- Shell and version (e.g. `bash --version`/`zsh --version`)
+- The output of `sdk version`
+-->
