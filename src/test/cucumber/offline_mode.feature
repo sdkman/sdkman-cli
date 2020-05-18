@@ -76,17 +76,6 @@ Feature: Offline Mode
 		When I enter "sdk list grails"
 		Then I see "Offline: only showing installed grails versions"
 
-	# use version
-
-	Scenario: Use an uninstalled candidate version while in Offline Mode
-		Given offline mode is enabled with reachable internet
-		And the candidate "grails" version "1.3.9" is already installed and default
-		And the candidate "grails" version "2.1.0" is not installed
-		And an initialised environment
-		And the system is bootstrapped
-		When I enter "sdk use grails 2.1.0"
-		Then I see "Stop! grails 2.1.0 is not available while offline."
-
 	# default version
 
 	Scenario: Set the default to an uninstalled candidate version while in Offline Mode
