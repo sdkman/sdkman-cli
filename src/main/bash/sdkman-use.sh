@@ -23,33 +23,32 @@ function __sdk_use() {
 	version="$2"
 	__sdkman_check_version_present "$version" || return 1
 	__sdkman_check_candidate_present "$candidate" || return 1
-	__sdkman_determine_version "$candidate" "$version" || return 1
 
-	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
+	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
 		echo ""
-		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is not installed."
+		__sdkman_echo_red "Stop! ${candidate} ${version} is not installed."
 		return 1
 	fi
 
 	# Just update the *_HOME and PATH for this shell.
-	__sdkman_set_candidate_home "$candidate" "$VERSION"
+	__sdkman_set_candidate_home "$candidate" "$version"
 
 	# Replace the current path for the candidate with the selected version.
 	if [[ "$solaris" == true ]]; then
-		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
+		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
 
 	elif [[ "$darwin" == true ]]; then
-		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
+		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
 
 	else
-		export PATH=$(echo "$PATH" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}!g")
+		export PATH=$(echo "$PATH" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
 	fi
 
 	if [[ ! (-L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current") ]]; then
-		__sdkman_echo_green "Setting ${candidate} version ${VERSION} as default."
-		__sdkman_link_candidate_version "$candidate" "$VERSION"
+		__sdkman_echo_green "Setting ${candidate} version ${version} as default."
+		__sdkman_link_candidate_version "$candidate" "$version"
 	fi
 
 	echo ""
-	__sdkman_echo_green "Using ${candidate} version ${VERSION} in this shell."
+	__sdkman_echo_green "Using ${candidate} version ${version} in this shell."
 }

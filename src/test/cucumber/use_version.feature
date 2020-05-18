@@ -20,17 +20,10 @@ Feature: Use Version
 		And the candidate "grails" version "2.1.0" should be the default
 
 	Scenario: Use a candidate version that is not installed
-		Given the candidate "grails" version "1.3.9" is available for download
-		And the system is bootstrapped
-		When I enter "sdk use grails 1.3.9"
-		Then I see "Stop! grails 1.3.9 is not installed."
-		And the exit code is 1
-
-	Scenario: Use a candidate version that does not exist
 		Given the candidate "groovy" version "1.9.9" is not available for download
 		And the system is bootstrapped
 		When I enter "sdk use groovy 1.9.9"
-		Then I see "Stop! groovy 1.9.9 is not available."
+		Then I see "Stop! groovy 1.9.9 is not installed."
 
 	Scenario: Use a candidate version that only exists locally
 		Given the candidate "grails" version "2.0.0.M1" is not available for download
