@@ -3,7 +3,14 @@ package sdkman.support
 class UnixUtils {
 
 	static getPlatform() {
-		asSdkmanPlatform(System.getProperty("os.name"))
+		def os = System.getProperty("os.name")
+		def arch = System.getProperty("os.arch")
+
+		if("aarch64".equals(arch)) {
+			asSdkmanPlatform("LinuxARM64")
+		} else {
+			asSdkmanPlatform(os)
+		}
 	}
 
 	static asSdkmanPlatform(platform) {
