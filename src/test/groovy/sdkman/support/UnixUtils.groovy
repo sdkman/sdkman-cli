@@ -3,17 +3,14 @@ package sdkman.support
 class UnixUtils {
 
 	static getPlatform() {
-		def os = System.getProperty("os.name")
-		def arch = System.getProperty("os.arch")
-
-		if("aarch64".equals(arch)) {
-			asSdkmanPlatform("LinuxARM64")
-		} else {
-			asSdkmanPlatform(os)
-		}
+		asSdkmanPlatform(System.getProperty("os.name"), System.getProperty("os.arch"))
 	}
 
-	static asSdkmanPlatform(platform) {
+	static asSdkmanPlatform(platform, architecture = null) {
+		if("aarch64".equals(architecture)) {
+			platform += architecture
+		}
+
 		def result
 		switch (platform) {
 			case "Mac OS X":
@@ -28,6 +25,9 @@ class UnixUtils {
 			case "Linux 32":
 				result = "Linux32"
 				break
+			case "Linuxaarch64":
+				result = "LinuxARM64"
+				break;
 			case "FreeBSD":
 				result = "FreeBSD"
 				break
