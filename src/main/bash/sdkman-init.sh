@@ -34,6 +34,8 @@ SDKMAN_PLATFORM="$(uname)"
 if [[ "$SDKMAN_PLATFORM" == 'Linux' ]]; then
 	if [[ "$(uname -m)" == 'i686' ]]; then
 		SDKMAN_PLATFORM+='32'
+	elif [[ "$(uname -m)" == 'aarch64' ]]; then
+		SDKMAN_PLATFORM+='ARM64'
 	else
 		SDKMAN_PLATFORM+='64'
 	fi
