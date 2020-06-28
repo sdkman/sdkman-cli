@@ -7,7 +7,7 @@ class UnixUtils {
 	}
 
 	static asSdkmanPlatform(platform, architecture = null) {
-		if("aarch64".equals(architecture)) {
+		if("aarch64" == architecture) {
 			platform += architecture
 		}
 
@@ -27,7 +27,7 @@ class UnixUtils {
 				break
 			case "Linuxaarch64":
 				result = "LinuxARM64"
-				break;
+				break
 			case "FreeBSD":
 				result = "FreeBSD"
 				break
