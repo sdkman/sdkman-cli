@@ -68,7 +68,7 @@ Feature: Service Unavailable
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the system is bootstrapped
 		When I enter "sdk install grails 2.1.0"
-		Then I see "Stop! grails 2.1.0 is already installed."
+		Then I see "grails 2.1.0 is already installed."
 
 	# uninstall command
 

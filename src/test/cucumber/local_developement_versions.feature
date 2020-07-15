@@ -17,7 +17,7 @@ Feature: Local Development Versions
 		And the candidate "groovy" version "2.1-SNAPSHOT" is already linked to "/tmp/groovy-core"
 		And the system is bootstrapped
 		When I enter "sdk install groovy 2.1-SNAPSHOT /tmp/groovy-core"
-		Then I see "Stop! groovy 2.1-SNAPSHOT is already installed."
+		Then I see "groovy 2.1-SNAPSHOT is already installed."
 		And the candidate "groovy" version "2.1-SNAPSHOT" is linked to "/tmp/groovy-core"
 
 	Scenario: Uninstall a local development version
