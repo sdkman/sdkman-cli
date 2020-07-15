@@ -28,8 +28,8 @@ function __sdk_install() {
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" || -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
 		echo ""
-		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is already installed."
-		return 1
+		__sdkman_echo_yellow "${candidate} ${VERSION} is already installed."
+		return 0
 	fi
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then

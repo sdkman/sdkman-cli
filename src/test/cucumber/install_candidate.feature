@@ -35,8 +35,8 @@ Feature: Install Candidate
 		And the candidate "grails" version "1.3.9" is available for download
 		And the candidate "grails" version "1.3.9" is already installed and default
 		When I enter "sdk install grails 1.3.9"
-		Then I see "Stop! grails 1.3.9 is already installed."
-		And the exit code is 1
+		Then I see "grails 1.3.9 is already installed."
+		And the exit code is 0
 
 	Scenario: Install a candidate and auto-answer to make it default
 		Given the system is bootstrapped
