@@ -6,7 +6,7 @@ class UnixUtils {
 		asSdkmanPlatform(System.getProperty("os.name"), System.getProperty("os.arch"))
 	}
 
-	static asSdkmanPlatform(platform, architecture = null) {
+	static asSdkmanPlatform(platform, architecture) {
 		if("aarch64" == architecture) {
 			platform += architecture
 		}
