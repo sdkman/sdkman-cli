@@ -146,5 +146,5 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 		[[ -z "$PROMPT_COMMAND" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${PROMPT_COMMAND%\;};sdkman_auto_env"
 	fi
 
-  sdkman_auto_env
+	sdkman_auto_env
 fi
