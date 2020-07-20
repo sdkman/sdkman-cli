@@ -127,6 +127,33 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		'false'       | { !it.contains("Using groovy version 2.4.1 in this shell") }
 	}
 
+	def "should execute 'sdk env' when opening a new terminal in a directory with an .sdkmanrc"() {
+		given:
+		new FileTreeBuilder(candidatesDirectory).with {
+			"groovy" {
+				"2.4.1" {}
+			}
+		}
+
+		bash = sdkmanBashEnvBuilder
+			.withVersionCache("x.y.z")
+			.withOfflineMode(true)
+			.withConfiguration("sdkman_auto_env", "true")
+			.build()
+
+		new FileTreeBuilder(bash.workDir).with {
+			".sdkmanrc"("groovy=2.4.1\n")
+		}
+
+		bash.start()
+
+		when:
+		bash.execute("source $bootstrapScript")
+
+		then:
+		bash.output.contains("Using groovy version 2.4.1 in this shell")
+	}
+
 	def "should issue an error if .sdkmanrc contains a malformed candidate version"() {
 		given:
 		bash = sdkmanBashEnvBuilder
