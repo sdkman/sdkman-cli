@@ -39,11 +39,14 @@ function __sdk_upgrade() {
 		upgradable="$(__sdkman_determine_upgradable_version "$candidate")"
 		case $? in
 		1)
-			$all || __sdkman_echo_red "Not using any version of ${candidate}"
+			$all || {
+				__sdkman_echo_red "Not using any version of ${candidate}"
+				return 1
+			}
 			;;
 		2)
 			echo ""
-			__sdkman_echo_red "Stop! Could not get remote version of ${candidate}"
+			__sdkman_echo_stop "Could not get remote version of ${candidate}"
 			return 1
 			;;
 		*)

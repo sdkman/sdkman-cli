@@ -112,20 +112,21 @@ function sdk() {
 	if [[ -z "$CMD_FOUND" ]]; then
 		echo "Invalid command: $COMMAND"
 		__sdk_help
+		return 1
 	fi
 
 	# Check whether the candidate exists
 	local sdkman_valid_candidate=$(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER")
 	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && -z "$sdkman_valid_candidate" ]]; then
 		echo ""
-		__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
+		__sdkman_echo_stop "$QUALIFIER is not a valid candidate."
 		return 1
 	fi
 
 	# Validate offline qualifier
 	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && -z $(echo "enable disable" | grep -w "$QUALIFIER") ]]; then
 		echo ""
-		__sdkman_echo_red "Stop! $QUALIFIER is not a valid offline mode."
+		__sdkman_echo_stop "$QUALIFIER is not a valid offline mode."
 		return 1
 	fi
 

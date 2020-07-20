@@ -45,7 +45,8 @@ function __sdk_flush() {
 		__sdkman_cleanup_folder "tmp"
 		;;
 	*)
-		__sdkman_echo_red "Stop! Please specify what you want to flush."
+		__sdkman_echo_stop "Please specify what you want to flush."
+		return 1
 		;;
 	esac
 }

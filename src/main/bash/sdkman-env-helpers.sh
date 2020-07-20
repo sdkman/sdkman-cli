@@ -52,7 +52,7 @@ function __sdkman_determine_version() {
 		VERSION=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
 
 	elif [[ "$SDKMAN_AVAILABLE" == "false" && -n "$version" ]]; then
-		__sdkman_echo_red "Stop! ${candidate} ${version} is not available while offline."
+		__sdkman_echo_stop "${candidate} ${version} is not available while offline."
 		return 1
 
 	elif [[ "$SDKMAN_AVAILABLE" == "false" && -z "$version" ]]; then
@@ -84,7 +84,7 @@ function __sdkman_determine_version() {
 			fi
 
 			echo ""
-			__sdkman_echo_red "Stop! $candidate $version is not available. Possible causes:"
+			__sdkman_echo_stop "$candidate $version is not available. Possible causes:"
 			__sdkman_echo_red " * $version is an invalid version"
 			__sdkman_echo_red " * $candidate binaries are incompatible with $SDKMAN_PLATFORM"
 			__sdkman_echo_red " * $candidate has not been released yet"

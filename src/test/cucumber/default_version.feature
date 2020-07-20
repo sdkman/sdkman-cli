@@ -9,6 +9,7 @@ Feature: Default Version
 		And the system is bootstrapped
 		When I enter "sdk default groovy 2.0.5"
 		Then I see "Stop! groovy 2.0.5 is not installed."
+		And the exit code is 1
 
 	Scenario: Default a candidate version that is installed and not default
 		Given the candidate "groovy" version "2.0.5" is a valid candidate version
@@ -17,6 +18,7 @@ Feature: Default Version
 		When I enter "sdk default groovy 2.0.5"
 		Then I see "Default groovy version set to 2.0.5"
 		And the candidate "groovy" version "2.0.5" should be the default
+		And the exit code is 0
 
 	Scenario: Default a candidate version that is installed and already default
 		Given the candidate "groovy" version "2.0.5" is a valid candidate version
@@ -25,9 +27,11 @@ Feature: Default Version
 		When I enter "sdk default groovy 2.0.5"
 		Then I see "Default groovy version set to 2.0.5"
 		And the candidate "groovy" version "2.0.5" should be the default
+		And the exit code is 0
 
 	Scenario: Default a candidate version that does not exist
 		Given the candidate "groovy" version "2.9.9" is not available for download
 		And the system is bootstrapped
 		When I enter "sdk default groovy 2.9.9"
 		Then I see "Stop! groovy 2.9.9 is not available."
+		And the exit code is 1

@@ -28,7 +28,8 @@ function __sdk_list() {
 
 function __sdkman_list_candidates() {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
-		__sdkman_echo_red "This command is not available while offline."
+		__sdkman_echo_stop "This command is not available while offline."
+		return 1
 	else
 		__sdkman_page echo "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/list")"
 	fi

@@ -8,6 +8,7 @@ Feature: Per-project configuration
 		Given the system is bootstrapped
 		When I enter "sdk env init"
 		Then I see ".sdkmanrc created."
+		And the exit code is 0
 
 	Scenario: The env command is issued without an sdkman project configuration present
 		Given the system is bootstrapped
@@ -26,3 +27,4 @@ Feature: Per-project configuration
 		Then I see "Using groovy version 2.4.1 in this shell."
 		And the candidate "groovy" version "2.4.1" should be in use
 		And the candidate "groovy" version "2.0.5" should be the default
+		And the exit code is 0

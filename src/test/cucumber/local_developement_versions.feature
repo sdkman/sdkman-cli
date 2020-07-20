@@ -11,6 +11,7 @@ Feature: Local Development Versions
 		When I enter "sdk install groovy 2.1-SNAPSHOT /tmp/groovy-core"
 		Then I see "Linking groovy 2.1-SNAPSHOT to /tmp/groovy-core"
 		And the candidate "groovy" version "2.1-SNAPSHOT" is linked to "/tmp/groovy-core"
+		And the exit code is 0
 
 	Scenario: Attempt installing a local development version that already exists
 		Given the candidate "groovy" version "2.1-SNAPSHOT" is not available for download
@@ -20,6 +21,7 @@ Feature: Local Development Versions
 		Then I see "groovy 2.1-SNAPSHOT is already installed."
 		And the exit code is 0
 		And the candidate "groovy" version "2.1-SNAPSHOT" is linked to "/tmp/groovy-core"
+		And the exit code is 0
 
 	Scenario: Uninstall a local development version
 		Given the candidate "groovy" version "2.1-SNAPSHOT" is already linked to "/tmp/groovy-core"
@@ -27,12 +29,14 @@ Feature: Local Development Versions
 		When I enter "sdk uninstall groovy 2.1-SNAPSHOT"
 		Then I see "Uninstalling groovy 2.1-SNAPSHOT"
 		And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
+		And the exit code is 0
 
 	Scenario: Attempt uninstalling a local development version that is not installed
 		Given the candidate "groovy" version "2.1-SNAPSHOT" is not installed
 		And the system is bootstrapped
 		When I enter "sdk uninstall groovy 2.1-SNAPSHOT"
 		Then I see "groovy 2.1-SNAPSHOT is not installed."
+		And the exit code is 0
 
 	Scenario: Make the local development version the default for the candidate
 		Given the candidate "groovy" version "2.0.6" is already installed and default
@@ -42,6 +46,7 @@ Feature: Local Development Versions
 		When I enter "sdk default groovy 2.1-SNAPSHOT"
 		Then I see "Default groovy version set to 2.1-SNAPSHOT"
 		And the candidate "groovy" version "2.1-SNAPSHOT" should be the default
+		And the exit code is 0
 
 	Scenario: Use a local development version
 		Given the candidate "groovy" version "2.0.6" is already installed and default
@@ -51,6 +56,7 @@ Feature: Local Development Versions
 		When I enter "sdk use groovy 2.1-SNAPSHOT"
 		Then I see "Using groovy version 2.1-SNAPSHOT in this shell"
 		And the candidate "groovy" version "2.1-SNAPSHOT" should be in use
+		And the exit code is 0
 
 	Scenario: Install a local development version from a valid relative path
 		Given the candidate "groovy" version "2.1-SNAPSHOT" is not available for download
@@ -59,6 +65,7 @@ Feature: Local Development Versions
 		When I enter "sdk install groovy 2.1-SNAPSHOT some/relative/path/to/groovy"
 		Then I see "Linking groovy 2.1-SNAPSHOT"
 		And the candidate "groovy" version "2.1-SNAPSHOT" is linked to the relative path "some/relative/path/to/groovy"
+		And the exit code is 0
 
 	Scenario: Prevent installation of a local development version for an invalid path
 		Given the candidate "groovy" version "2.1-SNAPSHOT" is not available for download
@@ -66,6 +73,7 @@ Feature: Local Development Versions
 		When I enter "sdk install groovy 2.1-SNAPSHOT /some/bogus/path/to/groovy"
 		Then I see "Invalid path! Refusing to link groovy 2.1-SNAPSHOT to /some/bogus/path/to/groovy."
 		And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
+		And the exit code is 1
 
 	Scenario: Prevent installation of a local development version for a long version
 		Given the candidate "groovy" version "2.1-SNAPSHOTLONG" is not available for download
@@ -74,6 +82,7 @@ Feature: Local Development Versions
 		When I enter "sdk install groovy 2.1-SNAPSHOTLONG some/relative/path/to/groovy"
 		Then I see "Invalid version! 2.1-SNAPSHOTLONG with length 16 exceeds max of 15!"
 		And the candidate "groovy" version "2.1-SNAPSHOTLONG" is not installed
+		And the exit code is 1
 
 	Scenario: Allow installation of a local development version for longest possible version
 		Given the candidate "groovy" version "2.1-SNAPSHOT-XX" is not available for download
@@ -82,6 +91,7 @@ Feature: Local Development Versions
 		When I enter "sdk install groovy 2.1-SNAPSHOT-XX /tmp/groovy-core"
 		Then I see "Linking groovy 2.1-SNAPSHOT-XX to /tmp/groovy-core"
 		And the candidate "groovy" version "2.1-SNAPSHOT-XX" is linked to "/tmp/groovy-core"
+		And the exit code is 0
 
 	Scenario: Allow installation of a local development version for a short version
 		Given the candidate "java" version "graal" is not available for download
@@ -90,3 +100,4 @@ Feature: Local Development Versions
 		When I enter "sdk install java graal /tmp/graalvm-1.0.0-rc4-graal"
 		Then I see "Linking java graal to /tmp/graalvm-1.0.0-rc4-graal"
 		And the candidate "java" version "graal" is linked to "/tmp/graalvm-1.0.0-rc4-graal"
+		And the exit code is 0

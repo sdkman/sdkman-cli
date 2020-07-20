@@ -25,7 +25,8 @@ function __sdk_current() {
 		if [ -n "$CURRENT" ]; then
 			__sdkman_echo_no_colour "Using ${candidate} version ${CURRENT}"
 		else
-			__sdkman_echo_red "Not using any version of ${candidate}"
+			__sdkman_echo_stop "Not using any version of ${candidate}"
+			return 1
 		fi
 	else
 		local installed_count=0
