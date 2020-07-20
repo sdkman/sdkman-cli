@@ -69,6 +69,7 @@ Feature: Service Unavailable
 		And the system is bootstrapped
 		When I enter "sdk install grails 2.1.0"
 		Then I see "grails 2.1.0 is already installed."
+		And the exit code is 0
 
 	# uninstall command
 

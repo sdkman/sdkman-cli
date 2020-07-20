@@ -85,6 +85,7 @@ Feature: Offline Mode
 		And the system is bootstrapped
 		When I enter "sdk default grails 2.1.0"
 		Then I see "grails 2.1.0 is not available while offline."
+		And the exit code is 0
 
 	# install command
 
