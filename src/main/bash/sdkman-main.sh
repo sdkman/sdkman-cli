@@ -126,6 +126,7 @@ function sdk() {
 	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && -z $(echo "enable disable" | grep -w "$QUALIFIER") ]]; then
 		echo ""
 		__sdkman_echo_red "Stop! $QUALIFIER is not a valid offline mode."
+		return 1
 	fi
 
 	# Check whether the command exists as an internal function...

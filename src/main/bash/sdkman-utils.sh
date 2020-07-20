@@ -103,6 +103,10 @@ function __sdkman_echo_cyan() {
 	__sdkman_echo "36m" "$1"
 }
 
+function __sdkman_echo_stop() {
+	__sdkman_echo_red "Stop! $1"
+}
+
 function __sdkman_echo_confirm() {
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
 		echo -n "$1"
