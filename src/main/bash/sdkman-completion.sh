@@ -20,6 +20,14 @@ _sdk_completion() {
 
       COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word")) 
       ;;
+    offline)
+      COMPREPLY=($(compgen -W "enable disable" -- "$current_word"))
+      ;;
+    selfupdate)
+      COMPREPLY=($(compgen -W "force" -- "$current_word"))
+      ;;
+    flush)
+      COMPREPLY=($(compgen -W "broadcast archives temp" -- "$current_word"))
   esac
 }
 
