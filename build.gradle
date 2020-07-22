@@ -93,6 +93,7 @@ task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]
 	from('build/scripts')
 	into(installSrcDir)
 	include('sdkman-*.sh')
+	include('bash-completion.sh')
 	exclude('sdkman-init.sh')
 }
 
