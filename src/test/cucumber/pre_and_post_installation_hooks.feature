@@ -3,7 +3,7 @@ Feature: Hooks
 	Background:
 		Given the internet is reachable
 		And an initialised environment
-	
+
 	Scenario: Pre- and Post-installation Hooks return successfully
 		And a machine with "Linux" installed
 		And the system is bootstrapped
