@@ -19,7 +19,6 @@ Feature: Local Development Versions
 		And the system is bootstrapped
 		When I enter "sdk install groovy 2.1-SNAPSHOT /tmp/groovy-core"
 		Then I see "groovy 2.1-SNAPSHOT is already installed."
-		And the exit code is 0
 		And the candidate "groovy" version "2.1-SNAPSHOT" is linked to "/tmp/groovy-core"
 		And the exit code is 0
 
