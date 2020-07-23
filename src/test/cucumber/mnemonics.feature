@@ -50,7 +50,7 @@ Feature: Mnemonics
 		Given the candidate "grails" version "2.1.0" is not installed
 		And the candidate "grails" version "2.1.0" is available for download
 		And the system is bootstrapped
-		When I enter "sdk i grails 2.1.0" and answer "Y"
+		When I enter "sdk i grails 2.1.0"
 		Then I see "Installing: grails 2.1.0"
 		And the candidate "grails" version "2.1.0" is installed
 		And the exit code is 0

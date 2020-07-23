@@ -39,7 +39,7 @@ Feature: Offline Mode
 		When I enter "sdk offline disable"
 		Then I see "Online mode re-enabled!"
 		And the exit code is 0
-		When I enter "sdk install grails 2.1.0" and answer "Y"
+		When I enter "sdk install grails 2.1.0"
 		Then I see "Done installing!"
 		And the candidate "grails" version "2.1.0" is installed
 		And the exit code is 0
