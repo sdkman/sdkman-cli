@@ -40,7 +40,7 @@ function __sdk_upgrade() {
 		case $? in
 		1)
 			$all || {
-				__sdkman_echo_red "Not using any version of ${candidate}"
+				__sdkman_echo_stop "Not using any version of ${candidate}"
 				return 1
 			}
 			;;
