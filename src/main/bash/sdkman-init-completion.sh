@@ -16,6 +16,6 @@
 #   limitations under the License.
 #
 
-if [[ -n "$BASH_VERSION" ]] && [[ -f "${SDKMAN_DIR}/src/bash-completion" ]]; then
+if [[ -n "$BASH_VERSION" ]]; then
   source "${SDKMAN_DIR}/src/bash-completion.sh"
 fi

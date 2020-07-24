@@ -149,4 +149,4 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 	sdkman_auto_env
 fi
 
-source "sdkman-init-completion.sh"
+[[ -f "sdkman-init-completion.sh" ]] && source "sdkman-init-completion.sh"
