@@ -19,33 +19,34 @@
 _sdk_completion() {
 	local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
 	local -r current_word="${COMP_WORDS[COMP_CWORD]}"
+	local candidates
 
  	case "$previous_word" in
 	sdk)
-		COMPREPLY=($(compgen -W "install uninstall list use default home env current upgrade version broadcast help offline selfupdate update flush" -- "$current_word"))
+		candidates=("install" "uninstall" "list" "use" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
 		;;
 	env)
-		COMPREPLY=($(compgen -W "init" -- "$current_word"))
+		candidates=("init")
 		;;
 	current)
-		local candidates=()
+		candidates=()
 
 		for candidate_path in "$SDKMAN_CANDIDATES_DIR"/*; do
 			candidates+=("${candidate_path##*/}")
 		done
-
-		COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
 		;;
 	offline)
-		COMPREPLY=($(compgen -W "enable disable" -- "$current_word"))
+		candidates=("enable" "disable")
 		;;
 	selfupdate)
-		COMPREPLY=($(compgen -W "force" -- "$current_word"))
+		candidates=("force")
 		;;
 	flush)
-		COMPREPLY=($(compgen -W "broadcast archives temp" -- "$current_word"))
+		candidates=("broadcast archives temp")
 		;;
 	esac
+
+	COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
 }
 
 complete -F _sdk_completion sdk
