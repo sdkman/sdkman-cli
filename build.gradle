@@ -87,6 +87,7 @@ task installInit(type: Copy, dependsOn: [cleanInstallInit, prepareScripts]) {
 	from('build/scripts')
 	into(installBinDir)
 	include('sdkman-init.sh')
+	include('sdkman-init-completion.sh')
 }
 
 task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]) {
@@ -95,6 +96,7 @@ task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]
 	include('sdkman-*.sh')
 	include('bash-completion.sh')
 	exclude('sdkman-init.sh')
+	exclude('sdkman-init-completion.sh')
 }
 
 task install(dependsOn: [installInit, installModules])
