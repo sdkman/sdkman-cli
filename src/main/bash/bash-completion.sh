@@ -22,7 +22,7 @@ _sdk_completion() {
 
 	local candidates
 
-  case "$previous_word" in
+	case "$previous_word" in
 	sdk)
 		candidates=("install" "uninstall" "list" "use" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
 		;;
