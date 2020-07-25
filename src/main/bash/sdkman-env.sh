@@ -35,11 +35,18 @@ function __sdk_env() {
 	fi
 
 	local normalised_line
-
 	while IFS= read -r line || [[ -n "$line" ]]; do
 		normalised_line="$(__sdkman_normalise "$line")"
 
-		[[ -z "$normalised_line" ]] && continue
+		__sdkman_is_blank_line "$normalised_line" && continue
+
+		if ! __sdkman_matches_candidate_format "$normalised_line"; then
+			__sdkman_echo_red "Invalid candidate format!"
+			echo ""
+			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
+
+			return 1
+		fi
 
 		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}"
 	done < "$sdkmanrc"
@@ -64,6 +71,10 @@ function __sdkman_generate_sdkmanrc() {
 	echo "java=$version" >> "$sdkmanrc"
 
 	__sdkman_echo_green "$sdkmanrc created."
+}
+
+function __sdkman_is_blank_line() {
+	[[ -z "$1" ]]
 }
 
 function __sdkman_normalise() {
