@@ -19,9 +19,10 @@
 _sdk_completion() {
 	local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
 	local -r current_word="${COMP_WORDS[COMP_CWORD]}"
+
 	local candidates
 
- 	case "$previous_word" in
+  case "$previous_word" in
 	sdk)
 		candidates=("install" "uninstall" "list" "use" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
 		;;
@@ -42,7 +43,7 @@ _sdk_completion() {
 		candidates=("force")
 		;;
 	flush)
-		candidates=("broadcast archives temp")
+		candidates=("broadcast" "archives" "temp")
 		;;
 	esac
 
