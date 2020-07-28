@@ -18,6 +18,9 @@
 
 function __sdk_env() {
 	local -r sdkmanrc=".sdkmanrc"
+
+	(($# == 0)) && __sdkman_env "$sdkmanrc"
+
 	local -r sub_command="$1"
 
 	if [[ "$sub_command" == "init" ]]; then
@@ -25,7 +28,9 @@ function __sdk_env() {
 
 		return 0
 	fi
+}
 
+function __sdkman_env() {
 	if [[ ! -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
 		echo ""
@@ -35,10 +40,12 @@ function __sdk_env() {
 	fi
 
 	local normalised_line
+
 	while IFS= read -r line || [[ -n "$line" ]]; do
+    line=
 		normalised_line="$(__sdkman_normalise "$line")"
 
-		__sdkman_is_blank_line "$normalised_line" && continue
+		[[ -z "$normalised_line" ]] && continue
 
 		if ! __sdkman_matches_candidate_format "$normalised_line"; then
 			__sdkman_echo_red "Invalid candidate format!"
@@ -71,10 +78,6 @@ function __sdkman_generate_sdkmanrc() {
 	echo "java=$version" >> "$sdkmanrc"
 
 	__sdkman_echo_green "$sdkmanrc created."
-}
-
-function __sdkman_is_blank_line() {
-	[[ -z "$1" ]]
 }
 
 function __sdkman_normalise() {
