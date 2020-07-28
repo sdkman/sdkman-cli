@@ -64,29 +64,22 @@ function __sdkman_env_each_line() {
 		return 1
 	fi
 
-	local normalised_line
-
 	while IFS= read -r line || [[ -n "$line" ]]; do
-		normalised_line="$(__sdkman_normalise "$line")"
+		line="${line/\#*/}"
+		line="${line//[[:space:]]/}"
 
-		[[ -z "$normalised_line" ]] && continue
+		[[ -z "$line" ]] && continue
 
-		if ! __sdkman_matches_candidate_format "$normalised_line"; then
+		if ! __sdkman_matches_candidate_format "$line"; then
 			__sdkman_echo_red "Invalid candidate format!"
 			echo ""
-			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
+			__sdkman_echo_yellow "Expected 'candidate=version' but found '$line'"
 
 			return 1
 		fi
 
-		"$cb" "${normalised_line%=*}" "${normalised_line#*=}"
+		"$cb" "${line%=*}" "${line#*=}"
 	done < "$sdkmanrc"
-}
-
-function __sdkman_normalise() {
-	local -r line_without_comments="${1/\#*/}"
-
-	echo "${line_without_comments//[[:space:]]/}"
 }
 
 function __sdkman_matches_candidate_format() {
