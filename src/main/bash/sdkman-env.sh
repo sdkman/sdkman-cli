@@ -19,7 +19,7 @@
 function __sdk_env() {
 	local -r sdkmanrc=".sdkmanrc"
 
-	(($# == 0)) && __sdkman_env "$sdkmanrc"
+	(($# == 0)) && 	__sdkman_env_each_line "$sdkmanrc" "__sdk_use"
 
 	local command="$1"
 
@@ -28,11 +28,34 @@ function __sdk_env() {
 		__sdkman_env_init "$sdkmanrc"
 		;;
 	install)
+		__sdkman_env_each_line "$sdkmanrc" "__sdk_install"
 		;;
 	esac
 }
 
-function __sdkman_env() {
+function __sdkman_env_init() {
+	if [[ -f "$sdkmanrc" ]]; then
+		__sdkman_echo_red "$sdkmanrc already exists!"
+
+		return 1
+	fi
+
+	__sdkman_determine_current_version "java"
+
+	local version
+	[[ -n "$CURRENT" ]] && version="$CURRENT" || version="$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/default/java")"
+
+	echo "# Enable auto-env through the sdkman_auto_env config" > "$sdkmanrc"
+	echo "# Add key=value pairs of SDKs to use below" >> "$sdkmanrc"
+	echo "java=$version" >> "$sdkmanrc"
+
+	__sdkman_echo_green "$sdkmanrc created."
+}
+
+function __sdkman_env_each_line() {
+	local -r sdkmanrc="$1"	
+	local -r cb="$2"
+
 	if [[ ! -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
 		echo ""
@@ -56,29 +79,8 @@ function __sdkman_env() {
 			return 1
 		fi
 
-		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}"
+		"$cb" "${normalised_line%=*}" "${normalised_line#*=}"
 	done < "$sdkmanrc"
-}
-
-function __sdkman_env_init() {
-	local -r sdkmanrc="$1"
-
-	if [[ -f "$sdkmanrc" ]]; then
-		__sdkman_echo_red "$sdkmanrc already exists!"
-
-		return 1
-	fi
-
-	__sdkman_determine_current_version "java"
-
-	local version
-	[[ -n "$CURRENT" ]] && version="$CURRENT" || version="$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/default/java")"
-
-	echo "# Enable auto-env through the sdkman_auto_env config" > "$sdkmanrc"
-	echo "# Add key=value pairs of SDKs to use below" >> "$sdkmanrc"
-	echo "java=$version" >> "$sdkmanrc"
-
-	__sdkman_echo_green "$sdkmanrc created."
 }
 
 function __sdkman_normalise() {
