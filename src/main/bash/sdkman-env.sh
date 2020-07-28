@@ -21,13 +21,15 @@ function __sdk_env() {
 
 	(($# == 0)) && __sdkman_env "$sdkmanrc"
 
-	local -r sub_command="$1"
+	local command="$1"
 
-	if [[ "$sub_command" == "init" ]]; then
-		__sdkman_generate_sdkmanrc "$sdkmanrc"
-
-		return 0
-	fi
+	case "$command" in
+	init)
+		__sdkman_env_init "$sdkmanrc"
+		;;
+	install)
+		;;
+	esac
 }
 
 function __sdkman_env() {
@@ -42,7 +44,6 @@ function __sdkman_env() {
 	local normalised_line
 
 	while IFS= read -r line || [[ -n "$line" ]]; do
-    line=
 		normalised_line="$(__sdkman_normalise "$line")"
 
 		[[ -z "$normalised_line" ]] && continue
@@ -59,7 +60,7 @@ function __sdkman_env() {
 	done < "$sdkmanrc"
 }
 
-function __sdkman_generate_sdkmanrc() {
+function __sdkman_env_init() {
 	local -r sdkmanrc="$1"
 
 	if [[ -f "$sdkmanrc" ]]; then
