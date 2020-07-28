@@ -18,10 +18,7 @@
 
 function __sdk_env() {
 	local -r sdkmanrc=".sdkmanrc"
-
-	(($# == 0)) && 	__sdkman_env_each_line "$sdkmanrc" "__sdk_use"
-
-	local command="$1"
+	local -r command="$1"
 
 	case "$command" in
 	init)
@@ -30,6 +27,9 @@ function __sdk_env() {
 	install)
 		__sdkman_env_each_line "$sdkmanrc" "__sdk_install"
 		;;
+	*)
+    	__sdkman_env_each_line "$sdkmanrc" "__sdk_use"
+    	;;
 	esac
 }
 
