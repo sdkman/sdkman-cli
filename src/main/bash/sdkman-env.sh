@@ -17,7 +17,7 @@
 #
 
 function __sdk_env() {
-	local -r sdkmanrc=".sdkmanrc"
+	local -r sdkmanrc=".sdkmanrc"	
 	local -r command="$1"
 
 	case "$command" in
