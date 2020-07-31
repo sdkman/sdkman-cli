@@ -61,7 +61,7 @@ function __sdkman_env_init() {
 
 function __sdkman_env_each_candidate() {
 	local -r sdkmanrc="$1"	
-	local -r cb="$2"
+	local -r func="$2"
 
 	if [[ ! -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
@@ -85,7 +85,7 @@ function __sdkman_env_each_candidate() {
 			return 1
 		fi
 
-		"$cb" "${line%=*}" "${line#*=}"
+		"$func" "${line%=*}" "${line#*=}"
 	done < "$sdkmanrc"
 }
 
