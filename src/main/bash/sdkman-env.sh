@@ -25,12 +25,19 @@ function __sdk_env() {
 		__sdkman_env_init "$sdkmanrc"
 		;;
 	install)
-		__sdkman_env_each_candidate "$sdkmanrc" "__sdk_install"
+		__sdkman_env_each_candidate "$sdkmanrc" "__sdkman_install_auto_answer_enabled"
 		;;
 	*)
     	__sdkman_env_each_candidate "$sdkmanrc" "__sdk_use"
     	;;
 	esac
+}
+
+function __sdkman_install_auto_answer_enabled() {
+	local -r candidate="$1"
+	local -r version="$2"
+
+	sdkman_auto_answer=true __sdk_install "$candidate" "$version"
 }
 
 function __sdkman_env_init() {
@@ -64,13 +71,7 @@ function __sdkman_env_each_candidate() {
 		return 1
 	fi
 
-	local lines=()
-
 	while IFS= read -r line || [[ -n "$line" ]]; do
-		lines+=("$line")
-	done < "$sdkmanrc"
-
-	for line in "${lines[@]}"; do
 		line="${line/\#*/}"
 		line="${line//[[:space:]]/}"
 
@@ -85,7 +86,7 @@ function __sdkman_env_each_candidate() {
 		fi
 
 		"$cb" "${line%=*}" "${line#*=}"
-	done
+	done < "$sdkmanrc"
 }
 
 function __sdkman_matches_candidate_format() {

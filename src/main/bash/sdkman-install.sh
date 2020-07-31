@@ -36,12 +36,14 @@ function __sdk_install() {
 		__sdkman_determine_current_version "$candidate"
 		__sdkman_install_candidate_version "$candidate" "$VERSION" || return 1
 
+		local use='n'
+
 		if [[ "$sdkman_auto_answer" != 'true' && "$auto_answer_upgrade" != 'true' && -n "$CURRENT" ]]; then
 			__sdkman_echo_confirm "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
-			read USE
+			read use
 		fi
 
-		if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
+		if [[ -z "$use" || "$use" == "y" || "$use" == "Y" ]]; then
 			echo ""
 			__sdkman_echo_green "Setting ${candidate} ${VERSION} as default."
 			__sdkman_link_candidate_version "$candidate" "$VERSION"
