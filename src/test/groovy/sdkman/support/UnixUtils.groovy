@@ -6,13 +6,12 @@ class UnixUtils {
 		asSdkmanPlatform(System.getProperty("os.name"), System.getProperty("os.arch"))
 	}
 
-	static asSdkmanPlatform(platform, architecture) {
-		if("aarch64" == architecture) {
-			platform += architecture
-		}
+	static asSdkmanPlatform(platform, architecture = "") {
+
+		def platformArch = architecture == "aarch64" ? "$platform $architecture" : platform
 
 		def result
-		switch (platform) {
+		switch (platformArch) {
 			case "Mac OS X":
 				result = "Darwin"
 				break
@@ -25,7 +24,7 @@ class UnixUtils {
 			case "Linux 32":
 				result = "Linux32"
 				break
-			case "Linuxaarch64":
+			case "Linux aarch64":
 				result = "LinuxARM64"
 				break
 			case "FreeBSD":
