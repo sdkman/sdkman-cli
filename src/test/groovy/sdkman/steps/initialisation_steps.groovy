@@ -81,7 +81,7 @@ And(~'^offline mode is enabled with unreachable internet$') { ->
 And(~'^a machine with "(.*)" installed$') { String platform ->
 	def binFolder = "$sdkmanBaseDir/bin" as File
 	UnameStub.prepareIn(binFolder)
-			.forPlatform(asSdkmanPlatform(platform, null))
+			.forPlatform(asSdkmanPlatform(platform))
 			.build()
 }
 
