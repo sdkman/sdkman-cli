@@ -9,3 +9,4 @@ Feature: List Candidates
 		And The candidate list is available
 		When I enter "sdk list"
 		Then I see "Candidate List"
+		And the exit code is 0

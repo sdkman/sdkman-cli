@@ -15,6 +15,7 @@ Feature: List Candidate Versions
 		And the system is bootstrapped
 		When I enter "sdk list grails"
 		Then I see "Candidate: grails"
+		And the exit code is 0
 
 	Scenario: List an installed available Version not in use
 		Given the candidate "grails" version "2.1.0" is already installed but not default
@@ -23,6 +24,7 @@ Feature: List Candidate Versions
 		When I enter "sdk list grails"
 		Then I see "Versions: 2.1.0"
 		And I do not see "Current: 2.1.0"
+		And the exit code is 0
 
 	Scenario: List an installed available Version in use
 		Given the candidate "grails" version "2.1.0" is already installed and default
@@ -31,6 +33,7 @@ Feature: List Candidate Versions
 		When I enter "sdk list grails"
 		Then I see "Current: 2.1.0"
 		And I see "Versions: 2.1.0"
+		And the exit code is 0
 
 	Scenario: List installed multiple Versions
 		Given the candidate "grails" version "2.1.0" is already installed and default
@@ -40,6 +43,7 @@ Feature: List Candidate Versions
 		When I enter "sdk list grails"
 		Then I see "Current: 2.1.0"
 		And I see "Versions: 2.0.9,2.1.0"
+		And the exit code is 0
 
 	Scenario: List an installed local version not in use
 		Given I have a local candidate "grails" version "2.3-SNAPSHOT" at "/tmp/groovy-core"
@@ -49,6 +53,7 @@ Feature: List Candidate Versions
 		When I enter "sdk list groovy"
 		Then I see "Versions: 2.3-SNAPSHOT"
 		And I do not see "Current: 2.3-SNAPSHOT"
+		And the exit code is 0
 
 	Scenario: List an installed local Version in use
 		Given I have a local candidate "groovy" version "2.2-SNAPSHOT" at "/tmp/groovy-core"
@@ -59,3 +64,4 @@ Feature: List Candidate Versions
 		When I enter "sdk list groovy"
 		Then I see "Current: 2.2-SNAPSHOT"
 		And I see "Versions: 2.2-SNAPSHOT"
+		And the exit code is 0

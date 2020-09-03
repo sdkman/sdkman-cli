@@ -7,3 +7,4 @@ Feature: Version
 		And the system is bootstrapped
 		When I enter "sdk version"
 		Then I see "SDKMAN 3.2.1"
+		And the exit code is 0

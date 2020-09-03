@@ -28,38 +28,45 @@ Feature: Install SDKMAN
 		When I run the installation script
 		Then the user home contains a ".bash_profile" file
 		And the ".bash_profile" contains an Initialisation Snippet
+		And the exit code is 0
 
 	Scenario: Add Init Snippet to the .bash_profile if present
 		Given the user home contains a ".bash_profile" file
 		When I run the installation script
 		Then the ".bash_profile" contains an Initialisation Snippet
+		And the exit code is 0
 
 	Scenario: Add Init Snippet to the .profile if present
 		Given the user home contains a ".profile" file
 		When I run the installation script
 		Then the ".profile" contains an Initialisation Snippet
+		And the exit code is 0
 
 	Scenario: Creates and initialises .bashrc on absence of non-login dot files
 		Given the user home directory contains no ".bashrc" file
 		When I run the installation script
 		Then the user home contains a ".bashrc" file
 		And the ".bashrc" contains an Initialisation Snippet
+		And the exit code is 0
 
 	Scenario: Always adds Init Snippet to the .bashrc
 		Given the user home contains a ".bashrc" file
 		When I run the installation script
 		Then the ".bashrc" contains an Initialisation Snippet
+		And the exit code is 0
 
 	Scenario: Creates and initialises .zshrc on absence of the file
 		Given the user home directory contains no ".zshrc" file
 		When I run the installation script
 		Then the user home contains a ".zshrc" file
 		And the ".zshrc" contains an Initialisation Snippet
+		And the exit code is 0
 
 	Scenario: Always adds Init Snippet to the .zshrc
 		Given the user home contains a ".zshrc" file
 		When I run the installation script
 		Then the ".zshrc" contains an Initialisation Snippet
+		And the exit code is 0
 
 	Scenario: Source the Initialisation Script on first invokation of the Init Snippet
 		Given the user home contains a ".bash_profile" file
@@ -80,3 +87,4 @@ Feature: Install SDKMAN
 		And the configuration file has not been primed
 		When I run the installation script
 		Then the configuration file is present
+		And the exit code is 0

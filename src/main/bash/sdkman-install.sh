@@ -28,8 +28,8 @@ function __sdk_install() {
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" || -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]]; then
 		echo ""
-		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is already installed."
-		return 1
+		__sdkman_echo_yellow "${candidate} ${VERSION} is already installed."
+		return 0
 	fi
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
@@ -53,7 +53,7 @@ function __sdk_install() {
 		__sdkman_install_local_version "$candidate" "$VERSION" "$folder" || return 1
 	else
 		echo ""
-		__sdkman_echo_red "Stop! $1 is not a valid ${candidate} version."
+		__sdkman_echo_stop "$1 is not a valid ${candidate} version."
 		return 1
 	fi
 }
@@ -177,7 +177,7 @@ function __sdkman_validate_zip() {
 	if [ -z "$zip_ok" ]; then
 		rm "$zip_archive"
 		echo ""
-		__sdkman_echo_red "Stop! The archive was corrupt and has been removed! Please try installing again."
+		__sdkman_echo_stop "The archive was corrupt and has been removed! Please try installing again."
 		return 1
 	fi
 }

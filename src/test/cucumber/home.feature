@@ -13,6 +13,7 @@ anything else unless it is an actual error.
 		Given the system is bootstrapped
 		When I enter "sdk home"
 		Then I see "Usage: sdk <command> [candidate] [version]"
+		And the exit code is 1
 
 	Scenario: Home for a candidate version that is installed
 		Given the candidate "grails" version "2.1.0" is already installed and default
@@ -21,6 +22,7 @@ anything else unless it is an actual error.
 		And the system is bootstrapped
 		When I enter "sdk home grails 1.3.9"
 		Then the home path ends with ".sdkman/candidates/grails/1.3.9"
+		And the exit code is 0
 
 	Scenario: Home for a candidate version that is not installed
 		Given the candidate "grails" version "1.3.9" is available for download
@@ -34,6 +36,7 @@ anything else unless it is an actual error.
 		And the system is bootstrapped
 		When I enter "sdk home groovy 1.9.9"
 		Then I see "Stop! groovy 1.9.9 is not available."
+		And the exit code is 1
 
 	Scenario: Home for a candidate version that only exists locally
 		Given the candidate "grails" version "2.0.0.M1" is not available for download
@@ -41,3 +44,4 @@ anything else unless it is an actual error.
 		And the system is bootstrapped
 		When I enter "sdk home grails 2.0.0.M1"
 		Then the home path ends with ".sdkman/candidates/grails/2.0.0.M1"
+		And the exit code is 0
