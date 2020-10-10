@@ -18,4 +18,3 @@ mongo.json
 out/
 sdkman-cli.iml
 target/
-bin/test/

@@ -47,23 +47,26 @@ function __sdk_flush() {
 
 function __sdkman_cleanup_folder() {
 	local folder="$1"
+	local sdkman_cleanup_dir
+	local sdkman_cleanup_disk_usage
+	local sdkman_cleanup_count
+
 	sdkman_cleanup_dir="${SDKMAN_DIR}/${folder}"
 	sdkman_cleanup_disk_usage=$(du -sh "$sdkman_cleanup_dir")
 	sdkman_cleanup_count=$(ls -1 "$sdkman_cleanup_dir" | wc -l)
 
-	rm -rf "${SDKMAN_DIR}/${folder}"
-	mkdir "${SDKMAN_DIR}/${folder}"
+	rm -rf "$sdkman_cleanup_dir"
+	mkdir "$sdkman_cleanup_dir"
 
 	__sdkman_echo_green "${sdkman_cleanup_count} archive(s) flushed, freeing ${sdkman_cleanup_disk_usage}."
 }
 
-function __sdkman_cleanup_broadcast {
-  if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
-    rm "${SDKMAN_DIR}/var/broadcast_id"
-    rm "${SDKMAN_DIR}/var/broadcast"
-    __sdkman_echo_green "Broadcast has been flushed."
-  else
-    __sdkman_echo_no_colour "No prior broadcast found so not flushed."
-  fi
+function __sdkman_cleanup_broadcast() {
+	if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
+		rm "${SDKMAN_DIR}/var/broadcast_id"
+		rm "${SDKMAN_DIR}/var/broadcast"
+		__sdkman_echo_green "Broadcast has been flushed."
+	else
+		__sdkman_echo_no_colour "No prior broadcast found so not flushed."
+	fi
 }
-

@@ -4,7 +4,7 @@ Feature: Flush
 		Given the internet is reachable
 		And an initialised environment
 		And the system is bootstrapped
-    
+
 	Scenario: Clear out the cached archives and the temporary storage
 		Given the archive "grails-1.3.9.zip" has been cached
 		And the file "res-1.2.0.zip" in temporary storage
