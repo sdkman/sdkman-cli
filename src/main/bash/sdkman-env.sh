@@ -48,7 +48,7 @@ function __sdk_env() {
 			return 1
 		fi
 
-		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}"
+		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}" && SDKMAN_ENV=$PWD
 	done < "$sdkmanrc"
 }
 
