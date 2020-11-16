@@ -26,6 +26,13 @@ function __sdk_env() {
 		return 0
 	fi
 
+	if [[ "$sub_command" == "clear" ]]; then
+		__sdkman_check_valid_env "$sdkmanrc" || return 1
+		__sdkman_env_clear "$sdkmanrc"
+
+		return 0
+	fi
+
 	if [[ ! -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
 		echo ""
@@ -71,6 +78,43 @@ function __sdkman_generate_sdkmanrc() {
 	echo "java=$version" >> "$sdkmanrc"
 
 	__sdkman_echo_green "$sdkmanrc created."
+}
+
+function __sdkman_check_valid_env() {
+	local -r sdkmanrc="$1"
+
+	if [[ -z $SDKMAN_ENV ]]; then
+		__sdkman_echo_red "No environment currently set!"
+		return 1
+	fi
+
+	if [[ ! -f ${SDKMAN_ENV}/${sdkmanrc} ]]; then
+		__sdkman_echo_red "Could not find ${SDKMAN_ENV}/${sdkmanrc}."
+		return 1
+	fi
+}
+
+function __sdkman_env_clear() {
+	local -r sdkmanrc="$1"
+
+	local normalised_line candidate candidate_dir version
+	while IFS= read -r line || [[ -n "$line" ]]; do
+		normalised_line="$(__sdkman_normalise "$line")"
+
+		__sdkman_is_blank_line "$normalised_line" && continue
+
+		candidate=${normalised_line%=*}
+		candidate_dir="${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+		if [[ -h $candidate_dir ]]; then
+			version=$(basename $(readlink ${candidate_dir}))
+			__sdk_use "$candidate" "current" >/dev/null &&
+				__sdkman_echo_no_colour "Restored $candidate version to $version (default)"
+		else
+			__sdkman_echo_yellow "No default version of $candidate was found"
+		fi
+	done < "${SDKMAN_ENV}/${sdkmanrc}"
+
+	unset SDKMAN_ENV
 }
 
 function __sdkman_is_blank_line() {
