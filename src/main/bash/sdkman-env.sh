@@ -36,22 +36,8 @@ function __sdkman_load_env() {
 		return 1
 	fi
 
-	local normalised_line
-	while IFS= read -r line || [[ -n "$line" ]]; do
-		normalised_line="$(__sdkman_normalise "$line")"
-
-		__sdkman_is_blank_line "$normalised_line" && continue
-
-		if ! __sdkman_matches_candidate_format "$normalised_line"; then
-			__sdkman_echo_red "Invalid candidate format!"
-			echo ""
-			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
-
-			return 1
-		fi
-
-		__sdk_use "${normalised_line%=*}" "${normalised_line#*=}" && SDKMAN_ENV=$PWD
-	done < "$sdkmanrc"
+	__sdkman_env_each_candidate "$sdkmanrc" "__sdk_use" && 
+		SDKMAN_ENV=$PWD
 }
 
 function __sdkman_create_env_file() {
@@ -84,24 +70,48 @@ function __sdkman_clear_env() {
 		return 1
 	fi
 
-	local normalised_line candidate candidate_dir version
+	__sdkman_env_each_candidate "${SDKMAN_ENV}/${sdkmanrc}" "__sdkman_env_restore_default_version"
+	unset SDKMAN_ENV
+}
+
+function __sdkman_env_restore_default_version() {
+	local -r candidate="$1"
+
+	local candidate_dir default_version
+	candidate_dir="${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+	if __sdkman_is_symlink $candidate_dir; then
+		default_version=$(basename $(readlink ${candidate_dir}))
+		__sdk_use "$candidate" "$default_version" >/dev/null &&
+			__sdkman_echo_no_colour "Restored $candidate version to $default_version (default)"
+	else
+		__sdkman_echo_yellow "No default version of $candidate was found"
+	fi
+}
+
+function __sdkman_env_each_candidate() {
+	local -r filepath=$1
+	local -r func=$2
+
+	local normalised_line
 	while IFS= read -r line || [[ -n "$line" ]]; do
 		normalised_line="$(__sdkman_normalise "$line")"
 
 		__sdkman_is_blank_line "$normalised_line" && continue
 
-		candidate=${normalised_line%=*}
-		candidate_dir="${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
-		if [[ -h $candidate_dir ]]; then
-			version=$(basename $(readlink ${candidate_dir}))
-			__sdk_use "$candidate" "current" >/dev/null &&
-				__sdkman_echo_no_colour "Restored $candidate version to $version (default)"
-		else
-			__sdkman_echo_yellow "No default version of $candidate was found"
-		fi
-	done < "${SDKMAN_ENV}/${sdkmanrc}"
+		if ! __sdkman_matches_candidate_format "$normalised_line"; then
+			__sdkman_echo_red "Invalid candidate format!"
+			echo ""
+			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
 
-	unset SDKMAN_ENV
+			return 1
+		fi
+
+		$func "${normalised_line%=*}" "${normalised_line#*=}"
+	done < $filepath
+}
+
+function __sdkman_is_symlink() {
+	[[ -h "$1" ]]
 }
 
 function __sdkman_is_blank_line() {
