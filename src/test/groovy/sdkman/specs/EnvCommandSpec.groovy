@@ -154,6 +154,71 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		bash.output.contains("Using groovy version 2.4.1 in this shell")
 	}
 
+	def "should execute 'sdk env clear' when exiting from a directory with an .sdkmanrc"() {
+		given:
+		new FileTreeBuilder(candidatesDirectory).with {
+			"groovy" {
+				"2.4.1" {}
+				"2.4.6" {}
+			}
+		}
+		createSymbolicLink(Paths.get("$candidatesDirectory/groovy/current"), Paths.get("$candidatesDirectory/groovy/2.4.6"))
+
+		bash = sdkmanBashEnvBuilder
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.withConfiguration("sdkman_auto_env", "true")
+				.build()
+
+		new FileTreeBuilder(bash.workDir).with {
+			"project" {
+				".sdkmanrc"("groovy=2.4.1\n")
+			}
+		}
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+
+		when:
+		bash.execute("cd project")
+		bash.execute("cd ..")
+
+		then:
+		bash.output.contains("Restored groovy version to 2.4.6")
+	}
+
+	def "should not execute 'sdk env clear' when entering a subdirectory within the current active configuration"() {
+		given:
+		new FileTreeBuilder(candidatesDirectory).with {
+			"groovy" {
+				"2.4.1" {}
+			}
+		}
+
+		bash = sdkmanBashEnvBuilder
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.withConfiguration("sdkman_auto_env", "true")
+				.build()
+
+		new FileTreeBuilder(bash.workDir).with {
+			"project" {
+				".sdkmanrc"("groovy=2.4.1\n")
+			}
+			"src" {}
+		}
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+
+		when:
+		bash.execute("cd project")
+		bash.execute("cd src")
+
+		then:
+		!bash.output.contains("Restored groovy version to 2.4.6")
+	}
+
 	def "should issue an error if .sdkmanrc contains a malformed candidate version"() {
 		given:
 		bash = sdkmanBashEnvBuilder

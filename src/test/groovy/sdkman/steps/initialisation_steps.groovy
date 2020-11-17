@@ -149,3 +149,11 @@ And(~/^the sdkman version is "([^"]*)"$/) { String version ->
 And(~/^the candidates cache is initialised with "(.*)"$/) { String candidate ->
 	localCandidates << candidate
 }
+
+And(~/^a project configuration is active$/) { ->
+	bash.execute("SDKMAN_ENV=" + sdkmanBaseEnv)
+}
+
+And(~/^a project configuration is active and points to "([^"]*)"$/) { String location ->
+	bash.execute("SDKMAN_ENV=" + location)
+}

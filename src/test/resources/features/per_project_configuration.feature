@@ -26,3 +26,26 @@ Feature: Per-project configuration
 		Then I see "Using groovy version 2.4.1 in this shell."
 		And the candidate "groovy" version "2.4.1" should be in use
 		And the candidate "groovy" version "2.0.5" should be the default
+
+	Scenario: The env clear subcommand is issued without an active project configuration
+		Given the system is bootstrapped
+		When I enter "sdk env clear"
+		Then I see "No environment currently set!"
+		And the exit code is 1
+
+	Scenario: The env clear subcommand is issued and the active project configuration is missing
+		Given the system is bootstrapped
+		And a project configuration is active and points to "/tmp"
+		When I enter "sdk env clear"
+		Then I see "Could not find /tmp/.sdkmanrc."
+		And the exit code is 1
+
+	Scenario: The current project configuration is cleared and the default versions restored
+		Given the file ".sdkmanrc" exists and contains "groovy=2.0.5"
+		And the candidate "groovy" version "2.4.1" is already installed and default
+		And the candidate "groovy" version "2.0.5" is in use
+		And the system is bootstrapped
+		And a project configuration is active
+		When I enter "sdk env clear"
+		Then I see "Restored groovy version to 2.4.1 (default)"
+		And the candidate "groovy" version "2.4.1" should be in use
