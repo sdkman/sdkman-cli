@@ -18,20 +18,24 @@
 
 function __sdk_env() {
 	local -r sdkmanrc=".sdkmanrc"
-	local -r sub_command="$1"
+	local -r subcommand="$1"
 
-	if [[ "$sub_command" == "init" ]]; then
-		__sdkman_generate_sdkmanrc "$sdkmanrc"
-
-		return 0
-	fi
-
-	if [[ "$sub_command" == "clear" ]]; then
+	case $subcommand in
+	"")
+		__sdkman_env "$sdkmanrc"
+		;;
+	init)
+		__sdkman_env_init "$sdkmanrc"
+		;;
+	clear)
 		__sdkman_check_valid_env "$sdkmanrc" || return 1
 		__sdkman_env_clear "$sdkmanrc"
+		;;
+	esac
+}
 
-		return 0
-	fi
+function __sdkman_env() {
+	local -r sdkmanrc="$1"
 
 	if [[ ! -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
@@ -59,7 +63,7 @@ function __sdk_env() {
 	done < "$sdkmanrc"
 }
 
-function __sdkman_generate_sdkmanrc() {
+function __sdkman_env_init() {
 	local -r sdkmanrc="$1"
 
 	if [[ -f "$sdkmanrc" ]]; then
