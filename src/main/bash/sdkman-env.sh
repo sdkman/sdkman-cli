@@ -28,7 +28,6 @@ function __sdk_env() {
 		__sdkman_env_init "$sdkmanrc"
 		;;
 	clear)
-		__sdkman_check_valid_env "$sdkmanrc" || return 1
 		__sdkman_env_clear "$sdkmanrc"
 		;;
 	esac
@@ -84,7 +83,7 @@ function __sdkman_env_init() {
 	__sdkman_echo_green "$sdkmanrc created."
 }
 
-function __sdkman_check_valid_env() {
+function __sdkman_env_clear() {
 	local -r sdkmanrc="$1"
 
 	if [[ -z $SDKMAN_ENV ]]; then
@@ -96,10 +95,6 @@ function __sdkman_check_valid_env() {
 		__sdkman_echo_red "Could not find ${SDKMAN_ENV}/${sdkmanrc}."
 		return 1
 	fi
-}
-
-function __sdkman_env_clear() {
-	local -r sdkmanrc="$1"
 
 	local normalised_line candidate candidate_dir version
 	while IFS= read -r line || [[ -n "$line" ]]; do
