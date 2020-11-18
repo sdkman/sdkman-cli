@@ -21,13 +21,15 @@ function __sdk_env() {
 	local -r subcommand="$1"
 
 	case $subcommand in
-		"")    __sdkman_load_env ;;
-		init)  __sdkman_create_env_file ;;
-		clear) __sdkman_clear_env ;;
+		"")    __sdkman_load_env "$sdkmanrc" ;;
+		init)  __sdkman_create_env_file "$sdkmanrc";;
+		clear) __sdkman_clear_env "$sdkmanrc";;
 	esac
 }
 
 function __sdkman_load_env() {
+	local sdkmanrc="$1"
+	
 	if [[ ! -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
 		echo ""
@@ -41,6 +43,8 @@ function __sdkman_load_env() {
 }
 
 function __sdkman_create_env_file() {
+	local sdkmanrc="$1"
+	
 	if [[ -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "$sdkmanrc already exists!"
 
@@ -62,6 +66,8 @@ function __sdkman_create_env_file() {
 }
 
 function __sdkman_clear_env() {
+	local sdkmanrc="$1"
+
 	if [[ -z $SDKMAN_ENV ]]; then
 		__sdkman_echo_red "No environment currently set!"
 		return 1
