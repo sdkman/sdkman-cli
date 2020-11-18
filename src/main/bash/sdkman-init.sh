@@ -136,7 +136,6 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 		function sdkman_auto_env() {
 			if [[ -f .sdkmanrc ]]; then
 				sdk env
-			# environment is set & current dir is not a subdirectory within that environment
 			elif [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
 				sdk env clear
 			fi
@@ -147,7 +146,6 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 		function sdkman_auto_env() {
 			if [[ "$OLDPWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]]; then
 				sdk env
-			# environment is set & current dir is not a subdirectory within that environment
 			elif [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
 				sdk env clear
 			fi
