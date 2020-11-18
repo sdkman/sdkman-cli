@@ -154,6 +154,8 @@ And(~/^a project configuration is active$/) { ->
 	bash.execute("SDKMAN_ENV=" + sdkmanBaseEnv)
 }
 
-And(~/^a project configuration is active and points to "([^"]*)"$/) { String location ->
-	bash.execute("SDKMAN_ENV=" + location)
+And(~/^a project configuration is active but points to a directory without configuration$/) { ->
+	def emptyDir = tmpDir.getPath() + "/empty"
+	bash.execute("mkdir $emptyDir")
+	bash.execute("SDKMAN_ENV=$emptyDir")
 }

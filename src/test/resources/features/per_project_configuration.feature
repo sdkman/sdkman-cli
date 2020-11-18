@@ -35,9 +35,9 @@ Feature: Per-project configuration
 
 	Scenario: The env clear subcommand is issued and the active project configuration is missing
 		Given the system is bootstrapped
-		And a project configuration is active and points to "/tmp"
+		And a project configuration is active but points to a directory without configuration
 		When I enter "sdk env clear"
-		Then I see "Could not find /tmp/.sdkmanrc."
+		Then I see "Could not find"
 		And the exit code is 1
 
 	Scenario: The current project configuration is cleared and the default versions restored
