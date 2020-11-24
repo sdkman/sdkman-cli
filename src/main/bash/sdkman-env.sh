@@ -90,7 +90,7 @@ function __sdkman_env_restore_default_version() {
 	if __sdkman_is_symlink $candidate_dir; then
 		default_version=$(basename $(readlink ${candidate_dir}))
 		__sdk_use "$candidate" "$default_version" >/dev/null &&
-			__sdkman_echo_no_colour "Restored $candidate version to $default_version (default)"
+			__sdkman_echo_yellow "Restored $candidate version to $default_version (default)"
 	else
 		__sdkman_echo_yellow "No default version of $candidate was found"
 	fi
