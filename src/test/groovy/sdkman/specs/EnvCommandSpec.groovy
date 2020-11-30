@@ -1,7 +1,6 @@
 package sdkman.specs
 
 import sdkman.support.SdkmanEnvSpecification
-import spock.lang.Unroll
 
 import java.nio.file.Paths
 
@@ -126,6 +125,37 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		'true'		  | { it.contains("Using groovy version 2.4.1 in this shell") }
 		'false'       | { !it.contains("Using groovy version 2.4.1 in this shell") }
 	}
+	
+	def "should not execute 'sdk env' when already being in a directory with an .sdkmanrc"() {
+		given:
+		new FileTreeBuilder(candidatesDirectory).with {
+			"groovy" {
+				"2.4.1" {}
+			}
+		}
+
+		bash = sdkmanBashEnvBuilder
+			.withVersionCache("x.y.z")
+			.withOfflineMode(true)
+			.withConfiguration("sdkman_auto_env", "true")
+			.build()
+
+		new FileTreeBuilder(bash.workDir).with {
+			"project" {
+				".sdkmanrc"("groovy=2.4.1\n")
+			}
+		}
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+
+		when:
+		bash.execute("cd project")
+		bash.execute("ls")
+
+		then:
+		!bash.output.contains("Using groovy version 2.4.1 in this shell")
+	}
 
 	def "should execute 'sdk env' when opening a new terminal in a directory with an .sdkmanrc"() {
 		given:
@@ -165,10 +195,10 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		createSymbolicLink(Paths.get("$candidatesDirectory/groovy/current"), Paths.get("$candidatesDirectory/groovy/2.4.6"))
 
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
-				.withOfflineMode(true)
-				.withConfiguration("sdkman_auto_env", "true")
-				.build()
+			.withVersionCache("x.y.z")
+			.withOfflineMode(true)
+			.withConfiguration("sdkman_auto_env", "true")
+			.build()
 
 		new FileTreeBuilder(bash.workDir).with {
 			"project" {
