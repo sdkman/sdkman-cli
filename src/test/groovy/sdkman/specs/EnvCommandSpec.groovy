@@ -195,10 +195,10 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		createSymbolicLink(Paths.get("$candidatesDirectory/groovy/current"), Paths.get("$candidatesDirectory/groovy/2.4.6"))
 
 		bash = sdkmanBashEnvBuilder
-			.withVersionCache("x.y.z")
-			.withOfflineMode(true)
-			.withConfiguration("sdkman_auto_env", "true")
-			.build()
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.withConfiguration("sdkman_auto_env", "true")
+				.build()
 
 		new FileTreeBuilder(bash.workDir).with {
 			"project" {
