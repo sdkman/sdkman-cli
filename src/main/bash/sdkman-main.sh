@@ -88,6 +88,7 @@ function sdk() {
 	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 		source "${SDKMAN_DIR}/etc/config"
 	fi
+	[[ "$sdkman_colour_style" == "dark" ]] && sdkman_colour_style_code=2 || sdkman_colour_style_code=1
 
 	# no command provided
 	if [[ -z "$COMMAND" ]]; then
