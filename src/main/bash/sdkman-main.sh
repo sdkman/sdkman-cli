@@ -110,7 +110,9 @@ function sdk() {
 
 	# couldn't find the command
 	if [[ -z "$CMD_FOUND" ]]; then
-		echo "Invalid command: $COMMAND"
+		echo ""
+		__sdkman_echo_red "Invalid command: $COMMAND"
+		echo ""
 		__sdk_help
 	fi
 
