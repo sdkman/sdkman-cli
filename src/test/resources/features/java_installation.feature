@@ -49,9 +49,8 @@ Feature: Java Multi Platform Binary Distribution
 		And I see " * 8.0.111 is an invalid version"
 		And I see " * java binaries are incompatible with FreeBSD"
 		And I see " * java has not been released yet"
-		And I see "Tip: Try finding a valid version by running the command:"
-		And I see "sdk list java"
-		And I see "and rerun with the correct version"
+		And I see "Tip: see all available versions for your platform:"
+		And I see "$ sdk list java"
 		And the candidate "java" version "8.0.111" is not installed
 
 	Scenario: Platform is not supported for default version and user is notified
@@ -64,7 +63,6 @@ Feature: Java Multi Platform Binary Distribution
 		And I see " * 8.0.111 is an invalid version"
 		And I see " * java binaries are incompatible with FreeBSD"
 		And I see " * java has not been released yet"
-		And I see "Tip: Try finding a valid version by running the command:"
-		And I see "sdk list java"
-		And I see "and rerun with the correct version"
+		And I see "Tip: see all available versions for your platform:"
+		And I see "$ sdk list java"
 		And the candidate "java" version "8.0.111" is not installed

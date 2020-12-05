@@ -89,9 +89,8 @@ function __sdkman_determine_version() {
 			__sdkman_echo_red " * $candidate binaries are incompatible with $SDKMAN_PLATFORM"
 			__sdkman_echo_red " * $candidate has not been released yet"
 			
-			__sdkman_echo_green "Tip: Try finding a valid version by running the command:"
-			__sdkman_echo_green "sdk list $candidate"
-			__sdkman_echo_green "and rerun with the correct version"
+			__sdkman_echo_yellow "Tip: see all available versions for your platform:"
+			__sdkman_echo_yellow "$ sdk list $candidate"
 			return 1
 		fi
 	fi
