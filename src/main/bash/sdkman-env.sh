@@ -23,8 +23,23 @@ function __sdk_env() {
 	case $subcommand in
 		"")    __sdkman_load_env "$sdkmanrc" ;;
 		init)  __sdkman_create_env_file "$sdkmanrc";;
+		install) __sdkman_setup_env "$sdkmanrc";;
 		clear) __sdkman_clear_env "$sdkmanrc";;
 	esac
+}
+
+function __sdkman_setup_env() {
+	local sdkmanrc="$1"
+
+	if [[ ! -f "$sdkmanrc" ]]; then
+		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
+		echo ""
+		__sdkman_echo_yellow "Run 'sdk env init' to create it."
+
+		return 1
+	fi
+
+	sdkman_auto_answer="true" USE="n" __sdkman_env_each_candidate "$sdkmanrc" "__sdk_install"
 }
 
 function __sdkman_load_env() {
