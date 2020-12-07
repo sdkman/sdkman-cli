@@ -29,13 +29,14 @@ Feature: Per-project configuration
 		
 	Scenario: The env install subcommand is issued with an sdkman project configuration present
 		Given the system is bootstrapped
-	    And the file ".sdkmanrc" exists and contains "groovy=2.4.1"
+		And the file ".sdkmanrc" exists and contains "groovy=2.4.1"
+		And the candidate "groovy" version "2.0.5" is already installed and default
 		And the candidate "groovy" version "2.4.1" is available for download
 		When I enter "sdk env install"
 		Then I see "Done installing!"
 		And the candidate "groovy" version "2.4.1" is installed
-		And the candidate "groovy" version "2.4.1" should not be the default
-		
+		And the candidate "groovy" version "2.0.5" should be the default
+
 	Scenario: The env clear subcommand is issued without an active project configuration
 		Given the system is bootstrapped
 		When I enter "sdk env clear"
