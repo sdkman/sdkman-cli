@@ -130,7 +130,7 @@ function __sdkman_env_each_candidate() {
 		fi
 
 		$func "${normalised_line%=*}" "${normalised_line#*=}"
-	done < $filepath
+	done < "$filepath"
 }
 
 function __sdkman_is_symlink() {
