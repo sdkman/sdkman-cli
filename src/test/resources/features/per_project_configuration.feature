@@ -26,6 +26,23 @@ Feature: Per-project configuration
 		Then I see "Using groovy version 2.4.1 in this shell."
 		And the candidate "groovy" version "2.4.1" should be in use
 		And the candidate "groovy" version "2.0.5" should be the default
+		
+	Scenario: The env install subcommand is issued with an sdkman project configuration present
+		Given the system is bootstrapped
+		And the file ".sdkmanrc" exists and contains "groovy=2.4.1"
+		And the candidate "groovy" version "2.0.5" is already installed and default
+		And the candidate "groovy" version "2.4.1" is available for download
+		When I enter "sdk env install"
+		Then I see "Done installing!"
+		And the candidate "groovy" version "2.4.1" is installed
+		And the candidate "groovy" version "2.0.5" should be the default
+
+	Scenario: The env install subcommand is issued without an sdkman project configuration present
+		Given the system is bootstrapped
+		When I enter "sdk env install"
+		Then I see "Could not find .sdkmanrc in the current directory."
+		And I see "Run 'sdk env init' to create it."
+		And the exit code is 1
 
 	Scenario: The env clear subcommand is issued without an active project configuration
 		Given the system is bootstrapped
