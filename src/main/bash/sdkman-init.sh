@@ -36,6 +36,8 @@ if [[ "$SDKMAN_PLATFORM" == 'Linux' ]]; then
 		SDKMAN_PLATFORM+='32'
 	elif [[ "$(uname -m)" == 'aarch64' ]]; then
 		SDKMAN_PLATFORM+='ARM64'
+	elif [[ "$(uname -m)" == 'armv7l' ]]; then
+		SDKMAN_PLATFORM+='ARM'
 	else
 		SDKMAN_PLATFORM+='64'
 	fi
