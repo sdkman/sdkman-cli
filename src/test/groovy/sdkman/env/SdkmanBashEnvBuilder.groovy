@@ -2,6 +2,7 @@ package sdkman.env
 
 import groovy.transform.ToString
 import sdkman.stubs.CurlStub
+import sdkman.stubs.UnameStub
 
 @ToString(includeNames = true)
 class SdkmanBashEnvBuilder {
@@ -13,6 +14,7 @@ class SdkmanBashEnvBuilder {
 
 	//optional fields with sensible defaults
 	private Optional<CurlStub> curlStub = Optional.empty()
+	private Optional<UnameStub> unameStub = Optional.empty()
 	private List candidates = ['groovy', 'grails', 'java']
 	private boolean offlineMode = false
 	private String broadcast = "This is a LIVE broadcast!"
@@ -40,6 +42,11 @@ class SdkmanBashEnvBuilder {
 
 	SdkmanBashEnvBuilder withCurlStub(CurlStub curlStub) {
 		this.curlStub = Optional.of(curlStub)
+		this
+	}
+
+	SdkmanBashEnvBuilder withUnameStub(UnameStub unameStub) {
+		this.unameStub = Optional.of(unameStub)
 		this
 	}
 
@@ -104,7 +111,8 @@ class SdkmanBashEnvBuilder {
 		sdkmanTmpDir = prepareDirectory(sdkmanDir, "tmp")
 		sdkmanCandidatesDir = prepareDirectory(sdkmanDir, "candidates")
 
-		curlStub.map { cs -> cs.build() }
+		curlStub.map { it.build() }
+		unameStub.map { it.build() }
 
 		initializeCandidates(sdkmanCandidatesDir, candidates)
 		initializeCandidatesCache(sdkmanVarDir, candidates)

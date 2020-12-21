@@ -7,7 +7,7 @@ Feature: Hooks
 		And an initialised environment
 
 	Scenario: Pre- and Post-installation Hooks return successfully
-		And a machine with "Linux" installed
+		And an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
 		And the candidate "grails" version "2.1.0" is available for download on "Linux"
 		And a "pre" install hook is served for "grails" "2.1.0" on "Linux" that returns successfully
@@ -18,7 +18,7 @@ Feature: Hooks
 		And the exit code is 0
 
 	Scenario: Pre-installation Hook returns a non-zero code
-		And a machine with "Linux" installed
+		And an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
 		And the candidate "grails" version "2.1.0" is available for download on "Linux"
 		And a "pre" install hook is served for "grails" "2.1.0" on "Linux" that returns a failure
@@ -27,7 +27,7 @@ Feature: Hooks
 		And the exit code is 1
 
 	Scenario: Post-install Hook returns a non-zero code
-		And a machine with "Linux" installed
+		And an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
 		And the candidate "grails" version "2.1.0" is available for download on "Linux"
 		And a "pre" install hook is served for "grails" "2.1.0" on "Linux" that returns successfully

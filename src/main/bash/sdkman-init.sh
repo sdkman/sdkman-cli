@@ -30,24 +30,67 @@ if [ -z "$SDKMAN_DIR" ]; then
 fi
 
 # infer platform
-SDKMAN_PLATFORM="$(uname)"
-if [[ "$SDKMAN_PLATFORM" == 'Linux' ]]; then
-	if [[ "$(uname -m)" == 'i686' ]]; then
-		SDKMAN_PLATFORM+='32'
-	elif [[ "$(uname -m)" == 'aarch64' ]]; then
-		SDKMAN_PLATFORM+='ARM64'
-	else
-		SDKMAN_PLATFORM+='64'
-	fi
-fi
+
+function infer_platform() {
+	local kernel
+	local machine
+	
+	kernel="$(uname -s)"
+	machine="$(uname -m)"
+	
+	case $kernel in
+	Linux)
+	  case $machine in
+	  i686)
+		echo "Linux32"
+		;;
+	  X86_64)
+		echo "Linux64"
+		;;
+	  armv7l)
+		echo "LinuxARM32"
+		;;
+	  armv8l)
+		echo "LinuxARM64"
+		;;
+	  aarch64)
+		echo "LinuxARM64"
+		;;
+	  *)
+	  	echo "Linux64"
+	  	;;
+	  esac
+	  ;;
+	Darwin)
+	  case $machine in
+	  X86_64)
+		echo "Darwin64"
+		;;
+	  arm64)    
+		echo "DarwinARM64"
+		;;
+	  *)
+	  	echo "Darwin64"
+	  	;;
+	  esac
+	  ;;
+	*)
+	  echo "$kernel"
+	esac
+}
+
+SDKMAN_PLATFORM="$(infer_platform)"
 export SDKMAN_PLATFORM
+
+__sdkman_echo_debug "Inferred platform: $SDKMAN_PLATFORM"
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false
 darwin=false
 solaris=false
 freebsd=false
-case "${SDKMAN_PLATFORM}" in
+SDKMAN_KERNEL="$(uname -s)"
+case "${SDKMAN_KERNEL}" in
 	CYGWIN*)
 		cygwin=true
 		;;
