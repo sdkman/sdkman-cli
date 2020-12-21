@@ -2,37 +2,27 @@ package sdkman.support
 
 class UnixUtils {
 
+	private static platforms = [
+	        "Linux": [
+					"amd64": "LinuxX64"
+	        ],
+			"Darwin": [
+			        "X86_64": "DarwinX64",
+			],
+			"FreeBSD": [
+			        "amd64": "FreeBSD_X64"
+			]
+	]
+
 	static getPlatform() {
-		asSdkmanPlatform(System.getProperty("os.name"), System.getProperty("os.arch"))
+		def sdkmanPlatform = asSdkmanPlatform(System.getProperty("os.name"), System.getProperty("os.arch"))
+		println("Setting platform for test: $sdkmanPlatform")
+		sdkmanPlatform
 	}
-
-	static asSdkmanPlatform(platform, architecture = "") {
-
-		def platformArch = architecture == "aarch64" ? "$platform $architecture" : platform
-
-		def result
-		switch (platformArch) {
-			case "Mac OS X":
-				result = "Darwin"
-				break
-			case "Linux":
-				result = "Linux64"
-				break
-			case "Linux 64":
-				result = "Linux64"
-				break
-			case "Linux 32":
-				result = "Linux32"
-				break
-			case "Linux aarch64":
-				result = "LinuxARM64"
-				break
-			case "FreeBSD":
-				result = "FreeBSD"
-				break
-			default:
-				result = platform
-		}
-		result
+	
+	static asSdkmanPlatform(
+			platform = System.getProperty("os.name"),
+			architecture = System.getProperty("os.arch")) {
+		platforms[platform][architecture] ?: platform
 	}
 }

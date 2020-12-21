@@ -12,7 +12,7 @@ Feature: Java Multi Platform Binary Distribution
 		And an initialised environment
 
 	Scenario: Platform is supported and a specific version of compatible binary is installed
-		Given a machine with "Linux" installed
+		Given an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
 		And the candidate "java" version "8.0.111" is available for download on "Linux"
 		And the appropriate multi-platform hooks are available for "java" version "8.0.111" on "Linux"
@@ -21,7 +21,7 @@ Feature: Java Multi Platform Binary Distribution
 		And the candidate "java" version "8.0.111" is installed
 
 	Scenario: Platform is supported and a default version of compatible binary is installed
-		Given a machine with "Linux" installed
+		Given an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
 		And the default "java" version is "8.0.111"
 		And the candidate "java" version "8.0.111" is available for download on "Linux"
@@ -31,7 +31,7 @@ Feature: Java Multi Platform Binary Distribution
 		And the candidate "java" version "8.0.111" is installed
 
 	Scenario: Platform is supported but download fails
-		Given a machine with "Linux" installed
+		Given an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
 		And the candidate "java" version "8.0.101" is available for download on "Linux"
 		And the appropriate multi-platform hooks are available for "java" version "8.0.101" on "Linux"
@@ -41,7 +41,7 @@ Feature: Java Multi Platform Binary Distribution
 		And I see "Cannot install java 8.0.101 at this time..."
 
 	Scenario: Platform is not supported for specific version and user is notified
-		And a machine with "FreeBSD" installed
+		And an "amd64" machine with "FreeBSD" installed
 		And the system is bootstrapped
 		And the candidate "java" version "8.0.111" is not available for download on "FreeBSD"
 		When I enter "sdk install java 8.0.111"
@@ -54,7 +54,7 @@ Feature: Java Multi Platform Binary Distribution
 		And the candidate "java" version "8.0.111" is not installed
 
 	Scenario: Platform is not supported for default version and user is notified
-		And a machine with "FreeBSD" installed
+		And an "amd64" machine with "FreeBSD" installed
 		And the system is bootstrapped
 		And the default "java" version is "8.0.111"
 		And the candidate "java" version "8.0.111" is not available for download on "FreeBSD"

@@ -78,10 +78,11 @@ And(~'^offline mode is enabled with unreachable internet$') { ->
 	javaHome = FAKE_JDK_PATH
 }
 
-And(~'^a machine with "(.*)" installed$') { String platform ->
+And(~'^an "(.*)" machine with "(.*)" installed$') { String machine, String kernel ->
 	def binFolder = "$sdkmanBaseDir/bin" as File
 	UnameStub.prepareIn(binFolder)
-			.forPlatform(asSdkmanPlatform(platform))
+			.forKernel(kernel)
+			.forMachine(machine)
 			.build()
 }
 
