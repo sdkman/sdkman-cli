@@ -15,6 +15,9 @@ class UnixUtils {
 			case "Mac OS X":
 				result = "Darwin"
 				break
+			case "Mac OS X aarch64":
+				result = "DarwinARM64"
+				break
 			case "Linux":
 				result = "Linux64"
 				break
