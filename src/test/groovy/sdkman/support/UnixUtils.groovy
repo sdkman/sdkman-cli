@@ -8,7 +8,7 @@ class UnixUtils {
 
 	static asSdkmanPlatform(platform, architecture = "") {
 
-		def platformArch = architecture == "aarch64" ? "$platform $architecture" : platform
+		def platformArch = architecture in ["aarch64", "arm"] ? "$platform $architecture" : platform
 
 		def result
 		switch (platformArch) {
@@ -23,6 +23,9 @@ class UnixUtils {
 				break
 			case "Linux 32":
 				result = "Linux32"
+				break
+			case "Linux arm":
+				result = "LinuxARM"
 				break
 			case "Linux aarch64":
 				result = "LinuxARM64"
