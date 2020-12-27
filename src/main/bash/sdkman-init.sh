@@ -82,8 +82,6 @@ function infer_platform() {
 SDKMAN_PLATFORM="$(infer_platform)"
 export SDKMAN_PLATFORM
 
-__sdkman_echo_debug "Inferred platform: $SDKMAN_PLATFORM"
-
 # OS specific support (must be 'true' or 'false').
 cygwin=false
 darwin=false
