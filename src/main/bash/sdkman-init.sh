@@ -44,7 +44,7 @@ function infer_platform() {
 	  i686)
 		echo "LinuxX32"
 		;;
-	  X86_64)
+	  x86_64)
 		echo "LinuxX64"
 		;;
 	  armv7l)
@@ -63,7 +63,7 @@ function infer_platform() {
 	  ;;
 	Darwin)
 	  case $machine in
-	  X86_64)
+	  x86_64)
 		echo "DarwinX64"
 		;;
 	  arm64)    
