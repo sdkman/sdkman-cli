@@ -175,7 +175,7 @@ function __sdkman_validate_zip() {
 	zip_archive="$1"
 	zip_ok=$(unzip -t "$zip_archive" | grep 'No errors detected in compressed data')
 	if [ -z "$zip_ok" ]; then
-		rm "$zip_archive"
+		rm -f "$zip_archive"
 		echo ""
 		__sdkman_echo_red "Stop! The archive was corrupt and has been removed! Please try installing again."
 		return 1

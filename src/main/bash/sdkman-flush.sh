@@ -25,7 +25,7 @@ function __sdk_flush() {
 		;;
 	version)
 		if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
-			rm "${SDKMAN_DIR}/var/version"
+			rm -f "${SDKMAN_DIR}/var/version"
 			__sdkman_echo_green "Version file has been flushed."
 		fi
 		;;
@@ -63,8 +63,8 @@ function __sdkman_cleanup_folder() {
 
 function __sdkman_cleanup_broadcast() {
 	if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
-		rm "${SDKMAN_DIR}/var/broadcast_id"
-		rm "${SDKMAN_DIR}/var/broadcast"
+		rm -f "${SDKMAN_DIR}/var/broadcast_id"
+		rm -f "${SDKMAN_DIR}/var/broadcast"
 		__sdkman_echo_green "Broadcast has been flushed."
 	else
 		__sdkman_echo_no_colour "No prior broadcast found so not flushed."
