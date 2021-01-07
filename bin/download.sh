@@ -50,6 +50,6 @@ fi
 echo "Extracting archive to: $DESTINATION_DIR"
 unzip -oq "$ARCHIVE" -d "$TMP_DIR"
 mkdir "$DESTINATION_DIR"
-mv "$TMP_DIR"/**/* "$DESTINATION_DIR"
+mv -f "$TMP_DIR"/**/* "$DESTINATION_DIR"
 
 rm -rf "$TMP_DIR"

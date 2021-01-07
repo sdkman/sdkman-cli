@@ -71,7 +71,7 @@ function __sdkman_install_candidate_version() {
 
 	rm -rf "${SDKMAN_DIR}/tmp/out"
 	unzip -oq "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
-	mv "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	mv -f "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	__sdkman_echo_green "Done installing!"
 	echo ""
 }
@@ -159,7 +159,7 @@ function __sdkman_download() {
 		__sdkman_echo_debug "Processed binary as: $zip_output"
 		__sdkman_echo_debug "Completed post-installation hook..."
 
-		mv "$zip_output" "$zip_archive_target"
+		mv -f "$zip_output" "$zip_archive_target"
 		__sdkman_echo_debug "Moved to archive folder: $zip_archive_target"
 	else
 		echo ""
