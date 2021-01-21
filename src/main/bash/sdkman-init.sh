@@ -29,8 +29,12 @@ if [ -z "$SDKMAN_DIR" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
 
-# infer platform
+# Load the sdkman config if it exists.
+if [ -f "${SDKMAN_DIR}/etc/config" ]; then
+	source "${SDKMAN_DIR}/etc/config"
+fi
 
+# infer platform
 function infer_platform() {
 	local kernel
 	local machine
@@ -66,8 +70,12 @@ function infer_platform() {
 	  x86_64)
 		echo "DarwinX64"
 		;;
-	  arm64)    
-		echo "DarwinARM64"
+	  arm64)
+		if [[ "$sdkman_rosetta2_compatible" == 'true' ]]; then
+			echo "DarwinX64"
+		else
+			echo "DarwinARM64"
+		fi
 		;;
 	  *)
 	  	echo "DarwinX64"
@@ -126,11 +134,6 @@ for f in "${scripts[@]}"; do
 done
 IFS="$OLD_IFS"
 unset OLD_IFS scripts f
-
-# Load the sdkman config if it exists.
-if [ -f "${SDKMAN_DIR}/etc/config" ]; then
-	source "${SDKMAN_DIR}/etc/config"
-fi
 
 # Create upgrade delay file if it doesn't exist
 if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
