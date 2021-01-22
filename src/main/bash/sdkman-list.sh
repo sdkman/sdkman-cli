@@ -55,7 +55,7 @@ function __sdkman_build_version_csv() {
 	versions_csv=""
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}" ]]; then
-		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 \( -type l -o -type d \) -exec basename '{}' \; | sort -r); do
+		for version in $(find -L "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 \( -type l -o -type d \) -exec basename '{}' \; | sort -r); do
 			if [[ "$version" != 'current' ]]; then
 				versions_csv="${version},${versions_csv}"
 			fi
@@ -76,7 +76,7 @@ function __sdkman_offline_list() {
 	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 
 	local versions=($(echo ${versions_csv//,/ }))
-	for ((i = ${#versions} - 1; i >= 0; i--)); do
+	for ((i = ${#versions[@]} - 1; i >= 0; i--)); do
 		if [[ -n "${versions[${i}]}" ]]; then
 			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
 				__sdkman_echo_no_colour " > ${versions[${i}]}"
