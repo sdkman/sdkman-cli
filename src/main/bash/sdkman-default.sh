@@ -27,7 +27,9 @@ function __sdk_default() {
 
 	if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]; then
 		echo ""
-		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is not installed."
+		__sdkman_echo_red "Stop! Candidate version is not installed. Please run:"
+		echo ""
+		__sdkman_echo_red "$ sdk install ${candidate} ${VERSION}"
 		return 1
 	fi
 
