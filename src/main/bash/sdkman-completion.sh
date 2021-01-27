@@ -17,39 +17,39 @@
 #
 
 function __sdk_completion() {
-	cat <<- 'EOF'
+	\cat <<- 'EOF'
 	_sdk_completion() {
-		local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
-		local -r current_word="${COMP_WORDS[COMP_CWORD]}"
+	    local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
+	    local -r current_word="${COMP_WORDS[COMP_CWORD]}"
 
-		local candidates
+	    local candidates
 
-		case "$previous_word" in
-		sdk)
-			candidates=("install" "uninstall" "list" "use" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
-			;;
-		env)
-			candidates=("init install clear")
-			;;
-		current)
-			candidates=()
+	    case "$previous_word" in
+	    sdk)
+	        candidates=("install" "uninstall" "list" "use" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
+	        ;;
+	    env)
+	        candidates=("init install clear")
+	        ;;
+	    current)
+	        candidates=()
 	
-			for candidate_path in "$SDKMAN_CANDIDATES_DIR"/*; do
-				candidates+=("${candidate_path##*/}")
-			done
-			;;
-		offline)
-			candidates=("enable" "disable")
-			;;
-		selfupdate)
-			candidates=("force")
-			;;
-		flush)
-			candidates=("archives" "temp" "broadcast" "version")
-			;;
-		esac
+	        for candidate_path in "$SDKMAN_CANDIDATES_DIR"/*; do
+	            candidates+=("${candidate_path##*/}")
+	        done
+	        ;;
+	    offline)
+	        candidates=("enable" "disable")
+	        ;;
+	    selfupdate)
+	        candidates=("force")
+	        ;;
+	    flush)
+	        candidates=("archives" "temp" "broadcast" "version")
+	        ;;
+	    esac
 
-		COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
+	    COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
 	}
 
 	complete -o default -F _sdk_completion sdk		
