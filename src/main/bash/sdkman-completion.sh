@@ -27,9 +27,7 @@ function __sdk_completion() {
 			__sdkman_completion_zsh
 			;;
 		*)
-			__sdkman_echo_red "No shell provided."
-
-			return 1
+			__sdkman_echo_red "No shell provided." && return 1
 	esac
 }
 
@@ -77,5 +75,5 @@ function __sdkman_completion_bash() {
 }
 
 function __sdkman_completion_zsh() {
-	__sdkman_echo_red "zsh is not supported yet!"
+	__sdkman_echo_yellow "zsh is not supported yet!"
 }
