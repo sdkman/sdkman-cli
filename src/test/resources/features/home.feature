@@ -26,9 +26,12 @@ anything else unless it is an actual error.
 		Given the candidate "grails" version "1.3.9" is available for download
 		And the system is bootstrapped
 		When I enter "sdk home grails 1.3.9"
-		Then I see "Stop! Candidate version is not installed. Please run:"
-		And I see ""
-		And I see "$ sdk install grails 1.3.9"
+		Then I see "Stop! grails 1.3.9 is not available. Possible causes:"
+		And I see "* 1.3.9 is an invalid version"
+		And I see "* grails binaries are incompatible with LinuxX64"
+		And I see "* grails has not been released yet"
+		And I see "Tip: see all available versions for your platform:"
+		And I see "$ sdk list grails"
 		And the exit code is 1
 
 	Scenario: Home for a candidate version that does not exist
