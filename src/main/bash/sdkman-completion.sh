@@ -26,7 +26,10 @@ function __sdk_completion() {
 
 	    case "$previous_word" in
 	    sdk)
-	        candidates=("install" "uninstall" "list" "use" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
+	        candidates=("install" "uninstall" "list" "use" "completion" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
+	        ;;
+	    completion)
+	        candidates=("bash" "zsh")
 	        ;;
 	    env)
 	        candidates=("init install clear")
