@@ -17,6 +17,23 @@
 #
 
 function __sdk_completion() {
+	local -r shell="$1"
+
+	case "$shell" in
+    	bash)
+    		__sdkman_completion_bash
+			;;
+		zsh)
+			__sdkman_completion_zsh
+			;;
+		*)
+			__sdkman_echo_red "No shell provided."
+
+			return 1
+	esac
+}
+
+function __sdkman_completion_bash() {
 	\cat <<- 'EOF'
 	_sdk_completion() {
 	    local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
@@ -57,4 +74,8 @@ function __sdk_completion() {
 
 	complete -o default -F _sdk_completion sdk		
 	EOF
+}
+
+function __sdkman_completion_zsh() {
+	__sdkman_echo_red "zsh is not supported yet!"
 }
