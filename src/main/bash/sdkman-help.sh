@@ -26,7 +26,7 @@ function __sdk_help() {
 	__sdkman_echo_no_colour "       uninstall or rm   <candidate> <version>"
 	__sdkman_echo_no_colour "       list      or ls   [candidate]"
 	__sdkman_echo_no_colour "       use       or u    <candidate> <version>"
-	__sdkman_echo_no_colour "       completion        [bash|zsh]"
+	__sdkman_echo_no_colour "       completion        <bash|zsh>"
 	__sdkman_echo_no_colour "       default   or d    <candidate> [version]"
 	__sdkman_echo_no_colour "       home      or h    <candidate> <version>"
 	__sdkman_echo_no_colour "       env       or e    [init|install|clear]"
