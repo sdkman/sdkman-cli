@@ -70,7 +70,13 @@ function __sdkman_completion_bash() {
 	    COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
 	}
 
-	complete -o default -F _sdk_completion sdk		
+	complete -o default -F _sdk_completion sdk
+
+	# Run the following command to enable Bash completion in the current shell:
+	#     source <(sdk completion bash)
+	#
+	# Issue the following command to enable Bash completion permanently:
+	#     echo "source <(sdk completion bash)" >> ~/.bashrc
 	EOF
 }
 
