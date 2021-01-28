@@ -75,5 +75,5 @@ function __sdkman_completion_bash() {
 }
 
 function __sdkman_completion_zsh() {
-	__sdkman_echo_yellow "zsh is not supported yet!"
+	__sdkman_echo_yellow "zsh is not supported yet."
 }
