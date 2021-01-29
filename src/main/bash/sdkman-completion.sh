@@ -49,13 +49,6 @@ function __sdkman_completion_bash() {
 	    env)
 	        candidates=("init install clear")
 	        ;;
-	    current)
-	        candidates=()
-	
-	        for candidate_path in "$SDKMAN_CANDIDATES_DIR"/*; do
-	            candidates+=("${candidate_path##*/}")
-	        done
-	        ;;
 	    offline)
 	        candidates=("enable" "disable")
 	        ;;
