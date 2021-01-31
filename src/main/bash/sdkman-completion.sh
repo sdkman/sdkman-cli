@@ -20,59 +20,14 @@ function __sdk_completion() {
 	local -r shell="$1"
 
 	case "$shell" in
-    	bash)
-    		__sdkman_completion_bash
+		bash)
+			cat "${SDKMAN_DIR}/contrib/completion/bash/sdk"
 			;;
 		zsh)
-			__sdkman_completion_zsh
+			__sdkman_echo_yellow "zsh is not supported yet."
 			;;
 		*)
-			__sdkman_echo_red "No shell provided." && return 1
+			__sdkman_echo_red "No shell provided."
+			;;
 	esac
-}
-
-function __sdkman_completion_bash() {
-	\cat <<- 'EOF'
-	_sdk_completion() {
-	    local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
-	    local -r current_word="${COMP_WORDS[COMP_CWORD]}"
-
-	    local candidates
-
-	    case "$previous_word" in
-	    sdk)
-	        candidates=("install" "uninstall" "list" "use" "completion" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
-	        ;;
-	    completion)
-	        candidates=("bash" "zsh")
-	        ;;
-	    env)
-	        candidates=("init install clear")
-	        ;;
-	    offline)
-	        candidates=("enable" "disable")
-	        ;;
-	    selfupdate)
-	        candidates=("force")
-	        ;;
-	    flush)
-	        candidates=("archives" "temp" "broadcast" "version")
-	        ;;
-	    esac
-
-	    COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
-	}
-
-	complete -o default -F _sdk_completion sdk
-
-	# Run the following command to enable Bash completion in the current shell:
-	#     source <(sdk completion bash)
-	#
-	# Issue the following command to enable Bash completion permanently:
-	#     echo "source <(sdk completion bash)" >> ~/.bashrc
-	EOF
-}
-
-function __sdkman_completion_zsh() {
-	__sdkman_echo_yellow "zsh is not supported yet."
 }
