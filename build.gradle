@@ -10,6 +10,7 @@ plugins {
 String userHome = System.getProperty('user.home')
 ext.installBinDir = "${userHome}/.sdkman/bin"
 ext.installSrcDir = "${userHome}/.sdkman/src"
+ext.installContribDir = "${userHome}/.sdkman/contrib"
 
 def loadConfiguration() {
 	def environment = hasProperty('env') ? env : 'local'
@@ -59,12 +60,17 @@ task prepareScripts(type: Copy) {
 	)
 }
 
+task prepareContrib(type: Copy) {
+	from('contrib')
+	into('build/contrib')
+}
+
 tasks.test.configure {
 	dependsOn(prepareScripts)
 	testLogging.exceptionFormat = FULL
 }
 
-task assembleArchive(type: Zip, dependsOn: prepareScripts) {
+task assembleArchive(type: Zip, dependsOn: [prepareScripts, prepareContrib]) {
 	archiveAppendix = 'cli'
 	archiveVersion = sdkmanCliBuildVersion
 	from('build/scripts')
@@ -79,8 +85,17 @@ task cleanInstallInit(type: Delete) {
 	delete(installBinDir)
 }
 
+task cleanContribInit(type: Delete) {
+	delete(installContribDir)
+}
+
 task cleanInstallModules(type: Delete) {
 	delete(installSrcDir)
+}
+
+task installContrib(type: Copy, dependsOn: [cleanContribInit, prepareContrib]) {
+	from('build/contrib')
+	into(installContribDir)
 }
 
 task installInit(type: Copy, dependsOn: [cleanInstallInit, prepareScripts]) {
@@ -96,7 +111,7 @@ task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]
 	exclude('sdkman-init.sh')
 }
 
-task install(dependsOn: [installInit, installModules])
+task install(dependsOn: [installInit, installContrib, installModules])
 
 bintray {
 	user = System.getenv('BINTRAY_USERNAME')
