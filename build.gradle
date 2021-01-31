@@ -70,11 +70,15 @@ tasks.test.configure {
 	testLogging.exceptionFormat = FULL
 }
 
-task assembleArchive(type: Zip, dependsOn: prepareScripts) {
+task assembleArchive(type: Zip, dependsOn: [prepareScripts, prepareContrib]) {
 	archiveAppendix = 'cli'
 	archiveVersion = sdkmanCliBuildVersion
-	from('build/scripts')
-	include('*.sh*')
+	from('build/scripts') {
+		include('*.sh*')
+	}
+	from('build') {
+		include('contrib/**')
+	}
 }
 
 tasks.assemble.configure {
