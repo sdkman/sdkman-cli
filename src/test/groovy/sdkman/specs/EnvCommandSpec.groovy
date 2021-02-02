@@ -184,6 +184,38 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		bash.output.contains("Using groovy version 2.4.1 in this shell")
 	}
 
+	def "should execute 'sdk env' after executing 'sdk env clear'"() {
+		given:
+		new FileTreeBuilder(candidatesDirectory).with {
+			"groovy" {
+				"2.4.1" {}
+			}
+		}
+
+		bash = sdkmanBashEnvBuilder
+			.withVersionCache("x.y.z")
+			.withOfflineMode(true)
+			.withConfiguration("sdkman_auto_env", "true")
+			.build()
+
+		new FileTreeBuilder(bash.workDir).with {
+			"project" {
+				".sdkmanrc"("groovy=2.4.1\n")
+			}
+		}
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+
+		when:
+		bash.execute("cd project")
+		bash.execute("cd ..")
+		bash.execute("cd project")
+
+		then:
+		(bash.output =~ /(?m)Using groovy version 2.4.1 in this shell/).size() == 2
+	}
+
 	def "should execute 'sdk env clear' when exiting from a directory with an .sdkmanrc"() {
 		given:
 		new FileTreeBuilder(candidatesDirectory).with {
