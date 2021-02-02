@@ -213,7 +213,7 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		bash.execute("cd project")
 
 		then:
-		(bash.output =~ /(?m)Using groovy version 2.4.1 in this shell/).size() == 2
+		(bash.output =~ /Using groovy version 2.4.1 in this shell/).size() == 2
 	}
 
 	def "should execute 'sdk env clear' when exiting from a directory with an .sdkmanrc"() {
