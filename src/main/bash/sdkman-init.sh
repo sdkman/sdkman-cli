@@ -188,13 +188,13 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 		chpwd_functions+=(sdkman_auto_env)
 	else
 		function sdkman_auto_env() {
-			if [[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]]; then
+			if [[ ! $SDKMAN_OLD_PWD =~ ^$PWD ]] && [[ -f ".sdkmanrc" ]]; then
 				sdk env
-
-				export SDKMAN_OLD_PWD="$PWD"
 			elif [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
 				sdk env clear
 			fi
+
+			export SDKMAN_OLD_PWD="$PWD"
 		}
 
 		[[ -z "$PROMPT_COMMAND" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${PROMPT_COMMAND%\;};sdkman_auto_env"
