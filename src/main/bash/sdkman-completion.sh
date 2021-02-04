@@ -24,10 +24,10 @@ function __sdk_completion() {
 			cat "${SDKMAN_DIR}/contrib/completion/bash/sdk"
 			;;
 		zsh)
-			__sdkman_echo_yellow "zsh is not supported yet."
+			__sdkman_echo_yellow "zsh is not supported yet." 1>&2
 			;;
 		*)
-			__sdkman_echo_red "No shell provided."
+			__sdkman_echo_red "No shell provided." 1>&2
 			;;
 	esac
 }
