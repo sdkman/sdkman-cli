@@ -10,8 +10,8 @@ Feature: Upgrade Candidate
 		And the default "grails" version is "2.4.4"
 		And the system is bootstrapped
 		When I enter "sdk upgrade grails" and answer "n"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.4.4)"
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.4.4)"
 
 	Scenario: Display upgradable candidate version in use when it is not upgradable
 		Given the candidate "grails" version "1.3.9" is already installed and default
@@ -37,8 +37,8 @@ Feature: Upgrade Candidate
 		And the default "grails" version is "2.4.4"
 		And the system is bootstrapped
 		When I enter "sdk upgrade" and answer "n"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.4.4)"
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.4.4)"
 
 	Scenario: Display upgradable candidate versions when none is specified and multiple are in use
 		Given the candidate "grails" version "1.3.9" is already installed and default
@@ -47,9 +47,9 @@ Feature: Upgrade Candidate
 		And the default "groovy" version is "2.4.1"
 		And the system is bootstrapped
 		When I enter "sdk upgrade" and answer "n"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.4.4)"
-		And I see "groovy (2.0.5 < 2.4.1)"
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.4.4)"
+		And I see "groovy (local: 2.0.5; default: 2.4.1)"
 
 	Scenario: Display upgradable candidate versions when none specified and multiple in use but not upgradable
 		Given the candidate "grails" version "1.3.9" is already installed and default
@@ -69,10 +69,10 @@ Feature: Upgrade Candidate
 		And the candidate "groovy" version "2.4.1" is available for download
 		And the system is bootstrapped
 		When I enter "sdk upgrade" and answer "Y"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.1.0)"
-		And I see "groovy (2.0.5 < 2.4.1)"
-		And I see "Upgrade candidate(s) and set latest version(s) as default? (Y/n)"
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.1.0)"
+		And I see "groovy (local: 2.0.5; default: 2.4.1)"
+		And I see "Upgrade to latest default version(s)? (Y/n)"
 		And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And I see "Setting grails 2.1.0 as default."
 		And I do not see "Do you want groovy 2.4.1 to be set as default? (Y/n)"
@@ -86,9 +86,9 @@ Feature: Upgrade Candidate
 		And the candidate "grails" version "2.1.0" is available for download
 		And the system is bootstrapped
 		When I enter "sdk upgrade" and answer "N"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.1.0)"
-		And I see "Upgrade candidate(s) and set latest version(s) as default? (Y/n)"
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.1.0)"
+		And I see "Upgrade to latest default version(s)? (Y/n)"
 		Then the candidate "grails" version "1.3.9" should be the default
 
 	Scenario: Update upgradable candidate version and set it as default
@@ -97,9 +97,9 @@ Feature: Upgrade Candidate
 		And the candidate "grails" version "2.1.0" is available for download
 		And the system is bootstrapped
 		When I enter "sdk upgrade grails" and answer "Y"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.1.0)"
-		And I see "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.1.0)"
+		And I see "Upgrade to latest default version(s)? (Y/n): "
 		And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And I see "Setting grails 2.1.0 as default."
 		Then the candidate "grails" version "2.1.0" should be the default
@@ -111,9 +111,9 @@ Feature: Upgrade Candidate
 		And I have configured "sdkman_auto_answer" to "true"
 		And the system is bootstrapped
 		When I enter "sdk upgrade grails"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.1.0)"
-		And I do not see "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.1.0)"
+		And I do not see "Upgrade to latest default version(s)? (Y/n): "
 		And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And I see "Setting grails 2.1.0 as default."
 		Then the candidate "grails" version "2.1.0" should be the default
@@ -124,7 +124,7 @@ Feature: Upgrade Candidate
 		And the candidate "grails" version "2.1.0" is available for download
 		And the system is bootstrapped
 		When I enter "sdk upgrade grails" and answer "N"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.1.0)"
-		And I see "Upgrade candidate(s) and set latest version(s) as default? (Y/n)"
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.1.0)"
+		And I see "Upgrade to latest default version(s)? (Y/n)"
 		Then the candidate "grails" version "1.3.9" should be the default

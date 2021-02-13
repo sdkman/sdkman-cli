@@ -48,7 +48,7 @@ function __sdk_upgrade() {
 			;;
 		*)
 			if [ -n "$upgradable" ]; then
-				[ ${upgradable_count} -eq 0 ] && __sdkman_echo_no_colour "Upgrade:"
+				[ ${upgradable_count} -eq 0 ] && __sdkman_echo_no_colour "Available defaults:"
 				__sdkman_echo_no_colour "$upgradable"
 				((upgradable_count += 1))
 				upgradable_candidates=(${upgradable_candidates[@]} $candidate)
@@ -72,7 +72,7 @@ function __sdk_upgrade() {
 		echo ""
 
 		if [[ "$sdkman_auto_answer" != 'true' ]]; then
-			__sdkman_echo_confirm "Upgrade candidate(s) and set latest version(s) as default? (Y/n): "
+			__sdkman_echo_confirm "Upgrade to latest default version(s)? (Y/n): "
 			read UPGRADE_ALL
 		fi
 
@@ -110,6 +110,6 @@ function __sdkman_determine_upgradable_version() {
 
 	# Check upgradable or not
 	if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${remote_default_version}" ]; then
-		__sdkman_echo_yellow "${candidate} (${local_versions} < ${remote_default_version})"
+		__sdkman_echo_yellow "${candidate} (local: ${local_versions}; default: ${remote_default_version})"
 	fi
 }

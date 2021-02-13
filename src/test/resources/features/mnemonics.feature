@@ -38,8 +38,8 @@ Feature: Mnemonics
 		And the default "grails" version is "2.4.4"
 		And the system is bootstrapped
 		When I enter "sdk ug grails" and answer "n"
-		Then I see "Upgrade:"
-		And I see "grails (1.3.9 < 2.4.4)"
+		Then I see "Available defaults:"
+		And I see "grails (local: 1.3.9; default: 2.4.4)"
 
 	Scenario: Shortcut for installing a Candidate Version
 		Given the candidate "grails" version "2.1.0" is not installed
