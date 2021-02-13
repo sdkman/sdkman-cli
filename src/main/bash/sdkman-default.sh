@@ -27,14 +27,9 @@ function __sdk_default() {
 
 	if [ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${VERSION}" ]; then
 		echo ""
-		__sdkman_echo_red "Stop! ${candidate} ${VERSION} is not available. Possible causes:"
-		__sdkman_echo_red " * ${VERSION} is an invalid version"
-		__sdkman_echo_red " * ${candidate} binaries are incompatible with ${SDKMAN_PLATFORM}"
-		__sdkman_echo_red " * ${candidate} has not been released yet"
+		__sdkman_echo_red "Stop! Candidate version is not installed. Please run:"
 		echo ""
-		__sdkman_echo_yellow "Tip: see all available versions for your platform:"
-		echo ""
-		__sdkman_echo_yellow "  $ sdk list ${candidate}"
+		__sdkman_echo_red "$ sdk install ${candidate} ${VERSION}"
 		return 1
 	fi
 
