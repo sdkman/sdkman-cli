@@ -72,7 +72,7 @@ function __sdk_upgrade() {
 		echo ""
 
 		if [[ "$sdkman_auto_answer" != 'true' ]]; then
-			__sdkman_echo_confirm "Upgrade to latest default version(s)? (Y/n): "
+			__sdkman_echo_confirm "Use prescribed default version(s)? (Y/n): "
 			read UPGRADE_ALL
 		fi
 

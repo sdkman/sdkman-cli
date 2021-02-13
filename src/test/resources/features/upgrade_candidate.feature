@@ -72,7 +72,7 @@ Feature: Upgrade Candidate
 		Then I see "Available defaults:"
 		And I see "grails (local: 1.3.9; default: 2.1.0)"
 		And I see "groovy (local: 2.0.5; default: 2.4.1)"
-		And I see "Upgrade to latest default version(s)? (Y/n)"
+		And I see "Use prescribed default version(s)? (Y/n)"
 		And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And I see "Setting grails 2.1.0 as default."
 		And I do not see "Do you want groovy 2.4.1 to be set as default? (Y/n)"
@@ -88,7 +88,7 @@ Feature: Upgrade Candidate
 		When I enter "sdk upgrade" and answer "N"
 		Then I see "Available defaults:"
 		And I see "grails (local: 1.3.9; default: 2.1.0)"
-		And I see "Upgrade to latest default version(s)? (Y/n)"
+		And I see "Use prescribed default version(s)? (Y/n)"
 		Then the candidate "grails" version "1.3.9" should be the default
 
 	Scenario: Update upgradable candidate version and set it as default
@@ -99,7 +99,7 @@ Feature: Upgrade Candidate
 		When I enter "sdk upgrade grails" and answer "Y"
 		Then I see "Available defaults:"
 		And I see "grails (local: 1.3.9; default: 2.1.0)"
-		And I see "Upgrade to latest default version(s)? (Y/n): "
+		And I see "Use prescribed default version(s)? (Y/n): "
 		And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And I see "Setting grails 2.1.0 as default."
 		Then the candidate "grails" version "2.1.0" should be the default
@@ -113,7 +113,7 @@ Feature: Upgrade Candidate
 		When I enter "sdk upgrade grails"
 		Then I see "Available defaults:"
 		And I see "grails (local: 1.3.9; default: 2.1.0)"
-		And I do not see "Upgrade to latest default version(s)? (Y/n): "
+		And I do not see "Use prescribed default version(s)? (Y/n): "
 		And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And I see "Setting grails 2.1.0 as default."
 		Then the candidate "grails" version "2.1.0" should be the default
@@ -126,5 +126,5 @@ Feature: Upgrade Candidate
 		When I enter "sdk upgrade grails" and answer "N"
 		Then I see "Available defaults:"
 		And I see "grails (local: 1.3.9; default: 2.1.0)"
-		And I see "Upgrade to latest default version(s)? (Y/n)"
+		And I see "Use prescribed default version(s)? (Y/n)"
 		Then the candidate "grails" version "1.3.9" should be the default
