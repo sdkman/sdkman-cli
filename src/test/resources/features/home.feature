@@ -26,8 +26,8 @@ anything else unless it is an actual error.
 		Given the candidate "grails" version "1.3.9" is available for download
 		And the system is bootstrapped
 		When I enter "sdk home grails 1.3.9"
-		Then I see "Stop! Candidate version is not installed. Please run:"
-		And I see ""
+		Then I see "Stop! Candidate version is not installed."
+		And I see "Tip: Run the following to install this version"
 		And I see "$ sdk install grails 1.3.9"
 		And the exit code is 1
 

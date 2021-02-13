@@ -27,9 +27,11 @@ function __sdk_home() {
 
 	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
 		echo ""
-		__sdkman_echo_red "Stop! Candidate version is not installed. Please run:"
+		__sdkman_echo_red "Stop! Candidate version is not installed."
 		echo ""
-		__sdkman_echo_red "$ sdk install ${candidate} ${version}"
+		__sdkman_echo_yellow "Tip: Run the following to install this version"
+		echo ""
+		__sdkman_echo_yellow "$ sdk install ${candidate} ${version}"
 		return 1
 	fi
 

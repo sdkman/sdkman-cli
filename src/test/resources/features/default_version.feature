@@ -8,8 +8,8 @@ Feature: Default Version
 		Given the candidate "groovy" version "2.0.5" is a valid candidate version
 		And the system is bootstrapped
 		When I enter "sdk default groovy 2.0.5"
-		Then I see "Stop! Candidate version is not installed. Please run:"
-		And I see ""
+		Then I see "Stop! Candidate version is not installed."
+		And I see "Tip: Run the following to install this version"
 		And I see "$ sdk install groovy 2.0.5"
 
 	Scenario: Default a candidate version that is installed and not default

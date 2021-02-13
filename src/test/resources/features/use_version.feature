@@ -23,8 +23,8 @@ Feature: Use Version
 		Given the candidate "groovy" version "1.9.9" is not available for download
 		And the system is bootstrapped
 		When I enter "sdk use groovy 1.9.9"
-		Then I see "Stop! Candidate version is not installed. Please run:"
-		And I see ""
+		Then I see "Stop! Candidate version is not installed."
+		And I see "Tip: Run the following to install this version"
 		And I see "$ sdk install groovy 1.9.9"
 
 	Scenario: Use a candidate version that only exists locally
