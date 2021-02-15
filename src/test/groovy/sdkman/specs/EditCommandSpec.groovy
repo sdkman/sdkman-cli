@@ -14,12 +14,26 @@ class EditCommandSpec extends SdkmanEnvSpecification {
 		bash.execute("source $bootstrapScript")
 
 		when:
-		// stub vi to test if it was called with the correct arguments
-		bash.execute('vi() { echo "vi was called with $1"; }')
-		bash.execute("EDITOR=vi")
+		setupEnv(bash)
 		bash.execute("sdk edit")
 
 		then:
-		bash.output.contains("""vi was called with ${sdkmanBaseDirectory}/.sdkman/etc/config""")
+		verifyOutput(bash.output, sdkmanBaseDirectory)
+
+		where:
+		setupEnv << [
+			{
+				it.execute('nano() { echo "nano was called with $1"; }')
+				it.execute("EDITOR=nano")
+			},
+			{
+				it.execute('vi() { echo "vi was called with $1"; }')
+				it.execute("unset EDITOR")
+			}
+		]
+		verifyOutput << [
+			{ output, baseDirectory -> output.contains("nano was called with ${baseDirectory}/.sdkman/etc/config") },
+			{ output, baseDirectory -> output.contains("vi was called with ${baseDirectory}/.sdkman/etc/config") }
+		]
 	}
 }

@@ -17,13 +17,13 @@
 #
 
 function __sdk_edit() {
-	: "${EDITOR:-vi}"
+	local -r editor=${EDITOR:=vi}
 
-	if ! command -v "$EDITOR" > /dev/null; then
+	if ! command -v "$editor" > /dev/null; then
 		__sdkman_echo_red $'No default editor configured.\nPlease set the default editor with the EDITOR environment variable.'
 
 		return 1
 	fi
 
-	"$EDITOR" "${SDKMAN_DIR}/etc/config"
+	"$editor" "${SDKMAN_DIR}/etc/config"
 }
