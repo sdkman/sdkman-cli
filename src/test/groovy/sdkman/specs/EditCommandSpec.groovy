@@ -29,11 +29,15 @@ class EditCommandSpec extends SdkmanEnvSpecification {
 			{
 				it.execute('vi() { echo "vi was called with $1"; }')
 				it.execute("unset EDITOR")
+			},
+			{
+				it.execute("EDITOR=/does/not/exist")
 			}
 		]
 		verifyOutput << [
 			{ output, baseDirectory -> output.contains("nano was called with ${baseDirectory}/.sdkman/etc/config") },
-			{ output, baseDirectory -> output.contains("vi was called with ${baseDirectory}/.sdkman/etc/config") }
+			{ output, baseDirectory -> output.contains("vi was called with ${baseDirectory}/.sdkman/etc/config") },
+			{ output, _ -> output.contains("No default editor configured.") }
 		]
 	}
 }
