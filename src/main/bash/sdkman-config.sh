@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 
-function __sdk_edit() {
+function __sdk_config() {
 	local -r editor=${EDITOR:=vi}
 
 	if ! command -v "$editor" > /dev/null; then

@@ -2,7 +2,7 @@ package sdkman.specs
 
 import sdkman.support.SdkmanEnvSpecification
 
-class EditCommandSpec extends SdkmanEnvSpecification {
+class ConfigCommandSpec extends SdkmanEnvSpecification {
 	def "it should open the config in the system's default editor"() {
 		given:
 		bash = sdkmanBashEnvBuilder
@@ -15,7 +15,7 @@ class EditCommandSpec extends SdkmanEnvSpecification {
 
 		when:
 		setupEnv(bash)
-		bash.execute("sdk edit")
+		bash.execute("sdk config")
 
 		then:
 		verifyOutput(bash.output, sdkmanBaseDirectory)
