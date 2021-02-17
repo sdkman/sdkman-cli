@@ -6,7 +6,7 @@ _sdk() {
 
 	case "$previous_word" in
 		sdk) 
-			candidates=("install" "uninstall" "list" "use" "completion" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
+			candidates=("install" "uninstall" "list" "use" "completion" "edit" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
 			;;
 		completion)
 			candidates=("bash" "zsh")
