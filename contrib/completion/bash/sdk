@@ -5,8 +5,8 @@ _sdk() {
 	local candidates
 
 	case "$previous_word" in
-		sdk) 
-			candidates=("install" "uninstall" "list" "use" "completion" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
+		sdk)
+			candidates=("install" "uninstall" "list" "use" "completion" "config" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
 			;;
 		completion)
 			candidates=("bash" "zsh")
