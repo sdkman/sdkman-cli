@@ -6,8 +6,8 @@ class UnixUtils {
 	        "Linux": [
 					"amd64": "LinuxX64"
 	        ],
-			"Darwin": [
-			        "X86_64": "DarwinX64",
+			"Mac OS X": [
+			        "x86_64": "DarwinX64",
 			],
 			"FreeBSD": [
 			        "amd64": "FreeBSD_X64"
