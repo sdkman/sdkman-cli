@@ -249,6 +249,62 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		bash.output.contains("Restored groovy version to 2.4.6")
 	}
 
+	def "should execute 'sdk env clear; sdk env' when switching to another directory with an .sdkmanrc"() {
+		given:
+		new FileTreeBuilder(candidatesDirectory).with {
+			"groovy" {
+				"2.4.1" {}
+				"2.4.6" {}
+				"2.5.14" {}
+			}
+			"ant" {
+				"1.9.15" {}
+				"1.10.8" {}
+			}
+		}
+		createSymbolicLink(Paths.get("$candidatesDirectory/groovy/current"), Paths.get("$candidatesDirectory/groovy/2.5.14"))
+		createSymbolicLink(Paths.get("$candidatesDirectory/ant/current"), Paths.get("$candidatesDirectory/ant/1.10.8"))
+
+		bash = sdkmanBashEnvBuilder
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.withConfiguration("sdkman_auto_env", "true")
+				.build()
+
+		new FileTreeBuilder(bash.workDir).with {
+			"projectA" {
+				".sdkmanrc"("groovy=2.4.1\nant=1.9.15\n")
+			}
+			"projectB" {
+				".sdkmanrc"("groovy=2.4.6\n")
+			}
+		}
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+
+		when:
+		bash.execute("cd projectA")
+		
+		then:
+		bash.output.contains('Using groovy version 2.4.1 in this shell')
+		bash.output.contains('Using ant version 1.9.15 in this shell')
+		
+		when:
+		bash.execute("cd ../projectB")
+
+		then:
+		bash.output.contains("Restored ant version to 1.10.8")
+		bash.output.contains('Using groovy version 2.4.6 in this shell')
+		
+		when:
+		bash.execute("cd ..")
+
+		then:
+		bash.output.contains('Restored groovy version to 2.5.14')
+		!bash.output.contains('ant')
+	}
+
 	def "should not execute 'sdk env clear' when entering a subdirectory within the current active configuration"() {
 		given:
 		new FileTreeBuilder(candidatesDirectory).with {
