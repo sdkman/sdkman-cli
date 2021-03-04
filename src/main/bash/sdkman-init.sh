@@ -178,20 +178,22 @@ export PATH
 if [[ "$sdkman_auto_env" == "true" ]]; then
 	if [[ "$zsh_shell" == "true" ]]; then
 		function sdkman_auto_env() {
+			if [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
+				sdk env clear
+			fi
 			if [[ -f .sdkmanrc ]]; then
 				sdk env
-			elif [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
-				sdk env clear
 			fi
 		}
 
 		chpwd_functions+=(sdkman_auto_env)
 	else
 		function sdkman_auto_env() {
+			if [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
+				sdk env clear
+			fi
 			if [[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]]; then
 				sdk env
-			elif [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
-				sdk env clear
 			fi
 
 			export SDKMAN_OLD_PWD="$PWD"
