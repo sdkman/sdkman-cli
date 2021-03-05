@@ -1,18 +1,39 @@
 _sdk() {
+	local -r before_previous_word="${COMP_WORDS[COMP_CWORD - 2]}"
 	local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
 	local -r current_word="${COMP_WORDS[COMP_CWORD]}"
 
+	if ((COMP_CWORD == 3)); then
+		__sdkman_complete_candidate_version "$before_previous_word" "$previous_word" "$current_word"
+
+		return
+	fi
+
+	__sdkman_complete_command "$previous_word" "$current_word"
+}
+
+__sdkman_complete_command() {
+	local -r command=$1
+	local -r current_word=$2
+
 	local candidates
 
-	case "$previous_word" in
+	case $command in
 		sdk)
 			candidates=("install" "uninstall" "list" "use" "completion" "config" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
+			;;
+		use)
+			local -r candidate_paths=("${SDKMAN_CANDIDATES_DIR}"/*)
+
+			for candidate_path in "${candidate_paths[@]}"; do
+				candidates+=(${candidate_path##*/})				
+			done
 			;;
 		completion)
 			candidates=("bash" "zsh")
 			;;
 		env)
-			candidates=("init install clear")
+			candidate=("init install clear")
 			;;
 		offline)
 			candidates=("enable" "disable")
@@ -22,6 +43,28 @@ _sdk() {
 			;;
 		flush)
 			candidates=("archives" "temp" "broadcast" "version")
+			;;
+	esac
+
+	COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
+}
+
+__sdkman_complete_candidate_version() {
+	local -r command=$1
+	local -r candidate=$2
+	local -r version=$3
+
+	local candidates
+
+	case $command in
+		use)
+			local -r version_paths=("${SDKMAN_CANDIDATES_DIR}/${candidate}"/*)
+
+			for version_path in "${version_paths[@]}"; do
+				[[ $version_path = *current ]] && continue
+
+				candidates+=(${version_path##*/})
+			done
 			;;
 	esac
 
