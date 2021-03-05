@@ -33,7 +33,7 @@ __sdkman_complete_command() {
 			candidates=("bash" "zsh")
 			;;
 		env)
-			candidate=("init install clear")
+			candidates=("init install clear")
 			;;
 		offline)
 			candidates=("enable" "disable")
