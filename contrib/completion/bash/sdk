@@ -29,6 +29,11 @@ __sdkman_complete_command() {
 				candidates+=(${candidate_path##*/})				
 			done
 			;;
+		install)
+			while IFS= read -d, -r candidate; do
+				candidates+=($candidate)
+			done < <(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")
+			;;
 		completion)
 			candidates=("bash" "zsh")
 			;;
@@ -52,7 +57,7 @@ __sdkman_complete_command() {
 __sdkman_complete_candidate_version() {
 	local -r command=$1
 	local -r candidate=$2
-	local -r version=$3
+	local -r candidate_version=$3
 
 	local candidates
 
@@ -66,9 +71,14 @@ __sdkman_complete_candidate_version() {
 				candidates+=(${version_path##*/})
 			done
 			;;
+		install)
+			while IFS= read -d, -r version; do
+				candidates+=($version)
+			done < <(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")
+			;;
 	esac
 
-	COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
+	COMPREPLY=($(compgen -W "${candidates[*]}" -- "$candidate_version"))
 }
 
 complete -o default -F _sdk sdk
