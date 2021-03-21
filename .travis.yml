@@ -3,8 +3,6 @@ language: java
 services:
   - docker
 install: true
-before_install:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 script:
   - docker build --tag=sdkman/sdkman-cli .
   - docker run --rm -v $PWD:/usr/src/app -v $HOME/.gradle:/root/.gradle sdkman/sdkman-cli clean test --info
