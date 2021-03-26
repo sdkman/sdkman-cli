@@ -14,8 +14,8 @@ Feature: Java Multi Platform Binary Distribution
 	Scenario: Platform is supported and a specific version of compatible binary is installed
 		Given an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
-		And the candidate "java" version "8.0.111" is available for download on "Linux"
-		And the appropriate multi-platform hooks are available for "java" version "8.0.111" on "Linux"
+		And the candidate "java" version "8.0.111" is available for download on "Linux" with architecture "amd64"
+		And the appropriate multi-platform hooks are available for "java" version "8.0.111" on "Linux" with architecture "amd64"
 		When I enter "sdk install java 8.0.111"
 		And I see "Done installing!"
 		And the candidate "java" version "8.0.111" is installed
@@ -24,8 +24,8 @@ Feature: Java Multi Platform Binary Distribution
 		Given an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
 		And the default "java" version is "8.0.111"
-		And the candidate "java" version "8.0.111" is available for download on "Linux"
-		And the appropriate multi-platform hooks are available for "java" version "8.0.111" on "Linux"
+		And the candidate "java" version "8.0.111" is available for download on "Linux" with architecture "amd64"
+		And the appropriate multi-platform hooks are available for "java" version "8.0.111" on "Linux" with architecture "amd64"
 		When I enter "sdk install java"
 		And I see "Done installing!"
 		And the candidate "java" version "8.0.111" is installed
@@ -33,8 +33,8 @@ Feature: Java Multi Platform Binary Distribution
 	Scenario: Platform is supported but download fails
 		Given an "amd64" machine with "Linux" installed
 		And the system is bootstrapped
-		And the candidate "java" version "8.0.101" is available for download on "Linux"
-		And the appropriate multi-platform hooks are available for "java" version "8.0.101" on "Linux"
+		And the candidate "java" version "8.0.101" is available for download on "Linux" with architecture "amd64"
+		And the appropriate multi-platform hooks are available for "java" version "8.0.101" on "Linux" with architecture "amd64"
 		When I enter "sdk install java 8.0.101"
 		And I see "Download has failed, aborting!"
 		And the candidate "java" version "8.0.101" is not installed

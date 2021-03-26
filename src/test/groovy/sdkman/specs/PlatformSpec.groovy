@@ -1,9 +1,13 @@
 package sdkman.specs
 
+import sdkman.stubs.UnameStub
 import sdkman.support.SdkmanEnvSpecification
 
 class PlatformSpec extends SdkmanEnvSpecification {
+	UnameStub unameStub
+
 	def setup() {
+		unameStub = UnameStub.prepareIn(new File(sdkmanBaseDirectory, "bin"))
 		sdkmanBashEnvBuilder.withCandidates(["groovy"])
 	}
 
