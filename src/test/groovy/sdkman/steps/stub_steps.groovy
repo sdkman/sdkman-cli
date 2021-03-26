@@ -33,8 +33,8 @@ And(~/^the appropriate universal hooks are available for "([^"]*)" version "([^"
 	primeUniversalHookFor("post", candidate, version, lcPlatform)
 }
 
-And(~/^the appropriate multi-platform hooks are available for "([^"]*)" version "([^"]*)" on "([^"]*)"$/) { String candidate, String version, String platform ->
-	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+And(~/^the appropriate multi-platform hooks are available for "([^"]*)" version "([^"]*)" on "([^"]*)" with architecture "(.*)"$/) { String candidate, String version, String platform, String architecture ->
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform, architecture).toLowerCase()
 	primePlatformSpecificHookFor("pre", candidate, version, lcPlatform)
 	primePlatformSpecificHookFor("post", candidate, version, lcPlatform)
 }
@@ -43,19 +43,19 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$'
 	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${PLATFORM}", "invalid")
 }
 
-And(~/^the candidate "(.*)" version "(.*)" is available for download on "(.*)"$/) { String candidate, String version, String platform ->
-	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+And(~/^the candidate "(.*)" version "(.*)" is available for download on "(.*)" with architecture "(.*)"$/) { String candidate, String version, String platform, String architecture ->
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform, architecture).toLowerCase()
 	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${lcPlatform}", "valid")
 	primeDownloadFor(SERVICE_UP_URL, candidate, version, lcPlatform)
 }
 
-And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns successfully$/) { String phase, String candidate, String version, String platform ->
-	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" with architecture "([^"]*)" that returns successfully$/) { String phase, String candidate, String version, String platform, String architecture ->
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform, architecture).toLowerCase()
 	primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookSuccess() : postInstallationHookSuccess())
 }
 
-And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" that returns a failure$/) { String phase, String candidate, String version, String platform ->
-	String lcPlatform = UnixUtils.asSdkmanPlatform(platform).toLowerCase()
+And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" with architecture "([^"]*)" that returns a failure$/) { String phase, String candidate, String version, String platform, String architecture ->
+	String lcPlatform = UnixUtils.asSdkmanPlatform(platform, architecture).toLowerCase()
 	primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookFailure() : postInstallationHookFailure())
 }
 
