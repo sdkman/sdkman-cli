@@ -25,6 +25,7 @@ abstract class SdkmanEnvSpecification extends BashEnvSpecification {
 		unameStub = UnameStub.prepareIn(new File(sdkmanBaseDirectory, "bin"))
 		sdkmanBashEnvBuilder = SdkmanBashEnvBuilder
 				.create(sdkmanBaseDirectory)
+				.withUnameStub(unameStub)
 				.withCurlStub(curlStub)
 
 		sdkmanDotDirectory = new File(sdkmanBaseDirectory, ".sdkman")
