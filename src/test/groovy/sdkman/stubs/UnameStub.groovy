@@ -1,11 +1,13 @@
 package sdkman.stubs
 
+import sdkman.support.UnixUtils
+
 class UnameStub {
 
 	private File file
-	private platform = "Linux"
-	private kernel = "Linux"
-	private machine = "X86_64"
+	private platform = System.getProperty("os.name")
+	private machine = System.getProperty("os.arch")
+	private kernel = UnixUtils.asSdkmanPlatform(platform, machine)
 
 	static UnameStub prepareIn(File folder) {
 		folder.mkdirs()
@@ -13,6 +15,7 @@ class UnameStub {
 		def file = new File(folder, "uname")
 		file.createNewFile()
 		file.write "#!/usr/bin/env bash\n"
+		file.executable = true
 
 		new UnameStub(file: file)
 	}
@@ -21,12 +24,12 @@ class UnameStub {
 		this.kernel = kernel
 		this
 	}
-	
+
 	UnameStub forMachine(String machine) {
 		this.machine = machine
 		this
 	}
-	
+
 	UnameStub forPlatform(String uname) {
 		this.platform = uname
 		this
@@ -42,6 +45,5 @@ class UnameStub {
 			|	echo "$platform"
 			|fi
 			""".stripMargin('|')
-		file.executable = true
 	}
 }
