@@ -12,8 +12,6 @@ class UnameStub {
 
 		def file = new File(folder, "uname")
 		file.createNewFile()
-		file.write "#!/usr/bin/env bash\n"
-		file.executable = true
 
 		new UnameStub(file: file)
 	}
@@ -35,6 +33,7 @@ class UnameStub {
 
 	void build() {
 		file << """
+			|#!/usr/bin/env bash
 			|if [[ "\$1" == '-m' ]]; then
 			|	echo "$machine"
 			|elif [[ "\$1" == '-s' ]]; then
@@ -43,5 +42,6 @@ class UnameStub {
 			|	echo "$platform"
 			|fi
 			""".stripMargin('|')
+		file.executable = true
 	}
 }
