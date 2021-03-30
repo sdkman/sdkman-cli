@@ -24,12 +24,12 @@ class UnameStub {
 		this.kernel = kernel
 		this
 	}
-
+	
 	UnameStub forMachine(String machine) {
 		this.machine = machine
 		this
 	}
-
+	
 	UnameStub forPlatform(String uname) {
 		this.platform = uname
 		this
