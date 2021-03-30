@@ -26,19 +26,22 @@ function __sdk_use() {
 
 	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
 		echo ""
-		__sdkman_echo_red "Stop! Candidate version is not installed."
-		echo ""
-		__sdkman_echo_yellow "Tip: Run the following to install this version"
-		echo ""
-		__sdkman_echo_yellow "$ sdk install ${candidate} ${version}"
+		__sdkman_echo_red "Stop! ${candidate} ${version} is not installed."
 		return 1
 	fi
 
 	# Just update the *_HOME and PATH for this shell.
 	__sdkman_set_candidate_home "$candidate" "$version"
 
-	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
-		export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${BASH_REMATCH[1]}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
+	# Replace the current path for the candidate with the selected version.
+	if [[ "$solaris" == true ]]; then
+		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
+
+	elif [[ "$darwin" == true ]]; then
+		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
+
+	else
+		export PATH=$(echo "$PATH" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
 	fi
 
 	if [[ ! (-L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current") ]]; then
