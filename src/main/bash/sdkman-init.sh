@@ -87,7 +87,7 @@ function infer_platform() {
 	esac
 }
 
-SDKMAN_PLATFORM="$(infer_platform)"
+SDKMAN_PLATFORM="$(infer_platform | tr '[:upper:]' '[:lower:]')"
 export SDKMAN_PLATFORM
 
 # OS specific support (must be 'true' or 'false').
