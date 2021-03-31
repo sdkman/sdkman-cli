@@ -37,15 +37,8 @@ function __sdk_use() {
 	# Just update the *_HOME and PATH for this shell.
 	__sdkman_set_candidate_home "$candidate" "$version"
 
-	# Replace the current path for the candidate with the selected version.
-	if [[ "$solaris" == true ]]; then
-		export PATH=$(echo $PATH | gsed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
-
-	elif [[ "$darwin" == true ]]; then
-		export PATH=$(echo $PATH | sed -E "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
-
-	else
-		export PATH=$(echo "$PATH" | sed -r "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)!${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}!g")
+	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
+		export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${BASH_REMATCH[1]}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
 	fi
 
 	if [[ ! (-L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current") ]]; then
