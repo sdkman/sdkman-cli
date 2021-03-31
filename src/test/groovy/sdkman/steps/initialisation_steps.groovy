@@ -9,7 +9,6 @@ import java.util.zip.ZipFile
 import static cucumber.api.groovy.EN.And
 import static sdkman.stubs.WebServiceStub.primeEndpointWithString
 import static sdkman.stubs.WebServiceStub.primeSelfupdate
-import static sdkman.support.UnixUtils.asSdkmanPlatform
 
 def BROADCAST_MESSAGE = "broadcast message"
 

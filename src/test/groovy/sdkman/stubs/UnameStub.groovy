@@ -3,7 +3,6 @@ package sdkman.stubs
 class UnameStub {
 
 	private File file
-	private platform = "Linux"
 	private kernel = "Linux"
 	private machine = "X86_64"
 
@@ -28,11 +27,6 @@ class UnameStub {
 		this
 	}
 	
-	UnameStub forPlatform(String uname) {
-		this.platform = uname
-		this
-	}
-
 	void build() {
 		file << """
 			|if [[ "\$1" == '-m' ]]; then
@@ -40,7 +34,7 @@ class UnameStub {
 			|elif [[ "\$1" == '-s' ]]; then
 			|	echo "$kernel"
 			|else
-			|	echo "$platform"
+			|	echo "$machine"
 			|fi
 			""".stripMargin('|')
 	}

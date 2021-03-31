@@ -20,17 +20,17 @@ class PlatformSpec extends SdkmanEnvSpecification {
 
 		where:
 		kernel   | machine   | platform
-		"Linux"  | "i686"    | "LinuxX32"
-		"Linux"  | "x86_64"  | "LinuxX64"
-		"Linux"  | "armv7l"  | "LinuxARM32"
-		"Linux"  | "armv8l"  | "LinuxARM64"
-		"Linux"  | "aarch64" | "LinuxARM64"
-		"Linux"  | ""        | "LinuxX64"
-		"Darwin" | "x86_64"  | "DarwinX64"
-		"Darwin" | "arm64"   | "DarwinARM64"
-		"Darwin" | ""        | "DarwinX64"
-		"MSYS64" | "i686"    | "MSYS64"
-		"MSYS64" | ""        | "MSYS64"
+		"Linux"  | "i686"    | "linuxx32"
+		"Linux"  | "x86_64"  | "linuxx64"
+		"Linux"  | "armv7l"  | "linuxarm32"
+		"Linux"  | "armv8l"  | "linuxarm64"
+		"Linux"  | "aarch64" | "linuxarm64"
+		"Linux"  | ""        | "linuxx64"
+		"Darwin" | "x86_64"  | "darwinx64"
+		"Darwin" | "arm64"   | "darwinarm64"
+		"Darwin" | ""        | "darwinx64"
+		"MSYS64" | "i686"    | "msys64"
+		"MSYS64" | ""        | "msys64"
 	}
 
 	def "should enable rosetta 2 compatibility mode with environment variable"() {
@@ -47,7 +47,7 @@ class PlatformSpec extends SdkmanEnvSpecification {
 		bash.execute('echo $SDKMAN_PLATFORM')
 
 		then:
-		!bash.output.contains("DarwinARM64")
-		bash.output.contains("DarwinX64")
+		!bash.output.contains("darwinarm64")
+		bash.output.contains("darwinx64")
 	}
 }
