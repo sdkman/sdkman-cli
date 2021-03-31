@@ -11,9 +11,9 @@ class UnixUtils {
 			]
 	]
 	
-	static asSdkmanPlatform(
-			platform = System.getProperty("os.name"),
+	static inferPlatform(
+			osName = System.getProperty("os.name"),
 			architecture = System.getProperty("os.arch")) {
-		(platforms[platform][architecture] ?: platform).toLowerCase()
+		(platforms[osName][architecture] ?: osName).toLowerCase()
 	}
 }
