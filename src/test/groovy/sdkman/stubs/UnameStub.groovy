@@ -1,13 +1,11 @@
 package sdkman.stubs
 
-import sdkman.support.UnixUtils
-
 class UnameStub {
 
 	private File file
-	private platform = System.getProperty("os.name")
-	private machine = System.getProperty("os.arch")
-	private kernel = UnixUtils.asSdkmanPlatform(platform, machine)
+	private platform = "Linux"
+	private kernel = "Linux"
+	private machine = "X86_64"
 
 	static UnameStub prepareIn(File folder) {
 		folder.mkdirs()
