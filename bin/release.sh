@@ -21,7 +21,7 @@ git commit -m "Update version of $BRANCH to $VERSION"
 
 # push tag
 git tag "$VERSION"
-git push origin "$VERSION"
+git push upstream "$VERSION"
 
 # back to master branch
 git checkout master
