@@ -38,7 +38,15 @@ function __sdk_use() {
 	__sdkman_set_candidate_home "$candidate" "$version"
 
 	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
-		export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${BASH_REMATCH[1]}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
+		local matched_version
+
+		if [[ "$zsh_shell" == "true" ]]; then
+			matched_version=${match[1]}
+		else
+			matched_version=${BASH_REMATCH[1]}
+		fi
+
+		export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${matched_version}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
 	fi
 
 	if [[ ! (-L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current") ]]; then
