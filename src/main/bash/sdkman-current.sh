@@ -57,7 +57,11 @@ function __sdkman_determine_current_version() {
 	present=$(__sdkman_path_contains "${SDKMAN_CANDIDATES_DIR}/${candidate}")
 	if [[ "$present" == 'true' ]]; then
 		if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin ]]; then
-			[[ "$zsh_shell" == "true"  ]] && CURRENT=${match[1]} || CURRENT=${BASH_REMATCH[1]}
+			if [[ "$zsh_shell" == "true" ]]; then
+				CURRENT=${match[1]}
+			else
+				CURRENT=${BASH_REMATCH[1]}
+			fi
 		fi
 
 		if [[ "$CURRENT" == "current" ]]; then

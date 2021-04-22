@@ -39,7 +39,12 @@ function __sdk_use() {
 
 	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
 		local matched_version
-		[[ "$zsh_shell" == "true"  ]] && matched_version=${match[1]} || matched_version=${BASH_REMATCH[1]}
+
+		if [[ "$zsh_shell" == "true" ]]; then
+			matched_version=${match[1]}
+		else
+			matched_version=${BASH_REMATCH[1]}
+		fi
 
 		export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${matched_version}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
 	fi
