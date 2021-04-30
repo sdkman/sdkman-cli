@@ -40,6 +40,7 @@ function __sdkman_setup_env() {
 	fi
 
 	sdkman_auto_answer="true" USE="n" __sdkman_env_each_candidate "$sdkmanrc" "__sdk_install"
+	__sdkman_load_env "$sdkmanrc"
 }
 
 function __sdkman_load_env() {

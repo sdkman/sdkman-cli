@@ -35,6 +35,7 @@ Feature: Per-project configuration
 		When I enter "sdk env install"
 		Then I see "Done installing!"
 		And the candidate "groovy" version "2.4.1" is installed
+		And the candidate "groovy" version "2.4.1" is in use
 		And the candidate "groovy" version "2.0.5" should be the default
 
 	Scenario: The env install subcommand is issued without an sdkman project configuration present
