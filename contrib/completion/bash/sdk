@@ -22,14 +22,14 @@ __sdkman_complete_command() {
 		sdk)
 			candidates=("install" "uninstall" "list" "use" "completion" "config" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
 			;;
-		use)
+		current|default|home|uninstall|upgrade|use)
 			local -r candidate_paths=("${SDKMAN_CANDIDATES_DIR}"/*)
 
 			for candidate_path in "${candidate_paths[@]}"; do
 				candidates+=(${candidate_path##*/})				
 			done
 			;;
-		install)
+		install|list)
 			while IFS= read -d, -r candidate; do
 				candidates+=($candidate)
 			done < <(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")
@@ -62,7 +62,7 @@ __sdkman_complete_candidate_version() {
 	local candidates
 
 	case $command in
-		use)
+		use|default|home|uninstall)
 			local -r version_paths=("${SDKMAN_CANDIDATES_DIR}/${candidate}"/*)
 
 			for version_path in "${version_paths[@]}"; do
