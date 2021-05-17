@@ -30,7 +30,6 @@ function sdk() {
 		;;
 	v)
 		COMMAND="version"
-		COMMAND="version"
 		;;
 	u)
 		COMMAND="use"
