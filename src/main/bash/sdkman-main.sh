@@ -30,6 +30,7 @@ function sdk() {
 		;;
 	v)
 		COMMAND="version"
+		COMMAND="version"
 		;;
 	u)
 		COMMAND="use"
@@ -62,6 +63,11 @@ function sdk() {
 
 	if [[ "$COMMAND" == "home" ]]; then
 		__sdk_home "$QUALIFIER" "$3"
+		return $?
+	fi
+
+	if [[ "$COMMAND" == "completion" ]]; then
+		__sdk_completion "$QUALIFIER"
 		return $?
 	fi
 
