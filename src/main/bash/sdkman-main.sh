@@ -65,6 +65,11 @@ function sdk() {
 		return $?
 	fi
 
+	if [[ "$COMMAND" == "completion" ]]; then
+		__sdk_completion "$QUALIFIER"
+		return $?
+	fi
+
 	#
 	# Various sanity checks and default settings
 	#
