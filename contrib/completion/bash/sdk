@@ -83,8 +83,5 @@ __sdkman_complete_candidate_version() {
 
 complete -o default -F _sdk sdk
 
-# Run the following command to enable Bash completion in the current shell:
-#     source <(sdk completion bash)
-#
-# Issue the following command to enable Bash completion permanently:
-#     echo "source <(sdk completion bash)" >> ~/.bashrc
+# Set 'sdkman_auto_complete' to 'true' in .sdkman/etc/config to enable completion
+

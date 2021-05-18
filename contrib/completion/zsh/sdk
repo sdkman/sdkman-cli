@@ -60,8 +60,5 @@ _sdk() {
 
 compdef _sdk sdk
 
-# Run the following command to enable ZSH completion in the current shell:
-#     $ source <(sdk completion zsh)
-#
-# Issue the following command to enable ZSH completion permanently:
-#     $ echo "source <(sdk completion zsh)" >> ~/.zshrc
+# Set 'sdkman_auto_complete' to 'true' in .sdkman/etc/config to enable completion
+
