@@ -17,17 +17,7 @@
 #
 
 function __sdk_completion() {
-	local -r shell="$1"
-
-	case "$shell" in
-		bash)
-			cat "${SDKMAN_DIR}/contrib/completion/bash/sdk"
-			;;
-		zsh)
-			cat "${SDKMAN_DIR}/contrib/completion/zsh/sdk"
-			;;
-		*)
-			__sdkman_echo_red "No shell provided." 1>&2
-			;;
-	esac
+	# dummy function is no longer used
+	# remains to honour 'source <(sdk completion $SHELL)'
+	echo ""
 }
