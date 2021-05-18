@@ -153,7 +153,7 @@ if [[ -z "${sdkman_curl_retry_max_time}" ]]; then sdkman_curl_retry_max_time=60;
 # set curl to continue downloading automatically
 if [[ -z "${sdkman_curl_continue}" ]]; then sdkman_curl_continue=true; fi
 
-# Read list of candidates and set array
+# read list of candidates and set array
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
 SDKMAN_CANDIDATES_CSV=$(<"$SDKMAN_CANDIDATES_CACHE")
 __sdkman_echo_debug "Setting candidates csv: $SDKMAN_CANDIDATES_CSV"
@@ -174,6 +174,19 @@ for candidate_name in "${SDKMAN_CANDIDATES[@]}"; do
 done
 unset candidate_name candidate_dir
 export PATH
+
+# source completion scripts
+if [[ "$sdkman_auto_complete" == 'true' ]]; then
+	if [[ "$zsh_shell" == 'true' ]]; then
+		source "${SDKMAN_DIR}/contrib/completion/zsh/sdk"
+		__sdkman_echo_debug "ZSH completion script loaded..."
+	elif [[ "$bash_shell" == 'true' ]]; then
+		source "${SDKMAN_DIR}/contrib/completion/bash/sdk"
+		__sdkman_echo_debug "Bash completion script loaded..."
+	else
+		__sdkman_echo_debug "No completion scripts found for $SHELL"
+	fi
+fi
 
 if [[ "$sdkman_auto_env" == "true" ]]; then
 	if [[ "$zsh_shell" == "true" ]]; then
