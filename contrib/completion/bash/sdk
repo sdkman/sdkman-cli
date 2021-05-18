@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 _sdk() {
 	local -r before_previous_word="${COMP_WORDS[COMP_CWORD - 2]}"
 	local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
