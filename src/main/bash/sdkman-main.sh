@@ -65,9 +65,9 @@ function sdk() {
 		return $?
 	fi
 
+	# Left here for legacy purposes, issue #912 on Github
 	if [[ "$COMMAND" == "completion" ]]; then
-		__sdk_completion "$QUALIFIER"
-		return $?
+		return 0
 	fi
 
 	#
