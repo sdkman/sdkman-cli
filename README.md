@@ -2,7 +2,6 @@
 ### The Software Development Kit Manager Command Line Interface
 
 [![Build Status](https://travis-ci.org/sdkman/sdkman-cli.svg?branch=master)](https://travis-ci.org/sdkman/sdkman-cli)
-[![Latest Version](https://api.bintray.com/packages/sdkman/generic/sdkman-cli/images/download.svg) ](https://bintray.com/sdkman/generic/sdkman-cli/_latestVersion)
 [![Backers on Open Collective](https://opencollective.com/sdkman/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/sdkman/sponsors/badge.svg)](#sponsors)
 [![Slack](https://slack.sdkman.io/badge.svg)](https://slack.sdkman.io)
