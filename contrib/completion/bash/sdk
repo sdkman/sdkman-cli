@@ -22,7 +22,7 @@ __sdkman_complete_command() {
 
 	case $command in
 		sdk)
-			candidates=("install" "uninstall" "list" "use" "completion" "config" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
+			candidates=("install" "uninstall" "list" "use" "config" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
 			;;
 		current|default|home|uninstall|upgrade|use)
 			local -r candidate_paths=("${SDKMAN_CANDIDATES_DIR}"/*)
@@ -35,9 +35,6 @@ __sdkman_complete_command() {
 			while IFS= read -d, -r candidate; do
 				candidates+=($candidate)
 			done < <(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")
-			;;
-		completion)
-			candidates=("bash" "zsh")
 			;;
 		env)
 			candidates=("init install clear")

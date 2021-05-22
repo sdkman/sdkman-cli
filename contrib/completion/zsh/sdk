@@ -28,9 +28,6 @@ _sdk() {
 		flush)
 			compadd archives broadcast tmp version
 			;;
-		completion)
-			compadd bash zsh
-			;;
 		esac
 		;;
 	4)
