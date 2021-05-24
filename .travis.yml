@@ -4,6 +4,7 @@ services:
   - docker
 install: true
 script:
+  - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   - docker build --tag=sdkman/sdkman-cli .
   - docker run --rm -v $PWD:/usr/src/app -v $HOME/.gradle:/root/.gradle sdkman/sdkman-cli clean test --info
 after_success:
