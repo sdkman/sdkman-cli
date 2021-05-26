@@ -116,7 +116,7 @@ bash_shell=false
 
 if [[ -n "$ZSH_VERSION" ]]; then
 	zsh_shell=true
-else
+elif [[ -n "$BASH_VERSION" ]]; then
 	bash_shell=true
 fi
 
