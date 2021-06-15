@@ -32,9 +32,10 @@ __sdkman_complete_command() {
 			done
 			;;
 		install|list)
+		    curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all" | \
 			while IFS= read -d, -r candidate; do
 				candidates+=($candidate)
-			done < <(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")
+			done
 			;;
 		env)
 			candidates=("init install clear")
