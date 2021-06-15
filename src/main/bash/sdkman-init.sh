@@ -178,6 +178,8 @@ export PATH
 # source completion scripts
 if [[ "$sdkman_auto_complete" == 'true' ]]; then
 	if [[ "$zsh_shell" == 'true' ]]; then
+		autoload -Uz compinit
+		compinit
 		source "${SDKMAN_DIR}/contrib/completion/zsh/sdk"
 		__sdkman_echo_debug "ZSH completion script loaded..."
 	elif [[ "$bash_shell" == 'true' ]]; then
