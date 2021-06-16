@@ -1,0 +1,26 @@
+name: Releases
+
+on: 
+  push:
+    tags:
+    - '*'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run tests
+      run: ./gradlew clean test --info
+    - name: Generate build number
+      id: buildnumber
+      uses: einaregilsson/build-number@v3 
+      with:
+        token: ${{secrets.GITHUB_TOKEN}}
+    - name: Build artifacts
+      run: ./gradlew -Penv=production -PbuildNumber=${{ steps.buildnumber.outputs.build_number }} clean assemble
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build/distributions/sdkman-cli-*.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}

@@ -16,6 +16,10 @@ def loadConfiguration() {
 	ext.environment = environment
 	println("Environment is set to: ${environment}")
 
+	def buildNumber = hasProperty('buildNumber') ? buildNumber : '0'
+	ext.buildNumber = buildNumber
+	println("Build number set to: ${buildNumber}")
+
 	def configFile = file('config.groovy')
 	def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
 	ext.config = config
@@ -23,7 +27,6 @@ def loadConfiguration() {
 
 loadConfiguration()
 
-ext.buildNumber = System.getenv('TRAVIS_BUILD_NUMBER') ?: '0'
 ext.sdkmanCliBuildVersion = "${config.sdkmanCliVersion}+${buildNumber}".toString()
 
 repositories.jcenter()
