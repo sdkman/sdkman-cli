@@ -23,11 +23,15 @@ class ConfigCommandSpec extends SdkmanEnvSpecification {
 		where:
 		setupEnv << [
 			{
-				it.execute('nano() { echo "nano was called with $1"; }')
+				it.execute('nano() { echo "nano was called with $*"; }')
 				it.execute("EDITOR=nano")
 			},
 			{
-				it.execute('vi() { echo "vi was called with $1"; }')
+				it.execute('code() { echo "code was called with $*"; }')
+				it.execute("EDITOR='code --wait'")
+			},
+			{
+				it.execute('vi() { echo "vi was called with $*"; }')
 				it.execute("unset EDITOR")
 			},
 			{
@@ -36,6 +40,7 @@ class ConfigCommandSpec extends SdkmanEnvSpecification {
 		]
 		verifyOutput << [
 			{ output, baseDirectory -> output.contains("nano was called with ${baseDirectory}/.sdkman/etc/config") },
+			{ output, baseDirectory -> output.contains("code was called with --wait ${baseDirectory}/.sdkman/etc/config") },
 			{ output, baseDirectory -> output.contains("vi was called with ${baseDirectory}/.sdkman/etc/config") },
 			{ output, _ -> output.contains("No default editor configured.") }
 		]
