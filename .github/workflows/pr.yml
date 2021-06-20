@@ -1,7 +1,7 @@
 name: Pull Requests
 on: pull_request_target
 jobs:
-  add-reviews:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
