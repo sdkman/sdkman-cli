@@ -1,0 +1,31 @@
+name: Beta Release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  pre-release:
+    name: "Beta Release"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: ./gradlew clean test --info
+      - name: Set github tag
+        id: github
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Set short git hash
+        id: git
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Build artifacts
+        run: ./gradlew -Penv=production -Prelease=${{ steps.github.outputs.tag }} -Phash=${{ steps.git.outputs.sha_short }} clean assemble
+      - name: Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            build/distributions/sdkman-cli-*.zip
