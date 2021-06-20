@@ -1,8 +1,5 @@
----
-# yamllint disable-line rule:truthy
-name: 'Auto Assign'
+name: Assign
 on: pull_request_target
-
 jobs:
   add-reviews:
     runs-on: ubuntu-latest
