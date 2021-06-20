@@ -14,6 +14,9 @@ ij_formatter_tags_enabled = false
 ij_smart_tabs = false
 ij_wrap_on_typing = false
 
+[{*.yaml,*.yml}]
+indent_size = 2
+
 [{*.bash,*.sh,*.zsh}]
 ij_shell_binary_ops_start_line = false
 ij_shell_keep_column_alignment_padding = false
