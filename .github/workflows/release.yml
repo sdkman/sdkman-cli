@@ -11,13 +11,10 @@ jobs:
     - name: Run tests
       run: ./gradlew clean test --info
     - name: Set github tag
-      id: github
+      id: var
       run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-    - name: Set short git hash
-      id: git
-      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     - name: Build artifacts
-      run: ./gradlew -Penv=production -Prelease=${{ steps.github.outputs.tag }} -Phash=${{ steps.git.outputs.sha_short }} clean assemble
+      run: ./gradlew -Penv=production -Prelease=${{ steps.var.outputs.tag }} clean assemble
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build/distributions/sdkman-cli-*.zip"
