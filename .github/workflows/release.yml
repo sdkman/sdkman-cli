@@ -13,16 +13,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run tests
       run: ./gradlew clean test --info
-    - name: Generate build number
-      id: buildnumber
-      uses: einaregilsson/build-number@v3 
-      with:
-        token: ${{secrets.GITHUB_TOKEN}}
     - name: Set github tag
       id: vars
       run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+    - name: Set short git hash
+      id: vars
+      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     - name: Build artifacts
-      run: ./gradlew -Penv=production -Prelease=${{ steps.vars.outputs.tag }} -PbuildNumber=${{ steps.buildnumber.outputs.build_number }} clean assemble
+      run: ./gradlew -Penv=production -Prelease=${{ steps.vars.outputs.tag }} -Phash=${{ steps.vars.outputs.sha_short }} clean assemble
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build/distributions/sdkman-cli-*.zip"

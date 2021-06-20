@@ -11,29 +11,22 @@ ext.installBinDir = "${userHome}/.sdkman/bin"
 ext.installSrcDir = "${userHome}/.sdkman/src"
 ext.installContribDir = "${userHome}/.sdkman/contrib"
 
-def loadConfiguration() {
-	def environment = hasProperty('env') ? env : 'local'
-	ext.environment = environment
-	println("Environment is set to: ${environment}")
+ext.environment = hasProperty('env') ? env : 'local'
+ext.hash = hasProperty('hash') ? hash : 'hash'
+ext.release = hasProperty('release') ? release : 'master'
+ext.candidatesApi = ext.environment == 'production' ? 'https://api.sdkman.io/2' : 'http://localhost:8080/2'
 
-	def buildNumber = hasProperty('buildNumber') ? buildNumber : '0'
-	ext.buildNumber = buildNumber
-	println("Build number set to: ${buildNumber}")
+ext.sdkmanVersion = ext.release == 'master' ? "master+${ext.hash}".toString() : ext.release
 
-	def release = hasProperty('release') ? release : 'master'
-	ext.release = release
-	println("Release set to: ${release}")
+println("Environment is set to: $environment")
+println("Short git hash: $hash")
+println("Release set to: $release")
+println("Candidtes API: $candidatesApi")
+println("Version: $sdkmanVersion")
 
-	def configFile = file('config.groovy')
-	def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
-	ext.config = config
+repositories {
+	mavenCentral()
 }
-
-loadConfiguration()
-
-ext.sdkmanCliBuildVersion = ext.release == 'master' ? "master+${buildNumber}".toString() : ext.release
-
-repositories.jcenter()
 
 dependencies {
 	testImplementation('com.github.tomakehurst:wiremock:2.25.1') {
@@ -60,8 +53,8 @@ task prepareScripts(type: Copy) {
 	filter(
 			ReplaceTokens,
 			tokens: [
-					SDKMAN_VERSION       : sdkmanCliBuildVersion,
-					SDKMAN_CANDIDATES_API: config.candidatesApi
+					SDKMAN_VERSION       : sdkmanVersion,
+					SDKMAN_CANDIDATES_API: candidatesApi
 			]
 	)
 }
@@ -77,8 +70,7 @@ tasks.test.configure {
 }
 
 task assembleArchive(type: Zip, dependsOn: [prepareScripts, prepareContrib]) {
-	archiveAppendix = 'cli'
-	archiveVersion = sdkmanCliBuildVersion
+	archiveVersion = sdkmanVersion
 	from('build/scripts') {
 		include('*.sh*')
 	}
