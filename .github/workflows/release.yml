@@ -1,12 +1,11 @@
-name: Releases
-
+name: Release
 on: 
   push:
     tags:
     - '*'
-
+    branches:
+    - master
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:

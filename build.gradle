@@ -12,7 +12,7 @@ ext.installSrcDir = "${userHome}/.sdkman/src"
 ext.installContribDir = "${userHome}/.sdkman/contrib"
 
 ext.environment = hasProperty('env') ? env : 'local'
-ext.hash = hasProperty('hash') ? hash : 'hash'
+ext.hash = hasProperty('hash') ? hash : 'hashme'
 ext.release = hasProperty('release') ? release : 'master'
 ext.candidatesApi = ext.environment == 'production' ? 'https://api.sdkman.io/2' : 'http://localhost:8080/2'
 
