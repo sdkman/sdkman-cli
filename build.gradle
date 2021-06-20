@@ -31,7 +31,7 @@ def loadConfiguration() {
 
 loadConfiguration()
 
-ext.sdkmanCliBuildVersion = "${release}+${buildNumber}".toString()
+ext.sdkmanCliBuildVersion = ext.release == 'master' ? "master+${buildNumber}" : ext.release
 
 repositories.jcenter()
 
