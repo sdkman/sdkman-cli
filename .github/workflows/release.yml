@@ -22,7 +22,7 @@ jobs:
       id: vars
       run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
     - name: Build artifacts
-      run: ./gradlew -Penv=production -Prelease= ${{ steps.vars.outputs.tag }} -PbuildNumber=${{ steps.buildnumber.outputs.build_number }} clean assemble
+      run: ./gradlew -Penv=production -Prelease=${{ steps.vars.outputs.tag }} -PbuildNumber=${{ steps.buildnumber.outputs.build_number }} clean assemble
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build/distributions/sdkman-cli-*.zip"
