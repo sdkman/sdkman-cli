@@ -13,10 +13,10 @@ ext.installContribDir = "${userHome}/.sdkman/contrib"
 
 ext.environment = hasProperty('env') ? env : 'local'
 ext.hash = hasProperty('hash') ? hash : 'hashme'
-ext.release = hasProperty('release') ? release : 'master'
+ext.release = hasProperty('release') ? release : 'latest'
 ext.candidatesApi = ext.environment == 'production' ? 'https://api.sdkman.io/2' : 'http://localhost:8080/2'
 
-ext.sdkmanVersion = ext.release == 'master' ? "master+${ext.hash}".toString() : ext.release
+ext.sdkmanVersion = ext.release == 'latest' ? "latest+${ext.hash}".toString() : ext.release
 
 println("Environment is set to: $environment")
 println("Short git hash: $hash")

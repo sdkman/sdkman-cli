@@ -16,9 +16,11 @@ fi
 if [[ "$PARAM_2" == 'stable' ]]; then
 	FIELD="stableCliVersion"
 	VERSION="$PARAM_1"
-else
+elif [[ "$PARAM_2" == 'latest' ]]; then
 	FIELD="betaCliVersion"
-	VERSION="master+$PARAM_1"
+	VERSION="latest+$PARAM_1"
+else
+	return 1
 fi
 
 echo "Release: $FIELD as $VERSION"
