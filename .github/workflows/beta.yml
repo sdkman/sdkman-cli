@@ -32,4 +32,8 @@ jobs:
           files: |
             build/distributions/sdkman-cli-*.zip
       - name: Update MongoDB
-        run: bin/release-binary.sh master ${{ steps.var.outputs.sha_short }} $MONGO_URL $MONGO_USERNAME $MONGO_PASSWORD
+        env: 
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+          MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+        run: bin/release-binary.sh master ${{ steps.var.outputs.sha_short }} "$MONGO_URL" "$MONGO_USERNAME" "$MONGO_PASSWORD"
