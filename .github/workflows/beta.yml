@@ -8,6 +8,11 @@ jobs:
   pre-release:
     name: "Beta Release"
     runs-on: "ubuntu-latest"
+    services:
+      mongodb:
+        image: mongo:3.4.23
+        ports:
+          - 27017:27017
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
@@ -26,3 +31,5 @@ jobs:
           title: "Beta release"
           files: |
             build/distributions/sdkman-cli-*.zip
+      - name: Update MongoDB
+        run: bin/release-binary.sh master ${{ steps.var.outputs.sha_short }} $MONGO_URL $MONGO_USERNAME $MONGO_PASSWORD
