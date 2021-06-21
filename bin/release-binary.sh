@@ -12,6 +12,8 @@ if [[ -z "$MONGO_USERNAME" || -z "$MONGO_PASSWORD" ]]; then
 	return 0
 fi
 
+echo "Mongo URL: $MONGO_URL"
+
 if [[ "$BRANCH" == 'master' ]]; then
 	FIELD="betaCliVersion"
 else
@@ -20,4 +22,4 @@ fi
 
 echo "Release: $FIELD $VERSION"
 
-mongo ${MONGO_URL} --username=${MONGO_USERNAME} --password=${MONGO_PASSWORD} -eval "db.application.updateOne({}, {\$set: { \"$FIELD\": \"$VERSION\"}});"
+mongo "${MONGO_URL}" --username="${MONGO_USERNAME}" --password="${MONGO_PASSWORD}" -eval "db.application.updateOne({}, {\$set: { \"$FIELD\": \"$VERSION\"}});"
