@@ -5,7 +5,14 @@ on:
     - '*'
 jobs:
   build:
+    name: "Stable Release"
     runs-on: ubuntu-latest
+    environment: production
+    services:
+      mongodb:
+        image: mongo:3.2
+        ports:
+          - 27017:27017
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
@@ -15,7 +22,15 @@ jobs:
       run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
     - name: Build artifacts
       run: ./gradlew -Penv=production -Prelease=${{ steps.var.outputs.tag }} clean assemble
-    - uses: ncipollo/release-action@v1
+    - name: Release
+      uses: ncipollo/release-action@v1
       with:
         artifacts: "build/distributions/sdkman-cli-*.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Update MongoDB
+      env:
+        MONGO_URL: ${{ secrets.MONGO_URL }}
+        MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
+        MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+        RELEASE_TAG: ${{ steps.var.outputs.tag }}
+      run: bin/release-binary.sh "$MONGO_URL" "$MONGO_USERNAME" "$MONGO_PASSWORD" "$RELEASE_TAG" "stable"

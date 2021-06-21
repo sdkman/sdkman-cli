@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
 
-BRANCH="$1"
-SHORT_HASH="$2"
-MONGO_URL="$3"
-MONGO_USERNAME="$4"
-MONGO_PASSWORD="$5"
-VERSION="$BRANCH+$SHORT_HASH"
+MONGO_URL="$1"
+MONGO_USERNAME="$2"
+MONGO_PASSWORD="$3"
+PARAM_1="$4"
+PARAM_2="$5"
+
+echo "Mongo URL: $MONGO_URL"
 
 if [[ -z "$MONGO_USERNAME" || -z "$MONGO_PASSWORD" ]]; then
 	echo "No mongo credentials so doing nothing..."
 	return 1
 fi
 
-echo "Mongo URL: $MONGO_URL"
-
-if [[ "$BRANCH" == 'master' ]]; then
-	FIELD="betaCliVersion"
-else
+if [[ "$PARAM_2" == 'stable' ]]; then
 	FIELD="stableCliVersion"
+	VERSION="$PARAM_1"
+else
+	FIELD="betaCliVersion"
+	VERSION="master+$PARAM_1"
 fi
 
 echo "Release: $FIELD as $VERSION"
