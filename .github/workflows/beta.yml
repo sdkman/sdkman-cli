@@ -33,7 +33,7 @@ jobs:
           files: |
             build/distributions/sdkman-cli-*.zip
       - name: Update MongoDB
-        env: 
+        env:
           MONGO_URL: ${{ secrets.MONGO_URL }}
           MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
