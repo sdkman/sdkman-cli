@@ -26,7 +26,7 @@ function __sdk_selfupdate() {
 		echo "No update available at this time."
 	else
 		export sdkman_debug_mode
-		export sdkman_beta_channel
+		export sdkman_beta_channel="${sdkman_beta_channel:-false}"
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate?beta=${sdkman_beta_channel}" | bash
 	fi
 
