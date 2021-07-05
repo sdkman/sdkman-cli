@@ -48,7 +48,7 @@ function __sdkman_auto_update() {
 		__sdkman_echo_no_colour "The current version is $remote_version, but you have $version."
 		echo ""
 
-		if [[ "$sdkman_auto_selfupdate" != "true" ]]; then
+		if [[ "$sdkman_auto_answer" == false ]]; then
 			__sdkman_echo_confirm "Would you like to upgrade now? (Y/n): "
 			read upgrade
 		fi
