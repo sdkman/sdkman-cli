@@ -7,7 +7,7 @@
 
 SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
 
-See documentation on the [SDKMAN! website](https://sdkman.io).
+See documentation on the [SDKMAN! website](https://sdkman.io) or give a live try on [Katacoda](https://www.katacoda.com/rastadidi/courses/sdkman)
 
 ## Installation
 
