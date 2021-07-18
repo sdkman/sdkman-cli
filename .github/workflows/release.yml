@@ -22,6 +22,11 @@ jobs:
       run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
     - name: Build artifacts
       run: ./gradlew -Penv=production -Prelease=${{ steps.var.outputs.tag }} clean assemble
+    - name: Get release
+      id: get_release
+      uses: bruceadams/get-release@v1.2.2
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Release
       uses: ncipollo/release-action@v1
       with:
@@ -34,3 +39,11 @@ jobs:
         MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         RELEASE_TAG: ${{ steps.var.outputs.tag }}
       run: bin/release-binary.sh "$MONGO_URL" "$MONGO_USERNAME" "$MONGO_PASSWORD" "$RELEASE_TAG" "stable"
+    - name: Tweet about it
+      uses: ethomson/send-tweet-action@v1
+      with:
+        status: "Released version ${{ steps.get_release.outputs.tag_name }} of SDKMAN! ${{ steps.get_release.outputs.html_url }}"
+        consumer-key: ${{ secrets.TWITTER_CONSUMER_API_KEY }}
+        consumer-secret: ${{ secrets.TWITTER_CONSUMER_API_SECRET }}
+        access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+        access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
