@@ -72,9 +72,10 @@ __sdkman_complete_candidate_version() {
 			done
 			;;
 		install)
+		    curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all" | \
 			while IFS= read -d, -r version; do
 				candidates+=($version)
-			done < <(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")
+			done
 			;;
 	esac
 
