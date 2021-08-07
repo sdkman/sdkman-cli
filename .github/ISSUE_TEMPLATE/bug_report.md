@@ -6,7 +6,8 @@ labels: 'bug'
 assignees: ''
 
 ---
-<!-- Thank you for using the SDKMAN! issue tracker! If you are unsure if it is a bug, then consider using the Slack chat before creating a new issue. Please understand, that we cannot offer regular support through GitHub issues and might close the issue, if it is not an actual bug! -->
+<!-- DO NOT DELETE THIS TEMPLATE AND PLEASE READ IT WITH CARE! -->
+<!-- Thank you for using the SDKMAN! issue tracker. Please fill in everything to the best of your ability. If you are unsure if it is a bug, then please use our Slack user-issues channel before creating a new issue. Please understand that we cannot offer regular support through GitHub issues and will close the issue if it is not an actual bug. -->
 
 **Bug report**
 <!-- A clear and concise description of the bug you encountered  -->
