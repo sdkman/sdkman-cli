@@ -65,13 +65,13 @@ function __sdkman_secure_curl_with_timeouts() {
 	fi
 }
 
-function __sdkman_page() {
+function __sdkman_echo_paged() {
 	if [[ -n "$PAGER" ]]; then
-		"$@" | eval $PAGER
+		echo "$@" | eval "$PAGER"
 	elif command -v less >& /dev/null; then
-		"$@" | less
+		echo "$@" | less
 	else
-		"$@"
+		echo "$@"
 	fi
 }
 

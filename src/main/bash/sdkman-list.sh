@@ -30,7 +30,7 @@ function __sdkman_list_candidates() {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_echo_red "This command is not available while offline."
 	else
-		__sdkman_page echo "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/list")"
+		__sdkman_echo_paged "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/list")"
 	fi
 }
 
@@ -44,7 +44,7 @@ function __sdkman_list_versions() {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_offline_list "$candidate" "$versions_csv"
 	else
-		__sdkman_echo_no_colour "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/${candidate}/${SDKMAN_PLATFORM}/versions/list?current=${CURRENT}&installed=${versions_csv}")"
+		__sdkman_echo_paged "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/${candidate}/${SDKMAN_PLATFORM}/versions/list?current=${CURRENT}&installed=${versions_csv}")"
 	fi
 }
 
