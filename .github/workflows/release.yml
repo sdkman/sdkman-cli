@@ -16,16 +16,16 @@ jobs:
           - 27017:27017
     steps:
     - uses: actions/checkout@v2
-        - uses: sdkman/sdkman-action@master
-          id: sdkman
-          with:
-            candidate: java
-            version: 11.0.12-sem
-        - uses: actions/setup-java@v1
-          id: setup-java
-          with:
-            java-version: 11.0.12
-            jdkFile: ${{ steps.sdkman.outputs.file }}
+    - uses: sdkman/sdkman-action@master
+      id: sdkman
+      with:
+        candidate: java
+        version: 11.0.12-sem
+    - uses: actions/setup-java@v1
+      id: setup-java
+      with:
+        java-version: 11.0.12
+        jdkFile: ${{ steps.sdkman.outputs.file }}
     - name: Run tests
       run: ./gradlew clean test --info
     - name: Set github tag
