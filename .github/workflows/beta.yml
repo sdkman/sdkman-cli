@@ -7,7 +7,6 @@ on:
 jobs:
   pre-release:
     name: "Beta Release"
-    if: github.repository == "sdkman/sdkman-cli"
     environment: production
     runs-on: "ubuntu-latest"
     services:
@@ -25,6 +24,7 @@ jobs:
       - name: Build artifacts
         run: ./gradlew -Penv=production -Phash=${{ steps.var.outputs.sha_short }} clean assemble
       - name: Release
+        if: github.repository == 'sdkman/sdkman-cli'
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
@@ -34,6 +34,7 @@ jobs:
           files: |
             build/distributions/sdkman-cli-*.zip
       - name: Update MongoDB
+        if: github.repository == 'sdkman/sdkman-cli'
         env:
           MONGO_URL: ${{ secrets.MONGO_URL }}
           MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
