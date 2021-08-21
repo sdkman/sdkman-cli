@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     name: "Stable Release"
+    if: github.repository == "sdkman/sdkman-cli"
     runs-on: ubuntu-latest
     environment: production
     services:

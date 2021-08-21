@@ -7,6 +7,7 @@ on:
 jobs:
   pre-release:
     name: "Beta Release"
+    if: github.repository == "sdkman/sdkman-cli"
     environment: production
     runs-on: "ubuntu-latest"
     services:
