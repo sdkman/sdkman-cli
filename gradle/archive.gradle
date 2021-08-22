@@ -1,0 +1,39 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
+task prepareScripts(type: Copy) {
+	from('src/main/bash')
+	into('build/scripts')
+	include('**/*')
+	filter(
+			ReplaceTokens,
+			tokens: [
+					SDKMAN_VERSION       : sdkmanVersion,
+					SDKMAN_CANDIDATES_API: candidatesApi
+			]
+	)
+}
+
+task prepareContrib(type: Copy) {
+	from('contrib')
+	into('build/contrib')
+}
+
+tasks.test.configure {
+	dependsOn(prepareScripts)
+	testLogging.exceptionFormat = TestExceptionFormat.FULL
+}
+
+task assembleArchive(type: Zip, dependsOn: [prepareScripts, prepareContrib]) {
+	archiveVersion = sdkmanVersion
+	from('build/scripts') {
+		include('*.sh*')
+	}
+	from('build') {
+		include('contrib/**')
+	}
+}
+
+tasks.assemble.configure {
+	dependsOn(assembleArchive)
+}
