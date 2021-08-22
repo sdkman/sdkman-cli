@@ -141,10 +141,7 @@ class SdkmanBashEnvBuilder {
 			env.put("http_proxy", httpProxy)
 		}
 
-		def bashEnv = new BashEnv(baseFolder.absolutePath, env)
-		println("\nSdkmanBashEnvBuilder: $this")
-		println("\nBashEnv: $bashEnv")
-		bashEnv
+		new BashEnv(baseFolder.absolutePath, env)
 	}
 
 	private prepareDirectory(File target, String directoryName) {
