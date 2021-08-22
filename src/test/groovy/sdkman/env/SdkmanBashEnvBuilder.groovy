@@ -7,7 +7,9 @@ import sdkman.stubs.UnameStub
 @ToString(includeNames = true)
 class SdkmanBashEnvBuilder {
 
-	final TEST_SCRIPT_BUILD_DIR = "build/scripts" as File
+	final BUILD_STAGE_DIR = "build/stage/sdkman-latest"
+	final BUILD_BIN_DIR = "$BUILD_STAGE_DIR/bin"
+	final BUILD_SRC_DIR = "$BUILD_STAGE_DIR/src"
 
 	//mandatory fields
 	private final File baseFolder
@@ -185,7 +187,7 @@ class SdkmanBashEnvBuilder {
 	}
 
 	private primeInitScript(File targetFolder) {
-		def sourceInitScript = new File(TEST_SCRIPT_BUILD_DIR, 'sdkman-init.sh')
+		def sourceInitScript = new File(BUILD_BIN_DIR, 'sdkman-init.sh')
 
 		if (!sourceInitScript.exists())
 			throw new IllegalStateException("sdkman-init.sh has not been prepared for consumption.")
@@ -196,7 +198,7 @@ class SdkmanBashEnvBuilder {
 	}
 
 	private primeModuleScripts(File targetFolder) {
-		for (f in TEST_SCRIPT_BUILD_DIR.listFiles()) {
+		for (f in new File(BUILD_SRC_DIR).listFiles()) {
 			if (!(f.name in ['selfupdate.sh', 'install.sh', 'sdkman-init.sh'])) {
 				new File(targetFolder, f.name) << f.text
 			}
