@@ -43,3 +43,7 @@ task assembleArchive(type: Zip, dependsOn: [prepareBin, prepareScripts, prepareC
 tasks.assemble.configure {
 	dependsOn(assembleArchive)
 }
+
+tasks.test.configure {
+	dependsOn(prepareBin, prepareScripts)
+}
