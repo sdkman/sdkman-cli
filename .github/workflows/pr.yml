@@ -8,16 +8,10 @@ jobs:
         uses: actions/checkout@v2
         with:
             ref: ${{ github.event.pull_request.head.sha }}
-      - uses: sdkman/sdkman-action@master
-        id: sdkman
+      - uses: actions/setup-java@v2
         with:
-          candidate: java
-          version: 11.0.12-sem
-      - uses: actions/setup-java@v1
-        id: setup-java
-        with:
-          java-version: 11.0.12
-          jdkFile: ${{ steps.sdkman.outputs.file }}            
+          distribution: 'temurin'
+          java-version: '11'
       - name: Run with Gradle
         run: ./gradlew clean test --info
       - uses: kentaro-m/auto-assign-action@v1.1.2
