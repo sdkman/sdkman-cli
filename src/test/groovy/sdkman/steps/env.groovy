@@ -31,6 +31,7 @@ candidatesDir = "${sdkmanDirEnv}/candidates" as File
 binDir = "${sdkmanDirEnv}/bin" as File
 srcDir = "${sdkmanDirEnv}/src" as File
 varDir = "${sdkmanDirEnv}/var" as File
+metadataDir = "${varDir}/metadata" as File
 etcDir = "${sdkmanDirEnv}/etc" as File
 extDir = "${sdkmanDirEnv}/ext" as File
 archiveDir = "${sdkmanDirEnv}/archives" as File

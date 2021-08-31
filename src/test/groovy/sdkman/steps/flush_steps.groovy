@@ -38,3 +38,11 @@ And(~'^no version file can be found$') { ->
 And(~'^the Remote Version has been flushed$') { ->
 	assert versionFile.delete()
 }
+
+And(~'^a headers file "([^"]*)" in metadata directory$') { String fileName ->
+	new File(metadataDir, fileName).createNewFile()
+}
+
+And(~'^no metadata is cached$') { ->
+	assert !metadataDir.listFiles()
+}

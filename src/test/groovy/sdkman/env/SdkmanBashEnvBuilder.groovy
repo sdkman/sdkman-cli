@@ -30,8 +30,9 @@ class SdkmanBashEnvBuilder {
 			sdkman_beta_channel: 'false'
 	]
 
-	File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir, sdkmanTmpDir, sdkmanCandidatesDir
-
+	File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir,
+		 sdkmanTmpDir, sdkmanCandidatesDir, sdkmanMetadataDir
+	
 	static SdkmanBashEnvBuilder create(File baseFolder) {
 		new SdkmanBashEnvBuilder(baseFolder)
 	}
@@ -110,6 +111,7 @@ class SdkmanBashEnvBuilder {
 		sdkmanArchivesDir = prepareDirectory(sdkmanDir, "archives")
 		sdkmanTmpDir = prepareDirectory(sdkmanDir, "tmp")
 		sdkmanCandidatesDir = prepareDirectory(sdkmanDir, "candidates")
+		sdkmanMetadataDir = prepareDirectory(sdkmanVarDir, "metadata")
 
 		curlStub.map { it.build() }
 		unameStub.map { it.build() }
