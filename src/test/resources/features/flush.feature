@@ -5,12 +5,14 @@ Feature: Flush
 		And an initialised environment
 		And the system is bootstrapped
 
-	Scenario: Clear out the cached archives and the temporary storage
+	Scenario: Clear out the cached archives, the temporary storage and metadata
 		Given the archive "grails-1.3.9.zip" has been cached
 		And the file "res-1.2.0.zip" in temporary storage
+		And a headers file "grails-1.3.9.headers" in metadata directory
 		When I enter "sdk flush"
 		Then no archives are cached
 		And no "res-1.2.0.zip" file is present in temporary storage
+		And no metadata is cached
 		And I see "1 archive(s) flushed"
 		And I see "1 archive(s) flushed"
 
@@ -42,3 +44,9 @@ Feature: Flush
 		When I enter "sdk flush temp"
 		Then no "res-1.2.0.zip" file is present in temporary storage
 		And I see "1 archive(s) flushed"
+
+	Scenario: Clear out the metadata
+		Given a headers file "grails-1.3.9.headers" in metadata directory
+		When I enter "sdk flush metadata"
+		Then no metadata is cached
+		And I see "1 archive(s) flushed"	

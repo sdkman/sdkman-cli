@@ -38,9 +38,13 @@ function __sdk_flush() {
 	tmp)
 		__sdkman_cleanup_folder "tmp"
 		;;
+	metadata)
+    	__sdkman_cleanup_folder "var/metadata"
+    	;;
 	*)
 		__sdkman_cleanup_folder "archives"
 		__sdkman_cleanup_folder "tmp"
+		__sdkman_cleanup_folder "var/metadata"
 		;;
 	esac
 }

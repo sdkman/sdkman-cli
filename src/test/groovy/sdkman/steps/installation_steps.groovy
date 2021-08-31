@@ -96,3 +96,15 @@ And(~'^I have configured "([^"]*)" to "([^"]*)"$') { String configName, String f
 And(~/^the exit code is (\d+)$/) { Integer rc ->
 	assert bash.getStatus() == rc
 }
+
+And(~'^the response headers file is created for candidate "([^"]*)" and version "([^"]*)"$') { String candidate, String version ->
+	def headersFile = "${metadataDir}/${candidate}-${version}.headers" as File
+	if (!headersFile.exists()) println bash.output
+	assert headersFile.exists()
+}
+
+And(~'^no response headers are written for candidate "([^"]*)" and version "([^"]*)"$') { String candidate, String version ->
+	def headersFile = "${metadataDir}/${candidate}-${version}.headers" as File
+	if (headersFile.exists()) println bash.output
+	assert !headersFile.exists()
+}

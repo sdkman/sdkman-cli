@@ -12,6 +12,7 @@ Feature: Install Candidate
 		Then I see "Done installing!"
 		And I do not see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And the candidate "grails" version "2.1.0" is installed
+		And the response headers file is created for candidate "grails" and version "2.1.0"
 		And the exit code is 0
 
 	Scenario: Install a specific Candidate and set to default
@@ -21,6 +22,7 @@ Feature: Install Candidate
 		Then I see "Done installing!"
 		And I do not see "Do you want grails 1.3.9 to be set as default? (Y/n)"
 		And the candidate "grails" version "1.3.9" is installed
+		And the response headers file is created for candidate "grails" and version "1.3.9"
 		And the exit code is 0
 
 	Scenario: Install a Candidate version that does not exist
@@ -36,6 +38,7 @@ Feature: Install Candidate
 		And the candidate "grails" version "1.3.9" is already installed and default
 		When I enter "sdk install grails 1.3.9"
 		Then I see "grails 1.3.9 is already installed."
+		And no response headers are written for candidate "grails" and version "1.3.9"
 		And the exit code is 0
 
 	Scenario: Install a candidate and auto-answer to make it default
@@ -44,6 +47,7 @@ Feature: Install Candidate
 		And I have configured "sdkman_auto_answer" to "true"
 		When I enter "sdk install grails 2.1.0"
 		Then the candidate "grails" version "2.1.0" is installed
+		And the response headers file is created for candidate "grails" and version "2.1.0"
 		And I do not see "Do you want grails 2.1.0 to be set as default?"
 		And I see "Done installing!"
 		And I see "Setting grails 2.1.0 as default."
@@ -56,6 +60,7 @@ Feature: Install Candidate
 		And the candidate "grails" version "2.1.0" is available for download
 		When I enter "sdk install grails 2.1.0" and answer "Y"
 		Then the candidate "grails" version "2.1.0" is installed
+		And the response headers file is created for candidate "grails" and version "2.1.0"
 		And I see "Done installing!"
 		And I see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And I see "Setting grails 2.1.0 as default."
@@ -69,6 +74,7 @@ Feature: Install Candidate
 		And the candidate "grails" version "2.1.0" is available for download
 		When I enter "sdk install grails 2.1.0" and answer "n"
 		Then the candidate "grails" version "2.1.0" is installed
+		And the response headers file is created for candidate "grails" and version "2.1.0"
 		And I see "Done installing!"
 		And I see "Do you want grails 2.1.0 to be set as default? (Y/n)"
 		And I do not see "Setting grails 2.1.0 as default."

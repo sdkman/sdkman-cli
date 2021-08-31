@@ -120,11 +120,15 @@ function __sdkman_download() {
 	version="$2"
 
 	archives_folder="${SDKMAN_DIR}/archives"
+	metadata_folder="${SDKMAN_DIR}/var/metadata"
+	mkdir -p ${metadata_folder}
+	
 	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
 		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 		local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 		local base_name="${candidate}-${version}"
 		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
+		local headers="${metadata_folder}/${base_name}.headers"
 
 		# pre-installation hook: implements function __sdkman_pre_installation_hook
 		local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
@@ -145,8 +149,8 @@ function __sdkman_download() {
 		echo ""
 
 		# download binary
-		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}"
-		__sdkman_echo_debug "Downloaded binary to: ${binary_input}"
+		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}" --dump-header "${headers}"
+		__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers})"
 
 		# post-installation hook: implements function __sdkman_post_installation_hook
 		# responsible for taking `binary_input` and producing `zip_output`
