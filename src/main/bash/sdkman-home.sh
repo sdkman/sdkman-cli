@@ -35,5 +35,5 @@ function __sdk_home() {
 		return 1
 	fi
 
-	echo -n "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	echo "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 }
