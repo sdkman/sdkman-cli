@@ -135,7 +135,7 @@ done
 IFS="$OLD_IFS"
 unset OLD_IFS scripts f
 
-if [[ "$POSIXLY_CORRECT" == 'y' ]]; then
+if [[ "$POSIXLY_CORRECT" == 'y' ]]; then
   __sdkman_echo_yellow "It seems you are running Bash in POSIX mode. While some of SDKMAN!s functionality may still work, it is strongly recommended to run Bash without any compatibility flags turned on."
 fi
 
