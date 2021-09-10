@@ -32,10 +32,9 @@ __sdkman_complete_command() {
 			done
 			;;
 		install|list)
-		    curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all" | \
 			while IFS= read -d, -r candidate; do
 				candidates+=($candidate)
-			done
+			done < <(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")
 			;;
 		env)
 			candidates=("init install clear")
@@ -72,10 +71,9 @@ __sdkman_complete_candidate_version() {
 			done
 			;;
 		install)
-		    curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all" | \
 			while IFS= read -d, -r version; do
 				candidates+=($version)
-			done
+			done < <(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")
 			;;
 	esac
 
