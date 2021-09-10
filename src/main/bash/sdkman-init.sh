@@ -135,7 +135,7 @@ done
 IFS="$OLD_IFS"
 unset OLD_IFS scripts f
 
-if [[ $POSIXLY_CORRECT == "y" ]]; then
+if [[ "$POSIXLY_CORRECT" == 'y' ]]; then
   __sdkman_echo_yellow "It seems you are running Bash in POSIX mode. While some of SDKMAN!s functionality may still work, it is strongly recommended to run Bash without any compatibility flags turned on."
 fi
 
@@ -193,7 +193,7 @@ if [[ "$sdkman_auto_complete" == 'true' ]]; then
 		fi
 		source "${SDKMAN_DIR}/contrib/completion/zsh/sdk"
 		__sdkman_echo_debug "ZSH completion script loaded..."
-	elif [[ "$bash_shell" == 'true' ]] && [[ $POSIXLY_CORRECT != 'y' ]]; then
+	elif [[ "$bash_shell" == 'true' ]] && [[ "$POSIXLY_CORRECT" != 'y' ]]; then
 		source "${SDKMAN_DIR}/contrib/completion/bash/sdk"
 		__sdkman_echo_debug "Bash completion script loaded..."
 	else
