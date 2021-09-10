@@ -193,7 +193,7 @@ if [[ "$sdkman_auto_complete" == 'true' ]]; then
 		fi
 		source "${SDKMAN_DIR}/contrib/completion/zsh/sdk"
 		__sdkman_echo_debug "ZSH completion script loaded..."
-	elif [[ "$bash_shell" == 'true' ]] && [[ "$POSIXLY_CORRECT" != 'y' ]]; then
+	elif [[ "$bash_shell" == 'true' ]]; then
 		source "${SDKMAN_DIR}/contrib/completion/bash/sdk"
 		__sdkman_echo_debug "Bash completion script loaded..."
 	else

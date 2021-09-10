@@ -107,6 +107,18 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 		duplicateCandidates.isEmpty()
 	}
 
+	void "should display a warning if Bash is run in POSIX mode"() {
+		given:
+		bash.start()
+
+		when:
+		bash.execute("POSIXLY_CORRECT=y")
+		bash.execute("source $bootstrapScript")
+
+		then:
+		bash.output.contains("It seems you are running Bash in POSIX mode.")
+	}
+
 	private prepareCandidateDirectories(List candidates) {
 		candidates.forEach {
 			def current = Paths.get("$candidatesDirectory/$it/current")
