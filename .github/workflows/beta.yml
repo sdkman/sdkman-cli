@@ -26,7 +26,7 @@ jobs:
         id: var
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Build artifacts
-        run: ./gradlew -Penv=production -Phash=${{ steps.var.outputs.sha_short }} clean assemble
+        run: ./gradlew -Penv=beta -Phash=${{ steps.var.outputs.sha_short }} clean assemble
       - name: Release
         if: github.repository == 'sdkman/sdkman-cli'
         uses: "marvinpinto/action-automatic-releases@latest"
