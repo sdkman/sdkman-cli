@@ -7,6 +7,7 @@
 .pid.lock
 .project
 .settings/
+.vscode/
 \#*
 build/
 classes
@@ -18,3 +19,4 @@ mongo.json
 out/
 sdkman-cli.iml
 target/
+bin/test

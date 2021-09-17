@@ -169,6 +169,7 @@ function __sdkman_download() {
 		echo ""
 		__sdkman_echo_no_colour "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
 	fi
+	__sdkman_checksum_zip "${archives_folder}/${candidate}-${version}.zip" "${headers}" || return 1
 	__sdkman_validate_zip "${archives_folder}/${candidate}-${version}.zip" || return 1
 	echo ""
 }
@@ -184,4 +185,46 @@ function __sdkman_validate_zip() {
 		__sdkman_echo_red "Stop! The archive was corrupt and has been removed! Please try installing again."
 		return 1
 	fi
+}
+
+function __sdkman_checksum_zip() {
+	local -r zip_archive="$1"
+	local -r headers_archive="$2"
+	local algorithm checksum cmd
+	local shasum_avail=false
+	local md5sum_avail=false
+
+	#Check for the appropriate checksum tools
+	if command -v shasum > /dev/null 2>&1; then
+		shasum_avail=true
+	fi
+	if command -v md5sum > /dev/null 2>&1; then
+		md5sum_avail=true
+	fi
+	
+	while IFS= read -r line; do
+		algorithm=$(echo $line | sed -n 's/^X-Sdkman-Checksum-\(.*\):.*$/\1/p' | tr '[:lower:]' '[:upper:]')
+		checksum=$(echo $line | sed -n 's/^X-Sdkman-Checksum-.*:\(.*\)$/\1/p' | tr -cd '[:alnum:]')
+		
+		if [[ -n ${algorithm} && -n ${checksum} ]]; then
+			
+			if [[ "$algorithm" =~ 'SHA' && "$shasum_avail" == 'true' ]]; then
+				cmd="echo \"${checksum} *${zip_archive}\" | shasum --check --quiet"
+				
+			elif [[ "$algorithm" =~ 'MD5' && "$md5sum_avail" == 'true' ]]; then
+				cmd="echo \"${checksum} ${zip_archive}\" | md5sum --check --quiet"
+			fi
+			
+			if [[ -n $cmd ]]; then
+				__sdkman_echo_debug "Checksumming downloaded artifact ${zip_archive} (${algorithm})"
+
+				if ! eval "$cmd"; then
+					rm -f "$zip_archive"
+					echo ""
+					__sdkman_echo_red "Stop! An invalid checksum was detected and the archive removed! Please try re-installing."
+					return 1
+				fi
+			fi
+		fi
+  	done < ${headers_archive}
 }
