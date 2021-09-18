@@ -73,7 +73,7 @@ __sdkman_complete_candidate_version() {
 			done
 			;;
 		install)
-			local -r all_candidate_versions =$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")
+			local -r all_candidate_versions=$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")
 
 			while IFS= read -d, -r version; do
 				candidates+=($version)
