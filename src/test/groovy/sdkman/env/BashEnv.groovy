@@ -46,7 +46,7 @@ class BashEnv {
 	 * Starts the external bash process.
 	 */
 	void start() {
-		process = ["bash", "--noprofile", "--norc", "-i", "-o", "noclobber"].execute(env, workDir)
+		process = ["bash", "--noprofile", "--norc", "--posix", "-i", "-o", "noclobber"].execute(env, workDir)
 
 		consumeProcessStream(process.inputStream)
 		consumeProcessStream(process.errorStream)
