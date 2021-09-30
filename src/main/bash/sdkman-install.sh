@@ -67,7 +67,7 @@ function __sdkman_install_candidate_version() {
 	__sdkman_download "$candidate" "$version" || return 1
 	__sdkman_echo_green "Installing: ${candidate} ${version}"
 
-	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
+	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 
 	rm -rf "${SDKMAN_DIR}/tmp/out"
 	unzip -oq "${SDKMAN_DIR}/archives/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
