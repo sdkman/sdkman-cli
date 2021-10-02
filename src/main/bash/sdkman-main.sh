@@ -59,6 +59,11 @@ function sdk() {
 		COMMAND="env"
 		;;
 	esac
+	
+	# Load the sdkman config if it exists.
+	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
+		source "${SDKMAN_DIR}/etc/config"
+	fi
 
 	if [[ "$COMMAND" == "home" ]]; then
 		__sdk_home "$QUALIFIER" "$3"
@@ -89,11 +94,6 @@ function sdk() {
 
 	# ...unless proven otherwise
 	__sdkman_update_broadcast_and_service_availability
-
-	# Load the sdkman config if it exists.
-	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
-		source "${SDKMAN_DIR}/etc/config"
-	fi
 
 	# no command provided
 	if [[ -z "$COMMAND" ]]; then

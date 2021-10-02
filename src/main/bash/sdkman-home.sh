@@ -34,6 +34,10 @@ function __sdk_home() {
 		__sdkman_echo_yellow "$ sdk install ${candidate} ${version}"
 		return 1
 	fi
-
-	echo -n "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	
+ 	if [[ "$sdkman_home_newline" == true ]]; then
+    	echo "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+    else
+    	echo -n "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	fi
 }
