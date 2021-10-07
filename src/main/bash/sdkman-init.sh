@@ -38,15 +38,9 @@ fi
 function infer_platform() {
 	local kernel
 	local machine
-	local 
 	
 	kernel="$(uname -s)"
 	machine="$(uname -m)"
-	
-	# | Board				| OS		| uname -s 	| uname -m 	|
-	# | Raspberry Pi Zero	| 32bit		| Linux		| armv6l	|
-	# | Raspberry Pi 4 		| 32bit  	| Linux		| armv7l	|
-	# | Raspberry Pi 4 		| 64bit 	| Linux		| aarch64	|
 	
 	case $kernel in
 	Linux)
@@ -64,7 +58,7 @@ function infer_platform() {
 		echo "LinuxARM32HF"
 		;;
 	  armv8l)
-		echo "LinuxARM64" # is this for sure?
+		echo "LinuxARM32HF"
 		;;
 	  aarch64)
 		echo "LinuxARM64"
