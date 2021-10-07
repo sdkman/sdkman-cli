@@ -22,8 +22,9 @@ class PlatformSpec extends SdkmanEnvSpecification {
 		kernel   | machine   | platform
 		"Linux"  | "i686"    | "linuxx32"
 		"Linux"  | "x86_64"  | "linuxx64"
-		"Linux"  | "armv7l"  | "linuxarm32"
-		"Linux"  | "armv8l"  | "linuxarm64"
+		"Linux"  | "armv6l"  | "linuxarm32sf"
+		"Linux"  | "armv7l"  | "linuxarm32hf"
+		"Linux"  | "armv8l"  | "linuxarm32hf"
 		"Linux"  | "aarch64" | "linuxarm64"
 		"Linux"  | ""        | "linuxx64"
 		"Darwin" | "x86_64"  | "darwinx64"
