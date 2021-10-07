@@ -1,7 +1,3 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
-import static org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-
 plugins {
 	id('groovy')
 }
@@ -24,6 +20,8 @@ println("Release set to: $release")
 println("Candidtes API: $candidatesApi")
 println("Version: $sdkmanVersion")
 
+apply from: 'gradle/archive.gradle'
+
 repositories {
 	mavenCentral()
 }
@@ -45,72 +43,3 @@ dependencies {
 		exclude module: 'groovy-all'
 	}
 }
-
-task prepareScripts(type: Copy) {
-	from('src/main/bash')
-	into('build/scripts')
-	include('**/*')
-	filter(
-			ReplaceTokens,
-			tokens: [
-					SDKMAN_VERSION       : sdkmanVersion,
-					SDKMAN_CANDIDATES_API: candidatesApi
-			]
-	)
-}
-
-task prepareContrib(type: Copy) {
-	from('contrib')
-	into('build/contrib')
-}
-
-tasks.test.configure {
-	dependsOn(prepareScripts)
-	testLogging.exceptionFormat = FULL
-}
-
-task assembleArchive(type: Zip, dependsOn: [prepareScripts, prepareContrib]) {
-	archiveVersion = sdkmanVersion
-	from('build/scripts') {
-		include('*.sh*')
-	}
-	from('build') {
-		include('contrib/**')
-	}
-}
-
-tasks.assemble.configure {
-	dependsOn(assembleArchive)
-}
-
-task cleanInstallInit(type: Delete) {
-	delete(installBinDir)
-}
-
-task cleanContribInit(type: Delete) {
-	delete(installContribDir)
-}
-
-task cleanInstallModules(type: Delete) {
-	delete(installSrcDir)
-}
-
-task installContrib(type: Copy, dependsOn: [cleanContribInit, prepareContrib]) {
-	from('build/contrib')
-	into(installContribDir)
-}
-
-task installInit(type: Copy, dependsOn: [cleanInstallInit, prepareScripts]) {
-	from('build/scripts')
-	into(installBinDir)
-	include('sdkman-init.sh')
-}
-
-task installModules(type: Copy, dependsOn: [cleanInstallModules, prepareScripts]) {
-	from('build/scripts')
-	into(installSrcDir)
-	include('sdkman-*.sh')
-	exclude('sdkman-init.sh')
-}
-
-task install(dependsOn: [installInit, installContrib, installModules])
