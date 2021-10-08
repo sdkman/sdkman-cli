@@ -19,7 +19,7 @@ If the environment needs tweaking for SDKMAN to be installed, the installer will
 
 ## Running the Cucumber Features
 
-All SDKMAN's BDD tests describing the CLI behaviour are written in Cucumber and can be found under `src/test/cucumber/sdkman`. These can be run with Gradle by running the following command:
+All SDKMAN's BDD tests describing the CLI behaviour are written in Cucumber and can be found under `src/test/resources/features`. These can be run with Gradle by running the following command:
 
     $ ./gradlew test
 
