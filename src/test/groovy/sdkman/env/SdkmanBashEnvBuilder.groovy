@@ -7,7 +7,7 @@ import sdkman.stubs.UnameStub
 @ToString(includeNames = true)
 class SdkmanBashEnvBuilder {
 
-	final BUILD_STAGE_DIR = "build/stage/sdkman-latest"
+	final BUILD_STAGE_DIR = "build/stage/sdkman-latest+hashme"
 	final BUILD_BIN_DIR = "$BUILD_STAGE_DIR/bin"
 	final BUILD_SRC_DIR = "$BUILD_STAGE_DIR/src"
 
