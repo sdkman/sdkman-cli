@@ -7,13 +7,6 @@ task prepareBin(type: Copy) {
 	from('src/main/bash')
 	into("$baseDir/bin")
 	include('**/sdkman-init.sh')
-}
-
-task prepareScripts(type: Copy) {
-	from('src/main/bash')
-	into("$baseDir/src")
-	include('**/*')
-	exclude('**/sdkman-init.sh')
 	filter(
 			ReplaceTokens,
 			tokens: [
@@ -21,6 +14,13 @@ task prepareScripts(type: Copy) {
 					SDKMAN_CANDIDATES_API: candidatesApi
 			]
 	)
+}
+
+task prepareScripts(type: Copy) {
+	from('src/main/bash')
+	into("$baseDir/src")
+	include('**/*')
+	exclude('**/sdkman-init.sh')
 }
 
 task prepareContrib(type: Copy) {
