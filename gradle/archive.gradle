@@ -1,7 +1,7 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
-def baseDir = "$buildDir/stage/sdkman-$release"
+def baseDir = "$buildDir/stage/sdkman-${ext.sdkmanVersion}"
 
 task prepareBin(type: Copy) {
 	from('src/main/bash')
