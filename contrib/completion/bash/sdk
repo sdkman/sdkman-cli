@@ -18,7 +18,7 @@ __sdkman_complete_command() {
 	local -r command=$1
 	local -r current_word=$2
 
-	local candidates
+	local -a candidates
 
 	case $command in
 		sdk)
@@ -33,10 +33,7 @@ __sdkman_complete_command() {
 			;;
 		install|list)
 			local -r all_candidates=$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")
-
-			while IFS= read -d, -r candidate; do
-				candidates+=($candidate)
-			done <<< "$all_candidates"
+			IFS=',' read -r -a candidates <<< "$all_candidates"
 			;;
 		env)
 			candidates=("init install clear")
@@ -60,7 +57,7 @@ __sdkman_complete_candidate_version() {
 	local -r candidate=$2
 	local -r candidate_version=$3
 
-	local candidates
+	local -a candidates
 
 	case $command in
 		use|default|home|uninstall)
@@ -74,10 +71,7 @@ __sdkman_complete_candidate_version() {
 			;;
 		install)
 			local -r all_candidate_versions=$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")
-
-			while IFS= read -d, -r version; do
-				candidates+=($version)
-			done <<< "$all_candidate_versions"
+			IFS=',' read -r -a candidates <<< "$all_candidate_versions"
 			;;
 	esac
 
