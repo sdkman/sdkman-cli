@@ -10,6 +10,7 @@ class SdkmanBashEnvBuilder {
 	final BUILD_STAGE_DIR = "build/stage/sdkman-latest+hashme"
 	final BUILD_BIN_DIR = "$BUILD_STAGE_DIR/bin"
 	final BUILD_SRC_DIR = "$BUILD_STAGE_DIR/src"
+	final BUILD_COMPLETION_DIR = "$BUILD_STAGE_DIR/contrib/completion/bash"
 
 	//mandatory fields
 	private final File baseFolder
@@ -33,7 +34,7 @@ class SdkmanBashEnvBuilder {
 	]
 
 	File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir,
-		 sdkmanTmpDir, sdkmanCandidatesDir, sdkmanMetadataDir
+		 sdkmanTmpDir, sdkmanCandidatesDir, sdkmanMetadataDir, sdkmanContribDir
 	
 	static SdkmanBashEnvBuilder create(File baseFolder) {
 		new SdkmanBashEnvBuilder(baseFolder)
@@ -114,6 +115,7 @@ class SdkmanBashEnvBuilder {
 		sdkmanTmpDir = prepareDirectory(sdkmanDir, "tmp")
 		sdkmanCandidatesDir = prepareDirectory(sdkmanDir, "candidates")
 		sdkmanMetadataDir = prepareDirectory(sdkmanVarDir, "metadata")
+		sdkmanContribDir = prepareDirectory(sdkmanDir, "contrib")
 
 		curlStub.map { it.build() }
 		unameStub.map { it.build() }
@@ -126,6 +128,7 @@ class SdkmanBashEnvBuilder {
 
 		primeInitScript(sdkmanBinDir)
 		primeModuleScripts(sdkmanSrcDir)
+		primeBashCompletionScript(sdkmanContribDir)
 
 		def env = [
 				SDKMAN_DIR           : sdkmanDir.absolutePath,
@@ -192,6 +195,21 @@ class SdkmanBashEnvBuilder {
 		def destInitScript = new File(targetFolder, "sdkman-init.sh")
 		destInitScript << sourceInitScript.text
 		destInitScript
+	}
+
+	private primeBashCompletionScript(File targetFolder) {
+		def sourceCompletionScript = new File(BUILD_COMPLETION_DIR, 'sdk')
+
+		if (!sourceCompletionScript.exists())
+			throw new IllegalStateException("sdk has not been prepared for consumption.")
+
+		new FileTreeBuilder(targetFolder).with {
+			completion {
+				bash {
+					sdk(sourceCompletionScript.text)
+				}
+			}			
+		}
 	}
 
 	private primeModuleScripts(File targetFolder) {
