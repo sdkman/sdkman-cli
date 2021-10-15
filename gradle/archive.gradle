@@ -45,5 +45,5 @@ tasks.assemble.configure {
 }
 
 tasks.test.configure {
-	dependsOn(prepareBin, prepareScripts)
+	dependsOn(prepareBin, prepareScripts, prepareContrib)
 }
