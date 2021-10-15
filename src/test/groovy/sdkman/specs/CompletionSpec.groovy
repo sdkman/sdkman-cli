@@ -20,7 +20,7 @@ class CompletionSpec extends SdkmanEnvSpecification {
 
 		when:
 		bash.execute("COMP_CWORD=1; COMP_WORDS=(sdk); _sdk")
-		bash.execute("echo \${COMPREPLY[@]}")
+		bash.execute('echo "\${COMPREPLY[@]}"')
 
 		then:
 		bash.output.contains("install uninstall list use config default home env current upgrade version broadcast help offline selfupdate update flush")
