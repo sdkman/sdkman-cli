@@ -52,7 +52,7 @@ class CompletionSpec extends SdkmanEnvSpecification {
 		curlStub.primeWith(BROADCAST_API_LATEST_ID_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")
 				.primeWith("$CANDIDATES_API/candidates/java/darwinx64/versions/all", "echo 16.0.1.hs-adpt,17.0.0-tem")
 
-		unameStub.forKernel("Darwin").forMachine("arm64")
+		unameStub.forKernel("Darwin").forMachine("x86_64")
 
 		bash = sdkmanBashEnvBuilder
 				.withVersionCache("x.y.z")
