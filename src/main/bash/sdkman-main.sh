@@ -136,19 +136,23 @@ function sdk() {
 		__sdkman_echo_red "Stop! $QUALIFIER is not a valid offline mode."
 	fi
 
-	# Check whether the command exists as an internal function...
-	#
-	# NOTE Internal commands use underscores rather than hyphens,
-	# hence the name conversion as the first step here.
-	CONVERTED_CMD_NAME=$(echo "$COMMAND" | tr '-' '_')
-
 	# Store the return code of the requested command
 	local final_rc=0
 
 	# Execute the requested command
-	if [ -n "$CMD_FOUND" ]; then
+	local native_command="${SDKMAN_DIR}/libexec/${COMMAND}"
+	
+	# Internal commands use underscores rather than hyphens
+	local converted_command_name=$(echo "$COMMAND" | tr '-' '_')
+
+	if [ -f "$native_command" ]; then
+		# It's available as a native binary
+		"$native_command" "$QUALIFIER" "$3" "$4"
+
+	elif [ -n "$CMD_FOUND" ]; then
+		
 		# It's available as a shell function
-		__sdk_"$CONVERTED_CMD_NAME" "$QUALIFIER" "$3" "$4"
+		__sdk_"$converted_command_name" "$QUALIFIER" "$3" "$4"
 		final_rc=$?
 	fi
 
