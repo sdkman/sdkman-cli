@@ -117,9 +117,9 @@ esac
 zsh_shell=false
 bash_shell=false
 
-if [[ -n "$ZSH_VERSION" ]]; then
+if [[ -n "${ZSH_VERSION:-}" ]]; then
 	zsh_shell=true
-elif [[ -n "$BASH_VERSION" ]]; then
+elif [[ -n "${BASH_VERSION:-}" ]]; then
 	bash_shell=true
 fi
 
@@ -148,13 +148,13 @@ if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=7; 
 if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=10; fi
 
 # set curl retry
-if [[ -z "${sdkman_curl_retry}" ]]; then sdkman_curl_retry=0; fi
+if [[ -z "${sdkman_curl_retry:-}" ]]; then sdkman_curl_retry=0; fi
 
 # set curl retry max time in seconds
-if [[ -z "${sdkman_curl_retry_max_time}" ]]; then sdkman_curl_retry_max_time=60; fi
+if [[ -z "${sdkman_curl_retry_max_time:-}" ]]; then sdkman_curl_retry_max_time=60; fi
 
 # set curl to continue downloading automatically
-if [[ -z "${sdkman_curl_continue}" ]]; then sdkman_curl_continue=true; fi
+if [[ -z "${sdkman_curl_continue:-}" ]]; then sdkman_curl_continue=true; fi
 
 # read list of candidates and set array
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
@@ -214,7 +214,7 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 		chpwd_functions+=(sdkman_auto_env)
 	else
 		function sdkman_auto_env() {
-			if [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
+			if [[ -n ${SDKMAN_ENV:-} ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
 				sdk env clear
 			fi
 			if [[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]]; then
@@ -224,7 +224,7 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 			export SDKMAN_OLD_PWD="$PWD"
 		}
 
-		[[ -z "$PROMPT_COMMAND" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${PROMPT_COMMAND%\;};sdkman_auto_env"
+		[[ -z "${PROMPT_COMMAND:-}" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${PROMPT_COMMAND%\;};sdkman_auto_env"
 	fi
 
 	sdkman_auto_env
