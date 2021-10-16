@@ -1,11 +1,12 @@
 #!/usr/bin/bash
 
 _sdk() {
-	local -r before_previous_word="${COMP_WORDS[COMP_CWORD - 2]}"
 	local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
 	local -r current_word="${COMP_WORDS[COMP_CWORD]}"
 
 	if ((COMP_CWORD == 3)); then
+		local -r before_previous_word="${COMP_WORDS[COMP_CWORD - 2]}"
+
 		__sdkman_complete_candidate_version "$before_previous_word" "$previous_word" "$current_word"
 
 		return
