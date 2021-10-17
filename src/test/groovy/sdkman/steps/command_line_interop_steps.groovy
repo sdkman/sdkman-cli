@@ -48,5 +48,5 @@ And(~'the "(.*)" variable is not set') { String home ->
 
 And(~'^the home path ends with \"([^\"]*)\"$') { String suffix ->
 	def path = sdkmanBaseDir.absolutePath + "/" + suffix
-	assert result.trim().equals(path)
+	assert result.trim().endsWith(path)
 }
