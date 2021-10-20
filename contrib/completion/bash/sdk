@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
 _sdk() {
-	local -r previous_word="${COMP_WORDS[COMP_CWORD - 1]}"
-	local -r current_word="${COMP_WORDS[COMP_CWORD]}"
+	local -r previous_word=${COMP_WORDS[COMP_CWORD - 1]}
+	local -r current_word=${COMP_WORDS[COMP_CWORD]}
 
 	if ((COMP_CWORD == 3)); then
 		local -r before_previous_word="${COMP_WORDS[COMP_CWORD - 2]}"
@@ -25,21 +25,19 @@ __sdkman_complete_command() {
 		sdk)
 			candidates=("install" "uninstall" "list" "use" "config" "default" "home" "env" "current" "upgrade" "version" "broadcast" "help" "offline" "selfupdate" "update" "flush")
 			;;
-		current|default|home|uninstall|upgrade|use)
+		current|c|default|d|home|h|uninstall|rm|upgrade|ug|use|u)
 			local -r candidate_paths=("${SDKMAN_CANDIDATES_DIR}"/*)
 
 			for candidate_path in "${candidate_paths[@]}"; do
 				candidates+=(${candidate_path##*/})				
 			done
 			;;
-		install|list)
-			local -r all_candidates=$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")
-
+		install|i|list|ls)
 			while IFS= read -d, -r candidate; do
 				candidates+=($candidate)
-			done <<< "$all_candidates"
+			done <<< "$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")"
 			;;
-		env)
+		env|e)
 			candidates=("init install clear")
 			;;
 		offline)
@@ -64,7 +62,7 @@ __sdkman_complete_candidate_version() {
 	local -a candidates
 
 	case $command in
-		use|default|home|uninstall)
+		use|u|default|d|home|h|uninstall|rm)
 			local -r version_paths=("${SDKMAN_CANDIDATES_DIR}/${candidate}"/*)
 
 			for version_path in "${version_paths[@]}"; do
@@ -73,12 +71,10 @@ __sdkman_complete_candidate_version() {
 				candidates+=(${version_path##*/})
 			done
 			;;
-		install)
-			local -r all_candidate_versions=$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")
-
+		install|i)
 			while IFS= read -d, -r version; do
 				candidates+=($version)
-			done <<< "$all_candidate_versions"
+			done <<< "$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")"
 			;;
 	esac
 
