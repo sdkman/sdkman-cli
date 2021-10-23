@@ -33,9 +33,7 @@ __sdkman_complete_command() {
 			done
 			;;
 		install|i|list|ls)
-			while IFS= read -d, -r candidate; do
-				candidates+=($candidate)
-			done <<< "$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/all")"
+			candidates=${SDKMAN_CANDIDATES[@]}
 			;;
 		env|e)
 			candidates=("init install clear")
@@ -62,7 +60,7 @@ __sdkman_complete_candidate_version() {
 	local -a candidates
 
 	case $command in
-		use|u|default|d|home|h|uninstall|rm)
+		default|d|home|h|uninstall|rm|use|u)
 			local -r version_paths=("${SDKMAN_CANDIDATES_DIR}/${candidate}"/*)
 
 			for version_path in "${version_paths[@]}"; do
