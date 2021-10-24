@@ -4,14 +4,11 @@ import sdkman.support.SdkmanEnvSpecification
 
 class CompletionSpec extends SdkmanEnvSpecification {
 	static final String CANDIDATES_API = "http://localhost:8080/2"
-
 	static final String BROADCAST_API_LATEST_ID_ENDPOINT = "$CANDIDATES_API/broadcast/latest/id"
-	static final String CANDIDATES_ALL_ENDPOINT = "$CANDIDATES_API/candidates/all"
 
 	def "should complete the list of commands"() {
 		given:
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
 				.withConfiguration("sdkman_auto_complete", "true")
 				.build()
 
@@ -28,11 +25,8 @@ class CompletionSpec extends SdkmanEnvSpecification {
 
 	def "should complete the list of candidates"() {
 		given:
-		curlStub.primeWith(BROADCAST_API_LATEST_ID_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")
-				.primeWith(CANDIDATES_ALL_ENDPOINT, "echo java,groovy")
-
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
+				.withCandidates(["java", "groovy"])
 				.withConfiguration("sdkman_auto_complete", "true")
 				.build()
 
@@ -41,7 +35,7 @@ class CompletionSpec extends SdkmanEnvSpecification {
 
 		when:
 		bash.execute("COMP_CWORD=2; COMP_WORDS=(sdk install); _sdk")
-		bash.execute("echo \${COMPREPLY[@]}")
+		bash.execute('echo "\${COMPREPLY[@]}"')
 
 		then:
 		bash.output.contains("java groovy")
@@ -55,7 +49,6 @@ class CompletionSpec extends SdkmanEnvSpecification {
 		unameStub.forKernel("Darwin").forMachine("x86_64")
 
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
 				.withConfiguration("sdkman_auto_complete", "true")
 				.withUnameStub(unameStub)
 				.build()
@@ -65,7 +58,7 @@ class CompletionSpec extends SdkmanEnvSpecification {
 
 		when:
 		bash.execute("COMP_CWORD=3; COMP_WORDS=(sdk install java); _sdk")
-		bash.execute("echo \${COMPREPLY[@]}")
+		bash.execute('echo "\${COMPREPLY[@]}"')
 
 		then:
 		bash.output.contains("16.0.1.hs-adpt 17.0.0-tem")

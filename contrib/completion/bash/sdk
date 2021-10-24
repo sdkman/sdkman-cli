@@ -5,7 +5,7 @@ _sdk() {
 	local -r current_word=${COMP_WORDS[COMP_CWORD]}
 
 	if ((COMP_CWORD == 3)); then
-		local -r before_previous_word="${COMP_WORDS[COMP_CWORD - 2]}"
+		local -r before_previous_word=${COMP_WORDS[COMP_CWORD - 2]}
 
 		__sdkman_complete_candidate_version "$before_previous_word" "$previous_word" "$current_word"
 
@@ -29,14 +29,14 @@ __sdkman_complete_command() {
 			local -r candidate_paths=("${SDKMAN_CANDIDATES_DIR}"/*)
 
 			for candidate_path in "${candidate_paths[@]}"; do
-				candidates+=(${candidate_path##*/})				
+				candidates+=("${candidate_path##*/}")
 			done
 			;;
 		install|i|list|ls)
 			candidates=${SDKMAN_CANDIDATES[@]}
 			;;
 		env|e)
-			candidates=("init install clear")
+			candidates=("init" "install" "clear")
 			;;
 		offline)
 			candidates=("enable" "disable")
@@ -66,12 +66,12 @@ __sdkman_complete_candidate_version() {
 			for version_path in "${version_paths[@]}"; do
 				[[ $version_path = *current ]] && continue
 
-				candidates+=(${version_path##*/})
+				candidates+=("${version_path##*/}")
 			done
 			;;
 		install|i)
-			while IFS= read -d, -r version; do
-				candidates+=($version)
+			while IFS= read -r -d, version || [[ -n "$version" ]]; do
+				candidates+=("$version")
 			done <<< "$(curl --silent "${SDKMAN_CANDIDATES_API}/candidates/$candidate/${SDKMAN_PLATFORM}/versions/all")"
 			;;
 	esac
