@@ -139,19 +139,27 @@ function sdk() {
 	# Store the return code of the requested command
 	local final_rc=0
 
-	# Execute the requested command
+	# Native commands found under libexec
 	local native_command="${SDKMAN_DIR}/libexec/${COMMAND}"
 	
 	# Internal commands use underscores rather than hyphens
 	local converted_command_name=$(echo "$COMMAND" | tr '-' '_')
 
 	if [ -f "$native_command" ]; then
-		# It's available as a native binary
-		"$native_command" "$QUALIFIER" "$3" "$4"
+		# Available as native command
+		if [ -z "$QUALIFIER" ]; then
+			"$native_command"
+		elif [ -z "$3" ]; then
+			"$native_command" "$QUALIFIER"
+		elif [ -z "$4" ]; then
+			"$native_command" "$QUALIFIER" "$3"
+		else
+			"$native_command" "$QUALIFIER" "$3" "$4"
+		fi
+		final_rc=$?
 
 	elif [ -n "$CMD_FOUND" ]; then
-		
-		# It's available as a shell function
+		# Available as a shell function
 		__sdk_"$converted_command_name" "$QUALIFIER" "$3" "$4"
 		final_rc=$?
 	fi
