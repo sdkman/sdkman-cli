@@ -1,5 +1,6 @@
 plugins {
 	id('groovy')
+	id('org.jreleaser').version('0.8.0').apply(false)
 }
 
 String userHome = System.getProperty('user.home')
@@ -24,10 +25,11 @@ ext.sdkmanVersion = ext.release == 'latest' ? "latest+${ext.hash}".toString() : 
 println("Environment is set to: $environment")
 println("Short git hash: $hash")
 println("Release set to: $release")
-println("Candidtes API: $candidatesApi")
+println("Candidates API: $candidatesApi")
 println("Version: $sdkmanVersion")
 
 apply from: 'gradle/archive.gradle'
+apply from: 'gradle/release.gradle'
 
 repositories {
 	mavenCentral()
