@@ -15,7 +15,6 @@ jreleaser {
 		github {
 			overwrite = true
 			tagName = '{{projectVersion}}'
-			skipTag = true
 			changelog {
 				formatted = 'ALWAYS'
 				format = '- {{commitShortHash}} {{commitTitle}}'
@@ -36,9 +35,13 @@ jreleaser {
 			artifact {
 				path = "build/distributions/{{distributionName}}-${sdkmanVersion}.zip"
 			}
-			sdkman {
-				active = 'RELEASE'
-			}
+		}
+	}
+
+	announce {
+		twitter {
+			active = 'RELEASE'
+			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
 		}
 	}
 }
