@@ -1,5 +1,8 @@
 package sdkman.steps
 
+import java.nio.file.Files
+import java.nio.file.Paths
+
 import static cucumber.api.groovy.EN.And
 
 And(~'^the candidate "([^"]*)" is known locally$') { String candidate ->
@@ -11,7 +14,9 @@ And(~'^no candidates are know locally$') { ->
 }
 
 And(~'^the archive "([^"]*)" has been cached$') { String archive ->
-	new File(archiveDir, archive).createNewFile()
+	Files.copy(
+			Paths.get("src/test/resources/__files", archive),
+			Paths.get(archiveDir.getAbsolutePath(), archive))
 }
 
 And(~'^no archives are cached$') { ->
@@ -39,8 +44,12 @@ And(~'^the Remote Version has been flushed$') { ->
 	assert versionFile.delete()
 }
 
-And(~'^a headers file "([^"]*)" in metadata directory$') { String fileName ->
-	new File(metadataDir, fileName).createNewFile()
+And(~'^a headers file "([^"]*)" in metadata directory with checksum "([^"]*)" using algorithm "([^"]*)"$') { 
+	String fileName, String checksum, String algorithm ->
+		
+	new File(metadataDir, fileName).withWriter { out ->
+		out.println "X-Sdkman-Checksum-${algorithm}: ${checksum}"
+	}
 }
 
 And(~'^no metadata is cached$') { ->
