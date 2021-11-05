@@ -127,8 +127,8 @@ function __sdkman_download() {
 	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
 		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 		local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
-		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
 		local base_name="${candidate}-${version}"
+		local zip_archive_target="${SDKMAN_DIR}/archives/${base_name}.zip"
 		headers_file="${metadata_folder}/${base_name}.headers"
 
 		# pre-installation hook: implements function __sdkman_pre_installation_hook
