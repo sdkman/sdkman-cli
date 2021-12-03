@@ -204,7 +204,13 @@ function __sdkman_checksum_zip() {
 		__sdkman_echo_yellow "Metadata file not found at '${headers_file}', skipping checksum..."
 		return
 	fi
-
+	
+	if [[ "$sdkman_checksum_enable" != "true" ]]; then
+		echo ""
+		__sdkman_echo_yellow "Checksums are disabled, skipping verification..."
+		return
+	fi
+	
 	#Check for the appropriate checksum tools
 	if command -v shasum > /dev/null 2>&1; then
 		shasum_avail=true

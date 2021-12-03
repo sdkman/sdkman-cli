@@ -3,6 +3,7 @@ Feature: Verify checksums
 	Background:
 		Given the internet is reachable
 		And an initialised environment
+		And I have configured "sdkman_checksum_enable" to "true"
 
 	Scenario: Install a specific Version with a valid SHA-256 checksum
 		Given the system is bootstrapped
@@ -85,7 +86,18 @@ Feature: Verify checksums
 		And the candidate "grails" version "1.3.9" is installed
 		And the response headers file is created for candidate "grails" and version "1.3.9"
 		And the exit code is 0
-		
+
+	Scenario: Do not fail if checksums are disabled
+		Given the system is bootstrapped
+		And I have configured "sdkman_checksum_enable" to "false"
+		And the candidate "grails" version "1.3.9" is available for download with checksum "abc-checksum-00000" using algorithm "SHA-256"
+		When I enter "sdk install grails 1.3.9"
+		Then I see "Checksums are disabled, skipping verification"
+		And I see "Done installing!"
+		And the candidate "grails" version "1.3.9" is installed
+		And the response headers file is created for candidate "grails" and version "1.3.9"
+		And the exit code is 0
+
 	Scenario: Abort installation after download of a binary with invalid SHA checksum
 		Given the system is bootstrapped
 		And the candidate "grails" version "1.3.9" is available for download with checksum "c68e386a6deec9fc4c1e18df21f927000000000e" using algorithm "SHA-256"
