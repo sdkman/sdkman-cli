@@ -1,0 +1,47 @@
+apply plugin: 'org.jreleaser'
+
+jreleaser {
+	project {
+		name = 'sdkman-cli'
+		version = sdkmanVersion
+		description = 'Sdkman - The Software Development Kit Manager'
+		website = 'https://sdkman.io'
+		authors = ['Marco Vermeulen']
+		license = 'Apache-2.0'
+		extraProperties.put('inceptionYear', '2012')
+	}
+	
+	release {
+		github {
+			overwrite = true
+			tagName = '{{projectVersion}}'
+			changelog {
+				formatted = 'ALWAYS'
+				format = '- {{commitShortHash}} {{commitTitle}}'
+				contributors {
+					format = '- {{contributorName}}'
+				}
+				contentTemplate = file('src/jreleaser/changelog.tpl')
+				hide {
+					contributors = ['GitHub']
+				}
+			}
+		}
+	}
+	
+	distributions {
+		'sdkman-cli' {
+			distributionType = 'BINARY'
+			artifact {
+				path = "build/distributions/{{distributionName}}-${sdkmanVersion}.zip"
+			}
+		}
+	}
+
+	announce {
+		twitter {
+			active = 'RELEASE'
+			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
+		}
+	}
+}

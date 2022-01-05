@@ -1,19 +1,12 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
-def baseDir = "$buildDir/stage/sdkman-$release"
+def baseDir = "$buildDir/stage/sdkman-${ext.sdkmanVersion}"
 
 task prepareBin(type: Copy) {
 	from('src/main/bash')
 	into("$baseDir/bin")
 	include('**/sdkman-init.sh')
-}
-
-task prepareScripts(type: Copy) {
-	from('src/main/bash')
-	into("$baseDir/src")
-	include('**/*')
-	exclude('**/sdkman-init.sh')
 	filter(
 			ReplaceTokens,
 			tokens: [
@@ -21,6 +14,13 @@ task prepareScripts(type: Copy) {
 					SDKMAN_CANDIDATES_API: candidatesApi
 			]
 	)
+}
+
+task prepareScripts(type: Copy) {
+	from('src/main/bash')
+	into("$baseDir/src")
+	include('**/*')
+	exclude('**/sdkman-init.sh')
 }
 
 task prepareContrib(type: Copy) {
@@ -45,5 +45,5 @@ tasks.assemble.configure {
 }
 
 tasks.test.configure {
-	dependsOn(prepareBin, prepareScripts)
+	dependsOn(prepareBin, prepareScripts, prepareContrib)
 }

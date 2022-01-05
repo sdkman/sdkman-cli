@@ -115,6 +115,7 @@ function __sdkman_install_local_version() {
 
 function __sdkman_download() {
 	local candidate version archives_folder
+	local headers_file
 
 	candidate="$1"
 	version="$2"
@@ -122,13 +123,13 @@ function __sdkman_download() {
 	archives_folder="${SDKMAN_DIR}/archives"
 	metadata_folder="${SDKMAN_DIR}/var/metadata"
 	mkdir -p ${metadata_folder}
-	
+		
 	if [ ! -f "${archives_folder}/${candidate}-${version}.zip" ]; then
 		local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 		local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 		local base_name="${candidate}-${version}"
-		local zip_archive_target="${SDKMAN_DIR}/archives/${candidate}-${version}.zip"
-		local headers="${metadata_folder}/${base_name}.headers"
+		local zip_archive_target="${SDKMAN_DIR}/archives/${base_name}.zip"
+		headers_file="${metadata_folder}/${base_name}.headers"
 
 		# pre-installation hook: implements function __sdkman_pre_installation_hook
 		local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
@@ -149,8 +150,8 @@ function __sdkman_download() {
 		echo ""
 
 		# download binary
-		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}" --dump-header "${headers}"
-		__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers})"
+		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}" --dump-header "${headers_file}"
+		__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers_file})"
 
 		# post-installation hook: implements function __sdkman_post_installation_hook
 		# responsible for taking `binary_input` and producing `zip_output`
@@ -169,7 +170,7 @@ function __sdkman_download() {
 		echo ""
 		__sdkman_echo_no_colour "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
 	fi
-	__sdkman_checksum_zip "${archives_folder}/${candidate}-${version}.zip" "${headers}" || return 1
+	__sdkman_checksum_zip "${archives_folder}/${candidate}-${version}.zip" "${headers_file}" || return 1
 	__sdkman_validate_zip "${archives_folder}/${candidate}-${version}.zip" || return 1
 	echo ""
 }
@@ -189,10 +190,20 @@ function __sdkman_validate_zip() {
 
 function __sdkman_checksum_zip() {
 	local -r zip_archive="$1"
-	local -r headers_archive="$2"
+	local -r headers_file="$2"
 	local algorithm checksum cmd
 	local shasum_avail=false
 	local md5sum_avail=false
+	
+	if [ -z "${headers_file}" ]; then
+		echo ""
+		__sdkman_echo_debug "Skipping checksum for cached artifact"
+		return
+	elif [ ! -f "${headers_file}" ]; then
+		echo ""
+		__sdkman_echo_yellow "Metadata file not found at '${headers_file}', skipping checksum..."
+		return
+	fi
 
 	#Check for the appropriate checksum tools
 	if command -v shasum > /dev/null 2>&1; then
@@ -226,5 +237,5 @@ function __sdkman_checksum_zip() {
 				fi
 			fi
 		fi
-  	done < ${headers_archive}
+  	done < ${headers_file}
 }

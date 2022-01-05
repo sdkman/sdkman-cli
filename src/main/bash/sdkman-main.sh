@@ -124,7 +124,7 @@ function sdk() {
 
 	# Check whether the candidate exists
 	local sdkman_valid_candidate=$(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER")
-	if [[ -n "$QUALIFIER" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && -z "$sdkman_valid_candidate" ]]; then
+	if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && -z "$sdkman_valid_candidate" ]]; then
 		echo ""
 		__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
 		return 1
@@ -136,19 +136,31 @@ function sdk() {
 		__sdkman_echo_red "Stop! $QUALIFIER is not a valid offline mode."
 	fi
 
-	# Check whether the command exists as an internal function...
-	#
-	# NOTE Internal commands use underscores rather than hyphens,
-	# hence the name conversion as the first step here.
-	CONVERTED_CMD_NAME=$(echo "$COMMAND" | tr '-' '_')
-
 	# Store the return code of the requested command
 	local final_rc=0
 
-	# Execute the requested command
-	if [ -n "$CMD_FOUND" ]; then
-		# It's available as a shell function
-		__sdk_"$CONVERTED_CMD_NAME" "$QUALIFIER" "$3" "$4"
+	# Native commands found under libexec
+	local native_command="${SDKMAN_DIR}/libexec/${COMMAND}"
+	
+	# Internal commands use underscores rather than hyphens
+	local converted_command_name=$(echo "$COMMAND" | tr '-' '_')
+
+	if [ -f "$native_command" ]; then
+		# Available as native command
+		if [ -z "$QUALIFIER" ]; then
+			"$native_command"
+		elif [ -z "$3" ]; then
+			"$native_command" "$QUALIFIER"
+		elif [ -z "$4" ]; then
+			"$native_command" "$QUALIFIER" "$3"
+		else
+			"$native_command" "$QUALIFIER" "$3" "$4"
+		fi
+		final_rc=$?
+
+	elif [ -n "$CMD_FOUND" ]; then
+		# Available as a shell function
+		__sdk_"$converted_command_name" "$QUALIFIER" "$3" "$4"
 		final_rc=$?
 	fi
 
