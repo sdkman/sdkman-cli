@@ -52,7 +52,7 @@ function infer_platform() {
 		echo "LinuxX64"
 		;;
 	  armv6l)
-		echo "LinuxARM32SF"
+		echo "LinuxARM32HF"
 		;;
 	  armv7l)
 		echo "LinuxARM32HF"
