@@ -227,7 +227,7 @@ function __sdkman_checksum_zip() {
 			fi
 			
 			if [[ -n $cmd ]]; then
-				__sdkman_echo_debug "Checksumming downloaded artifact ${zip_archive} (${algorithm})"
+				__sdkman_echo_no_colour "Verifying artifact: ${zip_archive} (${algorithm}:${checksum})"
 
 				if ! eval "$cmd"; then
 					rm -f "$zip_archive"
@@ -235,6 +235,8 @@ function __sdkman_checksum_zip() {
 					__sdkman_echo_red "Stop! An invalid checksum was detected and the archive removed! Please try re-installing."
 					return 1
 				fi
+			else
+				__sdkman_echo_no_colour "Not able to perform checksum verification at this time."
 			fi
 		fi
   	done < ${headers_file}
