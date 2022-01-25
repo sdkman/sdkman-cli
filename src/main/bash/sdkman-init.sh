@@ -63,6 +63,9 @@ function infer_platform() {
 	  aarch64)
 		echo "LinuxARM64"
 		;;
+	  alpha | i64 | ppc | ppc64le | ppc64el | s390 | s390x)
+		echo "exotic"
+		;;
 	  *)
 	  	echo "LinuxX64"
 	  	;;
