@@ -7,17 +7,6 @@ class {{brewFormulaName}} < Formula
   sha256 "{{distributionChecksumSha256}}"
   license "{{projectLicense}}"
 
-  {{#brewHasLivecheck}}
-  livecheck do
-    {{#brewLivecheck}}
-    {{.}}
-    {{/brewLivecheck}}
-  end
-  {{/brewHasLivecheck}}
-  {{#brewDependencies}}
-  depends_on {{.}}
-  {{/brewDependencies}}
-
   def install
     libexec.install Dir["*"]
 
