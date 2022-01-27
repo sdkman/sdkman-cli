@@ -1,4 +1,3 @@
-# Generated with JReleaser 1.0.0-M1 at 2022-01-26T22:03:59.537647+01:00
 class {{brewFormulaName}} < Formula
   desc "{{projectDescription}}"
   homepage "{{projectWebsite}}"
