@@ -165,7 +165,7 @@ function sdk() {
 	fi
 
 	# Attempt upgrade after all is done
-	if [[ "$sdkman_allow_selfupdate" == "true" && "$COMMAND" != "selfupdate" && "$sdkman_selfupdate_enable" == true ]]; then
+	if [[ "$COMMAND" != "selfupdate" && "$sdkman_selfupdate_feature" == "true" && "$sdkman_auto_update" == true ]]; then
 		__sdkman_auto_update "$SDKMAN_REMOTE_VERSION" "$SDKMAN_VERSION"
 	fi
 	return $final_rc
