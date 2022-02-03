@@ -24,8 +24,11 @@ class {{brewFormulaName}} < Formula
       sdkman_debug_mode=false
       sdkman_insecure_ssl=false
       sdkman_rosetta2_compatible=false
-      sdkman_selfupdate_enable=true
     EOS
+  end
+
+  def post_install
+    rm libexec/"src/sdkman-selfupdate.sh"
   end
 
   test do

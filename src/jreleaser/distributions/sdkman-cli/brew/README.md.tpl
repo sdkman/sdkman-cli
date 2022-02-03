@@ -1,48 +1,29 @@
-# Homebrew
+# SDKMAN! Homebrew Tap
 
-## Formulae
-Invoke either of the following commands if the formula is hosted at GitHub
+A Homebrew tap containing the Formula for the SDKMAN! CLI.
 
-```sh
-$ brew install {{repoOwner}}/tap/<formula>
-```
-
-Or
+## Installation
 
 ```sh
-$ brew tap {{repoOwner}}/tap
-$ brew install <formula>
+$ brew tap sdkman/tap
+$ brew install sdkman
 ```
 
-Invoke the following command if the formula is *not* hosted at GitHub
+After successful installation add the following lines to the end of your `.bash_profile`
 
 ```sh
-brew tap {{repoOwner}}/homebrew-tap {{tapRepoCloneUrl}}
-brew install <formula>
+export SDKMAN_DIR=$(brew --prefix sdkman)/libexec
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 ```
 
-## Casks
-Invoke either of the following commands if the cask is hosted at GitHub
+Open a new terminal and type
 
 ```sh
-$ brew install --cask {{repoOwner}}/tap/<cask>
+sdk version
 ```
 
-Or
+The output should look similar to this
 
 ```sh
-$ brew tap {{repoOwner}}/tap
-$ brew install --cask <cask>
+SDKMAN {{version}}
 ```
-
-Invoke the following command if the cask is *not* hosted at GitHub
-
-```sh
-brew tap {{repoOwner}}/homebrew-tap {{tapRepoCloneUrl}}
-brew install --cask <formula>
-```
-
-If you get a dialog stating the cask is broken try installing with `--no-quarantine`.
-
-## Documentation
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).

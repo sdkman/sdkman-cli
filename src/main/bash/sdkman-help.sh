@@ -36,7 +36,11 @@ function __sdk_help() {
 	__sdkman_echo_no_colour "       broadcast or b"
 	__sdkman_echo_no_colour "       help"
 	__sdkman_echo_no_colour "       offline           [enable|disable]"
-	__sdkman_echo_no_colour "       selfupdate        [force]"
+
+	if [[ "$sdkman_allow_selfupdate" == "true" ]]; then
+		__sdkman_echo_no_colour "       selfupdate        [force]"
+	fi
+
 	__sdkman_echo_no_colour "       update"
 	__sdkman_echo_no_colour "       flush             [archives|tmp|broadcast|metadata|version]"
 	__sdkman_echo_no_colour ""

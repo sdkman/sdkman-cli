@@ -138,6 +138,13 @@ done
 IFS="$OLD_IFS"
 unset OLD_IFS scripts f
 
+# the selfupdate function does not exists when SDKMAN! is installed via Homebrew
+if type -t __sdk_selfupdate; then
+	sdkman_allow_selfupdate=true
+else 
+	sdkman_allow_selfupdate=false
+fi
+
 # Create upgrade delay file if it doesn't exist
 if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
 	touch "${SDKMAN_DIR}/var/delay_upgrade"
