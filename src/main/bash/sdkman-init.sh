@@ -133,10 +133,6 @@ OLD_IFS="$IFS"
 IFS=$'\n'
 scripts=($(find "${SDKMAN_DIR}/src" "${SDKMAN_DIR}/ext" -type f -name 'sdkman-*.sh'))
 for f in "${scripts[@]}"; do
-	if [[ "$f" == *sdkman-selfupdate.sh && "$sdkman_selfupdate_feature" == "false" ]]; then
-		continue
-	fi
-
 	source "$f"
 done
 IFS="$OLD_IFS"

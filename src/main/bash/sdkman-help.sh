@@ -37,7 +37,7 @@ function __sdk_help() {
 	__sdkman_echo_no_colour "       help"
 	__sdkman_echo_no_colour "       offline           [enable|disable]"
 
-	if [[ "$sdkman_allow_selfupdate" == "true" ]]; then
+	if [[ "$sdkman_selfupdate_feature" == "true" ]]; then
 		__sdkman_echo_no_colour "       selfupdate        [force]"
 	fi
 
