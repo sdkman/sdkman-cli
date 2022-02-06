@@ -19,8 +19,6 @@
 function __sdk_selfupdate() {
 	local force_selfupdate
 
-	echo "$SDKMAN_VERSION $SDKMAN_REMOTE_VERSION"
-
 	force_selfupdate="$1"
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "This command is not available while offline."
