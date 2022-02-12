@@ -17,6 +17,7 @@ class {{brewFormulaName}} < Formula
       sdkman_auto_answer=false
       sdkman_auto_complete=true
       sdkman_auto_env=false
+      sdkman_auto_update=false
       sdkman_beta_channel=false
       sdkman_colour_enable=true
       sdkman_curl_connect_timeout=7
@@ -24,7 +25,6 @@ class {{brewFormulaName}} < Formula
       sdkman_debug_mode=false
       sdkman_insecure_ssl=false
       sdkman_rosetta2_compatible=false
-      sdkman_auto_update=false
       sdkman_selfupdate_feature=false
     EOS
   end
