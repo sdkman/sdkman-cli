@@ -22,7 +22,7 @@ function sdk() {
 	QUALIFIER="$2"
 
 	case "$COMMAND" in
-	l | ls)
+	l|ls)
 		COMMAND="list"
 		;;
 	v)
