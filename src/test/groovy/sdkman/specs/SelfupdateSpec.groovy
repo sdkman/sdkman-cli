@@ -58,18 +58,17 @@ class SelfupdateSpec extends SdkmanEnvSpecification {
 		"true"            | { it.contains("No update available at this time.") }
 	}
 
-	def "should perform an autoupdate when the selfupdate feature is toggled on and one of selfupdate or autoupdate are enabled"() {
+	def "should perform an autoupdate when the selfupdate feature is toggled on and autoupdate is enabled"() {
 		given:
 		new File("$sdkmanDotDirectory/var/delay_upgrade").with {
 			parentFile.mkdirs()
 			createNewFile()
 			lastModified = Instant.now().minus(2, DAYS).toEpochMilli()
 		}
-		
+
 		bash = sdkmanBashEnvBuilder
 			.withSdkmanVersion("4.0.0")
 			.withConfiguration("sdkman_selfupdate_feature", selfupdateFeature)
-			.withConfiguration("sdkman_selfupdate_enable", selfupdateEnabled)
 			.withConfiguration("sdkman_auto_update", autoUpdateEnabled)
 			.withConfiguration("sdkman_auto_answer", "true")
 			.build()
@@ -84,10 +83,9 @@ class SelfupdateSpec extends SdkmanEnvSpecification {
 		verifyOutput(bash.output)
 
 		where:
-		selfupdateFeature | selfupdateEnabled | autoUpdateEnabled | verifyOutput
-		"true"            | "true"            | "true"            | { it.contains("ATTENTION: A new version of SDKMAN is available...") }
-		"true"            | "true"            | "false"           | { it.contains("ATTENTION: A new version of SDKMAN is available...") }
-		"true"            | "false"           | "true"            | { it.contains("ATTENTION: A new version of SDKMAN is available...") }
-		"false"           | "true"            | "true"            | { !it.contains("ATTENTION: A new version of SDKMAN is available...") }
+		selfupdateFeature | autoUpdateEnabled | verifyOutput
+		"true"            | "true"            | { it.contains("ATTENTION: A new version of SDKMAN is available...") }
+		"true"            | "false"           | { !it.contains("ATTENTION: A new version of SDKMAN is available...") }
+		"false"           | "true"            | { !it.contains("ATTENTION: A new version of SDKMAN is available...") }
 	}
 }
