@@ -35,9 +35,12 @@ jreleaser {
 			artifact {
 				path = "build/distributions/{{distributionName}}-${sdkmanVersion}.zip"
 			}
+			brew {
+				active = 'ALWAYS'
+			}
 		}
 	}
-
+	
 	announce {
 		twitter {
 			active = 'RELEASE'
