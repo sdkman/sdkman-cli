@@ -37,9 +37,6 @@ jreleaser {
 			}
 			brew {
 				active = 'ALWAYS'
-				tap {
-					active = 'RELEASE'
-				}
 			}
 		}
 	}
