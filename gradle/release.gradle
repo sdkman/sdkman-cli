@@ -34,6 +34,7 @@ jreleaser {
 			distributionType = 'BINARY'
 			artifact {
 				path = "build/distributions/{{distributionName}}-${sdkmanVersion}.zip"
+				platform = "osx-x86_64"
 			}
 			brew {
 				active = 'ALWAYS'
