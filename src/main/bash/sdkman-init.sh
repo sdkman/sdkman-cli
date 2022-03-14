@@ -34,6 +34,11 @@ if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 	source "${SDKMAN_DIR}/etc/config"
 fi
 
+# Load the sdkman user config if it exists.
+if [ -f "${HOME}/.sdkmanrc" ]; then
+	source "${SDKMAN_DIR}/.sdkmanrc"
+fi
+
 # infer platform
 function infer_platform() {
 	local kernel

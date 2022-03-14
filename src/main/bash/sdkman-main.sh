@@ -95,6 +95,11 @@ function sdk() {
 		source "${SDKMAN_DIR}/etc/config"
 	fi
 
+	# Load the sdkman user config if it exists.
+	if [ -f "${HOME}/.sdkmanrc" ]; then
+		source "${SDKMAN_DIR}/.sdkmanrc"
+	fi
+
 	# no command provided
 	if [[ -z "$COMMAND" ]]; then
 		__sdk_help
