@@ -36,7 +36,10 @@ jreleaser {
 				path = "build/distributions/{{distributionName}}-${sdkmanVersion}.zip"
 			}
 			brew {
-				active = 'RELEASE'
+				active = 'ALWAYS'
+				tap {
+					active = 'RELEASE'
+				}
 			}
 		}
 	}
