@@ -26,5 +26,5 @@ function __sdk_config() {
 		return 1
 	fi
 
-	"${editor[@]}" "${SDKMAN_DIR}/.sdkmanrc"
+	"${editor[@]}" "${SDKMAN_DIR}/etc/config"
 }

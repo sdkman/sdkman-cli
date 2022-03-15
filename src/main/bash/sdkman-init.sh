@@ -35,8 +35,8 @@ if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 fi
 
 # Load the sdkman user config if it exists.
-if [ -f "${HOME}/.sdkmanrc" ]; then
-	source "${SDKMAN_DIR}/.sdkmanrc"
+if [ -f "${HOME}/.sdkmanconfig" ]; then
+	source "${HOME}/.sdkmanconfig"
 fi
 
 # infer platform

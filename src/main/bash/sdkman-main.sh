@@ -96,8 +96,8 @@ function sdk() {
 	fi
 
 	# Load the sdkman user config if it exists.
-	if [ -f "${HOME}/.sdkmanrc" ]; then
-		source "${SDKMAN_DIR}/.sdkmanrc"
+	if [ -f "${HOME}/.sdkmanconfig" ]; then
+		source "${HOME}/.sdkmanconfig"
 	fi
 
 	# no command provided
