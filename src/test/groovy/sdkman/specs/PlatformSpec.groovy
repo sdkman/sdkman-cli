@@ -26,12 +26,13 @@ class PlatformSpec extends SdkmanEnvSpecification {
 		"Linux"  | "armv7l"  | "linuxarm32hf"
 		"Linux"  | "armv8l"  | "linuxarm32hf"
 		"Linux"  | "aarch64" | "linuxarm64"
-		"Linux"  | ""        | "linuxx64"
+		"Linux"  | ""        | "exotic"
 		"Darwin" | "x86_64"  | "darwinx64"
 		"Darwin" | "arm64"   | "darwinarm64"
 		"Darwin" | ""        | "darwinx64"
 		"MSYS64" | "i686"    | "msys64"
 		"MSYS64" | ""        | "msys64"
+    "Linux"  | "ppc64le" | "exotic"
 	}
 
 	def "should enable rosetta 2 compatibility mode with environment variable"() {
