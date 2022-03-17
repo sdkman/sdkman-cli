@@ -36,7 +36,7 @@ jobs:
     - name: Build artifacts
       run: ./gradlew -Penv=stable -Prelease=${{ github.event.inputs.version }} clean assemble
     - name: Release
-      run: ./gradlew -Penv=stable -Prelease=${{ github.event.inputs.version }} jreleaserRelease
+      run: ./gradlew -Penv=stable -Prelease=${{ github.event.inputs.version }} jreleaserFullRelease --exclude-announcer=twitter
     - name: Update MongoDB
       env:
         MONGO_URL: ${{ secrets.MONGO_URL }}
