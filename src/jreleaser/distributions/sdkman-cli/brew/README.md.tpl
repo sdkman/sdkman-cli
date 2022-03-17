@@ -25,5 +25,5 @@ sdk version
 The output should look similar to this
 
 ```sh
-SDKMAN {{version}}
+SDKMAN {{projectVersion}}
 ```
