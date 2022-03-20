@@ -115,7 +115,6 @@ function __sdkman_install_local_version() {
 
 function __sdkman_download() {
 	local candidate version archives_folder
-	local headers_file tmp_headers_file
 
 	candidate="$1"
 	version="$2"
@@ -129,8 +128,8 @@ function __sdkman_download() {
 		local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 		local base_name="${candidate}-${version}"
 		local zip_archive_target="${SDKMAN_DIR}/archives/${base_name}.zip"
-		tmp_headers_file="${SDKMAN_DIR}/tmp/${base_name}.headers.tmp"
-		headers_file="${metadata_folder}/${base_name}.headers"
+		local tmp_headers_file="${SDKMAN_DIR}/tmp/${base_name}.headers.tmp"
+		local headers_file="${metadata_folder}/${base_name}.headers"
 
 		# pre-installation hook: implements function __sdkman_pre_installation_hook
 		local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
