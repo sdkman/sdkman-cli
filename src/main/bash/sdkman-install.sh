@@ -171,8 +171,8 @@ function __sdkman_download() {
 		echo ""
 		__sdkman_echo_no_colour "Found a previously downloaded ${candidate} ${version} archive. Not downloading it again..."
 	fi
-	__sdkman_checksum_zip "${archives_folder}/${candidate}-${version}.zip" "${headers_file}" || return 1
 	__sdkman_validate_zip "${archives_folder}/${candidate}-${version}.zip" || return 1
+	__sdkman_checksum_zip "${archives_folder}/${candidate}-${version}.zip" "${headers_file}" || return 1
 	echo ""
 }
 
