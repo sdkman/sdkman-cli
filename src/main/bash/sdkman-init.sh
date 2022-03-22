@@ -64,7 +64,7 @@ function infer_platform() {
 		echo "LinuxARM64"
 		;;
 	  *)
-	  	echo "LinuxX64"
+	  	echo "Exotic"
 	  	;;
 	  esac
 	  ;;

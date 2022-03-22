@@ -30,7 +30,8 @@ class SdkmanBashEnvBuilder {
 
 	Map config = [
 			sdkman_auto_answer : 'false',
-			sdkman_beta_channel: 'false'
+			sdkman_beta_channel: 'false',
+			sdkman_selfupdate_feature: 'true'
 	]
 
 	File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir,
