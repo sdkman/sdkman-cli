@@ -29,9 +29,6 @@ function __sdk_flush() {
 			__sdkman_echo_green "Version file has been flushed."
 		fi
 		;;
-	archives)
-		__sdkman_cleanup_folder "archives"
-		;;
 	temp)
 		__sdkman_cleanup_folder "tmp"
 		;;
@@ -42,7 +39,6 @@ function __sdk_flush() {
     	__sdkman_cleanup_folder "var/metadata"
     	;;
 	*)
-		__sdkman_cleanup_folder "archives"
 		__sdkman_cleanup_folder "tmp"
 		__sdkman_cleanup_folder "var/metadata"
 		;;

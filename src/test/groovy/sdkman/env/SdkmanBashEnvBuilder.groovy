@@ -34,7 +34,7 @@ class SdkmanBashEnvBuilder {
 			sdkman_selfupdate_feature: 'true'
 	]
 
-	File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir, sdkmanArchivesDir,
+	File sdkmanDir, sdkmanBinDir, sdkmanVarDir, sdkmanSrcDir, sdkmanEtcDir, sdkmanExtDir,
 		 sdkmanTmpDir, sdkmanCandidatesDir, sdkmanMetadataDir, sdkmanContribDir
 	
 	static SdkmanBashEnvBuilder create(File baseFolder) {
@@ -112,7 +112,6 @@ class SdkmanBashEnvBuilder {
 		sdkmanSrcDir = prepareDirectory(sdkmanDir, "src")
 		sdkmanEtcDir = prepareDirectory(sdkmanDir, "etc")
 		sdkmanExtDir = prepareDirectory(sdkmanDir, "ext")
-		sdkmanArchivesDir = prepareDirectory(sdkmanDir, "archives")
 		sdkmanTmpDir = prepareDirectory(sdkmanDir, "tmp")
 		sdkmanCandidatesDir = prepareDirectory(sdkmanDir, "candidates")
 		sdkmanMetadataDir = prepareDirectory(sdkmanVarDir, "metadata")

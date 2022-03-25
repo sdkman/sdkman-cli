@@ -34,7 +34,6 @@ varDir = "${sdkmanDirEnv}/var" as File
 metadataDir = "${varDir}/metadata" as File
 etcDir = "${sdkmanDirEnv}/etc" as File
 extDir = "${sdkmanDirEnv}/ext" as File
-archiveDir = "${sdkmanDirEnv}/archives" as File
 tmpDir = "${sdkmanDir}/tmp" as File
 
 broadcastFile = new File(varDir, "broadcast")

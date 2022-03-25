@@ -9,7 +9,7 @@ class {{brewFormulaName}} < Formula
   def install
     libexec.install Dir["*"]
 
-    %w[tmp ext etc var archives candidates].each { |dir| mkdir libexec/dir }
+    %w[tmp ext etc var candidates].each { |dir| mkdir libexec/dir }
 
     system "curl", "-s", "https://api.sdkman.io/2/candidates/all", "-o", libexec/"var/candidates"
 
