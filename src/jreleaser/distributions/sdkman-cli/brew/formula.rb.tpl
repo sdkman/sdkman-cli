@@ -30,6 +30,6 @@ class {{brewFormulaName}} < Formula
   end
 
   test do
-    assert_match {{projectVersion}}, shell_output("export SDKMAN_DIR=#{libexec} && source #{libexec}/bin/sdkman-init.sh && sdk version")
+    assert_match version, shell_output("export SDKMAN_DIR=#{libexec} && source #{libexec}/bin/sdkman-init.sh && sdk version")
   end
 end
