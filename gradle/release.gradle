@@ -40,6 +40,7 @@ jreleaser {
 			}
 			brew {
 				active = 'ALWAYS'
+				formulaName = "Sdkman"
 			}
 		}
 	}
