@@ -82,17 +82,6 @@ Feature: Install Candidate
 		And the candidate "grails" version "1.3.9" should be the default
 		And the exit code is 0
 
-	Scenario: Install an already downloaded Candidate
-		Given the system is bootstrapped
-		And the candidate "grails" version "1.3.9" is available for download
-		And the archive "grails-1.3.9.zip" has been cached
-		When I enter "sdk install grails 1.3.9"
-		Then I see "Found a previously downloaded grails 1.3.9 archive. Not downloading it again..."
-		And I see "Done installing!"
-		And I do not see "Downloading: grails 1.3.9"
-		And the candidate "grails" version "1.3.9" is installed
-		And the exit code is 0
-
 	# revisit to redownload automatically
 	
 	Scenario: Abort installation on download of a corrupt Candidate archive

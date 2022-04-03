@@ -45,7 +45,7 @@ __sdkman_complete_command() {
 			candidates=("force")
 			;;
 		flush)
-			candidates=("archives" "temp" "broadcast" "version")
+			candidates=("temp" "broadcast" "version")
 			;;
 	esac
 
