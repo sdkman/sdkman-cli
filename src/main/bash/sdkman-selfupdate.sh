@@ -26,7 +26,7 @@ function __sdk_selfupdate() {
 		echo "No update available at this time."
 	elif [[ "$sdkman_beta_channel" == "true" ]]; then
 		export sdkman_debug_mode
-		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/beta" | bash
+		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/beta/${SDKMAN_PLATFORM}" | bash
 	else
 		export sdkman_debug_mode
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/stable" | bash
