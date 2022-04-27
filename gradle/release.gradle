@@ -34,9 +34,7 @@ jreleaser {
 			distributionType = 'BINARY'
 			artifact {
 				path = "build/distributions/{{distributionName}}-${sdkmanVersion}.zip"
-				// binary artifacts are platform-dependent and require a platform identifier
-				// see https://github.com/jreleaser/jreleaser/issues/794 for more details
-				platform = "osx-x86_64"
+				extraProperties.put("universal", "true")
 			}
 			brew {
 				active = 'ALWAYS'
