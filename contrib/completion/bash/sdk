@@ -33,7 +33,7 @@ __sdkman_complete_command() {
 			done
 			;;
 		install|i|list|ls)
-			candidates=${SDKMAN_CANDIDATES[@]}
+			candidates=("${SDKMAN_CANDIDATES[@]}")
 			;;
 		env|e)
 			candidates=("init" "install" "clear")
@@ -49,7 +49,7 @@ __sdkman_complete_command() {
 			;;
 	esac
 
-	COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
+	read -r -a COMPREPLY < <(compgen -W "${candidates[*]}" -- "$current_word")
 }
 
 __sdkman_complete_candidate_version() {
@@ -76,7 +76,7 @@ __sdkman_complete_candidate_version() {
 			;;
 	esac
 
-	COMPREPLY=($(compgen -W "${candidates[*]}" -- "$candidate_version"))
+	read -r -a COMPREPLY < <(compgen -W "${candidates[*]}" -- "$candidate_version")
 }
 
 complete -o default -F _sdk sdk
