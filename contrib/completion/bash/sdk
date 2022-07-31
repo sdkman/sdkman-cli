@@ -49,7 +49,7 @@ __sdkman_complete_command() {
 			;;
 	esac
 
-	read -r -a COMPREPLY < <(compgen -W "${candidates[*]}" -- "$current_word")
+	mapfile -t COMPREPLY < <(compgen -W "${candidates[*]}" -- "$current_word")
 }
 
 __sdkman_complete_candidate_version() {
@@ -76,7 +76,7 @@ __sdkman_complete_candidate_version() {
 			;;
 	esac
 
-	read -r -a COMPREPLY < <(compgen -W "${candidates[*]}" -- "$candidate_version")
+	mapfile -t COMPREPLY < <(compgen -W "${candidates[*]}" -- "$candidate_version")
 }
 
 complete -o default -F _sdk sdk
