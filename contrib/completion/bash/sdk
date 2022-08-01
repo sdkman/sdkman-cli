@@ -51,7 +51,7 @@ __sdkman_complete_command() {
 
 	local fifo && fifo=$(mktemp -u) && {
 		compgen -W "${candidates[*]}" -- "$current_word" > "$fifo" &
-		mapfile -t COMPREPLY < "$fifo"
+		IFS=$'\n' read -r -d '' -a COMPREPLY < "$fifo"
 		rm -f "$fifo"
 	}
 }
@@ -82,7 +82,7 @@ __sdkman_complete_candidate_version() {
 
 	local fifo && fifo=$(mktemp -u) && {
 		compgen -W "${candidates[*]}" -- "$candidate_version" > "$fifo" &
-		mapfile -t COMPREPLY < "$fifo"
+		IFS=$'\n' read -r -d '' -a COMPREPLY < "$fifo"
 		rm -f "$fifo"
 	}
 }
