@@ -29,7 +29,7 @@ function __sdk_selfupdate() {
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/beta/${SDKMAN_PLATFORM}" | bash
 	else
 		export sdkman_debug_mode
-		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/stable" | bash
+		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/stable/${SDKMAN_PLATFORM}" | bash
 	fi
 }
 
