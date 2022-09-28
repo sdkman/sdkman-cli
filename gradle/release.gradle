@@ -34,10 +34,14 @@ jreleaser {
 			distributionType = 'BINARY'
 			artifact {
 				path = "build/distributions/{{distributionName}}-${sdkmanVersion}.zip"
+				extraProperties.put("universal", "true")
+			}
+			brew {
+				active = 'ALWAYS'
 			}
 		}
 	}
-
+	
 	announce {
 		twitter {
 			active = 'RELEASE'

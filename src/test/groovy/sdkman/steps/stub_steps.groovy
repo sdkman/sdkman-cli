@@ -17,7 +17,8 @@ And(~'^the default "([^"]*)" version is "([^"]*)"$') { String candidate, String 
 }
 
 And(~'^an available selfupdate$') { ->
-	primeEndpointWithString("/selfupdate", 'echo "Successfully upgraded SDKMAN."')
+	primeEndpointWithString("/selfupdate/stable/${UnixUtils.inferPlatform()}", 'echo "Successfully upgraded SDKMAN."')
+	primeEndpointWithString("/selfupdate/beta/${UnixUtils.inferPlatform()}", 'echo "Successfully upgraded SDKMAN."')
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { String candidate, String version ->

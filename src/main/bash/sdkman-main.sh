@@ -100,9 +100,11 @@ function sdk() {
 
 	# Check if it is a valid command
 	CMD_FOUND=""
-	CMD_TARGET="${SDKMAN_DIR}/src/sdkman-${COMMAND}.sh"
-	if [[ -f "$CMD_TARGET" ]]; then
-		CMD_FOUND="$CMD_TARGET"
+	if [[ "$COMMAND" != "selfupdate" || "$sdkman_selfupdate_feature" == "true" ]]; then
+		CMD_TARGET="${SDKMAN_DIR}/src/sdkman-${COMMAND}.sh"
+		if [[ -f "$CMD_TARGET" ]]; then
+			CMD_FOUND="$CMD_TARGET"
+		fi
 	fi
 
 	# Check if it is a sourced function
@@ -162,7 +164,7 @@ function sdk() {
 	fi
 
 	# Attempt upgrade after all is done
-	if [[ "$COMMAND" != "selfupdate" && "$sdkman_selfupdate_enable" == true ]]; then
+	if [[ "$COMMAND" != "selfupdate" && "$sdkman_selfupdate_feature" == "true" && "$sdkman_auto_update" == "true" ]]; then
 		__sdkman_auto_update "$SDKMAN_REMOTE_VERSION" "$SDKMAN_VERSION"
 	fi
 	return $final_rc

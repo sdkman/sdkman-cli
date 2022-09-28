@@ -5,15 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
             ref: ${{ github.event.pull_request.head.sha }}
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
       - name: Run with Gradle
         run: ./gradlew clean test --info
-      - uses: kentaro-m/auto-assign-action@v1.1.2
+      - uses: kentaro-m/auto-assign-action@v1.2.3
         with:
           configuration-path: ".github/auto_assign.yml"

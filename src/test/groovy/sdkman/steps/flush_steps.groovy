@@ -1,8 +1,5 @@
 package sdkman.steps
 
-import java.nio.file.Files
-import java.nio.file.Paths
-
 import static cucumber.api.groovy.EN.And
 
 And(~'^the candidate "([^"]*)" is known locally$') { String candidate ->
@@ -11,16 +8,6 @@ And(~'^the candidate "([^"]*)" is known locally$') { String candidate ->
 
 And(~'^no candidates are know locally$') { ->
 	assert !candidatesFile.exists()
-}
-
-And(~'^the archive "([^"]*)" has been cached$') { String archive ->
-	Files.copy(
-			Paths.get("src/test/resources/__files", archive),
-			Paths.get(archiveDir.getAbsolutePath(), archive))
-}
-
-And(~'^no archives are cached$') { ->
-	assert !archiveDir.listFiles()
 }
 
 And(~'^the file "([^"]*)" in temporary storage$') { String fileName ->

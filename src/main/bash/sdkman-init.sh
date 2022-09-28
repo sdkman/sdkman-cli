@@ -64,7 +64,7 @@ function infer_platform() {
 		echo "LinuxARM64"
 		;;
 	  *)
-	  	echo "LinuxX64"
+	  	echo "Exotic"
 	  	;;
 	  esac
 	  ;;
@@ -225,8 +225,9 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 
 			export SDKMAN_OLD_PWD="$PWD"
 		}
-
-		[[ -z "$PROMPT_COMMAND" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${PROMPT_COMMAND%\;};sdkman_auto_env"
+		
+		trimmed_prompt_command="${PROMPT_COMMAND%"${PROMPT_COMMAND##*[![:space:]]}"}"
+		[[ -z "$trimmed_prompt_command" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${trimmed_prompt_command%\;};sdkman_auto_env"
 	fi
 
 	sdkman_auto_env

@@ -24,12 +24,13 @@ function __sdk_selfupdate() {
 		echo "This command is not available while offline."
 	elif [[ "$SDKMAN_REMOTE_VERSION" == "$SDKMAN_VERSION" && "$force_selfupdate" != "force" ]]; then
 		echo "No update available at this time."
+	elif [[ "$sdkman_beta_channel" == "true" ]]; then
+		export sdkman_debug_mode
+		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/beta/${SDKMAN_PLATFORM}" | bash
 	else
 		export sdkman_debug_mode
-		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate" | bash
+		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/stable/${SDKMAN_PLATFORM}" | bash
 	fi
-
-	unset SDKMAN_FORCE_SELFUPDATE
 }
 
 function __sdkman_auto_update() {
@@ -57,7 +58,7 @@ function __sdkman_auto_update() {
 		fi
 
 		if [[ "$upgrade" == "Y" || "$upgrade" == "y" ]]; then
-			__sdk_selfupdate
+			__sdk_selfupdate "force"
 			unset upgrade
 		else
 			__sdkman_echo_no_colour "Not upgrading today..."
