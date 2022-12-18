@@ -23,15 +23,35 @@ And(~'^an available selfupdate$') { ->
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { String candidate, String version ->
 	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${UnixUtils.inferPlatform()}", "valid")
-	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform())
+	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), 
+			candidate == "java" ? ["X-Sdkman-ArchiveType": "tar"] : ["X-Sdkman-ArchiveType": "zip"])
 	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
 	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
+}
+
+And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with an invalid archive type$') { String candidate, String version ->
+	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${UnixUtils.inferPlatform()}", "valid")
+	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), ["X-Sdkman-ArchiveType": "docx"])
+	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
+	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
+}
+
+And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with no headers$') {
+	String candidate, String version ->
+		primeEndpointWithString("/candidates/validate/${candidate}/${version}/${UnixUtils.inferPlatform()}", "valid")
+		primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), [:])
+		primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
+		primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with checksum "([^"]*)" using algorithm "([^"]*)"$') { 
 	String candidate, String version, String checksum, String algorithm ->
 	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${UnixUtils.inferPlatform()}", "valid")
-	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), ["X-Sdkman-Checksum-${algorithm}": "${checksum}"])
+	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), [
+			"X-Sdkman-ArchiveType": "zip", 
+			"X-Sdkman-Checksum-${algorithm}": "${checksum}"
+		]
+	)
 	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
 	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
 }

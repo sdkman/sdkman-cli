@@ -1,3 +1,4 @@
+@checksum
 Feature: Install Candidate
 
 	Background:
@@ -82,8 +83,36 @@ Feature: Install Candidate
 		And the candidate "grails" version "1.3.9" should be the default
 		And the exit code is 0
 
+	Scenario: Install a tarball candidate and choose to make it default
+		Given the system is bootstrapped
+		And the candidate "java" version "8.0.111" is available for download
+		When I enter "sdk install java 8.0.111"
+		Then I see "Done installing!"
+		And I do not see "Do you want java 8.0.111 to be set as default? (Y/n)"
+		And the candidate "java" version "8.0.111" is installed
+		And the response headers file is created for candidate "java" and version "8.0.111"
+		And the exit code is 0
+
 	# revisit to redownload automatically
-	
+
+	Scenario: Don't perform any validations if metadata is not found
+		Given the system is bootstrapped
+		And the candidate "grails" version "1.3.6" is available for download with no headers
+		When I enter "sdk install grails 1.3.6"
+		Then I see "Metadata file not found (or is empty)"
+		And the candidate "grails" version "1.3.6" is not installed
+		And the archive for candidate "grails" version "1.3.6" is removed
+		And the exit code is 1
+
+	Scenario: Abort installation on download of a Candidate without archive type information
+		Given the system is bootstrapped
+		And the candidate "grails" version "1.3.6" is available for download with an invalid archive type
+		When I enter "sdk install grails 1.3.6"
+		Then I see "Stop! The archive type cannot be determined! Please try installing again."
+		And the candidate "grails" version "1.3.6" is not installed
+		And the archive for candidate "grails" version "1.3.6" is removed
+		And the exit code is 1
+
 	Scenario: Abort installation on download of a corrupt Candidate archive
 		Given the system is bootstrapped
 		And the candidate "grails" version "1.3.6" is available for download
