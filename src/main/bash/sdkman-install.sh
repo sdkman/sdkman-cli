@@ -59,18 +59,36 @@ function __sdk_install() {
 }
 
 function __sdkman_install_candidate_version() {
-	local candidate version
-
+	local candidate version base_name headers_file archive_type
+	local metadata_folder="${SDKMAN_DIR}/var/metadata"
+	
 	candidate="$1"
 	version="$2"
+	base_name="${candidate}-${version}"
+	headers_file="${metadata_folder}/${base_name}.headers"
+	
+	mkdir -p ${metadata_folder}
 
-	__sdkman_download "$candidate" "$version" || return 1
+	__sdkman_download "$candidate" "$version" "$headers_file" || return 1
 	__sdkman_echo_green "Installing: ${candidate} ${version}"
 
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
-
 	rm -rf "${SDKMAN_DIR}/tmp/out"
-	unzip -oq "${SDKMAN_DIR}/tmp/${candidate}-${version}.bin" -d "${SDKMAN_DIR}/tmp/out"
+	
+	archive_type=$(sed -n 's/^X-Sdkman-ArchiveType:\(.*\)$/\1/p' ${headers_file} | tr -cd '[:alnum:]')
+
+	if [[ "${archive_type}" == 'zip' ]]; then
+		unzip -oq "${SDKMAN_DIR}/tmp/${base_name}.bin" -d "${SDKMAN_DIR}/tmp/out"
+	elif [[ "${archive_type}" == 'tar' ]]; then
+		mkdir -p "${SDKMAN_DIR}/tmp/out"
+		tar zxf "${SDKMAN_DIR}/tmp/${base_name}.bin" -C "${SDKMAN_DIR}/tmp/out"
+	else
+		echo ""
+		__sdkman_echo_red "Stop! The archive type cannot be determined! Please try installing again."
+		rm -f "${SDKMAN_DIR}/tmp/${base_name}.bin"
+		return 1
+	fi
+	
 	mv -f "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	__sdkman_echo_green "Done installing!"
 	echo ""
@@ -114,22 +132,18 @@ function __sdkman_install_local_version() {
 }
 
 function __sdkman_download() {
-	local candidate version
+	local candidate version headers_file
 
 	candidate="$1"
 	version="$2"
+	headers_file="$3"
 
-	metadata_folder="${SDKMAN_DIR}/var/metadata"
-	mkdir -p ${metadata_folder}
-		
 	local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
 	local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 	local base_name="${candidate}-${version}"
 	local tmp_headers_file="${SDKMAN_DIR}/tmp/${base_name}.headers.tmp"
-	local headers_file="${metadata_folder}/${base_name}.headers"
 
 	export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
-	export local zip_output="${SDKMAN_DIR}/tmp/${base_name}.zip"
 
 	echo ""
 	__sdkman_echo_no_colour "Downloading: ${candidate} ${version}"
@@ -142,26 +156,50 @@ function __sdkman_download() {
 	grep '^X-Sdkman' "${tmp_headers_file}" > "${headers_file}"
 	__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers_file})"
 
-	__sdkman_validate_zip "${binary_input}" || return 1
-	__sdkman_checksum_zip "${binary_input}" "${headers_file}" || return 1
-	echo ""
+	if [[ ! -s "${headers_file}" ]]; then
+		echo ""
+		__sdkman_echo_red "Metadata file not found (or is empty) at '${headers_file}'"
+		rm -f "${binary_input}" 
+		return 1
+	else
+		__sdkman_validate "${binary_input}" "${headers_file}" || return 1
+		__sdkman_checksum "${binary_input}" "${headers_file}" || return 1
+		echo ""
+	fi
 }
 
-function __sdkman_validate_zip() {
-	local zip_archive zip_ok
+function __sdkman_validate() {
+	local -r archive="$1"
+	local -r headers_file="$2"
+	local -r archive_type=$(sed -n 's/^X-Sdkman-ArchiveType:\(.*\)$/\1/p' ${headers_file} | tr -cd '[:alnum:]')
+	local is_ok
+	
+	__sdkman_echo_debug "Archive Type: ${archive_type}"
+	__sdkman_echo_debug "Archive: ${archive}"
 
-	zip_archive="$1"
-	zip_ok=$(unzip -t "$zip_archive" | grep 'No errors detected in compressed data')
-	if [ -z "$zip_ok" ]; then
-		rm -f "$zip_archive"
+	if [[ "${archive_type}" == 'zip' ]]; then
+		__sdkman_echo_debug "Checking zip archive"
+		is_ok=$(unzip -t "$archive" | grep 'No errors detected in compressed data')
+	elif [[ "${archive_type}" == 'tar' ]]; then
+		__sdkman_echo_debug "Checking tar archive"
+		is_ok=$(tar tf "$archive" | grep -v 'Error opening archive')
+	else
+		echo ""
+		__sdkman_echo_red "Stop! The archive type cannot be determined! Please try installing again."
+		rm -f "${archive}"
+		return 1
+	fi
+
+	if [ -z "$is_ok" ]; then
+		rm -f "$archive"
 		echo ""
 		__sdkman_echo_red "Stop! The archive was corrupt and has been removed! Please try installing again."
 		return 1
 	fi
 }
 
-function __sdkman_checksum_zip() {
-	local -r zip_archive="$1"
+function __sdkman_checksum() {
+	local -r archive="$1"
 	local -r headers_file="$2"
 	local algorithm checksum cmd
 	local shasum_avail=false
@@ -198,17 +236,17 @@ function __sdkman_checksum_zip() {
 		if [[ -n ${algorithm} && -n ${checksum} ]]; then
 			
 			if [[ "$algorithm" =~ 'SHA' && "$shasum_avail" == 'true' ]]; then
-				cmd="echo \"${checksum} *${zip_archive}\" | shasum --check --quiet"
+				cmd="echo \"${checksum} *${archive}\" | shasum --check --quiet"
 				
 			elif [[ "$algorithm" =~ 'MD5' && "$md5sum_avail" == 'true' ]]; then
-				cmd="echo \"${checksum} ${zip_archive}\" | md5sum --check --quiet"
+				cmd="echo \"${checksum} ${archive}\" | md5sum --check --quiet"
 			fi
 			
 			if [[ -n $cmd ]]; then
-				__sdkman_echo_no_colour "Verifying artifact: ${zip_archive} (${algorithm}:${checksum})"
+				__sdkman_echo_no_colour "Verifying artifact: ${archive} (${algorithm}:${checksum})"
 
 				if ! eval "$cmd"; then
-					rm -f "$zip_archive"
+					rm -f "$archive"
 					echo ""
 					__sdkman_echo_red "Stop! An invalid checksum was detected and the archive removed! Please try re-installing."
 					return 1
