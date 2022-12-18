@@ -9,6 +9,6 @@ import org.junit.runner.RunWith
 		strict = true,
 		features = ["src/test/resources/features"],
 		glue = ["sdkman.steps"],
-		tags = ["not @manual", "not @review", "@checksum"]
+		tags = ["not @manual", "not @review"]
 )
 class RunCukeTests {}
