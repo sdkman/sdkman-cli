@@ -61,7 +61,8 @@ function __sdk_install() {
 function __sdkman_install_candidate_version() {
 	local candidate version base_name headers_file archive_type
 	local metadata_folder="${SDKMAN_DIR}/var/metadata"
-	
+	local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
+
 	candidate="$1"
 	version="$2"
 	base_name="${candidate}-${version}"
@@ -90,6 +91,16 @@ function __sdkman_install_candidate_version() {
 	fi
 	
 	mv -f "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+	
+	# relocation hook: implements function __sdkman_relocate_installation_hook
+	# responsible for moving files to their final location
+	local relocation_hook="${SDKMAN_DIR}/tmp/hook_relocate_${candidate}_${version}.sh"
+	__sdkman_echo_debug "Get relocation hook: ${SDKMAN_CANDIDATES_API}/hooks/relocate/${candidate}/${version}/${platform_parameter}"
+	__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/relocate/${candidate}/${version}/${platform_parameter}" >| "$relocation_hook"
+	__sdkman_echo_debug "Copy remote relocation hook: ${relocation_hook}"
+	source "$relocation_hook"
+	__sdkman_relocate_installation_hook || return 1
+	__sdkman_echo_debug "Completed relocation hook..."
 	__sdkman_echo_green "Done installing!"
 	echo ""
 }
@@ -164,17 +175,6 @@ function __sdkman_download() {
 	__sdkman_secure_curl_download "${download_url}" --output "${binary_input}" --dump-header "${tmp_headers_file}"
 	grep '^X-Sdkman' "${tmp_headers_file}" > "${headers_file}"
 	__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers_file})"
-
-	# post-installation hook: implements function __sdkman_post_installation_hook
-	# responsible for taking `binary_input` and producing `zip_output`
-#	local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
-#	__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
-#	__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}" >| "$post_installation_hook"
-#	__sdkman_echo_debug "Copy remote post-installation hook: ${post_installation_hook}"
-#	source "$post_installation_hook"
-#	__sdkman_post_installation_hook || return 1
-#	__sdkman_echo_debug "Processed binary as: $zip_output"
-#	__sdkman_echo_debug "Completed post-installation hook..."
 	
 	if [[ ! -s "${headers_file}" ]]; then
 		echo ""
@@ -194,9 +194,6 @@ function __sdkman_validate() {
 	local -r archive_type=$(sed -n 's/^X-Sdkman-ArchiveType:\(.*\)$/\1/p' ${headers_file} | tr -cd '[:alnum:]')
 	local is_ok
 	
-	echo "archive_type: ${archive_type}"
-	echo "archive: ${archive}"
-
 	if [[ "${archive_type}" == 'zip' ]]; then
 		is_ok=$(unzip -t "$archive" | grep 'No errors detected in compressed data')
 	elif [[ "${archive_type}" == 'tar' ]]; then

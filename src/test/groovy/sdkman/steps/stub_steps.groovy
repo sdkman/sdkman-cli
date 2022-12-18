@@ -13,7 +13,7 @@ And(~'^the default "([^"]*)" version is "([^"]*)"$') { String candidate, String 
 	primeEndpointWithString("/candidates/default/${candidate}", version)
 	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform())
 	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
-	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
+	primeEndpointWithString("/hooks/relocate/${candidate}/${version}/${UnixUtils.inferPlatform()}", relocationHookSuccess())
 }
 
 And(~'^an available selfupdate$') { ->
@@ -26,14 +26,14 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { 
 	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), 
 			candidate == "java" ? ["X-Sdkman-ArchiveType": "tar"] : ["X-Sdkman-ArchiveType": "zip"])
 	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
-	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
+	primeEndpointWithString("/hooks/relocate/${candidate}/${version}/${UnixUtils.inferPlatform()}", relocationHookSuccess())
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with an invalid archive type$') { String candidate, String version ->
 	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${UnixUtils.inferPlatform()}", "valid")
 	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), ["X-Sdkman-ArchiveType": "docx"])
 	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
-	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
+	primeEndpointWithString("/hooks/relocate/${candidate}/${version}/${UnixUtils.inferPlatform()}", relocationHookSuccess())
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with no headers$') {
@@ -41,7 +41,7 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with 
 		primeEndpointWithString("/candidates/validate/${candidate}/${version}/${UnixUtils.inferPlatform()}", "valid")
 		primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), [:])
 		primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
-		primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
+		primeEndpointWithString("/hooks/relocate/${candidate}/${version}/${UnixUtils.inferPlatform()}", relocationHookSuccess())
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with checksum "([^"]*)" using algorithm "([^"]*)"$') { 
@@ -53,19 +53,19 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with 
 		]
 	)
 	primeEndpointWithString("/hooks/pre/${candidate}/${version}/${UnixUtils.inferPlatform()}", preInstallationHookSuccess())
-	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
+	primeEndpointWithString("/hooks/relocate/${candidate}/${version}/${UnixUtils.inferPlatform()}", relocationHookSuccess())
 }
 
 And(~/^the appropriate universal hooks are available for "([^"]*)" version "([^"]*)" on "([^"]*)"$/) { String candidate, String version, String os ->
 	String lcPlatform = UnixUtils.inferPlatform(os)
 	primeUniversalHookFor("pre", candidate, version, lcPlatform)
-	primeUniversalHookFor("post", candidate, version, lcPlatform)
+	primeUniversalHookFor("relocate", candidate, version, lcPlatform)
 }
 
 And(~/^the appropriate multi-platform hooks are available for "([^"]*)" version "([^"]*)" on "([^"]*)" with architecture "(.*)"$/) { String candidate, String version, String os, String architecture ->
 	String lcPlatform = UnixUtils.inferPlatform(os, architecture)
 	primePlatformSpecificHookFor("pre", candidate, version, lcPlatform)
-	primePlatformSpecificHookFor("post", candidate, version, lcPlatform)
+	primePlatformSpecificHookFor("relocate", candidate, version, lcPlatform)
 }
 
 And(~'^the candidate "([^"]*)" version "([^"]*)" is not available for download$') { String candidate, String version ->
@@ -80,12 +80,12 @@ And(~/^the candidate "(.*)" version "(.*)" is available for download on "(.*)" w
 
 And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" with architecture "([^"]*)" that returns successfully$/) { String phase, String candidate, String version, String os, String architecture ->
 	String lcPlatform = UnixUtils.inferPlatform(os, architecture)
-	primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookSuccess() : postInstallationHookSuccess())
+	primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookSuccess() : relocationHookSuccess())
 }
 
 And(~/^a "([^"]*)" install hook is served for "([^"]*)" "([^"]*)" on "([^"]*)" with architecture "([^"]*)" that returns a failure$/) { String phase, String candidate, String version, String os, String architecture ->
 	String lcPlatform = UnixUtils.inferPlatform(os, architecture)
-	primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookFailure() : postInstallationHookFailure())
+	primeEndpointWithString("/hooks/${phase}/${candidate}/${version}/${lcPlatform}", phase == "pre" ? preInstallationHookFailure() : relocationHookFailure())
 }
 
 And(~/^the candidate "(.*?)" version "(.*?)" is not available for download on "(.*?)"$/) { String candidate, String version, String os ->
