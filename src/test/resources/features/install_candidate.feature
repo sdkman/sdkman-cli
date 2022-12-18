@@ -1,4 +1,3 @@
-@checksum
 Feature: Install Candidate
 
 	Background:

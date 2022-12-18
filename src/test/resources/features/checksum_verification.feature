@@ -1,4 +1,3 @@
-@checksum
 Feature: Verify checksums
 
 	Background:
