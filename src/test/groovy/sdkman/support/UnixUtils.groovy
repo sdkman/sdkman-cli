@@ -6,8 +6,9 @@ class UnixUtils {
 			"Linux"   : [
 					"x86_64": "LinuxX64"
 			],
-			"Mac OS X": [
+			"Darwin": [
 					"x86_64": "DarwinX64",
+					"arm64": "DarwinX64",
 			]
 	]
 
