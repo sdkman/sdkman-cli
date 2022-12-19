@@ -151,17 +151,6 @@ function __sdkman_download() {
 	grep '^X-Sdkman' "${tmp_headers_file}" > "${headers_file}"
 	__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers_file})"
 
-	# post-installation hook: implements function __sdkman_post_installation_hook
-	# responsible for taking `binary_input` and producing `zip_output`
-#	local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
-#	__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
-#	__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}" >| "$post_installation_hook"
-#	__sdkman_echo_debug "Copy remote post-installation hook: ${post_installation_hook}"
-#	source "$post_installation_hook"
-#	__sdkman_post_installation_hook || return 1
-#	__sdkman_echo_debug "Processed binary as: $zip_output"
-#	__sdkman_echo_debug "Completed post-installation hook..."
-		
 	__sdkman_validate_zip "${binary_input}" || return 1
 	__sdkman_checksum_zip "${binary_input}" "${headers_file}" || return 1
 	echo ""
