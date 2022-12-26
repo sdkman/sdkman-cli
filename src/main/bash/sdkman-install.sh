@@ -128,15 +128,6 @@ function __sdkman_download() {
 	local tmp_headers_file="${SDKMAN_DIR}/tmp/${base_name}.headers.tmp"
 	local headers_file="${metadata_folder}/${base_name}.headers"
 
-	# pre-installation hook: implements function __sdkman_pre_installation_hook
-	local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
-	__sdkman_echo_debug "Get pre-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/pre/${candidate}/${version}/${platform_parameter}"
-	__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/pre/${candidate}/${version}/${platform_parameter}" >| "$pre_installation_hook"
-	__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
-	source "$pre_installation_hook"
-	__sdkman_pre_installation_hook || return 1
-	__sdkman_echo_debug "Completed pre-installation hook..."
-
 	export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
 	export local zip_output="${SDKMAN_DIR}/tmp/${base_name}.zip"
 
