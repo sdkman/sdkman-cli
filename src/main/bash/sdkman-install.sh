@@ -70,7 +70,7 @@ function __sdkman_install_candidate_version() {
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
 	rm -rf "${SDKMAN_DIR}/tmp/out"
-	unzip -oq "${SDKMAN_DIR}/tmp/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
+	unzip -oq "${SDKMAN_DIR}/tmp/${candidate}-${version}.bin" -d "${SDKMAN_DIR}/tmp/out"
 	mv -f "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	__sdkman_echo_green "Done installing!"
 	echo ""
@@ -128,15 +128,6 @@ function __sdkman_download() {
 	local tmp_headers_file="${SDKMAN_DIR}/tmp/${base_name}.headers.tmp"
 	local headers_file="${metadata_folder}/${base_name}.headers"
 
-	# pre-installation hook: implements function __sdkman_pre_installation_hook
-	local pre_installation_hook="${SDKMAN_DIR}/tmp/hook_pre_${candidate}_${version}.sh"
-	__sdkman_echo_debug "Get pre-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/pre/${candidate}/${version}/${platform_parameter}"
-	__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/pre/${candidate}/${version}/${platform_parameter}" >| "$pre_installation_hook"
-	__sdkman_echo_debug "Copy remote pre-installation hook: $pre_installation_hook"
-	source "$pre_installation_hook"
-	__sdkman_pre_installation_hook || return 1
-	__sdkman_echo_debug "Completed pre-installation hook..."
-
 	export local binary_input="${SDKMAN_DIR}/tmp/${base_name}.bin"
 	export local zip_output="${SDKMAN_DIR}/tmp/${base_name}.zip"
 
@@ -151,19 +142,8 @@ function __sdkman_download() {
 	grep '^X-Sdkman' "${tmp_headers_file}" > "${headers_file}"
 	__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers_file})"
 
-	# post-installation hook: implements function __sdkman_post_installation_hook
-	# responsible for taking `binary_input` and producing `zip_output`
-	local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
-	__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
-	__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}" >| "$post_installation_hook"
-	__sdkman_echo_debug "Copy remote post-installation hook: ${post_installation_hook}"
-	source "$post_installation_hook"
-	__sdkman_post_installation_hook || return 1
-	__sdkman_echo_debug "Processed binary as: $zip_output"
-	__sdkman_echo_debug "Completed post-installation hook..."
-		
-	__sdkman_validate_zip "${zip_output}" || return 1
-	__sdkman_checksum_zip "${zip_output}" "${headers_file}" || return 1
+	__sdkman_validate_zip "${binary_input}" || return 1
+	__sdkman_checksum_zip "${binary_input}" "${headers_file}" || return 1
 	echo ""
 }
 
