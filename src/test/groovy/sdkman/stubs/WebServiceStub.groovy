@@ -13,7 +13,8 @@ class WebServiceStub {
 	}
 
 	static primeDownloadFor(String host, String candidate, String version, String platform) {
-		primeDownloadFor(host, candidate, version, platform, [:])
+		def archiveType =  (candidate == "java") ? "tar" : "zip"
+		primeDownloadFor(host, candidate, version, platform, ["X-Sdkman-ArchiveType": archiveType])
 	}
 	
 	static primeDownloadFor(String host, String candidate, String version, String platform, Map<String, String> headers) {
