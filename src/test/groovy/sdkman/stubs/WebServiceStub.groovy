@@ -12,23 +12,6 @@ class WebServiceStub {
 						.withBody(body)))
 	}
 
-	static primeUniversalHookFor(String phase, String candidate, String version, String platform) {
-		primeHookFor(phase, candidate, version, platform, true)
-	}
-
-	static primePlatformSpecificHookFor(String phase, String candidate, String version, String platform) {
-		primeHookFor(phase, candidate, version, platform, false)
-	}
-
-	private static primeHookFor(String phase, String candidate, String version, String platform, boolean universal = true) {
-		def hookFile = "hooks/${phase}_hook_${candidate}_${version}_${universal ? 'universal' : platform}.sh"
-		stubFor(get(urlEqualTo("/hooks/$phase/$candidate/$version/$platform")).willReturn(
-				aResponse()
-						.withStatus(200)
-						.withHeader("Content-Type", "text/plain")
-						.withBodyFile(hookFile)))
-	}
-
 	static primeDownloadFor(String host, String candidate, String version, String platform) {
 		primeDownloadFor(host, candidate, version, platform, [:])
 	}
