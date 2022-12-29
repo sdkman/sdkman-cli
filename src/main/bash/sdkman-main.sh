@@ -60,11 +60,6 @@ function sdk() {
 		;;
 	esac
 
-	if [[ "$COMMAND" == "home" ]]; then
-		__sdk_home "$QUALIFIER" "$3"
-		return $?
-	fi
-
 	# Left here for legacy purposes, issue #912 on Github
 	if [[ "$COMMAND" == "completion" ]]; then
 		return 0
