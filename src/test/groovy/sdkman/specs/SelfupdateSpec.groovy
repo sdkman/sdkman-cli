@@ -9,7 +9,7 @@ import static java.time.temporal.ChronoUnit.DAYS
 class SelfupdateSpec extends SdkmanEnvSpecification {
 	static final String CANDIDATES_API = "http://localhost:8080/2"
 	static final String BROADCAST_API_LATEST_ID_ENDPOINT = "$CANDIDATES_API/broadcast/latest/id"
-	static final String VERSION_ENDPOINT = "$CANDIDATES_API/broker/download/sdkman/version/stable"
+	static final String VERSION_ENDPOINT = "$CANDIDATES_API/broker/version/sdkman/script/stable"
  
 	def setup() {
 		curlStub.primeWith(BROADCAST_API_LATEST_ID_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")

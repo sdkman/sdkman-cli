@@ -6,8 +6,8 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 
 	static final TWO_DAYS_AGO = System.currentTimeMillis() - (48 * 60 * 60 * 1000)
 	static final CANDIDATES_API = "http://localhost:8080/2"
-	static final CLI_STABLE_ENDPOINT = "$CANDIDATES_API/broker/download/sdkman/version/stable"
-	static final CLI_BETA_ENDPOINT = "$CANDIDATES_API/broker/download/sdkman/version/beta"
+	static final CLI_STABLE_ENDPOINT = "$CANDIDATES_API/broker/version/sdkman/script/stable"
+	static final CLI_BETA_ENDPOINT = "$CANDIDATES_API/broker/version/sdkman/script/beta"
 
 	File versionCache
 

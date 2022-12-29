@@ -9,8 +9,8 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 	static final MORE_THAN_A_DAY_IN_MILLIS = 24 * 61 * 60 * 1000
 
 	static final CANDIDATES_API = "http://localhost:8080/2"
-	static final CLI_VERSION_STABLE_ENDPOINT = "$CANDIDATES_API/broker/download/sdkman/version/stable"
-	static final CLI_VERSION_BETA_ENDPOINT = "$CANDIDATES_API/broker/download/sdkman/version/beta"
+	static final CLI_VERSION_STABLE_ENDPOINT = "$CANDIDATES_API/broker/version/sdkman/script/stable"
+	static final CLI_VERSION_BETA_ENDPOINT = "$CANDIDATES_API/broker/version/sdkman/script/beta"
 	static final CANDIDATES_ENDPOINT = "$CANDIDATES_API/candidates"
 
 	File versionCache
