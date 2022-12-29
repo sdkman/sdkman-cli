@@ -60,11 +60,6 @@ function sdk() {
 		;;
 	esac
 
-	# Left here for legacy purposes, issue #912 on Github
-	if [[ "$COMMAND" == "completion" ]]; then
-		return 0
-	fi
-
 	#
 	# Various sanity checks and default settings
 	#
