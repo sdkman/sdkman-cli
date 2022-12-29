@@ -69,7 +69,7 @@ function sdk() {
 		___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1
 	fi
 	# Check version cache
-	___sdkman_check_version_cache
+	___sdkman_refresh_cli_version_caches
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"
