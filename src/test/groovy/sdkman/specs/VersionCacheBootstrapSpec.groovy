@@ -41,7 +41,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 		given:
 		curlStub.primeWith(CLI_VERSION_STABLE_ENDPOINT, "sleep 50") //will timeout and fail if called
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
+				.withScriptVersionCache("x.y.z")
 				.build()
 
 		and:
@@ -60,7 +60,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 		given:
 		curlStub.primeWith(CLI_VERSION_STABLE_ENDPOINT, "echo x.y.b")
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.a")
+				.withScriptVersionCache("x.y.a")
 				.build()
 
 		and:
@@ -82,7 +82,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 		given:
 		curlStub.primeWith(CLI_VERSION_STABLE_ENDPOINT, "echo ''")
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
+				.withScriptVersionCache("x.y.z")
 				.build()
 
 		and:
@@ -103,7 +103,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 		given:
 		curlStub.primeWith(CLI_VERSION_STABLE_ENDPOINT, "echo ''")
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
+				.withScriptVersionCache("x.y.z")
 				.build()
 
 		and:
@@ -125,7 +125,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 		def sdkmanVersion = "x.y.z"
 		curlStub.primeWith(CLI_VERSION_STABLE_ENDPOINT, "echo '<html><title>sorry</title></html>'")
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache(sdkmanVersion)
+				.withScriptVersionCache(sdkmanVersion)
 				.build()
 
 		and:
@@ -146,7 +146,7 @@ class VersionCacheBootstrapSpec extends SdkmanEnvSpecification {
 		given:
 		curlStub.primeWith(CLI_VERSION_BETA_ENDPOINT, "echo x.y.z")
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.w")
+				.withScriptVersionCache("x.y.w")
 				.withConfiguration("sdkman_beta_channel", "true")
 				.build()
 

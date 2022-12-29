@@ -12,7 +12,7 @@ class SdkCompatibilitySpec extends SdkmanEnvSpecification {
 	def setup() {
 		bash = sdkmanBashEnvBuilder
 				.withCandidates(allCandidates)
-				.withVersionCache("x.y.z")
+				.withScriptVersionCache("x.y.z")
 				.build()
 	}
 

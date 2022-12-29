@@ -25,7 +25,8 @@ class SdkmanBashEnvBuilder {
 	private String sdkmanVersion = "5.0.0"
 	private String jdkHome = "/path/to/my/jdk"
 	private String httpProxy
-	private String versionCache
+	private String scriptVersionCache
+	private String nativeVersionCache
 	private boolean debugMode = true
 
 	Map config = [
@@ -90,8 +91,13 @@ class SdkmanBashEnvBuilder {
 		this
 	}
 
-	SdkmanBashEnvBuilder withVersionCache(String version) {
-		this.versionCache = version
+	SdkmanBashEnvBuilder withScriptVersionCache(String version) {
+		this.scriptVersionCache = version
+		this
+	}
+
+	SdkmanBashEnvBuilder withNativeVersionCache(String version) {
+		this.nativeVersionCache = version
 		this
 	}
 
@@ -124,7 +130,8 @@ class SdkmanBashEnvBuilder {
 		initializeCandidatesCache(sdkmanVarDir, candidates)
 		initializeBroadcast(sdkmanVarDir, broadcast)
 		initializeConfiguration(sdkmanEtcDir, config)
-		initializeVersionCache(sdkmanVarDir, versionCache)
+		initializeScriptVersionCache(sdkmanVarDir, scriptVersionCache)
+		initializeNativeVersionCache(sdkmanVarDir, nativeVersionCache)
 
 		primeInitScript(sdkmanBinDir)
 		primeModuleScripts(sdkmanSrcDir)
@@ -153,13 +160,18 @@ class SdkmanBashEnvBuilder {
 		directory
 	}
 
-	private initializeVersionCache(File folder, String version) {
+	private initializeScriptVersionCache(File folder, String version) {
 		if (version) {
 			new File(folder, "version") << version
 		}
 	}
 
-
+	private initializeNativeVersionCache(File folder, String version) {
+		if (version) {
+			new File(folder, "version_native") << version
+		}
+	}
+	
 	private initializeCandidates(File folder, List candidates) {
 		candidates.each { candidate ->
 			new File(folder, candidate).mkdirs()

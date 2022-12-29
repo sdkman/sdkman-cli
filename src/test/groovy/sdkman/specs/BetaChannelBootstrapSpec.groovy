@@ -22,7 +22,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 		curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $betaVersion")
 		bash = sdkmanBashEnvBuilder
 				.withConfiguration("sdkman_beta_channel", "true")
-				.withVersionCache("x.y.b")
+				.withScriptVersionCache("x.y.b")
 				.build()
 
 		and:
@@ -43,7 +43,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 		curlStub.primeWith(CLI_STABLE_ENDPOINT, "echo $stableVersion")
 		bash = sdkmanBashEnvBuilder
 				.withConfiguration("sdkman_beta_channel", "false")
-				.withVersionCache("x.y.c")
+				.withScriptVersionCache("x.y.c")
 				.build()
 		versionCache.setLastModified(TWO_DAYS_AGO)
 
@@ -65,7 +65,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 		curlStub.primeWith(CLI_BETA_ENDPOINT, "echo $newerBetaVersion")
 		bash = sdkmanBashEnvBuilder
 				.withConfiguration("sdkman_beta_channel", "true")
-				.withVersionCache("x.y.c")
+				.withScriptVersionCache("x.y.c")
 				.build()
 
 		and:
@@ -86,7 +86,7 @@ class BetaChannelBootstrapSpec extends SdkmanEnvSpecification {
 		curlStub.primeWith(CLI_STABLE_ENDPOINT, "echo $newerStableVersion")
 		bash = sdkmanBashEnvBuilder
 				.withConfiguration("sdkman_beta_channel", "false")
-				.withVersionCache("x.y.c")
+				.withScriptVersionCache("x.y.c")
 				.build()
 		versionCache.setLastModified(TWO_DAYS_AGO)
 
