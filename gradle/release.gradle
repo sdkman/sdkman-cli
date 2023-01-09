@@ -47,5 +47,10 @@ jreleaser {
 			active = 'RELEASE'
 			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
 		}
+		mastodon {
+			active = 'RELEASE'
+			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
+			host = 'https://fosstodon.org'
+		}
 	}
 }
