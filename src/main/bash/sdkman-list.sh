@@ -79,9 +79,9 @@ function __sdkman_offline_list() {
 	for ((i = ${#versions} - 1; i >= 0; i--)); do
 		if [[ -n "${versions[${i}]}" ]]; then
 			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
-				__sdkman_echo_no_colour " > ${versions[${i}]}"
+				__sdkman_echo_no_colour " > ${versions[@]:$i:1}"
 			else
-				__sdkman_echo_no_colour " * ${versions[${i}]}"
+				__sdkman_echo_no_colour " * ${versions[@]:$i:1}"
 			fi
 		fi
 	done
