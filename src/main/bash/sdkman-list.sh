@@ -75,13 +75,13 @@ function __sdkman_offline_list() {
 	__sdkman_echo_yellow "Offline: only showing installed ${candidate} versions"
 	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 
-	local versions=($(echo ${versions_csv//,/\\n} | tac))
-	for version in "${versions[@]}"; do
-		if [[ -n "${version}" ]]; then
-			if [[ "${version}" == "$CURRENT" ]]; then
-				__sdkman_echo_no_colour " > ${version}"
+	local versions=($(echo ${versions_csv//,/ }))
+	for ((i = ${#versions} - 1; i >= 0; i--)); do
+		if [[ -n "${versions[${i}]}" ]]; then
+			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
+				__sdkman_echo_no_colour " > ${versions[@]:$i:1}"
 			else
-				__sdkman_echo_no_colour " * ${version}"
+				__sdkman_echo_no_colour " * ${versions[@]:$i:1}"
 			fi
 		fi
 	done
