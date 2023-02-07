@@ -123,8 +123,7 @@ function sdk() {
 	fi
 
 	# Check whether the candidate exists
-	local sdkman_valid_candidate=$(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER")
-	if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && -z "$sdkman_valid_candidate" ]]; then
+	if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && "$COMMAND" != "home" && -z $(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
 		echo ""
 		__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
 		return 1
@@ -153,8 +152,20 @@ function sdk() {
 			"$native_command" "$QUALIFIER"
 		elif [ -z "$4" ]; then
 			"$native_command" "$QUALIFIER" "$3"
-		else
+		elif [ -z "$5" ]; then
 			"$native_command" "$QUALIFIER" "$3" "$4"
+		elif [ -z "$6" ]; then
+			"$native_command" "$QUALIFIER" "$3" "$4" "$5"
+		elif [ -z "$7" ]; then
+			"$native_command" "$QUALIFIER" "$3" "$4" "$5" "$6"
+		elif [ -z "$8" ]; then
+			"$native_command" "$QUALIFIER" "$3" "$4" "$5" "$6" "$7"
+		elif [ -z "$9" ]; then
+			"$native_command" "$QUALIFIER" "$3" "$4" "$5" "$6" "$7" "$8"
+		elif [ -z "$10" ]; then
+			"$native_command" "$QUALIFIER" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+		else
+			___sdkman_help
 		fi
 		final_rc=$?
 
