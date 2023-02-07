@@ -16,6 +16,14 @@
 #   limitations under the License.
 #
 
+function ___sdkman_help() {
+	if [[ -f "$SDKMAN_DIR/libexec/help" ]]; then
+		"$SDKMAN_DIR/libexec/help"
+	else
+		__sdk_help
+	fi
+}
+
 function sdk() {
 
 	COMMAND="$1"
@@ -87,7 +95,7 @@ function sdk() {
 
 	# no command provided
 	if [[ -z "$COMMAND" ]]; then
-		__sdk_help
+		___sdkman_help
 		return 1
 	fi
 
@@ -111,7 +119,7 @@ function sdk() {
 		echo ""
 		__sdkman_echo_red "Invalid command: $COMMAND"
 		echo ""
-		__sdk_help
+		___sdkman_help
 	fi
 
 	# Check whether the candidate exists
