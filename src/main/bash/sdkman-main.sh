@@ -141,39 +141,17 @@ function sdk() {
 	# Native commands found under libexec
 	local native_command="${SDKMAN_DIR}/libexec/${COMMAND}"
 	
-	# Internal commands use underscores rather than hyphens
-	local converted_command_name=$(echo "$COMMAND" | tr '-' '_')
-
 	if [ -f "$native_command" ]; then
-		# Available as native command
-		if [ -z "$QUALIFIER" ]; then
-			"$native_command"
-		elif [ -z "$3" ]; then
-			"$native_command" "$QUALIFIER"
-		elif [ -z "$4" ]; then
-			"$native_command" "$QUALIFIER" "$3"
-		elif [ -z "$5" ]; then
-			"$native_command" "$QUALIFIER" "$3" "$4"
-		elif [ -z "$6" ]; then
-			"$native_command" "$QUALIFIER" "$3" "$4" "$5"
-		elif [ -z "$7" ]; then
-			"$native_command" "$QUALIFIER" "$3" "$4" "$5" "$6"
-		elif [ -z "$8" ]; then
-			"$native_command" "$QUALIFIER" "$3" "$4" "$5" "$6" "$7"
-		elif [ -z "$9" ]; then
-			"$native_command" "$QUALIFIER" "$3" "$4" "$5" "$6" "$7" "$8"
-		elif [ -z "$10" ]; then
-			"$native_command" "$QUALIFIER" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
-		else
-			___sdkman_help
-		fi
-		final_rc=$?
+		"$native_command" "${@:2}"
 
 	elif [ -n "$CMD_FOUND" ]; then
+		# Internal commands use underscores rather than hyphens
+		local converted_command_name=$(echo "$COMMAND" | tr '-' '_')
+
 		# Available as a shell function
 		__sdk_"$converted_command_name" "$QUALIFIER" "$3" "$4"
-		final_rc=$?
 	fi
+	final_rc=$?
 
 	# Attempt upgrade after all is done
 	if [[ "$COMMAND" != "selfupdate" && "$sdkman_selfupdate_feature" == "true" && "$sdkman_auto_update" == "true" ]]; then
