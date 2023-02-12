@@ -25,4 +25,9 @@ fi
 
 echo "Release: $FIELD as $VERSION"
 
-mongo "${MONGO_URL}" --username="${MONGO_USERNAME}" --password="${MONGO_PASSWORD}" -eval "db.application.updateOne({}, {\$set: { \"$FIELD\": \"$VERSION\"}});"
+docker run mongo:3.2 mongo "${MONGO_URL}" \
+	--username="${MONGO_USERNAME}" \
+	--password="${MONGO_PASSWORD}" \
+	--quiet \
+	--eval "db.application.updateOne({}, {\$set: { \"$FIELD\": \"$VERSION\"}});"
+
