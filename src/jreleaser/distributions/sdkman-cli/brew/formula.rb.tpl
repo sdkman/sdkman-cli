@@ -26,6 +26,7 @@ class {{brewFormulaName}} < Formula
       sdkman_insecure_ssl=false
       sdkman_rosetta2_compatible=false
       sdkman_selfupdate_feature=false
+      sdkman_silent_mode=false
     EOS
   end
 
