@@ -48,16 +48,6 @@ Feature: Offline Mode
 		Then I see "INTERNET NOT REACHABLE!"
 		And I see "Stop! grails 2.1.0 is not available while offline."
 
-	# broadcast
-
-	Scenario: Recall a broadcast while in Offline Mode
-		Given offline mode is enabled with reachable internet
-		And an initialised environment
-		And the system is bootstrapped
-		When a prior Broadcast "This is an OLD Broadcast!" with id "12344" was issued
-		And I enter "sdk broadcast"
-		Then I see "This is an OLD Broadcast!"
-
 	# sdk version
 
 	Scenario: Determine the sdkman version while in Offline Mode

@@ -20,7 +20,6 @@ class SdkmanBashEnvBuilder {
 	private Optional<UnameStub> unameStub = Optional.empty()
 	private List candidates = ['groovy', 'grails', 'java']
 	private boolean offlineMode = false
-	private String broadcast = "This is a LIVE broadcast!"
 	private String candidatesApi = "http://localhost:8080/2"
 	private String sdkmanVersion = "5.0.0"
 	private String jdkHome = "/path/to/my/jdk"
@@ -57,11 +56,6 @@ class SdkmanBashEnvBuilder {
 
 	SdkmanBashEnvBuilder withCandidates(List candidates) {
 		this.candidates = candidates
-		this
-	}
-
-	SdkmanBashEnvBuilder withBroadcast(String broadcast) {
-		this.broadcast = broadcast
 		this
 	}
 
@@ -122,7 +116,6 @@ class SdkmanBashEnvBuilder {
 
 		initializeCandidates(sdkmanCandidatesDir, candidates)
 		initializeCandidatesCache(sdkmanVarDir, candidates)
-		initializeBroadcast(sdkmanVarDir, broadcast)
 		initializeConfiguration(sdkmanEtcDir, config)
 		initializeVersionCache(sdkmanVarDir, versionCache)
 
@@ -173,10 +166,6 @@ class SdkmanBashEnvBuilder {
 		} else {
 			candidatesCache << ""
 		}
-	}
-
-	private initializeBroadcast(File targetFolder, String broadcast) {
-		new File(targetFolder, "broadcast") << broadcast
 	}
 
 	private initializeConfiguration(File targetFolder, Map config) {

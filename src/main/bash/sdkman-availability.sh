@@ -16,10 +16,10 @@
 #   limitations under the License.
 #
 
-function __sdkman_update_broadcast_and_service_availability() {
+function __sdkman_update_service_availability() {
 	local broadcast_live_id=$(__sdkman_determine_broadcast_id)
 	__sdkman_set_availability "$broadcast_live_id"
-	__sdkman_update_broadcast "$broadcast_live_id"
+	__sdkman_update_broadcast_id "$broadcast_live_id"
 }
 
 function __sdkman_determine_broadcast_id() {
@@ -66,31 +66,19 @@ function __sdkman_display_proxy_warning() {
 	echo ""
 }
 
-function __sdkman_update_broadcast() {
-	local broadcast_live_id broadcast_id_file broadcast_text_file broadcast_old_id
+function __sdkman_update_broadcast_id() {
+	local broadcast_live_id broadcast_id_file broadcast_old_id
 
 	broadcast_live_id="$1"
 	broadcast_id_file="${SDKMAN_DIR}/var/broadcast_id"
-	broadcast_text_file="${SDKMAN_DIR}/var/broadcast"
 	broadcast_old_id=""
 
 	if [[ -f "$broadcast_id_file" ]]; then
 		broadcast_old_id=$(< "$broadcast_id_file")
 	fi
 
-	if [[ -f "$broadcast_text_file" ]]; then
-		BROADCAST_OLD_TEXT=$(< "$broadcast_text_file")
-	fi
-
 	if [[ "$SDKMAN_AVAILABLE" == "true" && "$broadcast_live_id" != "$broadcast_old_id" && "$COMMAND" != "selfupdate" && "$COMMAND" != "flush" ]]; then
 		mkdir -p "${SDKMAN_DIR}/var"
-
 		echo "$broadcast_live_id" | tee "$broadcast_id_file" > /dev/null
-
-		BROADCAST_LIVE_TEXT=$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/broadcast/latest")
-		echo "$BROADCAST_LIVE_TEXT" | tee "$broadcast_text_file" > /dev/null
-		if [[ "$COMMAND" != "broadcast" ]]; then
-			__sdkman_echo_cyan "$BROADCAST_LIVE_TEXT"
-		fi
 	fi
 }

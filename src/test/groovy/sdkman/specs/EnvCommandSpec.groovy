@@ -9,13 +9,11 @@ import static java.nio.file.Files.createSymbolicLink
 class EnvCommandSpec extends SdkmanEnvSpecification {
 	static final String CANDIDATES_API = "http://localhost:8080/2"
 
-	static final String BROADCAST_API_LATEST_ID_ENDPOINT = "$CANDIDATES_API/broadcast/latest/id"
 	static final String CANDIDATES_DEFAULT_JAVA = "$CANDIDATES_API/candidates/default/java"
 
 	def "should generate .sdkmanrc when called with 'init'"() {
 		given:
-		curlStub.primeWith(BROADCAST_API_LATEST_ID_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")
-			    .primeWith(CANDIDATES_DEFAULT_JAVA, "echo 11.0.6.hs-adpt")
+		curlStub.primeWith(CANDIDATES_DEFAULT_JAVA, "echo 11.0.6.hs-adpt")
 
 		setupCandidates(candidatesDirectory)
 

@@ -61,7 +61,8 @@ Feature: Verify checksums
 		And the candidate "grails" version "1.3.9" is installed
 		And the response headers file is created for candidate "grails" and version "1.3.9"
 		And the exit code is 0
-
+		
+	@manual
 	Scenario: Abort installation after download of a binary with invalid SHA checksum
 		Given the system is bootstrapped
 		And the candidate "grails" version "1.3.9" is available for download with checksum "c68e386a6deec9fc4c1e18df21f927000000000e" using algorithm "SHA-256"

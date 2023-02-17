@@ -80,13 +80,6 @@ Feature: Mnemonics
 		Then I see "Default groovy version set to 2.0.5"
 		And the candidate "groovy" version "2.0.5" should be the default
 
-	Scenario: Shortcut for a Broadcast command issued
-		Given no prior Broadcast was received
-		And a new Broadcast "This is a LIVE Broadcast!" with id "12345" is available
-		And the system is bootstrapped
-		When I enter "sdk b"
-		Then I see "This is a LIVE Broadcast!"
-
 	Scenario: Shortcut for displaying Home directory
 		Given an initialised environment without debug prints
 		And the candidate "grails" version "2.1.0" is already installed and default

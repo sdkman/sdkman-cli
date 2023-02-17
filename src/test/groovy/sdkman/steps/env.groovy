@@ -36,7 +36,6 @@ etcDir = "${sdkmanDirEnv}/etc" as File
 extDir = "${sdkmanDirEnv}/ext" as File
 tmpDir = "${sdkmanDir}/tmp" as File
 
-broadcastFile = new File(varDir, "broadcast")
 broadcastIdFile = new File(varDir, "broadcast_id")
 candidatesFile = new File(varDir, "candidates")
 versionFile = new File(varDir, "version")

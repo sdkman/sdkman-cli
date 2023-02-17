@@ -57,9 +57,6 @@ function sdk() {
 	d)
 		COMMAND="default"
 		;;
-	b)
-		COMMAND="broadcast"
-		;;
 	h)
 		COMMAND="home"
 		;;
@@ -86,7 +83,7 @@ function sdk() {
 	fi
 
 	# ...unless proven otherwise
-	__sdkman_update_broadcast_and_service_availability
+	__sdkman_update_service_availability
 
 	# Load the sdkman config if it exists.
 	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
