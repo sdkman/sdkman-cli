@@ -20,9 +20,6 @@ function __sdk_flush() {
 	local qualifier="$1"
 
 	case "$qualifier" in
-	broadcast)
-		__sdkman_cleanup_broadcast
-		;;
 	version)
 		if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
 			rm -f "${SDKMAN_DIR}/var/version"
@@ -59,14 +56,4 @@ function __sdkman_cleanup_folder() {
 	mkdir "$sdkman_cleanup_dir"
 
 	__sdkman_echo_green "${sdkman_cleanup_count} archive(s) flushed, freeing ${sdkman_cleanup_disk_usage}."
-}
-
-function __sdkman_cleanup_broadcast() {
-	if [[ -f "${SDKMAN_DIR}/var/broadcast_id" ]]; then
-		rm -f "${SDKMAN_DIR}/var/broadcast_id"
-		rm -f "${SDKMAN_DIR}/var/broadcast"
-		__sdkman_echo_green "Broadcast has been flushed."
-	else
-		__sdkman_echo_no_colour "No prior broadcast found so not flushed."
-	fi
 }

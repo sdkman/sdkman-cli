@@ -112,14 +112,6 @@ Feature: Service Unavailable
 		When I enter "sdk version"
 		Then I see the current sdkman version
 
-	# broadcast command
-
-	Scenario: Recall a broadcast while Offline
-		Given a prior Broadcast "This is an OLD Broadcast!" with id "12344" was issued
-		And the system is bootstrapped
-		When I enter "sdk broadcast"
-		Then I see "This is an OLD Broadcast!"
-
 	# help command
 
 	Scenario: Request help while Offline

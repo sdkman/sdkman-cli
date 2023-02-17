@@ -10,8 +10,6 @@ import static cucumber.api.groovy.EN.And
 import static sdkman.stubs.WebServiceStub.primeEndpointWithString
 import static sdkman.stubs.WebServiceStub.primeSelfupdate
 
-def BROADCAST_MESSAGE = "broadcast message"
-
 And(~'^the sdkman work folder is created$') { ->
 	assert sdkmanDir.isDirectory(), "The SDKMAN directory does not exist."
 }
@@ -36,7 +34,6 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { Str
 
 And(~'^the internet is reachable$') { ->
 	primeEndpointWithString("/broadcast/latest/id", "12345")
-	primeEndpointWithString("/broadcast/latest", BROADCAST_MESSAGE)
 	primeEndpointWithString("/app/stable", sdkmanVersion)
 	primeSelfupdate()
 
@@ -53,7 +50,6 @@ And(~'^the internet is not reachable$') { ->
 
 And(~'^offline mode is disabled with reachable internet$') { ->
 	primeEndpointWithString("/broadcast/latest/id", "12345")
-	primeEndpointWithString("/broadcast/latest", BROADCAST_MESSAGE)
 	primeEndpointWithString("/app/stable", sdkmanVersion)
 
 	offlineMode = false
@@ -63,7 +59,6 @@ And(~'^offline mode is disabled with reachable internet$') { ->
 
 And(~'^offline mode is enabled with reachable internet$') { ->
 	primeEndpointWithString("/broadcast/latest/id", "12345")
-	primeEndpointWithString("/broadcast/latest", BROADCAST_MESSAGE)
 	primeEndpointWithString("/app/stable", sdkmanVersion)
 
 	offlineMode = true
