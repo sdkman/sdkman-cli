@@ -22,6 +22,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
+          cache: 'gradle'
       - name: Run tests
         run: ./gradlew clean test --info
       - name: Set short git hash

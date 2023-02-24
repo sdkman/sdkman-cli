@@ -12,6 +12,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
+          cache: 'gradle'
       - name: Run with Gradle
         run: ./gradlew clean test --info
       - uses: kentaro-m/auto-assign-action@v1.2.4
