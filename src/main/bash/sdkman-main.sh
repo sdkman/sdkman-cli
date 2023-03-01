@@ -146,7 +146,7 @@ function sdk() {
 		local converted_command_name=$(echo "$COMMAND" | tr '-' '_')
 
 		# Available as a shell function
-		__sdk_"$converted_command_name" "$QUALIFIER" "$3" "$4"
+		__sdk_"$converted_command_name" "${@:2}"
 	fi
 	final_rc=$?
 
