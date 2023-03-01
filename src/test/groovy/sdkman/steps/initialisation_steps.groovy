@@ -33,7 +33,7 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { Str
 }
 
 And(~'^the internet is reachable$') { ->
-	primeEndpointWithString("/broadcast/latest/id", "12345")
+	primeEndpointWithString("/healthcheck", "12345")
 	primeEndpointWithString("/app/stable", sdkmanVersion)
 	primeSelfupdate()
 
@@ -49,7 +49,7 @@ And(~'^the internet is not reachable$') { ->
 }
 
 And(~'^offline mode is disabled with reachable internet$') { ->
-	primeEndpointWithString("/broadcast/latest/id", "12345")
+	primeEndpointWithString("/healthcheck", "12345")
 	primeEndpointWithString("/app/stable", sdkmanVersion)
 
 	offlineMode = false
@@ -58,7 +58,7 @@ And(~'^offline mode is disabled with reachable internet$') { ->
 }
 
 And(~'^offline mode is enabled with reachable internet$') { ->
-	primeEndpointWithString("/broadcast/latest/id", "12345")
+	primeEndpointWithString("/healthcheck", "12345")
 	primeEndpointWithString("/app/stable", sdkmanVersion)
 
 	offlineMode = true

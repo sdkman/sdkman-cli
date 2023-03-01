@@ -6,14 +6,14 @@ class CandidatesCacheUpdateFailureSpec extends SdkmanEnvSpecification {
 
 	static final String CANDIDATES_API = "http://localhost:8080/2"
 
-	static final String BROADCAST_API_LATEST_ID_ENDPOINT = "$CANDIDATES_API/broadcast/latest/id"
+	static final String HEALTHCHECK_ENDPOINT = "$CANDIDATES_API/healthcheck"
 	static final String CANDIDATES_ALL_ENDPOINT = "$CANDIDATES_API/candidates/all"
 
 	File candidatesCache
 
 	def setup() {
 		candidatesCache = new File("${sdkmanDotDirectory}/var", "candidates")
-		curlStub.primeWith(BROADCAST_API_LATEST_ID_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")
+		curlStub.primeWith(HEALTHCHECK_ENDPOINT, "echo dbfb025be9f97fda2052b5febcca0155")
 				.primeWith(CANDIDATES_ALL_ENDPOINT, "echo html")
 		sdkmanBashEnvBuilder.withConfiguration("sdkman_debug_mode", "true")
 	}

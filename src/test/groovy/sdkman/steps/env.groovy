@@ -36,7 +36,7 @@ etcDir = "${sdkmanDirEnv}/etc" as File
 extDir = "${sdkmanDirEnv}/ext" as File
 tmpDir = "${sdkmanDir}/tmp" as File
 
-broadcastIdFile = new File(varDir, "broadcast_id")
+healthcheckFile = new File(varDir, "healthcheck")
 candidatesFile = new File(varDir, "candidates")
 versionFile = new File(varDir, "version")
 initScript = new File(binDir, "sdkman-init.sh")
