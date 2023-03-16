@@ -17,6 +17,7 @@
 #
 
 function __sdk_version() {
+    local version=$(cat $SDKMAN_DIR/var/version)
 	echo ""
-	__sdkman_echo_yellow "SDKMAN ${SDKMAN_VERSION}"
+	__sdkman_echo_yellow "SDKMAN $version"
 }
