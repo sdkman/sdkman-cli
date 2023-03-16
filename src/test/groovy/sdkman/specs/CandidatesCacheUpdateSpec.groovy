@@ -53,14 +53,11 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
 
 		when:
 		bash.execute("source $bootstrapScript")
-		bash.execute("sdk version")
+		bash.execute("sdk help")
 
 		then:
 		bash.output.contains('We periodically need to update the local cache.')
 		bash.output.contains('$ sdk update')
-
-		and:
-		bash.output.contains('SDKMAN 5.0.0')
 	}
 
 	void "should log a success message in debug mode when no update needed"() {
@@ -74,13 +71,10 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
 
 		when:
 		bash.execute("source $bootstrapScript")
-		bash.execute("sdk version")
+		bash.execute("sdk help")
 
 		then:
 		bash.output.contains('No update at this time. Using existing cache')
-
-		and:
-		bash.output.contains('SDKMAN 5.0.0')
 	}
 
 	void "should bypass cache check if update command issued"() {

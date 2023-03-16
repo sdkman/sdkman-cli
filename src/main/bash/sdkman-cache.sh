@@ -35,31 +35,3 @@ function ___sdkman_check_candidates_cache() {
 		return 0
 	fi
 }
-
-function ___sdkman_check_version_cache() {
-	local version_url
-	local version_file="${SDKMAN_DIR}/var/version"
-
-	if [[ "$sdkman_beta_channel" != "true" && -f "$version_file" && -z "$(find "$version_file" -mmin +$((60 * 24)))" ]]; then
-		__sdkman_echo_debug "Not refreshing version cache now..."
-		SDKMAN_REMOTE_VERSION=$(cat "$version_file")
-	else
-		__sdkman_echo_debug "Version cache needs updating..."
-		if [[ "$sdkman_beta_channel" == "true" ]]; then
-			__sdkman_echo_debug "Refreshing version cache with BETA version."
-			version_url="${SDKMAN_CANDIDATES_API}/broker/download/sdkman/version/beta"
-		else
-			__sdkman_echo_debug "Refreshing version cache with STABLE version."
-			version_url="${SDKMAN_CANDIDATES_API}/broker/download/sdkman/version/stable"
-		fi
-
-		SDKMAN_REMOTE_VERSION=$(__sdkman_secure_curl_with_timeouts "$version_url")
-		if [[ -z "$SDKMAN_REMOTE_VERSION" || -n "$(echo "$SDKMAN_REMOTE_VERSION" | tr '[:upper:]' '[:lower:]' | grep 'html')" ]]; then
-			__sdkman_echo_debug "Version information corrupt or empty! Ignoring: $SDKMAN_REMOTE_VERSION"
-			SDKMAN_REMOTE_VERSION="$SDKMAN_VERSION"
-		else
-			__sdkman_echo_debug "Overwriting version cache with: $SDKMAN_REMOTE_VERSION"
-			echo "${SDKMAN_REMOTE_VERSION}" | tee "$version_file" > /dev/null
-		fi
-	fi
-}

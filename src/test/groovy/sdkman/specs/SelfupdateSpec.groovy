@@ -55,6 +55,6 @@ class SelfupdateSpec extends SdkmanEnvSpecification {
 		where:
 		selfupdateFeature | verifyOutput
 		"false"           | { it.contains("Invalid command: selfupdate") }
-		"true"            | { it.contains("No update available at this time.") }
+		"true"            | { !it.contains("Invalid command: selfupdate") }
 	}
 }

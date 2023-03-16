@@ -73,8 +73,6 @@ function sdk() {
 	if [[ "$COMMAND" != "update" ]]; then
 		___sdkman_check_candidates_cache "$SDKMAN_CANDIDATES_CACHE" || return 1
 	fi
-	# Check version cache
-	___sdkman_check_version_cache
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"
