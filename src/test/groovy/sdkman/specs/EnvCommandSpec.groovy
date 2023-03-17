@@ -357,6 +357,29 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 	}
 
+	def "should issue an error when .sdkmanrc contains a candidate version which is not installed"() {
+		given:
+		bash = sdkmanBashEnvBuilder
+				.withVersionCache("x.y.z")
+				.withOfflineMode(true)
+				.build()
+
+		new File(bash.workDir, ".sdkmanrc").text = "groovy=2.4.1"
+
+		bash.start()
+		bash.execute("source $bootstrapScript")
+
+		when:
+		bash.execute("sdk env")
+
+		then:
+		verifyAll(bash) {
+			status == 1
+			output.contains("Stop! groovy 2.4.1 is not installed.")
+			output.contains("Run 'sdk env install' to install it.")
+		}
+	}
+
 	def "should support blank lines, comments and inline comments"() {
 		given:
 		new FileTreeBuilder(candidatesDirectory).with {

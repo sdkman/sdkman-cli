@@ -54,8 +54,23 @@ function __sdkman_load_env() {
 		return 1
 	fi
 
-	__sdkman_env_each_candidate "$sdkmanrc" "__sdk_use" && 
+	__sdkman_env_each_candidate "$sdkmanrc" "__sdkman_check_and_use" && 
 		SDKMAN_ENV=$PWD
+}
+
+function __sdkman_check_and_use() {
+	local -r candidate=$1
+	local -r version=$2
+
+	if [[ ! -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
+		__sdkman_echo_red "Stop! $candidate $version is not installed."
+		echo ""
+		__sdkman_echo_yellow "Run 'sdk env install' to install it."
+
+		return 1
+	fi
+
+	__sdk_use "$candidate" "$version"
 }
 
 function __sdkman_create_env_file() {
@@ -130,7 +145,7 @@ function __sdkman_env_each_candidate() {
 			return 1
 		fi
 
-		$func "${normalised_line%=*}" "${normalised_line#*=}"
+		$func "${normalised_line%=*}" "${normalised_line#*=}" || return
 	done < "$filepath"
 }
 
