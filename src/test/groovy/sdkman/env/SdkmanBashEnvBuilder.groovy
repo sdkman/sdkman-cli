@@ -157,7 +157,7 @@ class SdkmanBashEnvBuilder {
 			new File(folder, "version_native") << version
 		}
 	}
-	
+
 	private initializeCandidates(File folder, List candidates) {
 		candidates.each { candidate ->
 			new File(folder, candidate).mkdirs()

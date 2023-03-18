@@ -15,7 +15,6 @@ class InitialisationSpec extends SdkmanEnvSpecification {
 	def setup() {
 		bash = sdkmanBashEnvBuilder
 				.withCandidates(allCandidates)
-				.withScriptVersion("x.y.z")
 				.build()
 		prepareCandidateDirectories(allCandidates)
 	}
