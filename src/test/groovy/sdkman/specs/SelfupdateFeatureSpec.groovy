@@ -6,7 +6,7 @@ import java.time.Instant
 
 import static java.time.temporal.ChronoUnit.DAYS
 
-class SelfupdateSpec extends SdkmanEnvSpecification {
+class SelfupdateFeatureSpec extends SdkmanEnvSpecification {
 	static final String CANDIDATES_API = "http://localhost:8080/2"
 	static final String HEALTHCHECK_ENDPOINT = "$CANDIDATES_API/healthcheck"
 	static final String VERSION_ENDPOINT = "$CANDIDATES_API/broker/download/sdkman/version/stable"

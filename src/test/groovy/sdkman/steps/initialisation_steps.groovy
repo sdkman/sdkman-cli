@@ -34,7 +34,7 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { Str
 
 And(~'^the internet is reachable$') { ->
 	primeEndpointWithString("/healthcheck", "12345")
-	primeEndpointWithString("/app/stable", sdkmanVersion)
+	primeEndpointWithString("/broker/version/sdkman/script/stable", sdkmanVersion)
 	primeSelfupdate()
 
 	offlineMode = false
@@ -50,7 +50,7 @@ And(~'^the internet is not reachable$') { ->
 
 And(~'^offline mode is disabled with reachable internet$') { ->
 	primeEndpointWithString("/healthcheck", "12345")
-	primeEndpointWithString("/app/stable", sdkmanVersion)
+	primeEndpointWithString("/broker/version/sdkman/script/stable", sdkmanVersion)
 
 	offlineMode = false
 	serviceUrlEnv = SERVICE_UP_URL
@@ -59,7 +59,7 @@ And(~'^offline mode is disabled with reachable internet$') { ->
 
 And(~'^offline mode is enabled with reachable internet$') { ->
 	primeEndpointWithString("/healthcheck", "12345")
-	primeEndpointWithString("/app/stable", sdkmanVersion)
+	primeEndpointWithString("/broker/version/sdkman/script/stable", sdkmanVersion)
 
 	offlineMode = true
 	serviceUrlEnv = SERVICE_UP_URL

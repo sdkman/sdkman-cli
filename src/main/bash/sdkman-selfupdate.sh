@@ -18,17 +18,30 @@
 
 function __sdk_selfupdate() {
 	local force_selfupdate
+	local sdkman_version_api
 
-	force_selfupdate="$1"
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "This command is not available while offline."
-	elif [[ "$SDKMAN_REMOTE_VERSION" == "$SDKMAN_VERSION" && "$force_selfupdate" != "force" ]]; then
+		return 1
+	fi 
+
+	if [[ "$sdkman_beta_channel" == "true" ]]; then
+		sdkman_version_api="${SDKMAN_CANDIDATES_API}/broker/version/sdkman/script/beta"
+	else
+		sdkman_version_api="${SDKMAN_CANDIDATES_API}/broker/version/sdkman/script/stable"
+	fi 
+
+	sdkman_remote_version=$(__sdkman_secure_curl "$sdkman_version_api")
+	sdkman_local_version=$(cat "$SDKMAN_DIR/var/version")
+	__sdkman_echo_debug "Local version: $sdkman_local_version; remote version: $sdkman_remote_version"
+	
+	force_selfupdate="$1"
+	export sdkman_debug_mode
+	if [[ "$sdkman_local_version" == "$sdkman_remote_version" && "$force_selfupdate" != "force" ]]; then
 		echo "No update available at this time."
 	elif [[ "$sdkman_beta_channel" == "true" ]]; then
-		export sdkman_debug_mode
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/beta/${SDKMAN_PLATFORM}" | bash
 	else
-		export sdkman_debug_mode
 		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/selfupdate/stable/${SDKMAN_PLATFORM}" | bash
 	fi
 }
