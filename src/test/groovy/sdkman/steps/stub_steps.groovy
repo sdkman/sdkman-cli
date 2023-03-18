@@ -16,7 +16,7 @@ And(~'^the default "([^"]*)" version is "([^"]*)"$') { String candidate, String 
 	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
 }
 
-And(~'^an available selfupdate$') { ->
+And(~'^an available selfupdate endpoint$') { ->
 	primeEndpointWithString("/selfupdate/stable/${UnixUtils.inferPlatform()}", 'echo "Successfully upgraded SDKMAN."')
 	primeEndpointWithString("/selfupdate/beta/${UnixUtils.inferPlatform()}", 'echo "Successfully upgraded SDKMAN."')
 }

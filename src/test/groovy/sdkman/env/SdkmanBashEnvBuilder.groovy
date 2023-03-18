@@ -21,10 +21,10 @@ class SdkmanBashEnvBuilder {
 	private List candidates = ['groovy', 'grails', 'java']
 	private boolean offlineMode = false
 	private String candidatesApi = "http://localhost:8080/2"
-	private String sdkmanVersion = "5.0.0"
 	private String jdkHome = "/path/to/my/jdk"
 	private String httpProxy
-	private String versionCache
+	private String scriptVersion
+	private String nativeVersion
 	private boolean debugMode = true
 
 	Map config = [
@@ -84,13 +84,13 @@ class SdkmanBashEnvBuilder {
 		this
 	}
 
-	SdkmanBashEnvBuilder withVersionCache(String version) {
-		this.versionCache = version
+	SdkmanBashEnvBuilder withScriptVersion(String version) {
+		this.scriptVersion = version
 		this
 	}
 
-	SdkmanBashEnvBuilder withSdkmanVersion(String version) {
-		this.sdkmanVersion = version
+	SdkmanBashEnvBuilder withNativeVersion(String version) {
+		this.nativeVersion = version
 		this
 	}
 
@@ -117,7 +117,8 @@ class SdkmanBashEnvBuilder {
 		initializeCandidates(sdkmanCandidatesDir, candidates)
 		initializeCandidatesCache(sdkmanVarDir, candidates)
 		initializeConfiguration(sdkmanEtcDir, config)
-		initializeVersionCache(sdkmanVarDir, versionCache)
+		initializeScriptVersionFile(sdkmanVarDir, scriptVersion)
+		initializeNativeVersionFile(sdkmanVarDir, nativeVersion)
 
 		primeInitScript(sdkmanBinDir)
 		primeModuleScripts(sdkmanSrcDir)
@@ -128,7 +129,6 @@ class SdkmanBashEnvBuilder {
 				SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
 				SDKMAN_OFFLINE_MODE  : "$offlineMode",
 				SDKMAN_CANDIDATES_API: candidatesApi,
-				SDKMAN_VERSION       : sdkmanVersion,
 				sdkman_debug_mode    : Boolean.toString(debugMode),
 				JAVA_HOME            : jdkHome
 		]
@@ -146,13 +146,18 @@ class SdkmanBashEnvBuilder {
 		directory
 	}
 
-	private initializeVersionCache(File folder, String version) {
+	private initializeScriptVersionFile(File folder, String version) {
 		if (version) {
 			new File(folder, "version") << version
 		}
 	}
 
-
+	private initializeNativeVersionFile(File folder, String version) {
+		if (version) {
+			new File(folder, "version_native") << version
+		}
+	}
+	
 	private initializeCandidates(File folder, List candidates) {
 		candidates.each { candidate ->
 			new File(folder, candidate).mkdirs()
