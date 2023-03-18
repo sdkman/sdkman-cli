@@ -24,7 +24,7 @@ function __sdk_selfupdate() {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		echo "This command is not available while offline."
 		return 1
-	fi 
+	fi
 
 	if [[ "$sdkman_beta_channel" == "true" ]]; then
 		sdkman_script_version_api="${SDKMAN_CANDIDATES_API}/broker/version/sdkman/script/beta"
@@ -32,17 +32,17 @@ function __sdk_selfupdate() {
 	else
 		sdkman_script_version_api="${SDKMAN_CANDIDATES_API}/broker/version/sdkman/script/stable"
 		sdkman_native_version_api="${SDKMAN_CANDIDATES_API}/broker/version/sdkman/native/stable"
-	fi 
+	fi
 
 	sdkman_remote_script_version=$(__sdkman_secure_curl "$sdkman_script_version_api")
 	sdkman_remote_native_version=$(__sdkman_secure_curl "$sdkman_native_version_api")
-	
+
 	sdkman_local_script_version=$(cat "$SDKMAN_DIR/var/version")
 	sdkman_local_native_version=$(cat "$SDKMAN_DIR/var/version_native")
-	
+
 	__sdkman_echo_debug "Script: local version: $sdkman_local_script_version; remote version: $sdkman_remote_script_version"
 	__sdkman_echo_debug "Native: local version: $sdkman_local_native_version; remote version: $sdkman_remote_native_version"
-	
+
 	force_selfupdate="$1"
 	export sdkman_debug_mode
 	if [[ "$sdkman_local_script_version" == "$sdkman_remote_script_version" && "$sdkman_local_native_version" == "$sdkman_remote_native_version" && "$force_selfupdate" != "force" ]]; then

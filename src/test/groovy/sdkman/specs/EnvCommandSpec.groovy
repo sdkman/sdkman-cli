@@ -19,7 +19,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 
 		bash = sdkmanBashEnvBuilder
 			.withOfflineMode(true)
-			.withScriptVersion("x.y.z")
 			.build()
 
 		bash.start()
@@ -61,7 +60,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withScriptVersion("x.y.z")
 			.withOfflineMode(true)
 			.build()
 
@@ -98,7 +96,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withScriptVersion("x.y.z")
 			.withOfflineMode(true)
 			.withConfiguration("sdkman_auto_env", sdkmanAutoEnv)
 			.build()
@@ -133,7 +130,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withScriptVersion("x.y.z")
 			.withOfflineMode(true)
 			.withConfiguration("sdkman_auto_env", "true")
 			.build()
@@ -164,7 +160,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withScriptVersion("x.y.z")
 			.withOfflineMode(true)
 			.withConfiguration("sdkman_auto_env", "true")
 			.build()
@@ -191,7 +186,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withScriptVersion("x.y.z")
 			.withOfflineMode(true)
 			.withConfiguration("sdkman_auto_env", "true")
 			.build()
@@ -225,7 +219,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		createSymbolicLink(Paths.get("$candidatesDirectory/groovy/current"), Paths.get("$candidatesDirectory/groovy/2.4.6"))
 
 		bash = sdkmanBashEnvBuilder
-				.withScriptVersion("x.y.z")
 				.withOfflineMode(true)
 				.withConfiguration("sdkman_auto_env", "true")
 				.build()
@@ -264,7 +257,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		createSymbolicLink(Paths.get("$candidatesDirectory/ant/current"), Paths.get("$candidatesDirectory/ant/1.10.8"))
 
 		bash = sdkmanBashEnvBuilder
-				.withScriptVersion("x.y.z")
 				.withOfflineMode(true)
 				.withConfiguration("sdkman_auto_env", "true")
 				.build()
@@ -312,7 +304,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-				.withScriptVersion("x.y.z")
 				.withOfflineMode(true)
 				.withConfiguration("sdkman_auto_env", "true")
 				.build()
@@ -338,7 +329,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 	def "should issue an error if .sdkmanrc contains a malformed candidate version"() {
 		given:
 		bash = sdkmanBashEnvBuilder
-			.withScriptVersion("x.y.z")
 			.withOfflineMode(true)
 			.build()
 
@@ -366,7 +356,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withScriptVersion("x.y.z")
 			.withOfflineMode(true)
 			.build()
 
