@@ -350,7 +350,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 	def "should issue an error when .sdkmanrc contains a candidate version which is not installed"() {
 		given:
 		bash = sdkmanBashEnvBuilder
-				.withVersionCache("x.y.z")
 				.withOfflineMode(true)
 				.build()
 
