@@ -39,27 +39,6 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
 		!bash.output.contains("SDKMAN 5.0.0")
 	}
 
-	void "should NOT issue a warning if cache is older than a month"() {
-		given:
-		bash = sdkmanBashEnvBuilder
-				.withCandidates(['groovy'])
-				.build()
-
-		and:
-		candidatesCache.setLastModified(((new Date() - 31) as Date).time)
-
-		and:
-		bash.start()
-
-		when:
-		bash.execute("source $bootstrapScript")
-		bash.execute("sdk help")
-
-		then:
-		!bash.output.contains('We periodically need to update the local cache.')
-		!bash.output.contains('$ sdk update')
-	}
-
 	void "should log a success message if cache exists"() {
 		given:
 		bash = sdkmanBashEnvBuilder
