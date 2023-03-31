@@ -39,7 +39,7 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
 		!bash.output.contains("SDKMAN 5.0.0")
 	}
 
-	void "should issue a warning if cache is older than a month"() {
+	void "should NOT issue a warning if cache is older than a month"() {
 		given:
 		bash = sdkmanBashEnvBuilder
 				.withCandidates(['groovy'])
@@ -56,11 +56,11 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
 		bash.execute("sdk help")
 
 		then:
-		bash.output.contains('We periodically need to update the local cache.')
-		bash.output.contains('$ sdk update')
+		!bash.output.contains('We periodically need to update the local cache.')
+		!bash.output.contains('$ sdk update')
 	}
 
-	void "should log a success message in debug mode when no update needed"() {
+	void "should log a success message if cache exists"() {
 		given:
 		bash = sdkmanBashEnvBuilder
 				.withCandidates(['groovy'])
@@ -74,7 +74,7 @@ class CandidatesCacheUpdateSpec extends SdkmanEnvSpecification {
 		bash.execute("sdk help")
 
 		then:
-		bash.output.contains('No update at this time. Using existing cache')
+		bash.output.contains('Using existing cache')
 	}
 
 	void "should bypass cache check if update command issued"() {
