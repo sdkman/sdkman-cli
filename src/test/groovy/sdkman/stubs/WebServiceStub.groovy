@@ -12,17 +12,17 @@ class WebServiceStub {
 						.withBody(body)))
 	}
 
-	static primeUniversalHookFor(String phase, String candidate, String version, String platform) {
-		primeHookFor(phase, candidate, version, platform, true)
+	static primeUniversalHookFor(String candidate, String version, String platform) {
+		primeHookFor(candidate, version, platform, true)
 	}
 
-	static primePlatformSpecificHookFor(String phase, String candidate, String version, String platform) {
-		primeHookFor(phase, candidate, version, platform, false)
+	static primePlatformSpecificHookFor(String candidate, String version, String platform) {
+		primeHookFor(candidate, version, platform, false)
 	}
 
-	private static primeHookFor(String phase, String candidate, String version, String platform, boolean universal = true) {
-		def hookFile = "hooks/${phase}_hook_${candidate}_${version}_${universal ? 'universal' : platform}.sh"
-		stubFor(get(urlEqualTo("/hooks/$phase/$candidate/$version/$platform")).willReturn(
+	private static primeHookFor(String candidate, String version, String platform, boolean universal = true) {
+		def hookFile = "hooks/post_hook_${candidate}_${version}_${universal ? 'universal' : platform}.sh"
+		stubFor(get(urlEqualTo("/hooks/post/$candidate/$version/$platform")).willReturn(
 				aResponse()
 						.withStatus(200)
 						.withHeader("Content-Type", "text/plain")
