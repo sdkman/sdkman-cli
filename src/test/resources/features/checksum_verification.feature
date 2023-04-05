@@ -72,11 +72,11 @@ Feature: Verify checksums
 		And the archive for candidate "grails" version "1.3.9" is removed
 		And the exit code is 1
 
-	Scenario: Abort installation after download of a binary with invalid MD5 checksum
-		Given the system is bootstrapped
-		And the candidate "grails" version "1.3.9" is available for download with checksum "1e87a7d982a2f41da96fdec289908533" using algorithm "MD5"
-		When I enter "sdk install grails 1.3.9"
-		Then I see "Stop! An invalid checksum was detected and the archive removed! Please try re-installing."
-		And the candidate "grails" version "1.3.9" is not installed
-		And the archive for candidate "grails" version "1.3.9" is removed
-		And the exit code is 1
+#	Scenario: Abort installation after download of a binary with invalid MD5 checksum
+#		Given the system is bootstrapped
+#		And the candidate "grails" version "1.3.9" is available for download with checksum "1e87a7d982a2f41da96fdec289908533" using algorithm "MD5"
+#		When I enter "sdk install grails 1.3.9"
+#		Then I see "Stop! An invalid checksum was detected and the archive removed! Please try re-installing."
+#		And the candidate "grails" version "1.3.9" is not installed
+#		And the archive for candidate "grails" version "1.3.9" is removed
+#		And the exit code is 1

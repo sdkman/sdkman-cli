@@ -28,7 +28,7 @@ And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is corrupt$') { Str
 }
 
 And(~'^the archive for candidate "([^"]*)" version "([^"]*)" is removed$') { String candidate, String version ->
-	def archive = new File("${sdkmanDir}/tmp/${candidate}-${version}.zip")
+	def archive = new File("${sdkmanDir}/tmp/${candidate}-${version}.bin")
 	assert !archive.exists()
 }
 

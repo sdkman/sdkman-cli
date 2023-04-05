@@ -22,22 +22,21 @@ function __sdkman_pre_installation_hook {
 '''
 	}
 
-	static postInstallationHookSuccess() {
+	static relocationHookSuccess() {
 		'''\
 #!/usr/bin/env bash
-function __sdkman_post_installation_hook {
-	mv -f $binary_input $zip_output
-	echo "Post-installation hook success"
+function __sdkman_relocate_installation_hook {
+	echo "Relocation hook success"
 	return 0
 }
 '''
 	}
 
-	static postInstallationHookFailure() {
+	static relocationHookFailure() {
 		'''\
 #!/usr/bin/env bash
-function __sdkman_post_installation_hook {
-	echo "Post-installation hook failure"
+function __sdkman_relocate_installation_hook {
+	echo "Relocation hook failure"
 	return 1
 }
 '''
