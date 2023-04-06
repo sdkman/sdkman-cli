@@ -117,13 +117,6 @@ function sdk() {
 		___sdkman_help
 	fi
 
-	# Check whether the candidate exists
-	if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && "$COMMAND" != "home" && -z $(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
-		echo ""
-		__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
-		return 1
-	fi
-
 	# Validate offline qualifier
 	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && -z $(echo "enable disable" | grep -w "$QUALIFIER") ]]; then
 		echo ""
@@ -140,6 +133,14 @@ function sdk() {
 		"$native_command" "${@:2}"
 
 	elif [ -n "$CMD_FOUND" ]; then
+
+		# Check whether the candidate exists
+		if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && "$COMMAND" != "home" && -z $(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
+			echo ""
+			__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
+			return 1
+		fi
+
 		# Internal commands use underscores rather than hyphens
 		local converted_command_name=$(echo "$COMMAND" | tr '-' '_')
 
