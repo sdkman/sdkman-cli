@@ -39,6 +39,7 @@ class PlatformSpec extends SdkmanEnvSpecification {
 		"Darwin" | ""        | "darwinx64"
 		"MSYS64" | "i686"    | "msys64"
 		"MSYS64" | ""        | "msys64"
+		"CYGWIN" | ""        | "exotic"
 	}
 
 	def "should enable rosetta 2 compatibility mode with environment variable"() {

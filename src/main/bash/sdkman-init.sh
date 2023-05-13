@@ -81,8 +81,11 @@ function infer_platform() {
 	  	;;
 	  esac
 	  ;;
-	*)
+	MSYS*|MINGW*)
 	  echo "$kernel"
+	  ;;
+	*)
+		echo "Exotic"
 	esac
 }
 
