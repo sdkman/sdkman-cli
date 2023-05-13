@@ -36,27 +36,8 @@ class PlatformSpec extends SdkmanEnvSpecification {
 		"Linux"  | ""        | "exotic"
 		"Darwin" | "x86_64"  | "darwinx64"
 		"Darwin" | "arm64"   | "darwinarm64"
-		"Darwin" | ""        | "darwinx64"
-		"MSYS64" | "i686"    | "msys64"
+		"MSYS64" | "x86_64"    | "msys64"
 		"MSYS64" | ""        | "msys64"
 		"CYGWIN" | ""        | "exotic"
-	}
-
-	def "should enable rosetta 2 compatibility mode with environment variable"() {
-		given:
-		unameStub.forKernel("Darwin").forMachine("arm64")
-		bash = sdkmanBashEnvBuilder
-				.withUnameStub(unameStub)
-				.withConfiguration("sdkman_rosetta2_compatible", "true")
-				.build()
-		bash.start()
-		bash.execute("source $bootstrapScript")
-
-		when:
-		bash.execute('echo $SDKMAN_PLATFORM')
-
-		then:
-		!bash.output.contains("darwinarm64")
-		bash.output.contains("darwinx64")
 	}
 }
