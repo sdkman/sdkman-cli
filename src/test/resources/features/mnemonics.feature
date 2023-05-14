@@ -81,8 +81,7 @@ Feature: Mnemonics
 		And the candidate "groovy" version "2.0.5" should be the default
 
 	Scenario: Shortcut for displaying Home directory
-		Given an initialised environment without debug prints
-		And the candidate "grails" version "2.1.0" is already installed and default
+		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the candidate "grails" version "2.1.0" is a valid candidate version
 		And the system is bootstrapped
 		When I enter "sdk h grails 2.1.0"

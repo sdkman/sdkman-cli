@@ -3,6 +3,7 @@ package sdkman.env
 import groovy.transform.ToString
 import sdkman.stubs.CurlStub
 import sdkman.stubs.UnameStub
+import sdkman.support.UnixUtils
 
 @ToString(includeNames = true)
 class SdkmanBashEnvBuilder {
@@ -19,6 +20,7 @@ class SdkmanBashEnvBuilder {
 	private Optional<CurlStub> curlStub = Optional.empty()
 	private Optional<UnameStub> unameStub = Optional.empty()
 	private List candidates = ['groovy', 'grails', 'java']
+	private String platform = UnixUtils.inferPlatform()
 	private boolean offlineMode = false
 	private String candidatesApi = "http://localhost:8080/2"
 	private String jdkHome = "/path/to/my/jdk"
@@ -51,6 +53,11 @@ class SdkmanBashEnvBuilder {
 
 	SdkmanBashEnvBuilder withUnameStub(UnameStub unameStub) {
 		this.unameStub = Optional.of(unameStub)
+		this
+	}
+	
+	SdkmanBashEnvBuilder withPlatform(String platform) {
+		this.platform = platform
 		this
 	}
 
@@ -116,6 +123,7 @@ class SdkmanBashEnvBuilder {
 
 		initializeCandidates(sdkmanCandidatesDir, candidates)
 		initializeCandidatesCache(sdkmanVarDir, candidates)
+		initializePlatformDescriptor(sdkmanEtcDir, platform)
 		initializeConfiguration(sdkmanEtcDir, config)
 		initializeScriptVersionFile(sdkmanVarDir, scriptVersion)
 		initializeNativeVersionFile(sdkmanVarDir, nativeVersion)
@@ -171,6 +179,11 @@ class SdkmanBashEnvBuilder {
 		} else {
 			candidatesCache << ""
 		}
+	}
+	
+	private initializePlatformDescriptor(File folder, String platform) {
+		def platformDescriptor = new File(folder, "platform")
+		platformDescriptor << platform
 	}
 
 	private initializeConfiguration(File targetFolder, Map config) {

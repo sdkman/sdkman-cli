@@ -3,8 +3,8 @@ package sdkman.stubs
 class UnameStub {
 
 	private File file
-	private kernel = "Linux"
-	private machine = "X86_64"
+	def kernel = "Linux"
+	def machine = "x86_64"
 
 	static UnameStub prepareIn(File folder) {
 		folder.mkdirs()

@@ -4,11 +4,13 @@ class UnixUtils {
 
 	private static platforms = [
 			"Linux"   : [
-					"x86_64": "LinuxX64"
+					"x86_64": "linuxx64",
+					"aarch64": "linuxarm64",
+					
 			],
 			"Darwin": [
-					"x86_64": "DarwinX64",
-					"arm64": "DarwinX64",
+					"x86_64": "darwinx64",
+					"arm64": "darwinarm64",
 			]
 	]
 
@@ -23,6 +25,6 @@ class UnixUtils {
 	static inferPlatform(
 			String osName = osName(),
 			String architecture = osArch()) {
-		(platforms[osName][architecture] ?: osName).toLowerCase()
+		platforms[osName][architecture] ?: osName.toLowerCase()
 	}
 }

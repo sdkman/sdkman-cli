@@ -49,6 +49,7 @@ class CompletionSpec extends SdkmanEnvSpecification {
 		bash = sdkmanBashEnvBuilder
 				.withConfiguration("sdkman_auto_complete", "true")
 				.withUnameStub(unameStub)
+				.withPlatform("darwinx64")
 				.build()
 
 		bash.start()
