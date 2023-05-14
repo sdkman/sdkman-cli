@@ -88,6 +88,11 @@ function sdk() {
 		source "${SDKMAN_DIR}/etc/config"
 	fi
 
+	# Load the sdkman user config if it exists.
+	if [ -f "${HOME}/.config/sdkman/config" ]; then
+		source "${HOME}/.config/sdkman/config"
+	fi
+
 	# no command provided
 	if [[ -z "$COMMAND" ]]; then
 		___sdkman_help
