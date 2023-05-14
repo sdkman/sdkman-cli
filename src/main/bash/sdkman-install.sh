@@ -122,7 +122,7 @@ function __sdkman_download() {
 	metadata_folder="${SDKMAN_DIR}/var/metadata"
 	mkdir -p ${metadata_folder}
 		
-	local platform_parameter="$(echo $SDKMAN_PLATFORM | tr '[:upper:]' '[:lower:]')"
+	local platform_parameter="$SDKMAN_PLATFORM"
 	local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 	local base_name="${candidate}-${version}"
 	local tmp_headers_file="${SDKMAN_DIR}/tmp/${base_name}.headers.tmp"

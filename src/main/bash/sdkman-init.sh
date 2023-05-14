@@ -30,66 +30,8 @@ if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 	source "${SDKMAN_DIR}/etc/config"
 fi
 
-# infer platform
-function infer_platform() {
-	local kernel
-	local machine
-	
-	kernel="$(uname -s)"
-	machine="$(uname -m)"
-	
-	case $kernel in
-	Linux)
-	  case $machine in
-	  i686)
-		echo "LinuxX32"
-		;;
-	  x86_64)
-		echo "LinuxX64"
-		;;
-	  armv6l)
-		echo "LinuxARM32HF"
-		;;
-	  armv7l)
-		echo "LinuxARM32HF"
-		;;
-	  armv8l)
-		echo "LinuxARM32HF"
-		;;
-	  aarch64)
-		echo "LinuxARM64"
-		;;
-	  *)
-	  	echo "Exotic"
-	  	;;
-	  esac
-	  ;;
-	Darwin)
-	  case $machine in
-	  x86_64)
-		echo "DarwinX64"
-		;;
-	  arm64)
-		if [[ "$sdkman_rosetta2_compatible" == 'true' ]]; then
-			echo "DarwinX64"
-		else
-			echo "DarwinARM64"
-		fi
-		;;
-	  *)
-	  	echo "DarwinX64"
-	  	;;
-	  esac
-	  ;;
-	MSYS*|MINGW*)
-	  echo "$kernel"
-	  ;;
-	*)
-		echo "Exotic"
-	esac
-}
-
-SDKMAN_PLATFORM="$(infer_platform | tr '[:upper:]' '[:lower:]')"
+# Read the platform file
+SDKMAN_PLATFORM="$(cat "${SDKMAN_DIR}/etc/platform")"
 export SDKMAN_PLATFORM
 
 # OS specific support (must be 'true' or 'false').
