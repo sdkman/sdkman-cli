@@ -121,10 +121,10 @@ class SdkmanBashEnvBuilder {
 		curlStub.map { it.build() }
 		unameStub.map { it.build() }
 
+		initializeConfiguration(sdkmanEtcDir, config)
 		initializeCandidates(sdkmanCandidatesDir, candidates)
 		initializeCandidatesCache(sdkmanVarDir, candidates)
-		initializePlatformDescriptor(sdkmanEtcDir, platform)
-		initializeConfiguration(sdkmanEtcDir, config)
+		initializePlatformDescriptor(sdkmanVarDir, platform)
 		initializeScriptVersionFile(sdkmanVarDir, scriptVersion)
 		initializeNativeVersionFile(sdkmanVarDir, nativeVersion)
 

@@ -31,7 +31,7 @@ if [ -f "${SDKMAN_DIR}/etc/config" ]; then
 fi
 
 # Read the platform file
-SDKMAN_PLATFORM="$(cat "${SDKMAN_DIR}/etc/platform")"
+SDKMAN_PLATFORM="$(cat "${SDKMAN_DIR}/var/platform")"
 export SDKMAN_PLATFORM
 
 # OS specific support (must be 'true' or 'false').
