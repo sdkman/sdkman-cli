@@ -92,10 +92,10 @@ function __sdkman_extract_install_archive() {
 
 	# perform extraction
 	case $archive_type in
-		zip)
+		zip*)
 			unzip -oq "$archive_file" -d "${SDKMAN_DIR}/tmp/out"
 			;;
-		tar)
+		tar*)
 			(cd "${SDKMAN_DIR}/tmp/out" && tar xvaf "${archive_file}" > /dev/null)
 			;;
 		*)
@@ -176,7 +176,7 @@ function __sdkman_download() {
 	local archive_input="${SDKMAN_DIR}/tmp/${base_name}.${archive_type}"
 	__sdkman_echo_debug "Binary archive type determined to be $archive_type"
 	# instead of post_installation_hook - simply mv the file
-	mv "${binary_input} ${archive_input}"
+	mv "${binary_input}" "${archive_input}"
 
 	__sdkman_validate_archive "${archive_input}" "${archive_type}" || return 1
 	__sdkman_checksum_archive "${archive_input}" "${headers_file}" || return 1
@@ -200,14 +200,14 @@ function __sdkman_validate_archive() {
 	local error_text
 
 	case $archive_type in
-		zip)
+		zip*)
 			__sdkman_validate_zip "$archive_file"
 			return $?
 			;;
-		tar)
+		tar*)
 			# look for the line 'tar: Error is not recoverable: exiting now'
 			error_text='Error is not recoverable'
-			test_output=$(/usr/bin/env tar tf "$archive_file" 2>&1 > /dev/null)
+			test_output=$(tar tf "$archive_file" 2>&1 > /dev/null)
 			test_return=$?
 			;;
 		*)
@@ -224,7 +224,7 @@ function __sdkman_validate_archive() {
 
 	# if there's way to determine if output is a reported failure,
 	# return a failure if the test command ran successfully, but reported a failure
-	[ ! -z $error_text ] && echo "${test_output}" | grep -q "${error_text}" && return 1
+	[ ! -z "${error_text}" ] && echo "${test_output}" | grep -q "${error_text}" && return 1
 }
 
 
