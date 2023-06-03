@@ -70,10 +70,39 @@ function __sdkman_install_candidate_version() {
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
 	rm -rf "${SDKMAN_DIR}/tmp/out"
-	unzip -oq "${SDKMAN_DIR}/tmp/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
+	__sdkman_extract_install_archive "${candidate}" "${version}"
 	mv -f "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	__sdkman_echo_green "Done installing!"
 	echo ""
+}
+
+function __sdkman_extract_install_archive() {
+	# function parameters
+	local -r candidate="$1"
+	local -r version="$2"
+
+	# copy relevant parts of __sdkman_download
+	local -r metadata_folder="${SDKMAN_DIR}/var/metadata"
+	local -r base_name="${candidate}-${version}"
+	local -r headers_file="${metadata_folder}/${base_name}.headers"
+
+	# understand the archive type
+	local -r archive_type=$(__sdkman_archive_type "${headers_file}")
+	local -r archive_file="${SDKMAN_DIR}/tmp/${candidate}-${version}.${archive_type}"
+
+	# perform extraction
+	case $archive_type in
+		zip)
+			unzip -oq "$archive_file" -d "${SDKMAN_DIR}/tmp/out"
+			;;
+		tar)
+			(cd "${SDKMAN_DIR}/tmp/out" && tar xvaf "${archive_file}" > /dev/null)
+			;;
+		*)
+			__sdkman_echo_red "Stop! The archive is of an unknown type: '$archive_type'! Please file an issue on https://github.com/sdkman/sdkman-cli/issues ."
+			return 1
+			;;
+	esac
 }
 
 function __sdkman_install_local_version() {
@@ -122,6 +151,7 @@ function __sdkman_download() {
 	metadata_folder="${SDKMAN_DIR}/var/metadata"
 	mkdir -p "${metadata_folder}"
 		
+	# beware that the final location of the downloaded file is duplicated in __sdkman_extract_install_archive
 	local platform_parameter="$SDKMAN_PLATFORM"
 	local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 	local base_name="${candidate}-${version}"
@@ -142,21 +172,61 @@ function __sdkman_download() {
 	grep '^X-Sdkman' "${tmp_headers_file}" > "${headers_file}"
 	__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers_file})"
 
-	# post-installation hook: implements function __sdkman_post_installation_hook
-	# responsible for taking `binary_input` and producing `zip_output`
-	local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
-	__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
-	__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}" >| "$post_installation_hook"
-	__sdkman_echo_debug "Copy remote post-installation hook: ${post_installation_hook}"
-	source "$post_installation_hook"
-	__sdkman_post_installation_hook || return 1
-	__sdkman_echo_debug "Processed binary as: $zip_output"
-	__sdkman_echo_debug "Completed post-installation hook..."
-		
-	__sdkman_validate_zip "${zip_output}" || return 1
-	__sdkman_checksum_zip "${zip_output}" "${headers_file}" || return 1
+	local archive_type="$(__sdkman_archive_type "${headers_file}")"
+	local archive_input="${SDKMAN_DIR}/tmp/${base_name}.${archive_type}"
+	__sdkman_echo_debug "Binary archive type determined to be $archive_type"
+	# instead of post hooks - simply mv the file
+	mv "${binary_input} ${archive_input}"
+
+	__sdkman_validate_archive "${archive_input}" "${archive_type}" || return 1
+	__sdkman_checksum_archive "${archive_input}" "${headers_file}" || return 1
 	echo ""
 }
+
+function __sdkman_archive_type() {
+	local -r HEADER='X-Sdkman-ArchiveType'
+	local -r headers_file="$1"
+
+	# search for the header with a case insensitive match
+	# then use same sed technique as __sdkman_checksum_archive
+	grep -i "$HEADER" "$headers_file" | sed -n "s/^$HEADER:\s*\(.*\)$/\1/p"
+}
+
+function __sdkman_validate_archive() {
+	local -r archive_file="$1"
+	local -r archive_type="$2"
+	local test_output
+	local test_return
+	local error_text
+
+	case $archive_type in
+		zip)
+			__sdkman_validate_zip "$archive_file"
+			return $?
+			;;
+		tar)
+			# look for the line 'tar: Error is not recoverable: exiting now'
+			error_text='Error is not recoverable'
+			test_output=$(/usr/bin/env tar tf "$archive_file" 2>&1 > /dev/null)
+			test_return=$?
+			;;
+		*)
+			__sdkman_echo_red "Stop! The archive is of an unknown type: '$archive_type'! Please file an issue on https://github.com/sdkman/sdkman-cli/issues ."
+			return 1
+			;;
+	esac
+
+	# return a failure if the test command failed
+	if [ 0 != $test_return ]; then
+		__sdkman_echo_red "Stop! The archive was corrupt (the test for $archive_type archives failed)"
+		return 1
+	fi
+
+	# if there's way to determine if output is a reported failure,
+	# return a failure if the test command ran successfully, but reported a failure
+	[ ! -z $error_text ] && echo "${test_output}" | grep -q "${error_text}" && return 1
+}
+
 
 function __sdkman_validate_zip() {
 	local zip_archive zip_ok
@@ -171,7 +241,7 @@ function __sdkman_validate_zip() {
 	fi
 }
 
-function __sdkman_checksum_zip() {
+function __sdkman_checksum_archive() {
 	local -r zip_archive="$1"
 	local -r headers_file="$2"
 	local algorithm checksum cmd
