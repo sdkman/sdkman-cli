@@ -175,7 +175,7 @@ function __sdkman_download() {
 	local archive_type="$(__sdkman_archive_type "${headers_file}")"
 	local archive_input="${SDKMAN_DIR}/tmp/${base_name}.${archive_type}"
 	__sdkman_echo_debug "Binary archive type determined to be $archive_type"
-	# instead of post hooks - simply mv the file
+	# instead of post_installation_hook - simply mv the file
 	mv "${binary_input} ${archive_input}"
 
 	__sdkman_validate_archive "${archive_input}" "${archive_type}" || return 1
