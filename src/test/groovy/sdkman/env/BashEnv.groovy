@@ -26,7 +26,7 @@ class BashEnv {
 	def commandOutput
 
 	// Command timeout in milliseconds
-	def timeout = 5000
+	def timeout = 11_000 // must be longer than 10 seconds, default sdkman timeout
 	def workDir
 	def env
 
