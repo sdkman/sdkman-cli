@@ -120,7 +120,7 @@ function __sdkman_download() {
 	version="$2"
 
 	metadata_folder="${SDKMAN_DIR}/var/metadata"
-	mkdir -p ${metadata_folder}
+	mkdir -p "${metadata_folder}"
 		
 	local platform_parameter="$SDKMAN_PLATFORM"
 	local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
@@ -228,5 +228,5 @@ function __sdkman_checksum_zip() {
 				__sdkman_echo_no_colour "Not able to perform checksum verification at this time."
 			fi
 		fi
-  	done < ${headers_file}
+  	done < "${headers_file}"
 }
