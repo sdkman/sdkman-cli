@@ -89,14 +89,15 @@ function __sdkman_extract_install_archive() {
 	# understand the archive type
 	local -r archive_type=$(__sdkman_archive_type "${headers_file}")
 	local -r archive_file="${SDKMAN_DIR}/tmp/${candidate}-${version}.${archive_type}"
+	local -r out_dir="${SDKMAN_DIR}/tmp/out"
 
 	# perform extraction
 	case $archive_type in
 		zip*)
-			unzip -oq "$archive_file" -d "${SDKMAN_DIR}/tmp/out"
+			unzip -oq "${archive_file}" -d "${out_dir}"
 			;;
 		tar*)
-			(cd "${SDKMAN_DIR}/tmp/out" && tar xvaf "${archive_file}" > /dev/null)
+			(mkdir -p "${out_dir}" && cd "${out_dir}" && tar xvaf "${archive_file}" > /dev/null)
 			;;
 		*)
 			__sdkman_echo_red "Stop! The archive is of an unknown type: '$archive_type'! Please file an issue on https://github.com/sdkman/sdkman-cli/issues ."
@@ -224,7 +225,7 @@ function __sdkman_validate_archive() {
 
 	# if there's way to determine if output is a reported failure,
 	# return a failure if the test command ran successfully, but reported a failure
-	[ ! -z "${error_text}" ] && echo "${test_output}" | grep -q "${error_text}" && return 1
+	[ ! -z "${error_text}" ] && echo "${test_output}" | grep -q "${error_text}" && return 1 || return 0
 }
 
 
