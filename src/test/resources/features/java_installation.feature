@@ -11,6 +11,8 @@ Feature: Java Multi Platform Binary Distribution
 		Given the internet is reachable
 		And an initialised environment
 
+	# still failing - not sure why as it fails on the "Done installing!" step, which should still print
+	# last printed message is "Binary archive type determined to be tar" and then "skipped step"
 	Scenario: Platform is supported and a specific version of compatible binary is installed
 		Given an "x86_64" machine with "Linux" installed
 		And the system is bootstrapped
@@ -20,6 +22,7 @@ Feature: Java Multi Platform Binary Distribution
 		And I see "Done installing!"
 		And the candidate "java" version "8.0.111" is installed
 
+	# same as above
 	Scenario: Platform is supported and a default version of compatible binary is installed
 		Given an "x86_64" machine with "Linux" installed
 		And the system is bootstrapped
@@ -30,6 +33,8 @@ Feature: Java Multi Platform Binary Distribution
 		And I see "Done installing!"
 		And the candidate "java" version "8.0.111" is installed
 
+	# This test does not seem to be forwards compatible with the removal of post hooks
+	# it fails on the "Download has failed, aborting!" step (post hooks are part of the installation step)
 	Scenario: Platform is supported but download fails
 		Given an "x86_64" machine with "Linux" installed
 		And the system is bootstrapped

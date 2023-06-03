@@ -34,9 +34,11 @@ class WebServiceStub {
 	}
 	
 	static primeDownloadFor(String host, String candidate, String version, String platform, Map<String, String> headers) {
-		def binary = (candidate == "java") ? "jdk-${version}-${platform}.tar.gz" : "${candidate}-${version}.zip"
+		def isTar = candidate == "java"
+		def binary = isTar ? "jdk-${version}-${platform}.tar.gz" : "${candidate}-${version}.zip"
 		def responseBuilder = aResponse()
 				.withHeader("Location", "${host}/${binary}")
+				.withHeader("X-Sdkman-ArchiveType", isTar ? 'tar' : 'zip')
 				.withStatus(302)
 		headers.each { responseBuilder.withHeader(it.key, it.value) }
 
