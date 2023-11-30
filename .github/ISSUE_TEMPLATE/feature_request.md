@@ -8,7 +8,7 @@ assignees: ''
 
 <!-- Thank you for suggesting a new feature. Please discuss your idea on our #cli-development Slack channel before requesting a new feature. -->
 
-- [ ] I have read the [CONTRIBUTING guidelines](CONTRIBUTING.md)
+- [ ] I have read the [CONTRIBUTING guidelines](../../CONTRIBUTING.md)
 - [ ] I've had a conversation on the [#cli-development](https://sdkman.slack.com/app_redirect?channel=cli-development) Slack channel about this request.
 
 **Feature request**
