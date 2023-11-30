@@ -54,6 +54,8 @@ function __sdk_use() {
 		__sdkman_link_candidate_version "$candidate" "$version"
 	fi
 
-	echo ""
-	__sdkman_echo_green "Using ${candidate} version ${version} in this shell."
+	if [[ "$sdkman_silent_mode" == 'false' ]]; then
+		echo ""
+		__sdkman_echo_green "Using ${candidate} version ${version} in this shell."
+	fi
 }
