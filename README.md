@@ -23,32 +23,9 @@ All SDKMAN's BDD tests describing the CLI behaviour are written in Cucumber and 
 
     $ ./gradlew test
 
-To perform development, you will need to have a JDK 8 or higher installed which can be obtained by running the following after installing SDKMAN:
+To perform development, you will need to have a JDK 11 installed which can be obtained by running the following after installing SDKMAN:
 
-    $ sdk install java
-
-### Using Docker for tests
-
-You can run the tests in a Docker container to guarantee a clean test environment.
-
-    $ docker build --tag=sdkman-cli/gradle .
-    $ docker run --rm -it sdkman-cli/gradle test
-
-By running the following command, you don't need to wait for downloading Gradle wrapper and other dependencies. The test reports can be found under the local `build` directory.
-
-    $ docker run --rm -it -v $PWD:/usr/src/app -v $HOME/.gradle:/root/.gradle sdkman-cli/gradle test
-
-### Local Installation
-
-To install SDKMAN locally running against your local server, run the following commands:
-
-	$ ./gradlew install
-	$ source ~/.sdkman/bin/sdkman-init.sh
-
-Or run install locally with Production configuration:
-
-	$ ./gradlew -Penv=production install
-	$ source ~/.sdkman/bin/sdkman-init.sh
+    $ sdk env install
 
 ## Contributors
 
