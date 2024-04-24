@@ -42,17 +42,7 @@ function __sdk_use() {
         elif [[ ${count} -eq 1 ]]
 		then
 			version=$(basename $(ls -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${major_version}"*))
-			if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
-				local matched_version
-		
-				if [[ "$zsh_shell" == "true" ]]; then
-					matched_version=${match[1]}
-				else
-					matched_version=${BASH_REMATCH[1]}
-				fi
-		
-				export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${matched_version}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
-			fi
+			__sdkman_change_candidate_in_path "$candidate"
 			__sdkman_echo_green "Using ${candidate} version ${version} in this shell."
 		else
 			echo ""
@@ -74,18 +64,7 @@ function __sdk_use() {
 		# Just update the *_HOME and PATH for this shell.
 		__sdkman_set_candidate_home "$candidate" "$version"
 	
-		if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
-			local matched_version
-	
-			if [[ "$zsh_shell" == "true" ]]; then
-				matched_version=${match[1]}
-			else
-				matched_version=${BASH_REMATCH[1]}
-			fi
-	
-			export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${matched_version}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
-		fi
-	
+		__sdkman_change_candidate_in_path "$candidate"
 		if [[ ! (-L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current") ]]; then
 			__sdkman_echo_green "Setting ${candidate} version ${version} as default."
 			__sdkman_link_candidate_version "$candidate" "$version"
@@ -93,5 +72,19 @@ function __sdk_use() {
 	
 		echo ""
 		__sdkman_echo_green "Using ${candidate} version ${version} in this shell."
+	fi
+}
+
+function __sdkman_change_candidate_in_path() {
+	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${1}/([^/]+) ]]; then
+		local matched_version
+
+		if [[ "$zsh_shell" == "true" ]]; then
+			matched_version=${match[1]}
+		else
+			matched_version=${BASH_REMATCH[1]}
+		fi
+
+		export PATH=${PATH//${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${matched_version}/${SDKMAN_CANDIDATES_DIR}\/${candidate}\/${version}}
 	fi
 }
