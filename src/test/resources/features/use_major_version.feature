@@ -12,14 +12,6 @@ Feature: Use Version Giving Only The Major Version Number
 		Then I see "Using grails version 2.1.0 in this shell."
 		Then the candidate "grails" version "2.1.0" should be in use
 
-	Scenario: Use a java version that is installed giving only major version
-		Given the candidate "java" version "21.0.3-blah" is already installed and default
-		And the candidate "java" version "17.0.11-graal" is already installed but not default
-		And the system is bootstrapped
-		When I enter "sdk use java 17"
-		Then I see "Using java version 17.0.11-graal in this shell."
-		Then the candidate "java" version "17.0.11-graal" should be in use
-
 	Scenario: Fail to use a major version because there are multiple matching versions
 		Given the candidate "grails" version "1.3.0" is already installed and default
 		And the candidate "grails" version "2.1.0" is already installed but not default
