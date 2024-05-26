@@ -5,9 +5,15 @@
 [![Sponsors on Open Collective](https://opencollective.com/sdkman/sponsors/badge.svg)](#sponsors)
 [![Slack](https://slack.sdkman.io/badge.svg)](https://slack.sdkman.io)
 
-SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix based system. It provides a convenient command line interface for installing, switching, removing and listing Candidates.
+SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix-based system. It provides a convenient command-line interface for installing, switching, removing, and listing Candidates.
 
 See documentation on the [SDKMAN! website](https://sdkman.io).
+
+## NOTICE
+
+**We are rewriting all the commands for SDKMAN! in [Rust](https://www.rust-lang.org/) under a [new project](https://github.com/sdkman/sdkman-cli-native) that supplements this one. Only bug fixes to supporting code will be
+accepted in this project. As a result, no further enhancements will be accepted on the commands in this project, and the commands here will be phased out in due course. This project will eventually form a lightweight
+wrapper/launcher for the replacement Rust commands.**
 
 ## Installation
 
