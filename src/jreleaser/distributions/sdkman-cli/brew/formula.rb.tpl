@@ -24,6 +24,7 @@ class {{brewFormulaName}} < Formula
       sdkman_debug_mode=false
       sdkman_insecure_ssl=false
       sdkman_selfupdate_feature=false
+      sdkman_silent_mode=false
     EOS
   end
 
