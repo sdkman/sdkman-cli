@@ -36,9 +36,6 @@ jreleaser {
 				path = "build/distributions/{{distributionName}}-${sdkmanVersion}.zip"
 				extraProperties.put("universal", "true")
 			}
-			brew {
-				active = 'ALWAYS'
-			}
 		}
 	}
 	
