@@ -12,7 +12,7 @@ Please consider the following things. Note, that ignoring all of these might lea
 
 - [ ] I have checked [the documentation](https://sdkman.io/usage)
 - [ ] I have done a quick search in [past issues](https://github.com/rclone/rclone/issues?q=) or [Stack Overflow](https://stackoverflow.com/questions/tagged/sdkman) for similar problems
-- [ ] I have brought up a conversation in the [Slack User Issues Channel](https://sdkman.slack.com/app_redirect?channel=user-issues)
+- [ ] I have brought up a conversation in the [Discord Help Channel](https://discord.gg/y9mVJYVyu4)
 
 **Question**
 <!-- A clear and concise description of the issue you are encountering -->
