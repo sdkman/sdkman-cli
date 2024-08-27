@@ -3,7 +3,7 @@
 
 [![Backers on Open Collective](https://opencollective.com/sdkman/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/sdkman/sponsors/badge.svg)](#sponsors)
-[![Slack](https://slack.sdkman.io/badge.svg)](https://slack.sdkman.io)
+[![Join the SDKMAN! Discord](https://dcbadge.limes.pink/api/server/y9mVJYVyu4)](https://discord.gg/y9mVJYVyu4)
 
 SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix-based system. It provides a convenient command-line interface for installing, switching, removing, and listing Candidates.
 
