@@ -34,7 +34,7 @@ function __sdk_install() {
 
 	if [[ ${VERSION_VALID} == 'valid' ]]; then
 		__sdkman_determine_current_version "$candidate"
-		__sdkman_install_candidate_version "$candidate" "$VERSION" || return 1
+		__sdkman_install_candidate_version "$candidate" "$VERSION" "$folder" || return 1
 
 		if [[ "$sdkman_auto_answer" != 'true' && "$auto_answer_upgrade" != 'true' && -n "$CURRENT" ]]; then
 			__sdkman_echo_confirm "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
@@ -59,12 +59,13 @@ function __sdk_install() {
 }
 
 function __sdkman_install_candidate_version() {
-	local candidate version
+	local candidate version folder
 
 	candidate="$1"
 	version="$2"
+	folder="$3"
 
-	__sdkman_download "$candidate" "$version" || return 1
+	__sdkman_download "$candidate" "$version"  "$folder" || return 1
 	__sdkman_echo_green "Installing: ${candidate} ${version}"
 
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
@@ -114,10 +115,11 @@ function __sdkman_install_local_version() {
 }
 
 function __sdkman_download() {
-	local candidate version
+	local candidate version folder
 
 	candidate="$1"
 	version="$2"
+	folder="$3"
 
 	metadata_folder="${SDKMAN_DIR}/var/metadata"
 	mkdir -p "${metadata_folder}"
@@ -137,6 +139,48 @@ function __sdkman_download() {
 	__sdkman_echo_no_colour "In progress..."
 	echo ""
 
+	# [Use local file mode] Download the file and save it to the corresponding path according to the prompts.  @cary
+	# commond example: #sdk ant 1.9.6 local
+	if [[ ${folder} == 'local' ]]; then
+		if [[ -f "$tmp_headers_file" ]]; then
+			echo ""
+			__sdkman_echo_no_colour "tmp file exist"
+		else
+			echo ""
+			echo ""
+			echo "============== Local install  ==============="
+			echo ""
+			echo " If you are using local installation mode, please follow the steps below:"
+			echo ""
+			__sdkman_echo_no_colour " 1. download from url:   ${download_url}"
+			echo ""
+			__sdkman_echo_no_colour " 2. save to the  path:   ${zip_output}"
+			echo ""
+			__sdkman_echo_no_colour " 3. try command again:   sdk install ${candidate} ${version} local"
+			echo ""
+			echo "============================================="
+			echo ""
+			echo ""
+
+			__sdkman_secure_curl_download "${download_url}"  -s --dump-header "${tmp_headers_file}"
+		fi
+		# set -e
+		# return 0
+		# exit 0
+	else
+		__sdkman_secure_curl_download "${download_url}" --output "${binary_input}" --dump-header "${tmp_headers_file}"
+		grep '^X-Sdkman' "${tmp_headers_file}" > "${headers_file}"
+		__sdkman_echo_debug "Downloaded binary to: ${binary_input} (HTTP headers written to: ${headers_file})"
+
+		local post_installation_hook="${SDKMAN_DIR}/tmp/hook_post_${candidate}_${version}.sh"
+		__sdkman_echo_debug "Get post-installation hook: ${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}"
+		__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/hooks/post/${candidate}/${version}/${platform_parameter}" >| "$post_installation_hook"
+		__sdkman_echo_debug "Copy remote post-installation hook: ${post_installation_hook}"
+		source "$post_installation_hook"
+		__sdkman_post_installation_hook || return 1
+	fi
+
+:<<EOF
 	# download binary
 	__sdkman_secure_curl_download "${download_url}" --output "${binary_input}" --dump-header "${tmp_headers_file}"
 	grep '^X-Sdkman' "${tmp_headers_file}" > "${headers_file}"
@@ -150,6 +194,7 @@ function __sdkman_download() {
 	__sdkman_echo_debug "Copy remote post-installation hook: ${post_installation_hook}"
 	source "$post_installation_hook"
 	__sdkman_post_installation_hook || return 1
+EOF
 	__sdkman_echo_debug "Processed binary as: $zip_output"
 	__sdkman_echo_debug "Completed post-installation hook..."
 		
