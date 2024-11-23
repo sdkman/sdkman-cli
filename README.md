@@ -1,8 +1,8 @@
 # SDKMAN! CLI
 ### The Software Development Kit Manager Command Line Interface
 
-[![Backers on Open Collective](https://opencollective.com/sdkman/backers/badge.svg)](#backers) 
-[![Sponsors on Open Collective](https://opencollective.com/sdkman/sponsors/badge.svg)](#sponsors)
+[![Backers on Open Collective](https://img.shields.io/opencollective/backers/sdkman)](#backers) 
+[![Sponsors on Open Collective](https://img.shields.io/opencollective/sponsors/sdkman)](#sponsors)
 [![Discord](https://img.shields.io/discord/1245471991117512754)](https://discord.gg/y9mVJYVyu4)
 
 SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix-based system. It provides a convenient command-line interface for installing, switching, removing, and listing Candidates.
