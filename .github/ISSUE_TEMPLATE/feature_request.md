@@ -6,7 +6,7 @@ labels: 'enhancement'
 assignees: ''
 ---
 
-<!-- Thank you for suggesting a new feature. Please discuss your idea on our #cli-development Slack channel before requesting a new feature. -->
+<!-- Thank you for suggesting a new feature. Please discuss your idea on our #discussions Discord channel before requesting a new feature. -->
 
 - [ ] I have read the [CONTRIBUTING guidelines](CONTRIBUTING.md)
 - [ ] I've had a conversation on our community [Discord](https://discord.gg/y9mVJYVyu4) server.
