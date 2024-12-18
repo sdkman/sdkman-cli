@@ -129,7 +129,7 @@ function sdk() {
 	# Native commands found under libexec
 	local native_command="${SDKMAN_DIR}/libexec/${COMMAND}"
 	
-	if [ -f "$native_command" ]; then
+	if [[ "$sdkman_native_enable" == 'true' && -f "$native_command" ]]; then
 		"$native_command" "${@:2}"
 
 	elif [ -n "$CMD_FOUND" ]; then
