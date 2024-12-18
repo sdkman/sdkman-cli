@@ -17,6 +17,7 @@
 #
 
 function __sdk_home() {
+	__sdkman_deprecation_notice "home"
 	local candidate version
 
 	candidate="$1"
