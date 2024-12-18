@@ -32,6 +32,7 @@ class SdkmanBashEnvBuilder {
 	Map config = [
 			sdkman_auto_answer : 'false',
 			sdkman_beta_channel: 'false',
+			sdkman_native_enable: 'false',
 			sdkman_selfupdate_feature: 'true'
 	]
 
