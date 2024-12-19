@@ -118,7 +118,8 @@ function __sdkman_deprecation_notice() {
 This legacy '$1' command is replaced by a native implementation
 and it will be removed in a future release.
 
-Learn more at https://sdkman.io/native"
+Follow the discussion here:
+https://github.com/sdkman/sdkman-cli-native/discussions/18"
 
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
 		__sdkman_echo_no_colour "$message"
