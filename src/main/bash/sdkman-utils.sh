@@ -114,12 +114,10 @@ function __sdkman_echo_confirm() {
 function __sdkman_deprecation_notice() {
 	local message="
 [Deprecation Notice]:
-
 This legacy '$1' command is replaced by a native implementation
 and it will be removed in a future release.
-
-Follow the discussion here:
-https://github.com/sdkman/sdkman-cli-native/discussions/18"
+Please follow the discussion here:
+https://github.com/sdkman/sdkman-cli/discussions/1332"
 
 	if [[ "$sdkman_colour_enable" == 'false' ]]; then
 		__sdkman_echo_no_colour "$message"
