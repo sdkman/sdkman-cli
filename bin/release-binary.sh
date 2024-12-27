@@ -30,4 +30,3 @@ docker run mongo:3.2 mongo "${MONGO_URL}" \
 	--password="${MONGO_PASSWORD}" \
 	--quiet \
 	--eval "db.application.updateOne({}, {\$set: { \"$FIELD\": \"$VERSION\"}});"
-
