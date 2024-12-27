@@ -18,7 +18,7 @@
 
 function __sdkman_update_service_availability() {
 	local healthcheck_status=$(__sdkman_determine_healthcheck_status)
-	__sdkman_set_availability "$healthcheck_status"
+	__sdkman_set_availability "$healthcheck_status" 
 }
 
 function __sdkman_determine_healthcheck_status() {
