@@ -209,19 +209,16 @@ function __sdkman_checksum_zip() {
 
 		if [[ -n ${algorithm} && -n ${checksum} ]]; then
 
-			declare -i return_code='-1'
 			if [[ "$algorithm" =~ 'SHA' && "$shasum_avail" == 'true' ]]; then
-				shasum --check --quiet "${checksum} *${zip_archive}" &> /dev/null
-				return_code=$?
+				cmd="shasum --check --quiet <<<\"${checksum} *${zip_archive}\""
 			elif [[ "$algorithm" =~ 'MD5' && "$md5sum_avail" == 'true' ]]; then
-				md5sum --check --quiet "${checksum} ${zip_archive}" &> /dev/null
-				return_code=$?
+				cmd="md5sum --check --quiet <<<\"${checksum} ${zip_archive}\""
 			fi
 
-			if (( return_code != -1 )); then
+			if [[ -n "$cmd" ]]; then
 				__sdkman_echo_no_colour "Verifying artifact: ${zip_archive} (${algorithm}:${checksum})"
 
-				if (( return_code != 0 )); then
+				if ! eval "$cmd"; then
 					rm -f "$zip_archive"
 					echo ""
 					__sdkman_echo_red "Stop! An invalid checksum was detected and the archive removed! Please try re-installing."
