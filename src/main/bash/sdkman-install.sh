@@ -41,11 +41,12 @@ function __sdk_install() {
 			read USE
 		fi
 
-		if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
+		if [[ -z "$USE" || "$USE" == ("y"|"Y") ]]; then
 			echo ""
 			__sdkman_echo_green "Setting ${candidate} ${VERSION} as default."
 			__sdkman_link_candidate_version "$candidate" "$VERSION"
-			__sdkman_add_to_path "$candidate"
+			# remove __sdkman_add_to_path as this was the only place it was being used and it removes a funciton call so it is faster
+			[[ "$PATH" == *"$candidate"* ]] || PATH="$SDKMAN_CANDIDATES_DIR/$candidate/current/bin:$PATH"
 		fi
 
 		return 0
@@ -77,7 +78,7 @@ function __sdkman_install_candidate_version() {
 }
 
 function __sdkman_install_local_version() {
-	local candidate version folder version_length version_length_max
+	local candidate version folder version_length_max
 
 	version_length_max=15
 
@@ -86,11 +87,10 @@ function __sdkman_install_local_version() {
 	folder="$3"
 
 	# Validate max length of version
-	version_length=${#version}
-	__sdkman_echo_debug "Validating that actual version length ($version_length) does not exceed max ($version_length_max)"
+	__sdkman_echo_debug "Validating that actual version length (${#version}) does not exceed max ($version_length_max)"
 
-	if [[ $version_length -gt $version_length_max ]]; then
-		__sdkman_echo_red "Invalid version! ${version} with length ${version_length} exceeds max of ${version_length_max}!"
+	if (( ${#version} > version_length_max )); then
+		__sdkman_echo_red "Invalid version! ${version} with length ${#version} exceeds max of ${version_length_max}!"
 		return 1
 	fi
 
@@ -121,7 +121,7 @@ function __sdkman_download() {
 
 	metadata_folder="${SDKMAN_DIR}/var/metadata"
 	mkdir -p "${metadata_folder}"
-		
+
 	local platform_parameter="$SDKMAN_PLATFORM"
 	local download_url="${SDKMAN_CANDIDATES_API}/broker/download/${candidate}/${version}/${platform_parameter}"
 	local base_name="${candidate}-${version}"
@@ -152,7 +152,7 @@ function __sdkman_download() {
 	__sdkman_post_installation_hook || return 1
 	__sdkman_echo_debug "Processed binary as: $zip_output"
 	__sdkman_echo_debug "Completed post-installation hook..."
-		
+
 	__sdkman_validate_zip "${zip_output}" || return 1
 	__sdkman_checksum_zip "${zip_output}" "${headers_file}" || return 1
 	echo ""
@@ -177,7 +177,7 @@ function __sdkman_checksum_zip() {
 	local algorithm checksum cmd
 	local shasum_avail=false
 	local md5sum_avail=false
-	
+
 	if [ -z "${headers_file}" ]; then
 		echo ""
 		__sdkman_echo_debug "Skipping checksum for cached artifact"
@@ -187,13 +187,13 @@ function __sdkman_checksum_zip() {
 		__sdkman_echo_yellow "Metadata file not found at '${headers_file}', skipping checksum..."
 		return
 	fi
-	
+
 	if [[ "$sdkman_checksum_enable" != "true" ]]; then
 		echo ""
 		__sdkman_echo_yellow "Checksums are disabled, skipping verification..."
 		return
 	fi
-	
+
 	#Check for the appropriate checksum tools
 	if command -v shasum > /dev/null 2>&1; then
 		shasum_avail=true
@@ -201,24 +201,27 @@ function __sdkman_checksum_zip() {
 	if command -v md5sum > /dev/null 2>&1; then
 		md5sum_avail=true
 	fi
-	
+
 	while IFS= read -r line; do
-		algorithm=$(echo $line | sed -n 's/^X-Sdkman-Checksum-\(.*\):.*$/\1/p' | tr '[:lower:]' '[:upper:]')
-		checksum=$(echo $line | sed -n 's/^X-Sdkman-Checksum-.*:\(.*\)$/\1/p' | tr -cd '[:alnum:]')
-		
+		algorithm=$(sed -n 's/^X-Sdkman-Checksum-\(.*\):.*$/\1/p' <<<"$line")
+		algorithm="${algorithm:u}"
+		checksum=$(sed -n 's/^X-Sdkman-Checksum-.*:\(.*\)$/\1/p' <<<"$line" | tr -cd '[:alnum:]')
+
 		if [[ -n ${algorithm} && -n ${checksum} ]]; then
-			
+
+			declare -i return_code='-1'
 			if [[ "$algorithm" =~ 'SHA' && "$shasum_avail" == 'true' ]]; then
-				cmd="echo \"${checksum} *${zip_archive}\" | shasum --check --quiet"
-				
+				shasum --check --quiet "${checksum} *${zip_archive}" &> /dev/null
+				return_code=$?
 			elif [[ "$algorithm" =~ 'MD5' && "$md5sum_avail" == 'true' ]]; then
-				cmd="echo \"${checksum} ${zip_archive}\" | md5sum --check --quiet"
+				md5sum --check --quiet "${checksum} ${zip_archive}" &> /dev/null
+				return_code=$?
 			fi
-			
-			if [[ -n $cmd ]]; then
+
+			if (( return_code != -1 )); then
 				__sdkman_echo_no_colour "Verifying artifact: ${zip_archive} (${algorithm}:${checksum})"
 
-				if ! eval "$cmd"; then
+				if (( return_code != 0 )); then
 					rm -f "$zip_archive"
 					echo ""
 					__sdkman_echo_red "Stop! An invalid checksum was detected and the archive removed! Please try re-installing."

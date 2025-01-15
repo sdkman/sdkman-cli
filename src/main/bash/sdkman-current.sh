@@ -28,7 +28,7 @@ function __sdk_current() {
 			__sdkman_echo_red "Not using any version of ${candidate}"
 		fi
 	else
-		local installed_count=0
+		local installed_count=0 i
 		for ((i = 0; i <= ${#SDKMAN_CANDIDATES[*]}; i++)); do
 			# Eliminate empty entries due to incompatibility
 			if [[ -n ${SDKMAN_CANDIDATES[${i}]} ]]; then
@@ -51,11 +51,10 @@ function __sdk_current() {
 }
 
 function __sdkman_determine_current_version() {
-	local candidate present
-
-	candidate="$1"
-	present=$(__sdkman_path_contains "${SDKMAN_CANDIDATES_DIR}/${candidate}")
-	if [[ "$present" == 'true' ]]; then
+	local candidate="$1"
+	local tmpvar="${SDKMAN_CANDIDATES_DIR}/${candidate}"
+	# same as __sdkman_path_contains
+	if [[ "$PATH" == *"$tmpvar"* ]]; then
 		if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+)/bin ]]; then
 			if [[ "$zsh_shell" == "true" ]]; then
 				CURRENT=${match[1]}
@@ -65,7 +64,8 @@ function __sdkman_determine_current_version() {
 		fi
 
 		if [[ "$CURRENT" == "current" ]]; then
-			CURRENT=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
+			CURRENT=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current")
+			CURRENT="${CURRENT//"${SDKMAN_CANDIDATES_DIR}/${candidate}"/}"
 		fi
 	else
 		CURRENT=""

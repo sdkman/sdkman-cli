@@ -17,9 +17,7 @@
 #
 
 function __sdkman_echo_debug() {
-	if [[ "$sdkman_debug_mode" == 'true' ]]; then
-		echo "$1"
-	fi
+	[[ "$sdkman_debug_mode" == 'true' ]] && echo "$1"
 }
 
 function __sdkman_secure_curl() {
@@ -34,34 +32,29 @@ function __sdkman_secure_curl_download() {
 	local curl_params
 	curl_params=('--progress-bar' '--location')
 
-	if [[ "${sdkman_debug_mode}" == 'true' ]]; then
-		curl_params+=('--verbose')
-	fi
-
-	if [[ "${sdkman_curl_continue}" == 'true' ]]; then
-		curl_params+=('-C' '-')
-	fi
-
-	if [[ -n "${sdkman_curl_retry_max_time}" ]]; then
-		curl_params+=('--retry-max-time' "${sdkman_curl_retry_max_time}")
-	fi
-
-	if [[ -n "${sdkman_curl_retry}" ]]; then
-		curl_params+=('--retry' "${sdkman_curl_retry}")
-	fi
-
-	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
-		curl_params+=('--insecure')
-	fi
+	[[ "${sdkman_debug_mode}" == 'true' ]] && curl_params+=('--verbose')
+	[[ "${sdkman_curl_continue}" == 'true' ]] && curl_params+=('-C' '-')
+	[[ -n "${sdkman_curl_retry_max_time}" ]] && curl_params+=('--retry-max-time' "${sdkman_curl_retry_max_time}")
+	[[ -n "${sdkman_curl_retry}" ]] && curl_params+=('--retry' "${sdkman_curl_retry}")
+	[[ "${sdkman_insecure_ssl}" == 'true' ]] && curl_params+=('--insecure')
 
 	curl "${curl_params[@]}" "${@}"
 }
 
 function __sdkman_secure_curl_with_timeouts() {
+	local -a curl_params=(
+		'--silent'
+		'--location'
+		'--connect-timeout'
+		"${sdkman_curl_connect_timeout}"
+		'--max-time'
+		"${sdkman_curl_max_time}"
+	)
+
 	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
-		curl --insecure --silent --location --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time} "$1"
+		curl --insecure "${curl_params[@]}" "$1"
 	else
-		curl --silent --location --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time} "$1"
+		curl "${curl_params[@]}" "$1"
 	fi
 }
 
@@ -125,4 +118,3 @@ https://github.com/sdkman/sdkman-cli/discussions/1332"
 		__sdkman_echo_yellow "$message"
 	fi
 }
-

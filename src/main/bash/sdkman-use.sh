@@ -17,10 +17,8 @@
 #
 
 function __sdk_use() {
-	local candidate version install
-
-	candidate="$1"
-	version="$2"
+	local candidate="$1"
+	local version="$2"
 	__sdkman_check_version_present "$version" || return 1
 	__sdkman_check_candidate_present "$candidate" || return 1
 
@@ -35,7 +33,8 @@ function __sdk_use() {
 	fi
 
 	# Just update the *_HOME and PATH for this shell.
-	__sdkman_set_candidate_home "$candidate" "$version"
+	# remove __sdkman_set_candidate_home as this was the only place it was used
+	export "${candidate:u}_HOME"="${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 
 	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
 		local matched_version

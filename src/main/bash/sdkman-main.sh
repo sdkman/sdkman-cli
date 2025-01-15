@@ -25,49 +25,34 @@ function ___sdkman_help() {
 }
 
 function sdk() {
+	local CMD_FOUND CMD_TARGET
+	local COMMAND="$1"
+	local QUALIFIER="$2"
 
-	COMMAND="$1"
-	QUALIFIER="$2"
+	# no command provided
+	# move this to the top as if no command is given then it is
+	# a waste of time to continue so we should exit early
+	if [[ -z "$COMMAND" ]]; then
+		___sdkman_help
+		return 1
+	fi
 
+	# combine 'l' and 'ls' as they are the same
+	# and change formating a little
 	case "$COMMAND" in
-	l)
-		COMMAND="list"
-		;;
-	ls)
-		COMMAND="list"
-		;;
-	v)
-		COMMAND="version"
-		;;
-	u)
-		COMMAND="use"
-		;;
-	i)
-		COMMAND="install"
-		;;
-	rm)
-		COMMAND="uninstall"
-		;;
-	c)
-		COMMAND="current"
-		;;
-	ug)
-		COMMAND="upgrade"
-		;;
-	d)
-		COMMAND="default"
-		;;
-	h)
-		COMMAND="home"
-		;;
-	e)
-		COMMAND="env"
-		;;
+		l|ls) COMMAND="list" ;;
+		v)    COMMAND="version" ;;
+		u)    COMMAND="use" ;;
+		i)    COMMAND="install" ;;
+		rm)   COMMAND="uninstall" ;;
+		c)    COMMAND="current" ;;
+		ug)   COMMAND="upgrade" ;;
+		d)    COMMAND="default" ;;
+		h)    COMMAND="home" ;;
+		e)    COMMAND="env" ;;
 	esac
 
-	#
 	# Various sanity checks and default settings
-	#
 
 	# Check candidates cache
 	if [[ "$COMMAND" != "update" ]]; then
@@ -76,23 +61,14 @@ function sdk() {
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"
-	if [ -z "$SDKMAN_OFFLINE_MODE" ]; then
-		SDKMAN_OFFLINE_MODE="false"
-	fi
+	# use expansion
+	SDKMAN_OFFLINE_MODE="${SDKMAN_OFFLINE_MODE:-"false"}"
 
 	# ...unless proven otherwise
 	__sdkman_update_service_availability
 
 	# Load the sdkman config if it exists.
-	if [ -f "${SDKMAN_DIR}/etc/config" ]; then
-		source "${SDKMAN_DIR}/etc/config"
-	fi
-
-	# no command provided
-	if [[ -z "$COMMAND" ]]; then
-		___sdkman_help
-		return 1
-	fi
+	[[ -f "${SDKMAN_DIR}/etc/config" ]] && source "${SDKMAN_DIR}/etc/config"
 
 	# Check if it is a valid command
 	CMD_FOUND=""
@@ -118,7 +94,8 @@ function sdk() {
 	fi
 
 	# Validate offline qualifier
-	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && -z $(echo "enable disable" | grep -w "$QUALIFIER") ]]; then
+	# use brackets with '|' instead of a grep as it is much faster
+	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && "$QUALIFIER" != ("enable"|"disable") ]]; then
 		echo ""
 		__sdkman_echo_red "Stop! $QUALIFIER is not a valid offline mode."
 	fi
@@ -128,21 +105,21 @@ function sdk() {
 
 	# Native commands found under libexec
 	local native_command="${SDKMAN_DIR}/libexec/${COMMAND}"
-	
+
 	if [[ "$sdkman_native_enable" == 'true' && -f "$native_command" ]]; then
 		"$native_command" "${@:2}"
 
 	elif [ -n "$CMD_FOUND" ]; then
-
 		# Check whether the candidate exists
-		if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && "$COMMAND" != "home" && -z $(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
+		# use brackets and '|'`s as it is way faster
+		if [[ -n "$QUALIFIER" && "$COMMAND" != ("help"|"offline"|"flush"|"selfupdate"|"env"|"completion"|"edit"|"home") && -z $(grep -w "$QUALIFIER" <<<"${SDKMAN_CANDIDATES[@]}") ]]; then
 			echo ""
 			__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
 			return 1
 		fi
 
 		# Internal commands use underscores rather than hyphens
-		local converted_command_name=$(echo "$COMMAND" | tr '-' '_')
+		local converted_command_name="${COMMAND//-/_}"
 
 		# Available as a shell function
 		__sdk_"$converted_command_name" "${@:2}"

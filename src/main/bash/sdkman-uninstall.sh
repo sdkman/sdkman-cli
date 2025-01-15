@@ -18,10 +18,9 @@
 
 function __sdk_uninstall() {
 	__sdkman_deprecation_notice "uninstall"
-	local candidate version current
-
-	candidate="$1"
-	version="$2"
+	local current
+	local candidate="$1"
+	local version="$2"
 	__sdkman_check_candidate_present "$candidate" || return 1
 	__sdkman_check_version_present "$version" || return 1
 

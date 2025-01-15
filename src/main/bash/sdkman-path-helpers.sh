@@ -16,74 +16,15 @@
 #   limitations under the License.
 #
 
-function __sdkman_path_contains() {
-	local candidate exists
-
-	candidate="$1"
-	exists="$(echo "$PATH" | grep "$candidate")"
-	if [[ -n "$exists" ]]; then
-		echo 'true'
-	else
-		echo 'false'
-	fi
-}
-
-function __sdkman_add_to_path() {
-	local candidate present
-
-	candidate="$1"
-
-	present=$(__sdkman_path_contains "$candidate")
-	if [[ "$present" == 'false' ]]; then
-		PATH="$SDKMAN_CANDIDATES_DIR/$candidate/current/bin:$PATH"
-	fi
-}
-
-function __sdkman_set_candidate_home() {
-	local candidate version upper_candidate
-
-	candidate="$1"
-	version="$2"
-
-	upper_candidate=$(echo "$candidate" | tr '[:lower:]' '[:upper:]')
-	export "${upper_candidate}_HOME"="${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
-}
-
-function __sdkman_export_candidate_home() {
-	local candidate_name="$1"
-	local candidate_dir="$2"
-	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
-	export $(echo "$candidate_home_var")="$candidate_dir"
-}
-
-function __sdkman_determine_candidate_bin_dir() {
-	local candidate_dir="$1"
-	if [[ -d "${candidate_dir}/bin" ]]; then
-		echo "${candidate_dir}/bin"
-	else
-		echo "$candidate_dir"
-	fi
-}
-
-function __sdkman_prepend_candidate_to_path() {
-	local candidate_dir candidate_bin_dir
-
-	candidate_dir="$1"
-	candidate_bin_dir=$(__sdkman_determine_candidate_bin_dir "$candidate_dir")
-	echo "$PATH" | grep -q "$candidate_dir" || PATH="${candidate_bin_dir}:${PATH}"
-	unset CANDIDATE_BIN_DIR
-}
-
 function __sdkman_link_candidate_version() {
-	local candidate version
-
-	candidate="$1"
-	version="$2"
+	local candidate="$1"
+	local version="$2"
+	local cache="${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
 
 	# Change the 'current' symlink for the candidate, hence affecting all shells.
-	if [[ -L "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" || -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" ]]; then
-		rm -rf "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+	if [[ -L "${cache}" || -d "${cache}" ]]; then
+		rm -rf "${cache}"
 	fi
 
-	ln -s "${version}" "${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+	ln -s "${version}" "${cache}"
 }

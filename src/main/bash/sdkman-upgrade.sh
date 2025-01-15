@@ -38,37 +38,35 @@ function __sdk_upgrade() {
 	for candidate in ${candidates}; do
 		upgradable="$(__sdkman_determine_upgradable_version "$candidate")"
 		case $? in
-		1)
-			$all || __sdkman_echo_red "Not using any version of ${candidate}"
-			;;
-		2)
-			echo ""
-			__sdkman_echo_red "Stop! Could not get remote version of ${candidate}"
-			return 1
-			;;
-		*)
-			if [ -n "$upgradable" ]; then
-				[ ${upgradable_count} -eq 0 ] && __sdkman_echo_no_colour "Available defaults:"
-				__sdkman_echo_no_colour "$upgradable"
-				((upgradable_count += 1))
-				upgradable_candidates=(${upgradable_candidates[@]} $candidate)
-			fi
-			((installed_count += 1))
-			;;
+			1) $all || __sdkman_echo_red "Not using any version of ${candidate}" ;;
+			2)
+				echo ""
+				__sdkman_echo_red "Stop! Could not get remote version of ${candidate}"
+				return 1
+				;;
+			*)
+				if [[ -n "$upgradable" ]]; then
+					(( upgradable_count == 0 )) && __sdkman_echo_no_colour "Available defaults:"
+					__sdkman_echo_no_colour "$upgradable"
+					(( upgradable_count++ ))
+					upgradable_candidates=(${upgradable_candidates[@]} $candidate)
+				fi
+				(( installed_count++ ))
+				;;
 		esac
 	done
 
 	if $all; then
-		if [ ${installed_count} -eq 0 ]; then
+		if (( installed_count == 0 )); then
 			__sdkman_echo_no_colour 'No candidates are in use'
-		elif [ ${upgradable_count} -eq 0 ]; then
+		elif (( upgradable_count == 0 )); then
 			__sdkman_echo_no_colour "All candidates are up-to-date"
 		fi
-	elif [ ${upgradable_count} -eq 0 ]; then
+	elif (( upgradable_count == 0 )); then
 		__sdkman_echo_no_colour "${candidate} is up-to-date"
 	fi
 
-	if [ ${upgradable_count} -gt 0 ]; then
+	if (( upgradable_count > 0 )); then
 		echo ""
 
 		if [[ "$sdkman_auto_answer" != 'true' ]]; then
@@ -77,7 +75,7 @@ function __sdk_upgrade() {
 		fi
 
 		export auto_answer_upgrade='true'
-		if [[ -z "$UPGRADE_ALL" || "$UPGRADE_ALL" == "y" || "$UPGRADE_ALL" == "Y" ]]; then
+		if [[ -z "$UPGRADE_ALL" || "$UPGRADE_ALL" == ("y"|"Y") ]]; then
 			# Using array for bash & zsh compatibility
 			for ((i = 0; i <= ${#upgradable_candidates[*]}; i++)); do
 				upgradable_candidate="${upgradable_candidates[${i}]}"
@@ -98,7 +96,7 @@ function __sdkman_determine_upgradable_version() {
 
 	# Resolve local versions
 	local_versions="$(echo $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 -type d -exec basename '{}' \; 2> /dev/null) | sed -e "s/ /, /g")"
-	if [ ${#local_versions} -eq 0 ]; then
+	if (( ${#local_versions} == 0 )); then
 		return 1
 	fi
 

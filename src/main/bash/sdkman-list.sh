@@ -20,25 +20,19 @@ function __sdk_list() {
 	local candidate="$1"
 
 	if [[ -z "$candidate" ]]; then
-		__sdkman_list_candidates
+		if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
+			__sdkman_echo_red "This command is not available while offline."
+		else
+			__sdkman_echo_paged "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/list")"
+		fi
 	else
 		__sdkman_list_versions "$candidate"
 	fi
 }
 
-function __sdkman_list_candidates() {
-	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
-		__sdkman_echo_red "This command is not available while offline."
-	else
-		__sdkman_echo_paged "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/list")"
-	fi
-}
-
 function __sdkman_list_versions() {
-	local candidate versions_csv
-
-	candidate="$1"
-	versions_csv="$(__sdkman_build_version_csv "$candidate")"
+	local candidate="$1"
+	local versions_csv="$(__sdkman_build_version_csv "$candidate")"
 	__sdkman_determine_current_version "$candidate"
 
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
@@ -49,13 +43,14 @@ function __sdkman_list_versions() {
 }
 
 function __sdkman_build_version_csv() {
-	local candidate versions_csv
-
-	candidate="$1"
-	versions_csv=""
+	local candidate="$1"
+	local versions_csv=""
+	local version
 
 	if [[ -d "${SDKMAN_CANDIDATES_DIR}/${candidate}" ]]; then
-		for version in $(find "${SDKMAN_CANDIDATES_DIR}/${candidate}" -maxdepth 1 -mindepth 1 \( -type l -o -type d \) -exec basename '{}' \; | sort -r); do
+		local -a versions_list=( ${SDKMAN_CANDIDATES_DIR}/${candidate}/* )
+		versions_list=( $(printf '%s\n' "${versions_list[@]##*/}" | sort -r) )
+		for version in "${versions_list[@]}"; do
 			if [[ "$version" != 'current' ]]; then
 				versions_csv="${version},${versions_csv}"
 			fi
@@ -66,16 +61,19 @@ function __sdkman_build_version_csv() {
 }
 
 function __sdkman_offline_list() {
-	local candidate versions_csv
-
-	candidate="$1"
-	versions_csv="$2"
+	local candidate="$1"
+	local versions_csv="$2"
 
 	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 	__sdkman_echo_yellow "Offline: only showing installed ${candidate} versions"
 	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 
-	local versions=($(echo ${versions_csv//,/ }))
+	local -a versions
+	if [[ "${zsh_shell}" == 'true' ]]; then
+		versions=(${(s:,:)versions_csv})
+	else
+		IFS=',' read -a versions <<< "${versions_csv}"
+	fi
 	for ((i = ${#versions} - 1; i >= 0; i--)); do
 		if [[ -n "${versions[${i}]}" ]]; then
 			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then

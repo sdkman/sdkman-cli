@@ -20,25 +20,20 @@ function __sdk_flush() {
 	local qualifier="$1"
 
 	case "$qualifier" in
-	version)
-		if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
-			rm -f "${SDKMAN_DIR}/var/version"
-			__sdkman_echo_green "Version file has been flushed."
-		fi
-		;;
-	temp)
-		__sdkman_cleanup_folder "tmp"
-		;;
-	tmp)
-		__sdkman_cleanup_folder "tmp"
-		;;
-	metadata)
-    	__sdkman_cleanup_folder "var/metadata"
-    	;;
-	*)
-		__sdkman_cleanup_folder "tmp"
-		__sdkman_cleanup_folder "var/metadata"
-		;;
+		version)
+			if [[ -f "${SDKMAN_DIR}/var/version" ]]; then
+				rm -f "${SDKMAN_DIR}/var/version"
+				__sdkman_echo_green "Version file has been flushed."
+			fi
+			;;
+		tmp|temp)
+			__sdkman_cleanup_folder "tmp" ;;
+		metadata)
+			__sdkman_cleanup_folder "var/metadata" ;;
+		*)
+			__sdkman_cleanup_folder "tmp"
+			__sdkman_cleanup_folder "var/metadata"
+			;;
 	esac
 }
 

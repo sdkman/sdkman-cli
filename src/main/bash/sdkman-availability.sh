@@ -31,7 +31,7 @@ function __sdkman_determine_healthcheck_status() {
 
 function __sdkman_set_availability() {
 	local healthcheck_status="$1"
-	local detect_html="$(echo "$healthcheck_status" | tr '[:upper:]' '[:lower:]' | grep 'html')"
+	local detect_html="$(grep 'html' <<<"${healthcheck_status:l}")"
 	if [[ -z "$healthcheck_status" ]]; then
 		SDKMAN_AVAILABLE="false"
 		__sdkman_display_offline_warning "$healthcheck_status"

@@ -21,10 +21,10 @@ function __sdk_env() {
 	local -r subcommand="$1"
 
 	case $subcommand in
-		"")    __sdkman_load_env "$sdkmanrc" ;;
-		init)  __sdkman_create_env_file "$sdkmanrc";;
+		"")      __sdkman_load_env "$sdkmanrc" ;;
+		init)    __sdkman_create_env_file "$sdkmanrc";;
 		install) __sdkman_setup_env "$sdkmanrc";;
-		clear) __sdkman_clear_env "$sdkmanrc";;
+		clear)   __sdkman_clear_env "$sdkmanrc";;
 	esac
 }
 
@@ -45,7 +45,7 @@ function __sdkman_setup_env() {
 
 function __sdkman_load_env() {
 	local sdkmanrc="$1"
-	
+
 	if [[ ! -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "Could not find $sdkmanrc in the current directory."
 		echo ""
@@ -54,7 +54,7 @@ function __sdkman_load_env() {
 		return 1
 	fi
 
-	__sdkman_env_each_candidate "$sdkmanrc" "__sdkman_check_and_use" && 
+	__sdkman_env_each_candidate "$sdkmanrc" "__sdkman_check_and_use" &&
 		SDKMAN_ENV=$PWD
 }
 
@@ -75,7 +75,7 @@ function __sdkman_check_and_use() {
 
 function __sdkman_create_env_file() {
 	local sdkmanrc="$1"
-	
+
 	if [[ -f "$sdkmanrc" ]]; then
 		__sdkman_echo_red "$sdkmanrc already exists!"
 
@@ -118,7 +118,7 @@ function __sdkman_env_restore_default_version() {
 
 	local candidate_dir default_version
 	candidate_dir="${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
-	if __sdkman_is_symlink $candidate_dir; then
+	if [[ -h $candidate_dir ]]; then
 		default_version=$(basename $(readlink ${candidate_dir}))
 		__sdk_use "$candidate" "$default_version" >/dev/null &&
 			__sdkman_echo_yellow "Restored $candidate version to $default_version (default)"
@@ -133,11 +133,12 @@ function __sdkman_env_each_candidate() {
 
 	local normalised_line
 	while IFS= read -r line || [[ -n "$line" ]]; do
-		normalised_line="$(__sdkman_normalise "$line")"
+		normalised_line="${line/\#*/}"
+		normalised_line="${normalised_line//[[:space:]]/}"
 
-		__sdkman_is_blank_line "$normalised_line" && continue
+		[[ -z "$normalised_line" ]] && continue
 
-		if ! __sdkman_matches_candidate_format "$normalised_line"; then
+		if ! [[ "$normalised_line" =~ ^[[:lower:]]+\=.+$ ]]; then
 			__sdkman_echo_red "Invalid candidate format!"
 			echo ""
 			__sdkman_echo_yellow "Expected 'candidate=version' but found '$normalised_line'"
@@ -147,22 +148,4 @@ function __sdkman_env_each_candidate() {
 
 		$func "${normalised_line%=*}" "${normalised_line#*=}" || return
 	done < "$filepath"
-}
-
-function __sdkman_is_symlink() {
-	[[ -h "$1" ]]
-}
-
-function __sdkman_is_blank_line() {
-	[[ -z "$1" ]]
-}
-
-function __sdkman_normalise() {
-	local -r line_without_comments="${1/\#*/}"
-
-	echo "${line_without_comments//[[:space:]]/}"
-}
-
-function __sdkman_matches_candidate_format() {
-	[[ "$1" =~ ^[[:lower:]]+\=.+$ ]]
 }

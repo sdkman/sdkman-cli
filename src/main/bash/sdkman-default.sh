@@ -18,10 +18,9 @@
 
 function __sdk_default() {
 	__sdkman_deprecation_notice "default"
-	local candidate version
 
-	candidate="$1"
-	version="$2"
+	local candidate="$1"
+	local version="$2"
 
 	__sdkman_check_candidate_present "$candidate" || return 1
 	__sdkman_determine_version "$candidate" "$version" || return 1

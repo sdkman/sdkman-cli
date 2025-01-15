@@ -1,14 +1,12 @@
 #!/usr/bin/bash
 
 _sdk() {
-	local -r previous_word=${COMP_WORDS[COMP_CWORD - 1]}
 	local -r current_word=${COMP_WORDS[COMP_CWORD]}
+	local -r previous_word=${COMP_WORDS[COMP_CWORD - 1]}
 
 	if ((COMP_CWORD == 3)); then
 		local -r before_previous_word=${COMP_WORDS[COMP_CWORD - 2]}
-
 		__sdkman_complete_candidate_version "$before_previous_word" "$previous_word" "$current_word"
-
 		return
 	fi
 
@@ -23,30 +21,40 @@ __sdkman_complete_command() {
 
 	case $command in
 		sdk)
-			candidates=("install" "uninstall" "list" "use" "config" "default" "home" "env" "current" "upgrade" "version" "help" "offline" "selfupdate" "update" "flush")
-			;;
+			candidates=(
+					"install"
+					"uninstall"
+					"list"
+					"use"
+					"config"
+					"default"
+					"home"
+					"env"
+					"current"
+					"upgrade"
+					"version"
+					"help"
+					"offline"
+					"selfupdate"
+					"update"
+					"flush"
+				) ;;
 		current|c|default|d|home|h|uninstall|rm|upgrade|ug|use|u)
-			local -r candidate_paths=("${SDKMAN_CANDIDATES_DIR}"/*)
-
-			for candidate_path in "${candidate_paths[@]}"; do
+			local candidate_path
+			for candidate_path in "${SDKMAN_CANDIDATES_DIR}"/*; do
 				candidates+=("${candidate_path##*/}")
 			done
 			;;
 		install|i|list|ls)
-			candidates=${SDKMAN_CANDIDATES[@]}
-			;;
+			candidates=${SDKMAN_CANDIDATES[@]} ;;
 		env|e)
-			candidates=("init" "install" "clear")
-			;;
+			candidates=("init" "install" "clear") ;;
 		offline)
-			candidates=("enable" "disable")
-			;;
+			candidates=("enable" "disable") ;;
 		selfupdate)
-			candidates=("force")
-			;;
+			candidates=("force") ;;
 		flush)
-			candidates=("temp" "version")
-			;;
+			candidates=("temp" "version") ;;
 	esac
 
 	COMPREPLY=($(compgen -W "${candidates[*]}" -- "$current_word"))
@@ -61,11 +69,9 @@ __sdkman_complete_candidate_version() {
 
 	case $command in
 		default|d|home|h|uninstall|rm|use|u)
-			local -r version_paths=("${SDKMAN_CANDIDATES_DIR}/${candidate}"/*)
-
-			for version_path in "${version_paths[@]}"; do
+			local version_path
+			for version_path in "${SDKMAN_CANDIDATES_DIR}/${candidate}"/*; do
 				[[ $version_path = *current ]] && continue
-
 				candidates+=("${version_path##*/}")
 			done
 			;;
@@ -82,4 +88,3 @@ __sdkman_complete_candidate_version() {
 complete -o default -F _sdk sdk
 
 # Set 'sdkman_auto_complete' to 'true' in .sdkman/etc/config to enable completion
-
