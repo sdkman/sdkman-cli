@@ -14,10 +14,13 @@ ext.release = hasProperty('release') ? release : 'latest'
 
 if ("$environment" == 'stable') {
 	ext.candidatesApi = 'https://api.sdkman.io/2'
+	ext.brokerApi = 'https://broker.sdkman.io'
 } else if ("$environment" == 'beta') {
 	ext.candidatesApi = 'https://beta.sdkman.io/2'
+	ext.brokerApi = 'https://broker.sdkman.io'
 } else {
 	ext.candidatesApi = 'http://localhost:8080/2'
+	ext.brokerApi = 'https://localhost:8080'
 }
 
 ext.sdkmanVersion = ext.release == 'latest' ? "latest+${ext.hash}".toString() : ext.release
@@ -26,6 +29,7 @@ println("Environment is set to: $environment")
 println("Short git hash: $hash")
 println("Release set to: $release")
 println("Candidates API: $candidatesApi")
+println("Broker API: $brokerApi")
 println("Version: $sdkmanVersion")
 
 apply from: 'gradle/archive.gradle'

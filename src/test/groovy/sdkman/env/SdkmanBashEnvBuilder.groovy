@@ -23,6 +23,7 @@ class SdkmanBashEnvBuilder {
 	private String platform = UnixUtils.inferPlatform()
 	private boolean offlineMode = false
 	private String candidatesApi = "http://localhost:8080/2"
+	private String brokerApi = "http://localhost:8080/2"
 	private String jdkHome = "/path/to/my/jdk"
 	private String httpProxy
 	private String scriptVersion
@@ -82,6 +83,11 @@ class SdkmanBashEnvBuilder {
 		this
 	}
 
+	SdkmanBashEnvBuilder withBrokerApi(String service) {
+		this.brokerApi = service
+		this
+	}
+
 	SdkmanBashEnvBuilder withJdkHome(String jdkHome) {
 		this.jdkHome = jdkHome
 		this
@@ -138,6 +144,7 @@ class SdkmanBashEnvBuilder {
 				SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
 				SDKMAN_OFFLINE_MODE  : "$offlineMode",
 				SDKMAN_CANDIDATES_API: candidatesApi,
+				SDKMAN_BROKER_API    : brokerApi,
 				sdkman_debug_mode    : Boolean.toString(debugMode),
 				JAVA_HOME            : jdkHome
 		]
