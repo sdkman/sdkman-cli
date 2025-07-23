@@ -10,7 +10,8 @@ task prepareBin(type: Copy) {
 	filter(
 			ReplaceTokens,
 			tokens: [
-					SDKMAN_CANDIDATES_API: candidatesApi
+					SDKMAN_CANDIDATES_API: candidatesApi,
+					SDKMAN_BROKER_API: brokerApi
 			]
 	)
 }

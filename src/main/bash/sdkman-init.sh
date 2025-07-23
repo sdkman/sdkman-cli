@@ -21,6 +21,10 @@ if [ -z "$SDKMAN_CANDIDATES_API" ]; then
 	export SDKMAN_CANDIDATES_API="@SDKMAN_CANDIDATES_API@"
 fi
 
+if [ -z "$SDKMAN_BROKER_API" ]; then
+	export SDKMAN_BROKER_API="@SDKMAN_BROKER_API@"
+fi
+
 if [ -z "$SDKMAN_DIR" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
