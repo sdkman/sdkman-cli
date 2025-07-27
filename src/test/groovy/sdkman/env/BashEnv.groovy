@@ -33,7 +33,7 @@ class BashEnv {
 	BashEnv(workDir, Map env) {
 		this.workDir = workDir as File
 
-		def basicPath = "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+		def basicPath = "/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/run/current-system/sw/bin"
 		def localBinDir = "${workDir}/bin"
 
 		def modifiedPath = "$localBinDir:$basicPath"
