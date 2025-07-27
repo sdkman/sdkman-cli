@@ -40,7 +40,7 @@ class WebServiceStub {
 				.withStatus(302)
 		headers.each { responseBuilder.withHeader(it.key, it.value) }
 
-		stubFor(get(urlEqualTo("/broker/download/${candidate}/${version}/${platform}"))
+		stubFor(get(urlEqualTo("/download/${candidate}/${version}/${platform}"))
 				.willReturn(responseBuilder))
 
 		stubFor(get(urlEqualTo("/$binary")).willReturn(
