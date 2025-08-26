@@ -50,28 +50,38 @@ function __sdkman_set_candidate_home() {
 }
 
 function __sdkman_export_candidate_home() {
-	local candidate_name="$1"
-	local candidate_dir="$2"
-	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
-	export $(echo "$candidate_home_var")="$candidate_dir"
-}
+	local candidate_name="$1" candidate_dir="$2" upcase_name
 
-function __sdkman_determine_candidate_bin_dir() {
-	local candidate_dir="$1"
-	if [[ -d "${candidate_dir}/bin" ]]; then
-		echo "${candidate_dir}/bin"
+	# Generate home variable name using shell-specific methods
+	# to avoid heavy-weight fork/exec system calls.
+
+	if [ -n "${ZSH_VERSION-}" ]; then
+		# zsh: uppercase via ${value:u}
+		upcase_name="${candidate_name:u}"
+	elif [ -n "${BASH_VERSION-}" ] && [ "${BASH_VERSINFO[0]:-0}" -ge 4 ] 2>/dev/null; then
+		# bash 4.0+: uppercase via ${value^^}
+		upcase_name="${candidate_name^^}"
 	else
-		echo "$candidate_dir"
+		# POSIX fallback: call external tool for conversion
+		upcase_name="$(printf %s "$candidate_name" | tr '[:lower:]' '[:upper:]')"
 	fi
+
+	export "${upcase_name}_HOME=$candidate_dir"
 }
 
 function __sdkman_prepend_candidate_to_path() {
-	local candidate_dir candidate_bin_dir
+	local candidate_dir="$1"
 
-	candidate_dir="$1"
-	candidate_bin_dir=$(__sdkman_determine_candidate_bin_dir "$candidate_dir")
-	echo "$PATH" | grep -q "$candidate_dir" || PATH="${candidate_bin_dir}:${PATH}"
-	unset CANDIDATE_BIN_DIR
+	# Caution: external commands are costly here
+	# since this function runs inside a loop.
+
+	# replace the original candidate_dir with the 'bin' subfolder if it exists
+	if [ -d "${candidate_dir}/bin" ]; then
+		candidate_dir="${candidate_dir}/bin"
+	fi
+	# prepend PATH with the candidate_dir if it is not already there,
+	# assuming the dir doesn't contain meta-characters like ? * []
+	[[ ":$PATH:" == *":$candidate_dir:"* ]] || PATH="${candidate_dir}:${PATH}"
 }
 
 function __sdkman_link_candidate_version() {
