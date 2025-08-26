@@ -50,28 +50,31 @@ function __sdkman_set_candidate_home() {
 }
 
 function __sdkman_export_candidate_home() {
-	local candidate_name="$1"
-	local candidate_dir="$2"
-	local candidate_home_var="$(echo ${candidate_name} | tr '[:lower:]' '[:upper:]')_HOME"
-	export $(echo "$candidate_home_var")="$candidate_dir"
-}
+	local candidate_name candidate_dir ucase_candidate_name
 
-function __sdkman_determine_candidate_bin_dir() {
-	local candidate_dir="$1"
-	if [[ -d "${candidate_dir}/bin" ]]; then
-		echo "${candidate_dir}/bin"
+	candidate_name="$1"
+	candidate_dir="$2"
+
+	if [ "$zsh_shell" = true ]; then
+		ucase_candidate_name="${candidate_name:u}"
+	elif [ "$bash_shell" = true ]; then
+		ucase_candidate_name="${candidate_name^^}"
 	else
-		echo "$candidate_dir"
+		ucase_candidate_name="$(printf %s "$candidate_name" | tr '[:lower:]' '[:upper:]')"
 	fi
+
+	export "${ucase_candidate_name}_HOME=$candidate_dir"
 }
 
 function __sdkman_prepend_candidate_to_path() {
-	local candidate_dir candidate_bin_dir
+	local candidate_dir
 
 	candidate_dir="$1"
-	candidate_bin_dir=$(__sdkman_determine_candidate_bin_dir "$candidate_dir")
-	echo "$PATH" | grep -q "$candidate_dir" || PATH="${candidate_bin_dir}:${PATH}"
-	unset CANDIDATE_BIN_DIR
+
+	if [ -d "${candidate_dir}/bin" ]; then
+		candidate_dir="${candidate_dir}/bin"
+	fi
+	[[ ":$PATH:" == *":$candidate_dir:"* ]] || PATH="${candidate_dir}:${PATH}"
 }
 
 function __sdkman_link_candidate_version() {
