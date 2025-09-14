@@ -22,6 +22,11 @@ SDKMAN! CLI is a bash-based command-line tool for managing parallel versions of 
 - `./gradlew clean` - Clean build artifacts
 - `./gradlew build` - Build the project
 
+### Running Specific Tests
+- Tests can be run with tags: use `@manual` and `@review` tags to exclude certain tests
+- Individual feature files can be run by specifying the feature file path
+- Environment can be set via `env` property (local/beta/stable) - defaults to local
+
 ### Development Setup
 Before starting development, ensure the correct Java version:
 ```bash
@@ -54,8 +59,11 @@ sdk env          # Switch to correct SDK versions
 
 ### Configuration
 - `.sdkmanrc` file specifies required Java version (11.0.17-tem)
-- Environment-specific API endpoints configured in `build.gradle`
-- Supports local, beta, and stable environments
+- Environment-specific API endpoints configured in `build.gradle`:
+  - **local**: `http://localhost:8080/2` (for development)
+  - **beta**: `https://beta.sdkman.io/2`
+  - **stable**: `https://api.sdkman.io/2` (production)
+- Pass environment via `-Penv=<environment>` to gradle commands
 
 ## Key Files
 - `build.gradle` - Main build configuration with test dependencies
