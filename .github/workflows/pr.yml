@@ -1,5 +1,6 @@
 name: Pull Requests
-on: pull_request_target
+#run only on PR, not fork. Pull request that way the PR submitter will not have access to the repo credentials 
+on: pull_request
 jobs:
   test:
     runs-on: ubuntu-latest
