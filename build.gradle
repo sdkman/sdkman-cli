@@ -1,6 +1,6 @@
 plugins {
 	id('groovy')
-	id('org.jreleaser').version('1.4.0').apply(false)
+	id('org.jreleaser').version('1.20.0').apply(false)
 }
 
 String userHome = System.getProperty('user.home')
@@ -56,3 +56,8 @@ dependencies {
 		exclude module: 'groovy-all'
 	}
 }
+
+wrapper {
+	gradleVersion = "8.14.3"
+}
+
