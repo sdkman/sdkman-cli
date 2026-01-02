@@ -1,73 +1,83 @@
-# Code of Conduct
+# Contributor Covenant Code of Conduct
 
-## Our Commitment
+## Our Pledge
 
-The SDKMAN CLI Native project is committed to providing a safe, welcoming, and harassment-free environment for all contributors, regardless of experience level, background, or identity. We value respectful collaboration and constructive dialogue.
+We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
+
+We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
 ## Our Standards
 
-### Expected Behavior
+Examples of behavior that contributes to a positive environment for our community include:
 
-**Be Respectful and Professional**
-- Treat all community members with courtesy and respect
-- Use welcoming and inclusive language
-- Be patient with newcomers and those learning
-- Accept constructive criticism gracefully
-- Focus on what is best for the project and community
+* Demonstrating empathy and kindness toward other people
+* Being respectful of differing opinions, viewpoints, and experiences
+* Giving and gracefully accepting constructive feedback
+* Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience
+* Focusing on what is best not just for us as individuals, but for the overall community
 
-**Engage in Constructive Technical Discussion**
-- Technical disagreements are natural and welcome
-- Debate ideas and approaches, not people
-- Support your positions with reasoning and evidence
-- Be open to changing your mind when presented with better solutions
-- Assume good faith in technical discussions
+Examples of unacceptable behavior include:
 
-**Collaborate Before Contributing**
-- Discuss new features or significant changes on our Discord server *before* starting work
-- Small, incremental pull requests are strongly preferred
-- Large "change the world" PRs will not be accepted without prior discussion
-- Seek guidance early to ensure alignment with project direction
-- Be receptive to feedback and willing to iterate
+* The use of sexualized language or imagery, and sexual attention or advances of any kind
+* Trolling, insulting or derogatory comments, and personal or political attacks
+* Public or private harassment
+* Publishing others' private information, such as a physical or email address, without their explicit permission
+* Other conduct which could reasonably be considered inappropriate in a professional setting
 
-**Respect the Contribution Process**
-- Break large changes into small, reviewable increments
-- Each PR should represent a focused, atomic change
-- Engage in conversation to guide and inform decisions
-- Understand that maintainers may redirect or decline contributions
+## Enforcement Responsibilities
 
-### Unacceptable Behavior
+Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.
 
-The following behaviors will not be tolerated:
-
-- Rude, hostile, or aggressive communication
-- Personal attacks, insults, or derogatory comments
-- Harassment of any kind, public or private
-- Publishing others' private information without permission
-- Dismissive or condescending language toward other contributors
-- Deliberately derailing technical discussions
-- Submitting large, undiscussed PRs that disregard project guidelines
-- Any conduct that could reasonably be considered inappropriate in a professional setting
+Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
 
 ## Scope
 
-This Code of Conduct applies to all project spaces on GitHub, including:
-- Issues and pull requests
-- Code reviews and comments
-- Discussions and wikis
-- Repository documentation
+This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.
 
 ## Enforcement
 
-Violations of this Code of Conduct will not be tolerated. If you experience or witness unacceptable behavior, please report it by contacting the project maintainer.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at info@sdkman.io. All complaints will be reviewed and investigated promptly and fairly.
 
-Reports will be reviewed and investigated. The maintainer will respond as deemed appropriate to the circumstances, which may include warnings, temporary bans, or permanent removal from the project.
+All community leaders are obligated to respect the privacy and security of the reporter of any incident.
 
-All community members are expected to respect the privacy and security of the reporter of any incident.
+## Enforcement Guidelines
 
-## Questions or Concerns
+Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:
 
-If you have questions about this Code of Conduct or how it applies, please reach out on our Discord server or open a discussion on GitHub.
+### 1. Correction
 
----
+**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.
 
-*This Code of Conduct is focused on maintaining a professional, collaborative environment where incremental progress and respectful dialogue lead to better software.*
+**Consequence**: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.
+
+### 2. Warning
+
+**Community Impact**: A violation through a single incident or series of actions.
+
+**Consequence**: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.
+
+### 3. Temporary Ban
+
+**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior.
+
+**Consequence**: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.
+
+### 4. Permanent Ban
+
+**Community Impact**: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.
+
+**Consequence**: A permanent ban from any sort of public interaction within the community.
+
+## Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 2.1, available at [https://www.contributor-covenant.org/version/2/1/code_of_conduct.html][v2.1].
+
+Community Impact Guidelines were inspired by [Mozilla's code of conduct enforcement ladder][Mozilla CoC].
+
+For answers to common questions about this code of conduct, see the FAQ at [https://www.contributor-covenant.org/faq][FAQ]. Translations are available at [https://www.contributor-covenant.org/translations][translations].
+
+[homepage]: https://www.contributor-covenant.org
+[v2.1]: https://www.contributor-covenant.org/version/2/1/code_of_conduct.html
+[Mozilla CoC]: https://github.com/mozilla/diversity
+[FAQ]: https://www.contributor-covenant.org/faq
+[translations]: https://www.contributor-covenant.org/translations
