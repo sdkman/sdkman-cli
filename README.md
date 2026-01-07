@@ -5,6 +5,8 @@
 [![Sponsors on Open Collective](https://img.shields.io/opencollective/sponsors/sdkman)](#sponsors)
 [![Discord](https://img.shields.io/discord/1245471991117512754)](https://discord.gg/y9mVJYVyu4)
 
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=d99e5747251d&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 SDKMAN is a tool for managing parallel Versions of multiple Software Development Kits on any Unix-based system. It provides a convenient command-line interface for installing, switching, removing, and listing Candidates.
 
 See documentation on the [SDKMAN! website](https://sdkman.io).
