@@ -40,7 +40,7 @@ This project exists thanks to all the people who contribute.
 
 ## Hosting
 
-Our backend services are proudly hosted by DigitalOcean.
+We're proud to host our backend services on DigitalOcean as a sponsored partner.
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=d99e5747251d&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
