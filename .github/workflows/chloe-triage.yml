@@ -22,7 +22,7 @@ jobs:
           MSG+=$'\nURL: '"${ISSUE_URL}"
           MSG+=$'\n\n'"${ISSUE_BODY}"
           PAYLOAD=$(jq -n --arg msg "$MSG" --arg name "GitHub Issues" \
-            '{message: $msg, name: $name, deliver: true, channel: "discord", to: "channel:1477282395249053697"}')
+            '{message: $msg, name: $name, deliver: true, channel: "discord", to: "user:918237603617206303"}')
           curl -sf -X POST \
             -H "Authorization: Bearer ${{ secrets.OPENCLAW_HOOK_TOKEN }}" \
             -H "Content-Type: application/json" \
