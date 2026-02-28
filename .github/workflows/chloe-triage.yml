@@ -36,4 +36,4 @@ ${ISSUE_BODY}" \
             -H "Authorization: Bearer ${{ secrets.OPENCLAW_HOOK_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" \
-            https://openclaw.taile14d8a.ts.net/hooks/agent
+            ${{ secrets.OPENCLAW_HOOK_URL }}
