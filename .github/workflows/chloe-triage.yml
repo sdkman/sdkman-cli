@@ -17,21 +17,12 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           REPO: ${{ github.repository }}
         run: |
-          PAYLOAD=$(jq -n \
-            --arg msg "New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}
-
-Author: ${ISSUE_USER}
-URL: ${ISSUE_URL}
-
-${ISSUE_BODY}" \
-            --arg name "GitHub Issues" \
-            '{
-              message: $msg,
-              name: $name,
-              deliver: true,
-              channel: "discord",
-              to: "channel:1477282395249053697"
-            }')
+          MSG="New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+          MSG+=$'\nAuthor: '"${ISSUE_USER}"
+          MSG+=$'\nURL: '"${ISSUE_URL}"
+          MSG+=$'\n\n'"${ISSUE_BODY}"
+          PAYLOAD=$(jq -n --arg msg "$MSG" --arg name "GitHub Issues" \
+            '{message: $msg, name: $name, deliver: true, channel: "discord", to: "channel:1477282395249053697"}')
           curl -sf -X POST \
             -H "Authorization: Bearer ${{ secrets.OPENCLAW_HOOK_TOKEN }}" \
             -H "Content-Type: application/json" \
