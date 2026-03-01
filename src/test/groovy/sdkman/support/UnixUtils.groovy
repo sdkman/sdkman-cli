@@ -6,7 +6,7 @@ class UnixUtils {
 			"Linux"   : [
 					"x86_64": "linuxx64",
 					"aarch64": "linuxarm64",
-					
+					"riscv64": "linuxriscv64",
 			],
 			"Darwin": [
 					"x86_64": "darwinx64",

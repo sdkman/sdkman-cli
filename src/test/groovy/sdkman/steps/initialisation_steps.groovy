@@ -2,6 +2,7 @@ package sdkman.steps
 
 import sdkman.env.SdkmanBashEnvBuilder
 import sdkman.stubs.UnameStub
+import sdkman.support.UnixUtils
 
 import java.util.zip.ZipException
 import java.util.zip.ZipFile
@@ -79,6 +80,11 @@ And(~'^an "(.*)" machine with "(.*)" installed$') { String machine, String kerne
 			.forKernel(kernel)
 			.forMachine(machine)
 			.build()
+
+	def platformFile = new File(varDir, "platform")
+	if (platformFile.exists()) {
+		platformFile.text = UnixUtils.inferPlatform(kernel, machine)
+	}
 }
 
 And(~'^an initialised environment$') { ->
