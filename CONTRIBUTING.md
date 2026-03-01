@@ -109,6 +109,10 @@ Pull requests are always welcome but must follow these guidelines:
 
 Contributors will be recognized in our release notes and commit history. We appreciate your efforts to make SDKMAN! better!
 
+## Developer Certificate of Origin
+
+By contributing to this project, you agree to the terms of the [Developer Certificate of Origin](dco.txt). This certifies that you have the right to submit your contribution under the project's open source license.
+
 ## Questions?
 
 If you have questions about contributing, feel free to ask on [Discord](https://discord.gg/y9mVJYVyu4) or open a discussion on GitHub.
