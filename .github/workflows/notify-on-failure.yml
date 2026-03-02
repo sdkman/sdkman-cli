@@ -1,0 +1,31 @@
+name: Notify on Failure
+
+on:
+  workflow_run:
+    workflows: ["*"]
+    branches: [master, main]
+    types: [completed]
+
+jobs:
+  notify:
+    name: "Notify Chloé"
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: Notify Chloé
+        env:
+          REPO: ${{ github.repository }}
+          WORKFLOW: ${{ github.event.workflow_run.name }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          HOOK_URL: ${{ secrets.OPENCLAW_HOOK_URL }}
+          HOOK_TOKEN: ${{ secrets.OPENCLAW_HOOK_TOKEN }}
+        run: |
+          TEXT="❌ ${WORKFLOW} failed: ${REPO}"
+          TEXT+=$'\nRun: '"${RUN_URL}"
+          PAYLOAD=$(jq -n --arg text "$TEXT" '{text: $text, mode: "now"}')
+          WAKE_URL="${HOOK_URL%/agent}/wake"
+          curl -sf -X POST \
+            -H "Authorization: Bearer ${HOOK_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" \
+            "$WAKE_URL"
