@@ -62,7 +62,7 @@ jobs:
           MSG="❌ Release build failed: ${REPO}"
           MSG+=$'\nRun: '"${RUN_URL}"
           PAYLOAD=$(jq -n --arg msg "$MSG" --arg name "GitHub CI" \
-            '{message: $msg, name: $name, deliver: true, channel: "discord", to: "user:918237603617206303"}')
+            '{message: $msg, name: $name}')
           curl -sf -X POST \
             -H "Authorization: Bearer ${{ secrets.OPENCLAW_HOOK_TOKEN }}" \
             -H "Content-Type: application/json" \
