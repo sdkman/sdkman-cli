@@ -49,23 +49,3 @@ jobs:
           SHORT_HASH: ${{ steps.var.outputs.sha_short }}
         run: bin/release-binary.sh "$MONGO_URL" "$MONGO_USERNAME" "$MONGO_PASSWORD" "$SHORT_HASH" "latest"
 
-  notify-failure:
-    name: "Notify on Failure"
-    runs-on: ubuntu-latest
-    needs: [pre-release]
-    if: failure()
-    steps:
-      - name: Notify Chloé
-        env:
-          REPO: ${{ github.repository }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          MSG="❌ Release build failed: ${REPO}"
-          MSG+=$'\nRun: '"${RUN_URL}"
-          PAYLOAD=$(jq -n --arg msg "$MSG" --arg name "GitHub CI" \
-            '{message: $msg, name: $name}')
-          curl -sf -X POST \
-            -H "Authorization: Bearer ${{ secrets.OPENCLAW_HOOK_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "$PAYLOAD" \
-            "${{ secrets.OPENCLAW_HOOK_URL }}"
