@@ -22,22 +22,24 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
           COMMENT_BODY: ${{ github.event.comment.body }}
           COMMENT_URL: ${{ github.event.comment.html_url }}
+          HOOK_URL: ${{ secrets.OPENCLAW_HOOK_URL }}
+          HOOK_TOKEN: ${{ secrets.OPENCLAW_HOOK_TOKEN }}
         run: |
           if [ "$EVENT_NAME" = "issues" ]; then
-            MSG="New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
-            MSG+=$'\nAuthor: '"${SENDER}"
-            MSG+=$'\nURL: '"${ISSUE_URL}"
-            MSG+=$'\n\n'"${ISSUE_BODY}"
+            TEXT="New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+            TEXT+=$'\nAuthor: '"${SENDER}"
+            TEXT+=$'\nURL: '"${ISSUE_URL}"
+            TEXT+=$'\n\n'"${ISSUE_BODY}"
           else
-            MSG="New comment on ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
-            MSG+=$'\nFrom: '"${SENDER}"
-            MSG+=$'\nURL: '"${COMMENT_URL}"
-            MSG+=$'\n\n'"${COMMENT_BODY}"
+            TEXT="New comment on ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+            TEXT+=$'\nFrom: '"${SENDER}"
+            TEXT+=$'\nURL: '"${COMMENT_URL}"
+            TEXT+=$'\n\n'"${COMMENT_BODY}"
           fi
-          PAYLOAD=$(jq -n --arg msg "$MSG" --arg name "GitHub Issues" \
-            '{message: $msg, name: $name, deliver: true, channel: "discord", to: "user:918237603617206303"}')
+          PAYLOAD=$(jq -n --arg text "$TEXT" '{text: $text, mode: "now"}')
+          WAKE_URL="${HOOK_URL%/agent}/wake"
           curl -sf -X POST \
-            -H "Authorization: Bearer ${{ secrets.OPENCLAW_HOOK_TOKEN }}" \
+            -H "Authorization: Bearer ${HOOK_TOKEN}" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" \
-            ${{ secrets.OPENCLAW_HOOK_URL }}
+            "$WAKE_URL"
