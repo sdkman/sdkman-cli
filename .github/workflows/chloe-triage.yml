@@ -26,20 +26,22 @@ jobs:
           HOOK_TOKEN: ${{ secrets.OPENCLAW_HOOK_TOKEN }}
         run: |
           if [ "$EVENT_NAME" = "issues" ]; then
-            TEXT="New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
-            TEXT+=$'\nAuthor: '"${SENDER}"
-            TEXT+=$'\nURL: '"${ISSUE_URL}"
-            TEXT+=$'\n\n'"${ISSUE_BODY}"
+            MSG="New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+            MSG+=$'\nAuthor: '"${SENDER}"
+            MSG+=$'\nURL: '"${ISSUE_URL}"
+            MSG+=$'\n\n'"${ISSUE_BODY}"
           else
-            TEXT="New comment on ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
-            TEXT+=$'\nFrom: '"${SENDER}"
-            TEXT+=$'\nURL: '"${COMMENT_URL}"
-            TEXT+=$'\n\n'"${COMMENT_BODY}"
+            MSG="New comment on ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+            MSG+=$'\nFrom: '"${SENDER}"
+            MSG+=$'\nURL: '"${COMMENT_URL}"
+            MSG+=$'\n\n'"${COMMENT_BODY}"
           fi
-          PAYLOAD=$(jq -n --arg text "$TEXT" '{text: $text, mode: "now"}')
-          WAKE_URL="${HOOK_URL%/agent}/wake"
+          PAYLOAD=$(jq -n \
+            --arg message "$MSG" \
+            --arg name "GitHub Triage" \
+            '{message: $message, name: $name, deliver: true, channel: "discord", to: "918237603617206303"}')
           curl -sf -X POST \
             -H "Authorization: Bearer ${HOOK_TOKEN}" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" \
-            "$WAKE_URL"
+            "$HOOK_URL"
