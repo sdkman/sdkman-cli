@@ -5,6 +5,8 @@ on:
     types: [opened]
   issue_comment:
     types: [created]
+  pull_request:
+    types: [opened]
 
 jobs:
   notify:
@@ -22,6 +24,10 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
           COMMENT_BODY: ${{ github.event.comment.body }}
           COMMENT_URL: ${{ github.event.comment.html_url }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_BODY: ${{ github.event.pull_request.body }}
           HOOK_URL: ${{ secrets.OPENCLAW_HOOK_URL }}
           HOOK_TOKEN: ${{ secrets.OPENCLAW_HOOK_TOKEN }}
         run: |
@@ -30,6 +36,11 @@ jobs:
             MSG+=$'\nAuthor: '"${SENDER}"
             MSG+=$'\nURL: '"${ISSUE_URL}"
             MSG+=$'\n\n'"${ISSUE_BODY}"
+          elif [ "$EVENT_NAME" = "pull_request" ]; then
+            MSG="New PR in ${REPO} — #${PR_NUMBER}: ${PR_TITLE}"
+            MSG+=$'\nAuthor: '"${SENDER}"
+            MSG+=$'\nURL: '"${PR_URL}"
+            MSG+=$'\n\n'"${PR_BODY}"
           else
             MSG="New comment on ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
             MSG+=$'\nFrom: '"${SENDER}"
