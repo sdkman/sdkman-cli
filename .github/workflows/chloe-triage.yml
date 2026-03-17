@@ -31,7 +31,7 @@ jobs:
           HOOK_URL: ${{ secrets.OPENCLAW_HOOK_URL }}
           HOOK_TOKEN: ${{ secrets.OPENCLAW_HOOK_TOKEN }}
         run: |
-          INSTRUCTION="Brief notification only. Give Marco: repo + number + title + author + one sentence summary + link. No assessment, no suggestions, no 'what would you like me to do?' unless he asks."
+          INSTRUCTION="Brief notification only. Provide: repo + number + title + author + one sentence summary + link. No assessment, no suggestions, no follow-up questions unless asked."
           if [ "$EVENT_NAME" = "issues" ]; then
             MSG="${INSTRUCTION}"$'\n\n'"New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
             MSG+=$'\nAuthor: '"${SENDER}"
