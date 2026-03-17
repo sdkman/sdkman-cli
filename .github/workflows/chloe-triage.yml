@@ -31,18 +31,19 @@ jobs:
           HOOK_URL: ${{ secrets.OPENCLAW_HOOK_URL }}
           HOOK_TOKEN: ${{ secrets.OPENCLAW_HOOK_TOKEN }}
         run: |
+          INSTRUCTION="Brief notification only. Give Marco: repo + number + title + author + one sentence summary + link. No assessment, no suggestions, no 'what would you like me to do?' unless he asks."
           if [ "$EVENT_NAME" = "issues" ]; then
-            MSG="New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+            MSG="${INSTRUCTION}"$'\n\n'"New issue in ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
             MSG+=$'\nAuthor: '"${SENDER}"
             MSG+=$'\nURL: '"${ISSUE_URL}"
             MSG+=$'\n\n'"${ISSUE_BODY}"
           elif [ "$EVENT_NAME" = "pull_request" ]; then
-            MSG="New PR in ${REPO} — #${PR_NUMBER}: ${PR_TITLE}"
+            MSG="${INSTRUCTION}"$'\n\n'"New PR in ${REPO} — #${PR_NUMBER}: ${PR_TITLE}"
             MSG+=$'\nAuthor: '"${SENDER}"
             MSG+=$'\nURL: '"${PR_URL}"
             MSG+=$'\n\n'"${PR_BODY}"
           else
-            MSG="New comment on ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+            MSG="${INSTRUCTION}"$'\n\n'"New comment on ${REPO} — #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
             MSG+=$'\nFrom: '"${SENDER}"
             MSG+=$'\nURL: '"${COMMENT_URL}"
             MSG+=$'\n\n'"${COMMENT_BODY}"
