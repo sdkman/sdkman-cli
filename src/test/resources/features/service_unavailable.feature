@@ -11,7 +11,15 @@ Feature: Service Unavailable
 		And the candidate "grails" version "1.3.9" is already installed but not default
 		And the system is bootstrapped
 		When I enter "sdk list grails"
-		Then I see "This command is not available. Internet unreachable."
+		Then I see "Offline: only showing installed grails versions"
+		And I see "> 2.1.0"
+		And I see "* 1.3.9"
+
+	Scenario: List candidate versions not found while internet unreachable
+		Given the system is bootstrapped
+		When I enter "sdk list grails"
+		Then I see "Offline: only showing installed grails versions"
+		And I see "None installed!"
 
 	Scenario: List Available Candidates while internet unreachable
 		Given the system is bootstrapped
