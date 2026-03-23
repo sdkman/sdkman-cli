@@ -6,7 +6,6 @@ class ConfigCommandSpec extends SdkmanEnvSpecification {
 	def "it should open the config in the system's default editor"() {
 		given:
 		bash = sdkmanBashEnvBuilder
-				.withOfflineMode(true)
 				.build()
 
 		bash.start()

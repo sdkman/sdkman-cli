@@ -18,7 +18,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		setupCandidates(candidatesDirectory)
 
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
 			.build()
 
 		bash.start()
@@ -60,7 +59,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
 			.build()
 
 		new File(bash.workDir, '.sdkmanrc').text = sdkmanrc
@@ -96,7 +94,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
 			.withConfiguration("sdkman_auto_env", sdkmanAutoEnv)
 			.build()
 
@@ -130,7 +127,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
 			.withConfiguration("sdkman_auto_env", "true")
 			.build()
 
@@ -160,7 +156,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
 			.withConfiguration("sdkman_auto_env", "true")
 			.build()
 
@@ -186,7 +181,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
 			.withConfiguration("sdkman_auto_env", "true")
 			.build()
 
@@ -219,7 +213,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		createSymbolicLink(Paths.get("$candidatesDirectory/groovy/current"), Paths.get("$candidatesDirectory/groovy/2.4.6"))
 
 		bash = sdkmanBashEnvBuilder
-				.withOfflineMode(true)
 				.withConfiguration("sdkman_auto_env", "true")
 				.build()
 
@@ -257,7 +250,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		createSymbolicLink(Paths.get("$candidatesDirectory/ant/current"), Paths.get("$candidatesDirectory/ant/1.10.8"))
 
 		bash = sdkmanBashEnvBuilder
-				.withOfflineMode(true)
 				.withConfiguration("sdkman_auto_env", "true")
 				.build()
 
@@ -304,7 +296,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-				.withOfflineMode(true)
 				.withConfiguration("sdkman_auto_env", "true")
 				.build()
 
@@ -329,7 +320,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 	def "should issue an error if .sdkmanrc contains a malformed candidate version"() {
 		given:
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
 			.build()
 
 		new File(bash.workDir, ".sdkmanrc").text = "groovy 2.4.1"
@@ -350,7 +340,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 	def "should issue an error when .sdkmanrc contains a candidate version which is not installed"() {
 		given:
 		bash = sdkmanBashEnvBuilder
-				.withOfflineMode(true)
 				.build()
 
 		new File(bash.workDir, ".sdkmanrc").text = "groovy=2.4.1"
@@ -378,7 +367,6 @@ class EnvCommandSpec extends SdkmanEnvSpecification {
 		}
 
 		bash = sdkmanBashEnvBuilder
-			.withOfflineMode(true)
 			.build()
 
 		new File(bash.workDir, ".sdkmanrc").text = sdkmanrc
