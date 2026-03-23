@@ -47,8 +47,10 @@ function __sdkman_display_network_warning() {
 	if [[ -z "$healthcheck_status" ]]; then
 		__sdkman_echo_red "==== INTERNET NOT REACHABLE! ==================================================="
 		__sdkman_echo_red ""
-		__sdkman_echo_red " Some functionality is disabled or only partially available."
-		__sdkman_echo_red " If this persists, disable the healthcheck in ${SDKMAN_DIR}/etc/config:"
+		__sdkman_echo_red " SDKMAN! needs an active internet connection for full functionality."
+		__sdkman_echo_red ""
+		__sdkman_echo_red " If your connection is active but slow, you can disable the startup"
+		__sdkman_echo_red " healthcheck in ${SDKMAN_DIR}/etc/config:"
 		__sdkman_echo_red ""
 		__sdkman_echo_red "   sdkman_healthcheck_enable=false"
 		__sdkman_echo_red ""
