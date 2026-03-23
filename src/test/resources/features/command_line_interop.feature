@@ -8,7 +8,6 @@ Feature: Command Line Interop
 	Scenario: Enter sdk
 		When I enter "sdk"
 		Then I see "Usage: sdk <command> [candidate] [version]"
-		And I see "sdk offline <enable|disable>"
 
 	Scenario: Ask for help
 		When I enter "sdk help"

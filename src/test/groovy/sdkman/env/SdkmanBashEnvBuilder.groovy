@@ -21,7 +21,6 @@ class SdkmanBashEnvBuilder {
 	private Optional<UnameStub> unameStub = Optional.empty()
 	private List candidates = ['groovy', 'grails', 'java']
 	private String platform = UnixUtils.inferPlatform()
-	private boolean offlineMode = false
 	private String candidatesApi = "http://localhost:8080/2"
 	private String brokerApi = "http://localhost:8080/2"
 	private String jdkHome = "/path/to/my/jdk"
@@ -70,11 +69,6 @@ class SdkmanBashEnvBuilder {
 
 	SdkmanBashEnvBuilder withConfiguration(String key, String value) {
 		config.put key, value
-		this
-	}
-
-	SdkmanBashEnvBuilder withOfflineMode(boolean offlineMode) {
-		this.offlineMode = offlineMode
 		this
 	}
 
@@ -142,7 +136,6 @@ class SdkmanBashEnvBuilder {
 		def env = [
 				SDKMAN_DIR           : sdkmanDir.absolutePath,
 				SDKMAN_CANDIDATES_DIR: sdkmanCandidatesDir.absolutePath,
-				SDKMAN_OFFLINE_MODE  : "$offlineMode",
 				SDKMAN_CANDIDATES_API: candidatesApi,
 				SDKMAN_BROKER_API    : brokerApi,
 				sdkman_debug_mode    : Boolean.toString(debugMode),

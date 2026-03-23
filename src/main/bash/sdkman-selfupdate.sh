@@ -22,7 +22,7 @@ function __sdk_selfupdate() {
 	local sdkman_native_version_api
 
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
-		echo "This command is not available while offline."
+		echo "This command is not available. Internet unreachable."
 		return 1
 	fi
 

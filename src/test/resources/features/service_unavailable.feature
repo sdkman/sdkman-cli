@@ -6,29 +6,21 @@ Feature: Service Unavailable
 
 	# list commands
 
-	Scenario: List candidate versions found while Offline
+	Scenario: List candidate versions found while internet unreachable
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the candidate "grails" version "1.3.9" is already installed but not default
 		And the system is bootstrapped
 		When I enter "sdk list grails"
-		Then I see "Offline: only showing installed grails versions"
-		And I see "> 2.1.0"
-		And I see "* 1.3.9"
+		Then I see "This command is not available. Internet unreachable."
 
-	Scenario: List candidate versions not found while Offline
-		Given the system is bootstrapped
-		When I enter "sdk list grails"
-		Then I see "Offline: only showing installed grails versions"
-		And I see "None installed!"
-
-	Scenario: List Available Candidates while Offline
+	Scenario: List Available Candidates while internet unreachable
 		Given the system is bootstrapped
 		When I enter "sdk list"
-		Then I see "This command is not available while offline."
+		Then I see "This command is not available. Internet unreachable."
 
 	# use command
 
-	Scenario: Use an installed candidate version while Offline
+	Scenario: Use an installed candidate version while internet unreachable
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the candidate "grails" version "1.3.9" is already installed but not default
 		And the system is bootstrapped
@@ -37,19 +29,19 @@ Feature: Service Unavailable
 
 	# default command
 
-	Scenario: Set the default to an uninstalled candidate version while Offline
+	Scenario: Set the default to an uninstalled candidate version while internet unreachable
 		Given the candidate "grails" version "1.3.9" is already installed and default
 		And the system is bootstrapped
 		When I enter "sdk default grails 2.1.0"
-		Then I see "Stop! grails 2.1.0 is not available while offline."
+		Then I see "Stop! grails 2.1.0 is not available. Internet unreachable."
 
-	Scenario: Set the default to an invalid candidate version while Offline
+	Scenario: Set the default to an invalid candidate version while internet unreachable
 		Given the candidate "grails" version "1.3.9" is already installed and default
 		And the system is bootstrapped
 		When I enter "sdk default grails 999"
-		Then I see "Stop! grails 999 is not available while offline."
+		Then I see "Stop! grails 999 is not available. Internet unreachable."
 
-	Scenario: Set the default to an installed candidate version while Offline
+	Scenario: Set the default to an installed candidate version while internet unreachable
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the candidate "grails" version "1.3.9" is already installed but not default
 		And the system is bootstrapped
@@ -58,13 +50,13 @@ Feature: Service Unavailable
 
 	# install command
 
-	Scenario: Install a candidate version that is not installed while Offline
+	Scenario: Install a candidate version that is not installed while internet unreachable
 		Given the candidate "grails" version "2.1.0" is not installed
 		And the system is bootstrapped
 		When I enter "sdk install grails 2.1.0"
-		Then I see "Stop! grails 2.1.0 is not available while offline."
+		Then I see "Stop! grails 2.1.0 is not available. Internet unreachable."
 
-	Scenario: Install a candidate version that is already installed while Offline
+	Scenario: Install a candidate version that is already installed while internet unreachable
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the system is bootstrapped
 		When I enter "sdk install grails 2.1.0"
@@ -73,7 +65,7 @@ Feature: Service Unavailable
 
 	# uninstall command
 
-	Scenario: Uninstall a candidate version while Offline
+	Scenario: Uninstall a candidate version while internet unreachable
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the system is bootstrapped
 		When I enter "sdk uninstall grails 2.1.0"
@@ -82,7 +74,7 @@ Feature: Service Unavailable
 		And the candidate "grails" version "2.1.0" is not in use
 		And the candidate "grails" version "2.1.0" is not installed
 
-	Scenario: Uninstall a candidate version that is not installed while Offline
+	Scenario: Uninstall a candidate version that is not installed while internet unreachable
 		Given the candidate "grails" version "2.1.0" is not installed
 		And the system is bootstrapped
 		When I enter "sdk uninstall grails 2.1.0"
@@ -90,13 +82,13 @@ Feature: Service Unavailable
 
 	# current command
 
-	Scenario: Display the current version of a candidate while Offline
+	Scenario: Display the current version of a candidate while internet unreachable
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the system is bootstrapped
 		When I enter "sdk current grails"
 		Then I see "Using grails version 2.1.0"
 
-	Scenario: Display the current version of all candidates while Offline
+	Scenario: Display the current version of all candidates while internet unreachable
 		Given the candidate "grails" version "2.1.0" is already installed and default
 		And the candidate "groovy" version "2.0.5" is already installed and default
 		And the system is bootstrapped
@@ -107,21 +99,21 @@ Feature: Service Unavailable
 
 	# version command
 
-	Scenario: Determine the sdkman version when Offline
+	Scenario: Determine the sdkman version when internet unreachable
 		Given the system is bootstrapped
 		When I enter "sdk version"
 		Then I see the current sdkman version
 
 	# help command
 
-	Scenario: Request help while Offline
+	Scenario: Request help while internet unreachable
 		Given the system is bootstrapped
 		When I enter "sdk help"
 		Then I see "Usage: sdk <command> [candidate] [version]"
 
 	# selfupdate command
 
-	Scenario: Attempt self-update while Offline
+	Scenario: Attempt self-update while internet unreachable
 		Given the system is bootstrapped
 		When I enter "sdk selfupdate"
-		Then I see "This command is not available while offline."
+		Then I see "This command is not available. Internet unreachable."

@@ -76,9 +76,6 @@ function sdk() {
 
 	# Always presume internet availability
 	SDKMAN_AVAILABLE="true"
-	if [ -z "$SDKMAN_OFFLINE_MODE" ]; then
-		SDKMAN_OFFLINE_MODE="false"
-	fi
 
 	# ...unless proven otherwise
 	__sdkman_update_service_availability
@@ -117,12 +114,6 @@ function sdk() {
 		___sdkman_help
 	fi
 
-	# Validate offline qualifier
-	if [[ "$COMMAND" == "offline" && -n "$QUALIFIER" && -z $(echo "enable disable" | grep -w "$QUALIFIER") ]]; then
-		echo ""
-		__sdkman_echo_red "Stop! $QUALIFIER is not a valid offline mode."
-	fi
-
 	# Store the return code of the requested command
 	local final_rc=0
 
@@ -135,7 +126,7 @@ function sdk() {
 	elif [ -n "$CMD_FOUND" ]; then
 
 		# Check whether the candidate exists
-		if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "offline" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && "$COMMAND" != "home" && -z $(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
+		if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && "$COMMAND" != "home" && -z $(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
 			echo ""
 			__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
 			return 1

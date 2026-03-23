@@ -23,7 +23,7 @@ __sdkman_complete_command() {
 
 	case $command in
 		sdk)
-			candidates=("install" "uninstall" "list" "use" "config" "default" "home" "env" "current" "upgrade" "version" "help" "offline" "selfupdate" "update" "flush")
+			candidates=("install" "uninstall" "list" "use" "config" "default" "home" "env" "current" "upgrade" "version" "help" "selfupdate" "update" "flush")
 			;;
 		current|c|default|d|home|h|uninstall|rm|upgrade|ug|use|u)
 			local -r candidate_paths=("${SDKMAN_CANDIDATES_DIR}"/*)
@@ -37,9 +37,6 @@ __sdkman_complete_command() {
 			;;
 		env|e)
 			candidates=("init" "install" "clear")
-			;;
-		offline)
-			candidates=("enable" "disable")
 			;;
 		selfupdate)
 			candidates=("force")

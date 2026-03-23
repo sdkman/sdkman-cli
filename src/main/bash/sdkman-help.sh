@@ -20,7 +20,6 @@ function __sdk_help() {
 	__sdkman_deprecation_notice "help"
 	__sdkman_echo_no_colour ""
 	__sdkman_echo_no_colour "Usage: sdk <command> [candidate] [version]"
-	__sdkman_echo_no_colour "       sdk offline <enable|disable>"
 	__sdkman_echo_no_colour ""
 	__sdkman_echo_no_colour "   commands:"
 	__sdkman_echo_no_colour "       install   or i    <candidate> [version] [local-path]"
@@ -35,7 +34,6 @@ function __sdk_help() {
 	__sdkman_echo_no_colour "       upgrade   or ug   [candidate]"
 	__sdkman_echo_no_colour "       version   or v"
 	__sdkman_echo_no_colour "       help"
-	__sdkman_echo_no_colour "       offline           [enable|disable]"
 
 	if [[ "$sdkman_selfupdate_feature" == "true" ]]; then
 		__sdkman_echo_no_colour "       selfupdate        [force]"

@@ -19,7 +19,7 @@ class CompletionSpec extends SdkmanEnvSpecification {
 		bash.execute('echo "\${COMPREPLY[@]}"')
 
 		then:
-		bash.output.contains("install uninstall list use config default home env current upgrade version help offline selfupdate update flush")
+		bash.output.contains("install uninstall list use config default home env current upgrade version help selfupdate update flush")
 	}
 
 	def "should complete the list of candidates"() {

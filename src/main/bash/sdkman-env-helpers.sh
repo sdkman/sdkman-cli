@@ -52,11 +52,11 @@ function __sdkman_determine_version() {
 		VERSION=$(readlink "${SDKMAN_CANDIDATES_DIR}/${candidate}/current" | sed "s!${SDKMAN_CANDIDATES_DIR}/${candidate}/!!g")
 
 	elif [[ "$SDKMAN_AVAILABLE" == "false" && -n "$version" ]]; then
-		__sdkman_echo_red "Stop! ${candidate} ${version} is not available while offline."
+		__sdkman_echo_red "Stop! ${candidate} ${version} is not available. Internet unreachable."
 		return 1
 
 	elif [[ "$SDKMAN_AVAILABLE" == "false" && -z "$version" ]]; then
-		__sdkman_echo_red "This command is not available while offline."
+		__sdkman_echo_red "This command is not available. Internet unreachable."
 		return 1
 
 	else

@@ -40,35 +40,11 @@ And(~'^the internet is reachable$') { ->
 	primeEndpointWithString("/healthcheck", "12345")
 	primeSelfupdate()
 
-	offlineMode = false
 	serviceUrlEnv = SERVICE_UP_URL
 	javaHome = FAKE_JDK_PATH
 }
 
 And(~'^the internet is not reachable$') { ->
-	offlineMode = false
-	serviceUrlEnv = SERVICE_DOWN_URL
-	javaHome = FAKE_JDK_PATH
-}
-
-And(~'^offline mode is disabled with reachable internet$') { ->
-	primeEndpointWithString("/healthcheck", "12345")
-
-	offlineMode = false
-	serviceUrlEnv = SERVICE_UP_URL
-	javaHome = FAKE_JDK_PATH
-}
-
-And(~'^offline mode is enabled with reachable internet$') { ->
-	primeEndpointWithString("/healthcheck", "12345")
-
-	offlineMode = true
-	serviceUrlEnv = SERVICE_UP_URL
-	javaHome = FAKE_JDK_PATH
-}
-
-And(~'^offline mode is enabled with unreachable internet$') { ->
-	offlineMode = true
 	serviceUrlEnv = SERVICE_DOWN_URL
 	javaHome = FAKE_JDK_PATH
 }
@@ -83,7 +59,6 @@ And(~'^an "(.*)" machine with "(.*)" installed$') { String machine, String kerne
 
 And(~'^an initialised environment$') { ->
 	bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
-			.withOfflineMode(offlineMode)
 			.withCandidatesApi(serviceUrlEnv)
 			.withBrokerApi(serviceUrlEnv)
 			.withJdkHome(javaHome)
@@ -96,7 +71,6 @@ And(~'^an initialised environment$') { ->
 
 And(~'^an initialised environment without debug prints$') { ->
 	bash = SdkmanBashEnvBuilder.create(sdkmanBaseDir)
-			.withOfflineMode(offlineMode)
 			.withCandidatesApi(serviceUrlEnv)
 			.withBrokerApi(serviceUrlEnv)
 			.withJdkHome(javaHome)
