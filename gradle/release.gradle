@@ -42,13 +42,13 @@ jreleaser {
 	announce {
 		mastodon {
 			active = 'RELEASE'
-			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
+			status = '🚀 SDKMAN! CLI {{tagName}} released! Full changelog: {{releaseNotesUrl}}'
 			host = 'https://fosstodon.org'
 		}
 		bluesky {
 			active = 'RELEASE'
 			host = 'https://bsky.social'
-			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
+			status = '🚀 SDKMAN! CLI {{tagName}} released! Full changelog: {{releaseNotesUrl}}'
 		}
 	}
 }
