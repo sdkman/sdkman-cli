@@ -45,10 +45,5 @@ jreleaser {
 			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
 			host = 'https://fosstodon.org'
 		}
-		bluesky {
-			active = 'RELEASE'
-			host = 'https://bsky.social'
-			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
-		}
 	}
 }
