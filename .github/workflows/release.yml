@@ -43,5 +43,3 @@ jobs:
         MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         RELEASE_TAG: ${{ github.event.inputs.version }}
       run: bin/release-binary.sh "$MONGO_URL" "$MONGO_USERNAME" "$MONGO_PASSWORD" "$RELEASE_TAG" "stable"
-    - name: Announce release
-      run: ./gradlew -Penv=stable -Prelease=${{ github.event.inputs.version }} jreleaserAnnounce
