@@ -40,10 +40,6 @@ jreleaser {
 	}
 	
 	announce {
-		twitter {
-			active = 'RELEASE'
-			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
-		}
 		mastodon {
 			active = 'RELEASE'
 			status = 'Released version {{tagName}} of SDKMAN! {{releaseNotesUrl}}'
