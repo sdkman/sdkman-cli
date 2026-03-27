@@ -14,6 +14,8 @@ jobs:
     env:
       JRELEASER_GITHUB_TOKEN: ${{ github.token }}
       JRELEASER_MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN}}
+      JRELEASER_BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+      JRELEASER_BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
     services:
       mongodb:
         image: mongo:3.2
