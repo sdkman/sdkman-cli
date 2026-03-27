@@ -23,6 +23,8 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           cache: 'gradle'
+      - name: Clean Gradle cache
+        run: rm -rf ~/.gradle/caches/jars-9
       - name: Run tests
         run: ./gradlew clean test --info
       - name: Set short git hash
@@ -48,4 +50,3 @@ jobs:
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
           SHORT_HASH: ${{ steps.var.outputs.sha_short }}
         run: bin/release-binary.sh "$MONGO_URL" "$MONGO_USERNAME" "$MONGO_PASSWORD" "$SHORT_HASH" "latest"
-
