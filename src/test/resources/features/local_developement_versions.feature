@@ -68,12 +68,12 @@ Feature: Local Development Versions
 		And the candidate "groovy" version "2.1-SNAPSHOT" is not installed
 
 	Scenario: Prevent installation of a local development version for a long version
-		Given the candidate "groovy" version "2.1-SNAPSHOTLONG" is not available for download
-		And I have a local candidate "groovy" version "2.1-SNAPSHOTLONG" at relative path "some/relative/path/to/groovy"
+		Given the candidate "groovy" version "2.1-SNAPSHOTEXTRALONG" is not available for download
+		And I have a local candidate "groovy" version "2.1-SNAPSHOTEXTRALONG" at relative path "some/relative/path/to/groovy"
 		And the system is bootstrapped
-		When I enter "sdk install groovy 2.1-SNAPSHOTLONG some/relative/path/to/groovy"
-		Then I see "Invalid version! 2.1-SNAPSHOTLONG with length 16 exceeds max of 15!"
-		And the candidate "groovy" version "2.1-SNAPSHOTLONG" is not installed
+		When I enter "sdk install groovy 2.1-SNAPSHOTEXTRALONG some/relative/path/to/groovy"
+		Then I see "Invalid version! 2.1-SNAPSHOTEXTRALONG with length 21 exceeds max of 20!"
+		And the candidate "groovy" version "2.1-SNAPSHOTEXTRALONG" is not installed
 
 	Scenario: Allow installation of a local development version for longest possible version
 		Given the candidate "groovy" version "2.1-SNAPSHOT-XX" is not available for download

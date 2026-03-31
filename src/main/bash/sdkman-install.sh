@@ -79,7 +79,7 @@ function __sdkman_install_candidate_version() {
 function __sdkman_install_local_version() {
 	local candidate version folder version_length version_length_max
 
-	version_length_max=15
+	version_length_max=20
 
 	candidate="$1"
 	version="$2"
