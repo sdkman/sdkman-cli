@@ -39,8 +39,31 @@ function __sdkman_setup_env() {
 		return 1
 	fi
 
-	sdkman_auto_answer="true" USE="n" __sdkman_env_each_candidate "$sdkmanrc" "__sdk_install"
+	__sdkman_env_each_candidate "$sdkmanrc" "__sdkman_install_keeping_default"
 	__sdkman_load_env "$sdkmanrc"
+}
+
+function __sdkman_install_keeping_default() {
+	local candidate version current_link previous_default
+	candidate="$1"
+	version="$2"
+	current_link="${SDKMAN_CANDIDATES_DIR}/${candidate}/current"
+	previous_default=""
+
+	if [[ -L "$current_link" ]]; then
+		previous_default="$(basename "$(readlink "$current_link")")"
+	fi
+
+	sdkman_auto_answer="true" USE="n" __sdk_install "$candidate" "$version" || return 1
+
+	if [[ -n "$previous_default" && -L "$current_link" ]]; then
+		local new_default
+		new_default="$(basename "$(readlink "$current_link")")"
+		if [[ "$new_default" != "$previous_default" ]]; then
+			rm -f "$current_link"
+			ln -s "$previous_default" "$current_link"
+		fi
+	fi
 }
 
 function __sdkman_load_env() {

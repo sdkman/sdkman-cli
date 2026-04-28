@@ -22,4 +22,16 @@ function __sdkman_post_installation_hook {
 }
 '''
 	}
+
+	static postInstallationHookPerturbing() {
+		'''\
+#!/usr/bin/env bash
+function __sdkman_post_installation_hook {
+	mv -f $binary_input $zip_output
+	unset sdkman_auto_answer
+	echo "Post-installation hook success"
+	return 0
+}
+'''
+	}
 }

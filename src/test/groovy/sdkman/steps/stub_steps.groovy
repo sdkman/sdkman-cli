@@ -26,7 +26,13 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download$') { 
 	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookSuccess())
 }
 
-And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with checksum "([^"]*)" using algorithm "([^"]*)"$') { 
+And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with a perturbing post-installation hook$') { String candidate, String version ->
+	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${UnixUtils.inferPlatform()}", "valid")
+	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform())
+	primeEndpointWithString("/hooks/post/${candidate}/${version}/${UnixUtils.inferPlatform()}", postInstallationHookPerturbing())
+}
+
+And(~'^the candidate "([^"]*)" version "([^"]*)" is available for download with checksum "([^"]*)" using algorithm "([^"]*)"$') {
 	String candidate, String version, String checksum, String algorithm ->
 	primeEndpointWithString("/candidates/validate/${candidate}/${version}/${UnixUtils.inferPlatform()}", "valid")
 	primeDownloadFor(SERVICE_UP_URL, candidate, version, UnixUtils.inferPlatform(), ["X-Sdkman-Checksum-${algorithm}": "${checksum}"])
