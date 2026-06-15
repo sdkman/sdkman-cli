@@ -1,0 +1,13 @@
+name: Dependabot Digest
+on:
+  schedule:
+    # 09:00 UTC on the same day as the repo's Dependabot run.
+    # Dependabot defaults to 05:00 UTC; 4h gives it room to land the batch.
+    - cron: "0 9 * * 4"
+  workflow_dispatch: {}
+jobs:
+  digest:
+    permissions:
+      pull-requests: read
+    uses: sdkman/.github/.github/workflows/reusable-dependabot-digest.yml@main
+    secrets: inherit
