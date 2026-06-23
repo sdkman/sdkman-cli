@@ -9,5 +9,8 @@ jobs:
   digest:
     permissions:
       pull-requests: read
+      actions: read
     uses: sdkman/.github/.github/workflows/reusable-dependabot-digest.yml@main
+    with:
+      pr_ci_workflow: "Pull Requests"
     secrets: inherit
