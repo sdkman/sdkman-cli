@@ -89,7 +89,11 @@ And(~'^the candidate "([^"]*)" version "([^"]*)" is not a valid candidate versio
 And(~/^the candidate "(.*?)" has a version list available$/) { String candidate ->
 	def current = readCurrentFromCandidateFolder(candidatesDir, candidate)
 	def versions = readVersionsCsvFromCandidateFolder(candidatesDir, candidate)
-	def url = "/candidates/${candidate}/${UnixUtils.inferPlatform()}/versions/list?current=${current}&installed=${versions}"
+	// The CLI percent-encodes '+'→%2B in the query (sdkman-utils.sh: __sdkman_url_encode_plus),
+	// so a semverish build-metadata id survives Play's query bind — prime the encoded URL to match.
+	def encodedCurrent = "${current}".replace("+", "%2B")
+	def encodedVersions = "${versions}".replace("+", "%2B")
+	def url = "/candidates/${candidate}/${UnixUtils.inferPlatform()}/versions/list?current=${encodedCurrent}&installed=${encodedVersions}"
 	println("Priming url: $url")
 	primeEndpointWithString(url, "Candidate: $candidate; Versions: $versions; Current: $current; Platform: ${UnixUtils.inferPlatform()}")
 }

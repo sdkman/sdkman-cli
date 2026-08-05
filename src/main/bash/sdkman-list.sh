@@ -44,7 +44,10 @@ function __sdkman_list_versions() {
 	if [[ "$SDKMAN_AVAILABLE" == "false" ]]; then
 		__sdkman_installed_versions "$candidate" "$versions_csv"
 	else
-		__sdkman_echo_paged "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/${candidate}/${SDKMAN_PLATFORM}/versions/list?current=${CURRENT}&installed=${versions_csv}")"
+		local current_encoded versions_csv_encoded
+		current_encoded="$(__sdkman_url_encode_plus "$CURRENT")"
+		versions_csv_encoded="$(__sdkman_url_encode_plus "$versions_csv")"
+		__sdkman_echo_paged "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/${candidate}/${SDKMAN_PLATFORM}/versions/list?current=${current_encoded}&installed=${versions_csv_encoded}")"
 	fi
 }
 
