@@ -57,7 +57,10 @@ function __sdkman_export_candidate_home() {
 
 	if [ "$zsh_shell" = true ]; then
 		ucase_candidate_name="${candidate_name:u}"
-	elif [ "$bash_shell" = true ]; then
+	elif [ "$bash_shell" = true ] && [ "${BASH_VERSINFO[0]:-0}" -ge 4 ]; then
+		# ${var^^} uppercase expansion requires bash 4+. macOS still ships
+		# bash 3.2, where it raises "${candidate_name^^}: bad substitution".
+		# bash < 4 falls through to the portable tr branch below.
 		ucase_candidate_name="${candidate_name^^}"
 	else
 		ucase_candidate_name="$(printf %s "$candidate_name" | tr '[:lower:]' '[:upper:]')"
