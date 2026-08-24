@@ -66,3 +66,11 @@ Feature: Java Multi Platform Binary Distribution
 		And I see "Tip: see all available versions for your platform:"
 		And I see "$ sdk list java"
 		And the candidate "java" version "8.0.111" is not installed
+
+	Scenario: A tarball served through the renaming post-installation hook is still installed
+		Given an "x86_64" machine with "Linux" installed
+		And the system is bootstrapped
+		And the candidate "java" version "26.0.2+1.1-librca" is available for download
+		When I enter "sdk install java 26.0.2+1.1-librca"
+		Then I see "Done installing!"
+		And the candidate "java" version "26.0.2+1.1-librca" is installed
