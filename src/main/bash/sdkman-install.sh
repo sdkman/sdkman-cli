@@ -59,11 +59,10 @@ function __sdk_install() {
 }
 
 function __sdkman_install_candidate_version() {
-	local candidate version archive
+	local candidate version
 
 	candidate="$1"
 	version="$2"
-	archive="${SDKMAN_DIR}/tmp/${candidate}-${version}.zip"
 
 	__sdkman_download "$candidate" "$version" || return 1
 	__sdkman_echo_green "Installing: ${candidate} ${version}"
@@ -71,12 +70,7 @@ function __sdkman_install_candidate_version() {
 	mkdir -p "${SDKMAN_CANDIDATES_DIR}/${candidate}"
 
 	rm -rf "${SDKMAN_DIR}/tmp/out"
-	mkdir -p "${SDKMAN_DIR}/tmp/out"
-	if [[ "$(__sdkman_archive_type "$archive")" == 'tgz' ]]; then
-		tar zxf "$archive" -C "${SDKMAN_DIR}/tmp/out"
-	else
-		unzip -oq "$archive" -d "${SDKMAN_DIR}/tmp/out"
-	fi
+	unzip -oq "${SDKMAN_DIR}/tmp/${candidate}-${version}.zip" -d "${SDKMAN_DIR}/tmp/out"
 	mv -f "$SDKMAN_DIR"/tmp/out/* "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
 	__sdkman_echo_green "Done installing!"
 	echo ""
@@ -165,16 +159,11 @@ function __sdkman_download() {
 }
 
 function __sdkman_validate_zip() {
-	local zip_archive archive_ok
+	local zip_archive zip_ok
 
 	zip_archive="$1"
-	if [[ "$(__sdkman_archive_type "$zip_archive")" == 'tgz' ]]; then
-		tar tzf "$zip_archive" > /dev/null && archive_ok='valid'
-	else
-		archive_ok=$(unzip -t "$zip_archive" | grep 'No errors detected in compressed data')
-	fi
-
-	if [ -z "$archive_ok" ]; then
+	zip_ok=$(unzip -t "$zip_archive" | grep 'No errors detected in compressed data')
+	if [ -z "$zip_ok" ]; then
 		rm -f "$zip_archive"
 		echo ""
 		__sdkman_echo_red "Stop! The archive was corrupt and has been removed! Please try installing again."

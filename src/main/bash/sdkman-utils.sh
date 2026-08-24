@@ -75,19 +75,6 @@ function __sdkman_url_encode_plus() {
 	echo "${1//+/%2B}"
 }
 
-function __sdkman_archive_type() {
-	# The post-installation hook is supposed to hand back a zip, but a hook
-	# mismatched to the artifact just renames the download: for Liberica CSPU
-	# releases the broker redirects macOS to the .tar.gz (a .zip is published
-	# alongside it) while still serving the 'default-zip' hook. Sniff the gzip
-	# magic bytes (1f 8b) instead of trusting the extension.
-	if [[ "$(od -An -N2 -tx1 < "$1" | tr -d ' \n')" == '1f8b' ]]; then
-		echo 'tgz'
-	else
-		echo 'zip'
-	fi
-}
-
 function __sdkman_echo_paged() {
 	if [[ -n "$PAGER" ]]; then
 		echo "$@" | eval "$PAGER"
