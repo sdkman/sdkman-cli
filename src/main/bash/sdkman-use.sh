@@ -37,7 +37,7 @@ function __sdk_use() {
 	# Just update the *_HOME and PATH for this shell.
 	__sdkman_set_candidate_home "$candidate" "$version"
 
-	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/]+) ]]; then
+	if [[ $PATH =~ ${SDKMAN_CANDIDATES_DIR}/${candidate}/([^/:]+) ]]; then
 		local matched_version
 
 		if [[ "$zsh_shell" == "true" ]]; then
