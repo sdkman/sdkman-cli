@@ -78,8 +78,6 @@ function __sdkman_url_encode_plus() {
 function __sdkman_echo_paged() {
 	if [[ -n "$PAGER" ]]; then
 		echo "$@" | eval "$PAGER"
-	elif command -v less >& /dev/null; then
-		echo "$@" | less
 	else
 		echo "$@"
 	fi
