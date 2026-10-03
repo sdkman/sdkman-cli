@@ -43,7 +43,7 @@ function __sdk_selfupdate() {
 	__sdkman_echo_debug "Script: local version: $sdkman_local_script_version; remote version: $sdkman_remote_script_version"
 	__sdkman_echo_debug "Native: local version: $sdkman_local_native_version; remote version: $sdkman_remote_native_version"
 
-	force_selfupdate="$1"
+	force_selfupdate="${1:-}"
 	export sdkman_debug_mode
 	if [[ "$sdkman_local_script_version" == "$sdkman_remote_script_version" && "$sdkman_local_native_version" == "$sdkman_remote_native_version" && "$force_selfupdate" != "force" ]]; then
 		echo "No update available at this time."

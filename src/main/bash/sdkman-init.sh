@@ -17,15 +17,15 @@
 #
 
 # set env vars if not set
-if [ -z "$SDKMAN_CANDIDATES_API" ]; then
+if [ -z "${SDKMAN_CANDIDATES_API:-}" ]; then
 	export SDKMAN_CANDIDATES_API="@SDKMAN_CANDIDATES_API@"
 fi
 
-if [ -z "$SDKMAN_BROKER_API" ]; then
+if [ -z "${SDKMAN_BROKER_API:-}" ]; then
 	export SDKMAN_BROKER_API="@SDKMAN_BROKER_API@"
 fi
 
-if [ -z "$SDKMAN_DIR" ]; then
+if [ -z "${SDKMAN_DIR:-}" ]; then
 	export SDKMAN_DIR="$HOME/.sdkman"
 fi
 
@@ -62,7 +62,7 @@ esac
 zsh_shell=false
 bash_shell=false
 
-if [[ -n "$ZSH_VERSION" ]]; then
+if [[ -n "${ZSH_VERSION:-}" ]]; then
 	zsh_shell=true
 elif [[ -n "$BASH_VERSION" ]]; then
 	bash_shell=true
@@ -89,17 +89,17 @@ if [[ ! -f "${SDKMAN_DIR}/var/delay_upgrade" ]]; then
 fi
 
 # set curl connect-timeout and max-time
-if [[ -z "$sdkman_curl_connect_timeout" ]]; then sdkman_curl_connect_timeout=7; fi
-if [[ -z "$sdkman_curl_max_time" ]]; then sdkman_curl_max_time=10; fi
+if [[ -z "${sdkman_curl_connect_timeout:-}" ]]; then sdkman_curl_connect_timeout=7; fi
+if [[ -z "${sdkman_curl_max_time:-}" ]]; then sdkman_curl_max_time=10; fi
 
 # set curl retry
-if [[ -z "${sdkman_curl_retry}" ]]; then sdkman_curl_retry=0; fi
+if [[ -z "${sdkman_curl_retry:-}" ]]; then sdkman_curl_retry=0; fi
 
 # set curl retry max time in seconds
-if [[ -z "${sdkman_curl_retry_max_time}" ]]; then sdkman_curl_retry_max_time=60; fi
+if [[ -z "${sdkman_curl_retry_max_time:-}" ]]; then sdkman_curl_retry_max_time=60; fi
 
 # set curl to continue downloading automatically
-if [[ -z "${sdkman_curl_continue}" ]]; then sdkman_curl_continue=true; fi
+if [[ -z "${sdkman_curl_continue:-}" ]]; then sdkman_curl_continue=true; fi
 
 # read list of candidates and set array
 SDKMAN_CANDIDATES_CACHE="${SDKMAN_DIR}/var/candidates"
@@ -124,7 +124,7 @@ unset candidate_name candidate_dir
 export PATH
 
 # source completion scripts
-if [[ "$sdkman_auto_complete" == 'true' ]]; then
+if [[ "${sdkman_auto_complete:-}" == 'true' ]]; then
 	if [[ "$zsh_shell" == 'true' ]]; then
 		# initialize zsh completions (if not already done)
 		if ! (( $+functions[compdef] )) ; then
@@ -150,7 +150,7 @@ fi
 if [[ "$sdkman_auto_env" == "true" ]]; then
 	if [[ "$zsh_shell" == "true" ]]; then
 		function sdkman_auto_env() {
-			if [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
+			if [[ -n "${SDKMAN_ENV:-}" ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
 				sdk env clear
 			fi
 			if [[ -f .sdkmanrc ]]; then
@@ -161,17 +161,18 @@ if [[ "$sdkman_auto_env" == "true" ]]; then
 		chpwd_functions+=(sdkman_auto_env)
 	else
 		function sdkman_auto_env() {
-			if [[ -n $SDKMAN_ENV ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
+			if [[ -n "${SDKMAN_ENV:-}" ]] && [[ ! $PWD =~ ^$SDKMAN_ENV ]]; then
 				sdk env clear
 			fi
-			if [[ "$SDKMAN_OLD_PWD" != "$PWD" ]] && [[ -f ".sdkmanrc" ]]; then
+			if [[ "${SDKMAN_OLD_PWD:-}" != "$PWD" ]] && [[ -f ".sdkmanrc" ]]; then
 				sdk env
 			fi
 
 			export SDKMAN_OLD_PWD="$PWD"
 		}
 		
-		trimmed_prompt_command="${PROMPT_COMMAND%"${PROMPT_COMMAND##*[![:space:]]}"}"
+		trimmed_prompt_command="${PROMPT_COMMAND:-}"
+		trimmed_prompt_command="${trimmed_prompt_command%"${trimmed_prompt_command##*[![:space:]]}"}"
 		[[ -z "$trimmed_prompt_command" ]] && PROMPT_COMMAND="sdkman_auto_env" || PROMPT_COMMAND="${trimmed_prompt_command%\;};sdkman_auto_env"
 	fi
 

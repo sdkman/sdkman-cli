@@ -19,9 +19,9 @@
 function __sdk_install() {
 	local candidate version folder
 
-	candidate="$1"
-	version="$2"
-	folder="$3"
+	candidate="${1:-}"
+	version="${2:-}"
+	folder="${3:-}"
 
 	__sdkman_check_candidate_present "$candidate" || return 1
 	__sdkman_determine_version "$candidate" "$version" "$folder" || return 1
@@ -36,12 +36,12 @@ function __sdk_install() {
 		__sdkman_determine_current_version "$candidate"
 		__sdkman_install_candidate_version "$candidate" "$VERSION" || return 1
 
-		if [[ "$sdkman_auto_answer" != 'true' && "$auto_answer_upgrade" != 'true' && -n "$CURRENT" ]]; then
+		if [[ "${sdkman_auto_answer:-}" != 'true' && "${auto_answer_upgrade:-}" != 'true' && -n "$CURRENT" ]]; then
 			__sdkman_echo_confirm "Do you want ${candidate} ${VERSION} to be set as default? (Y/n): "
 			read USE
 		fi
 
-		if [[ -z "$USE" || "$USE" == "y" || "$USE" == "Y" ]]; then
+		if [[ -z "${USE:-}" || "${USE:-}" == "y" || "${USE:-}" == "Y" ]]; then
 			echo ""
 			__sdkman_echo_green "Setting ${candidate} ${VERSION} as default."
 			__sdkman_link_candidate_version "$candidate" "$VERSION"
@@ -188,7 +188,7 @@ function __sdkman_checksum_zip() {
 		return
 	fi
 	
-	if [[ "$sdkman_checksum_enable" != "true" ]]; then
+	if [[ "${sdkman_checksum_enable:-}" != "true" ]]; then
 		echo ""
 		__sdkman_echo_yellow "Checksums are disabled, skipping verification..."
 		return

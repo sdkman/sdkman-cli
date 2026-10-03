@@ -23,7 +23,7 @@ function __sdkman_echo_debug() {
 }
 
 function __sdkman_secure_curl() {
-	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
+	if [[ "${sdkman_insecure_ssl:-}" == 'true' ]]; then
 		curl --insecure --silent --location "$1"
 	else
 		curl --silent --location "$1"
@@ -50,7 +50,7 @@ function __sdkman_secure_curl_download() {
 		curl_params+=('--retry' "${sdkman_curl_retry}")
 	fi
 
-	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
+	if [[ "${sdkman_insecure_ssl:-}" == 'true' ]]; then
 		curl_params+=('--insecure')
 	fi
 
@@ -58,7 +58,7 @@ function __sdkman_secure_curl_download() {
 }
 
 function __sdkman_secure_curl_with_timeouts() {
-	if [[ "${sdkman_insecure_ssl}" == 'true' ]]; then
+	if [[ "${sdkman_insecure_ssl:-}" == 'true' ]]; then
 		curl --insecure --silent --location --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time} "$1"
 	else
 		curl --silent --location --connect-timeout ${sdkman_curl_connect_timeout} --max-time ${sdkman_curl_max_time} "$1"
@@ -76,7 +76,7 @@ function __sdkman_url_encode_plus() {
 }
 
 function __sdkman_echo_paged() {
-	if [[ -n "$PAGER" ]]; then
+	if [[ -n "${PAGER:-}" ]]; then
 		echo "$@" | eval "$PAGER"
 	elif command -v less >& /dev/null; then
 		echo "$@" | less
@@ -86,7 +86,7 @@ function __sdkman_echo_paged() {
 }
 
 function __sdkman_echo() {
-	if [[ "$sdkman_colour_enable" == 'false' ]]; then
+	if [[ "${sdkman_colour_enable:-}" == 'false' ]]; then
 		echo -e "$2"
 	else
 		echo -e "\033[1;$1$2\033[0m"
@@ -114,7 +114,7 @@ function __sdkman_echo_cyan() {
 }
 
 function __sdkman_echo_confirm() {
-	if [[ "$sdkman_colour_enable" == 'false' ]]; then
+	if [[ "${sdkman_colour_enable:-}" == 'false' ]]; then
 		echo -n "$1"
 	else
 		echo -e -n "\033[1;33m$1\033[0m"
@@ -129,7 +129,7 @@ and it will be removed in a future release.
 Please follow the discussion here:
 https://github.com/sdkman/sdkman-cli/discussions/1332"
 
-	if [[ "$sdkman_colour_enable" == 'false' ]]; then
+	if [[ "${sdkman_colour_enable:-}" == 'false' ]]; then
 		__sdkman_echo_no_colour "$message"
 	else
 		__sdkman_echo_yellow "$message"

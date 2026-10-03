@@ -17,7 +17,7 @@
 #
 
 function __sdk_list() {
-	local candidate="$1"
+	local candidate="${1:-}"
 
 	if [[ -z "$candidate" ]]; then
 		__sdkman_list_candidates
@@ -62,7 +62,7 @@ function __sdkman_installed_versions() {
 	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 
 	local versions=($(echo ${versions_csv//,/ }))
-	for ((i = ${#versions} - 1; i >= 0; i--)); do
+	for ((i = ${#versions[@]} - 1; i >= 0; i--)); do
 		if [[ -n "${versions[${i}]}" ]]; then
 			if [[ "${versions[${i}]}" == "$CURRENT" ]]; then
 				__sdkman_echo_no_colour " > ${versions[${i}]}"
@@ -72,7 +72,7 @@ function __sdkman_installed_versions() {
 		fi
 	done
 
-	if [[ -z "${versions[@]}" ]]; then
+	if [[ -z "${versions[*]:-}" ]]; then
 		__sdkman_echo_yellow "   None installed!"
 	fi
 

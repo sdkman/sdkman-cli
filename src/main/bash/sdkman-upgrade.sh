@@ -19,7 +19,7 @@
 function __sdk_upgrade() {
 	local all candidates candidate upgradable installed_count upgradable_count upgradable_candidates
 
-	if [ -n "$1" ]; then
+	if [ -n "${1:-}" ]; then
 		all=false
 		candidates=$1
 	else
@@ -71,13 +71,13 @@ function __sdk_upgrade() {
 	if [ ${upgradable_count} -gt 0 ]; then
 		echo ""
 
-		if [[ "$sdkman_auto_answer" != 'true' ]]; then
+		if [[ "${sdkman_auto_answer:-}" != 'true' ]]; then
 			__sdkman_echo_confirm "Use prescribed default version(s)? (Y/n): "
 			read UPGRADE_ALL
 		fi
 
 		export auto_answer_upgrade='true'
-		if [[ -z "$UPGRADE_ALL" || "$UPGRADE_ALL" == "y" || "$UPGRADE_ALL" == "Y" ]]; then
+		if [[ -z "${UPGRADE_ALL:-}" || "${UPGRADE_ALL:-}" == "y" || "${UPGRADE_ALL:-}" == "Y" ]]; then
 			# Using array for bash & zsh compatibility
 			for ((i = 0; i <= ${#upgradable_candidates[*]}; i++)); do
 				upgradable_candidate="${upgradable_candidates[${i}]}"
