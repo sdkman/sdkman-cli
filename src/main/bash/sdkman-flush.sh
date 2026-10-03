@@ -17,7 +17,7 @@
 #
 
 function __sdk_flush() {
-	local qualifier="$1"
+	local qualifier="${1:-}"
 
 	case "$qualifier" in
 	version)

@@ -43,7 +43,7 @@ function __sdkman_determine_version() {
 
 	candidate="$1"
 	version="$2"
-	folder="$3"
+	folder="${3:-}"
 
 	if [[ "$SDKMAN_AVAILABLE" == "false" && -n "$version" && -d "${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}" ]]; then
 		VERSION="$version"

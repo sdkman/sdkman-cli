@@ -19,8 +19,8 @@
 function __sdk_use() {
 	local candidate version install
 
-	candidate="$1"
-	version="$2"
+	candidate="${1:-}"
+	version="${2:-}"
 	__sdkman_check_version_present "$version" || return 1
 	__sdkman_check_candidate_present "$candidate" || return 1
 

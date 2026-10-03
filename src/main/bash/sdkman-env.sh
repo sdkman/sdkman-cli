@@ -18,7 +18,7 @@
 
 function __sdk_env() {
 	local -r sdkmanrc=".sdkmanrc"
-	local -r subcommand="$1"
+	local -r subcommand="${1:-}"
 
 	case $subcommand in
 		"")    __sdkman_load_env "$sdkmanrc" ;;
@@ -122,7 +122,7 @@ function __sdkman_create_env_file() {
 function __sdkman_clear_env() {
 	local sdkmanrc="$1"
 
-	if [[ -z $SDKMAN_ENV ]]; then
+	if [[ -z "${SDKMAN_ENV:-}" ]]; then
 		__sdkman_echo_red "No environment currently set!"
 		return 1
 	fi

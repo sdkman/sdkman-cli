@@ -17,7 +17,7 @@
 #
 
 function __sdkman_update_service_availability() {
-	if [[ "$sdkman_healthcheck_enable" == "false" ]]; then
+	if [[ "${sdkman_healthcheck_enable:-}" == "false" ]]; then
 		return
 	fi
 	local healthcheck_status=$(__sdkman_determine_healthcheck_status)
