@@ -126,7 +126,7 @@ function sdk() {
 	elif [ -n "$CMD_FOUND" ]; then
 
 		# Check whether the candidate exists
-		if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && "$COMMAND" != "home" && -z $(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
+		if [[ -n "$QUALIFIER" && "$COMMAND" != "help" && "$COMMAND" != "flush" && "$COMMAND" != "selfupdate" && "$COMMAND" != "env" && "$COMMAND" != "completion" && "$COMMAND" != "edit" && "$COMMAND" != "home" && "${QUALIFIER}" != --* && -z $(echo ${SDKMAN_CANDIDATES[@]} | grep -w "$QUALIFIER") ]]; then
 			echo ""
 			__sdkman_echo_red "Stop! $QUALIFIER is not a valid candidate."
 			return 1

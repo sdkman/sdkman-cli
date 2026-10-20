@@ -18,11 +18,18 @@
 
 function __sdk_list() {
 	local candidate="$1"
+	local option="$2"
 
 	if [[ -z "$candidate" ]]; then
 		__sdkman_list_candidates
-	else
+	elif [[ "$candidate" == "--local" ]]; then
+		__sdkman_list_local_candidates
+	elif [[ -z "$option" ]]; then
 		__sdkman_list_versions "$candidate"
+	elif [[ "$option" == "--local" ]]; then
+		__sdkman_list_installed_versions "$candidate"
+	else
+		__sdkman_echo_red "Stop! Invalid option: ${option}"
 	fi
 }
 
@@ -32,6 +39,32 @@ function __sdkman_list_candidates() {
 	else
 		__sdkman_echo_paged "$(__sdkman_secure_curl "${SDKMAN_CANDIDATES_API}/candidates/list")"
 	fi
+}
+
+function __sdkman_list_local_candidates() {
+	local candidate entry candidates=()
+
+	for candidate in "${SDKMAN_CANDIDATES_DIR}"/*; do
+		if [[ -d "$candidate" ]]; then
+			entry="$(basename "$candidate")"
+			# Skip SDKMAN-internal folders that are not real candidates.
+			if [[ "$entry" != "archive" && "$entry" != "tmp" && "$entry" != "current" ]]; then
+				candidates+=("$entry")
+			fi
+		fi
+	done
+
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
+	__sdkman_echo_no_colour "Installed Candidates"
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
+
+	if [[ ${#candidates[@]} -eq 0 ]]; then
+		__sdkman_echo_yellow "   None installed!"
+	else
+		__sdkman_echo_paged "${candidates[*]}"
+	fi
+
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 }
 
 function __sdkman_list_versions() {
@@ -51,6 +84,22 @@ function __sdkman_list_versions() {
 	fi
 }
 
+function __sdkman_list_installed_versions() {
+	local candidate
+
+	candidate="$1"
+
+	__sdkman_determine_current_version "$candidate"
+
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
+	__sdkman_echo_no_colour "Installed ${candidate} versions"
+	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
+
+	local versions_csv
+	versions_csv="$(__sdkman_build_version_csv "$candidate")"
+	__sdkman_render_installed_versions "$candidate" "$versions_csv"
+}
+
 function __sdkman_installed_versions() {
 	local candidate versions_csv
 
@@ -60,6 +109,15 @@ function __sdkman_installed_versions() {
 	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
 	__sdkman_echo_yellow "Offline: only showing installed ${candidate} versions"
 	__sdkman_echo_no_colour "--------------------------------------------------------------------------------"
+
+	__sdkman_render_installed_versions "$candidate" "$versions_csv"
+}
+
+function __sdkman_render_installed_versions() {
+	local candidate versions_csv
+
+	candidate="$1"
+	versions_csv="$2"
 
 	local versions=($(echo ${versions_csv//,/ }))
 	for ((i = ${#versions} - 1; i >= 0; i--)); do

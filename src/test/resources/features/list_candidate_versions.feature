@@ -71,3 +71,22 @@ Feature: List Candidate Versions
 		When I enter "sdk list groovy"
 		Then I see "Current: 2.2-SNAPSHOT"
 		And I see "Versions: 2.2-SNAPSHOT"
+
+	Scenario: List only installed local versions with --local
+		Given the candidate "grails" version "2.1.0" is already installed and default
+		And the candidate "grails" version "2.0.9" is already installed but not default
+		And the candidate "grails" has a version list available
+		And the system is bootstrapped
+		When I enter "sdk list grails --local"
+		Then I see "Installed grails versions"
+		And I see "> 2.1.0"
+		And I see "* 2.0.9"
+		And I do not see "2.2.0"
+
+	Scenario: No installed versions message is shown with --local
+		Given I do not have a "grails" candidate installed
+		And the candidate "grails" has a version list available
+		And the system is bootstrapped
+		When I enter "sdk list grails --local"
+		Then I see "Installed grails versions"
+		And I see "None installed!"
