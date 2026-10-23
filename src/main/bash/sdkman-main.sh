@@ -18,7 +18,7 @@
 
 function ___sdkman_help() {
 	if [[ -f "$SDKMAN_DIR/libexec/help" ]]; then
-		"$SDKMAN_DIR/libexec/help"
+		"$SDKMAN_DIR/libexec/help" "$@"
 	else
 		__sdk_help
 	fi
@@ -107,7 +107,10 @@ function sdk() {
 	fi
 
 	# couldn't find the command
-	if [[ -z "$CMD_FOUND" ]]; then
+	if [[ -z "$CMD_FOUND" && -f "${SDKMAN_DIR}/libexec/help" ]]; then
+		___sdkman_help "$COMMAND"
+		return $?
+	elif [[ -z "$CMD_FOUND" ]]; then
 		echo ""
 		__sdkman_echo_red "Invalid command: $COMMAND"
 		echo ""
@@ -119,9 +122,20 @@ function sdk() {
 
 	# Native commands found under libexec
 	local native_command="${SDKMAN_DIR}/libexec/${COMMAND}"
-	
+
+	# Help flags for commands still in bash
+	local arg help_flag
+	for arg in "${@:2}"; do
+		if [[ "$arg" == "-h" || "$arg" == "--help" ]]; then
+			help_flag="$arg"
+		fi
+	done
+
 	if [[ "$sdkman_native_enable" == 'true' && -f "$native_command" ]]; then
 		"$native_command" "${@:2}"
+
+	elif [[ -n "$help_flag" ]]; then
+		___sdkman_help "$COMMAND" "$help_flag"
 
 	elif [ -n "$CMD_FOUND" ]; then
 
