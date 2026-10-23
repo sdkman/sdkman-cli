@@ -17,7 +17,7 @@
 #
 
 function ___sdkman_help() {
-	if [[ -f "$SDKMAN_DIR/libexec/help" ]]; then
+	if [[ "$sdkman_native_enable" == 'true' && -f "$SDKMAN_DIR/libexec/help" ]]; then
 		"$SDKMAN_DIR/libexec/help" "$@"
 	else
 		__sdk_help
@@ -107,7 +107,7 @@ function sdk() {
 	fi
 
 	# couldn't find the command
-	if [[ -z "$CMD_FOUND" && -f "${SDKMAN_DIR}/libexec/help" ]]; then
+	if [[ -z "$CMD_FOUND" && "$sdkman_native_enable" == 'true' && -f "${SDKMAN_DIR}/libexec/help" ]]; then
 		___sdkman_help "$COMMAND"
 		return $?
 	elif [[ -z "$CMD_FOUND" ]]; then
