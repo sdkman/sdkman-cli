@@ -3,6 +3,7 @@ Feature: Native Help
 	Background:
 		Given the internet is reachable
 		And an initialised environment
+		And I have configured "sdkman_native_enable" to "true"
 		And the native "help" command is installed
 		And the system is bootstrapped
 
@@ -45,8 +46,7 @@ Feature: Native Help
 		And I do not see "Invalid command"
 
 	Scenario: Ask for help on a native command
-		Given I have configured "sdkman_native_enable" to "true"
-		And the native "home" command is installed
+		Given the native "home" command is installed
 		When I enter "sdk home --help"
 		Then I see "native home: --help"
 		And I do not see "native help"
